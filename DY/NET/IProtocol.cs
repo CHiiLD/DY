@@ -14,7 +14,7 @@ namespace DY.NET
 {
     public interface IProtocol
     {
-        byte[] BinaryData
+        byte[] ASCData
         {
             get;
             set;

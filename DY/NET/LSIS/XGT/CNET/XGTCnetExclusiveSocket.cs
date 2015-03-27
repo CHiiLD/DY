@@ -46,8 +46,8 @@ namespace DY.NET.LSIS.XGT
             private set;
         }
 
-        private XGTCnetExclusiveProtocolFrame ReqtFrame; //요청 프레임
-        private XGTCnetExclusiveProtocolFrame RecvFrame; //응답 프레임
+        protected XGTCnetExclusiveProtocolFrame ReqtFrame; //요청 프레임
+        protected XGTCnetExclusiveProtocolFrame RecvFrame; //응답 프레임
 
         #endregion
 
@@ -92,19 +92,19 @@ namespace DY.NET.LSIS.XGT
         }
 
         //응답
-        private void OnDataRecieve(object sender, SerialDataReceivedEventArgs e)
+        protected void OnDataRecieve(object sender, SerialDataReceivedEventArgs e)
         {
 
         }
 
         //에러 응답
-        private void OnErrorReceive(object sender, SerialErrorReceivedEventArgs e)
+        protected void OnErrorReceive(object sender, SerialErrorReceivedEventArgs e)
         {
 
         }
 
         //SerialPort 개체의 직렬 핀 변경 이벤트를 처리할 메서드를 나타냅니다. 참고 (https://msdn.microsoft.com/ko-kr/library/system.io.ports.serialport.pinchanged(v=vs.110).aspx)
-        private void OnPinChanged(object sender, SerialPinChangedEventArgs e)
+        protected void OnPinChanged(object sender, SerialPinChangedEventArgs e)
         {
 
         }
@@ -118,7 +118,6 @@ namespace DY.NET.LSIS.XGT
                 SerialSocket = null;
             }
         }
-
         #endregion
     }
 }

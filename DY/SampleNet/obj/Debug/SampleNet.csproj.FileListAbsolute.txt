@@ -12,3 +12,11 @@ C:\Users\아동\Desktop\DONGYANG_FA_\DY\SampleNet\obj\Debug\SampleNet.pdb
 C:\Users\아동\Documents\GitHub\PLC-Communication\DY\SampleNet\bin\Debug\SampleNet.exe.config
 C:\Users\아동\Documents\GitHub\PLC-Communication\DY\SampleNet\obj\Debug\SampleNet.exe
 C:\Users\아동\Documents\GitHub\PLC-Communication\DY\SampleNet\obj\Debug\SampleNet.pdb
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\SampleNet\bin\Debug\SampleNet.exe
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\SampleNet\bin\Debug\SampleNet.pdb
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\SampleNet\bin\Debug\log4net.dll
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\SampleNet\bin\Debug\NET.dll
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\SampleNet\bin\Debug\log4net.pdb
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\SampleNet\bin\Debug\log4net.xml
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\SampleNet\bin\Debug\NET.pdb
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\SampleNet\obj\Debug\SampleNet.csprojResolveAssemblyReference.cache

@@ -14,19 +14,24 @@ namespace DY.NET.LSIS.XGT
 {
     public class XGTCnetExclusiveProtocolFrame : IProtocol
     {
-        public byte[] BinaryData
+        protected XGTCnetExclusiveProtocolFrame()
+        {
+
+        }
+
+        public byte[] ASCData
         {
             get;
             set;
         }
         public XGTCnetExclusiveProtocolError Error = XGTCnetExclusiveProtocolError.UNKNOWN;
 
-        public XGTCnetControlCodeType   Header;         //헤더
-        public byte                     LocalPort;      //국번
-        public XGTCnetMainCommandType   Command;        //명령어
-        public XGTCnetCommandType       CommandType;    //명령어 타입
+        public XGTCnetControlCodeType   Header;         //헤더         1byte
+        public byte                     LocalPort;      //국번         2byte
+        public XGTCnetMainCommandType   Command;        //명령어       1byte
+        public XGTCnetCommandType       CommandType;    //명령어 타입  2byte
 
-        public XGTCnetControlCodeType   Tail;           //테일
-        public byte                     BCC;            //프레임 체크
+        public XGTCnetControlCodeType   Tail;           //테일         1byte
+        public byte                     BCC;            //프레임 체크   1byte or null
     }
 }

@@ -15,7 +15,7 @@ namespace DY.NET.LSIS.XGT
 {
     public class XGTCnetExclusiveRWSSProtocol : XGTCnetExclusiveProtocolFrame
     {
-        public List<XGTCnetReqtDataFormat> ReqtData;
-        public List<XGTCnetRecvDataFormat> RecvData;
+        public List<XGTCnetENQDataFormat> ReqtData;
+        public List<XGTCnetACKDataFormat> RecvData;
     }
 }

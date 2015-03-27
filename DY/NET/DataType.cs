@@ -8,9 +8,10 @@ namespace DY.NET
 {
     public enum DataType
     {
-        BYTE = 1, 
-        WORD = 2,
-        DWORD = 4,
-        LWORD = 8
+        BIT,
+        BYTE, 
+        WORD,
+        DWORD,
+        LWORD
     }
 }

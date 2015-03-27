@@ -16,7 +16,7 @@ namespace DY.NET.LSIS.XGT
     //주의! Bit디바이스는 연속 읽기가 지원되지 않습니다.
     public class XGTCnetExclusiveRWSBProtocol : XGTCnetExclusiveProtocolFrame
     {
-        public XGTCnetReqtDataFormat ReqtData;
-        public XGTCnetRecvDataFormat RecvData;
+        public XGTCnetENQDataFormat ReqtData;
+        public XGTCnetACKDataFormat RecvData;
     }
 }

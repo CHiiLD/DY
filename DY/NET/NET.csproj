@@ -43,28 +43,28 @@
     <Compile Include="ISocket.cs" />
     <Compile Include="IProtocol.cs" />
     <Compile Include="ITag.cs" />
-    <Compile Include="LSIS\ASC2ToHex.cs" />
-    <Compile Include="LSIS\HexToASC2.cs" />
-    <Compile Include="LSIS\XGT\XGTCnetExclusiveRWSBProtocol.cs" />
-    <Compile Include="LSIS\XGT\XGTCnetExclusiveRWSSProtocol.cs" />
-    <Compile Include="LSIS\XGT\XGTCnetMainCommandType.cs" />
-    <Compile Include="LSIS\XGT\XGTCnetCommandType.cs" />
-    <Compile Include="LSIS\XGT\XGTCnetControlCodeType.cs" />
-    <Compile Include="LSIS\XGT\XGTCnetExclusiveProtocolFrame.cs" />
-    <Compile Include="LSIS\XGT\XGTCnetExclusiveProtocolError.cs" />
-    <Compile Include="LSIS\XGT\XGTCnetModbusProtocolFrame.cs" />
-    <Compile Include="LSIS\XGT\XGTCnetExclusiveSocket.cs" />
-    <Compile Include="LSIS\XGT\XGTCnetRecvDataFormat.cs" />
-    <Compile Include="LSIS\XGT\XGTCnetReqtDataFormat.cs" />
+    <Compile Include="LSIS\XGT\cnet\protocol\XGTCnetDataFormat.cs" />
+    <Compile Include="LSIS\XGT\cnet\protocol\XGTCnetExclusiveRWSBProtocol.cs" />
+    <Compile Include="LSIS\XGT\cnet\protocol\XGTCnetExclusiveRWSSProtocol.cs" />
+    <Compile Include="LSIS\XGT\cnet\enum\XGTCnetMainCommandType.cs" />
+    <Compile Include="LSIS\XGT\cnet\enum\XGTCnetCommandType.cs" />
+    <Compile Include="LSIS\XGT\cnet\enum\XGTCnetControlCodeType.cs" />
+    <Compile Include="LSIS\XGT\cnet\protocol\XGTCnetExclusiveProtocolFrame.cs" />
+    <Compile Include="LSIS\XGT\cnet\enum\XGTCnetExclusiveProtocolError.cs" />
+    <Compile Include="LSIS\XGT\cnet\XGTCnetExclusiveSocket.cs" />
+    <Compile Include="LSIS\XGT\cnet\protocol\XGTCnetACKDataFormat.cs" />
+    <Compile Include="LSIS\XGT\cnet\protocol\XGTCnetENQDataFormat.cs" />
+    <Compile Include="LSIS\XGT\TransASC.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SocketDataReceivedEventArgs.cs" />
     <Compile Include="SocketDataReceivedEventHandler.cs" />
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Folder Include="MITSUBISHI\" />
-  </ItemGroup>
-  <ItemGroup>
-    <None Include="ClassDiagram.cd" />
+    <ProjectReference Include="..\..\log4net\src\log4net\log4net.vs2010.csproj">
+      <Project>{181fe707-e161-4722-9f38-6aaab6faa106}</Project>
+      <Name>log4net.vs2010</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
