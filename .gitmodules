@@ -1,0 +1,3 @@
+[submodule "log4net"]
+	path = log4net
+	url = git://github.com/CHiilD/log4net

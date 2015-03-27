@@ -9,3 +9,6 @@ C:\Users\아동\Documents\GitHub\DONGYANG_FA\DY\SampleNet\obj\Debug\SampleNet.pd
 C:\Users\아동\Desktop\DONGYANG_FA_\DY\SampleNet\bin\Debug\SampleNet.exe.config
 C:\Users\아동\Desktop\DONGYANG_FA_\DY\SampleNet\obj\Debug\SampleNet.exe
 C:\Users\아동\Desktop\DONGYANG_FA_\DY\SampleNet\obj\Debug\SampleNet.pdb
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\SampleNet\bin\Debug\SampleNet.exe.config
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\SampleNet\obj\Debug\SampleNet.exe
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\SampleNet\obj\Debug\SampleNet.pdb
