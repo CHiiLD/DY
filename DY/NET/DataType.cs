@@ -6,12 +6,23 @@
 
 namespace DY.NET
 {
-    public enum DataType
+    public enum DataType : int
     {
-        BIT,
-        BYTE, 
-        WORD,
-        DWORD,
-        LWORD
+        BIT = 0,
+        BYTE = 1,  
+        WORD = 2,
+        DWORD = 4,
+        LWORD = 8
+    }
+
+    public class DataTypeExtensions
+    {
+        public static int SizeOf(DataType type)
+        {
+            if (type == DataType.BIT)
+                return 1;
+            else
+                return (int)type;
+        }
     }
 }

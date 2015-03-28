@@ -13,15 +13,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO.Ports;
+using log4net.Config;
+using log4net;
 
 namespace DY.NET.LSIS.XGT
 {
     public class XGTCnetExclusiveSocket : ISocket, IDisposable
     {
         #region var_properties_event
-
-        public event SocketDataReceivedEventHandler DataReceivedEvent;
-       
         public int Tag
         {
             get;
@@ -40,14 +39,23 @@ namespace DY.NET.LSIS.XGT
             set;
         }
 
+        public Queue<IProtocol> ProtocolQueue
+        {
+            get;
+            set;
+        }
+
         public SerialPort SerialSocket
         {
             get;
-            private set;
+            protected set;
         }
 
-        protected XGTCnetExclusiveProtocolFrame ReqtFrame; //요청 프레임
-        protected XGTCnetExclusiveProtocolFrame RecvFrame; //응답 프레임
+        protected XGTCnetExclusiveProtocolFrame ENQFrame; //요청 프레임
+        protected XGTCnetExclusiveProtocolFrame ACKFrame; //응답 프레임
+        protected bool IsWaitACKProtocol = false;
+        protected static readonly ILog Log =
+                LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         #endregion
 
@@ -55,9 +63,12 @@ namespace DY.NET.LSIS.XGT
 
         public XGTCnetExclusiveSocket(SerialPort serialPort)
         {
+            XmlConfigurator.Configure(new System.IO.FileInfo("log4net.xml"));
             SerialSocket = serialPort;
             if (SerialSocket == null)
                 throw new ArgumentNullException("SerialSocket", "paramiter value is null");
+
+            ProtocolQueue = new Queue<IProtocol>();
 
             //이벤트 설정
             SerialSocket.DataReceived += new SerialDataReceivedEventHandler(OnDataRecieve);
@@ -86,9 +97,20 @@ namespace DY.NET.LSIS.XGT
         }
 
         //요청
-        public void Send(IProtocol protocolFrame)
+        public void Send(IProtocol iProtocol)
         {
-
+            if (iProtocol == null)
+                throw new ArgumentNullException("protocol argument is null");
+            XGTCnetExclusiveProtocolFrame frame = iProtocol as XGTCnetExclusiveProtocolFrame;
+            if (frame == null)
+                throw new ArgumentException("protocol not match XGTCnetExclusiveProtocolFrame type");
+            if (IsWaitACKProtocol == true)   //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
+            {
+                ProtocolQueue.Enqueue(frame);
+                return;
+            }
+            frame.AssembleProtocol();
+            SerialSocket.Write(frame.ASCData, 0, frame.ASCData.Length);
         }
 
         //응답

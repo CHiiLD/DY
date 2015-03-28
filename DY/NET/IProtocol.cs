@@ -19,5 +19,9 @@ namespace DY.NET
             get;
             set;
         }
+
+        event SocketDataReceivedEventHandler ErrorEvent;         //통신 중 생긴 에러를 알리는 이벤트
+        event SocketDataReceivedEventHandler DataRequestedEvent; //데이터를 요청한 뒤에 알리는 이벤트 
+        event SocketDataReceivedEventHandler DataReceivedEvent;  //요청한 뒤 받은 데이터를 알리는 이벤트
     }
 }

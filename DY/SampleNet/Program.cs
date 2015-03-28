@@ -31,12 +31,8 @@ namespace SampleNet
 #endif
 
             byte[] v = { 0x41, 0x39, 0x46, 0x33 };
-            ushort value =  TransASC<ushort>.ToInt(v);
+            ushort value = (ushort)TransASC.ToHex(v, typeof(ushort));
             Logger.Debug(value);
-
-            int a = -31;
-            long b = a;
-            Logger.Debug("");
         }
     }
 }

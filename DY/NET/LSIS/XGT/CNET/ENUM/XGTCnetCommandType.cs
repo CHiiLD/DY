@@ -4,6 +4,7 @@
  * 첨부: Cnet 전용 통신에 사용되는 컨트롤 코드의 타입 열거 클래스
  * 날짜: 2015-03-25
  */
+using System;
 
 namespace DY.NET.LSIS.XGT
 {
@@ -11,5 +12,40 @@ namespace DY.NET.LSIS.XGT
     {
         SS = 0x5353,    //개별 읽기/쓰기
         SB = 0x5342     //연속 읽기/쓰기
+    }
+
+    public class XGTCnetCommandTypeExtensions
+    {
+        public static string ToString(XGTCnetCommandType type)
+        {
+            string s = null;;
+            switch(type)
+            {
+                case XGTCnetCommandType.SS:
+                    s = "SS";
+                    break;
+                case XGTCnetCommandType.SB:
+                    s = "SB";
+                    break;
+            }
+            return s;
+        }
+
+        public static byte[] ToByteArray(XGTCnetCommandType type)
+        {
+            byte[] b = new byte[2];
+            switch (type)
+            {
+                case XGTCnetCommandType.SS:
+                    b[0] = (byte)'S';
+                    b[1] = (byte)'S';
+                    break;
+                case XGTCnetCommandType.SB:
+                    b[0] = (byte)'S';
+                    b[1] = (byte)'B';
+                    break;
+            }
+            return b;
+        }
     }
 }

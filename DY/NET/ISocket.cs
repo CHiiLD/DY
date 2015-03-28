@@ -14,7 +14,11 @@ namespace DY.NET
 {
     public interface ISocket : ITag
     {
-        event SocketDataReceivedEventHandler DataReceivedEvent;
+        Queue<IProtocol> ProtocolQueue
+        {
+            get;
+            set;
+        }
         bool Connect();
         bool Close();
         void Send(IProtocol protocolFrame);
