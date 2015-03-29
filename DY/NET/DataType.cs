@@ -4,12 +4,15 @@
 날짜: 2015-03-25
 */
 
+using System;
+using System.Reflection;
+
 namespace DY.NET
 {
     public enum DataType : int
     {
         BIT = 0,
-        BYTE = 1,  
+        BYTE = 1,
         WORD = 2,
         DWORD = 4,
         LWORD = 8
@@ -23,6 +26,30 @@ namespace DY.NET
                 return 1;
             else
                 return (int)type;
+        }
+
+        public static Type TypeOf(DataType type)
+        {
+            Type t = null;
+            switch (type)
+            {
+                case DataType.BIT:
+                    t = typeof(byte);
+                    break;
+                case DataType.BYTE:
+                    t = typeof(byte);
+                    break;
+                case DataType.WORD:
+                    t = typeof(ushort);
+                    break;
+                case DataType.DWORD:
+                    t = typeof(uint);
+                    break;
+                case DataType.LWORD:
+                    t = typeof(ulong);
+                    break;
+            }
+            return t;
         }
     }
 }
