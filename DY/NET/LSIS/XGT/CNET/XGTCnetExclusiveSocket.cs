@@ -1,7 +1,7 @@
 ﻿/*
  * 작성자: CHILD	
  * 기능: LS산전의 XGT Cnet 전용 프로토콜을 사용하여 통신하는 소켓 구현 (PLC호스트 PC가 게스트일 때)
- * 첨부: Cnet통신은 시리얼통신을 기반으로 합니다. 따라서 시리얼통신을 랩핑합시다.
+ * 주의: Cnet통신은 시리얼통신을 기반으로 합니다. 따라서 시리얼통신을 랩핑합시다.
  *       또한 시리얼통신은 동시에 여러 명령어를 보낼 수 없습니다. (1:1 요청 -> 응답 ->요청 ->응답의 루틴) 
  *       쓰레드에 안전하게 설계되어야 합니다.
  * 날짜: 2015-03-25
@@ -13,8 +13,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO.Ports;
-using log4net.Config;
-using log4net;
 
 namespace DY.NET.LSIS.XGT
 {
@@ -54,8 +52,6 @@ namespace DY.NET.LSIS.XGT
         protected XGTCnetExclusiveProtocolFrame ENQFrame; //요청 프레임
         protected XGTCnetExclusiveProtocolFrame ACKFrame; //응답 프레임
         protected bool IsWaitACKProtocol = false;
-        protected static readonly ILog Log =
-                LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
         #endregion
 
@@ -63,7 +59,7 @@ namespace DY.NET.LSIS.XGT
 
         public XGTCnetExclusiveSocket(SerialPort serialPort)
         {
-            XmlConfigurator.Configure(new System.IO.FileInfo("log4net.xml"));
+            //XmlConfigurator.Configure(new System.IO.FileInfo("log4net.xml"));
             SerialSocket = serialPort;
             if (SerialSocket == null)
                 throw new ArgumentNullException("SerialSocket", "paramiter value is null");

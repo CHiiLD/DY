@@ -30,7 +30,7 @@ namespace DY.NET.LSIS.XGT
         public event SocketDataReceivedEventHandler ErrorEvent = delegate { };
         public event SocketDataReceivedEventHandler DataRequestedEvent = delegate { };
 
-        public XGTCnetExclusiveProtocolError Error = XGTCnetExclusiveProtocolError.UNKNOWN;
+        public XGTCnetExclusiveProtocolError Error = XGTCnetExclusiveProtocolError.OK;
 
         public XGTCnetControlCodeType Header;       //헤더         1byte
         public ushort LocalPort;                    //국번         2byte
@@ -39,11 +39,20 @@ namespace DY.NET.LSIS.XGT
 
         public XGTCnetControlCodeType Tail;         //테일         1byte
         public byte BCC;                            //프레임 체크   1byte or null
+        
+        public bool CatchErrorCode(XGTCnetExclusiveProtocolFrame frame)
+        {
+            byte[] main_data = GetMainData();
+            bool ret = (main_data.Length == 4);
+            if (ret)
+                Error = (XGTCnetExclusiveProtocolError)CA2C.ToValue(main_data, typeof(uint));
+            return ret;
+        }
 
         protected void AddProtocolHead(List<byte> asc_list)
         {
             asc_list.Add((byte)this.Header);
-            asc_list.AddRange(TransData.ToASC(this.LocalPort, 2));
+            asc_list.AddRange(CA2C.ToASC(this.LocalPort));
             asc_list.Add((byte)this.Command);
             asc_list.AddRange(XGTCnetCommandTypeExtensions.ToByteArray(this.CommandType));
         }
@@ -60,6 +69,7 @@ namespace DY.NET.LSIS.XGT
                 sum = (ushort)(sum << 8);
                 sum = (ushort)(sum >> 8);
                 this.BCC = (byte)sum;
+                asc_list.Add(BCC);
             }
         }
 
@@ -73,11 +83,11 @@ namespace DY.NET.LSIS.XGT
             Header = (XGTCnetControlCodeType)head[0];
 
             byte[] localport = { head[1], head[2] };
-            LocalPort = (ushort)TransData.ToHex(localport, typeof(ushort));
+            LocalPort = (ushort)CA2C.ToValue(localport, typeof(ushort));
 
             Command = (XGTCnetCommand)head[3];
             byte[] cmd_type = { head[4], head[5] };
-            CommandType = (XGTCnetCommandType)TransData.ToHex(cmd_type, typeof(ushort));
+            CommandType = (XGTCnetCommandType)CA2C.ToValue(cmd_type, typeof(ushort));
         }
 
         protected void CatchprotocolTail()
@@ -127,6 +137,15 @@ namespace DY.NET.LSIS.XGT
                 return true;
             else
                 return false;
+        }
+
+        //헤더 국번 명령어 명령어타입 테일 프레임체크를 제외한 메인 데이터 부분만 추출해서 리턴합니다.
+        protected byte[] GetMainData()
+        {
+            int asc_data_cnt = ASCData.Length - PROTOCOL_HEAD_SIZE - (IsExistBCCFromASCData() ? 2 : 1);
+            byte[] asc_arr = new byte[asc_data_cnt];
+            Buffer.BlockCopy(ASCData, PROTOCOL_HEAD_SIZE, asc_arr, 0, asc_data_cnt);
+            return asc_arr;
         }
     }
 }

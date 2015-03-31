@@ -8,8 +8,7 @@ namespace DY.NET.LSIS.XGT
 {
     public class ENQDataFormat
     {
-        public ushort Var_Len;  //2byte
-        public string Var_Name; //?byte
+        public string Var_Name;
         public object Data;     //?byte
     }
 }

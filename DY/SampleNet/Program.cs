@@ -6,33 +6,35 @@ using System.Threading.Tasks;
 using log4net.Config;
 using log4net;
 using DY.NET.LSIS.XGT;
+using DY.NET;
 
 namespace SampleNet
 {
     class Program
     {
-        protected static readonly ILog Logger =
-                 LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
+        protected static ILog Logger;
 
         static void Main(string[] args)
         {
-            XmlConfigurator.Configure(new System.IO.FileInfo("log4net.xml"));
-#if false
-            int integer = 0x12;
-            int asc_size = 4;
-            string hex_str = string.Format("{0:X}", integer);
-            byte[] asc = new byte[asc_size];
-            for (int i = 0; i < asc.Length; i++)
-                asc[i] = (byte)'0';
-            int asc_idx = asc_size - 1;
-            for (int i = hex_str.Length - 1; i >= 0; i--)
-               asc[asc_idx--] = (byte)hex_str[i];
-            Logger.Debug(asc.ToString());
-#endif
+            log4net.Config.BasicConfigurator.Configure();
+            Logger =
+                 LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-            byte[] v = { 0x41, 0x39, 0x46, 0x33 };
-            ushort value = (ushort)TransASC.ToHex(v, typeof(ushort));
-            Logger.Debug(value);
+            //RSS reqt
+            Logger.Debug("RSS request");
+            var protocol = XGTCnetExclusiveProtocol.CreateENQProtocol(32, XGTCnetCommand.r, XGTCnetCommandType.SS);
+            protocol.ENQDatas.Add(new ENQDataFormat());
+            protocol.BlockCnt = 1;
+            protocol.ENQDatas[0].Var_Name = "%MW100";
+
+            protocol.AssembleProtocol();
+            Logger.Debug(Bytes2HexString.Change(protocol.ASCData));
+
+            //RSS recv
+            byte[] data = { 0x05, 0x30, 0x31, 0x52, 0x53, 0x53, 0x30, 0x32, 0x30, 0x32, 0x31, 0x32, 0x33, 0x33, 0x30, 0x32, 0x31, 0x32, 0x33, 0x33, 0x03 };
+            protocol = XGTCnetExclusiveProtocol.CreateACKProtocol(data);
+
+            Logger.Debug("--------------------------------------------");
         }
     }
 }
