@@ -18,7 +18,7 @@ namespace DY.NET.LSIS.XGT
     {
         public static string ToString(XGTCnetCommandType type)
         {
-            string s = null;;
+            string s = null;
             switch(type)
             {
                 case XGTCnetCommandType.SS:
@@ -33,8 +33,14 @@ namespace DY.NET.LSIS.XGT
 
         public static XGTCnetCommandType ToCmdType(byte[] data)
         {
-
-
+            if(data.Length != 2)
+                throw new ArgumentException("it's not XGTCnetCommandType's binary data");
+            if(data[0] != 'S')
+                throw new ArgumentException("prefix is not 'S'");
+            if (data[1] == 'S')
+                return XGTCnetCommandType.SS;
+            else
+                return XGTCnetCommandType.SB;
         }
 
         public static byte[] ToByteArray(XGTCnetCommandType type)

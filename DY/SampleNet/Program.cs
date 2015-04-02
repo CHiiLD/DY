@@ -7,6 +7,8 @@ using log4net.Config;
 using log4net;
 using DY.NET.LSIS.XGT;
 using DY.NET;
+using System.IO.Ports;
+using System.Threading;
 
 namespace SampleNet
 {
@@ -14,27 +16,70 @@ namespace SampleNet
     {
         protected static ILog Logger;
 
+        public static void Output(object o, SocketDataReceivedEventArgs e)
+        {
+             XGTCnetExclusiveProtocol p = e.Protocol as XGTCnetExclusiveProtocol;
+             p.PrintInfo();
+        }
+
         static void Main(string[] args)
         {
             log4net.Config.BasicConfigurator.Configure();
             Logger =
                  LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-            //RSS reqt
-            Logger.Debug("RSS request");
-            var protocol = XGTCnetExclusiveProtocol.CreateENQProtocol(32, XGTCnetCommand.r, XGTCnetCommandType.SS);
-            protocol.ENQDatas.Add(new ENQDataFormat());
-            protocol.BlockCnt = 1;
-            protocol.ENQDatas[0].Var_Name = "%MW100";
+            SerialPort serialPort = new SerialPort();
+            serialPort = new System.IO.Ports.SerialPort("COM3", 19200);
+            serialPort.Encoding = Encoding.ASCII;
+            serialPort.Parity = System.IO.Ports.Parity.None;
+            serialPort.DataBits = 8;
+            serialPort.StopBits = System.IO.Ports.StopBits.One;
+            serialPort.Open();
 
-            protocol.AssembleProtocol();
-            Logger.Debug(Bytes2HexString.Change(protocol.ASCData));
+            XGTCnetExclusiveSocket socket = new XGTCnetExclusiveSocket(serialPort);
 
-            //RSS recv
-            byte[] data = { 0x05, 0x30, 0x31, 0x52, 0x53, 0x53, 0x30, 0x32, 0x30, 0x32, 0x31, 0x32, 0x33, 0x33, 0x30, 0x32, 0x31, 0x32, 0x33, 0x33, 0x03 };
-            protocol = XGTCnetExclusiveProtocol.CreateACKProtocol(data);
+            try
+            {
+                //RSS
+                var protocol = XGTCnetExclusiveProtocol.GetRSSProtocol(0, new ENQDataFormat("%PX00000"));
+                protocol.DataReceivedEvent += Output;
+                protocol.AssembleProtocol();
+                //protocol.PrintInfo();
+                socket.Send(protocol);
+            }
+            catch(Exception e)
+            {
+                Logger.Debug(e.ToString(), e);
+            }
 
-            Logger.Debug("--------------------------------------------");
+            try
+            {
+                //WSS
+                var protocol = XGTCnetExclusiveProtocol.GetWSSProtocol(0, new ENQDataFormat("%PX00000", 1));
+                protocol.DataReceivedEvent += Output;
+                protocol.AssembleProtocol();
+                socket.Send(protocol);
+            }
+            catch (Exception e)
+            {
+                Logger.Debug(e.ToString(), e);
+            }
+            Thread.Sleep(1000);
+
+            try
+            {
+                //RSS
+                var protocol = XGTCnetExclusiveProtocol.GetRSSProtocol(0, new ENQDataFormat("%PX00000"));
+                protocol.DataReceivedEvent += Output;
+                protocol.AssembleProtocol();
+                socket.Send(protocol);
+            }
+            catch (Exception e)
+            {
+                Logger.Debug(e.ToString(), e);
+            }
+
+            Thread.Sleep(10000*100);
         }
     }
 }

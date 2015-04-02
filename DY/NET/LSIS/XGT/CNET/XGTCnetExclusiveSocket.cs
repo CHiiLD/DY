@@ -50,7 +50,6 @@ namespace DY.NET.LSIS.XGT
         }
 
         protected XGTCnetExclusiveProtocolFrame ENQFrame; //요청 프레임
-        protected XGTCnetExclusiveProtocolFrame ACKFrame; //응답 프레임
         protected bool IsWaitACKProtocol = false;
 
         #endregion
@@ -97,34 +96,49 @@ namespace DY.NET.LSIS.XGT
         {
             if (iProtocol == null)
                 throw new ArgumentNullException("protocol argument is null");
-            XGTCnetExclusiveProtocolFrame frame = iProtocol as XGTCnetExclusiveProtocolFrame;
-            if (frame == null)
+            XGTCnetExclusiveProtocolFrame xgt_protocol = iProtocol as XGTCnetExclusiveProtocolFrame;
+            if (xgt_protocol == null)
                 throw new ArgumentException("protocol not match XGTCnetExclusiveProtocolFrame type");
             if (IsWaitACKProtocol == true)   //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
             {
-                ProtocolQueue.Enqueue(frame);
+                ProtocolQueue.Enqueue(xgt_protocol);
                 return;
             }
-            frame.AssembleProtocol();
-            SerialSocket.Write(frame.ASCData, 0, frame.ASCData.Length);
+            xgt_protocol.AssembleProtocol();
+            ENQFrame = xgt_protocol;
+            IsWaitACKProtocol = true;
+            SerialSocket.Write(xgt_protocol.BinaryData, 0, xgt_protocol.BinaryData.Length);
+            ENQFrame.OnDataRequestedEvent(this, new SocketDataReceivedEventArgs(xgt_protocol));
         }
 
         //응답
         protected void OnDataRecieve(object sender, SerialDataReceivedEventArgs e)
         {
-
+            SerialPort sp = sender as SerialPort;
+            if (sp == null)
+                new ArgumentNullException("sender is not SerialPort class");
+            string str = sp.ReadExisting();
+            byte[] arr = System.Text.Encoding.ASCII.GetBytes(str);
+            XGTCnetExclusiveProtocol xgt_protocol = XGTCnetExclusiveProtocol.CreateACKProtocol(arr);
+            if(xgt_protocol.Error == XGTCnetExclusiveProtocolError.OK)
+                ENQFrame.OnDataReceivedEvent(this, new SocketDataReceivedEventArgs(xgt_protocol));  //메인스레드 처리
+            else
+                ENQFrame.OnErrorEvent(this, new SocketDataReceivedEventArgs(xgt_protocol));         //메인스레드 처리
+            IsWaitACKProtocol = false;
+            if(ProtocolQueue.Count != 0)
+                Send(ProtocolQueue.Dequeue());  //메인스레드 처리
         }
 
         //에러 응답
         protected void OnErrorReceive(object sender, SerialErrorReceivedEventArgs e)
         {
-
+            Console.WriteLine("Received Error");
         }
 
         //SerialPort 개체의 직렬 핀 변경 이벤트를 처리할 메서드를 나타냅니다. 참고 (https://msdn.microsoft.com/ko-kr/library/system.io.ports.serialport.pinchanged(v=vs.110).aspx)
         protected void OnPinChanged(object sender, SerialPinChangedEventArgs e)
         {
-
+            Console.WriteLine("Received PinChange Alarm");
         }
 
         //리소스 해제

@@ -20,19 +20,82 @@ namespace DY.NET.LSIS.XGT
         public ushort RegisterNum;       //2byte
         public ushort WillDoDataCnt;     //읽거나 쓸 데이터의 개수 (BYTE = 데이터 타입 * 개수) 최대 240byte word는 120byte 가 한계 //2byte
 
-        public XGTCnetExclusiveProtocol()
+        protected XGTCnetExclusiveProtocol()
+            : base()
         {
-
         }
 
         protected XGTCnetExclusiveProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
+            : base(localPort, cmd, type)
         {
-            this.LocalPort = localPort;
-            this.Command = cmd;
-            this.CommandType = type;
         }
 
-        public static XGTCnetExclusiveProtocol CreateENQProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
+        public static XGTCnetExclusiveProtocol GetRSSProtocol(ushort localPort, List<ENQDataFormat> enqDatas)
+        {
+            var protocol = CreateENQProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SS);
+            protocol.ENQDatas.AddRange(enqDatas);
+            protocol.BlockCnt = (ushort)protocol.ENQDatas.Count;
+            return protocol;
+        }
+
+        public static XGTCnetExclusiveProtocol GetRSSProtocol(ushort localPort, ENQDataFormat enqData)
+        {
+            var protocol = CreateENQProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SS);
+            protocol.ENQDatas.Add(enqData);
+            protocol.BlockCnt = 1;
+            return protocol;
+        }
+
+        public static XGTCnetExclusiveProtocol GetWSSProtocol(ushort localPort, List<ENQDataFormat> enqDatas)
+        {
+            var protocol = CreateENQProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SS);
+            protocol.ENQDatas.AddRange(enqDatas);
+            protocol.BlockCnt = (ushort)protocol.ENQDatas.Count;
+            return protocol;
+        }
+
+        public static XGTCnetExclusiveProtocol GetWSSProtocol(ushort localPort, ENQDataFormat enqData)
+        {
+            var protocol = CreateENQProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SS);
+            protocol.ENQDatas.Add(enqData);
+            protocol.BlockCnt = 1;
+            return protocol;
+        }
+
+        protected override void PrintBinaryDataInfo()
+        {
+            Console.WriteLine(string.Format("Block number: {0}", BlockCnt));
+            Console.WriteLine(string.Format("Register number: {0}", RegisterNum));
+            Console.WriteLine(string.Format("Data size: {0}", WillDoDataCnt));
+
+            int cnt = 0;
+            foreach (ENQDataFormat e in ENQDatas)
+            {
+                Console.WriteLine(string.Format("{0} ENQData variable name: {1}", ++cnt, e.Var_Name));
+                if (e.Data != null)
+                {
+                    if (e.Data.GetType() == typeof(string))
+                        Console.WriteLine(string.Format("{0} ENQData data: {1}", cnt, e.Data));
+                    else
+                        Console.WriteLine(string.Format("{0} ENQData data: {1}", cnt, e.Data));
+                }
+            }
+
+            cnt = 0;
+            foreach (ACKDataFormat a in ACKDatas)
+            {
+                Console.WriteLine(string.Format("{0} ACKData size of type : {1}", ++cnt, a.SizeOfType));
+                if (a.Data != null)
+                {
+                    if (a.Data.GetType() == typeof(string))
+                        Console.WriteLine(string.Format("{0} ACKData data: {1}", cnt, a.Data));
+                    else
+                        Console.WriteLine(string.Format("{0} ACKData data: {1}", cnt, a.Data));
+                }
+            }
+        }
+
+        protected static XGTCnetExclusiveProtocol CreateENQProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
         {
             XGTCnetExclusiveProtocol protocol = new XGTCnetExclusiveProtocol(localPort, cmd, type);
             protocol.Header = XGTCnetControlCodeType.ENQ;
@@ -40,7 +103,7 @@ namespace DY.NET.LSIS.XGT
             return protocol;
         }
 
-        public static XGTCnetExclusiveProtocol CreateACKProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
+        protected static XGTCnetExclusiveProtocol CreateACKProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
         {
             XGTCnetExclusiveProtocol protocol = new XGTCnetExclusiveProtocol(localPort, cmd, type);
             protocol.Header = XGTCnetControlCodeType.ACK;
@@ -55,14 +118,14 @@ namespace DY.NET.LSIS.XGT
             return protocol;
         }
 
-        public static XGTCnetExclusiveProtocol CreateNAKProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
+        protected static XGTCnetExclusiveProtocol CreateNAKProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
         {
             XGTCnetExclusiveProtocol protocol = new XGTCnetExclusiveProtocol(localPort, cmd, type);
-            protocol.Header = XGTCnetControlCodeType.ENQ;
-            protocol.Tail = XGTCnetControlCodeType.EOT;
+            protocol.Header = XGTCnetControlCodeType.NAK;
+            protocol.Tail = XGTCnetControlCodeType.ETX;
             return protocol;
         }
-
+        
         #region For ENQ Protocol Type
 
         protected void AddProtocolRSS(List<byte> asc_list)
@@ -186,15 +249,14 @@ namespace DY.NET.LSIS.XGT
             {
                 byte[] data_size_arr = { data[data_idx + 0], data[data_idx + 1] };
                 data_idx += 2;
-                ACKDataFormat ack = new ACKDataFormat();
-                ack.SizeOfType = (ushort)CA2C.ToValue(data_size_arr, typeof(ushort));
+                ushort sizeOfType = (ushort)CA2C.ToValue(data_size_arr, typeof(ushort));
 
-                byte[] data_arr = new byte[ack.SizeOfType * 2];
+                byte[] data_arr = new byte[sizeOfType * 2];
                 Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
                 data_idx += data_arr.Length;
-                ack.Data = CA2C.ToValue(data_arr, DataTypeExtensions.TypeOf((DataType)ack.SizeOfType));
+                object value = CA2C.ToValue(data_arr, DataTypeExtensions.TypeOf((DataType)sizeOfType));
 
-                ACKDatas.Add(ack);
+                ACKDatas.Add(new ACKDataFormat(sizeOfType, value));
             }
         }
 
@@ -223,17 +285,16 @@ namespace DY.NET.LSIS.XGT
 
             for (int i = 0; i < BlockCnt; i++)
             {
-                ACKDataFormat ack = new ACKDataFormat();
                 byte[] data_size_arr = { data[4], data[5] };
                 data_idx += 2;
-                ack.SizeOfType = (ushort)CA2C.ToValue(data_size_arr, typeof(ushort));
+                ushort sizeOfType = (ushort)CA2C.ToValue(data_size_arr, typeof(ushort));
 
-                byte[] data_arr = new byte[ack.SizeOfType * 2];
+                byte[] data_arr = new byte[sizeOfType * 2];
                 Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
-                ack.Data = CA2C.ToValue(data_arr, DataTypeExtensions.TypeOf((DataType)ack.SizeOfType));
+                object value = CA2C.ToValue(data_arr, DataTypeExtensions.TypeOf((DataType)sizeOfType));
                 data_idx += data_arr.Length;
 
-                ACKDatas.Add(ack);
+                ACKDatas.Add(new ACKDataFormat(sizeOfType, value));
             }
         }
 
@@ -241,13 +302,12 @@ namespace DY.NET.LSIS.XGT
         {
             byte[] data = GetMainData();
             byte[] data_size_arr = { data[0], data[1] };
-            ACKDataFormat ack = new ACKDataFormat();
-            ack.SizeOfType = (ushort)CA2C.ToValue(data_size_arr, typeof(ushort));
+            ushort sizeOfType = (ushort)CA2C.ToValue(data_size_arr, typeof(ushort));
 
-            byte[] data_arr = new byte[ack.SizeOfType * 2];
+            byte[] data_arr = new byte[sizeOfType * 2];
             Buffer.BlockCopy(data, data_size_arr.Length, data_arr, 0, data_arr.Length);
-            ack.Data = CA2C.ToValue(data_arr, DataTypeExtensions.TypeOf((DataType)ack.SizeOfType));
-            ACKDatas.Add(ack);
+            object value = CA2C.ToValue(data_arr, DataTypeExtensions.TypeOf((DataType)sizeOfType));
+            ACKDatas.Add(new ACKDataFormat(sizeOfType, value));
         }
 
         protected void QueryProtocolWSB()
@@ -269,14 +329,13 @@ namespace DY.NET.LSIS.XGT
             RegisterNum = (ushort)CA2C.ToValue(register_arr, typeof(ushort));
 
             byte[] data_size_arr = { data[2], data[3] };
-            ACKDataFormat ack = new ACKDataFormat();
-            ack.SizeOfType = (ushort)CA2C.ToValue(data_size_arr, typeof(ushort));
+            ushort sizeOfType = (ushort)CA2C.ToValue(data_size_arr, typeof(ushort));
 
-            byte[] data_arr = new byte[ack.SizeOfType * 2];
+            byte[] data_arr = new byte[sizeOfType * 2];
             Buffer.BlockCopy(data, data_size_arr.Length + register_arr.Length, data_arr, 0, data_arr.Length);
-            ack.Data = CA2C.ToValue(data_arr, DataTypeExtensions.TypeOf((DataType)ack.SizeOfType));
+            object value = CA2C.ToValue(data_arr, DataTypeExtensions.TypeOf((DataType)sizeOfType));
 
-            ACKDatas.Add(ack);
+            ACKDatas.Add(new ACKDataFormat(sizeOfType, value));
         }
 
         protected override void DetachProtocolFrame()

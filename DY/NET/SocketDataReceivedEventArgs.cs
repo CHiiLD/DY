@@ -15,7 +15,12 @@ namespace DY.NET
 {
     public class SocketDataReceivedEventArgs : EventArgs, ITag
     {
-        public IProtocol Socket
+        public SocketDataReceivedEventArgs(IProtocol protocol)
+        {
+            Protocol = protocol;
+        }
+
+        public IProtocol Protocol
         {
             get;
             set;
