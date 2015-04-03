@@ -171,6 +171,8 @@ namespace DY.NET.LSIS.XGT
             {
                 SerialSocket.Dispose();
                 SerialSocket = null;
+                ACKFrame = null;
+                ENQFrame = null;
             }
         }
         #endregion
