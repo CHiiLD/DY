@@ -11,7 +11,8 @@ namespace DY.NET.LSIS.XGT
     {
         //사용자 정의 
         OK = 0x00000000,                //정상
-        UNKNOWN = 0xFFFFFFFF,        //판별할 수 없는 에러 
+        CAT_NOT_READ_TAIL = 0xFFFFFFFE, //통신에서 TAIL까지 읽지 못했을 때      
+        UNKNOWN = 0xFFFFFFFF,           //판별할 수 없는 에러 
 
         //메뉴얼 정의
         BLOCK_OVER = 0x00000003,        //블록 수 초과 에러(개별 읽기/쓰기 요청시 블록 수가 16보다 큼

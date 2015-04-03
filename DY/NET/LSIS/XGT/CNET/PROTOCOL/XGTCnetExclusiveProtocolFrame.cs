@@ -23,6 +23,11 @@ namespace DY.NET.LSIS.XGT
 
         }
 
+        protected XGTCnetExclusiveProtocolFrame(byte[] binaryDatas)
+        {
+            BinaryData = binaryDatas;
+        }
+
         protected XGTCnetExclusiveProtocolFrame(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
         {
             this.LocalPort = localPort;
@@ -52,18 +57,28 @@ namespace DY.NET.LSIS.XGT
 
         protected abstract void PrintBinaryDataInfo();
 
-        public static bool CatchErrorCode(XGTCnetExclusiveProtocolFrame frame)
+        public bool CatchErrorCode()
         {
             bool ret = false;
-            frame.CatchProtocolHead();
-            if (frame.Header == XGTCnetControlCodeType.NAK)
+            if (this.Header == XGTCnetControlCodeType.NAK)
             {
-                byte[] main_data = frame.GetMainData();
+                byte[] main_data = this.GetMainData();
                 if (main_data.Length == 4)
-                    frame.Error = (XGTCnetExclusiveProtocolError)CA2C.ToValue(main_data, typeof(uint));
+                    this.Error = (XGTCnetExclusiveProtocolError)CA2C.ToValue(main_data, typeof(uint));
                 ret = true;
-            }
+            } 
             return ret;
+        }
+
+        //받은 ASC데이터들의 테일을 검사하여 EXT 값이 왔는지 검사합니다.
+        public bool IsComeInEXTTail()
+        {
+            if (BinaryData.Length < PROTOCOL_HEAD_SIZE)
+                return false;
+
+            bool isBCC_Exist = IsExistBCCFromASCData();
+            byte value = BinaryData[BinaryData.Length - 1 - (isBCC_Exist ? 1 : 0)];
+            return value == (byte)XGTCnetControlCodeType.ETX;
         }
 
         protected void AddProtocolHead(List<byte> asc_list)
@@ -152,9 +167,10 @@ namespace DY.NET.LSIS.XGT
         {
             if (BinaryData == null)
                 throw new NullReferenceException("ASCData is null.");
-            if (CatchErrorCode(this) == false)
+            this.CatchProtocolHead();
+            if (CatchErrorCode() == false)
                 DetachProtocolFrame();
-            CatchprotocolTail();
+            this.CatchprotocolTail();
         }
 
         public bool IsExistBCCFromASCData()
@@ -198,7 +214,7 @@ namespace DY.NET.LSIS.XGT
             else
                 Console.WriteLine("Error : " + Error.ToString());
             Console.WriteLine(string.Format("Tail: {0}", Tail == XGTCnetControlCodeType.EOT ? "EOT" : "EXT"));
-            Console.WriteLine(string.Format("BCC: {0}", BCC));
+            Console.WriteLine(string.Format("BCC: {0}\n", BCC));
         }
     }
 }

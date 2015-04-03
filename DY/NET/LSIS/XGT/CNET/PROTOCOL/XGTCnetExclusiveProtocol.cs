@@ -25,6 +25,11 @@ namespace DY.NET.LSIS.XGT
         {
         }
 
+        public XGTCnetExclusiveProtocol(byte[] binaryDatas)
+            : base(binaryDatas)
+        {
+        }
+
         protected XGTCnetExclusiveProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
             : base(localPort, cmd, type)
         {
@@ -103,6 +108,8 @@ namespace DY.NET.LSIS.XGT
             return protocol;
         }
 
+#if flase
+
         protected static XGTCnetExclusiveProtocol CreateACKProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
         {
             XGTCnetExclusiveProtocol protocol = new XGTCnetExclusiveProtocol(localPort, cmd, type);
@@ -125,6 +132,8 @@ namespace DY.NET.LSIS.XGT
             protocol.Tail = XGTCnetControlCodeType.ETX;
             return protocol;
         }
+
+#endif
         
         #region For ENQ Protocol Type
 

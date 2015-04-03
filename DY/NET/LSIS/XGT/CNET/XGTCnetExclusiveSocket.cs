@@ -49,8 +49,11 @@ namespace DY.NET.LSIS.XGT
             protected set;
         }
 
-        protected XGTCnetExclusiveProtocolFrame ENQFrame; //요청 프레임
+        protected XGTCnetExclusiveProtocol ENQFrame; //요청 프레임
+        protected XGTCnetExclusiveProtocol ACKFrame; //응답 프레임
         protected bool IsWaitACKProtocol = false;
+
+        private object _ProtocolLock = new object();
 
         #endregion
 
@@ -96,37 +99,57 @@ namespace DY.NET.LSIS.XGT
         {
             if (iProtocol == null)
                 throw new ArgumentNullException("protocol argument is null");
-            XGTCnetExclusiveProtocolFrame xgt_protocol = iProtocol as XGTCnetExclusiveProtocolFrame;
+            XGTCnetExclusiveProtocol xgt_protocol = iProtocol as XGTCnetExclusiveProtocol;
             if (xgt_protocol == null)
                 throw new ArgumentException("protocol not match XGTCnetExclusiveProtocolFrame type");
-            if (IsWaitACKProtocol == true)   //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
+
+            lock (_ProtocolLock)
             {
-                ProtocolQueue.Enqueue(xgt_protocol);
-                return;
+                if (IsWaitACKProtocol == true)   //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
+                {
+                    ProtocolQueue.Enqueue(xgt_protocol);
+                    return;
+                }
+                ENQFrame = xgt_protocol;
+                ACKFrame = null;
+                IsWaitACKProtocol = true;
+                ENQFrame.AssembleProtocol();
+                SerialSocket.Write(ENQFrame.BinaryData, 0, ENQFrame.BinaryData.Length);
+                ENQFrame.OnDataRequestedEvent(this, new SocketDataReceivedEventArgs(ENQFrame));
+                Console.WriteLine("SEND PROTOCOL MSG");
             }
-            xgt_protocol.AssembleProtocol();
-            ENQFrame = xgt_protocol;
-            IsWaitACKProtocol = true;
-            SerialSocket.Write(xgt_protocol.BinaryData, 0, xgt_protocol.BinaryData.Length);
-            ENQFrame.OnDataRequestedEvent(this, new SocketDataReceivedEventArgs(xgt_protocol));
         }
 
         //응답
         protected void OnDataRecieve(object sender, SerialDataReceivedEventArgs e)
         {
             SerialPort sp = sender as SerialPort;
-            if (sp == null)
-                new ArgumentNullException("sender is not SerialPort class");
-            string str = sp.ReadExisting();
-            byte[] arr = System.Text.Encoding.ASCII.GetBytes(str);
-            XGTCnetExclusiveProtocol xgt_protocol = XGTCnetExclusiveProtocol.CreateACKProtocol(arr);
-            if(xgt_protocol.Error == XGTCnetExclusiveProtocolError.OK)
-                ENQFrame.OnDataReceivedEvent(this, new SocketDataReceivedEventArgs(xgt_protocol));  //메인스레드 처리
-            else
-                ENQFrame.OnErrorEvent(this, new SocketDataReceivedEventArgs(xgt_protocol));         //메인스레드 처리
-            IsWaitACKProtocol = false;
-            if(ProtocolQueue.Count != 0)
-                Send(ProtocolQueue.Dequeue());  //메인스레드 처리
+            byte[] recievedData = System.Text.Encoding.ASCII.GetBytes(sp.ReadExisting());
+            lock (_ProtocolLock)
+            {
+                if (ACKFrame == null)
+                    ACKFrame = new XGTCnetExclusiveProtocol(recievedData);
+                else
+                {
+                    byte[] newBytes = new byte[ACKFrame.BinaryData.Length + recievedData.Length];
+                    Buffer.BlockCopy(ACKFrame.BinaryData, 0, newBytes, 0, ACKFrame.BinaryData.Length);
+                    Buffer.BlockCopy(recievedData, 0, newBytes, ACKFrame.BinaryData.Length, recievedData.Length);
+                    ACKFrame.BinaryData = newBytes;
+                }
+                if (!ACKFrame.IsComeInEXTTail())                                                     //데이터가 끝까지 도착하지 않음
+                    return;
+                Console.WriteLine("RECEIVED PROTOCOL MSG");
+                ACKFrame.AnalysisProtocol();
+                if (ACKFrame.Error == XGTCnetExclusiveProtocolError.OK)
+                    ENQFrame.OnDataReceivedEvent(this, new SocketDataReceivedEventArgs(ACKFrame));  //메인스레드 처리
+                else
+                    ENQFrame.OnErrorEvent(this, new SocketDataReceivedEventArgs(ACKFrame));         //메인스레드 처리
+                ENQFrame = null;
+                ACKFrame = null;
+                IsWaitACKProtocol = false;
+                if (ProtocolQueue.Count != 0)
+                    Task.Factory.StartNew(() => { Send(ProtocolQueue.Dequeue()); });
+            }
         }
 
         //에러 응답

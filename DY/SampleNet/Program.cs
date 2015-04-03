@@ -36,6 +36,23 @@ namespace SampleNet
             serialPort.StopBits = System.IO.Ports.StopBits.One;
             serialPort.Open();
 
+            Logger.Debug("debug");
+
+#if false
+
+            byte[] arr = {0x05 , 0x30 , 0x30 , 0x52 , 0x53 , 0x53 , 0x30 , 0x31 , 0x30 , 0x38 , 0x25 , 0x50 , 0x58 , 0x30 , 0x30 , 0x30 , 0x30 , 0x30 , 0x04};
+
+            serialPort.DataReceived += (sender, e) => 
+            {
+                SerialPort sp = sender as SerialPort;
+                Console.WriteLine(Bytes2HexString.Change(System.Text.Encoding.ASCII.GetBytes(sp.ReadExisting())));
+            };
+            serialPort.Write(arr, 0, arr.Length);
+            Thread.Sleep(10000 * 100);
+#endif
+
+#if true
+
             XGTCnetExclusiveSocket socket = new XGTCnetExclusiveSocket(serialPort);
 
             try
@@ -64,7 +81,6 @@ namespace SampleNet
             {
                 Logger.Debug(e.ToString(), e);
             }
-            Thread.Sleep(1000);
 
             try
             {
@@ -78,8 +94,8 @@ namespace SampleNet
             {
                 Logger.Debug(e.ToString(), e);
             }
-
             Thread.Sleep(10000*100);
+#endif
         }
     }
 }
