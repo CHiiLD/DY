@@ -66,6 +66,14 @@ namespace DY.NET.LSIS.XGT
             protocol.BlockCnt = 1;
             return protocol;
         }
+        
+        public static XGTCnetExclusiveProtocol GetRSBprotocol(ushort localPort, string varName, ushort read_data_size)
+        {
+            var protocol = CreateENQProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SB);
+            protocol.ENQDatas.Add(new ENQDataFormat(varName));
+            protocol.WillDoDataCnt = read_data_size;
+        }
+        
 
         protected override void PrintBinaryDataInfo()
         {
