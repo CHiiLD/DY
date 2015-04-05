@@ -28,39 +28,18 @@ namespace SampleNet
             Logger =
                  LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-            SerialPort serialPort = new SerialPort();
-            serialPort = new System.IO.Ports.SerialPort("COM3", 19200);
-            serialPort.Encoding = Encoding.ASCII;
-            serialPort.Parity = System.IO.Ports.Parity.None;
-            serialPort.DataBits = 8;
-            serialPort.StopBits = System.IO.Ports.StopBits.One;
+
+            DYSerialPort serialPort = new DYSerialPort("COM9", 19200, Parity.None, 8, StopBits.One);
             serialPort.Open();
 
             Logger.Debug("debug");
-
-#if false
-
-            byte[] arr = {0x05 , 0x30 , 0x30 , 0x52 , 0x53 , 0x53 , 0x30 , 0x31 , 0x30 , 0x38 , 0x25 , 0x50 , 0x58 , 0x30 , 0x30 , 0x30 , 0x30 , 0x30 , 0x04};
-
-            serialPort.DataReceived += (sender, e) => 
-            {
-                SerialPort sp = sender as SerialPort;
-                Console.WriteLine(Bytes2HexString.Change(System.Text.Encoding.ASCII.GetBytes(sp.ReadExisting())));
-            };
-            serialPort.Write(arr, 0, arr.Length);
-            Thread.Sleep(10000 * 100);
-#endif
-
-#if true
-
             XGTCnetExclusiveSocket socket = new XGTCnetExclusiveSocket(serialPort);
-
+#if false    //   RSS&WSS TEST
+            //RSS
             try
             {
-                //RSS
                 var protocol = XGTCnetExclusiveProtocol.GetRSSProtocol(0, new ENQDataFormat("%PX00000"));
                 protocol.DataReceivedEvent += Output;
-                protocol.AssembleProtocol();
                 //protocol.PrintInfo();
                 socket.Send(protocol);
             }
@@ -69,12 +48,11 @@ namespace SampleNet
                 Logger.Debug(e.ToString(), e);
             }
 
+            //WSS
             try
             {
-                //WSS
                 var protocol = XGTCnetExclusiveProtocol.GetWSSProtocol(0, new ENQDataFormat("%PX00000", 1));
                 protocol.DataReceivedEvent += Output;
-                protocol.AssembleProtocol();
                 socket.Send(protocol);
             }
             catch (Exception e)
@@ -82,20 +60,48 @@ namespace SampleNet
                 Logger.Debug(e.ToString(), e);
             }
 
+            //RSS
             try
             {
-                //RSS
                 var protocol = XGTCnetExclusiveProtocol.GetRSSProtocol(0, new ENQDataFormat("%PX00000"));
                 protocol.DataReceivedEvent += Output;
-                protocol.AssembleProtocol();
                 socket.Send(protocol);
             }
             catch (Exception e)
             {
                 Logger.Debug(e.ToString(), e);
             }
-            Thread.Sleep(10000*100);
 #endif
+
+
+            string varName = "%DW4000";
+#if false
+            
+            //RSB
+            var protocol = XGTCnetExclusiveProtocol.GetRSBProtocol(0, varName, 2);
+            protocol.DataReceivedEvent += Output;
+            socket.Send(protocol);
+            protocol.PrintInfo();
+            
+#endif
+
+#if true
+            List<ENQDataFormat> enq = new List<ENQDataFormat>();
+            enq.Add(new ENQDataFormat(varName, (ushort)0003));
+            enq.Add(new ENQDataFormat(varName, (ushort)0004));
+
+            //WSB
+            var protocol = XGTCnetExclusiveProtocol.GetWSBProtocol(0, enq);
+            protocol.DataReceivedEvent += Output;
+            socket.Send(protocol);
+            protocol.PrintInfo();
+
+            protocol = XGTCnetExclusiveProtocol.GetRSBProtocol(0, varName, 2);
+            protocol.DataReceivedEvent += Output;
+            socket.Send(protocol);
+            protocol.PrintInfo();
+#endif
+            Thread.Sleep(10000 * 100);
         }
     }
 }

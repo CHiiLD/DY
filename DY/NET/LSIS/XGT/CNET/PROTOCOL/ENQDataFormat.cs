@@ -8,18 +8,29 @@ namespace DY.NET.LSIS.XGT
 {
     public class ENQDataFormat
     {
-        public string Var_Name;
+        public string GlopaVarName; //?byte
         public object Data;     //?byte
 
-        public ENQDataFormat(string varName)
+        public ENQDataFormat(string glopaVarName)
         {
-            Var_Name = varName;
+            if (!Glopa.IsGlopaVar(glopaVarName))
+                throw new ArgumentException("glopaVarName is not glopa type's name");
+            else if (GlopaVarName.Length > 16)
+                throw new ArgumentException("glopa var over limited string's length");
+            GlopaVarName = glopaVarName;
         }
 
-        public ENQDataFormat(string varName, object data)
+        public ENQDataFormat(string glopaVarName, object data)
         {
-            Var_Name = varName;
-            if(Glopa.GetDataType(varName) == DataType.BIT)
+            if (!NumericTypeExtension.IsNumeric(data))
+                throw new ArgumentException("data is not numeric type.");
+            else if (!Glopa.IsGlopaVar(glopaVarName))
+                throw new ArgumentException("glopaVarName is not glopa type's name");
+            else if (GlopaVarName.Length > 16)
+                throw new ArgumentException("glopa var over limited string's length");
+
+            GlopaVarName = glopaVarName;
+            if (Glopa.GetDataType(glopaVarName) == DataType.BIT)
                 Data = Convert.ToUInt16(data);        //BIT데이터는 2BYTE로 표현합니다 ture => {0x00, 0x01}
             else
                 Data = data;

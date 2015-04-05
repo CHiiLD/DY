@@ -14,26 +14,11 @@ namespace DY.NET.LSIS.XGT
 {
     public abstract class XGTCnetExclusiveProtocolFrame : IProtocol
     {
+        #region var_properties_event
         public const int PROTOCOL_HEAD_SIZE = 6;
         public const int PROTOCOL_ASC_SIZE_LIMIT = 256;
         public const int PROTOCOL_ASC_SIZE_ERROR = 4;
-
-        protected XGTCnetExclusiveProtocolFrame()
-        {
-
-        }
-
-        protected XGTCnetExclusiveProtocolFrame(byte[] binaryDatas)
-        {
-            BinaryData = binaryDatas;
-        }
-
-        protected XGTCnetExclusiveProtocolFrame(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
-        {
-            this.LocalPort = localPort;
-            this.Command = cmd;
-            this.CommandType = type;
-        }
+        public const int PROTOCOL_SB_DATACNT_LIMIT = 240;
 
         public byte[] BinaryData
         {
@@ -55,31 +40,28 @@ namespace DY.NET.LSIS.XGT
         public XGTCnetControlCodeType Tail;         //테일         1byte
         public byte BCC;                            //프레임 체크   1byte or null
 
+        #endregion
+
+        #region protected
+
+        protected XGTCnetExclusiveProtocolFrame()
+        {
+
+        }
+
+        protected XGTCnetExclusiveProtocolFrame(byte[] binaryDatas)
+        {
+            BinaryData = binaryDatas;
+        }
+
+        protected XGTCnetExclusiveProtocolFrame(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
+        {
+            this.LocalPort = localPort;
+            this.Command = cmd;
+            this.CommandType = type;
+        }
+
         protected abstract void PrintBinaryDataInfo();
-
-        public bool CatchErrorCode()
-        {
-            bool ret = false;
-            if (this.Header == XGTCnetControlCodeType.NAK)
-            {
-                byte[] main_data = this.GetMainData();
-                if (main_data.Length == 4)
-                    this.Error = (XGTCnetExclusiveProtocolError)CA2C.ToValue(main_data, typeof(uint));
-                ret = true;
-            } 
-            return ret;
-        }
-
-        //받은 ASC데이터들의 테일을 검사하여 EXT 값이 왔는지 검사합니다.
-        public bool IsComeInEXTTail()
-        {
-            if (BinaryData.Length < PROTOCOL_HEAD_SIZE)
-                return false;
-
-            bool isBCC_Exist = IsExistBCCFromASCData();
-            byte value = BinaryData[BinaryData.Length - 1 - (isBCC_Exist ? 1 : 0)];
-            return value == (byte)XGTCnetControlCodeType.ETX;
-        }
 
         protected void AddProtocolHead(List<byte> asc_list)
         {
@@ -143,8 +125,35 @@ namespace DY.NET.LSIS.XGT
             return asc_arr;
         }
 
+        protected bool CatchErrorCode()
+        {
+            bool ret = false;
+            if (this.Header == XGTCnetControlCodeType.NAK)
+            {
+                byte[] main_data = this.GetMainData();
+                if (main_data.Length == 4)
+                    this.Error = (XGTCnetExclusiveProtocolError)CA2C.ToValue(main_data, typeof(uint));
+                ret = true;
+            }
+            return ret;
+        }
+
         protected abstract void AttachProtocolFrame(List<byte> asc_list);
         protected abstract void DetachProtocolFrame();
+
+        #endregion
+
+        #region public
+        //받은 ASC데이터들의 테일을 검사하여 EXT 값이 왔는지 검사합니다.
+        public bool IsComeInEXTTail()
+        {
+            if (BinaryData.Length < PROTOCOL_HEAD_SIZE)
+                return false;
+
+            bool isBCC_Exist = IsExistBCCFromASCData();
+            byte value = BinaryData[BinaryData.Length - 1 - (isBCC_Exist ? 1 : 0)];
+            return value == (byte)XGTCnetControlCodeType.ETX;
+        }
 
         public void AssembleProtocol()
         {
@@ -153,30 +162,28 @@ namespace DY.NET.LSIS.XGT
             AttachProtocolFrame(asc_list);
             AddProtocolTail(asc_list);
             BinaryData = asc_list.ToArray();
-        }
 
-        public void AnalysisProtocol(byte[] binaryData)
-        {
-            if (binaryData == null)
-                throw new ArgumentNullException("argument is null.");
-            BinaryData = binaryData;
-            AnalysisProtocol();
+            if (BinaryData.Length > PROTOCOL_ASC_SIZE_LIMIT)
+                throw new Exception("binary data's length over PROTOCOL_ASC_SIZE_LIMIT(256byte)");
         }
 
         public void AnalysisProtocol()
         {
             if (BinaryData == null)
-                throw new NullReferenceException("ASCData is null.");
-            this.CatchProtocolHead();
-            if (CatchErrorCode() == false)
+                throw new NullReferenceException("BinaryData is null.");
+            if (BinaryData.Length < PROTOCOL_HEAD_SIZE)
+                throw new ArgumentOutOfRangeException("BinaryData is not understandable data's length");
+
+            CatchProtocolHead();
+            if (!CatchErrorCode())
                 DetachProtocolFrame();
-            this.CatchprotocolTail();
+            CatchprotocolTail();
         }
 
         public bool IsExistBCCFromASCData()
         {
             if (BinaryData == null)
-                throw new NullReferenceException("ASCData is null.");
+                throw new NullReferenceException("BinaryData is null.");
 
             if (Command == XGTCnetCommand.r || Command == XGTCnetCommand.w || Command == XGTCnetCommand.x || Command == XGTCnetCommand.y)
                 return true;
@@ -204,8 +211,9 @@ namespace DY.NET.LSIS.XGT
 
         public void PrintInfo()
         {
-            Console.WriteLine("XGT Protocol Information");
-            Console.WriteLine("ASC Code: " + Bytes2HexString.Change(BinaryData));
+            Console.WriteLine("XGT PROTOCOL INFORMATION");
+            Console.WriteLine("ASC Code: " + B2HS.Change(BinaryData));
+            Console.WriteLine("Local Port {0}", LocalPort);
             Console.WriteLine(string.Format("Header: {0}", Header == XGTCnetControlCodeType.ENQ ? "ENQ" : Header == XGTCnetControlCodeType.ACK ? "ACK" : "NAK"));
             Console.WriteLine(string.Format("Command: {0}", (char)Command));
             Console.WriteLine("CommandType: " + XGTCnetCommandTypeExtensions.ToString(CommandType));
@@ -214,7 +222,10 @@ namespace DY.NET.LSIS.XGT
             else
                 Console.WriteLine("Error : " + Error.ToString());
             Console.WriteLine(string.Format("Tail: {0}", Tail == XGTCnetControlCodeType.EOT ? "EOT" : "EXT"));
-            Console.WriteLine(string.Format("BCC: {0}\n", BCC));
+            Console.WriteLine(string.Format("BCC: {0}", BCC));
+            Console.Write("--------------------------------------------------------------------------------");
         }
+
+        #endregion
     }
 }

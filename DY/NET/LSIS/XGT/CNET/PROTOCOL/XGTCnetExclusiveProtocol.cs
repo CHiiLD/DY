@@ -14,18 +14,21 @@ namespace DY.NET.LSIS.XGT
 {
     public class XGTCnetExclusiveProtocol : XGTCnetExclusiveProtocolFrame
     {
-        public ushort BlockCnt;         //2byte
-        public List<ENQDataFormat> ENQDatas = new List<ENQDataFormat>();   //?byte
-        public List<ACKDataFormat> ACKDatas = new List<ACKDataFormat>();   //?byte
-        public ushort RegisterNum;       //2byte
-        public ushort WillDoDataCnt;     //읽거나 쓸 데이터의 개수 (BYTE = 데이터 타입 * 개수) 최대 240byte word는 120byte 가 한계 //2byte
+        public ushort BlockCnt; //2byte
+        public List<ENQDataFormat> ENQDatas = new List<ENQDataFormat>(); //?byte
+        public List<ACKDataFormat> ACKDatas = new List<ACKDataFormat>(); //?byte
+        public ushort RegisterNum; //2byte
+        public ushort DataCnt; //읽거나 쓸 데이터의 개수 (BYTE = 데이터 타입 * 개수) 최대 240byte word는 120byte 가 한계 //2byte
+
+        //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
+        protected XGTCnetExclusiveProtocol ReqtProtocol;
 
         protected XGTCnetExclusiveProtocol()
             : base()
         {
         }
 
-        public XGTCnetExclusiveProtocol(byte[] binaryDatas)
+        protected XGTCnetExclusiveProtocol(byte[] binaryDatas)
             : base(binaryDatas)
         {
         }
@@ -35,17 +38,25 @@ namespace DY.NET.LSIS.XGT
         {
         }
 
+        #region allocClass
+        // 예외처리 작업할 것 Argument&MenberVariable Checking Exception Rootin
         public static XGTCnetExclusiveProtocol GetRSSProtocol(ushort localPort, List<ENQDataFormat> enqDatas)
         {
-            var protocol = CreateENQProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SS);
-            protocol.ENQDatas.AddRange(enqDatas);
+            if (enqDatas.Count == 0 || enqDatas == null)
+                throw new ArgumentException("enqDatas argument have problem(null or empty data)");
+
+            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SS);
+            protocol.ENQDatas =  enqDatas;
             protocol.BlockCnt = (ushort)protocol.ENQDatas.Count;
             return protocol;
         }
 
         public static XGTCnetExclusiveProtocol GetRSSProtocol(ushort localPort, ENQDataFormat enqData)
         {
-            var protocol = CreateENQProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SS);
+            if (enqData == null)
+                throw new ArgumentNullException("enqData is null");
+
+            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SS);
             protocol.ENQDatas.Add(enqData);
             protocol.BlockCnt = 1;
             return protocol;
@@ -53,62 +64,70 @@ namespace DY.NET.LSIS.XGT
 
         public static XGTCnetExclusiveProtocol GetWSSProtocol(ushort localPort, List<ENQDataFormat> enqDatas)
         {
-            var protocol = CreateENQProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SS);
-            protocol.ENQDatas.AddRange(enqDatas);
+            if (enqDatas.Count == 0 || enqDatas == null)
+                throw new ArgumentException("enqDatas argument have problem(null or empty data)");
+
+            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SS);
+            protocol.ENQDatas = enqDatas;
             protocol.BlockCnt = (ushort)protocol.ENQDatas.Count;
             return protocol;
         }
 
         public static XGTCnetExclusiveProtocol GetWSSProtocol(ushort localPort, ENQDataFormat enqData)
         {
-            var protocol = CreateENQProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SS);
+            if (enqData == null)
+                throw new ArgumentNullException("enqData is null");
+
+            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SS);
             protocol.ENQDatas.Add(enqData);
             protocol.BlockCnt = 1;
             return protocol;
         }
-        
-        public static XGTCnetExclusiveProtocol GetRSBprotocol(ushort localPort, string varName, ushort read_data_size)
+
+        public static XGTCnetExclusiveProtocol GetRSBProtocol(ushort localPort, string varName, ushort read_data_cnt)
         {
-            var protocol = CreateENQProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SB);
+            if (Glopa.GetDataType(varName) == DataType.BIT)
+                throw new ArgumentException("RSB communication not supported bit data type");
+            if ((read_data_cnt * (DataTypeExtensions.SizeOf(Glopa.GetDataType(varName)) * 2) > PROTOCOL_SB_DATACNT_LIMIT))
+                throw new ArgumentException("data count(asc bytes) limited 240byte");
+
+            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SB);
             protocol.ENQDatas.Add(new ENQDataFormat(varName));
-            protocol.WillDoDataCnt = read_data_size;
+            protocol.DataCnt = read_data_cnt;
+            return protocol;
         }
-        
 
-        protected override void PrintBinaryDataInfo()
+        public static XGTCnetExclusiveProtocol GetWSBProtocol(ushort localPort, string varName, object data)
         {
-            Console.WriteLine(string.Format("Block number: {0}", BlockCnt));
-            Console.WriteLine(string.Format("Register number: {0}", RegisterNum));
-            Console.WriteLine(string.Format("Data size: {0}", WillDoDataCnt));
+            if (!NumericTypeExtension.IsNumeric(data))
+                throw new ArgumentException("data is not numeric type");
 
-            int cnt = 0;
-            foreach (ENQDataFormat e in ENQDatas)
-            {
-                Console.WriteLine(string.Format("{0} ENQData variable name: {1}", ++cnt, e.Var_Name));
-                if (e.Data != null)
-                {
-                    if (e.Data.GetType() == typeof(string))
-                        Console.WriteLine(string.Format("{0} ENQData data: {1}", cnt, e.Data));
-                    else
-                        Console.WriteLine(string.Format("{0} ENQData data: {1}", cnt, e.Data));
-                }
-            }
-
-            cnt = 0;
-            foreach (ACKDataFormat a in ACKDatas)
-            {
-                Console.WriteLine(string.Format("{0} ACKData size of type : {1}", ++cnt, a.SizeOfType));
-                if (a.Data != null)
-                {
-                    if (a.Data.GetType() == typeof(string))
-                        Console.WriteLine(string.Format("{0} ACKData data: {1}", cnt, a.Data));
-                    else
-                        Console.WriteLine(string.Format("{0} ACKData data: {1}", cnt, a.Data));
-                }
-            }
+            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SB);
+            protocol.ENQDatas.Add(new ENQDataFormat(varName, data));
+            protocol.DataCnt = 1;
+            return protocol;
         }
 
-        protected static XGTCnetExclusiveProtocol CreateENQProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
+        public static XGTCnetExclusiveProtocol GetWSBProtocol(ushort localPort, List<ENQDataFormat> enqDatas)
+        {
+            if (enqDatas.Count == 0 || enqDatas == null)
+                throw new ArgumentException("enqDatas argument have problem(null or empty data)");
+
+            int size_sum = 0;
+            foreach(var ed in enqDatas)
+                size_sum += (DataTypeExtensions.SizeOf(Glopa.GetDataType(ed.GlopaVarName)) * 2);
+            if (size_sum > PROTOCOL_SB_DATACNT_LIMIT)
+                throw new ArgumentException("data count(asc bytes) limited 240byte");
+
+            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SB);
+            protocol.ENQDatas = enqDatas;
+            protocol.DataCnt = (ushort)enqDatas.Count;
+            return protocol;
+        }
+
+        #endregion
+
+        public static XGTCnetExclusiveProtocol CreateRequestProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
         {
             XGTCnetExclusiveProtocol protocol = new XGTCnetExclusiveProtocol(localPort, cmd, type);
             protocol.Header = XGTCnetControlCodeType.ENQ;
@@ -116,8 +135,14 @@ namespace DY.NET.LSIS.XGT
             return protocol;
         }
 
-#if flase
+        public static XGTCnetExclusiveProtocol CreateReceiveProtocol(byte[] binaryData, XGTCnetExclusiveProtocol reqtProtocol)
+        {
+            XGTCnetExclusiveProtocol protocol = new XGTCnetExclusiveProtocol(binaryData);
+            protocol.ReqtProtocol = reqtProtocol;
+            return protocol;
+        }
 
+#if flase
         protected static XGTCnetExclusiveProtocol CreateACKProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
         {
             XGTCnetExclusiveProtocol protocol = new XGTCnetExclusiveProtocol(localPort, cmd, type);
@@ -140,9 +165,8 @@ namespace DY.NET.LSIS.XGT
             protocol.Tail = XGTCnetControlCodeType.ETX;
             return protocol;
         }
-
 #endif
-        
+
         #region For ENQ Protocol Type
 
         protected void AddProtocolRSS(List<byte> asc_list)
@@ -150,8 +174,8 @@ namespace DY.NET.LSIS.XGT
             asc_list.AddRange(CA2C.ToASC(ENQDatas.Count, typeof(ushort)));               // 블록 수
             foreach (ENQDataFormat e in ENQDatas)
             {
-                asc_list.AddRange(CA2C.ToASC(e.Var_Name.Length, typeof(ushort)));
-                asc_list.AddRange(CA2C.ToASC(e.Var_Name));
+                asc_list.AddRange(CA2C.ToASC(e.GlopaVarName.Length, typeof(ushort)));
+                asc_list.AddRange(CA2C.ToASC(e.GlopaVarName));
             }
         }
 
@@ -160,62 +184,62 @@ namespace DY.NET.LSIS.XGT
             asc_list.AddRange(CA2C.ToASC(ENQDatas.Count, typeof(ushort)));               // 블록 수
             foreach (ENQDataFormat e in ENQDatas)
             {
-                asc_list.AddRange(CA2C.ToASC(e.Var_Name.Length, typeof(ushort)));
-                asc_list.AddRange(CA2C.ToASC(e.Var_Name));
+                asc_list.AddRange(CA2C.ToASC(e.GlopaVarName.Length, typeof(ushort)));
+                asc_list.AddRange(CA2C.ToASC(e.GlopaVarName));
                 asc_list.AddRange(CA2C.ToASC(e.Data));
             }
         }
 
         protected void AddProtocolXSS(List<byte> asc_list)
         {
-            //RSS 블록 수(2 Byte) 변수 길이(2 Byte) 변수 이름(16 Byte) 
-            asc_list.AddRange(CA2C.ToASC(RegisterNum));                  // 등록번호
+            asc_list.AddRange(CA2C.ToASC(RegisterNum));
             asc_list.Add((byte)'R');
             asc_list.Add((byte)'S');
             asc_list.Add((byte)'S');
-            asc_list.AddRange(CA2C.ToASC(ENQDatas.Count, typeof(ushort)));               // 블록 수 
+            asc_list.AddRange(CA2C.ToASC(ENQDatas.Count, typeof(ushort)));
             foreach (ENQDataFormat e in ENQDatas)
             {
-                if (e.Var_Name.Length > 16)
+                if (e.GlopaVarName.Length > 16)
                     throw new ArgumentOutOfRangeException("Var_Name's length over 16.");
-                asc_list.AddRange(CA2C.ToASC(e.Var_Name.Length, typeof(ushort)));        // 변수이름길이
-                asc_list.AddRange(CA2C.ToASC(e.Var_Name));               // 변수이름
+                asc_list.AddRange(CA2C.ToASC(e.GlopaVarName.Length, typeof(ushort)));
+                asc_list.AddRange(CA2C.ToASC(e.GlopaVarName));
             }
         }
 
         protected void AddProtocolYSS(List<byte> asc_list)
         {
-            asc_list.AddRange(CA2C.ToASC(RegisterNum));                  // 등록번호
+            asc_list.AddRange(CA2C.ToASC(RegisterNum));
         }
 
         // not support bit data
         protected void AddProtocolRSB(List<byte> asc_list)
         {
-            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].Var_Name.Length, typeof(ushort)));  // 변수이름길이
-            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].Var_Name));         // 변수이름
-            asc_list.AddRange(CA2C.ToASC(WillDoDataCnt));                // 읽어들일 데이터의 개수
+            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].GlopaVarName.Length, typeof(ushort)));
+            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].GlopaVarName));
+            asc_list.AddRange(CA2C.ToASC(DataCnt));
         }
 
         protected void AddProtocolWSB(List<byte> asc_list)
         {
-            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].Var_Name.Length, typeof(ushort)));  // 변수이름길이
-            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].Var_Name));         // 변수이름
-            asc_list.AddRange(CA2C.ToASC(WillDoDataCnt));                // 쓸 데이터의 개수
-            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].Data));             // 데이터
+            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].GlopaVarName.Length, typeof(ushort)));
+            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].GlopaVarName));
+            asc_list.AddRange(CA2C.ToASC(DataCnt));
+            foreach (ENQDataFormat f in ENQDatas)
+                asc_list.AddRange(CA2C.ToASC(f.Data));
         }
 
         protected void AddProtocolXSB(List<byte> asc_list)
         {
-            asc_list.AddRange(CA2C.ToASC(RegisterNum));                  // 등록번호
+            asc_list.AddRange(CA2C.ToASC(RegisterNum));
             asc_list.Add((byte)'R');
             asc_list.Add((byte)'S');
             asc_list.Add((byte)'B');
 
-            if (ENQDatas[0].Var_Name.Length > 16)
+            if (ENQDatas[0].GlopaVarName.Length > 16)
                 throw new ArgumentOutOfRangeException("Var_Name's length over 16.");
-            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].Var_Name.Length, typeof(ushort)));  // 변수이름길이
-            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].Var_Name));         // 변수이름
-            asc_list.AddRange(CA2C.ToASC(WillDoDataCnt));                // 쓸 데이터의 개수
+            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].GlopaVarName.Length, typeof(ushort)));
+            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].GlopaVarName));
+            asc_list.AddRange(CA2C.ToASC(DataCnt));
         }
 
         protected void AddProtocolYSB(List<byte> asc_list)
@@ -315,16 +339,49 @@ namespace DY.NET.LSIS.XGT
             }
         }
 
+        /*
+         * RSB ACK 
+         * 데이터 개수 - HEX형의 Byte 개수를 의미하며 ASC2로 변환 되어 있습니다.
+         * 이 개수는 Byte의 수를 의미합니다.
+         * 
+         * 데이터 - 데이터 영역에는 Hex데이터를 ASC2코드로 변환된 값이 들어 있습니다.
+         * 사용 예1 - PC요구포맷의 직접 변수 이름에 포함되어 있는 메모리 타입이 WORD이고 PC요구포맷의 
+         * 데이터 개수가 03인 경우 명령 실행 후 PLC ACK응답의 데이터의 개수는 06 = (2 * 03)로 전달되고 
+         * 이 값의 ASC2코드 값 3036으로 들어 있게 됩니다.
+         * 4 // 30 30 44 34 30 30 44 34
+         * 
+         * 메뉴얼을 보면 예제가 2개 있는데 ACK응답에서 하나는 블록수가 들어있고 또 하나는 블록 수가 없습니다.
+         * LS산전 측이 실수한 것으로 생각됩니다. 일단 예제에선 블록수도 같이 오는데 도대체 어떻게 처리를 하라는건지 알 수가 없습니다.
+         * 파악되는 즉시 수정해야 합니다. 일단은 자료형에 맞추어 ASC데이터를 적절하게 끊어서 컨버트 처리합니다.
+         */
+
         protected void QueryProtocolRSB()
         {
             byte[] data = GetMainData();
-            byte[] data_size_arr = { data[0], data[1] };
-            ushort sizeOfType = (ushort)CA2C.ToValue(data_size_arr, typeof(ushort));
 
-            byte[] data_arr = new byte[sizeOfType * 2];
-            Buffer.BlockCopy(data, data_size_arr.Length, data_arr, 0, data_arr.Length);
-            object value = CA2C.ToValue(data_arr, DataTypeExtensions.TypeOf((DataType)sizeOfType));
-            ACKDatas.Add(new ACKDataFormat(sizeOfType, value));
+            // 블록 수 정보 쿼리
+            byte[] bcnt_arr = { data[0], data[1] };
+            BlockCnt = (ushort)CA2C.ToValue(bcnt_arr, typeof(ushort)); // 정말 이해할 수 없는 정보.. LSIS 측에 문의해봐야함
+
+            // 데이터 개수 정보 쿼리
+            byte[] size_arr = { data[2], data[3] };
+            ushort data_len = (ushort)CA2C.ToValue(size_arr, typeof(ushort));
+
+            // 그로파 변수이름에서 자료형 정보를 얻어낸다
+            string var_name = ReqtProtocol.ENQDatas[0].GlopaVarName;
+            DataType data_type = Glopa.GetDataType(var_name);
+            int data_type_size = DataTypeExtensions.SizeOf(data_type);
+
+            int data_idx = 4;
+            // 일렬로 정렬된 데이터들을 데이터타입에 따라 적절하게 파싱하여 데이터 쿼리
+            for (int i = 0; i < data_len / data_type_size; i++)
+            {
+                byte[] temp_arr = new byte[data_type_size * 2];
+                Buffer.BlockCopy(data, data_idx, temp_arr, 0, temp_arr.Length);
+                object value = CA2C.ToValue(temp_arr, DataTypeExtensions.TypeOf(data_type));
+                ACKDatas.Add(new ACKDataFormat((ushort)data_type_size, value));
+                data_idx += temp_arr.Length;
+            }
         }
 
         protected void QueryProtocolWSB()
@@ -380,6 +437,29 @@ namespace DY.NET.LSIS.XGT
                     else if (Command == XGTCnetCommand.Y || Command == XGTCnetCommand.y)
                         QueryProtocolYSB();
                     break;
+            }
+        }
+
+        protected override void PrintBinaryDataInfo()
+        {
+            Console.WriteLine(string.Format("Block number: {0}", BlockCnt));
+            Console.WriteLine(string.Format("Register number: {0}", RegisterNum));
+            Console.WriteLine(string.Format("Data size: {0}", DataCnt));
+
+            int cnt = 0;
+            foreach (ENQDataFormat e in ENQDatas)
+            {
+                Console.WriteLine(string.Format("[{0}] ENQData variable name: {1}", ++cnt, e.GlopaVarName));
+                if (e.Data != null)
+                    Console.WriteLine(string.Format("[{0}] ENQData data: {1}", cnt, e.Data));
+            }
+
+            cnt = 0;
+            foreach (ACKDataFormat a in ACKDatas)
+            {
+                Console.WriteLine(string.Format("[{0}] ACKData size of type : {1}", ++cnt, a.SizeOfType));
+                if (a.Data != null)
+                    Console.WriteLine(string.Format("[{0}] ACKData data: {1}", cnt, a.Data));
             }
         }
         #endregion

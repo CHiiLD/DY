@@ -12,7 +12,7 @@ using System.Threading.Tasks;
 
 namespace DY.NET
 {
-    public class Bytes2HexString
+    public class B2HS // convert bytes to hex string
     {
         public static string Change(byte[] data)
         {
