@@ -225,7 +225,6 @@ namespace DY.NET.LSIS.XGT
             Console.WriteLine(string.Format("BCC: {0}", BCC));
             Console.Write("--------------------------------------------------------------------------------");
         }
-
         #endregion
     }
 }

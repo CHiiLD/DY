@@ -21,7 +21,7 @@ namespace DY.NET.LSIS.XGT
         public ushort DataCnt; //읽거나 쓸 데이터의 개수 (BYTE = 데이터 타입 * 개수) 최대 240byte word는 120byte 가 한계 //2byte
 
         //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
-        protected XGTCnetExclusiveProtocol ReqtProtocol;
+        public XGTCnetExclusiveProtocol ReqtProtocol;
 
         protected XGTCnetExclusiveProtocol()
             : base()

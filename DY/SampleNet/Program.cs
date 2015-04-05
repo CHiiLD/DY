@@ -28,8 +28,7 @@ namespace SampleNet
             Logger =
                  LogManager.GetLogger(System.Reflection.MethodBase.GetCurrentMethod().DeclaringType);
 
-
-            DYSerialPort serialPort = new DYSerialPort("COM9", 19200, Parity.None, 8, StopBits.One);
+            DYSerialPort serialPort = new DYSerialPort("COM3", 19200, Parity.None, 8, StopBits.One);
             serialPort.Open();
 
             Logger.Debug("debug");

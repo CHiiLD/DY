@@ -15,7 +15,7 @@ namespace DY.NET.LSIS.XGT
         {
             if (!Glopa.IsGlopaVar(glopaVarName))
                 throw new ArgumentException("glopaVarName is not glopa type's name");
-            else if (GlopaVarName.Length > 16)
+            else if (glopaVarName.Length > 16)
                 throw new ArgumentException("glopa var over limited string's length");
             GlopaVarName = glopaVarName;
         }
@@ -26,7 +26,7 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentException("data is not numeric type.");
             else if (!Glopa.IsGlopaVar(glopaVarName))
                 throw new ArgumentException("glopaVarName is not glopa type's name");
-            else if (GlopaVarName.Length > 16)
+            else if (glopaVarName.Length > 16)
                 throw new ArgumentException("glopa var over limited string's length");
 
             GlopaVarName = glopaVarName;

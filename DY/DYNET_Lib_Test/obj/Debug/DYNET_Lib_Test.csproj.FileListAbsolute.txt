@@ -1,0 +1,8 @@
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DYNET_Lib_Test\bin\Debug\DYNET_Lib_Test.exe.config
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DYNET_Lib_Test\bin\Debug\DYNET_Lib_Test.exe
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DYNET_Lib_Test\bin\Debug\DYNET_Lib_Test.pdb
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DYNET_Lib_Test\bin\Debug\NET.dll
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DYNET_Lib_Test\bin\Debug\NET.pdb
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DYNET_Lib_Test\obj\Debug\DYNET_Lib_Test.csprojResolveAssemblyReference.cache
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DYNET_Lib_Test\obj\Debug\DYNET_Lib_Test.exe
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DYNET_Lib_Test\obj\Debug\DYNET_Lib_Test.pdb

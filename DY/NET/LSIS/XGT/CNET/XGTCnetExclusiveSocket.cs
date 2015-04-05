@@ -19,8 +19,9 @@ namespace DY.NET.LSIS.XGT
     public class XGTCnetExclusiveSocket : DYSocket, IDisposable
     {
         #region var_properties_event
-
+        private readonly object _SyncCommunication = new object();
         private readonly object _SyncDYSerialPort = new object();
+
         private DYSerialPort _DYSerialPort;
         protected DYSerialPort Serial
         {
@@ -35,9 +36,7 @@ namespace DY.NET.LSIS.XGT
                     _DYSerialPort = value;
             }
         }
-
         protected bool IsWaitACKProtocol = false;
-        private readonly object _SyncCommunication = new object();
         
         #endregion
 
