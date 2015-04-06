@@ -5,21 +5,7 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "NET", "NET\NET.csproj", "{C658782C-A96E-466E-B2BE-99590A289E39}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{4A6E3093-097D-49C4-A0FD-73A14BBC43E4}"
-	ProjectSection(SolutionItems) = preProject
-		role.txt = role.txt
-	EndProjectSection
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SampleNet", "SampleNet\SampleNet.csproj", "{DE14404B-E364-443F-BF63-6AF0E1F4DE32}"
-	ProjectSection(ProjectDependencies) = postProject
-		{C658782C-A96E-466E-B2BE-99590A289E39} = {C658782C-A96E-466E-B2BE-99590A289E39}
-	EndProjectSection
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "log4net.vs2010", "..\log4net\src\log4net\log4net.vs2010.csproj", "{181FE707-E161-4722-9F38-6AAAB6FAA106}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DYNET_Lib_Test", "DYNET_Lib_Test\DYNET_Lib_Test.csproj", "{BA9CD0AC-9106-4351-A561-5699A6967DA7}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ProtoType1", "ProtoType1\ProtoType1.csproj", "{F0EC4068-3A07-4F39-87A6-06D9EA4FFB51}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "De.TorstenMandelkow.MetroChart.WPF", "..\MetroChart\De.TorstenMandelkow.MetroChart.WPF\De.TorstenMandelkow.MetroChart.WPF.csproj", "{4AB4B0DB-780C-48B9-A642-8E527353D957}"
 EndProject
@@ -27,11 +13,7 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MahApps.Metro.NET45", "..\M
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MahApps.Metro.Resources", "..\MahApps.Metro\MahApps.Metro.Resources\MahApps.Metro.Resources.csproj", "{E708AC99-605B-42A0-8D20-ABCA8FE42DD2}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroDemo.NET45", "..\MahApps.Metro\samples\MetroDemo\MetroDemo.NET45.csproj", "{67174E59-0A40-4E8F-A82B-02FD317DD801}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MetroDemo", "..\MahApps.Metro\samples\MetroDemo\MetroDemo.csproj", "{56E8080F-FFEB-47CD-ADB9-92245F92565B}"
-EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MahApps.Metro", "..\MahApps.Metro\MahApps.Metro\MahApps.Metro.csproj", "{5B1710D2-5DC8-4754-91B2-19165DE49B3D}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Sample WPF", "Sample WPF\Sample WPF.csproj", "{AB59265E-B36C-4684-9466-EFFDCA728759}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -43,22 +25,10 @@ Global
 		{C658782C-A96E-466E-B2BE-99590A289E39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C658782C-A96E-466E-B2BE-99590A289E39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C658782C-A96E-466E-B2BE-99590A289E39}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DE14404B-E364-443F-BF63-6AF0E1F4DE32}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DE14404B-E364-443F-BF63-6AF0E1F4DE32}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DE14404B-E364-443F-BF63-6AF0E1F4DE32}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DE14404B-E364-443F-BF63-6AF0E1F4DE32}.Release|Any CPU.Build.0 = Release|Any CPU
 		{181FE707-E161-4722-9F38-6AAAB6FAA106}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{181FE707-E161-4722-9F38-6AAAB6FAA106}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{181FE707-E161-4722-9F38-6AAAB6FAA106}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{181FE707-E161-4722-9F38-6AAAB6FAA106}.Release|Any CPU.Build.0 = Release|Any CPU
-		{BA9CD0AC-9106-4351-A561-5699A6967DA7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{BA9CD0AC-9106-4351-A561-5699A6967DA7}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{BA9CD0AC-9106-4351-A561-5699A6967DA7}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{BA9CD0AC-9106-4351-A561-5699A6967DA7}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F0EC4068-3A07-4F39-87A6-06D9EA4FFB51}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F0EC4068-3A07-4F39-87A6-06D9EA4FFB51}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F0EC4068-3A07-4F39-87A6-06D9EA4FFB51}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F0EC4068-3A07-4F39-87A6-06D9EA4FFB51}.Release|Any CPU.Build.0 = Release|Any CPU
 		{4AB4B0DB-780C-48B9-A642-8E527353D957}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{4AB4B0DB-780C-48B9-A642-8E527353D957}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AB4B0DB-780C-48B9-A642-8E527353D957}.Release|Any CPU.ActiveCfg = Release|Any CPU
@@ -71,18 +41,10 @@ Global
 		{E708AC99-605B-42A0-8D20-ABCA8FE42DD2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E708AC99-605B-42A0-8D20-ABCA8FE42DD2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E708AC99-605B-42A0-8D20-ABCA8FE42DD2}.Release|Any CPU.Build.0 = Release|Any CPU
-		{67174E59-0A40-4E8F-A82B-02FD317DD801}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{67174E59-0A40-4E8F-A82B-02FD317DD801}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{67174E59-0A40-4E8F-A82B-02FD317DD801}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{67174E59-0A40-4E8F-A82B-02FD317DD801}.Release|Any CPU.Build.0 = Release|Any CPU
-		{56E8080F-FFEB-47CD-ADB9-92245F92565B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{56E8080F-FFEB-47CD-ADB9-92245F92565B}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{56E8080F-FFEB-47CD-ADB9-92245F92565B}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{56E8080F-FFEB-47CD-ADB9-92245F92565B}.Release|Any CPU.Build.0 = Release|Any CPU
-		{5B1710D2-5DC8-4754-91B2-19165DE49B3D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{5B1710D2-5DC8-4754-91B2-19165DE49B3D}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{5B1710D2-5DC8-4754-91B2-19165DE49B3D}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{5B1710D2-5DC8-4754-91B2-19165DE49B3D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AB59265E-B36C-4684-9466-EFFDCA728759}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AB59265E-B36C-4684-9466-EFFDCA728759}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AB59265E-B36C-4684-9466-EFFDCA728759}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AB59265E-B36C-4684-9466-EFFDCA728759}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
