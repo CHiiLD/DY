@@ -4,9 +4,9 @@
 [submodule "MetroChart"]
 	path = MetroChart
 	url = https://github.com/CHiiLD/MetroChart.git
-[submodule "DY/MahApps.Metro"]
-	path = DY/MahApps.Metro
-	url = https://github.com/CHiiLD/MahApps.Metro.git
 [submodule "MahApps.Metro"]
 	path = MahApps.Metro
 	url = https://github.com/ChiiLD/MahApps.Metro
+[submodule "oxyplot"]
+	path = oxyplot
+	url = https://github.com/CHiiLD/oxyplot.git
