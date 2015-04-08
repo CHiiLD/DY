@@ -1,0 +1,5 @@
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.NET\bin\Debug\NET.dll
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.NET\bin\Debug\NET.pdb
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.NET\obj\Debug\DY.NET.csprojResolveAssemblyReference.cache
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.NET\obj\Debug\NET.dll
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.NET\obj\Debug\NET.pdb
