@@ -12,6 +12,10 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 using De.TorstenMandelkow.MetroChart;
+using MahApps.Metro;
+using OxyPlot;
+using OxyPlot.Axes;
+using OxyPlot.Series;
 
 namespace DY.SAMPLE.WPF
 {
@@ -41,27 +45,39 @@ namespace DY.SAMPLE.WPF
             LogList.Add(new Log() { Time = "12:18:55:952", Context = "Connection Port 8081" });
             LogList.Add(new Log() { Time = "12:18:55:967", Context = "192.168.23.61 try connect(8081)..." });
             LogList.Add(new Log() { Time = "12:18:55:987", Context = "Connection Port 8082" });
-            
             NLogListView.ItemsSource = LogList;
 
             //CHART DATA BINDING 
             NOFIChart.Series.Clear();
-
             var chart_item_srcs = new ObservableCollection<OperationForceInspection>();
             chart_item_srcs.Add(new OperationForceInspection() { Category = "Globalization", Value = 75 });
             chart_item_srcs.Add(new OperationForceInspection() { Category = "Features", Value = 2 });
             chart_item_srcs.Add(new OperationForceInspection() { Category = "ContentTypes", Value = 12 });
             chart_item_srcs.Add(new OperationForceInspection() { Category = "Correctness", Value = 83 });
             chart_item_srcs.Add(new OperationForceInspection() { Category = "Best Practices", Value = 29 });
-
             ChartSeries series = new ChartSeries();
             series.SeriesTitle = "ChartDatas";
             series.DisplayMember = "Category";
             series.ValueMember = "Value";
-            
             series.ItemsSource = null;
             series.ItemsSource = chart_item_srcs;
             NOFIChart.Series.Add(series);
+
+            //chart 색상을 유동성있게 바꾸기 위해 MapApps의 테마관리자의 이벤트를 등록
+            ThemeManager.IsThemeChanged += (object obj, OnThemeChangedEventArgs args) =>
+            {
+                var chart = NOFIChart;
+                var theme = args.Accent.Resources;
+                var palette = new ResourceDictionaryCollection();
+                palette.Add(theme);
+                chart.Palette = palette;
+            };
+
+            //Oxy 라이브러리 차트 객체 생성과 xaml연결
+
+            NLPinChart.Model = OxyExampleSources.LineSerieswithlabels();
+            NOpertChart.Model = OxyExampleSources.TwoColorAreaSeries();
+            NRivetChart.Model = OxyExampleSources.LargeDataSetwidewindow();
         }
     }
 }

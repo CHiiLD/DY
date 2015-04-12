@@ -57,6 +57,7 @@
     <Compile Include="TabItems\ModelControl.xaml.cs">
       <DependentUpon>ModelControl.xaml</DependentUpon>
     </Compile>
+    <Compile Include="TabItems\OxyExampleSources.cs" />
     <Compile Include="TabItems\Structures\Log.cs" />
     <Compile Include="TabItems\CTRL\TextBoxControl.xaml.cs">
       <DependentUpon>TextBoxControl.xaml</DependentUpon>
@@ -129,6 +130,18 @@
     <ProjectReference Include="..\..\MetroChart\De.TorstenMandelkow.MetroChart.WPF\De.TorstenMandelkow.MetroChart.WPF.csproj">
       <Project>{4ab4b0db-780c-48b9-a642-8e527353d957}</Project>
       <Name>De.TorstenMandelkow.MetroChart.WPF</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\oxyplot\Source\Examples\ExampleLibrary\ExampleLibrary_NET35.csproj">
+      <Project>{317256e7-78e7-42ce-8da4-fef57981a2a5}</Project>
+      <Name>ExampleLibrary_NET35</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\oxyplot\Source\OxyPlot.Wpf\OxyPlot.Wpf_NET35.csproj">
+      <Project>{4925e7c0-cee4-41f2-bf38-f343e242f047}</Project>
+      <Name>OxyPlot.Wpf_NET35</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\oxyplot\Source\OxyPlot\OxyPlot_NET35.csproj">
+      <Project>{197b9f4f-ff78-48e9-982f-938c59c6e49e}</Project>
+      <Name>OxyPlot_NET35</Name>
     </ProjectReference>
     <ProjectReference Include="..\DY.NET\DY.NET.csproj">
       <Project>{c658782c-a96e-466e-b2be-99590a289e39}</Project>

@@ -35,3 +35,9 @@ C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\obj\Debug\Ta
 C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\obj\Debug\TabItems\CTRL\TextBoxControl.g.cs
 C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\obj\Debug\TabItems\ModelControl.baml
 C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\obj\Debug\TabItems\ModelControl.g.cs
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\bin\Debug\OxyPlot.dll
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\bin\Debug\OxyPlot.Wpf.dll
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\bin\Debug\OxyPlot.Wpf.pdb
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\bin\Debug\OxyPlot.pdb
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\bin\Debug\ExampleLibrary.dll
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\bin\Debug\ExampleLibrary.pdb

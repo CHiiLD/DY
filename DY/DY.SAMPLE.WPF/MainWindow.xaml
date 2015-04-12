@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:DY.SAMPLE.WPF"                      
     WindowStartupLocation="CenterScreen" 
     GlowBrush="{DynamicResource AccentColorBrush}"
-    Title="ProtoType WPF" Height="1600 " Width="1200">
+    Title="ProtoType WPF" Height="1080 " Width="1920">
 
     <!--외부 리소스를 사용할 수 있게 미리 선언합니다. ResourceDirectory -> key : value 대칭의 Resource-->
     <Window.Resources>
@@ -95,11 +95,11 @@
             </MenuItem>-->
         </Menu>
         <MahControls:MetroAnimatedSingleRowTabControl Grid.Row="1" x:Name="MainTabControl">
-            <TabItem Header="Setting">
-            </TabItem>
-
             <TabItem Header="Model">
                 <local:ModelControl DataContext="{Binding}" />
+            </TabItem>
+
+            <TabItem Header="Setting">
             </TabItem>
 
             <TabItem Header="Graph">
