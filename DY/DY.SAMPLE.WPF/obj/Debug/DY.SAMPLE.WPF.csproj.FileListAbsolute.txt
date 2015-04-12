@@ -27,3 +27,11 @@ C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\bin\Debug\Me
 C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\bin\Debug\Microsoft.Threading.Tasks.dll
 C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\bin\Debug\MetroDemo.NET45.pdb
 C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\bin\Debug\Microsoft.Threading.Tasks.xml
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\obj\Debug\GeneratedInternalTypeHelper.g.cs
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\obj\Debug\DY.SAMPLE.WPF_MarkupCompile.lref
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\bin\Debug\De.TorstenMandelkow.MetroChart.dll
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\bin\Debug\De.TorstenMandelkow.MetroChart.pdb
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\obj\Debug\TabItems\CTRL\TextBoxControl.baml
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\obj\Debug\TabItems\CTRL\TextBoxControl.g.cs
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\obj\Debug\TabItems\ModelControl.baml
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\obj\Debug\TabItems\ModelControl.g.cs

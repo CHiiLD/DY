@@ -1,15 +1,16 @@
-﻿<Controls:MetroWindow x:Class="DY.SAMPLE.WPF.MainWindow"
-        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-		xmlns:Controls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
-        WindowStartupLocation="CenterScreen" 
-        GlowBrush="{DynamicResource AccentColorBrush}"
-        Title="ProtoType WPF" Height="600" Width="800">
+﻿<MahControls:MetroWindow 
+    x:Class="DY.SAMPLE.WPF.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:MahControls="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+    xmlns:local="clr-namespace:DY.SAMPLE.WPF"                      
+    WindowStartupLocation="CenterScreen" 
+    GlowBrush="{DynamicResource AccentColorBrush}"
+    Title="ProtoType WPF" Height="1600 " Width="1200">
 
     <!--외부 리소스를 사용할 수 있게 미리 선언합니다. ResourceDirectory -> key : value 대칭의 Resource-->
     <Window.Resources>
         <ResourceDictionary>
-
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro.Resources;component/Icons.xaml" />
                 <ResourceDictionary Source="pack://application:,,,/MahApps.Metro;component/Styles/FlatSlider.xaml"/>
@@ -58,16 +59,16 @@
     </Window.Resources>
 
     <!--프레임 좌측 상단 버튼 추가 (다른 컴포넌트들도 얼마든지 추가 가능합니다)-->
-    <Controls:MetroWindow.RightWindowCommands>
-        <Controls:WindowCommands>
+    <MahControls:MetroWindow.RightWindowCommands>
+        <MahControls:WindowCommands>
             <Button ToolTip="버튼1 입니다"
                     Content="BUTTON1" />
             <Button ToolTip="버튼2 입니다"
                     Content="BUTTON2" />
             <Button ToolTip="버튼3 입니다"
                     Content="BUTTON3" />
-        </Controls:WindowCommands>
-    </Controls:MetroWindow.RightWindowCommands>
+        </MahControls:WindowCommands>
+    </MahControls:MetroWindow.RightWindowCommands>
 
     <Grid>
         <Grid.RowDefinitions>
@@ -93,24 +94,27 @@
             <MenuItem Header="MenuItme4">
             </MenuItem>-->
         </Menu>
-        <Controls:MetroAnimatedSingleRowTabControl Grid.Row="1" x:Name="MainTabControl">
-            <TabItem Header="SubTabItem1">
-                <!--<exampleViews:ButtonsExample DataContext="{Binding}" />-->
+        <MahControls:MetroAnimatedSingleRowTabControl Grid.Row="1" x:Name="MainTabControl">
+            <TabItem Header="Setting">
             </TabItem>
 
-            <TabItem Header="SubTabItem2">
-                <!--<exampleViews:ButtonsExample DataContext="{Binding}" />-->
+            <TabItem Header="Model">
+                <local:ModelControl DataContext="{Binding}" />
             </TabItem>
 
-            <TabItem Header="SubTabItem3">
-                <!--<exampleViews:ButtonsExample DataContext="{Binding}" />-->
+            <TabItem Header="Graph">
             </TabItem>
 
-            <TabItem Header="SubTabItem4">
-                <!--<exampleViews:ButtonsExample DataContext="{Binding}" />-->
+            <TabItem Header="Result">
             </TabItem>
 
-        </Controls:MetroAnimatedSingleRowTabControl>
+            <TabItem Header="Hardware">
+            </TabItem>
+
+            <TabItem Header="M/C Alarm Report">
+            </TabItem>
+
+        </MahControls:MetroAnimatedSingleRowTabControl>
 
         <!--화면 최하단 상태바 추가 (separator 컴포넌트로 나눈 다음 여러 컴포넌트 추가 가능)-->
         <StatusBar Grid.Row="2" >
@@ -120,4 +124,4 @@
             <StatusBarItem Content="{Binding ElementName=MainTabControl, Path=SelectedItem.Header, Mode=OneWay}" />-->
         </StatusBar>
     </Grid>
-</Controls:MetroWindow>
+</MahControls:MetroWindow>

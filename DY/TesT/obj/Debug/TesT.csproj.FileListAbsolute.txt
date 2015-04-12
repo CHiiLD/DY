@@ -1,0 +1,15 @@
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\TesT\bin\Debug\TesT.exe.config
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\TesT\bin\Debug\TesT.exe
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\TesT\bin\Debug\TesT.pdb
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\TesT\bin\Debug\De.TorstenMandelkow.MetroChart.dll
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\TesT\bin\Debug\De.TorstenMandelkow.MetroChart.pdb
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\TesT\obj\Debug\MainWindow.baml
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\TesT\obj\Debug\MainWindow.g.cs
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\TesT\obj\Debug\App.g.cs
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\TesT\obj\Debug\TesT_MarkupCompile.cache
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\TesT\obj\Debug\TesT.g.resources
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\TesT\obj\Debug\TesT.Properties.Resources.resources
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\TesT\obj\Debug\TesT.csproj.GenerateResource.Cache
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\TesT\obj\Debug\TesT.exe
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\TesT\obj\Debug\TesT.pdb
+C:\Users\아동\Documents\GitHub\PLC-Communication\DY\TesT\obj\Debug\TesT.csprojResolveAssemblyReference.cache

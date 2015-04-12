@@ -54,8 +54,12 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="SubTabItem1Control.xaml.cs">
-      <DependentUpon>SubTabItem1Control.xaml</DependentUpon>
+    <Compile Include="TabItems\ModelControl.xaml.cs">
+      <DependentUpon>ModelControl.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="TabItems\Structures\Log.cs" />
+    <Compile Include="TabItems\CTRL\TextBoxControl.xaml.cs">
+      <DependentUpon>TextBoxControl.xaml</DependentUpon>
     </Compile>
     <Page Include="MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -69,11 +73,11 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
-    <Page Include="SubTabItem1Control.xaml">
+    <Page Include="TabItems\ModelControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Themes\Generic.xaml">
+    <Page Include="TabItems\CTRL\TextBoxControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -121,6 +125,10 @@
     <ProjectReference Include="..\..\MahApps.Metro\samples\MetroDemo\MetroDemo.NET45.csproj">
       <Project>{67174e59-0a40-4e8f-a82b-02fd317dd801}</Project>
       <Name>MetroDemo.NET45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\..\MetroChart\De.TorstenMandelkow.MetroChart.WPF\De.TorstenMandelkow.MetroChart.WPF.csproj">
+      <Project>{4ab4b0db-780c-48b9-a642-8e527353d957}</Project>
+      <Name>De.TorstenMandelkow.MetroChart.WPF</Name>
     </ProjectReference>
     <ProjectReference Include="..\DY.NET\DY.NET.csproj">
       <Project>{c658782c-a96e-466e-b2be-99590a289e39}</Project>
