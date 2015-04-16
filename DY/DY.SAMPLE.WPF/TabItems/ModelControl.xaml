@@ -12,7 +12,7 @@
     x:Class="DY.SAMPLE.WPF.ModelControl"   
 	mc:Ignorable="d"
     x:Name="thiz"
-	d:DesignWidth="1920" d:DesignHeight="1080">
+	d:DesignWidth="1600" d:DesignHeight="900">
 
     <UserControl.Resources>
         <ResourceDictionary>
@@ -54,297 +54,302 @@
                 <Setter Property="HeadersVisibility" Value="All"/>
             </Style>
 
+            <Style x:Key="ResetCountTextStyle" TargetType="{x:Type CTRL:TextBlockCustomControl}">
+                <Setter Property="FontSize" Value="30"/>
+                <Setter Property="CornerRadius" Value="8, 8, 8, 8"/>
+                <Setter Property="TextMargin" Value="50, 0, 50, 0"/>
+                <Setter Property="VerticalAlignment" Value="Center"/>
+                <Setter Property="HorizontalAlignment" Value="Center"/>
+            </Style>
+            
             <Style x:Key="DataGridTextStyle" TargetType="{x:Type UserControl}">
                 <Setter Property="FontSize" Value="20"/>
             </Style>
         </ResourceDictionary>
     </UserControl.Resources>
 
-    <Grid x:Name="NFrameGrid">
-        <Grid.RowDefinitions>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="159*"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="70*"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="182*"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="100*"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="190*"/>
-            <RowDefinition Height="40"/>
-            <RowDefinition Height="160*"/>
-        </Grid.RowDefinitions>
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="314*"/>
-            <ColumnDefinition Width="314*"/>
-            <ColumnDefinition Width="110*"/>
-            <ColumnDefinition Width="204*"/>
-            <ColumnDefinition Width="659*"/>
-        </Grid.ColumnDefinitions>
-        <Label Content="Model" Style="{StaticResource TitleLabelStyle}" Grid.ColumnSpan="3" />
-        <Label Grid.ColumnSpan="2" Content="#16 L/Pin Check Inspection" Style="{StaticResource TitleLabelStyle}" Grid.Column="3"/>
-        <Label Grid.ColumnSpan="3" Content="#19 Operation Force Inspection" Style="{StaticResource TitleLabelStyle}" Grid.Row="2" />
-        <Label Grid.ColumnSpan="2" Content="#17 Scanning" Style="{StaticResource TitleLabelStyle}"  Grid.Row="2" Grid.Column="3" Margin="0"/>
-        <Label Grid.ColumnSpan="2" Content="#21 Revet Check Inspection" Style="{StaticResource TitleLabelStyle}"  Grid.Row="4" Grid.Column="3"/>
-        <Label Grid.ColumnSpan="2" Content="#23 UnLoad'G" Style="{StaticResource TitleLabelStyle}"  Grid.Row="6" Grid.Column="3"/>
-        <Label Content="Assembly Item" Style="{StaticResource TitleLabelStyle}"  Grid.Row="8" Grid.Column="4"/>
-        <Label Content="#16 L/Pin" Style="{StaticResource TitleLabelStyle}"  Grid.Row="8"/>
-        <Label Content="#19 Opert'G Froce" Style="{StaticResource TitleLabelStyle}"  Grid.Row="8" Grid.Column="1" />
-        <Label Content="#21 Rivet" Style="{StaticResource TitleLabelStyle}"  Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2" />
-        <Label Grid.ColumnSpan="2" Grid.Row="10" Content="Reset Count" Style="{StaticResource TitleLabelStyle}" />
-        <Label Grid.Row="10" Content="Log" Style="{StaticResource TitleLabelStyle}" Grid.Column="4" />
-        <Label Grid.ColumnSpan="2"  Grid.Row="10" Content="Disk Used" Style="{StaticResource TitleLabelStyle}" Grid.Column="2"  />
-        <CTRL:TextBlockCustomControl x:Name="NModelName" Grid.ColumnSpan="3" Text="1.JFA-OTR-PWR(240.5mm)" Margin="10" Grid.Row="1" FontSize="48" BorderThickness="1"/>
-        <ListView x:Name="NLogListView" Grid.Column="4" Grid.Row="11" Style="{DynamicResource MetroListView}" BorderThickness="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontFamily="Segoe UI" FontSize="16" TextOptions.TextFormattingMode="Display">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Recored Time" DisplayMemberBinding="{Binding Time}" />
-                    <GridViewColumn Header="Debug Log" DisplayMemberBinding="{Binding Context}" />
-                </GridView>
-            </ListView.View>
-        </ListView>
-        <Grid x:Name="NDiskUsedGrid" Grid.ColumnSpan="2" Grid.Column="2" Grid.Row="11">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="63*"/>
-                <RowDefinition Height="62*"/>
-                <RowDefinition Height="63*"/>
-                <RowDefinition Height="62*"/>
-            </Grid.RowDefinitions>
-            <MahControls:MetroProgressBar Style="{DynamicResource DiskProgressBarStyle}" Value="33.0" Grid.Row="1"/>
-            <MahControls:MetroProgressBar Style="{DynamicResource DiskProgressBarStyle}" Value="65.0" Grid.Row="3"/>
-            <Label Content="Disk(C:) 33.0%" Style="{StaticResource TitleLabelStyle}" Margin="20,0" FontSize="18" />
-            <Label Content="Disk(D:) 65.0%" Style="{StaticResource TitleLabelStyle}" Margin="20,0" FontSize="18" Grid.Row="2"/>
-        </Grid>
-        <Grid Grid.ColumnSpan="3" Margin="10" Grid.Row="3" Grid.RowSpan="5">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="174*"/>
-                <RowDefinition Height="239*"/>
-            </Grid.RowDefinitions>
-            <Grid x:Name="NNOFIDataGrid">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="3*"/>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="2*"/>
-                    <ColumnDefinition Width="2*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                    <RowDefinition Height="1*"/>
-                </Grid.RowDefinitions>
+    <ScrollViewer VerticalScrollBarVisibility="Auto" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Padding="20">
 
-                <CTRL:TextBlockCustomControl Grid.Column="1" Text ="SPEC" Style="{DynamicResource DataGridTextStyle}" />
-                <CTRL:TextBlockCustomControl Text="Min" Grid.Column="2"  Style="{DynamicResource DataGridTextStyle}" />
-                <CTRL:TextBlockCustomControl Text="Max" Grid.Column="3"  Style="{DynamicResource DataGridTextStyle}"  />
-                <CTRL:TextBlockCustomControl Text="Result" Grid.Column="4"  Style="{DynamicResource DataGridTextStyle}"  />
-                <CTRL:TextBlockCustomControl Text="Opert'G Force" Grid.Row="1" Style="{DynamicResource DataGridTextStyle}" />
-                <CTRL:TextBlockCustomControl Text="Max-Min"   Grid.Row="2" Style="{DynamicResource DataGridTextStyle}" />
-                <CTRL:TextBlockCustomControl Text="Average" Grid.Row="3"  Style="{DynamicResource DataGridTextStyle}" />
+		<Grid x:Name="NFrameGrid" >
+			<Grid.RowDefinitions>
+				<RowDefinition Height="40"/>
+				<RowDefinition Height="93*"/>
+				<RowDefinition Height="40"/>
+				<RowDefinition Height="49*"/>
+				<RowDefinition Height="40"/>
+				<RowDefinition Height="124*"/>
+				<RowDefinition Height="40"/>
+				<RowDefinition Height="64*"/>
+				<RowDefinition Height="40"/>
+				<RowDefinition Height="126*"/>
+				<RowDefinition Height="40"/>
+				<RowDefinition Height="140"/>
+			</Grid.RowDefinitions>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="314*"/>
+				<ColumnDefinition Width="314*"/>
+				<ColumnDefinition Width="110*"/>
+				<ColumnDefinition Width="204*"/>
+				<ColumnDefinition Width="659*"/>
+			</Grid.ColumnDefinitions>
+			<Label Content="Model" Style="{StaticResource TitleLabelStyle}" Grid.ColumnSpan="3" />
+			<Label Grid.ColumnSpan="2" Content="#16 L/Pin Check Inspection" Style="{StaticResource TitleLabelStyle}" Grid.Column="3"/>
+			<Label Grid.ColumnSpan="3" Content="#19 Operation Force Inspection" Style="{StaticResource TitleLabelStyle}" Grid.Row="2" />
+			<Label Grid.ColumnSpan="2" Content="#17 Scanning" Style="{StaticResource TitleLabelStyle}"  Grid.Row="2" Grid.Column="3" Margin="0"/>
+			<Label Grid.ColumnSpan="2" Content="#21 Revet Check Inspection" Style="{StaticResource TitleLabelStyle}"  Grid.Row="4" Grid.Column="3"/>
+			<Label Grid.ColumnSpan="2" Content="#23 UnLoad'G" Style="{StaticResource TitleLabelStyle}"  Grid.Row="6" Grid.Column="3"/>
+			<Label Content="Assembly Item" Style="{StaticResource TitleLabelStyle}"  Grid.Row="8" Grid.Column="4"/>
+			<Label Content="#16 L/Pin" Style="{StaticResource TitleLabelStyle}"  Grid.Row="8"/>
+			<Label Content="#19 Opert'G Froce" Style="{StaticResource TitleLabelStyle}"  Grid.Row="8" Grid.Column="1" />
+			<Label Content="#21 Rivet" Style="{StaticResource TitleLabelStyle}"  Grid.Row="8" Grid.Column="2" Grid.ColumnSpan="2" />
+			<Label Grid.ColumnSpan="2" Grid.Row="10" Content="Reset Count" Style="{StaticResource TitleLabelStyle}" />
+			<Label Grid.Row="10" Content="Log" Style="{StaticResource TitleLabelStyle}" Grid.Column="4" />
+			<Label Grid.ColumnSpan="2"  Grid.Row="10" Content="Disk Used" Style="{StaticResource TitleLabelStyle}" Grid.Column="2"  />
+			<CTRL:TextBlockCustomControl x:Name="NModelName" Grid.ColumnSpan="3" Text="1.JFA-OTR-PWR(240.5mm)" Margin="10" Grid.Row="1" FontSize="48" BorderThickness="1"/>
+			<ListView x:Name="NLogListView" Grid.Column="4" Grid.Row="11" Style="{DynamicResource MetroListView}" BorderThickness="0" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontFamily="Segoe UI" FontSize="16" TextOptions.TextFormattingMode="Display">
+				<ListView.View>
+					<GridView>
+						<GridViewColumn Header="Recored Time" DisplayMemberBinding="{Binding Time}" />
+						<GridViewColumn Header="Debug Log" DisplayMemberBinding="{Binding Context}" />
+					</GridView>
+				</ListView.View>
+			</ListView>
+			<Grid x:Name="NDiskUsedGrid" Grid.ColumnSpan="2" Grid.Column="2" Grid.Row="11">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="63*"/>
+					<RowDefinition Height="62*"/>
+					<RowDefinition Height="63*"/>
+					<RowDefinition Height="62*"/>
+				</Grid.RowDefinitions>
+				<MahControls:MetroProgressBar Style="{DynamicResource DiskProgressBarStyle}" Value="33.0" Grid.Row="1"/>
+				<MahControls:MetroProgressBar Style="{DynamicResource DiskProgressBarStyle}" Value="65.0" Grid.Row="3"/>
+				<Label Content="Disk(C:) 33.0%" Style="{StaticResource TitleLabelStyle}" Margin="20,0" FontSize="18" />
+				<Label Content="Disk(D:) 65.0%" Style="{StaticResource TitleLabelStyle}" Margin="20,0" FontSize="18" Grid.Row="2"/>
+			</Grid>
+			<Grid Grid.ColumnSpan="3" Margin="10" Grid.Row="3" Grid.RowSpan="5">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="174*"/>
+					<RowDefinition Height="239*"/>
+				</Grid.RowDefinitions>
+				<Grid x:Name="NNOFIDataGrid">
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition Width="3*"/>
+						<ColumnDefinition Width="3*"/>
+						<ColumnDefinition Width="2*"/>
+						<ColumnDefinition Width="2*"/>
+						<ColumnDefinition Width="2*"/>
+					</Grid.ColumnDefinitions>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="1*"/>
+						<RowDefinition Height="1*"/>
+						<RowDefinition Height="1*"/>
+						<RowDefinition Height="1*"/>
+					</Grid.RowDefinitions>
 
-                <CTRL:TextBlockCustomControl Grid.Column="0"  Grid.Row="0" Style="{DynamicResource DataGridTextStyle}"/>
-                <CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="1" Style="{DynamicResource DataGridTextStyle}"/>
-                <CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="2" Style="{DynamicResource DataGridTextStyle}"/>
-                <CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="3" Style="{DynamicResource DataGridTextStyle}"/>
-                <CTRL:TextBlockCustomControl Grid.Column="2"  Grid.Row="1" Style="{DynamicResource DataGridTextStyle}"/>
-                <CTRL:TextBlockCustomControl Grid.Column="2"  Grid.Row="2" Style="{DynamicResource DataGridTextStyle}" Grid.ColumnSpan="2"/>
-                <CTRL:TextBlockCustomControl Grid.Column="2"  Grid.Row="3" Style="{DynamicResource DataGridTextStyle}" Grid.ColumnSpan="2"/>
-                <CTRL:TextBlockCustomControl Grid.Column="3"  Grid.Row="1" Style="{DynamicResource DataGridTextStyle}"/>
-                <CTRL:TextBlockCustomControl Grid.Column="4"  Grid.Row="1" Style="{DynamicResource DataGridTextStyle}"/>
-                <CTRL:TextBlockCustomControl Grid.Column="4"  Grid.Row="2" Style="{DynamicResource DataGridTextStyle}"/>
-                <CTRL:TextBlockCustomControl Grid.Column="4"  Grid.Row="3" Style="{DynamicResource DataGridTextStyle}"/>
-            </Grid>
+					<CTRL:TextBlockCustomControl Grid.Column="1" Text ="SPEC" Style="{DynamicResource DataGridTextStyle}" />
+					<CTRL:TextBlockCustomControl Text="Min" Grid.Column="2"  Style="{DynamicResource DataGridTextStyle}" />
+					<CTRL:TextBlockCustomControl Text="Max" Grid.Column="3"  Style="{DynamicResource DataGridTextStyle}"  />
+					<CTRL:TextBlockCustomControl Text="Result" Grid.Column="4"  Style="{DynamicResource DataGridTextStyle}"  />
+					<CTRL:TextBlockCustomControl Text="Opert'G Force" Grid.Row="1" Style="{DynamicResource DataGridTextStyle}" />
+					<CTRL:TextBlockCustomControl Text="Max-Min"   Grid.Row="2" Style="{DynamicResource DataGridTextStyle}" />
+					<CTRL:TextBlockCustomControl Text="Average" Grid.Row="3"  Style="{DynamicResource DataGridTextStyle}" />
 
-            <Grid Grid.Row="1" >
-                <Chart:ClusteredBarChart  
-                    Name="NOFIChart"
-                    Palette="{DynamicResource ChartCustomColors}"
-                    ChartTitle="Operation Force Inspection Chart"
-                    ChartSubTitle="Average"
-                    IsRowColumnSwitched="True"
-                    ChartTitleVisibility="Collapsed"
-                    ChartLegendVisibility="Collapsed" BorderThickness="0,5,0,0">
-                    <Chart:ClusteredBarChart.Series>
-                        <Chart:ChartSeries />
-                    </Chart:ClusteredBarChart.Series>
-                </Chart:ClusteredBarChart>
-            </Grid>
-        </Grid>
-        <Grid x:Name="NLPinCheckGrid" Grid.ColumnSpan="2" Grid.Column="3" Margin="200,5,200,10" Grid.Row="1">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
+					<CTRL:TextBlockCustomControl Grid.Column="0"  Grid.Row="0" Style="{DynamicResource DataGridTextStyle}"/>
+					<CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="1" Style="{DynamicResource DataGridTextStyle}"/>
+					<CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="2" Style="{DynamicResource DataGridTextStyle}"/>
+					<CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="3" Style="{DynamicResource DataGridTextStyle}"/>
+					<CTRL:TextBlockCustomControl Grid.Column="2"  Grid.Row="1" Style="{DynamicResource DataGridTextStyle}"/>
+					<CTRL:TextBlockCustomControl Grid.Column="2"  Grid.Row="2" Style="{DynamicResource DataGridTextStyle}" Grid.ColumnSpan="2"/>
+					<CTRL:TextBlockCustomControl Grid.Column="2"  Grid.Row="3" Style="{DynamicResource DataGridTextStyle}" Grid.ColumnSpan="2"/>
+					<CTRL:TextBlockCustomControl Grid.Column="3"  Grid.Row="1" Style="{DynamicResource DataGridTextStyle}"/>
+					<CTRL:TextBlockCustomControl Grid.Column="4"  Grid.Row="1" Style="{DynamicResource DataGridTextStyle}"/>
+					<CTRL:TextBlockCustomControl Grid.Column="4"  Grid.Row="2" Style="{DynamicResource DataGridTextStyle}"/>
+					<CTRL:TextBlockCustomControl Grid.Column="4"  Grid.Row="3" Style="{DynamicResource DataGridTextStyle}"/>
+				</Grid>
 
-            <CTRL:TextBlockCustomControl Text="SPEC"  FontSize="18" Grid.Column="0"  Grid.Row="0" />
-            <CTRL:TextBlockCustomControl Text="Result"  FontSize="18" Grid.Column="0"  Grid.Row="1"/>
-            <CTRL:TextBlockCustomControl Text="Assessment" FontSize="18" Grid.Column="0"  Grid.Row="2" />
+				<Grid Grid.Row="1" >
+					<Chart:ClusteredBarChart  
+						x:Name="NOFIChart"
+						Palette="{DynamicResource ChartCustomColors}"
+						ChartTitle="Operation Force Inspection Chart"
+						ChartSubTitle="Average"
+						IsRowColumnSwitched="True"
+						ChartTitleVisibility="Collapsed"
+						ChartLegendVisibility="Collapsed" BorderThickness="0,5,0,0">
+						<Chart:ClusteredBarChart.Series>
+							<Chart:ChartSeries />
+						</Chart:ClusteredBarChart.Series>
+					</Chart:ClusteredBarChart>
+				</Grid>
+			</Grid>
+			<Grid x:Name="NLPinCheckGrid" Grid.ColumnSpan="2" Grid.Column="3" Margin="50,5,50,10" Grid.Row="1">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="1*"/>
+					<ColumnDefinition Width="1*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="1*"/>
+					<RowDefinition Height="1*"/>
+					<RowDefinition Height="1*"/>
+				</Grid.RowDefinitions>
 
-            <CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="0"/>
-            <CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="1"/>
-            <CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="2"/>
+				<CTRL:TextBlockCustomControl Text="SPEC"  FontSize="18" Grid.Column="0"  Grid.Row="0" />
+				<CTRL:TextBlockCustomControl Text="Result"  FontSize="18" Grid.Column="0"  Grid.Row="1"/>
+				<CTRL:TextBlockCustomControl Text="Assessment" FontSize="18" Grid.Column="0"  Grid.Row="2" />
 
-        </Grid>
-        <Grid Grid.ColumnSpan="2" Grid.Column="3" Grid.Row="3" Margin="10,10,10,10.2" >
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="134*"/>
-                <ColumnDefinition Width="287*"/>
-            </Grid.ColumnDefinitions>
+				<CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="0"/>
+				<CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="1"/>
+				<CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="2"/>
 
-            <CTRL:TextBlockCustomControl Text="Upper 2D Code" Grid.Column="0"  Grid.Row="0" Style="{DynamicResource DataGridTextStyle}" />
-            <CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="0" Style="{DynamicResource DataGridTextStyle}" />
+			</Grid>
+			<Grid Grid.ColumnSpan="2" Grid.Column="3" Grid.Row="3" Margin="10,10,10,10.2" >
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="134*"/>
+					<ColumnDefinition Width="287*"/>
+				</Grid.ColumnDefinitions>
 
-        </Grid>
-        <Grid Grid.ColumnSpan="2" Grid.Column="3" Margin="10,10,10,10" Grid.Row="5">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
+				<CTRL:TextBlockCustomControl Text="Upper 2D Code" Grid.Column="0"  Grid.Row="0" Style="{DynamicResource DataGridTextStyle}" />
+				<CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="0" Style="{DynamicResource DataGridTextStyle}" />
 
-            <Grid x:Name="NFRTGrid">
-                <Grid Grid.ColumnSpan="2" Grid.Column="3" Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                    </Grid.RowDefinitions>
+			</Grid>
+			<Grid Grid.ColumnSpan="2" Grid.Column="3" Margin="10,10,10,10" Grid.Row="5">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="1*"/>
+					<ColumnDefinition Width="1*"/>
+				</Grid.ColumnDefinitions>
 
-                    <CTRL:TextBlockCustomControl Text="FRT RIVET"  FontSize="18" Grid.Column="0"  Grid.Row="0" Grid.ColumnSpan="2" />
-                    <CTRL:TextBlockCustomControl Text="SPEC"  FontSize="18" Grid.Column="0"  Grid.Row="1" />
-                    <CTRL:TextBlockCustomControl Text="Result"  FontSize="18" Grid.Column="0"  Grid.Row="2"/>
-                    <CTRL:TextBlockCustomControl Text="Assessment" FontSize="18" Grid.Column="0"  Grid.Row="3" />
+				<Grid x:Name="NFRTGrid">
+					<Grid Grid.ColumnSpan="2" Grid.Column="3" Grid.Row="1">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="1*"/>
+							<ColumnDefinition Width="1*"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="1*"/>
+							<RowDefinition Height="1*"/>
+							<RowDefinition Height="1*"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
 
-                    <CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="1"/>
-                    <CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="2"/>
-                    <CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="3"/>
-                </Grid>
-            </Grid>
+						<CTRL:TextBlockCustomControl Text="FRT RIVET"  FontSize="18" Grid.Column="0"  Grid.Row="0" Grid.ColumnSpan="2" />
+						<CTRL:TextBlockCustomControl Text="SPEC"  FontSize="18" Grid.Column="0"  Grid.Row="1" />
+						<CTRL:TextBlockCustomControl Text="Result"  FontSize="18" Grid.Column="0"  Grid.Row="2"/>
+						<CTRL:TextBlockCustomControl Text="Assessment" FontSize="18" Grid.Column="0"  Grid.Row="3" />
 
-            <Grid x:Name="NRRGrid" Grid.Column="1">
-                <Grid Grid.ColumnSpan="2" Grid.Column="3" Grid.Row="1">
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="1*"/>
-                        <ColumnDefinition Width="1*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                        <RowDefinition Height="1*"/>
-                    </Grid.RowDefinitions>
+						<CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="1"/>
+						<CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="2"/>
+						<CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="3"/>
+					</Grid>
+				</Grid>
 
-                    <CTRL:TextBlockCustomControl Text="RR RIVET"  FontSize="18" Grid.Column="0"  Grid.Row="0" Grid.ColumnSpan="2" />
-                    <CTRL:TextBlockCustomControl Text="SPEC"  FontSize="18" Grid.Column="0"  Grid.Row="1" />
-                    <CTRL:TextBlockCustomControl Text="Result"  FontSize="18" Grid.Column="0"  Grid.Row="2"/>
-                    <CTRL:TextBlockCustomControl Text="Assessment" FontSize="18" Grid.Column="0"  Grid.Row="3" />
+				<Grid x:Name="NRRGrid" Grid.Column="1">
+					<Grid Grid.ColumnSpan="2" Grid.Column="3" Grid.Row="1">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="1*"/>
+							<ColumnDefinition Width="1*"/>
+						</Grid.ColumnDefinitions>
+						<Grid.RowDefinitions>
+							<RowDefinition Height="1*"/>
+							<RowDefinition Height="1*"/>
+							<RowDefinition Height="1*"/>
+							<RowDefinition Height="1*"/>
+						</Grid.RowDefinitions>
 
-                    <CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="1"/>
-                    <CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="2"/>
-                    <CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="3"/>
-                </Grid>
-            </Grid>
+						<CTRL:TextBlockCustomControl Text="RR RIVET"  FontSize="18" Grid.Column="0"  Grid.Row="0" Grid.ColumnSpan="2" />
+						<CTRL:TextBlockCustomControl Text="SPEC"  FontSize="18" Grid.Column="0"  Grid.Row="1" />
+						<CTRL:TextBlockCustomControl Text="Result"  FontSize="18" Grid.Column="0"  Grid.Row="2"/>
+						<CTRL:TextBlockCustomControl Text="Assessment" FontSize="18" Grid.Column="0"  Grid.Row="3" />
 
-        </Grid>
-        <Grid x:Name="NUnloadGrid" Grid.ColumnSpan="2" Grid.Column="3" Margin="10,5,10,7" Grid.Row="7">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="200*"/>
-                <ColumnDefinition Width="100*"/>
-                <ColumnDefinition Width="200*"/>
-                <ColumnDefinition Width="100*"/>
-            </Grid.ColumnDefinitions>
+						<CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="1"/>
+						<CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="2"/>
+						<CTRL:TextBlockCustomControl Grid.Column="1"  Grid.Row="3"/>
+					</Grid>
+				</Grid>
 
-            <CTRL:TextBlockCustomControl Text="#16 L/Pin figuration's quantity" FontSize="18" Grid.Column="0" Grid.Row="0" />
-            <CTRL:TextBlockCustomControl Text="#21 Rivet figuration's quantity" FontSize="18" Grid.Column="2" Grid.Row="0" />
-            <CTRL:TextBlockCustomControl Text="#19 Opert'G Froce" FontSize="18" Grid.Column="0" Grid.Row="1" />
-            <CTRL:TextBlockCustomControl Text="#21 Rivet figuration's quantity" FontSize="18" Grid.Column="2" Grid.Row="1" />
+			</Grid>
+			<Grid x:Name="NUnloadGrid" Grid.ColumnSpan="2" Grid.Column="3" Margin="10,5,10,7" Grid.Row="7">
+				<Grid.RowDefinitions>
+					<RowDefinition Height="1*"/>
+					<RowDefinition Height="1*"/>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="200*"/>
+					<ColumnDefinition Width="100*"/>
+					<ColumnDefinition Width="200*"/>
+					<ColumnDefinition Width="100*"/>
+				</Grid.ColumnDefinitions>
 
-            <CTRL:TextBlockCustomControl FontSize="18" Grid.Column="1" Grid.Row="0" />
-            <CTRL:TextBlockCustomControl FontSize="18" Grid.Column="3" Grid.Row="0" />
-            <CTRL:TextBlockCustomControl FontSize="18" Grid.Column="1" Grid.Row="1" />
-            <CTRL:TextBlockCustomControl FontSize="18" Grid.Column="3" Grid.Row="1" />
+				<CTRL:TextBlockCustomControl Text="#16 L/Pin figuration's quantity" FontSize="18" Grid.Column="0" Grid.Row="0" />
+				<CTRL:TextBlockCustomControl Text="#21 Rivet figuration's quantity" FontSize="18" Grid.Column="2" Grid.Row="0" />
+				<CTRL:TextBlockCustomControl Text="#19 Opert'G Froce" FontSize="18" Grid.Column="0" Grid.Row="1" />
+				<CTRL:TextBlockCustomControl Text="#21 Rivet figuration's quantity" FontSize="18" Grid.Column="2" Grid.Row="1" />
 
-        </Grid>
-        <Grid x:Name="NAssemblyItemGrid" Grid.Column="4" Grid.Row="9" Margin="10,11,10,10"  >
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="25*"/>
-                <ColumnDefinition Width="138*"/>
-                <ColumnDefinition Width="50*"/>
-            </Grid.ColumnDefinitions>
-            <CTRL:TextBlockCustomControl FontSize="38" Text="1" Grid.Column="0" Grid.Row="0"/>
-            <CTRL:TextBlockCustomControl FontSize="38" Text="2" Grid.Column="0" Grid.Row="1"/>
+				<CTRL:TextBlockCustomControl FontSize="18" Grid.Column="1" Grid.Row="0" />
+				<CTRL:TextBlockCustomControl FontSize="18" Grid.Column="3" Grid.Row="0" />
+				<CTRL:TextBlockCustomControl FontSize="18" Grid.Column="1" Grid.Row="1" />
+				<CTRL:TextBlockCustomControl FontSize="18" Grid.Column="3" Grid.Row="1" />
 
-            <CTRL:TextBlockCustomControl FontSize="26" Text="" Grid.Column="1" Grid.Row="0"/>
-            <CTRL:TextBlockCustomControl FontSize="26" Text="" Grid.Column="1" Grid.Row="1"/>
+			</Grid>
+			<Grid x:Name="NAssemblyItemGrid" Grid.Column="4" Grid.Row="9" Margin="10,11,10,10"  >
+				<Grid.RowDefinitions>
+					<RowDefinition Height="1*"/>
+					<RowDefinition Height="1*"/>
+				</Grid.RowDefinitions>
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="25*"/>
+					<ColumnDefinition Width="138*"/>
+					<ColumnDefinition Width="50*"/>
+				</Grid.ColumnDefinitions>
+				<CTRL:TextBlockCustomControl FontSize="38" Text="1" Grid.Column="0" Grid.Row="0"/>
+				<CTRL:TextBlockCustomControl FontSize="38" Text="2" Grid.Column="0" Grid.Row="1"/>
 
-            <CTRL:TextBlockCustomControl FontSize="26" Text="" Grid.Column="2" Grid.Row="0"/>
-            <CTRL:TextBlockCustomControl FontSize="26" Text="" Grid.Column="2" Grid.Row="1"/>
+				<CTRL:TextBlockCustomControl FontSize="26" Text="" Grid.Column="1" Grid.Row="0"/>
+				<CTRL:TextBlockCustomControl FontSize="26" Text="" Grid.Column="1" Grid.Row="1"/>
 
-        </Grid>
-        <Grid x:Name="NCountGrid" Grid.ColumnSpan="2" Margin="10,0,10,10" Grid.Row="11">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="1*"/>
-                <ColumnDefinition Width="1*"/>
-            </Grid.ColumnDefinitions>
-            <Grid.RowDefinitions>
-                <RowDefinition Height="1*"/>
-                <RowDefinition Height="1*"/>
-            </Grid.RowDefinitions>
+				<CTRL:TextBlockCustomControl FontSize="26" Text="" Grid.Column="2" Grid.Row="0"/>
+				<CTRL:TextBlockCustomControl FontSize="26" Text="" Grid.Column="2" Grid.Row="1"/>
 
-            <StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Orientation="Horizontal" >
-                <Label Content="OK" Margin="0,0,20,0" Style="{DynamicResource TableViewLabelStyle}" FontSize="24"/>
-                <CTRL:TextBlockCustomControl FontSize="30" CornerRadius="8, 8, 8, 8"  Text="00000" Width="160" Margin="0,-1,0,0" VerticalAlignment="Center" HorizontalAlignment="Center" />
+			</Grid>
+			<Grid x:Name="NCountGrid" Grid.ColumnSpan="2" Margin="10,0,10,10" Grid.Row="11">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="1*"/>
+					<ColumnDefinition Width="1*"/>
+				</Grid.ColumnDefinitions>
+				<Grid.RowDefinitions>
+					<RowDefinition Height="1*"/>
+					<RowDefinition Height="1*"/>
+				</Grid.RowDefinitions>
 
-            </StackPanel>
-
-            <StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-10,0,0" Orientation="Horizontal" >
-                <Label Content="NG" Margin="0,0,20,0" Style="{DynamicResource TableViewLabelStyle}" FontSize="24"/>
-                <CTRL:TextBlockCustomControl FontSize="30" CornerRadius="8, 8, 8, 8"    Text="00000" Width="160" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
-
-            </StackPanel>
-
-            <StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Orientation="Horizontal" >
-                <Label Content="TOTAL" Margin="0,0,20,0" Style="{DynamicResource TableViewLabelStyle}" FontSize="24"/>
-                <CTRL:TextBlockCustomControl FontSize="30" CornerRadius="8, 8, 8, 8"   Text="00000" Width="160" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
-
-            </StackPanel>
-
-            <StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0,-10,0,0" Orientation="Horizontal" >
-                <Label Content="NG(%)" Margin="0,0,20,0" Style="{DynamicResource TableViewLabelStyle}" FontSize="24"/>
-                <CTRL:TextBlockCustomControl FontSize="30" CornerRadius="8, 8, 8, 8"    Text="0.0" Width="160" Margin="0" VerticalAlignment="Center" HorizontalAlignment="Center" />
-
-            </StackPanel>
-        </Grid>
+				<StackPanel Grid.Row="0" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Orientation="Horizontal" >
+					<Label Content="OK" Margin="0,0,20,0" Style="{DynamicResource TableViewLabelStyle}" FontSize="24"/>
+                    <CTRL:TextBlockCustomControl Text="0" Style="{StaticResource ResetCountTextStyle}" />
+				</StackPanel>
+				<StackPanel Grid.Row="1" Grid.Column="0" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Orientation="Horizontal" >
+					<Label Content="NG" Margin="0,0,20,0" Style="{DynamicResource TableViewLabelStyle}" FontSize="24"/>
+                    <CTRL:TextBlockCustomControl Text="0" Style="{StaticResource ResetCountTextStyle}" />
+                </StackPanel>
+				<StackPanel Grid.Row="0" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Orientation="Horizontal" >
+					<Label Content="TOTAL" Margin="0,0,20,0" Style="{DynamicResource TableViewLabelStyle}" FontSize="24"/>
+                    <CTRL:TextBlockCustomControl Text="0" Style="{StaticResource ResetCountTextStyle}" />
+                </StackPanel>
+				<StackPanel Grid.Row="1" Grid.Column="1" HorizontalAlignment="Center" VerticalAlignment="Center" Margin="0" Orientation="Horizontal" >
+					<Label Content="NG(%)" Margin="0,0,20,0" Style="{DynamicResource TableViewLabelStyle}" FontSize="24"/>
+                    <CTRL:TextBlockCustomControl Text="0" Style="{StaticResource ResetCountTextStyle}" />
+				</StackPanel>
+			</Grid>
         
-        <Grid Margin="0" Grid.Row="9">
-            <Oxy:PlotView x:Name="NLPinChart"/>
-        </Grid>
-        <Grid Grid.Row="9" Grid.ColumnSpan="1" Grid.Column="1" >
-            <Oxy:PlotView x:Name="NOpertChart" />
-        </Grid>
-        <Grid Grid.Row="9" Grid.ColumnSpan="2" Grid.Column="2" Grid.RowSpan="1" >
-            <Oxy:PlotView x:Name="NRivetChart" />
-        </Grid>
-    </Grid>
+			<Grid Margin="0" Grid.Row="9">
+				<Oxy:PlotView x:Name="NLPinChart"/>
+			</Grid>
+			<Grid Grid.Row="9" Grid.ColumnSpan="1" Grid.Column="1" >
+				<Oxy:PlotView x:Name="NOpertChart" />
+			</Grid>
+			<Grid Grid.Row="9" Grid.ColumnSpan="2" Grid.Column="2" Grid.RowSpan="1" >
+				<Oxy:PlotView x:Name="NRivetChart" />
+			</Grid>
+		</Grid>
+
+	</ScrollViewer>
 
     <!--<Chart:PieChart
         Style="{StaticResource MinimalChartStyle}"

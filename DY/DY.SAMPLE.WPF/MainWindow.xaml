@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:DY.SAMPLE.WPF"                      
     WindowStartupLocation="CenterScreen" 
     GlowBrush="{DynamicResource AccentColorBrush}"
-    Title="ProtoType WPF" Height="1080 " Width="1920">
+    Title="ProtoType WPF" Height="900 " Width="1600">
 
     <!--외부 리소스를 사용할 수 있게 미리 선언합니다. ResourceDirectory -> key : value 대칭의 Resource-->
     <Window.Resources>

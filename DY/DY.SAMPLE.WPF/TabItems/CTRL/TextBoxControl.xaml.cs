@@ -38,6 +38,16 @@ namespace DY.SAMPLE.WPF.CTRL
             set { SetValue(CornerRadiusProperty, value); }
         }
 
+        public static readonly DependencyProperty TextMarginProperty =
+           DependencyProperty.Register(
+               "TextMargin", typeof(Thickness), typeof(TextBlockCustomControl), new PropertyMetadata(new Thickness(0, 0, 0, 0)));
+
+        public Thickness TextMargin
+        {
+            get { return (Thickness)GetValue(TextMarginProperty); }
+            set { SetValue(TextMarginProperty, value); }
+        }
+
         //public static readonly DependencyProperty TextSizeProperty =
         //   DependencyProperty.Register(
         //       "TextSize", typeof(int), typeof(TextBoxControl), new PropertyMetadata(22));

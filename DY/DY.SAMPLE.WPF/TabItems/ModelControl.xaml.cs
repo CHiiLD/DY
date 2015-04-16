@@ -30,7 +30,6 @@ namespace DY.SAMPLE.WPF
         public ModelControl()
         {
             this.InitializeComponent();
-
             //LOG ITEMS INIT
             List<Log> LogList = new List<Log>();
             LogList.Add(new Log() { Time = "12:18:54:862", Context = "Connection Port 8080" });
@@ -74,7 +73,6 @@ namespace DY.SAMPLE.WPF
             };
 
             //Oxy 라이브러리 차트 객체 생성과 xaml연결
-
             NLPinChart.Model = OxyExampleSources.LineSerieswithlabels();
             NOpertChart.Model = OxyExampleSources.TwoColorAreaSeries();
             NRivetChart.Model = OxyExampleSources.LargeDataSetwidewindow();

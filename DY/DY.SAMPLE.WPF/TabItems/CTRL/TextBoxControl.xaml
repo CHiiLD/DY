@@ -11,7 +11,8 @@
     <Border x:Name="NBorder" BorderBrush="{DynamicResource TextBrush}" BorderThickness="1" CornerRadius="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TextBlockCustomControl}}, Path=CornerRadius}" >
         <TextBlock x:Name="NText" 
                    Text="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TextBlockCustomControl}}, Path=Text}"
-                   Style="{DynamicResource MetroTextBlock}" 
+                   Style="{DynamicResource MetroTextBlock}"
+                   Margin="{Binding RelativeSource={RelativeSource FindAncestor, AncestorType={x:Type local:TextBlockCustomControl}}, Path=TextMargin}"
                    TextWrapping="Wrap" 
                    FontFamily="Segoe UI Light" 
                    TextAlignment="Center" 
