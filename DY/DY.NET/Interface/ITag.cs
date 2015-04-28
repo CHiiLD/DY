@@ -5,13 +5,12 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DY.NET
 {
+    /// <summary>
+    /// 객체에 식별 가능한 태그나 설명, 또는 유저 정의 객체를 보관하기 위한 인터페이스입니다.
+    /// </summary>
     public interface ITag
     {
         int Tag

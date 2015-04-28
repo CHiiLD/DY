@@ -1,13 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DY.NET.LSIS.XGT
 {
-    public class ENQDataFormat
+    /// <summary>
+    /// call by value 를 위해 구조체로 작성
+    /// </summary>
+    public struct ENQDataFormat
     {
+        public const int GROPA_VAR_LENGTH_LIMIT = 16;
+
         public string GlopaVarName; //?byte
         public object Data;     //?byte
 
@@ -15,9 +16,10 @@ namespace DY.NET.LSIS.XGT
         {
             if (!Glopa.IsGlopaVar(glopaVarName))
                 throw new ArgumentException("glopaVarName is not glopa type's name");
-            else if (glopaVarName.Length > 16)
+            else if (glopaVarName.Length > GROPA_VAR_LENGTH_LIMIT)
                 throw new ArgumentException("glopa var over limited string's length");
             GlopaVarName = glopaVarName;
+            Data = null;
         }
 
         public ENQDataFormat(string glopaVarName, object data)
@@ -26,7 +28,7 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentException("data is not numeric type.");
             else if (!Glopa.IsGlopaVar(glopaVarName))
                 throw new ArgumentException("glopaVarName is not glopa type's name");
-            else if (glopaVarName.Length > 16)
+            else if (glopaVarName.Length > GROPA_VAR_LENGTH_LIMIT)
                 throw new ArgumentException("glopa var over limited string's length");
 
             GlopaVarName = glopaVarName;

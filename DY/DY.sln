@@ -19,13 +19,16 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "External", "External", "{64
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "De.TorstenMandelkow.MetroChart.WPF", "..\MetroChart\De.TorstenMandelkow.MetroChart.WPF\De.TorstenMandelkow.MetroChart.WPF.csproj", "{4AB4B0DB-780C-48B9-A642-8E527353D957}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TesT", "TesT\TesT.csproj", "{AA9BFE47-1836-4527-8B5A-B6BF9162D613}"
-EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OxyPlot_NET35", "..\oxyplot\Source\OxyPlot\OxyPlot_NET35.csproj", "{197B9F4F-FF78-48E9-982F-938C59C6E49E}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "OxyPlot.Wpf_NET35", "..\oxyplot\Source\OxyPlot.Wpf\OxyPlot.Wpf_NET35.csproj", "{4925E7C0-CEE4-41F2-BF38-F343E242F047}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ExampleLibrary_NET35", "..\oxyplot\Source\Examples\ExampleLibrary\ExampleLibrary_NET35.csproj", "{317256E7-78E7-42CE-8DA4-FEF57981A2A5}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{D2FC5C93-F3B2-4312-9068-FCFE69D0FE2A}"
+	ProjectSection(SolutionItems) = preProject
+		role.txt = role.txt
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -61,10 +64,6 @@ Global
 		{4AB4B0DB-780C-48B9-A642-8E527353D957}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4AB4B0DB-780C-48B9-A642-8E527353D957}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4AB4B0DB-780C-48B9-A642-8E527353D957}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AA9BFE47-1836-4527-8B5A-B6BF9162D613}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AA9BFE47-1836-4527-8B5A-B6BF9162D613}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AA9BFE47-1836-4527-8B5A-B6BF9162D613}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AA9BFE47-1836-4527-8B5A-B6BF9162D613}.Release|Any CPU.Build.0 = Release|Any CPU
 		{197B9F4F-FF78-48E9-982F-938C59C6E49E}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{197B9F4F-FF78-48E9-982F-938C59C6E49E}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{197B9F4F-FF78-48E9-982F-938C59C6E49E}.Release|Any CPU.ActiveCfg = Release|Any CPU

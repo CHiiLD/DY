@@ -5,29 +5,56 @@
 */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DY.NET
 {
-    public interface IProtocol
+    /// <summary>
+    /// PLC에서 보낼 원시 프로토콜 데이터는 반드시 이 인터페이스를 상속받아 구현합니다.
+    /// 일반적인 Socket에서의 이벤트 설정과 달리, 유연한 이벤트 제어를 위해 프로토콜 단위로 이벤트를 설정합니다.
+    /// </summary>
+    public interface IProtocol : IPrintInfo
     {
-        byte[] BinaryData
+        /// <summary>
+        /// 원시 프로토콜 데이터
+        /// </summary>
+        byte[] ProtocolData
         {
             get;
             set;
         }
 
-        void PrintInfo();
+        /// <summary>
+        /// 통신 중 예외 또는 에러가 발생시 통지
+        /// </summary>
+        event EventHandler<SocketDataReceivedEventArgs> ErrorEvent;         
+        /// <summary>
+        /// 프로토콜 요청을 성공적으로 전달되었을 시 통지
+        /// </summary>
+        event EventHandler<SocketDataReceivedEventArgs> RequestedEvent; 
+        /// <summary>
+        /// 요청된 프로토콜에 따른 응답 프로토콜을 성공적으로 받았을 시 통지
+        /// </summary>
+        event EventHandler<SocketDataReceivedEventArgs> ReceivedEvent;
 
-        event SocketDataReceivedEventHandler ErrorEvent;         //통신 중 생긴 에러를 알리는 이벤트
-        event SocketDataReceivedEventHandler DataRequestedEvent; //데이터를 요청한 뒤에 알리는 이벤트 
-        event SocketDataReceivedEventHandler DataReceivedEvent;  //요청한 뒤 받은 데이터를 알리는 이벤트
+        /// <summary>
+        /// RequestedEvent 이벤트를 발생시킵니다.
+        /// </summary>
+        /// <param name="obj"> DYSocekt 클래스 객체 </param>
+        /// <param name="protocol"> IProtocol 인터페이스 객체 </param>
+        void OnDataReceivedEvent(object obj, IProtocol protocol);
 
-        void OnDataReceivedEvent(object obj, SocketDataReceivedEventArgs e);
-        void OnDataRequestedEvent(object obj, SocketDataReceivedEventArgs e);
-        void OnErrorEvent(object obj, SocketDataReceivedEventArgs e);
+        /// <summary>
+        /// OnDataRequestedEvent 이벤트를 발생시킵니다.
+        /// </summary>
+        /// <param name="obj"> DYSocekt 클래스 객체 </param>
+        /// <param name="protocol"> IProtocol 인터페이스 객체 </param>
+        void OnDataRequestedEvent(object obj, IProtocol protocol);
+
+        /// <summary>
+        /// OnErrorEvent 이벤트를 발생시킵니다.
+        /// </summary>
+        /// <param name="obj"> DYSocekt 클래스 객체 </param>
+        /// <param name="protocol"> IProtocol 인터페이스 객체 </param>
+        void OnErrorEvent(object obj, IProtocol protocol);
     }
 }

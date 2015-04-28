@@ -1,18 +1,18 @@
 ﻿/*
  * 작성자: CHILD	
- * 기능: byte array(asc data) to string for debug
+ * 기능: BYTE ARRAY(ASC DATA) TO STRING FOR DEBUG
  * 날짜: 2015-03-31
  */
 
 using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
-using System.Threading.Tasks;
 
 namespace DY.NET
 {
-    public class B2HS // convert bytes to hex string
+    /// <summary>
+    /// 디버깅용 byte 배열을 확인하기 위한 클래스입니다.
+    /// </summary>
+    public class B2HS
     {
         public static string Change(byte[] data)
         {

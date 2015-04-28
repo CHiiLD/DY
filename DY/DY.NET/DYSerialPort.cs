@@ -7,6 +7,10 @@ using System.IO.Ports;
 
 namespace DY.NET
 {
+    /// <summary>
+    /// SerialPort 상속 클래스. 
+    /// 요청 응답 프로토콜 객체의 관리를 위해서 만들어짐
+    /// </summary>
     public class DYSerialPort : SerialPort, ITag
     {
         public DYSerialPort(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)

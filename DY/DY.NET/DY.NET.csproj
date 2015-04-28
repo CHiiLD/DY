@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\B2HS.cs" />
-    <Compile Include="DataType.cs" />
+    <Compile Include="Extensions\DataType.cs" />
     <Compile Include="DYSerialPort.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -51,6 +51,7 @@
     <Compile Include="Interface\IProtocol.cs" />
     <Compile Include="Interface\ITag.cs" />
     <Compile Include="Extensions\CA2C.cs" />
+    <Compile Include="Interface\IPrintInfo.cs" />
     <Compile Include="LSIS\LD2Glopa.cs" />
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetCommand.cs" />
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetCommandType.cs" />
@@ -64,8 +65,7 @@
     <Compile Include="LSIS\Glopa.cs" />
     <Compile Include="Extensions\NumericTypeExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Handler\SocketDataReceivedEventArgs.cs" />
-    <Compile Include="Handler\SocketDataReceivedEventHandler.cs" />
+    <Compile Include="Event\SocketDataReceivedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

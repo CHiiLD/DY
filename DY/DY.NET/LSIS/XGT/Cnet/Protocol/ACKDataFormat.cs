@@ -1,12 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DY.NET.LSIS.XGT
 {
-    public class ACKDataFormat
+    /// <summary>
+    /// call by value 를 위해 구조체로 작성
+    /// </summary>
+    public struct ACKDataFormat
     {
         public ushort SizeOfType; //2byte
         public object Data;       //?byte

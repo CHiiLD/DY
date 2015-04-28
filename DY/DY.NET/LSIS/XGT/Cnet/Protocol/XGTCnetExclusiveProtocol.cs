@@ -6,22 +6,40 @@
 
 using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DY.NET.LSIS.XGT
 {
+    /// <summary>
+    /// XGT Cnet 통신을 위한 프로토콜 클래스
+    /// 단숨함을 위해 데이터와 기능을 함께 넣음
+    /// </summary>
     public class XGTCnetExclusiveProtocol : XGTCnetExclusiveProtocolFrame
     {
-        public ushort BlockCnt; //2byte
+        //종류별 정보
         public List<ENQDataFormat> ENQDatas = new List<ENQDataFormat>(); //?byte
         public List<ACKDataFormat> ACKDatas = new List<ACKDataFormat>(); //?byte
+
+        //공통형 정보
+        public ushort BlockCnt; //2byte
         public ushort RegisterNum; //2byte
         public ushort DataCnt; //읽거나 쓸 데이터의 개수 (BYTE = 데이터 타입 * 개수) 최대 240byte word는 120byte 가 한계 //2byte
 
-        //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
-        public XGTCnetExclusiveProtocol ReqtProtocol;
+        public XGTCnetExclusiveProtocol ReqtProtocol; //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
+
+        /// <summary>
+        /// XGTCnetExclusiveProtocol 복사생성자
+        /// </summary>
+        /// <param name="that"> 복사하고자 할 XGTCnetExclusiveProtocol 객체 </param>
+        public XGTCnetExclusiveProtocol(XGTCnetExclusiveProtocol that)
+            : base(that)
+        {
+            this.BlockCnt = that.BlockCnt;
+            this.ENQDatas.AddRange(that.ENQDatas);
+            this.ACKDatas.AddRange(that.ACKDatas);
+            this.RegisterNum = that.RegisterNum;
+            this.DataCnt = that.DataCnt;
+            this.ReqtProtocol = that.ReqtProtocol;
+        }
 
         protected XGTCnetExclusiveProtocol()
             : base()
@@ -39,7 +57,6 @@ namespace DY.NET.LSIS.XGT
         }
 
         #region allocClass
-        // 예외처리 작업할 것 Argument&MenberVariable Checking Exception Rootin
         public static XGTCnetExclusiveProtocol GetRSSProtocol(ushort localPort, List<ENQDataFormat> enqDatas)
         {
             if (enqDatas.Count == 0 || enqDatas == null)
@@ -53,9 +70,6 @@ namespace DY.NET.LSIS.XGT
 
         public static XGTCnetExclusiveProtocol GetRSSProtocol(ushort localPort, ENQDataFormat enqData)
         {
-            if (enqData == null)
-                throw new ArgumentNullException("enqData is null");
-
             var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SS);
             protocol.ENQDatas.Add(enqData);
             protocol.BlockCnt = 1;
@@ -75,9 +89,6 @@ namespace DY.NET.LSIS.XGT
 
         public static XGTCnetExclusiveProtocol GetWSSProtocol(ushort localPort, ENQDataFormat enqData)
         {
-            if (enqData == null)
-                throw new ArgumentNullException("enqData is null");
-
             var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SS);
             protocol.ENQDatas.Add(enqData);
             protocol.BlockCnt = 1;
@@ -88,7 +99,7 @@ namespace DY.NET.LSIS.XGT
         {
             if (Glopa.GetDataType(varName) == DataType.BIT)
                 throw new ArgumentException("RSB communication not supported bit data type");
-            if ((read_data_cnt * (DataTypeExtensions.SizeOf(Glopa.GetDataType(varName)) * 2) > PROTOCOL_SB_DATACNT_LIMIT))
+            if ((read_data_cnt * (Glopa.GetDataType(varName)).SizeOf() * 2) > PROTOCOL_SB_DATACNT_LIMIT)
                 throw new ArgumentException("data count(asc bytes) limited 240byte");
 
             var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SB);
@@ -115,7 +126,7 @@ namespace DY.NET.LSIS.XGT
 
             int size_sum = 0;
             foreach(var ed in enqDatas)
-                size_sum += (DataTypeExtensions.SizeOf(Glopa.GetDataType(ed.GlopaVarName)) * 2);
+                size_sum += (Glopa.GetDataType(ed.GlopaVarName).SizeOf() * 2);
             if (size_sum > PROTOCOL_SB_DATACNT_LIMIT)
                 throw new ArgumentException("data count(asc bytes) limited 240byte");
 
@@ -125,9 +136,21 @@ namespace DY.NET.LSIS.XGT
             return protocol;
         }
 
-        #endregion
 
-        public static XGTCnetExclusiveProtocol CreateRequestProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
+        /// <summary>
+        /// PLC에서 받은 원시 데이터를 분석하여 XGTCnetExclusiveProtocol 클래스로 변환&데이터분석하여 응답 프로토콜 클래스 리턴.
+        /// </summary>
+        /// <param name="binaryData"> 원시데이터 </param>
+        /// <param name="reqtProtocol"> 요청 프로토콜 클래스 </param>
+        /// <returns> 응답 프로토콜 클래스 </returns>
+        public static XGTCnetExclusiveProtocol CreateReceiveProtocol(byte[] binaryData, XGTCnetExclusiveProtocol reqtProtocol)
+        {
+            XGTCnetExclusiveProtocol protocol = new XGTCnetExclusiveProtocol(binaryData);
+            protocol.ReqtProtocol = reqtProtocol;
+            return protocol;
+        }
+
+        protected static XGTCnetExclusiveProtocol CreateRequestProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
         {
             XGTCnetExclusiveProtocol protocol = new XGTCnetExclusiveProtocol(localPort, cmd, type);
             protocol.Header = XGTCnetControlCodeType.ENQ;
@@ -135,12 +158,7 @@ namespace DY.NET.LSIS.XGT
             return protocol;
         }
 
-        public static XGTCnetExclusiveProtocol CreateReceiveProtocol(byte[] binaryData, XGTCnetExclusiveProtocol reqtProtocol)
-        {
-            XGTCnetExclusiveProtocol protocol = new XGTCnetExclusiveProtocol(binaryData);
-            protocol.ReqtProtocol = reqtProtocol;
-            return protocol;
-        }
+        #endregion
 
 #if flase
         protected static XGTCnetExclusiveProtocol CreateACKProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
@@ -166,7 +184,6 @@ namespace DY.NET.LSIS.XGT
             return protocol;
         }
 #endif
-
         #region For ENQ Protocol Type
 
         protected void AddProtocolRSS(List<byte> asc_list)

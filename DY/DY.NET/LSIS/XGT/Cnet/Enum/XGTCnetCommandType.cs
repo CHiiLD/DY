@@ -14,9 +14,12 @@ namespace DY.NET.LSIS.XGT
         SB = 0x5342     //연속 읽기/쓰기
     }
 
-    public class XGTCnetCommandTypeExtensions
+    /// <summary>
+    /// XGTCnetCommandType 열거형의 확장메서드를 위한 클래스
+    /// </summary>
+    public static class XGTCnetCommandTypeExtensions
     {
-        public static string ToString(XGTCnetCommandType type)
+        public static string ToString(this XGTCnetCommandType type)
         {
             string s = null;
             switch(type)
@@ -43,7 +46,7 @@ namespace DY.NET.LSIS.XGT
                 return XGTCnetCommandType.SB;
         }
 
-        public static byte[] ToByteArray(XGTCnetCommandType type)
+        public static byte[] ToByteArray(this XGTCnetCommandType type)
         {
             byte[] b = new byte[2];
             switch (type)

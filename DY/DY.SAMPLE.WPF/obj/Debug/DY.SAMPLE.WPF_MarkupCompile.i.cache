@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\obj\Debug\
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\obj\Debug\
 DY.SAMPLE.WPF
 none
 false
 DEBUG;TRACE
-C:\Users\아동\Documents\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\App.xaml
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.SAMPLE.WPF\App.xaml
 3-1516507432
 
 13292606217
-21-1388975325
+21-1658074923
 MainWindow.xaml;TabItems\ModelControl.xaml;TabItems\CTRL\TextBoxControl.xaml;
 
-False
+True
 
