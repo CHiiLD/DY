@@ -151,15 +151,10 @@ namespace DY.NET.LSIS.XGT
                 try
                 {
                     recv.AnalysisProtocol();  //예외 발생
-                    if (recv.Error == XGTCnetExclusiveProtocolError.OK)
-                        reqt.OnDataReceivedEvent(this, recv);
-                    else
-                        reqt.OnErrorEvent(this, recv);
                 }
                 catch (Exception exception)
                 {
                     recv.Error = XGTCnetExclusiveProtocolError.EXCEPTION;
-                    reqt.OnErrorEvent(this, recv);
 #if DEBUG
                     Console.WriteLine(exception.Message);
                     System.Diagnostics.Debug.Assert(false);
@@ -167,6 +162,11 @@ namespace DY.NET.LSIS.XGT
                 }
                 finally
                 {
+                    if (recv.Error == XGTCnetExclusiveProtocolError.OK)
+                        reqt.OnDataReceivedEvent(this, recv);
+                    else
+                        reqt.OnErrorEvent(this, recv);
+
                     serialPort.ProtocolClear();
                     IsWaitACKProtocol = false;
                     if (ProtocolStandByQueue.Count != 0)

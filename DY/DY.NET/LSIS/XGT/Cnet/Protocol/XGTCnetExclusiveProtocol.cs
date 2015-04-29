@@ -15,15 +15,14 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public class XGTCnetExclusiveProtocol : XGTCnetExclusiveProtocolFrame
     {
+        //공통형 정보
+        public ushort BlockCnt { protected set; get; }      //2byte
+        public ushort RegisterNum { protected set; get; }   //2byte
+        public ushort DataCnt { protected set; get; }       //읽거나 쓸 데이터의 개수 (BYTE = 데이터 타입 * 개수) 최대 240byte word는 120byte 가 한계 //2byte
+        
         //종류별 정보
         public List<ENQDataFormat> ENQDatas = new List<ENQDataFormat>(); //?byte
         public List<ACKDataFormat> ACKDatas = new List<ACKDataFormat>(); //?byte
-
-        //공통형 정보
-        public ushort BlockCnt; //2byte
-        public ushort RegisterNum; //2byte
-        public ushort DataCnt; //읽거나 쓸 데이터의 개수 (BYTE = 데이터 타입 * 개수) 최대 240byte word는 120byte 가 한계 //2byte
-
         public XGTCnetExclusiveProtocol ReqtProtocol; //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
 
         /// <summary>
