@@ -62,6 +62,8 @@ namespace DY.SAMPLE.NET
             }
             //통신 연결 끊기
             CnetExclusiveSocket.Close();
+            //메모리 반환
+            CnetExclusiveSocket.Dispose();
         }
 
         static void Loop()

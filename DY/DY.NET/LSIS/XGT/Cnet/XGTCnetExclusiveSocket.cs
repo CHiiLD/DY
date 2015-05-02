@@ -208,7 +208,8 @@ namespace DY.NET.LSIS.XGT
         {
             if (Serial != null)
             {
-                Close();
+                if (Serial.IsOpen)
+                    Close();
                 Serial.ProtocolClear();
                 Serial.Dispose();
             }
