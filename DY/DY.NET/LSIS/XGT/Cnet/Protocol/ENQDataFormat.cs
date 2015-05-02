@@ -10,7 +10,7 @@ namespace DY.NET.LSIS.XGT
         public const int GROPA_VAR_LENGTH_LIMIT = 16;
 
         public string GlopaVarName; //?byte
-        public object Data;     //?byte
+        public object Data;         //?byte
 
         public ENQDataFormat(string glopaVarName)
         {
@@ -32,7 +32,7 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentException("glopa var over limited string's length");
 
             GlopaVarName = glopaVarName;
-            if (Glopa.GetDataType(glopaVarName) == DataType.BIT)
+            if (Glopa.GetDataType(glopaVarName) == PLCVarType.BIT)
                 Data = Convert.ToUInt16(data);        //BIT데이터는 2BYTE로 표현합니다 ture => {0x00, 0x01}
             else
                 Data = data;

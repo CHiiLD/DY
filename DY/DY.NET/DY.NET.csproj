@@ -43,7 +43,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Extensions\B2HS.cs" />
-    <Compile Include="Extensions\DataType.cs" />
+    <Compile Include="Extensions\PLCVarType.cs" />
     <Compile Include="DYSerialPort.cs">
       <SubType>Component</SubType>
     </Compile>

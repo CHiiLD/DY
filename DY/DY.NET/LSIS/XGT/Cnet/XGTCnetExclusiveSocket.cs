@@ -120,6 +120,11 @@ namespace DY.NET.LSIS.XGT
             }
         }
 
+        /// <summary>
+        /// 요청 프로토콜에 의한 응답 프로토콜 이벤트 메서드
+        /// </summary>
+        /// <param name="sender"> DYSerialPort 객체 </param>
+        /// <param name="e"> SerialDataReceivedEventArgs 이벤트 argument </param>
         protected void OnDataRecieve(object sender, SerialDataReceivedEventArgs e)
         {
             DYSerialPort serialPort = sender as DYSerialPort;

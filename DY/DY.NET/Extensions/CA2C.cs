@@ -45,6 +45,11 @@ namespace DY.NET
             return target;
         }
 
+        public static byte[] ToASC(object value, PLCVarType type)
+        {
+            return ToASC(value, type.ToType());
+        }
+
         /// <summary>
         /// 정수형이나 문자열 데이터를 자료형의 바이트 크기에 맞추어 문자 배열로 변환합니다.
         /// </summary>
@@ -91,6 +96,11 @@ namespace DY.NET
             else
                 throw new ArgumentException("argument is not integer or string type");
             return target;
+        }
+
+        public static object ToValue(byte[] value, PLCVarType type)
+        {
+            return ToValue(value, type.ToType());
         }
     }
 }

@@ -96,9 +96,9 @@ namespace DY.NET.LSIS.XGT
 
         public static XGTCnetExclusiveProtocol GetRSBProtocol(ushort localPort, string varName, ushort read_data_cnt)
         {
-            if (Glopa.GetDataType(varName) == DataType.BIT)
+            if (Glopa.GetDataType(varName) == PLCVarType.BIT)
                 throw new ArgumentException("RSB communication not supported bit data type");
-            if ((read_data_cnt * (Glopa.GetDataType(varName)).SizeOf() * 2) > PROTOCOL_SB_DATACNT_LIMIT)
+            if ((read_data_cnt * (Glopa.GetDataType(varName)).ToSize() * 2) > PROTOCOL_SB_DATACNT_LIMIT)
                 throw new ArgumentException("data count(asc bytes) limited 240byte");
 
             var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SB);
@@ -125,7 +125,7 @@ namespace DY.NET.LSIS.XGT
 
             int size_sum = 0;
             foreach(var ed in enqDatas)
-                size_sum += (Glopa.GetDataType(ed.GlopaVarName).SizeOf() * 2);
+                size_sum += (Glopa.GetDataType(ed.GlopaVarName).ToSize() * 2);
             if (size_sum > PROTOCOL_SB_DATACNT_LIMIT)
                 throw new ArgumentException("data count(asc bytes) limited 240byte");
 
@@ -202,7 +202,7 @@ namespace DY.NET.LSIS.XGT
             {
                 asc_list.AddRange(CA2C.ToASC(e.GlopaVarName.Length, typeof(ushort)));
                 asc_list.AddRange(CA2C.ToASC(e.GlopaVarName));
-                asc_list.AddRange(CA2C.ToASC(e.Data));
+                asc_list.AddRange(CA2C.ToASC(e.Data, (PLCVarType)(Glopa.GetDataType(e.GlopaVarName).ToSize() * 2)));
             }
         }
 
@@ -240,8 +240,8 @@ namespace DY.NET.LSIS.XGT
             asc_list.AddRange(CA2C.ToASC(ENQDatas[0].GlopaVarName.Length, typeof(ushort)));
             asc_list.AddRange(CA2C.ToASC(ENQDatas[0].GlopaVarName));
             asc_list.AddRange(CA2C.ToASC(DataCnt));
-            foreach (ENQDataFormat f in ENQDatas)
-                asc_list.AddRange(CA2C.ToASC(f.Data));
+            foreach (ENQDataFormat e in ENQDatas)
+                asc_list.AddRange(CA2C.ToASC(e.Data, (PLCVarType)(Glopa.GetDataType(e.GlopaVarName).ToSize() * 2)));
         }
 
         protected void AddProtocolXSB(List<byte> asc_list)
@@ -311,8 +311,7 @@ namespace DY.NET.LSIS.XGT
                 byte[] data_arr = new byte[sizeOfType * 2];
                 Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
                 data_idx += data_arr.Length;
-                object value = CA2C.ToValue(data_arr, DataTypeExtensions.TypeOf((DataType)sizeOfType));
-
+                object value = CA2C.ToValue(data_arr, ((PLCVarType)sizeOfType));
                 ACKDatas.Add(new ACKDataFormat(sizeOfType, value));
             }
         }
@@ -348,7 +347,7 @@ namespace DY.NET.LSIS.XGT
 
                 byte[] data_arr = new byte[sizeOfType * 2];
                 Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
-                object value = CA2C.ToValue(data_arr, DataTypeExtensions.TypeOf((DataType)sizeOfType));
+                object value = CA2C.ToValue(data_arr, (PLCVarType)sizeOfType);
                 data_idx += data_arr.Length;
 
                 ACKDatas.Add(new ACKDataFormat(sizeOfType, value));
@@ -370,7 +369,7 @@ namespace DY.NET.LSIS.XGT
          * LS산전 측이 실수한 것으로 생각됩니다. 일단 예제에선 블록수도 같이 오는데 도대체 어떻게 처리를 하라는건지 알 수가 없습니다.
          * 파악되는 즉시 수정해야 합니다. 일단은 자료형에 맞추어 ASC데이터를 적절하게 끊어서 컨버트 처리합니다.
          */
-
+         
         protected void QueryProtocolRSB()
         {
             byte[] data = GetMainData();
@@ -385,8 +384,8 @@ namespace DY.NET.LSIS.XGT
 
             // 그로파 변수이름에서 자료형 정보를 얻어낸다
             string var_name = ReqtProtocol.ENQDatas[0].GlopaVarName;
-            DataType data_type = Glopa.GetDataType(var_name);
-            int data_type_size = DataTypeExtensions.SizeOf(data_type);
+            PLCVarType plc_var_type = Glopa.GetDataType(var_name);
+            int data_type_size = plc_var_type.ToSize();
 
             int data_idx = 4;
             // 일렬로 정렬된 데이터들을 데이터타입에 따라 적절하게 파싱하여 데이터 쿼리
@@ -394,7 +393,7 @@ namespace DY.NET.LSIS.XGT
             {
                 byte[] temp_arr = new byte[data_type_size * 2];
                 Buffer.BlockCopy(data, data_idx, temp_arr, 0, temp_arr.Length);
-                object value = CA2C.ToValue(temp_arr, DataTypeExtensions.TypeOf(data_type));
+                object value = CA2C.ToValue(temp_arr, plc_var_type);
                 ACKDatas.Add(new ACKDataFormat((ushort)data_type_size, value));
                 data_idx += temp_arr.Length;
             }
@@ -423,7 +422,7 @@ namespace DY.NET.LSIS.XGT
 
             byte[] data_arr = new byte[sizeOfType * 2];
             Buffer.BlockCopy(data, data_size_arr.Length + register_arr.Length, data_arr, 0, data_arr.Length);
-            object value = CA2C.ToValue(data_arr, DataTypeExtensions.TypeOf((DataType)sizeOfType));
+            object value = CA2C.ToValue(data_arr, (PLCVarType)sizeOfType);
 
             ACKDatas.Add(new ACKDataFormat(sizeOfType, value));
         }

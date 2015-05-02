@@ -1,8 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DY.NET.LSIS
 {
@@ -36,7 +32,7 @@ namespace DY.NET.LSIS
         /// </summary>
         /// <param name="glopa_var_name"> 그로파 변수 이름 </param>
         /// <returns> DataType </returns>
-        public static DataType GetDataType(string glopa_var_name)
+        public static PLCVarType GetDataType(string glopa_var_name)
         {
             if (string.IsNullOrEmpty(glopa_var_name))
                 throw new ArgumentNullException("argument is null or empty");
@@ -48,24 +44,24 @@ namespace DY.NET.LSIS
             char device = glopa_var_name[1];
             char type = glopa_var_name[2];
 
-            DataType ret = DataType.WORD;
+            PLCVarType ret = PLCVarType.WORD;
 
             switch (type)
             {
                 case 'X':
-                    ret = DataType.BIT;
+                    ret = PLCVarType.BIT;
                     break;
                 case 'B':
-                    ret = DataType.BYTE;
+                    ret = PLCVarType.BYTE;
                     break;
                 case 'W':
-                    ret = DataType.WORD;
+                    ret = PLCVarType.WORD;
                     break;
                 case 'D':
-                    ret = DataType.DWORD;
+                    ret = PLCVarType.DWORD;
                     break;
                 case 'L':
-                    ret = DataType.LWORD;
+                    ret = PLCVarType.LWORD;
                     break;
                 default:
                     throw new Exception("glopa variable name wrong");
