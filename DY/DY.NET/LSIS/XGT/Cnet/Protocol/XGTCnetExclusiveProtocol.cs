@@ -15,12 +15,12 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public class XGTCnetExclusiveProtocol : XGTCnetExclusiveProtocolFrame
     {
-        //공통형 정보
+        /// <summary>
+        /// PROTOCOL MAIN DATAS
+        /// </summary>
         public ushort BlockCnt { protected set; get; }      //2byte
         public ushort RegisterNum { protected set; get; }   //2byte
         public ushort DataCnt { protected set; get; }       //읽거나 쓸 데이터의 개수 (BYTE = 데이터 타입 * 개수) 최대 240byte word는 120byte 가 한계 //2byte
-        
-        //종류별 정보
         public List<ENQDataFormat> ENQDatas = new List<ENQDataFormat>(); //?byte
         public List<ACKDataFormat> ACKDatas = new List<ACKDataFormat>(); //?byte
         public XGTCnetExclusiveProtocol ReqtProtocol; //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
@@ -135,7 +135,6 @@ namespace DY.NET.LSIS.XGT
             return protocol;
         }
 
-
         /// <summary>
         /// PLC에서 받은 원시 데이터를 분석하여 XGTCnetExclusiveProtocol 클래스로 변환&데이터분석하여 응답 프로토콜 클래스 리턴.
         /// </summary>
@@ -159,30 +158,6 @@ namespace DY.NET.LSIS.XGT
 
         #endregion
 
-#if flase
-        protected static XGTCnetExclusiveProtocol CreateACKProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
-        {
-            XGTCnetExclusiveProtocol protocol = new XGTCnetExclusiveProtocol(localPort, cmd, type);
-            protocol.Header = XGTCnetControlCodeType.ACK;
-            protocol.Tail = XGTCnetControlCodeType.ETX;
-            return protocol;
-        }
-
-        public static XGTCnetExclusiveProtocol CreateACKProtocol(byte[] recvASCData)
-        {
-            XGTCnetExclusiveProtocol protocol = new XGTCnetExclusiveProtocol();
-            protocol.AnalysisProtocol(recvASCData);
-            return protocol;
-        }
-
-        protected static XGTCnetExclusiveProtocol CreateNAKProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
-        {
-            XGTCnetExclusiveProtocol protocol = new XGTCnetExclusiveProtocol(localPort, cmd, type);
-            protocol.Header = XGTCnetControlCodeType.NAK;
-            protocol.Tail = XGTCnetControlCodeType.ETX;
-            return protocol;
-        }
-#endif
         #region For ENQ Protocol Type
 
         protected void AddProtocolRSS(List<byte> asc_list)

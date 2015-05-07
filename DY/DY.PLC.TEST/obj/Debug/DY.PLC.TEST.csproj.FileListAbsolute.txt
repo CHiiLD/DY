@@ -1,0 +1,15 @@
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.PLC.TEST\bin\Debug\DY.PLC.TEST.exe.config
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.PLC.TEST\bin\Debug\DY.PLC.TEST.exe
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.PLC.TEST\bin\Debug\DY.PLC.TEST.pdb
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.PLC.TEST\obj\Debug\MainWindow.baml
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.PLC.TEST\obj\Debug\MainWindow.g.cs
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.PLC.TEST\obj\Debug\App.g.cs
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.PLC.TEST\obj\Debug\DY.PLC.TEST_MarkupCompile.cache
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.PLC.TEST\obj\Debug\DY.PLC.TEST.g.resources
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.PLC.TEST\obj\Debug\DY.PLC.TEST.Properties.Resources.resources
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.PLC.TEST\obj\Debug\DY.PLC.TEST.csproj.GenerateResource.Cache
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.PLC.TEST\obj\Debug\DY.PLC.TEST.exe
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.PLC.TEST\obj\Debug\DY.PLC.TEST.pdb
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.PLC.TEST\bin\Debug\NET.dll
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.PLC.TEST\bin\Debug\NET.pdb
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.PLC.TEST\obj\Debug\DY.PLC.TEST.csprojResolveAssemblyReference.cache

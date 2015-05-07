@@ -21,16 +21,10 @@ namespace DY.NET.LSIS.XGT
         public const int PROTOCOL_ASC_SIZE_ERROR = 4;
         public const int PROTOCOL_SB_DATACNT_LIMIT = 240;
 
-        public byte[] ProtocolData
-        {
-            get;
-            set;
-        }
-
-        public event EventHandler<SocketDataReceivedEventArgs> ReceivedEvent;
-        public event EventHandler<SocketDataReceivedEventArgs> ErrorEvent;
-        public event EventHandler<SocketDataReceivedEventArgs> RequestedEvent;
-
+        /// <summary>
+        /// PROTOCOL FRAME DATAS
+        /// </summary>
+        public byte[] ProtocolData { get; set; }
         public XGTCnetExclusiveProtocolError Error = XGTCnetExclusiveProtocolError.OK;
         public XGTCnetControlCodeType Header { protected set; get; }        //헤더         1byte
         public ushort LocalPort { protected set; get; }                     //국번         2byte
@@ -38,6 +32,13 @@ namespace DY.NET.LSIS.XGT
         public XGTCnetCommandType CommandType { protected set; get; }       //명령어 타입  2byte
         public XGTCnetControlCodeType Tail { protected set; get; }          //테일         1byte
         public byte BCC { protected set; get; }                             //프레임 체크   1byte or null
+
+        /// <summary>
+        /// EVENT
+        /// </summary>
+        public event EventHandler<SocketDataReceivedEventArgs> ReceivedEvent;
+        public event EventHandler<SocketDataReceivedEventArgs> ErrorEvent;
+        public event EventHandler<SocketDataReceivedEventArgs> RequestedEvent;
 
         #endregion
 
