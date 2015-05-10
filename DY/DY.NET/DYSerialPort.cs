@@ -19,6 +19,11 @@ namespace DY.NET
             Encoding = Encoding.ASCII;
         }
 
+        public DYSerialPort() : base()
+        {
+
+        }
+
         public int Tag
         {
             get;

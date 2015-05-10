@@ -1,0 +1,25 @@
+﻿<Window x:Class="DY.SAMPLE.PLC.SerialSettingWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="SerialSettingWindow" Height="480" Width="320">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="50"/>
+        </Grid.RowDefinitions>
+        <UniformGrid Margin="0" Grid.Row="1" Rows="1" Columns="2">
+            <Button x:Name="NOK" Content="확인" Width="75" Height="30" />
+            <Button x:Name="NCancel" Content="취소" Width="75" Height="30" />
+        </UniformGrid>
+        <StackPanel x:Name="NStackPanel" Margin="4,4,4,0">
+        	<Grid>
+        		<Grid.ColumnDefinitions>
+        			<ColumnDefinition Width="105"/>
+        			<ColumnDefinition/>
+        		</Grid.ColumnDefinitions>
+        		<TextBlock TextWrapping="Wrap" Text="포트" TextAlignment="Center" FontSize="14.667" VerticalAlignment="Center" />
+        		<TextBox TextWrapping="Wrap" Text="COM3" FontSize="14.667" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" Margin="0" Grid.Column="1"/>
+        	</Grid>
+        </StackPanel>
+    </Grid>
+</Window>
