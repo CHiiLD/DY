@@ -8,7 +8,7 @@ namespace DY.SAMPLE.PLC
 {
     public enum COM
     {
-        SERIAL,
+        SERIAL = 0,
         USB,
         LAN
     }

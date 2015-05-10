@@ -12,6 +12,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
+using System.IO.Ports;
+using DY.NET;
+
 namespace DY.SAMPLE.PLC
 {
     /// <summary>
@@ -19,32 +22,40 @@ namespace DY.SAMPLE.PLC
     /// </summary>
     public partial class SerialSettingWindow : Window
     {
-        private COM _com;
-
         public SerialSettingWindow()
         {
             InitializeComponent();
+
+            for(var v = Parity.None; v <= Parity.Space; v++)
+                NParity.Items.Add(v);
+            for (var v = StopBits.None; v <= StopBits.OnePointFive; v++)
+                NStopBit.Items.Add(v);
+
+            NParity.SelectedItem = Parity.None;
+            NStopBit.SelectedItem = StopBits.One;
         }
 
-        public void AddStackPanelItem(string title, EventHandler handler)
+        private void NOK_Click(object sender, RoutedEventArgs e)
         {
-
+            string portname = NPort.Text;
+            string baudrate = NBaud.Text;
+            Parity parity = (Parity)NParity.SelectedItem;
+            string databit = NDataBit.Text;
+            StopBits stopbit = (StopBits)NStopBit.SelectedItem;
+            int iBaud, iDatabit;
+            var main = Owner as MainWindow;
+            if( Int32.TryParse(baudrate, out iBaud) && Int32.TryParse(databit, out iDatabit) )
+                main.SetPort(COM.SERIAL, new DYSerialPort(portname, iBaud, parity, iDatabit, stopbit));
+            else
+                main.SetPort(COM.SERIAL, null);
+            this.Close();
         }
 
-        public void SetCOM(COM com)
+        private void NCancel_Click(object sender, RoutedEventArgs e)
         {
-            _com = com;
-
-            switch (_com)
-            {
-                case COM.SERIAL:
-                    {
-
-                    }
-                    break;
-                default:
-                    break;
-            }
+            var main = Owner as MainWindow;
+            main.SetPort(COM.SERIAL, null);
+            this.Close();
         }
     }
 }

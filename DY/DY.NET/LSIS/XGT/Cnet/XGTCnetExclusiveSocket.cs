@@ -49,11 +49,8 @@ namespace DY.NET.LSIS.XGT
             : base()
         {
             Serial = serialPort;
-            if (Serial == null)
-                throw new ArgumentNullException("SerialSocket", "paramiter value is null");
-
-            //이벤트 설정
-            Serial.DataReceived += new SerialDataReceivedEventHandler(OnDataRecieve);
+            if (Serial != null)
+                Serial.DataReceived += new SerialDataReceivedEventHandler(OnDataRecieve);
         }
 
         /// <summary>
@@ -126,9 +123,6 @@ namespace DY.NET.LSIS.XGT
         /// <param name="e"> SerialDataReceivedEventArgs 이벤트 argument </param>
         protected void OnDataRecieve(object sender, SerialDataReceivedEventArgs e)
         {
-            if (OnReceivedSuccessfully != null)
-                OnReceivedSuccessfully(this, EventArgs.Empty);
-
             DYSerialPort serialPort = sender as DYSerialPort;
             if (serialPort == null)
                 return;
@@ -150,8 +144,12 @@ namespace DY.NET.LSIS.XGT
                 Buffer.BlockCopy(recievedData, 0, newBytes, recv.ProtocolData.Length, recievedData.Length);
                 recv.ProtocolData = newBytes;
             }
+
             if (!recv.IsComeInEXTTail())
                 return;
+            else if (OnReceivedSuccessfully != null)
+                OnReceivedSuccessfully(this, EventArgs.Empty);
+
             try
             {
                 recv.AnalysisProtocol();  //예외 발생

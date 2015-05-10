@@ -14,10 +14,11 @@ namespace DY.SAMPLE.LOGIC
         private const ushort PLC_LOCAL_PORT = 00;
         private const string PLC_SWITCH_VAL = "%MX00010";
         private const string PLC_READ_VAL = "%DW00100";
-        private List<short> Storage = new List<short>();
         private readonly object _lock4skt = new object();
         private XGTCnetExclusiveSocket _CnetExclusiveSocket;
         private bool _IsExecute = false;
+        public event EventHandler<IntegerReceivedToPlcEventArgs> OnReceivedValueEvent;
+
         public XGTCnetExclusiveSocket CnetExclusiveSocket
         {
             get
@@ -25,22 +26,18 @@ namespace DY.SAMPLE.LOGIC
                 lock (_lock4skt)
                     return _CnetExclusiveSocket;
             }
-            set
-            {
-                lock (_lock4skt)
-                    _CnetExclusiveSocket = value;
-            }
         }
 
         public SwitchLoopLogic(DYSerialPort port)
         {
-            CnetExclusiveSocket = new XGTCnetExclusiveSocket(port);
+            _CnetExclusiveSocket = new XGTCnetExclusiveSocket(port);
         }
 
         public void CheckStart()
         {
             _IsExecute = true;
-            RepeatExecute();
+            if (CnetExclusiveSocket.Connect())
+                RepeatExecute();
         }
 
         public void CheckStop()
@@ -95,10 +92,13 @@ namespace DY.SAMPLE.LOGIC
 
         private void OnDataReceiveFromReadVar(object sender, SocketDataReceivedEventArgs e)
         {
+            if (!_IsExecute)
+                return;
             var p = e.Protocol as XGTCnetExclusiveProtocol;
             short recv_data = (short)p.ACKDatas[0].Data;
-            //Storage.Add(recv_data);
             Console.WriteLine("Value in {0} -> {1}", PLC_READ_VAL, recv_data);
+            if (OnReceivedValueEvent != null)
+                OnReceivedValueEvent(this, new IntegerReceivedToPlcEventArgs(recv_data));
             CnetExclusiveSocket.Send(CreateWSSP4SwtichValue());
         }
 

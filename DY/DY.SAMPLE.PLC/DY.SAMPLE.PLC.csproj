@@ -66,6 +66,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="Enum\COM.cs" />
+    <Compile Include="HiPerTimer.cs" />
     <Compile Include="SerialSettingWindow.xaml.cs">
       <DependentUpon>SerialSettingWindow.xaml</DependentUpon>
     </Compile>
