@@ -25,11 +25,12 @@
                             <TextBlock TextWrapping="Wrap" Text="설정된 통신 옵션" FontSize="14.667" FontFamily="Meiryo UI" Margin="0" Width="150" HorizontalAlignment="Left"/>
                             <TextBox x:Name="NStateTB" Height="60" TextWrapping="Wrap" VerticalAlignment="Top" Margin="0,2,0,0"/>
                         </StackPanel>
-                        <UniformGrid Margin="0,10,0,0" Columns="4" Rows="1">
-                            <Button Click="NCheckStartBtn_Click" x:Name="NCheckStartBtn" Content="측정 시작"  Width="100" Height="30" IsEnabled="False"  />
-                            <Button Click="NCheckStopBtn_Click" x:Name="NCheckStopBtn" Content="측정 중지"  Width="100" Height="30" IsEnabled="False"  />
-                            <Button Click="NDataSaveBtn_Click" x:Name="NDataSaveBtn" Content="저장 하기"  Width="100" Height="30" IsEnabled="False" />
-                            <Button Click="NInitBtn_Click" x:Name="NInitBtn" Content="초기화"  Width="100" Height="30"  />
+                        <UniformGrid Margin="0,10,0,0" Columns="5" Rows="1">
+                            <Button Click="NCheckStartBtn_Click" x:Name="NCheckStartBtn" Content="측정 시작"  Width="80" Height="30" IsEnabled="False"  />
+                            <Button Click="NCheckStopBtn_Click" x:Name="NCheckStopBtn" Content="측정 중지"  Width="80" Height="30" IsEnabled="False"  />
+                            <Button Click="NDataSaveBtn_Click" x:Name="NDataSaveBtn" Content="저장 하기"  Width="80" Height="30" IsEnabled="False" />
+                            <Button Click="NDataLoadBtn_Click" x:Name="NDataLoadBtn" Content="불러 오기"  Width="80" Height="30" />
+                            <Button Click="NInitBtn_Click" x:Name="NInitBtn" Content="초기화"  Width="80" Height="30"  />
                         </UniformGrid>
                         <UniformGrid Margin="2,7,2,0" Columns="4" Rows="4">
                             <UniformGrid.Background>

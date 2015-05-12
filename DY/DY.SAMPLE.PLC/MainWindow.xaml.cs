@@ -12,10 +12,12 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+
 using DY.SAMPLE.LOGIC;
 using DY.NET.LSIS.XGT;
 using DY.NET;
 using System.ComponentModel;
+using Newtonsoft.Json;
 
 namespace DY.SAMPLE.PLC
 {
@@ -52,6 +54,10 @@ namespace DY.SAMPLE.PLC
         {
             InitializeComponent();
             Initialize();
+#if true
+            for (short i = 0; i < 100; i ++ )
+                OnRecvValueToPLC(null, new IntegerReceivedToPlcEventArgs(i));
+#endif
         }
 
         private void NPLC_CB_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -244,6 +250,17 @@ namespace DY.SAMPLE.PLC
                 SaveToJson(dlg.FileName);
         }
 
+        private void NDataLoadBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Microsoft.Win32.OpenFileDialog dlg = new Microsoft.Win32.OpenFileDialog();
+            dlg.FileName = "data.json"; // Default file name
+            dlg.DefaultExt = ".json"; // Default file extension
+            dlg.Filter = "Json documents (.json)|*.json"; // Filter files by extension
+            Nullable<bool> result = dlg.ShowDialog();
+            if (result == true)
+                LoadToJson(dlg.FileName);
+        }
+
         private void NRetLV_Click(object sender, RoutedEventArgs e)
         {
             ListView lv = sender as ListView;
@@ -275,6 +292,7 @@ namespace DY.SAMPLE.PLC
             NRetLV.UpdateLayout();
         }
 
+       
         private void WriteDurationRecord(double duration)
         {
             NCurRecvSP.Content = string.Format("{0:F4} ms", duration);
@@ -322,7 +340,24 @@ namespace DY.SAMPLE.PLC
 
         private void SaveToJson(string file)
         {
+            List<ListViewLogItem> list = NRetLV.Items.OfType<ListViewLogItem>().ToList<ListViewLogItem>();
+            string json = JsonConvert.SerializeObject(list, Formatting.Indented);
+            System.IO.File.WriteAllText(file, json);
+            NStateTB.Text = file + " 저장하기 완료";
+        }
 
+        private void LoadToJson(string file)
+        {
+            IList<ListViewLogItem> list;
+            using (var jsonFile = System.IO.File.OpenText(file))
+            using (JsonTextReader jsonTextReader = new JsonTextReader(jsonFile))
+            {
+                JsonSerializer serializer = new JsonSerializer();
+                list = serializer.Deserialize<IList<ListViewLogItem>>(jsonTextReader);
+            }
+            foreach (var v in list)
+                NRetLV.Items.Add(v);
+            NStateTB.Text = file + " 불러오기 완료";
         }
     }
 }
