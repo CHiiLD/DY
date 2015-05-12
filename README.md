@@ -20,6 +20,6 @@ PLC - PC Communication Library
 2. fork DY project by user account
 3. execute github for windows and register your accout for ssh.
 4. execute github power shell and input text to console
-5. git clone https://github.com/<개정명>/DY.git -> DY 프로젝트 설치 
-6. git submodule add init 			-> DY 서브모듈 리스트 초기화
-7. git submodule add update			-> DY 서브모듈 설치		
+5. git clone https://github.com/<account name>/DY.git
+6. git submodule add init
+7. git submodule add update
