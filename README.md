@@ -1,7 +1,7 @@
 ﻿DY
 
-DONGYANG FOCTORY AUTOMATION
-PLC - PC Communication Library
+동양 FA
+PLC - PC 통신 라이브러리
 
 1. 깃허브 설치 
 2. 해당 프로젝트를 개인 개정으로 포크
@@ -11,8 +11,9 @@ PLC - PC Communication Library
 6. git submodule add init 			-> DY 서브모듈 리스트 초기화
 7. git submodule add update			-> DY 서브모듈 설치		
 
-
-1. setup github for windwos app
+DONGYANG FOCTORY AUTOMATION
+PLC - PC Communication Library
+1. setup github for windows app
 2. fork DY project by user account
 3. execute github for windows and register your accout for ssh.
 4. execute github power shell and input text to console
