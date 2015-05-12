@@ -20,6 +20,6 @@ PLC - PC Communication Library
 2. fork DY project by user account
 3. execute github for windows and register your accout for ssh.
 4. execute github power shell and input text to console
-5. git clone https://github.com/<account name>/DY.git
+5. git clone https://github.com/"ACCOUNT NAME"/DY.git
 6. git submodule add init
 7. git submodule add update
