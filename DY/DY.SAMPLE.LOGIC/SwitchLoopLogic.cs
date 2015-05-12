@@ -28,9 +28,9 @@ namespace DY.SAMPLE.LOGIC
             }
         }
 
-        public SwitchLoopLogic(DYSerialPort port)
+        public SwitchLoopLogic(XGTCnetExclusiveSocket xgtskt)
         {
-            _CnetExclusiveSocket = new XGTCnetExclusiveSocket(port);
+            _CnetExclusiveSocket = xgtskt;
         }
 
         public void CheckStart()

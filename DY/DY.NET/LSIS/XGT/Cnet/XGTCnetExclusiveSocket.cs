@@ -14,13 +14,13 @@ using System.IO.Ports;
 namespace DY.NET.LSIS.XGT
 {
     /// <summary>
-    /// XGTCnetExclusiveProtocol 과 Serial 통신 사용하기 위해 만들어진 소켓 클래스
+    /// XGTCnetExclusiveProtocol을 이용한 Serial 통신소켓 클래스
     /// </summary>
-    public class XGTCnetExclusiveSocket : DYSocket
+    public partial class XGTCnetExclusiveSocket : DYSocket
     {
         #region var_properties_event
         private DYSerialPort _DYSerialPort;
-        protected DYSerialPort Serial
+        internal DYSerialPort Serial
         {
             get
             {
@@ -29,9 +29,15 @@ namespace DY.NET.LSIS.XGT
         }
         protected volatile bool IsWaitACKProtocol = false;
 
-        public EventHandler<EventArgs> OnSendedSuccessfully;
-        public EventHandler<EventArgs> OnReceivedSuccessfully;
+        /// <summary>
+        /// 시리얼포트 에러 이벤트
+        /// </summary>
+        public event SerialErrorReceivedEventHandler ErrorReceived;
 
+        /// <summary>
+        /// 시리얼포트 핀 변경 이벤트
+        /// </summary>
+        public event SerialPinChangedEventHandler PinChanged;
         #endregion
 
         #region method
@@ -39,16 +45,31 @@ namespace DY.NET.LSIS.XGT
         /// <summary>
         /// XGTCnetExclusiveSocket 생성자
         /// </summary>
-        /// <param name="serialPort"> DY시리얼포트 클래스 </param>
-        /// <param name="serialError"> 시리얼포트의 에러 핸들러 </param>
-        public XGTCnetExclusiveSocket(DYSerialPort serialPort)
+        public XGTCnetExclusiveSocket(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
+            : base()
+        {
+            _DYSerialPort = new DYSerialPort(portName, baudRate, parity, dataBits, stopBits);
+            if (Serial != null)
+            {
+                Serial.DataReceived += OnDataRecieve;
+                Serial.ErrorReceived += OnSerialErrorReceived;
+                Serial.PinChanged += OnSerialPinChanged;
+            }
+        }
+
+        internal XGTCnetExclusiveSocket(DYSerialPort serialPort)
             : base()
         {
             _DYSerialPort = serialPort;
             if (Serial != null)
-                Serial.DataReceived += new SerialDataReceivedEventHandler(OnDataRecieve);
+            {
+                Serial.DataReceived += OnDataRecieve;
+                Serial.ErrorReceived += OnSerialErrorReceived;
+                Serial.PinChanged += OnSerialPinChanged;
+            }
         }
 
+        
         /// <summary>
         /// 접속
         /// </summary>
@@ -109,7 +130,7 @@ namespace DY.NET.LSIS.XGT
 
             if (OnSendedSuccessfully != null)
                 OnSendedSuccessfully(this, EventArgs.Empty);
-            cp_p.OnDataRequestedEvent(this, cp_p);
+            cp_p.OnDataRequested(this, cp_p);
         }
 
         /// <summary>
@@ -161,9 +182,9 @@ namespace DY.NET.LSIS.XGT
             finally
             {
                 if (recv.Error == XGTCnetExclusiveProtocolError.OK)
-                    reqt.OnDataReceivedEvent(this, recv);
+                    reqt.OnDataReceived(this, recv);
                 else
-                    reqt.OnErrorEvent(this, recv);
+                    reqt.OnError(this, recv);
 
                 serialPort.ProtocolClear();
                 IsWaitACKProtocol = false;
@@ -177,6 +198,18 @@ namespace DY.NET.LSIS.XGT
             IProtocol temp = null;
             if (ProtocolStandByQueue.TryDequeue(out temp))
                 Send(temp);
+        }
+
+        protected void OnSerialErrorReceived(object sender, SerialErrorReceivedEventArgs e)
+        {
+            if (ErrorReceived != null)
+                ErrorReceived(sender, e);
+        }
+
+        protected void OnSerialPinChanged(object sender, SerialPinChangedEventArgs e)
+        {
+            if (PinChanged != null)
+                PinChanged(sender, e);
         }
 
         /// <summary>

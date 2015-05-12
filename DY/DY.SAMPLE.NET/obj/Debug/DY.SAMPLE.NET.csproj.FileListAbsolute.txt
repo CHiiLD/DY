@@ -14,3 +14,11 @@ C:\Users\아동\GitHub\PLC-Communication\DY\DY.SAMPLE.NET\bin\Debug\DY.SAMPLE.NE
 C:\Users\아동\GitHub\PLC-Communication\DY\DY.SAMPLE.NET\bin\Debug\NET.dll
 C:\Users\아동\GitHub\PLC-Communication\DY\DY.SAMPLE.NET\bin\Debug\NET.pdb
 C:\Users\아동\GitHub\PLC-Communication\DY\DY.SAMPLE.NET\obj\Debug\DY.SAMPLE.NET.csprojResolveAssemblyReference.cache
+C:\Users\아동\GitHub\DY\DY\DY.SAMPLE.NET\bin\Debug\DY.SAMPLE.NET.exe.config
+C:\Users\아동\GitHub\DY\DY\DY.SAMPLE.NET\bin\Debug\DY.SAMPLE.NET.exe
+C:\Users\아동\GitHub\DY\DY\DY.SAMPLE.NET\bin\Debug\DY.SAMPLE.NET.pdb
+C:\Users\아동\GitHub\DY\DY\DY.SAMPLE.NET\bin\Debug\NET.dll
+C:\Users\아동\GitHub\DY\DY\DY.SAMPLE.NET\bin\Debug\NET.pdb
+C:\Users\아동\GitHub\DY\DY\DY.SAMPLE.NET\obj\Debug\DY.SAMPLE.NET.csprojResolveAssemblyReference.cache
+C:\Users\아동\GitHub\DY\DY\DY.SAMPLE.NET\obj\Debug\DY.SAMPLE.NET.exe
+C:\Users\아동\GitHub\DY\DY\DY.SAMPLE.NET\obj\Debug\DY.SAMPLE.NET.pdb

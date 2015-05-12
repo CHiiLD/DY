@@ -41,20 +41,20 @@ namespace DY.NET
         /// </summary>
         /// <param name="obj"> DYSocekt 클래스 객체 </param>
         /// <param name="protocol"> IProtocol 인터페이스 객체 </param>
-        void OnDataReceivedEvent(object obj, IProtocol protocol);
+        void OnDataReceived(object obj, IProtocol protocol);
 
         /// <summary>
         /// OnDataRequestedEvent 이벤트를 발생시킵니다.
         /// </summary>
         /// <param name="obj"> DYSocekt 클래스 객체 </param>
         /// <param name="protocol"> IProtocol 인터페이스 객체 </param>
-        void OnDataRequestedEvent(object obj, IProtocol protocol);
+        void OnDataRequested(object obj, IProtocol protocol);
 
         /// <summary>
         /// OnErrorEvent 이벤트를 발생시킵니다.
         /// </summary>
         /// <param name="obj"> DYSocekt 클래스 객체 </param>
         /// <param name="protocol"> IProtocol 인터페이스 객체 </param>
-        void OnErrorEvent(object obj, IProtocol protocol);
+        void OnError(object obj, IProtocol protocol);
     }
 }

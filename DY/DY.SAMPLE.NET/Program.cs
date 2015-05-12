@@ -47,7 +47,7 @@ namespace DY.SAMPLE.NET
         static void Main(string[] args)
         {
             //소켓 생성 하기
-            CnetExclusiveSocket = new XGTCnetExclusiveSocket(new DYSerialPort("COM3", 9600, Parity.None, 8, StopBits.One));
+            CnetExclusiveSocket = new XGTCnetExclusiveSocket("COM3", 9600, Parity.None, 8, StopBits.One);
 
             //통신 연결 하기
             if (CnetExclusiveSocket.Connect())

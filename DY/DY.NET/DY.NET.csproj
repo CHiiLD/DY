@@ -64,6 +64,7 @@
     <Compile Include="LSIS\XGT\Cnet\XGTCnetExclusiveSocket.cs" />
     <Compile Include="LSIS\Glopa.cs" />
     <Compile Include="Extensions\NumericTypeExtension.cs" />
+    <Compile Include="LSIS\XGT\Cnet\XGTCnetExSktPropertyExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Event\SocketDataReceivedEventArgs.cs" />
   </ItemGroup>

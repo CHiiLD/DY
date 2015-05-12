@@ -231,21 +231,21 @@ namespace DY.NET.LSIS.XGT
                 return false;
         }
 
-        public void OnDataReceivedEvent(object obj, IProtocol protocol)
+        public void OnDataReceived(object obj, IProtocol protocol)
         {
             var pt = System.Threading.Volatile.Read(ref protocol);
             if (ReceivedEvent != null)
                 ReceivedEvent(obj, new SocketDataReceivedEventArgs(pt));
         }
 
-        public void OnDataRequestedEvent(object obj, IProtocol protocol)
+        public void OnDataRequested(object obj, IProtocol protocol)
         {
             var pt = System.Threading.Volatile.Read(ref protocol);
             if (RequestedEvent != null)
                 RequestedEvent(obj, new SocketDataReceivedEventArgs(pt));
         }
 
-        public void OnErrorEvent(object obj, IProtocol protocol)
+        public void OnError(object obj, IProtocol protocol)
         {
             var pt = System.Threading.Volatile.Read(ref protocol);
             if (ErrorEvent != null)

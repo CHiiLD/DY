@@ -13,7 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Shapes;
 
 using System.IO.Ports;
-using DY.NET;
+using DY.NET.LSIS.XGT;
 
 namespace DY.SAMPLE.PLC
 {
@@ -45,16 +45,16 @@ namespace DY.SAMPLE.PLC
             int iBaud, iDatabit;
             var main = Owner as MainWindow;
             if( Int32.TryParse(baudrate, out iBaud) && Int32.TryParse(databit, out iDatabit) )
-                main.SetPort(COM.SERIAL, new DYSerialPort(portname, iBaud, parity, iDatabit, stopbit));
+                main.SetSocket(COM.SERIAL, new XGTCnetExclusiveSocket(portname, iBaud, parity, iDatabit, stopbit));
             else
-                main.SetPort(COM.SERIAL, null);
+                main.SetSocket(COM.SERIAL, null);
             this.Close();
         }
 
         private void NCancel_Click(object sender, RoutedEventArgs e)
         {
             var main = Owner as MainWindow;
-            main.SetPort(COM.SERIAL, null);
+            main.SetSocket(COM.SERIAL, null);
             this.Close();
         }
     }

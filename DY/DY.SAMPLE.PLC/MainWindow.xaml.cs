@@ -127,7 +127,7 @@ namespace DY.SAMPLE.PLC
             _Old = int.MinValue;
         }
 
-        public void SetPort(COM com, object port)
+        public void SetSocket(COM com, object port)
         {
             if (port == null)
             {
@@ -137,16 +137,16 @@ namespace DY.SAMPLE.PLC
             switch (com)
             {
                 case COM.SERIAL:
-                    DYSerialPort sp = port as DYSerialPort;
+                    XGTCnetExclusiveSocket skt = port as XGTCnetExclusiveSocket;
                     StringBuilder sb = new StringBuilder();
-                    sb.Append(sp.PortName + " ");
-                    sb.Append(sp.BaudRate + " ");
-                    sb.Append("Parity-" + sp.Parity + " ");
-                    sb.Append("DataBits-" + sp.DataBits + " ");
-                    sb.Append("StopBits-" + sp.StopBits + " ");
+                    sb.Append(skt.GetPortName() + " ");
+                    sb.Append(skt.GetBaudRate() + " ");
+                    sb.Append("Parity-" + skt.GetParity() + " ");
+                    sb.Append("DataBits-" + skt.GetDataBits() + " ");
+                    sb.Append("StopBits-" + skt.GetStopBits() + " ");
                     NStateTB.Text = sb.ToString();
 
-                    _SwitchLoopLogic = new SwitchLoopLogic(sp);
+                    _SwitchLoopLogic = new SwitchLoopLogic(skt);
                     _SwitchLoopLogic.OnReceivedValueEvent += OnRecvValueToPLC;
                     _SwitchLoopLogic.CnetExclusiveSocket.OnSendedSuccessfully += OnSendTiming;
                     _SwitchLoopLogic.CnetExclusiveSocket.OnReceivedSuccessfully += OnRecvTiming;
@@ -173,11 +173,6 @@ namespace DY.SAMPLE.PLC
                 NRetLV.Items.Add(item);
                 NRetLV.ScrollIntoView(NRetLV.Items[NRetLV.Items.Count - 1]);
             }), null);
-        }
-
-        private void NInitBtn_Click(object sender, RoutedEventArgs e)
-        {
-            Initialize();
         }
 
         private void OnSendTiming(object sender, EventArgs e)
@@ -208,6 +203,11 @@ namespace DY.SAMPLE.PLC
             _timer = null;
         }
 
+        private void NInitBtn_Click(object sender, RoutedEventArgs e)
+        {
+            Initialize();
+        }
+
         private void NCheckStartBtn_Click(object sender, RoutedEventArgs e)
         {
             if (_SwitchLoopLogic != null)
@@ -233,7 +233,46 @@ namespace DY.SAMPLE.PLC
 
         private void NDataSaveBtn_Click(object sender, RoutedEventArgs e)
         {
+            NCheckStopBtn_Click(null, null);
+            // Configure save file dialog box
+            Microsoft.Win32.SaveFileDialog dlg = new Microsoft.Win32.SaveFileDialog();
+            dlg.FileName = "data.json"; // Default file name
+            dlg.DefaultExt = ".json"; // Default file extension
+            dlg.Filter = "Json documents (.json)|*.json"; // Filter files by extension
+            Nullable<bool> result = dlg.ShowDialog();
+            if (result == true)
+                SaveToJson(dlg.FileName);
+        }
 
+        private void NRetLV_Click(object sender, RoutedEventArgs e)
+        {
+            ListView lv = sender as ListView;
+            GridViewColumnHeader headerClicked = e.OriginalSource as GridViewColumnHeader;
+            if (headerClicked == null)
+                return;
+            string header = headerClicked.Column.Header as string;
+            List<ListViewLogItem> list = lv.Items.OfType<ListViewLogItem>().ToList<ListViewLogItem>();
+            _ListSortDirection = _ListSortDirection == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
+
+            switch (header)
+            {
+                case "시간":
+                    list.Sort(new Comparison<ListViewLogItem>((ListViewLogItem ll1, ListViewLogItem ll2) =>
+                    {
+                        return _ListSortDirection == ListSortDirection.Ascending ? ll1.Time.CompareTo(ll2.Time) : -ll1.Time.CompareTo(ll2.Time);
+                    }));
+                    break;
+                case "값":
+                    list.Sort(new Comparison<ListViewLogItem>((ListViewLogItem ll1, ListViewLogItem ll2) =>
+                    {
+                        return _ListSortDirection == ListSortDirection.Ascending ? ll1.Value.CompareTo(ll2.Value) : -ll1.Value.CompareTo(ll2.Value);
+                    }));
+                    break;
+            }
+            lv.Items.Clear();
+            foreach (var v in list)
+                lv.Items.Add(v);
+            NRetLV.UpdateLayout();
         }
 
         private void WriteDurationRecord(double duration)
@@ -281,35 +320,9 @@ namespace DY.SAMPLE.PLC
             _Old = value;
         }
 
-        private void NRetLV_Click(object sender, RoutedEventArgs e)
+        private void SaveToJson(string file)
         {
-            ListView lv = sender as ListView;
-            GridViewColumnHeader headerClicked = e.OriginalSource as GridViewColumnHeader;
-            if (headerClicked == null)
-                return;
-            string header = headerClicked.Column.Header as string;
-            List<ListViewLogItem> list = lv.Items.OfType<ListViewLogItem>().ToList<ListViewLogItem>();
-            _ListSortDirection = _ListSortDirection == ListSortDirection.Ascending ? ListSortDirection.Descending : ListSortDirection.Ascending;
 
-            switch (header)
-            {
-                case "시간":
-                    list.Sort(new Comparison<ListViewLogItem>((ListViewLogItem ll1, ListViewLogItem ll2) =>
-                    {
-                        return _ListSortDirection == ListSortDirection.Ascending ? ll1.Time.CompareTo(ll2.Time) : -ll1.Time.CompareTo(ll2.Time);
-                    }));
-                    break;
-                case "값":
-                    list.Sort(new Comparison<ListViewLogItem>((ListViewLogItem ll1, ListViewLogItem ll2) =>
-                    {
-                        return _ListSortDirection == ListSortDirection.Ascending ? ll1.Value.CompareTo(ll2.Value) : -ll1.Value.CompareTo(ll2.Value);
-                    }));
-                    break;
-            }
-            lv.Items.Clear();
-            foreach (var v in list)
-                lv.Items.Add(v);
-            NRetLV.UpdateLayout();
         }
     }
 }
