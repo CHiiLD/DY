@@ -211,7 +211,17 @@ namespace DY.SAMPLE.PLC
         private void NCheckStartBtn_Click(object sender, RoutedEventArgs e)
         {
             if (_SwitchLoopLogic != null)
-                _SwitchLoopLogic.CheckStart();
+            {
+                try
+                {
+                    _SwitchLoopLogic.CheckStart();
+                }
+                catch (Exception ex)
+                {
+                    Initialize();
+                    NStateTB.Text = "에러 발생\n" + ex.Message;
+                }
+            }
         }
 
         private void NCheckStopBtn_Click(object sender, RoutedEventArgs e)

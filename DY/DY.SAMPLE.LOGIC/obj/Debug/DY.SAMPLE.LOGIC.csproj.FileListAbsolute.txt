@@ -5,3 +5,10 @@ C:\Users\CHILD\GitHub\PLC-Communication\DY\DY.SAMPLE.LOGIC\bin\Debug\NET.pdb
 C:\Users\CHILD\GitHub\PLC-Communication\DY\DY.SAMPLE.LOGIC\obj\Debug\DY.SAMPLE.LOGIC.csprojResolveAssemblyReference.cache
 C:\Users\CHILD\GitHub\PLC-Communication\DY\DY.SAMPLE.LOGIC\obj\Debug\DY.SAMPLE.LOGIC.dll
 C:\Users\CHILD\GitHub\PLC-Communication\DY\DY.SAMPLE.LOGIC\obj\Debug\DY.SAMPLE.LOGIC.pdb
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.SAMPLE.LOGIC\bin\Debug\DY.SAMPLE.LOGIC.dll
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.SAMPLE.LOGIC\bin\Debug\DY.SAMPLE.LOGIC.pdb
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.SAMPLE.LOGIC\bin\Debug\NET.dll
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.SAMPLE.LOGIC\bin\Debug\NET.pdb
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.SAMPLE.LOGIC\obj\Debug\DY.SAMPLE.LOGIC.csprojResolveAssemblyReference.cache
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.SAMPLE.LOGIC\obj\Debug\DY.SAMPLE.LOGIC.dll
+C:\Users\아동\GitHub\PLC-Communication\DY\DY.SAMPLE.LOGIC\obj\Debug\DY.SAMPLE.LOGIC.pdb

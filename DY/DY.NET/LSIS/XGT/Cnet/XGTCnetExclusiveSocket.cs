@@ -26,12 +26,8 @@ namespace DY.NET.LSIS.XGT
             {
                 return _DYSerialPort;
             }
-            set
-            {
-                _DYSerialPort = value;
-            }
         }
-        protected bool IsWaitACKProtocol = false;
+        protected volatile bool IsWaitACKProtocol = false;
 
         public EventHandler<EventArgs> OnSendedSuccessfully;
         public EventHandler<EventArgs> OnReceivedSuccessfully;
@@ -48,7 +44,7 @@ namespace DY.NET.LSIS.XGT
         public XGTCnetExclusiveSocket(DYSerialPort serialPort)
             : base()
         {
-            Serial = serialPort;
+            _DYSerialPort = serialPort;
             if (Serial != null)
                 Serial.DataReceived += new SerialDataReceivedEventHandler(OnDataRecieve);
         }
