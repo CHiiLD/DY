@@ -11,8 +11,11 @@ PLC - PC 통신 라이브러리
 6. git submodule add init 			-> DY 서브모듈 리스트 초기화
 7. git submodule add update			-> DY 서브모듈 설치		
 
+
+
 DONGYANG FOCTORY AUTOMATION
 PLC - PC Communication Library
+
 1. setup github for windows app
 2. fork DY project by user account
 3. execute github for windows and register your accout for ssh.
