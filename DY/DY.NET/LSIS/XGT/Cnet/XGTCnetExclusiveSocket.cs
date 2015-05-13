@@ -19,6 +19,7 @@ namespace DY.NET.LSIS.XGT
     public partial class XGTCnetExclusiveSocket : DYSocket
     {
         #region var_properties_event
+        private readonly object _SerialLock = new object();
         private DYSerialPort _DYSerialPort;
         internal DYSerialPort Serial
         {
@@ -76,11 +77,16 @@ namespace DY.NET.LSIS.XGT
         /// <returns> 통신 접속 성공 여부 </returns>
         public override bool Connect()
         {
-            if (Serial == null)
-                throw new NullReferenceException("SerialSocket value is null");
-            if (!Serial.IsOpen)
-                Serial.Open();
-            return Serial.IsOpen;
+            bool result;
+            lock(_SerialLock)
+            {
+                if (Serial == null)
+                    throw new NullReferenceException("SerialSocket value is null");
+                if (!Serial.IsOpen)
+                    Serial.Open();
+                result = Serial.IsOpen;
+            }
+            return result;
         }
 
         /// <summary>
@@ -89,11 +95,28 @@ namespace DY.NET.LSIS.XGT
         /// <returns> 통신 끊기 성공 여부 </returns>
         public override bool Close()
         {
-            if (Serial == null)
-                return false;
-            if (Serial.IsOpen)
-                Serial.Close();
-            return !Serial.IsOpen;
+            bool result;
+            lock (_SerialLock)
+            {
+                if (Serial == null)
+                    return false;
+                if (Serial.IsOpen)
+                    Serial.Close();
+                result = !Serial.IsOpen;
+            }
+            return result;
+        }
+
+        /// <summary>
+        /// 연결 확인 
+        /// </summary>
+        /// <returns> 결과 </returns>
+        public override bool IsOpen()
+        {
+            bool result;
+            lock (_SerialLock)
+                result = Serial.IsOpen;
+            return result;
         }
 
         /// <summary>
@@ -102,35 +125,36 @@ namespace DY.NET.LSIS.XGT
         /// <param name="iProtocol"> XGTCnetExclusiveProtocol 프로토콜 클래스 </param>
         public override void Send(IProtocol iProtocol)
         {
-            if (Serial == null)
-                return;
-            if (!Serial.IsOpen)
-                throw new Exception("serial port is not opend");
             if (iProtocol == null)
                 throw new ArgumentNullException("protocol argument is null");
-
-            XGTCnetExclusiveProtocol exclusiveProtocol = iProtocol as XGTCnetExclusiveProtocol;
-            if (exclusiveProtocol == null)
+            if (!(iProtocol is XGTCnetExclusiveProtocol))
                 throw new ArgumentException("protocol not match XGTCnetExclusiveProtocolFrame type");
-
-            XGTCnetExclusiveProtocol cp_p = new XGTCnetExclusiveProtocol(exclusiveProtocol);
-            if (cp_p.ProtocolData == null)
-                cp_p.AssembleProtocol();
+            
+            XGTCnetExclusiveProtocol exProtocol = iProtocol as XGTCnetExclusiveProtocol;
+            XGTCnetExclusiveProtocol copy = new XGTCnetExclusiveProtocol(exProtocol);
+            if (copy.ProtocolData == null)
+                copy.AssembleProtocol();
             if (IsWaitACKProtocol)   //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
             {
-                ProtocolStandByQueue.Enqueue(cp_p);
+                ProtocolStandByQueue.Enqueue(copy);
                 return;
             }
 
+            lock(_SerialLock)
+            {
+                if (Serial == null)
+                    return;
+                if (!Serial.IsOpen)
+                    throw new Exception("serial port is not opend");
+                Serial.ProtocolClear();
+                Serial.ReqtProtocol = copy;
+                Serial.Write(copy.ProtocolData, 0, copy.ProtocolData.Length);
+            }
             IsWaitACKProtocol = true;
-            Serial.ReqtProtocol = cp_p;
-
-            //전송
-            Serial.Write(cp_p.ProtocolData, 0, cp_p.ProtocolData.Length);
 
             if (OnSendedSuccessfully != null)
                 OnSendedSuccessfully(this, EventArgs.Empty);
-            cp_p.OnDataRequested(this, cp_p);
+            copy.OnDataRequested(this, copy);
         }
 
         /// <summary>
@@ -140,26 +164,29 @@ namespace DY.NET.LSIS.XGT
         /// <param name="e"> SerialDataReceivedEventArgs 이벤트 argument </param>
         protected void OnDataRecieve(object sender, SerialDataReceivedEventArgs e)
         {
-            DYSerialPort serialPort = sender as DYSerialPort;
-            if (serialPort == null)
-                return;
-            if (!serialPort.IsOpen)
-                return;
-
-            byte[] recievedData = System.Text.Encoding.ASCII.GetBytes(serialPort.ReadExisting());
-            XGTCnetExclusiveProtocol recv = serialPort.RecvProtocol as XGTCnetExclusiveProtocol;
-            XGTCnetExclusiveProtocol reqt = serialPort.ReqtProtocol as XGTCnetExclusiveProtocol;
-            if (recv == null)
+            XGTCnetExclusiveProtocol recv, reqt;
+            lock (_SerialLock)
             {
-                recv = XGTCnetExclusiveProtocol.CreateReceiveProtocol(recievedData, reqt);
-                serialPort.RecvProtocol = recv;
-            }
-            else
-            {
-                byte[] newBytes = new byte[recv.ProtocolData.Length + recievedData.Length];
-                Buffer.BlockCopy(recv.ProtocolData, 0, newBytes, 0, recv.ProtocolData.Length);
-                Buffer.BlockCopy(recievedData, 0, newBytes, recv.ProtocolData.Length, recievedData.Length);
-                recv.ProtocolData = newBytes;
+                DYSerialPort serial = sender as DYSerialPort;
+                if (serial == null)
+                    return;
+                if (!serial.IsOpen)
+                    return;
+                recv = serial.RecvProtocol as XGTCnetExclusiveProtocol;
+                reqt = serial.ReqtProtocol as XGTCnetExclusiveProtocol;
+                byte[] recv_data = System.Text.Encoding.ASCII.GetBytes(serial.ReadExisting());
+                if (recv == null)
+                {
+                    recv = XGTCnetExclusiveProtocol.CreateReceiveProtocol(recv_data, reqt);
+                    serial.RecvProtocol = recv;
+                }
+                else
+                {
+                    byte[] newBytes = new byte[recv.ProtocolData.Length + recv_data.Length];
+                    Buffer.BlockCopy(recv.ProtocolData, 0, newBytes, 0, recv.ProtocolData.Length);
+                    Buffer.BlockCopy(recv_data, 0, newBytes, recv.ProtocolData.Length, recv_data.Length);
+                    recv.ProtocolData = newBytes;
+                }
             }
 
             if (!recv.IsComeInEXTTail())
@@ -186,7 +213,7 @@ namespace DY.NET.LSIS.XGT
                 else
                     reqt.OnError(this, recv);
 
-                serialPort.ProtocolClear();
+                
                 IsWaitACKProtocol = false;
                 if (ProtocolStandByQueue.Count != 0)
                     SendNextProtocol(); //Task.Factory.StartNew(new Action(SendNextProtocol));
@@ -217,14 +244,17 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         public override void Dispose()
         {
-            if (Serial != null)
+            lock (_SerialLock)
             {
-                Close();
-                Serial.ProtocolClear();
-                Serial.Dispose();
-
-                OnSendedSuccessfully = null;
-                OnReceivedSuccessfully = null;
+                if (Serial != null)
+                {
+                    Close();
+                    Serial.ProtocolClear();
+                    Serial.Dispose();
+                    _DYSerialPort = null;
+                    OnSendedSuccessfully = null;
+                    OnReceivedSuccessfully = null;
+                }
             }
             base.Dispose();
         }

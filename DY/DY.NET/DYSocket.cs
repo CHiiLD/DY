@@ -44,6 +44,7 @@ namespace DY.NET
         public abstract bool Connect();
         public abstract bool Close();
         public abstract void Send(IProtocol protocolFrame);
+        public abstract bool IsOpen();
 
         public virtual void Dispose()
         {
