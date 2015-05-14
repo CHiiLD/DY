@@ -18,23 +18,35 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public partial class XGTCnetExclusiveSocket : DYSocket
     {
-        #region var_properties_event
-        private readonly object _SerialLock = new object();
-        private DYSerialPort _DYSerialPort;
-        internal DYSerialPort Serial
+        /// <summary>
+        /// 빌더 디자인 패턴 (빌더 디자인패턴을 모른다면 Effective Java 2/E P21을 참고) 
+        /// </summary>
+        public class Builder : SerialPortBuilder
         {
-            get
+            public Builder(string name, int baud)
+                : base(name, baud)
             {
-                return _DYSerialPort;
+            }
+
+            public override object Build()
+            {
+                var skt = new XGTCnetExclusiveSocket();
+                skt._SerialPort = new SerialPort(_PortName, _BaudRate, _Parity, _DataBits, _StopBits);
+                return skt;
             }
         }
+
+        #region var_properties_event
         protected volatile bool IsWaitACKProtocol = false;
+        protected readonly object _SerialLock = new object();
+        protected volatile SerialPort _SerialPort;
+        protected volatile IProtocol ReqtProtocol = null;
+        protected volatile IProtocol RecvProtocol = null;
 
         /// <summary>
         /// 시리얼포트 에러 이벤트
         /// </summary>
         public event SerialErrorReceivedEventHandler ErrorReceived;
-
         /// <summary>
         /// 시리얼포트 핀 변경 이벤트
         /// </summary>
@@ -43,34 +55,11 @@ namespace DY.NET.LSIS.XGT
 
         #region method
 
-        /// <summary>
-        /// XGTCnetExclusiveSocket 생성자
-        /// </summary>
-        public XGTCnetExclusiveSocket(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
-            : base()
+        protected XGTCnetExclusiveSocket()
         {
-            _DYSerialPort = new DYSerialPort(portName, baudRate, parity, dataBits, stopBits);
-            if (Serial != null)
-            {
-                Serial.DataReceived += OnDataRecieve;
-                Serial.ErrorReceived += OnSerialErrorReceived;
-                Serial.PinChanged += OnSerialPinChanged;
-            }
+
         }
 
-        internal XGTCnetExclusiveSocket(DYSerialPort serialPort)
-            : base()
-        {
-            _DYSerialPort = serialPort;
-            if (Serial != null)
-            {
-                Serial.DataReceived += OnDataRecieve;
-                Serial.ErrorReceived += OnSerialErrorReceived;
-                Serial.PinChanged += OnSerialPinChanged;
-            }
-        }
-
-        
         /// <summary>
         /// 접속
         /// </summary>
@@ -80,11 +69,11 @@ namespace DY.NET.LSIS.XGT
             bool result;
             lock(_SerialLock)
             {
-                if (Serial == null)
+                if (_SerialPort == null)
                     throw new NullReferenceException("SerialSocket value is null");
-                if (!Serial.IsOpen)
-                    Serial.Open();
-                result = Serial.IsOpen;
+                if (!_SerialPort.IsOpen)
+                    _SerialPort.Open();
+                result = _SerialPort.IsOpen;
             }
             return result;
         }
@@ -98,11 +87,11 @@ namespace DY.NET.LSIS.XGT
             bool result;
             lock (_SerialLock)
             {
-                if (Serial == null)
+                if (_SerialPort == null)
                     return false;
-                if (Serial.IsOpen)
-                    Serial.Close();
-                result = !Serial.IsOpen;
+                if (_SerialPort.IsOpen)
+                    _SerialPort.Close();
+                result = !_SerialPort.IsOpen;
             }
             return result;
         }
@@ -115,7 +104,7 @@ namespace DY.NET.LSIS.XGT
         {
             bool result;
             lock (_SerialLock)
-                result = Serial.IsOpen;
+                result = _SerialPort.IsOpen;
             return result;
         }
 
@@ -142,13 +131,13 @@ namespace DY.NET.LSIS.XGT
 
             lock(_SerialLock)
             {
-                if (Serial == null)
+                if (_SerialPort == null)
                     return;
-                if (!Serial.IsOpen)
+                if (!_SerialPort.IsOpen)
                     throw new Exception("serial port is not opend");
-                Serial.ProtocolClear();
-                Serial.ReqtProtocol = copy;
-                Serial.Write(copy.ProtocolData, 0, copy.ProtocolData.Length);
+                RecvProtocol = null;
+                ReqtProtocol = copy;
+                _SerialPort.Write(copy.ProtocolData, 0, copy.ProtocolData.Length);
             }
             IsWaitACKProtocol = true;
 
@@ -167,18 +156,18 @@ namespace DY.NET.LSIS.XGT
             XGTCnetExclusiveProtocol recv, reqt;
             lock (_SerialLock)
             {
-                DYSerialPort serial = sender as DYSerialPort;
-                if (serial == null)
+                SerialPort serialPort = sender as SerialPort;
+                if (serialPort == null)
                     return;
-                if (!serial.IsOpen)
+                if (!serialPort.IsOpen)
                     return;
-                recv = serial.RecvProtocol as XGTCnetExclusiveProtocol;
-                reqt = serial.ReqtProtocol as XGTCnetExclusiveProtocol;
-                byte[] recv_data = System.Text.Encoding.ASCII.GetBytes(serial.ReadExisting());
+                recv = this.RecvProtocol as XGTCnetExclusiveProtocol;
+                reqt = this.ReqtProtocol as XGTCnetExclusiveProtocol;
+                byte[] recv_data = System.Text.Encoding.ASCII.GetBytes(serialPort.ReadExisting());
                 if (recv == null)
                 {
                     recv = XGTCnetExclusiveProtocol.CreateReceiveProtocol(recv_data, reqt);
-                    serial.RecvProtocol = recv;
+                    this.RecvProtocol = recv;
                 }
                 else
                 {
@@ -246,14 +235,15 @@ namespace DY.NET.LSIS.XGT
         {
             lock (_SerialLock)
             {
-                if (Serial != null)
+                if (_SerialPort != null)
                 {
                     Close();
-                    Serial.ProtocolClear();
-                    Serial.Dispose();
-                    _DYSerialPort = null;
+                    _SerialPort.Dispose();
+                    _SerialPort = null;
                     OnSendedSuccessfully = null;
                     OnReceivedSuccessfully = null;
+                    ReqtProtocol = null;
+                    RecvProtocol = null;
                 }
             }
             base.Dispose();

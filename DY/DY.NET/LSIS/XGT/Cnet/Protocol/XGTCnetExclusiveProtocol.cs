@@ -23,7 +23,7 @@ namespace DY.NET.LSIS.XGT
         public ushort DataCnt { protected set; get; }       //읽거나 쓸 데이터의 개수 (BYTE = 데이터 타입 * 개수) 최대 240byte word는 120byte 가 한계 //2byte
         public List<ENQDataFormat> ENQDatas = new List<ENQDataFormat>(); //?byte
         public List<ACKDataFormat> ACKDatas = new List<ACKDataFormat>(); //?byte
-        public XGTCnetExclusiveProtocol ReqtProtocol; //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
+        public XGTCnetExclusiveProtocol ProtocolPointer; //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
 
         /// <summary>
         /// XGTCnetExclusiveProtocol 복사생성자
@@ -37,7 +37,7 @@ namespace DY.NET.LSIS.XGT
             this.ACKDatas.AddRange(that.ACKDatas);
             this.RegisterNum = that.RegisterNum;
             this.DataCnt = that.DataCnt;
-            this.ReqtProtocol = that.ReqtProtocol;
+            this.ProtocolPointer = that.ProtocolPointer;
         }
 
         protected XGTCnetExclusiveProtocol()
@@ -56,7 +56,7 @@ namespace DY.NET.LSIS.XGT
         }
 
         #region allocClass
-        public static XGTCnetExclusiveProtocol GetRSSProtocol(ushort localPort, List<ENQDataFormat> enqDatas)
+        public static XGTCnetExclusiveProtocol NewRSSProtocol(ushort localPort, List<ENQDataFormat> enqDatas)
         {
             if (enqDatas.Count == 0 || enqDatas == null)
                 throw new ArgumentException("enqDatas argument have problem(null or empty data)");
@@ -67,7 +67,7 @@ namespace DY.NET.LSIS.XGT
             return protocol;
         }
 
-        public static XGTCnetExclusiveProtocol GetRSSProtocol(ushort localPort, ENQDataFormat enqData)
+        public static XGTCnetExclusiveProtocol NewRSSProtocol(ushort localPort, ENQDataFormat enqData)
         {
             var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SS);
             protocol.ENQDatas.Add(enqData);
@@ -75,7 +75,7 @@ namespace DY.NET.LSIS.XGT
             return protocol;
         }
 
-        public static XGTCnetExclusiveProtocol GetWSSProtocol(ushort localPort, List<ENQDataFormat> enqDatas)
+        public static XGTCnetExclusiveProtocol NewWSSProtocol(ushort localPort, List<ENQDataFormat> enqDatas)
         {
             if (enqDatas.Count == 0 || enqDatas == null)
                 throw new ArgumentException("enqDatas argument have problem(null or empty data)");
@@ -86,7 +86,7 @@ namespace DY.NET.LSIS.XGT
             return protocol;
         }
 
-        public static XGTCnetExclusiveProtocol GetWSSProtocol(ushort localPort, ENQDataFormat enqData)
+        public static XGTCnetExclusiveProtocol NewWSSProtocol(ushort localPort, ENQDataFormat enqData)
         {
             var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SS);
             protocol.ENQDatas.Add(enqData);
@@ -94,7 +94,7 @@ namespace DY.NET.LSIS.XGT
             return protocol;
         }
 
-        public static XGTCnetExclusiveProtocol GetRSBProtocol(ushort localPort, string varName, ushort read_data_cnt)
+        public static XGTCnetExclusiveProtocol NewRSBProtocol(ushort localPort, string varName, ushort read_data_cnt)
         {
             if (Glopa.GetDataType(varName) == PLCVarType.BIT)
                 throw new ArgumentException("RSB communication not supported bit data type");
@@ -107,7 +107,7 @@ namespace DY.NET.LSIS.XGT
             return protocol;
         }
 
-        public static XGTCnetExclusiveProtocol GetWSBProtocol(ushort localPort, string varName, object data)
+        public static XGTCnetExclusiveProtocol NewWSBProtocol(ushort localPort, string varName, object data)
         {
             if (!NumericTypeExtension.IsNumeric(data))
                 throw new ArgumentException("data is not numeric type");
@@ -118,7 +118,7 @@ namespace DY.NET.LSIS.XGT
             return protocol;
         }
 
-        public static XGTCnetExclusiveProtocol GetWSBProtocol(ushort localPort, List<ENQDataFormat> enqDatas)
+        public static XGTCnetExclusiveProtocol NewWSBProtocol(ushort localPort, List<ENQDataFormat> enqDatas)
         {
             if (enqDatas.Count == 0 || enqDatas == null)
                 throw new ArgumentException("enqDatas argument have problem(null or empty data)");
@@ -141,10 +141,10 @@ namespace DY.NET.LSIS.XGT
         /// <param name="binaryData"> 원시데이터 </param>
         /// <param name="reqtProtocol"> 요청 프로토콜 클래스 </param>
         /// <returns> 응답 프로토콜 클래스 </returns>
-        public static XGTCnetExclusiveProtocol CreateReceiveProtocol(byte[] binaryData, XGTCnetExclusiveProtocol reqtProtocol)
+        internal static XGTCnetExclusiveProtocol CreateReceiveProtocol(byte[] binaryData, XGTCnetExclusiveProtocol reqtProtocol)
         {
             XGTCnetExclusiveProtocol protocol = new XGTCnetExclusiveProtocol(binaryData);
-            protocol.ReqtProtocol = reqtProtocol;
+            protocol.ProtocolPointer = reqtProtocol;
             return protocol;
         }
 
@@ -358,7 +358,7 @@ namespace DY.NET.LSIS.XGT
             ushort data_len = (ushort)CA2C.ToValue(size_arr, typeof(ushort));
 
             // 그로파 변수이름에서 자료형 정보를 얻어낸다
-            string var_name = ReqtProtocol.ENQDatas[0].GlopaVarName;
+            string var_name = ProtocolPointer.ENQDatas[0].GlopaVarName;
             PLCVarType plc_var_type = Glopa.GetDataType(var_name);
             int data_type_size = plc_var_type.ToSize();
 

@@ -47,7 +47,7 @@ namespace DY.SAMPLE.NET
         static void Main(string[] args)
         {
             //소켓 생성 하기
-            CnetExclusiveSocket = new XGTCnetExclusiveSocket("COM3", 9600, Parity.None, 8, StopBits.One);
+            CnetExclusiveSocket = (XGTCnetExclusiveSocket) new XGTCnetExclusiveSocket.Builder("COM3", 9600).Build();
 
             //통신 연결 하기
             if (CnetExclusiveSocket.Connect())
@@ -80,7 +80,7 @@ namespace DY.SAMPLE.NET
                 }
                 else if (Int32.TryParse(line, out integer))
                 {
-                    var wss = XGTCnetExclusiveProtocol.GetWSSProtocol(PLC_LOCAL_PORT, new ENQDataFormat(PLC_CHECK_VAL, (short)integer));
+                    var wss = XGTCnetExclusiveProtocol.NewWSSProtocol(PLC_LOCAL_PORT, new ENQDataFormat(PLC_CHECK_VAL, (short)integer));
                     wss.ErrorEvent += OnRSSProtocolError;
                     wss.ReceivedEvent += (object sender, SocketDataReceivedEventArgs e) => { Console.WriteLine("WRITE에 성공하였습니다."); };
                     CnetExclusiveSocket.Send(wss);
@@ -99,7 +99,7 @@ namespace DY.SAMPLE.NET
 
         static XGTCnetExclusiveProtocol CreateRSSProtocolObject()
         {
-            var rss_p = XGTCnetExclusiveProtocol.GetRSSProtocol(PLC_LOCAL_PORT, new ENQDataFormat(PLC_CHECK_VAL));
+            var rss_p = XGTCnetExclusiveProtocol.NewRSSProtocol(PLC_LOCAL_PORT, new ENQDataFormat(PLC_CHECK_VAL));
             rss_p.ReceivedEvent += OnRSSProtocolDataReceive;
             rss_p.ErrorEvent += OnRSSProtocolError;
             return rss_p;

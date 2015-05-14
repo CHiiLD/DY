@@ -9,27 +9,27 @@ namespace DY.NET.LSIS.XGT
     {
         public string GetPortName()
         {
-            return Serial.PortName;
+            return _SerialPort.PortName;
         }
 
         public int GetBaudRate()
         {
-            return Serial.BaudRate;
+            return _SerialPort.BaudRate;
         }
 
         public Parity GetParity()
         {
-            return Serial.Parity;
+            return _SerialPort.Parity;
         }
 
         public int GetDataBits()
         {
-            return Serial.DataBits;
+            return _SerialPort.DataBits;
         }
 
         public StopBits GetStopBits()
         {
-            return Serial.StopBits;
+            return _SerialPort.StopBits;
         }
     }
 }

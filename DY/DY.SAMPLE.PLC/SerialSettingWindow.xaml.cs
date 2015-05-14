@@ -45,7 +45,7 @@ namespace DY.SAMPLE.PLC
             int iBaud, iDatabit;
             var main = Owner as MainWindow;
             if( Int32.TryParse(baudrate, out iBaud) && Int32.TryParse(databit, out iDatabit) )
-                main.SetSocket(COM.SERIAL, new XGTCnetExclusiveSocket(portname, iBaud, parity, iDatabit, stopbit));
+                main.SetSocket(COM.SERIAL, new XGTCnetExclusiveSocket.Builder(portname, iBaud).Parity(parity).DataBits(iDatabit).StopBits(stopbit).Build());
             else
                 main.SetSocket(COM.SERIAL, null);
             this.Close();

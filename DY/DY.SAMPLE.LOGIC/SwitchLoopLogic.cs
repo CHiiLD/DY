@@ -53,7 +53,7 @@ namespace DY.SAMPLE.LOGIC
 
         private XGTCnetExclusiveProtocol CreateRSSP4SwitchValue()
         {
-            var rss_p = XGTCnetExclusiveProtocol.GetRSSProtocol(PLC_LOCAL_PORT, new ENQDataFormat(PLC_SWITCH_VAL));
+            var rss_p = XGTCnetExclusiveProtocol.NewRSSProtocol(PLC_LOCAL_PORT, new ENQDataFormat(PLC_SWITCH_VAL));
             rss_p.ReceivedEvent += OnDataReceiveFromSwitchVar;
             rss_p.ErrorEvent += OnRSSProtocolError;
             return rss_p;
@@ -61,7 +61,7 @@ namespace DY.SAMPLE.LOGIC
 
         private XGTCnetExclusiveProtocol CreateRSSP4GetValue()
         {
-            var rss_p = XGTCnetExclusiveProtocol.GetRSSProtocol(PLC_LOCAL_PORT, new ENQDataFormat(PLC_READ_VAL));
+            var rss_p = XGTCnetExclusiveProtocol.NewRSSProtocol(PLC_LOCAL_PORT, new ENQDataFormat(PLC_READ_VAL));
             rss_p.ReceivedEvent += OnDataReceiveFromReadVar;
             rss_p.ErrorEvent += OnRSSProtocolError;
             return rss_p;
@@ -69,7 +69,7 @@ namespace DY.SAMPLE.LOGIC
 
         private XGTCnetExclusiveProtocol CreateWSSP4SwtichValue()
         {
-            var rss_p = XGTCnetExclusiveProtocol.GetWSSProtocol(PLC_LOCAL_PORT, new ENQDataFormat(PLC_SWITCH_VAL, 0));
+            var rss_p = XGTCnetExclusiveProtocol.NewWSSProtocol(PLC_LOCAL_PORT, new ENQDataFormat(PLC_SWITCH_VAL, 0));
             rss_p.ReceivedEvent += (object sender, SocketDataReceivedEventArgs e) => { RepeatExecute(); };
             rss_p.ErrorEvent += OnRSSProtocolError;
             return rss_p;

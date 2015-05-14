@@ -42,11 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Builder\SerialPortBuilder.cs" />
     <Compile Include="Extensions\B2HS.cs" />
     <Compile Include="Extensions\PLCVarType.cs" />
-    <Compile Include="DYSerialPort.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="DYSocket.cs" />
     <Compile Include="Interface\IProtocol.cs" />
     <Compile Include="Interface\ITag.cs" />
