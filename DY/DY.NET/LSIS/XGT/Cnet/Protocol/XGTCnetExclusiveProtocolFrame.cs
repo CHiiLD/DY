@@ -15,6 +15,10 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public abstract class XGTCnetExclusiveProtocolFrame : IProtocol
     {
+        protected const string ERROR_PROTOCOL_HEAD_SIZE = "ASCDATA'S ARRAY LENGTH UNDER 6";
+        protected const string ERROR_PROTOCOL_ASC_SIZE_LIMIT = "PROTOCOLDATA DATA'S LENGTH OVER PROTOCOL_ASC_SIZE_LIMIT(256BYTE)";
+        protected const string ERROR_PROTOCOL_SB_DATACNT_LIMIT = "DATA COUNT(ASC BYTES) LIMITED 240BYTE";
+
         public const int PROTOCOL_HEAD_SIZE = 6;
         public const int PROTOCOL_ASC_SIZE_LIMIT = 256;
         public const int PROTOCOL_ASC_SIZE_ERROR = 4;
@@ -174,7 +178,7 @@ namespace DY.NET.LSIS.XGT
         protected void CatchProtocolHead()
         {
             if (ProtocolData.Length < PROTOCOL_HEAD_SIZE)
-                throw new IndexOutOfRangeException("ASCData's array length under 6.");
+                throw new IndexOutOfRangeException(ERROR_PROTOCOL_HEAD_SIZE);
 
             byte[] head = new byte[PROTOCOL_HEAD_SIZE];
             Buffer.BlockCopy(ProtocolData, 0, head, 0, head.Length);
@@ -208,7 +212,7 @@ namespace DY.NET.LSIS.XGT
         {
             int asc_data_cnt = ProtocolData.Length - PROTOCOL_HEAD_SIZE - (IsExistBCCFromASCData() ? 2 : 1);
             if (!(PROTOCOL_ASC_SIZE_ERROR <= asc_data_cnt && asc_data_cnt < PROTOCOL_ASC_SIZE_LIMIT))
-                throw new Exception("impossibie byte asc sturected data count");
+                throw new Exception("IMPOSSIBIE byte asc sturected data count");
 
             byte[] asc_arr = new byte[asc_data_cnt];
             Buffer.BlockCopy(ProtocolData, PROTOCOL_HEAD_SIZE, asc_arr, 0, asc_data_cnt);
@@ -264,7 +268,7 @@ namespace DY.NET.LSIS.XGT
             ProtocolData = asc_list.ToArray();
 
             if (ProtocolData.Length > PROTOCOL_ASC_SIZE_LIMIT)
-                throw new Exception("binary data's length over PROTOCOL_ASC_SIZE_LIMIT(256byte)");
+                throw new Exception(ERROR_PROTOCOL_ASC_SIZE_LIMIT);
         }
 
         /// <summary>
@@ -273,9 +277,9 @@ namespace DY.NET.LSIS.XGT
         internal void AnalysisProtocol()
         {
             if (ProtocolData == null)
-                throw new NullReferenceException("BinaryData is null.");
+                throw new NullReferenceException("ProtocolData is null.");
             if (ProtocolData.Length < PROTOCOL_HEAD_SIZE)
-                throw new ArgumentOutOfRangeException("BinaryData is not understandable data's length");
+                throw new ArgumentOutOfRangeException(ERROR_PROTOCOL_HEAD_SIZE);
 
             CatchProtocolHead();
             if (!CatchErrorCode())
@@ -290,7 +294,7 @@ namespace DY.NET.LSIS.XGT
         internal bool IsExistBCCFromASCData()
         {
             if (ProtocolData == null)
-                throw new NullReferenceException("BinaryData is null.");
+                throw new NullReferenceException("ProtocolData is null.");
 
             if (Command == XGTCnetCommand.r || Command == XGTCnetCommand.w || Command == XGTCnetCommand.x || Command == XGTCnetCommand.y)
                 return true;

@@ -14,6 +14,9 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public class XGTCnetExclusiveProtocol : XGTCnetExclusiveProtocolFrame
     {
+        private const string ERROR_ENQ_IS_NULL_OR_EMPTY = "ENQDATAS HAVE PROBLEM. (NULL OR EMPTY DATA)";
+        
+
         /// <summary>
         /// PROTOCOL MAIN DATAS
         /// </summary>
@@ -72,40 +75,40 @@ namespace DY.NET.LSIS.XGT
         /// <summary>
         /// 정적 팩토리 생성 메서드 구현
         /// </summary>
-        public static XGTCnetExclusiveProtocol NewRSSProtocol(ushort localPort, List<ENQDataFormat> enqDatas)
+        public static XGTCnetExclusiveProtocol NewRSSProtocol(ushort localPort, List<ENQDataFormat> enqs)
         {
-            if (enqDatas.Count == 0 || enqDatas == null)
-                throw new ArgumentException("enqDatas argument have problem(null or empty data)");
+            if (enqs.Count == 0 || enqs == null)
+                throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
 
             var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SS);
-            protocol.ENQDatas =  enqDatas;
+            protocol.ENQDatas =  enqs;
             protocol.BlockCnt = (ushort)protocol.ENQDatas.Count;
             return protocol;
         }
 
-        public static XGTCnetExclusiveProtocol NewRSSProtocol(ushort localPort, ENQDataFormat enqData)
+        public static XGTCnetExclusiveProtocol NewRSSProtocol(ushort localPort, ENQDataFormat enqs)
         {
             var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SS);
-            protocol.ENQDatas.Add(enqData);
+            protocol.ENQDatas.Add(enqs);
             protocol.BlockCnt = 1;
             return protocol;
         }
 
-        public static XGTCnetExclusiveProtocol NewWSSProtocol(ushort localPort, List<ENQDataFormat> enqDatas)
+        public static XGTCnetExclusiveProtocol NewWSSProtocol(ushort localPort, List<ENQDataFormat> enqs)
         {
-            if (enqDatas.Count == 0 || enqDatas == null)
-                throw new ArgumentException("enqDatas argument have problem(null or empty data)");
+            if (enqs.Count == 0 || enqs == null)
+                throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
 
             var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SS);
-            protocol.ENQDatas = enqDatas;
+            protocol.ENQDatas = enqs;
             protocol.BlockCnt = (ushort)protocol.ENQDatas.Count;
             return protocol;
         }
 
-        public static XGTCnetExclusiveProtocol NewWSSProtocol(ushort localPort, ENQDataFormat enqData)
+        public static XGTCnetExclusiveProtocol NewWSSProtocol(ushort localPort, ENQDataFormat enqs)
         {
             var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SS);
-            protocol.ENQDatas.Add(enqData);
+            protocol.ENQDatas.Add(enqs);
             protocol.BlockCnt = 1;
             return protocol;
         }
@@ -115,7 +118,7 @@ namespace DY.NET.LSIS.XGT
             if (Glopa.GetDataType(varName) == PLCVarType.BIT)
                 throw new ArgumentException("RSB communication not supported bit data type");
             if ((read_data_cnt * (Glopa.GetDataType(varName)).ToSize() * 2) > PROTOCOL_SB_DATACNT_LIMIT)
-                throw new ArgumentException("data count(asc bytes) limited 240byte");
+                throw new ArgumentException(ERROR_PROTOCOL_SB_DATACNT_LIMIT);
 
             var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SB);
             protocol.ENQDatas.Add(new ENQDataFormat(varName));
@@ -126,7 +129,7 @@ namespace DY.NET.LSIS.XGT
         public static XGTCnetExclusiveProtocol NewWSBProtocol(ushort localPort, string varName, object data)
         {
             if (!NumericTypeExtension.IsNumeric(data))
-                throw new ArgumentException("data is not numeric type");
+                throw new ArgumentException(NumericTypeExtension.ERROR_NOT_NEMERIC_TYPE);
 
             var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SB);
             protocol.ENQDatas.Add(new ENQDataFormat(varName, data));
@@ -134,20 +137,20 @@ namespace DY.NET.LSIS.XGT
             return protocol;
         }
 
-        public static XGTCnetExclusiveProtocol NewWSBProtocol(ushort localPort, List<ENQDataFormat> enqDatas)
+        public static XGTCnetExclusiveProtocol NewWSBProtocol(ushort localPort, List<ENQDataFormat> enqs)
         {
-            if (enqDatas.Count == 0 || enqDatas == null)
-                throw new ArgumentException("enqDatas argument have problem(null or empty data)");
+            if (enqs.Count == 0 || enqs == null)
+                throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
 
             int size_sum = 0;
-            foreach(var ed in enqDatas)
+            foreach(var ed in enqs)
                 size_sum += (Glopa.GetDataType(ed.GlopaVarName).ToSize() * 2);
             if (size_sum > PROTOCOL_SB_DATACNT_LIMIT)
-                throw new ArgumentException("data count(asc bytes) limited 240byte");
+                throw new ArgumentException(ERROR_PROTOCOL_SB_DATACNT_LIMIT);
 
             var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SB);
-            protocol.ENQDatas = enqDatas;
-            protocol.DataCnt = (ushort)enqDatas.Count;
+            protocol.ENQDatas = enqs;
+            protocol.DataCnt = (ushort)enqs.Count;
             return protocol;
         }
 
@@ -206,8 +209,6 @@ namespace DY.NET.LSIS.XGT
             asc_list.AddRange(CA2C.ToASC(ENQDatas.Count, typeof(ushort)));
             foreach (ENQDataFormat e in ENQDatas)
             {
-                if (e.GlopaVarName.Length > 16)
-                    throw new ArgumentOutOfRangeException("Var_Name's length over 16.");
                 asc_list.AddRange(CA2C.ToASC(e.GlopaVarName.Length, typeof(ushort)));
                 asc_list.AddRange(CA2C.ToASC(e.GlopaVarName));
             }
@@ -242,8 +243,6 @@ namespace DY.NET.LSIS.XGT
             asc_list.Add((byte)'S');
             asc_list.Add((byte)'B');
 
-            if (ENQDatas[0].GlopaVarName.Length > 16)
-                throw new ArgumentOutOfRangeException("Var_Name's length over 16.");
             asc_list.AddRange(CA2C.ToASC(ENQDatas[0].GlopaVarName.Length, typeof(ushort)));
             asc_list.AddRange(CA2C.ToASC(ENQDatas[0].GlopaVarName));
             asc_list.AddRange(CA2C.ToASC(DataCnt));

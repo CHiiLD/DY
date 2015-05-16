@@ -1,0 +1,32 @@
+﻿<Window x:Class="DY.SAMPLE.LEAK_TESTER.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:local="clr-namespace:DY.SAMPLE.LEAK_TESTER"
+        Title="RAD LEAK TESTER for GRANTA" Height="960" Width="640">
+	<DockPanel>
+		<Menu DockPanel.Dock="Top" VerticalAlignment="Top" >
+			<MenuItem Header="메뉴" >
+				<MenuItem Header="기종 관리" />
+				<MenuItem Header="기종 설정" />
+				<MenuItem Header="입출력 장치 테스트" />
+				<MenuItem Header="시리얼포트 초기화" />
+				<MenuItem Header="프로그램 종료" />
+			</MenuItem>
+		</Menu>
+		<TabControl >
+			<TabItem Header="작업" >
+				<Grid Background="#FFE5E5E5">
+					<local:WorkItemControl DataContext="{Binding}"/>
+				</Grid>
+			</TabItem>
+
+			<TabItem Header="브라우저" >
+				<Grid Background="#FFE5E5E5"/>
+			</TabItem>
+
+			<TabItem Header="기록" >
+				<Grid Background="#FFE5E5E5"/>
+			</TabItem>
+		</TabControl>
+	</DockPanel>
+</Window>

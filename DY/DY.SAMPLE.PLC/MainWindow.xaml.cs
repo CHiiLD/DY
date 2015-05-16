@@ -54,7 +54,7 @@ namespace DY.SAMPLE.PLC
         {
             InitializeComponent();
             Initialize();
-#if true
+#if false
             for (short i = 0; i < 100; i ++ )
                 OnRecvValueToPLC(null, new IntegerReceivedToPlcEventArgs(i));
 #endif
@@ -115,8 +115,11 @@ namespace DY.SAMPLE.PLC
             NPLC_CB.Items.Clear();
             NPLC_CB.Items.Add(PLC.LSIS_XGT);
             if (_SwitchLoopLogic != null)
+            {
                 _SwitchLoopLogic.CheckStop();
-            _SwitchLoopLogic = null;
+                _SwitchLoopLogic.CnetExclusiveSocket.Dispose();
+                _SwitchLoopLogic = null;
+            }
 
             NCurRecvSP.Content = "0";
             NAvrRecvSP.Content = "0";
@@ -195,15 +198,15 @@ namespace DY.SAMPLE.PLC
             NRetLV.Dispatcher.BeginInvoke(new Action(() =>
             {
                 WriteDurationRecord(duration);
-                DateTime dt = DateTime.Now;
-                ListViewLogItem item = new ListViewLogItem()
-                {
-                    Time = dt.Hour + ":" + dt.Minute + ":" + dt.Second + "." + dt.Millisecond,
-                    Value = "",
-                    Log = "초정밀 측정 " + duration.ToString() + " ms"
-                };
-                NRetLV.Items.Add(item);
-                NRetLV.ScrollIntoView(NRetLV.Items[NRetLV.Items.Count - 1]);
+                //DateTime dt = DateTime.Now;
+                //ListViewLogItem item = new ListViewLogItem()
+                //{
+                //    Time = dt.Hour + ":" + dt.Minute + ":" + dt.Second + "." + dt.Millisecond,
+                //    Value = "",
+                //    Log = "초정밀 측정 " + duration.ToString() + " ms"
+                //};
+                //NRetLV.Items.Add(item);
+                //NRetLV.ScrollIntoView(NRetLV.Items[NRetLV.Items.Count - 1]);
             }), null);
 
             _timer = null;

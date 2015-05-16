@@ -30,8 +30,10 @@ namespace DY.NET.LSIS.XGT
 
             public override object Build()
             {
-                var skt = new XGTCnetExclusiveSocket();
-                skt._SerialPort = new SerialPort(_PortName, _BaudRate, _Parity, _DataBits, _StopBits);
+                var skt = new XGTCnetExclusiveSocket() { _SerialPort = new SerialPort(_PortName, _BaudRate, _Parity, _DataBits, _StopBits) };
+                skt._SerialPort.DataReceived += skt.OnDataRecieve;
+                skt._SerialPort.ErrorReceived += skt.OnSerialErrorReceived;
+                skt._SerialPort.PinChanged += skt.OnSerialPinChanged;
                 return skt;
             }
         }
@@ -129,7 +131,6 @@ namespace DY.NET.LSIS.XGT
                 ProtocolStandByQueue.Enqueue(copy);
                 return;
             }
-
             lock(_SerialLock)
             {
                 if (_SerialPort == null)
@@ -141,7 +142,6 @@ namespace DY.NET.LSIS.XGT
                 _SerialPort.Write(copy.ProtocolData, 0, copy.ProtocolData.Length);
             }
             IsWaitACKProtocol = true;
-
             if (OnSendedSuccessfully != null)
                 OnSendedSuccessfully(this, EventArgs.Empty);
             copy.OnDataRequested(this, copy);
@@ -157,10 +157,13 @@ namespace DY.NET.LSIS.XGT
                 if (_SerialPort != null)
                 {
                     Close();
+
+                    ErrorReceived = null;
+                    PinChanged = null;
+
                     _SerialPort.Dispose();
                     _SerialPort = null;
-                    OnSendedSuccessfully = null;
-                    OnReceivedSuccessfully = null;
+                    
                     ReqtProtocol = null;
                     RecvProtocol = null;
                 }

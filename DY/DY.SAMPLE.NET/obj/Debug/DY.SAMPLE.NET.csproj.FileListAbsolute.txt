@@ -30,3 +30,11 @@ C:\GitHub\DY\DY\DY.SAMPLE.NET\bin\Debug\NET.pdb
 C:\GitHub\DY\DY\DY.SAMPLE.NET\obj\Debug\DY.SAMPLE.NET.csprojResolveAssemblyReference.cache
 C:\GitHub\DY\DY\DY.SAMPLE.NET\obj\Debug\DY.SAMPLE.NET.exe
 C:\GitHub\DY\DY\DY.SAMPLE.NET\obj\Debug\DY.SAMPLE.NET.pdb
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.NET\bin\Debug\DY.SAMPLE.NET.exe.config
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.NET\bin\Debug\DY.SAMPLE.NET.exe
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.NET\bin\Debug\DY.SAMPLE.NET.pdb
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.NET\bin\Debug\NET.dll
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.NET\bin\Debug\NET.pdb
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.NET\obj\Debug\DY.SAMPLE.NET.csprojResolveAssemblyReference.cache
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.NET\obj\Debug\DY.SAMPLE.NET.exe
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.NET\obj\Debug\DY.SAMPLE.NET.pdb

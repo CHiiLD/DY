@@ -7,6 +7,8 @@ namespace DY.NET.LSIS
     /// </summary>
     public class Glopa
     {
+        public const string ERROR_ANOTHER_TYPE = "IT IS NOT GLOPA TYPE'S NAME";
+
         /// <summary>
         /// 매겨변수의 문자열이 그로파 타입의 변수이름인지 판별한다.
         /// </summary>
@@ -37,7 +39,7 @@ namespace DY.NET.LSIS
             if (string.IsNullOrEmpty(glopa_var_name))
                 throw new ArgumentNullException("argument is null or empty");
             else if (!IsGlopaVar(glopa_var_name))
-                throw new ArgumentException("it's not glopa variable name");
+                throw new ArgumentException(ERROR_ANOTHER_TYPE);
             else if (glopa_var_name.Length < 4)
                 throw new ArgumentException("it's not understandable glopa variable name");
 

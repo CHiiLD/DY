@@ -4,6 +4,8 @@ namespace DY.NET
 {
     public class NumericTypeExtension
     {
+        public const string ERROR_NOT_NEMERIC_TYPE = "DATA IS NOT NUMERIC TYPE";
+
         public static bool IsNumeric(object data)
         {
             Type dataType = data.GetType();

@@ -32,6 +32,7 @@ namespace DY.SAMPLE.LOGIC
         {
             if (CnetExclusiveSocket != null)
                 CnetExclusiveSocket.Dispose();
+            _CnetExclusiveSocket = null;
         }
 
         public SwitchLoopLogic(XGTCnetExclusiveSocket xgtskt)

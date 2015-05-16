@@ -13,7 +13,7 @@ namespace DY.NET.LSIS.XGT
         public ACKDataFormat(ushort sizeOfType, object data)
         {
             if (!NumericTypeExtension.IsNumeric(data))
-                throw new ArgumentException("data is not numeric type.");
+                throw new ArgumentException(NumericTypeExtension.ERROR_NOT_NEMERIC_TYPE);
             SizeOfType = sizeOfType;
             Data = data;
         }

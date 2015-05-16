@@ -23,3 +23,7 @@ C:\GitHub\DY\DY\DY.NET\obj\Debug\NET.dll
 C:\GitHub\DY\DY\DY.NET\obj\Debug\NET.pdb
 C:\GitHub\DY\DY\DY.NET\bin\Debug\NET.dll
 C:\GitHub\DY\DY\DY.NET\bin\Debug\NET.pdb
+C:\Users\CHILD\GitHub\DY\DY\DY.NET\bin\Debug\NET.dll
+C:\Users\CHILD\GitHub\DY\DY\DY.NET\bin\Debug\NET.pdb
+C:\Users\CHILD\GitHub\DY\DY\DY.NET\obj\Debug\NET.dll
+C:\Users\CHILD\GitHub\DY\DY\DY.NET\obj\Debug\NET.pdb

@@ -49,6 +49,8 @@ namespace DY.NET
         public virtual void Dispose()
         {
             ProtocolStandByQueue = null;
+            OnSendedSuccessfully = null;
+            OnReceivedSuccessfully = null;
         }
 
         /// <summary>
