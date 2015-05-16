@@ -19,3 +19,10 @@ C:\Users\아동\GitHub\DY\DY\DY.SAMPLE.LOGIC\bin\Debug\NET.pdb
 C:\Users\아동\GitHub\DY\DY\DY.SAMPLE.LOGIC\obj\Debug\DY.SAMPLE.LOGIC.csprojResolveAssemblyReference.cache
 C:\Users\아동\GitHub\DY\DY\DY.SAMPLE.LOGIC\obj\Debug\DY.SAMPLE.LOGIC.dll
 C:\Users\아동\GitHub\DY\DY\DY.SAMPLE.LOGIC\obj\Debug\DY.SAMPLE.LOGIC.pdb
+C:\GitHub\DY\DY\DY.SAMPLE.LOGIC\obj\Debug\DY.SAMPLE.LOGIC.csprojResolveAssemblyReference.cache
+C:\GitHub\DY\DY\DY.SAMPLE.LOGIC\obj\Debug\DY.SAMPLE.LOGIC.dll
+C:\GitHub\DY\DY\DY.SAMPLE.LOGIC\obj\Debug\DY.SAMPLE.LOGIC.pdb
+C:\GitHub\DY\DY\DY.SAMPLE.LOGIC\bin\Debug\DY.SAMPLE.LOGIC.dll
+C:\GitHub\DY\DY\DY.SAMPLE.LOGIC\bin\Debug\DY.SAMPLE.LOGIC.pdb
+C:\GitHub\DY\DY\DY.SAMPLE.LOGIC\bin\Debug\NET.dll
+C:\GitHub\DY\DY\DY.SAMPLE.LOGIC\bin\Debug\NET.pdb

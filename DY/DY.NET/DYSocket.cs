@@ -13,9 +13,9 @@ namespace DY.NET
     /// </summary>
     public abstract class DYSocket : ITag, IDisposable
     {
-        public DYSocket()
+        protected DYSocket()
         {
-
+            
         }
 
         public int Tag
@@ -48,9 +48,7 @@ namespace DY.NET
 
         public virtual void Dispose()
         {
-            IProtocol temp;
-            foreach (var p in ProtocolStandByQueue) //clear
-                ProtocolStandByQueue.TryDequeue(out temp);
+            ProtocolStandByQueue = null;
         }
 
         /// <summary>

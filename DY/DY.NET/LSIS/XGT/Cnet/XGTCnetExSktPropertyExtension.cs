@@ -1,4 +1,6 @@
-﻿using System.IO.Ports;
+﻿using System;
+using System.IO.Ports;
+
 
 namespace DY.NET.LSIS.XGT
 {
@@ -9,26 +11,36 @@ namespace DY.NET.LSIS.XGT
     {
         public string GetPortName()
         {
+            if (_SerialPort == null)
+                throw new NullReferenceException(_SerialNullError);
             return _SerialPort.PortName;
         }
 
         public int GetBaudRate()
         {
+            if (_SerialPort == null)
+                throw new NullReferenceException(_SerialNullError);
             return _SerialPort.BaudRate;
         }
 
         public Parity GetParity()
         {
+            if (_SerialPort == null)
+                throw new NullReferenceException(_SerialNullError);
             return _SerialPort.Parity;
         }
 
         public int GetDataBits()
         {
+            if (_SerialPort == null)
+                throw new NullReferenceException(_SerialNullError);
             return _SerialPort.DataBits;
         }
 
         public StopBits GetStopBits()
         {
+            if (_SerialPort == null)
+                throw new NullReferenceException(_SerialNullError);
             return _SerialPort.StopBits;
         }
     }

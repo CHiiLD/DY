@@ -37,11 +37,12 @@ namespace DY.NET.LSIS.XGT
         }
 
         #region var_properties_event
+        private const string _SerialNullError = "XGTCnetExclusiveSocket._SerialPort var is null";
         protected volatile bool IsWaitACKProtocol = false;
         protected readonly object _SerialLock = new object();
         protected volatile SerialPort _SerialPort;
-        protected volatile IProtocol ReqtProtocol = null;
-        protected volatile IProtocol RecvProtocol = null;
+        protected IProtocol ReqtProtocol;
+        protected IProtocol RecvProtocol;
 
         /// <summary>
         /// 시리얼포트 에러 이벤트
@@ -70,7 +71,7 @@ namespace DY.NET.LSIS.XGT
             lock(_SerialLock)
             {
                 if (_SerialPort == null)
-                    throw new NullReferenceException("SerialSocket value is null");
+                    throw new NullReferenceException(_SerialNullError);
                 if (!_SerialPort.IsOpen)
                     _SerialPort.Open();
                 result = _SerialPort.IsOpen;
@@ -144,6 +145,27 @@ namespace DY.NET.LSIS.XGT
             if (OnSendedSuccessfully != null)
                 OnSendedSuccessfully(this, EventArgs.Empty);
             copy.OnDataRequested(this, copy);
+        }
+
+        /// <summary>
+        /// 메모리 반환
+        /// </summary>
+        public override void Dispose()
+        {
+            lock (_SerialLock)
+            {
+                if (_SerialPort != null)
+                {
+                    Close();
+                    _SerialPort.Dispose();
+                    _SerialPort = null;
+                    OnSendedSuccessfully = null;
+                    OnReceivedSuccessfully = null;
+                    ReqtProtocol = null;
+                    RecvProtocol = null;
+                }
+            }
+            base.Dispose();
         }
 
         /// <summary>
@@ -226,27 +248,6 @@ namespace DY.NET.LSIS.XGT
         {
             if (PinChanged != null)
                 PinChanged(sender, e);
-        }
-
-        /// <summary>
-        /// 메모리 반환
-        /// </summary>
-        public override void Dispose()
-        {
-            lock (_SerialLock)
-            {
-                if (_SerialPort != null)
-                {
-                    Close();
-                    _SerialPort.Dispose();
-                    _SerialPort = null;
-                    OnSendedSuccessfully = null;
-                    OnReceivedSuccessfully = null;
-                    ReqtProtocol = null;
-                    RecvProtocol = null;
-                }
-            }
-            base.Dispose();
         }
         #endregion
     }

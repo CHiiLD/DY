@@ -49,7 +49,6 @@
     <Compile Include="Interface\IProtocol.cs" />
     <Compile Include="Interface\ITag.cs" />
     <Compile Include="Extensions\CA2C.cs" />
-    <Compile Include="Interface\IPrintInfo.cs" />
     <Compile Include="LSIS\LD2Glopa.cs" />
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetCommand.cs" />
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetCommandType.cs" />

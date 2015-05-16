@@ -12,17 +12,8 @@ namespace DY.NET
     /// PLC에서 보낼 원시 프로토콜 데이터는 반드시 이 인터페이스를 상속받아 구현합니다.
     /// 일반적인 Socket에서의 이벤트 설정과 달리, 유연한 이벤트 제어를 위해 프로토콜 단위로 이벤트를 설정합니다.
     /// </summary>
-    public interface IProtocol : IPrintInfo
+    public interface IProtocol
     {
-        /// <summary>
-        /// 원시 프로토콜 데이터
-        /// </summary>
-        byte[] ProtocolData
-        {
-            get;
-            set;
-        }
-
         /// <summary>
         /// 통신 중 예외 또는 에러가 발생시 통지
         /// </summary>
@@ -42,14 +33,12 @@ namespace DY.NET
         /// <param name="obj"> DYSocekt 클래스 객체 </param>
         /// <param name="protocol"> IProtocol 인터페이스 객체 </param>
         void OnDataReceived(object obj, IProtocol protocol);
-
         /// <summary>
         /// OnDataRequestedEvent 이벤트를 발생시킵니다.
         /// </summary>
         /// <param name="obj"> DYSocekt 클래스 객체 </param>
         /// <param name="protocol"> IProtocol 인터페이스 객체 </param>
         void OnDataRequested(object obj, IProtocol protocol);
-
         /// <summary>
         /// OnErrorEvent 이벤트를 발생시킵니다.
         /// </summary>

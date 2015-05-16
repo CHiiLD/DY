@@ -11,7 +11,6 @@ namespace DY.NET.LSIS.XGT
 {
     /// <summary>
     /// XGT Cnet 통신을 위한 프로토콜 클래스
-    /// 단숨함을 위해 데이터와 기능을 함께 넣음
     /// </summary>
     public class XGTCnetExclusiveProtocol : XGTCnetExclusiveProtocolFrame
     {
@@ -21,18 +20,20 @@ namespace DY.NET.LSIS.XGT
         public ushort BlockCnt { protected set; get; }      //2byte
         public ushort RegisterNum { protected set; get; }   //2byte
         public ushort DataCnt { protected set; get; }       //읽거나 쓸 데이터의 개수 (BYTE = 데이터 타입 * 개수) 최대 240byte word는 120byte 가 한계 //2byte
-        public List<ENQDataFormat> ENQDatas = new List<ENQDataFormat>(); //?byte
-        public List<ACKDataFormat> ACKDatas = new List<ACKDataFormat>(); //?byte
-        public XGTCnetExclusiveProtocol ProtocolPointer; //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
+        public List<ENQDataFormat> ENQDatas { get; private set; }
+        public List<ACKDataFormat> ACKDatas { get; private set; }
+
+        internal XGTCnetExclusiveProtocol ProtocolPointer; //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
 
         /// <summary>
         /// XGTCnetExclusiveProtocol 복사생성자
         /// </summary>
         /// <param name="that"> 복사하고자 할 XGTCnetExclusiveProtocol 객체 </param>
-        public XGTCnetExclusiveProtocol(XGTCnetExclusiveProtocol that)
+        internal XGTCnetExclusiveProtocol(XGTCnetExclusiveProtocol that)
             : base(that)
         {
             this.BlockCnt = that.BlockCnt;
+            Init();
             this.ENQDatas.AddRange(that.ENQDatas);
             this.ACKDatas.AddRange(that.ACKDatas);
             this.RegisterNum = that.RegisterNum;
@@ -43,19 +44,34 @@ namespace DY.NET.LSIS.XGT
         protected XGTCnetExclusiveProtocol()
             : base()
         {
+            Init();
         }
 
         protected XGTCnetExclusiveProtocol(byte[] binaryDatas)
             : base(binaryDatas)
         {
+            Init();
         }
 
         protected XGTCnetExclusiveProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
             : base(localPort, cmd, type)
         {
+            Init();
         }
 
-        #region allocClass
+        /// <summary>
+        /// 변수 초기화
+        /// </summary>
+        private void Init()
+        {
+            ENQDatas = new List<ENQDataFormat>();
+            ACKDatas = new List<ACKDataFormat>();
+        }
+
+        #region static factory construct method
+        /// <summary>
+        /// 정적 팩토리 생성 메서드 구현
+        /// </summary>
         public static XGTCnetExclusiveProtocol NewRSSProtocol(ushort localPort, List<ENQDataFormat> enqDatas)
         {
             if (enqDatas.Count == 0 || enqDatas == null)
@@ -148,7 +164,7 @@ namespace DY.NET.LSIS.XGT
             return protocol;
         }
 
-        protected static XGTCnetExclusiveProtocol CreateRequestProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
+        internal static XGTCnetExclusiveProtocol CreateRequestProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
         {
             XGTCnetExclusiveProtocol protocol = new XGTCnetExclusiveProtocol(localPort, cmd, type);
             protocol.Header = XGTCnetControlCodeType.ENQ;
@@ -430,7 +446,7 @@ namespace DY.NET.LSIS.XGT
             }
         }
 
-        protected override void PrintBinaryDataInfo()
+        protected override void PrintBinaryMainInfo()
         {
             Console.WriteLine(string.Format("Block number: {0}", BlockCnt));
             Console.WriteLine(string.Format("Register number: {0}", RegisterNum));
