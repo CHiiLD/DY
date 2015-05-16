@@ -18,7 +18,6 @@ C:\Users\아동\GitHub\DY\DY\DY.NET\bin\Debug\NET.pdb
 C:\Users\아동\GitHub\DY\DY\DY.NET\obj\Debug\DY.NET.csprojResolveAssemblyReference.cache
 C:\Users\아동\GitHub\DY\DY\DY.NET\obj\Debug\NET.dll
 C:\Users\아동\GitHub\DY\DY\DY.NET\obj\Debug\NET.pdb
-C:\GitHub\DY\DY\DY.NET\obj\Debug\DY.NET.csprojResolveAssemblyReference.cache
 C:\GitHub\DY\DY\DY.NET\obj\Debug\NET.dll
 C:\GitHub\DY\DY\DY.NET\obj\Debug\NET.pdb
 C:\GitHub\DY\DY\DY.NET\bin\Debug\NET.dll

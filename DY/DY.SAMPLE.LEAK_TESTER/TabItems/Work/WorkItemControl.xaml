@@ -7,15 +7,68 @@
              d:DesignHeight="920" d:DesignWidth="640">
     <Grid>
     	<Grid.RowDefinitions>
-    		<RowDefinition Height="3*"/>
+    		<RowDefinition Height="5*"/>
 			<RowDefinition Height="Auto"/>
-    		<RowDefinition Height="2*"/>
+    		<RowDefinition Height="3*"/>
     	</Grid.RowDefinitions>
-    	<Grid >
+    	<Grid  >
     		<Grid.ColumnDefinitions>
     			<ColumnDefinition Width="1*"/>
     			<ColumnDefinition Width="1*"/>
     		</Grid.ColumnDefinitions>
+    		<Grid Margin="0">
+    			<UniformGrid Margin="20,10,10,10" Rows="10">
+    				<DockPanel Height="36" VerticalAlignment="Center" Margin="0,1"  >
+    					<TextBlock  TextWrapping="Wrap" Text="기종 번호" Width="100" FontSize="16" VerticalAlignment="Center"/>
+    					<ComboBox HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
+    				</DockPanel>
+    				<DockPanel Height="36" VerticalAlignment="Center"  Margin="0,1"   >
+    					<TextBlock  TextWrapping="Wrap" Text="기종" Width="100" FontSize="16" VerticalAlignment="Center"/>
+    					<Label Content="Label" BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
+    				</DockPanel>
+    				<DockPanel Height="36" VerticalAlignment="Center"  Margin="0,1"   >
+    					<TextBlock  TextWrapping="Wrap" Width="100" FontSize="16" VerticalAlignment="Center"><Run Text="납품처"/><LineBreak/><Run/></TextBlock>
+    					<Label Content="Label" BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
+    				</DockPanel>
+    				<DockPanel Height="36" VerticalAlignment="Center" Margin="0,1"   >
+    					<TextBlock  TextWrapping="Wrap" Text="제품 정보" Width="100" FontSize="16" VerticalAlignment="Center"/>
+    					<Label Content="Label" BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
+    				</DockPanel>
+    				<DockPanel Height="36" VerticalAlignment="Center" Margin="0,1"   >
+    					<TextBlock  TextWrapping="Wrap" Text="제품 번호" Width="100" FontSize="16" VerticalAlignment="Center"/>
+    					<Label Content="Label" BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
+    				</DockPanel>
+    				<DockPanel Height="36" VerticalAlignment="Center"  Margin="0,1"   >
+    					<TextBlock  TextWrapping="Wrap" Text="라벨 ID" Width="100" FontSize="16" VerticalAlignment="Center"/>
+    					<Label Content="Label" BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
+    				</DockPanel>
+    				<DockPanel Height="36" VerticalAlignment="Center"  Margin="0,1"   >
+    					<TextBlock  TextWrapping="Wrap" Width="100" FontSize="16" VerticalAlignment="Center" Text="제품 결과"/>
+    					<Grid>
+    						<Grid.ColumnDefinitions>
+    							<ColumnDefinition Width="40*"/>
+    							<ColumnDefinition Width="20*"/>
+    						</Grid.ColumnDefinitions>
+    						<Label Content="Label" BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" Margin="0,0,5,0" />
+    						<Label Content="Label" BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" Margin="0" Grid.ColumnSpan="1" Grid.Column="1" />
+
+    					</Grid>
+
+    				</DockPanel>
+    				<DockPanel Height="36" VerticalAlignment="Center"  Margin="0,1"   >
+    					<TextBlock  TextWrapping="Wrap" Text="시리얼 번호" Width="100" FontSize="16" VerticalAlignment="Center"/>
+    					<Label Content="Label" BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
+    				</DockPanel>
+    				<DockPanel Height="36" VerticalAlignment="Center"  Margin="0,1"   >
+    					<TextBlock  TextWrapping="Wrap" Width="100" FontSize="16" VerticalAlignment="Center" Text="QR 코드"/>
+    					<Label Content="Label" BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
+    				</DockPanel>
+    				<DockPanel Height="36" VerticalAlignment="Center" Margin="0,1"   >
+    					<TextBlock  TextWrapping="Wrap" Text="모델" Width="100" FontSize="16" VerticalAlignment="Center"/>
+    					<Label Content="Label" BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
+    				</DockPanel>
+    			</UniformGrid>
+    		</Grid>
     	</Grid>
     	<GridSplitter Grid.Row="1"
               HorizontalAlignment="Stretch"
