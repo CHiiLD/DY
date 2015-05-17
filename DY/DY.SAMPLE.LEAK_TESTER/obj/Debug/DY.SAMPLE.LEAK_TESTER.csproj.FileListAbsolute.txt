@@ -32,3 +32,11 @@ C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\MainWindow.baml
 C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\DY.SAMPLE.LEAK_TESTER.g.resources
 C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\DY.SAMPLE.LEAK_TESTER.Properties.Resources.resources
 C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\DY.SAMPLE.LEAK_TESTER.csproj.GenerateResource.Cache
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\TabItems\Work\WorkModelItemControl.baml
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\TabItems\Work\WorkModelItemControl.g.cs
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\TabItems\ModelListViewItemControl.baml
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\TabItems\ModelListViewItemControl.g.cs
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\TabItems\Browse\BrowseModelItemControl.baml
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\TabItems\Browse\BrowseModelItemControl.g.cs
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\MenuItems\Menu\ModelSettingWindow.baml
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\MenuItems\Menu\ModelSettingWindow.g.cs

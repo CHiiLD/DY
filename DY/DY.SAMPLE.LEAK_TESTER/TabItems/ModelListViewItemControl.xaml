@@ -1,0 +1,33 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	x:Class="DY.SAMPLE.LEAK_TESTER.ModelListViewItemControl"
+	x:Name="UserControl"
+	d:DesignWidth="1024" d:DesignHeight="287.25">
+
+	<Grid >
+		<ListView x:Name="NModelListView" >
+			<ListView.View>
+				<GridView>
+					<GridViewColumn Header="No" Width="30" DisplayMemberBinding="{Binding No}" />
+					<GridViewColumn Header="Date"  Width="60" DisplayMemberBinding="{Binding Date}" />
+					<GridViewColumn Header="Time" Width="60"  DisplayMemberBinding="{Binding Time}" />
+					<GridViewColumn Header="Model No." DisplayMemberBinding="{Binding ModelNo}" />
+					<GridViewColumn Header="Model" Width="110"  DisplayMemberBinding="{Binding Model}" />
+					<GridViewColumn Header="Customer" Width="60"  DisplayMemberBinding="{Binding Customer}" />
+					<GridViewColumn Header="P/I" Width="40" DisplayMemberBinding="{Binding ProductInfo}" />
+					<GridViewColumn Header="Part No" Width="60" DisplayMemberBinding="{Binding PartNo}" />
+					<GridViewColumn Header="Label ID" Width="60" DisplayMemberBinding="{Binding LabelID}" />
+					<GridViewColumn Header="Leak" Width="50" DisplayMemberBinding="{Binding Leak}" />
+					<GridViewColumn Header="Result"  DisplayMemberBinding="{Binding Result}" />
+					<GridViewColumn Header="Serial" Width="110" DisplayMemberBinding="{Binding Serial}" />
+					<GridViewColumn Header="QR Code" Width="200" DisplayMemberBinding="{Binding QRCode}" />
+					<GridViewColumn Header="L/R" DisplayMemberBinding="{Binding LR}" />
+				</GridView>
+			</ListView.View>
+		</ListView>
+	</Grid>
+</UserControl>
