@@ -23,8 +23,9 @@
 			<DatePicker SelectedDateFormat="Short" SelectedDate="3/23/09"
 				DisplayDateStart="2010-01-01" DisplayDateEnd="12/31/09" 
 				FirstDayOfWeek="Monday" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18.667"/>
+			<Button Content="검색하기" Height="30" Width="80" HorizontalAlignment="Left" DockPanel.Dock="Top" Margin="10,0,0,0" FontSize="13.333"/>
 		</DockPanel>
 		<local:ModelListViewItemControl Grid.Row="1" Grid.ColumnSpan="2"/>
-		<Button Content="Save To CSV" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,20,0" Width="100" Height="40"/>
+		<Button Content="CSV로 저장하기" Grid.Column="1" HorizontalAlignment="Right" Margin="0,0,20,0" Width="100" Height="30"/>
 	</Grid>
 </UserControl>

@@ -3,8 +3,68 @@
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	x:Class="DY.SAMPLE.LEAK_TESTER.IOTestWindow"
 	x:Name="Window"
-	Title="IOTestWindow"
-	Width="640" Height="480">
+	Title="입출력 장치 모니터링"
+	Width="800" Height="480" ResizeMode="NoResize" WindowStartupLocation="CenterOwner">
+	<Window.Resources>
+		<Style x:Key="OnOffLabelStyle" TargetType="{x:Type Label}">
+			<Setter Property="Margin" Value="5,0,20,0"/>
+			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="FontSize" Value="16" />
+			<Setter Property="Height" Value="38" />
+			<Setter Property="HorizontalContentAlignment" Value="Center" />
+			<Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+		</Style>
 
-	<Grid x:Name="LayoutRoot"/>
+		<Style x:Key="VarNameLabelStyle" TargetType="{x:Type Label}">
+			<Setter Property="Margin" Value="5,0"/>
+			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="FontSize" Value="16" />
+			<Setter Property="Height" Value="38" />
+			<Setter Property="HorizontalContentAlignment" Value="Center" />
+			<Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+		</Style>
+
+		<Style x:Key="VarValueLabelStyle" TargetType="{x:Type Label}">
+			<Setter Property="Margin" Value="5,0"/>
+			<Setter Property="BorderThickness" Value="1" />
+			<Setter Property="FontSize" Value="16" />
+			<Setter Property="Height" Value="38" />
+			<Setter Property="HorizontalContentAlignment" Value="Right" />
+			<Setter Property="BorderBrush" Value="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" />
+		</Style>
+	</Window.Resources>
+
+	<Grid >
+		<Grid.RowDefinitions>
+			<RowDefinition Height="1*"/>
+			<RowDefinition Height="50"/>
+		</Grid.RowDefinitions>
+		<UniformGrid Margin="20,20,20,0" Rows="6" Columns="3">
+			<Label Content="PC_READY [M002C]" Style="{DynamicResource OnOffLabelStyle}"/>
+			<Label Content="PLC_LH_MODEL [D1318]"  Style="{DynamicResource VarNameLabelStyle}" />
+			<Label Content="0"  Style="{DynamicResource VarValueLabelStyle}" />
+
+			<Label Content="PLC_READY [M002C]" Style="{DynamicResource OnOffLabelStyle}"/>
+			<Label Content="PLC_LH_RESULT [D1312]"  Style="{DynamicResource VarNameLabelStyle}" />
+			<Label Content="0"  Style="{DynamicResource VarValueLabelStyle}" />
+
+			<Label Content="PLC_LH_TEST_END [M002B]" Style="{DynamicResource OnOffLabelStyle}"/>
+			<Label Content="PLC_LH_LEAK [D1314]"  Style="{DynamicResource VarNameLabelStyle}" />
+			<Label Content="0"  Style="{DynamicResource VarValueLabelStyle}" />
+
+			<Label Content="PLC_RH_TEST_END [M002D]" Style="{DynamicResource OnOffLabelStyle}"/>
+			<Label Content="PLC_RH_MODEL [D1418]"  Style="{DynamicResource VarNameLabelStyle}" />
+			<Label Content="0"  Style="{DynamicResource VarValueLabelStyle}" />
+
+			<Label Content="PL_LH_READ_END [M0020]" Style="{DynamicResource OnOffLabelStyle}"/>
+			<Label Content="PLC_RH_RESULT [D1412]"  Style="{DynamicResource VarNameLabelStyle}" />
+			<Label Content="0"  Style="{DynamicResource VarValueLabelStyle}" />
+
+			<Label Content="PL_RH_READ_END [M0024]" Style="{DynamicResource OnOffLabelStyle}"/>
+			<Label Content="PLC_RH_LEAK [D1414]"  Style="{DynamicResource VarNameLabelStyle}" />
+			<Label Content="0"  Style="{DynamicResource VarValueLabelStyle}" />
+
+		</UniformGrid>
+		<Button Content="닫기" Grid.Row="1" Width="100" Height="36" />
+	</Grid>
 </Window>

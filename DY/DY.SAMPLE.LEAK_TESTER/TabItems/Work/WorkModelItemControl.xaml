@@ -17,23 +17,23 @@
 				</DockPanel>
 				<DockPanel Height="36" VerticalAlignment="Center"  Margin="0,1"   >
 					<TextBlock  TextWrapping="Wrap" Text="기종" Width="100" FontSize="16" VerticalAlignment="Center"/>
-					<Label x:Name="NModel" BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
+					<Label x:Name="NModel" BorderBrush="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
 				</DockPanel>
 				<DockPanel Height="36" VerticalAlignment="Center"  Margin="0,1"   >
 					<TextBlock  TextWrapping="Wrap" Width="100" FontSize="16" VerticalAlignment="Center" Text="납품처" />
-					<Label x:Name="NCustomer" BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
+					<Label x:Name="NCustomer" BorderBrush="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}"  HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
 				</DockPanel>
 				<DockPanel Height="36" VerticalAlignment="Center" Margin="0,1"   >
 					<TextBlock  TextWrapping="Wrap" Text="제품 정보" Width="100" FontSize="16" VerticalAlignment="Center"/>
-					<Label x:Name="NProdectInfo" BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
+					<Label x:Name="NProdectInfo" BorderBrush="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
 				</DockPanel>
 				<DockPanel Height="36" VerticalAlignment="Center" Margin="0,1"   >
 					<TextBlock  TextWrapping="Wrap" Text="제품 번호" Width="100" FontSize="16" VerticalAlignment="Center"/>
-					<Label x:Name="NProductNum" BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
+					<Label x:Name="NProductNum" BorderBrush="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
 				</DockPanel>
 				<DockPanel Height="36" VerticalAlignment="Center"  Margin="0,1"   >
 					<TextBlock  TextWrapping="Wrap" Text="라벨 ID" Width="100" FontSize="16" VerticalAlignment="Center"/>
-					<Label x:Name="NLabelID"  BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
+					<Label x:Name="NLabelID"  BorderBrush="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
 				</DockPanel>
 				<DockPanel Height="36" VerticalAlignment="Center"  Margin="0,1"   >
 					<TextBlock  TextWrapping="Wrap" Width="100" FontSize="16" VerticalAlignment="Center" Text="제품 결과"/>
@@ -42,22 +42,22 @@
 							<ColumnDefinition Width="40*"/>
 							<ColumnDefinition Width="20*"/>
 						</Grid.ColumnDefinitions>
-						<Label x:Name="NProductValue" BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" Margin="0,0,5,0" />
-						<Label x:Name="NproductRet" BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" Margin="0" Grid.ColumnSpan="1" Grid.Column="1" />
+						<Label x:Name="NProductValue" BorderBrush="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" Margin="0,0,5,0" />
+						<Label x:Name="NproductRet" BorderBrush="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" Margin="0" Grid.ColumnSpan="1" Grid.Column="1" />
 
 					</Grid>
 
 				</DockPanel>
 				<DockPanel Height="36" VerticalAlignment="Center"  Margin="0,1"   >
 					<TextBlock  TextWrapping="Wrap" Text="시리얼 번호" Width="100" FontSize="16" VerticalAlignment="Center"/>
-					<Label x:Name="NSerialNum" BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
+					<Label x:Name="NSerialNum" BorderBrush="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
 				</DockPanel>
 				<DockPanel Height="36" VerticalAlignment="Center"  Margin="0,1"   >
 					<TextBlock  TextWrapping="Wrap" Width="100" FontSize="16" VerticalAlignment="Center" Text="QR 코드"/>
-					<Label x:Name="NQrCode" BorderBrush="Black" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
+					<Label x:Name="NQrCode" BorderBrush="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" />
 				</DockPanel>
 				<DockPanel Height="36" VerticalAlignment="Center" Margin="0,1"   >
-					<Button Content="Reprint" FontSize="16" />
+					<Button Content="재출력" FontSize="16" />
 				</DockPanel>
 			</UniformGrid>
 		</Grid>

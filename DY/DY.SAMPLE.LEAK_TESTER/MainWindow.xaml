@@ -2,14 +2,16 @@
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 		xmlns:local="clr-namespace:DY.SAMPLE.LEAK_TESTER"
-        Title="RAD LEAK TESTER for GRANTA" Height="768" Width="1024">
+        Title="RAD LEAK TESTER for GRANTA" Height="768" Width="1024" WindowStartupLocation="CenterScreen">
 	<DockPanel>
 		<Menu DockPanel.Dock="Top" VerticalAlignment="Top" >
 			<MenuItem Header="메뉴" >
-				<MenuItem x:Name="NMIModel" Header="기종 관리" Click="NMIModel_Click" />
-				<MenuItem x:Name="NMISetup" Header="기종 설정" />
-				<MenuItem x:Name="NMI_IO" Header="입출력 장치 테스트" />
-				<MenuItem x:Name="NMI_Init" Header="시리얼포트 초기화" />
+				<MenuItem x:Name="NMIModel" Header="기종 관리 및 설정" Click="NMIModel_Click" />
+				<Separator />
+				<MenuItem x:Name="NMISetup" Header="네트워크 관리 및 설정" Click="NMISetup_Click" />
+				<MenuItem x:Name="NMI_IO" Header="입출력 장치 모니터링" Click="NMI_IO_Click" />
+				<MenuItem x:Name="NMI_Init" Header="시리얼 초기화" />
+				<Separator />
 				<MenuItem x:Name="NMI_Exit" Header="프로그램 종료" />
 			</MenuItem>
 		</Menu>

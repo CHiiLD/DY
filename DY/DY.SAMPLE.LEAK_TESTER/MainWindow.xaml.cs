@@ -27,9 +27,17 @@ namespace DY.SAMPLE.LEAK_TESTER
 
         private void NMIModel_Click(object sender, RoutedEventArgs e)
         {
-            ModelSettingWindow win = new ModelSettingWindow();
-            win.Owner = this;
-            win.ShowDialog();
+            new ModelSettingWindow() { Owner = this }.ShowDialog();
+        }
+
+        private void NMISetup_Click(object sender, RoutedEventArgs e)
+        {
+            new CommSetupWindow() { Owner = this }.ShowDialog();
+        }
+
+        private void NMI_IO_Click(object sender, RoutedEventArgs e)
+        {
+            new IOTestWindow() { Owner = this }.ShowDialog();
         }
     }
 }
