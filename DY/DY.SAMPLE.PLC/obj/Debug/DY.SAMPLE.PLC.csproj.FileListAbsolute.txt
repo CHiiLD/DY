@@ -102,3 +102,5 @@ C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.PLC\obj\Debug\DY.SAMPLE.PLC.Properties.Res
 C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.PLC\obj\Debug\DY.SAMPLE.PLC.csproj.GenerateResource.Cache
 C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.PLC\obj\Debug\DY.SAMPLE.PLC.exe
 C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.PLC\obj\Debug\DY.SAMPLE.PLC.pdb
+C:\GitHub\DY\DY\DY.SAMPLE.PLC\bin\Debug\DY.SAMPLE.LOGIC2.dll
+C:\GitHub\DY\DY\DY.SAMPLE.PLC\bin\Debug\DY.SAMPLE.LOGIC2.pdb

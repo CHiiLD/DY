@@ -1,0 +1,7 @@
+C:\GitHub\DY\DY\DY.SAMPLE.LOGIC\bin\Release\DY.SAMPLE.LOGIC.dll
+C:\GitHub\DY\DY\DY.SAMPLE.LOGIC\bin\Release\DY.SAMPLE.LOGIC.pdb
+C:\GitHub\DY\DY\DY.SAMPLE.LOGIC\bin\Release\NET.dll
+C:\GitHub\DY\DY\DY.SAMPLE.LOGIC\bin\Release\NET.pdb
+C:\GitHub\DY\DY\DY.SAMPLE.LOGIC\obj\Release\DY.SAMPLE.LOGIC.csprojResolveAssemblyReference.cache
+C:\GitHub\DY\DY\DY.SAMPLE.LOGIC\obj\Release\DY.SAMPLE.LOGIC.dll
+C:\GitHub\DY\DY\DY.SAMPLE.LOGIC\obj\Release\DY.SAMPLE.LOGIC.pdb

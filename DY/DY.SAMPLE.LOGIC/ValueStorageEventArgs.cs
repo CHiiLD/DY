@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DY.SAMPLE.LOGIC
 {
-    public class IntegerReceivedToPlcEventArgs : EventArgs
+    public class ValueStorageEventArgs : EventArgs
     {
         private object _Value;
         public object Value { get { return _Value; } }
-        public IntegerReceivedToPlcEventArgs(object value)
+        public ValueStorageEventArgs(object value)
         {
             _Value = value;
         }

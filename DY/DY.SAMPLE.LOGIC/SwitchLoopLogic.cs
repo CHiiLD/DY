@@ -17,7 +17,7 @@ namespace DY.SAMPLE.LOGIC
         private readonly object _lock4skt = new object();
         private XGTCnetExclusiveSocket _CnetExclusiveSocket;
         private bool _IsExecute = false;
-        public event EventHandler<IntegerReceivedToPlcEventArgs> OnReceivedValueEvent;
+        public event EventHandler<ValueStorageEventArgs> OnReceivedValueEvent;
 
         public XGTCnetExclusiveSocket CnetExclusiveSocket
         {
@@ -105,7 +105,7 @@ namespace DY.SAMPLE.LOGIC
             short recv_data = (short)p.ACKDatas[0].Data;
             Console.WriteLine("Value in {0} -> {1}", PLC_READ_VAL, recv_data);
             if (OnReceivedValueEvent != null)
-                OnReceivedValueEvent(this, new IntegerReceivedToPlcEventArgs(recv_data));
+                OnReceivedValueEvent(this, new ValueStorageEventArgs(recv_data));
             CnetExclusiveSocket.Send(CreateWSSP4SwtichValue());
         }
 

@@ -4,7 +4,6 @@
  * 날짜: 2015-03-31
  */
 
-using System;
 using System.Text;
 
 namespace DY.NET
@@ -20,10 +19,9 @@ namespace DY.NET
             foreach(byte b in data)
             {
                 sb.Append(string.Format("{0:X2}", b));
-                sb.Append(',');
                 sb.Append(' ');
             }
-            sb.Remove(sb.Length - 2, 2);
+            sb.Remove(sb.Length - 1, 1);
             return sb.ToString();
         }
     }

@@ -1,5 +1,4 @@
-﻿using System;
-
+﻿
 namespace DY.NET.LSIS
 {
     public class LD2Glopa
@@ -7,7 +6,7 @@ namespace DY.NET.LSIS
         public static string VarConvert(string ld, PLCVarType type)
         {
             string ret = ld;
-            string type_s = null ;
+            string type_s = null;
             switch (type)
             {
                 case PLCVarType.BIT:
@@ -26,8 +25,9 @@ namespace DY.NET.LSIS
                     type_s = "L";
                     break;
             }
-            ret.Insert(0, "%");
-            ret.Insert(2, type_s);
+
+            ret = ret.Insert(0, "%");
+            ret = ret.Insert(2, type_s);
             return ret;
         }
     }

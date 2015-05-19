@@ -8,7 +8,6 @@
  */
 
 using System;
-using System.Threading.Tasks;
 using System.IO.Ports;
 
 namespace DY.NET.LSIS.XGT

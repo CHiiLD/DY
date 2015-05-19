@@ -14,6 +14,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using DY.SAMPLE.LOGIC;
+using DY.SAMPLE.LOGIC2;
 using DY.NET.LSIS.XGT;
 using DY.NET;
 using System.ComponentModel;
@@ -41,12 +42,13 @@ namespace DY.SAMPLE.PLC
             public T Min;
         }
 
-        private SwitchLoopLogic _SwitchLoopLogic;
+        private Logic _Logic;
         private Win32.HiPerfTimer _timer;
 
         private DataBox<double> _SpeedBox = new DataBox<double>();
         private DataBox<int> _ValueBox = new DataBox<int>();
         private int _Old = int.MinValue;
+        private bool _OnlyOne = false;
 
         private ListSortDirection _ListSortDirection = ListSortDirection.Ascending;
 
@@ -54,10 +56,6 @@ namespace DY.SAMPLE.PLC
         {
             InitializeComponent();
             Initialize();
-#if false
-            for (short i = 0; i < 100; i ++ )
-                OnRecvValueToPLC(null, new IntegerReceivedToPlcEventArgs(i));
-#endif
         }
 
         private void NPLC_CB_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -114,11 +112,11 @@ namespace DY.SAMPLE.PLC
             NComCB.Items.Clear();
             NPLC_CB.Items.Clear();
             NPLC_CB.Items.Add(PLC.LSIS_XGT);
-            if (_SwitchLoopLogic != null)
+            if (_Logic != null)
             {
-                _SwitchLoopLogic.CheckStop();
-                _SwitchLoopLogic.CnetExclusiveSocket.Dispose();
-                _SwitchLoopLogic = null;
+                _Logic.Stop();
+                _Logic.Socket.Dispose();
+                _Logic = null;
             }
 
             NCurRecvSP.Content = "0";
@@ -155,10 +153,11 @@ namespace DY.SAMPLE.PLC
                     sb.Append("StopBits-" + skt.GetStopBits() + " ");
                     NStateTB.Text = sb.ToString();
 
-                    _SwitchLoopLogic = new SwitchLoopLogic(skt);
-                    _SwitchLoopLogic.OnReceivedValueEvent += OnRecvValueToPLC;
-                    _SwitchLoopLogic.CnetExclusiveSocket.OnSendedSuccessfully += OnSendTiming;
-                    _SwitchLoopLogic.CnetExclusiveSocket.OnReceivedSuccessfully += OnRecvTiming;
+                    _Logic = new Logic(skt, 00, "%MX00010", "%DW00100");
+                    _Logic.RecvEvent += OnRecvValueToPLC;
+                    _Logic.Socket.OnSendedSuccessfully += OnSendTiming;
+                    _Logic.Socket.OnReceivedSuccessfully += OnRecvTiming;
+                   
                     Ready();
                     break;
                 default:
@@ -166,7 +165,7 @@ namespace DY.SAMPLE.PLC
             }
         }
 
-        private void OnRecvValueToPLC(object sender, IntegerReceivedToPlcEventArgs e)
+        private void OnRecvValueToPLC(object sender, ValueStorageEventArgs e)
         {
             NRetLV.Dispatcher.BeginInvoke(new Action(() =>
             {
@@ -219,11 +218,16 @@ namespace DY.SAMPLE.PLC
 
         private void NCheckStartBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (_SwitchLoopLogic != null)
+            if (_Logic != null)
             {
                 try
                 {
-                    _SwitchLoopLogic.CheckStart();
+                    if (!_OnlyOne)
+                    {
+                        _Logic.RegisterXSSProtocolToPLC();
+                        _OnlyOne = true;
+                    }
+                    _Logic.Start();
                 }
                 catch (Exception ex)
                 {
@@ -235,8 +239,8 @@ namespace DY.SAMPLE.PLC
 
         private void NCheckStopBtn_Click(object sender, RoutedEventArgs e)
         {
-            if (_SwitchLoopLogic != null)
-                _SwitchLoopLogic.CheckStop();
+            if (_Logic != null)
+                _Logic.Stop();
             _Old = int.MinValue;
         }
 
@@ -316,6 +320,9 @@ namespace DY.SAMPLE.PLC
 
         private void WriteValueRecord(int value)
         {
+            if (value == short.MinValue)
+                _Old = int.MinValue;
+
             if (_Old == int.MinValue)
             {
                 _Old = value;

@@ -1,0 +1,5 @@
+C:\GitHub\DY\DY\DY.NET\bin\Release\NET.dll
+C:\GitHub\DY\DY\DY.NET\bin\Release\NET.pdb
+C:\GitHub\DY\DY\DY.NET\obj\Release\NET.dll
+C:\GitHub\DY\DY\DY.NET\obj\Release\NET.pdb
+C:\GitHub\DY\DY\DY.NET\obj\Release\DY.NET.csprojResolveAssemblyReference.cache

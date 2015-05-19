@@ -1,0 +1,8 @@
+C:\GitHub\DY\DY\DY.SAMPLE.NET\bin\Release\DY.SAMPLE.NET.exe.config
+C:\GitHub\DY\DY\DY.SAMPLE.NET\bin\Release\DY.SAMPLE.NET.exe
+C:\GitHub\DY\DY\DY.SAMPLE.NET\bin\Release\DY.SAMPLE.NET.pdb
+C:\GitHub\DY\DY\DY.SAMPLE.NET\bin\Release\NET.dll
+C:\GitHub\DY\DY\DY.SAMPLE.NET\bin\Release\NET.pdb
+C:\GitHub\DY\DY\DY.SAMPLE.NET\obj\Release\DY.SAMPLE.NET.csprojResolveAssemblyReference.cache
+C:\GitHub\DY\DY\DY.SAMPLE.NET\obj\Release\DY.SAMPLE.NET.exe
+C:\GitHub\DY\DY\DY.SAMPLE.NET\obj\Release\DY.SAMPLE.NET.pdb
