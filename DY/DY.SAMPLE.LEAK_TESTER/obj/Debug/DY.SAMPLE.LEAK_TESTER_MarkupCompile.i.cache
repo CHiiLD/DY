@@ -16,5 +16,5 @@ C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\App.xaml
 12-1401562060
 MainWindow.xaml;MenuItems\Menu\CommSetupWindow.xaml;MenuItems\Menu\IOTestWindow.xaml;MenuItems\Menu\ModelSettingWindow.xaml;TabItems\Browse\BrowseModelItemControl.xaml;TabItems\ModelListViewItemControl.xaml;TabItems\Work\WorkItemControl.xaml;TabItems\Work\WorkModelItemControl.xaml;
 
-True
+False
 

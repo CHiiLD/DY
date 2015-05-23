@@ -15,7 +15,7 @@ namespace DY.NET.LSIS.XGT
     /// <summary>
     /// XGTCnetExclusiveProtocol을 이용한 Serial 통신소켓 클래스
     /// </summary>
-    public partial class XGTCnetExclusiveSocket : DYSocket
+    public partial class XGTCnetExclusiveSocket : AbstractSocketCover
     {
         /// <summary>
         /// 빌더 디자인 패턴 (빌더 디자인패턴을 모른다면 Effective Java 2/E P21을 참고) 
@@ -38,7 +38,7 @@ namespace DY.NET.LSIS.XGT
         }
 
         #region var_properties_event
-        private const string _SerialNullError = "XGTCnetExclusiveSocket._SerialPort var is null";
+        private const string ERROR_SERIAL_IS_NULL = "XGTCnetExclusiveSocket._SerialPort var is null";
         protected volatile bool IsWaitACKProtocol = false;
         protected readonly object _SerialLock = new object();
         protected volatile SerialPort _SerialPort;
@@ -72,7 +72,7 @@ namespace DY.NET.LSIS.XGT
             lock(_SerialLock)
             {
                 if (_SerialPort == null)
-                    throw new NullReferenceException(_SerialNullError);
+                    throw new NullReferenceException(ERROR_SERIAL_IS_NULL);
                 if (!_SerialPort.IsOpen)
                     _SerialPort.Open();
                 result = _SerialPort.IsOpen;

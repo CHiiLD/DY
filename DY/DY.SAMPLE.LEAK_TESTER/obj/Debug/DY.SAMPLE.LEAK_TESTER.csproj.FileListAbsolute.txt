@@ -44,3 +44,15 @@ C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\MenuItems\Menu\CommS
 C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\MenuItems\Menu\IOTestWindow.baml
 C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\MenuItems\Menu\CommSetupWindow.g.cs
 C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\MenuItems\Menu\IOTestWindow.g.cs
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\MenuItems\Menu\CommSetupWindow.baml
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\MenuItems\Menu\IOTestWindow.baml
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\MenuItems\Menu\ModelSettingWindow.baml
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\TabItems\ModelListViewItemControl.baml
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\TabItems\Work\WorkModelItemControl.baml
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\MenuItems\Menu\CommSetupWindow.g.cs
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\MenuItems\Menu\IOTestWindow.g.cs
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\MenuItems\Menu\ModelSettingWindow.g.cs
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\TabItems\Browse\BrowseModelItemControl.g.cs
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\TabItems\ModelListViewItemControl.g.cs
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\TabItems\Work\WorkModelItemControl.g.cs
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\TabItems\Browse\BrowseModelItemControl.baml

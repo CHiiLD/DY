@@ -43,12 +43,13 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Builder\SerialPortBuilder.cs" />
-    <Compile Include="Extensions\B2HS.cs" />
-    <Compile Include="Extensions\PLCVarType.cs" />
-    <Compile Include="DYSocket.cs" />
-    <Compile Include="Interface\IProtocol.cs" />
-    <Compile Include="Interface\ITag.cs" />
-    <Compile Include="Extensions\CA2C.cs" />
+    <Compile Include="Extension\B2HS.cs" />
+    <Compile Include="Extension\PLCVarType.cs" />
+    <Compile Include="Inheritance\AbstractSocketCover.cs" />
+    <Compile Include="Inheritance\IProtocol.cs" />
+    <Compile Include="Inheritance\ITag.cs" />
+    <Compile Include="Extension\CA2C.cs" />
+    <Compile Include="Inheritance\ISocketCover.cs" />
     <Compile Include="LSIS\LD2Glopa.cs" />
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetCommand.cs" />
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetCommandType.cs" />
@@ -60,7 +61,7 @@
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetExclusiveProtocolError.cs" />
     <Compile Include="LSIS\XGT\Cnet\XGTCnetExclusiveSocket.cs" />
     <Compile Include="LSIS\Glopa.cs" />
-    <Compile Include="Extensions\NumericTypeExtension.cs" />
+    <Compile Include="Extension\NumericTypeExtension.cs" />
     <Compile Include="LSIS\XGT\Cnet\XGTCnetExSktPropertyExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Event\SocketDataReceivedEventArgs.cs" />
