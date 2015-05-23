@@ -226,7 +226,6 @@ namespace DY.NET.LSIS.XGT
                 else
                     reqt.OnError(this, recv);
 
-                
                 IsWaitACKProtocol = false;
                 if (ProtocolStandByQueue.Count != 0)
                     SendNextProtocol(); //Task.Factory.StartNew(new Action(SendNextProtocol));

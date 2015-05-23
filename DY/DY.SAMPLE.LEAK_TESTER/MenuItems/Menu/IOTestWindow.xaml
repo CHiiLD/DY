@@ -65,6 +65,6 @@
 			<Label Content="0"  Style="{DynamicResource VarValueLabelStyle}" />
 
 		</UniformGrid>
-		<Button Content="닫기" Grid.Row="1" Width="100" Height="36" />
+		<Button x:Name="NClose" Content="닫기" Grid.Row="1" Width="100" Height="36" Click="NClose_Click" />
 	</Grid>
 </Window>

@@ -20,9 +20,7 @@
 		</Grid.RowDefinitions>
 		<DockPanel Margin="20,0,0,0" Grid.ColumnSpan="1" >
 			<TextBlock Text="Date" FontSize="20" VerticalAlignment="Center" Margin="0,0,10,0" />
-			<DatePicker SelectedDateFormat="Short" SelectedDate="3/23/09"
-				DisplayDateStart="2010-01-01" DisplayDateEnd="12/31/09" 
-				FirstDayOfWeek="Monday" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18.667"/>
+			<DatePicker SelectedDateFormat="Short" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="18.667"/>
 			<Button Content="검색하기" Height="30" Width="80" HorizontalAlignment="Left" DockPanel.Dock="Top" Margin="10,0,0,0" FontSize="13.333"/>
 		</DockPanel>
 		<local:ModelListViewItemControl Grid.Row="1" Grid.ColumnSpan="2"/>

@@ -23,5 +23,10 @@ namespace DY.SAMPLE.LEAK_TESTER
 			
 			// 개체 만들기에 필요한 코드를 이 지점 아래에 삽입하십시오.
 		}
+
+        private void NClose_Click(object sender, RoutedEventArgs e)
+        {
+            this.Close();
+        }
 	}
 }

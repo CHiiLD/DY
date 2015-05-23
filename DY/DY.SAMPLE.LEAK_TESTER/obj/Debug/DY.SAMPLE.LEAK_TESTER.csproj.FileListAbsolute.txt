@@ -56,3 +56,11 @@ C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\TabItems\Browse\BrowseModelItemC
 C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\TabItems\ModelListViewItemControl.g.cs
 C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\TabItems\Work\WorkModelItemControl.g.cs
 C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Debug\TabItems\Browse\BrowseModelItemControl.baml
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Debug\CsvHelper.dll
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Debug\NET.dll
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Debug\CsvHelper.pdb
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Debug\CsvHelper.xml
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Debug\NET.pdb
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Debug\Newtonsoft.Json.dll
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Debug\Newtonsoft.Json.pdb
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Debug\Newtonsoft.Json.xml

@@ -1,0 +1,29 @@
+[
+  {
+    "ModelName": "model",
+    "Customer": "납품처회사",
+    "ProductInfo": "제품의정보",
+    "PartNumber": "12345",
+    "LabelID": "R12341321",
+    "LHSerialStartNo": "1",
+    "RHSerialStartNo": "5001"
+  },
+  {
+    "ModelName": "",
+    "Customer": "",
+    "ProductInfo": "",
+    "PartNumber": "",
+    "LabelID": "",
+    "LHSerialStartNo": "",
+    "RHSerialStartNo": ""
+  },
+  {
+    "ModelName": "캬캬",
+    "Customer": "12312",
+    "ProductInfo": "123123",
+    "PartNumber": "123123",
+    "LabelID": "12312",
+    "LHSerialStartNo": "1231",
+    "RHSerialStartNo": "123"
+  }
+]

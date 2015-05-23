@@ -1,0 +1,24 @@
+{
+  "TimeInfo": {
+    "Day": {
+      "BeginTime": "08:00:00",
+      "EndTime": "19:59:59"
+    },
+    "Night": {
+      "BeginTime": "20:00:00",
+      "EndTime": "07:59:59"
+    }
+  },
+  "SerialInfo": {
+    "PortName": "COM<N>",
+    "BaudRate": 9600,
+    "Parity": 0,
+    "DataBits": 8,
+    "StopBits": 1,
+    "LocalPort": 0
+  },
+  "EthernetInfo": {
+    "PLC": "192.168.0.91",
+    "Printer": "192.168.0.100"
+  }
+}

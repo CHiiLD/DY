@@ -1,3 +1,6 @@
 [submodule "submodule/Newtonsoft.Json"]
 	path = submodule/Newtonsoft.Json
 	url = https://github.com/CHiiLD/Newtonsoft.Json.git
+[submodule "submodule/CsvHelper"]
+	path = submodule/CsvHelper
+	url = https://github.com/CHiiLD/CsvHelper.git
