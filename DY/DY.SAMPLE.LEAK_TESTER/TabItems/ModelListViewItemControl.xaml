@@ -12,19 +12,19 @@
 		<ListView x:Name="NModelListView" >
 			<ListView.View>
 				<GridView>
-					<GridViewColumn Header="번호" Width="30" DisplayMemberBinding="{Binding No}" />
+                    <GridViewColumn Header="번호" Width="30" DisplayMemberBinding="{Binding Index}" />
 					<GridViewColumn Header="날짜"  Width="60" DisplayMemberBinding="{Binding Date}" />
 					<GridViewColumn Header="시간" Width="60"  DisplayMemberBinding="{Binding Time}" />
-					<GridViewColumn Header="기종 번호" DisplayMemberBinding="{Binding ModelNo}" />
-					<GridViewColumn Header="기종" Width="110"  DisplayMemberBinding="{Binding Model}" />
-					<GridViewColumn Header="납품처" Width="60"  DisplayMemberBinding="{Binding Customer}" />
+                    <GridViewColumn Header="기종 번호" DisplayMemberBinding="{Binding ItemNumber}" />
+                    <GridViewColumn Header="기종" Width="110"  DisplayMemberBinding="{Binding ModelName}" />
+                    <GridViewColumn Header="납품처" Width="60"  DisplayMemberBinding="{Binding Customer}" />
                     <GridViewColumn Header="제품 정보" Width="60" DisplayMemberBinding="{Binding ProductInfo}" />
-					<GridViewColumn Header="제품 번호" Width="60" DisplayMemberBinding="{Binding PartNo}" />
-					<GridViewColumn Header="라벨 ID" Width="60" DisplayMemberBinding="{Binding LabelID}" />
+                    <GridViewColumn Header="제품 번호" Width="60" DisplayMemberBinding="{Binding PartNumber}" />
+                    <GridViewColumn Header="라벨 ID" Width="60" DisplayMemberBinding="{Binding LabelID}" />
                     <GridViewColumn Header="제품 결함" Width="60" DisplayMemberBinding="{Binding Leak}" />
                     <GridViewColumn Header="제품 결과"  Width="60" DisplayMemberBinding="{Binding Result}" />
-					<GridViewColumn Header="시리얼 번호" Width="110" DisplayMemberBinding="{Binding Serial}" />
-					<GridViewColumn Header="QR 코드" Width="180" DisplayMemberBinding="{Binding QRCode}" />
+                    <GridViewColumn Header="시리얼 번호" Width="110" DisplayMemberBinding="{Binding SerialNumber}" />
+                    <GridViewColumn Header="QR 코드" Width="180" DisplayMemberBinding="{Binding QRCode}" />
 					<GridViewColumn Header="L/R" DisplayMemberBinding="{Binding LR}" />
 				</GridView>
 			</ListView.View>

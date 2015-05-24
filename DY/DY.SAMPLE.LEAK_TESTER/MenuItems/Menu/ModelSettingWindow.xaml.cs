@@ -9,9 +9,9 @@ namespace DY.SAMPLE.LEAK_TESTER
     /// </summary>
     public partial class ModelSettingWindow : Window
     {
-        private const string MODEL_ITEM_1 = "1";
-        private const string MODEL_ITEM_2 = "2";
-        private const string MODEL_ITEM_3 = "3";
+        public const string MODEL_ITEM_1 = "1";
+        public const string MODEL_ITEM_2 = "2";
+        public const string MODEL_ITEM_3 = "3";
 
         private List<Model> _ModelItem = new List<Model>();
         private bool _Changed = false;

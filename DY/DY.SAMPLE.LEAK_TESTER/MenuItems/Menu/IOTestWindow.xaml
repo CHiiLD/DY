@@ -44,11 +44,11 @@
 			<Label Content="PLC LH MODEL [D1318]"  Style="{DynamicResource VarNameLabelStyle}" />
 			<Label Content="0"  Style="{DynamicResource VarValueLabelStyle}" />
 
-			<Label Content="PLC READY [M002C]" Style="{DynamicResource OnOffLabelStyle}"/>
+			<Label Content="PLC READY [M002E]" Style="{DynamicResource OnOffLabelStyle}"/>
 			<Label Content="PLC LH RESULT [D1312]"  Style="{DynamicResource VarNameLabelStyle}" />
 			<Label Content="0"  Style="{DynamicResource VarValueLabelStyle}" />
 
-			<Label Content="PLC LH TEST_END [M002B]" Style="{DynamicResource OnOffLabelStyle}"/>
+			<Label Content="PLC LH TEST END [M002B]" Style="{DynamicResource OnOffLabelStyle}"/>
 			<Label Content="PLC LH LEAK [D1314]"  Style="{DynamicResource VarNameLabelStyle}" />
 			<Label Content="0"  Style="{DynamicResource VarValueLabelStyle}" />
 
@@ -56,11 +56,11 @@
 			<Label Content="PLC RH MODEL [D1418]"  Style="{DynamicResource VarNameLabelStyle}" />
 			<Label Content="0"  Style="{DynamicResource VarValueLabelStyle}" />
 
-			<Label Content="PL LH READ END [M0020]" Style="{DynamicResource OnOffLabelStyle}"/>
+			<Label Content="PC LH READ END [M0020]" Style="{DynamicResource OnOffLabelStyle}"/>
 			<Label Content="PLC RH RESULT [D1412]"  Style="{DynamicResource VarNameLabelStyle}" />
 			<Label Content="0"  Style="{DynamicResource VarValueLabelStyle}" />
 
-			<Label Content="PL RH READ END [M0024]" Style="{DynamicResource OnOffLabelStyle}"/>
+			<Label Content="PC RH READ END [M0021]" Style="{DynamicResource OnOffLabelStyle}"/>
 			<Label Content="PLC RH LEAK [D1414]"  Style="{DynamicResource VarNameLabelStyle}" />
 			<Label Content="0"  Style="{DynamicResource VarValueLabelStyle}" />
 
