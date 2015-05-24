@@ -64,3 +64,11 @@ C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\Newtonsoft.Json.pd
 C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\Newtonsoft.Json.xml
 C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\NET.pdb
 C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Release\DY.SAMPLE.LEAK_TESTER.csprojResolveAssemblyReference.cache
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\CsvHelper.dll
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\NET.dll
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\Newtonsoft.Json.dll
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\CsvHelper.pdb
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\CsvHelper.xml
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\Newtonsoft.Json.pdb
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\Newtonsoft.Json.xml
+C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\NET.pdb
