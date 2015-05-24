@@ -6,32 +6,32 @@
              xmlns:local="clr-namespace:DY.SAMPLE.LEAK_TESTER" x:Class="DY.SAMPLE.LEAK_TESTER.WorkItemControl" 
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
-	<Grid>
-		<Grid.RowDefinitions>
-			<RowDefinition Height="66*"/>
-			<RowDefinition Height="Auto"/>
-			<RowDefinition Height="30*"/>
-		</Grid.RowDefinitions>
-		<Grid  >
-			<Grid.ColumnDefinitions>
-				<ColumnDefinition Width="1*"/>
-				<ColumnDefinition Width="1*"/>
-			</Grid.ColumnDefinitions>
-			<GroupBox Header="LH" FontSize="26.667" Margin="0,0,5,0"  >
-				<local:WorkModelItemControl x:Name="WorkModelControl_R"/>
-			</GroupBox>
-			<GroupBox Header="RH" FontSize="26.667" Grid.Column="2" Margin="5,0,0,0" >
-				<local:WorkModelItemControl x:Name="WorkModelControl_L"/>
-			</GroupBox>
-		</Grid>
-		<GridSplitter Grid.Row="1"
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="66*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="30*"/>
+        </Grid.RowDefinitions>
+        <Grid  >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <GroupBox Header="LH" FontSize="26.667" Margin="0,0,5,0"  >
+                <local:WorkModelItemControl x:Name="WorkModelControl_L"/>
+            </GroupBox>
+            <GroupBox Header="RH" FontSize="26.667" Grid.Column="2" Margin="5,0,0,0" >
+                <local:WorkModelItemControl x:Name="WorkModelControl_R"/>
+            </GroupBox>
+        </Grid>
+        <GridSplitter Grid.Row="1"
 			HorizontalAlignment="Stretch"
 			VerticalAlignment="Center"
 			Background="{DynamicResource {x:Static SystemColors.ScrollBarBrushKey}}" 
 			ShowsPreview="True"
 			Height="2"
            />
-		<local:ModelListViewItemControl Grid.Row="2"/>
+        <local:ModelListViewItemControl x:Name="NListViewControl" Grid.Row="2"/>
 
-	</Grid>
+    </Grid>
 </UserControl>

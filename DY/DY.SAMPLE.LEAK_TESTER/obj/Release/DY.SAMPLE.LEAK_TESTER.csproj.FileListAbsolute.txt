@@ -55,3 +55,12 @@ C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Release\TabItems\Work\WorkItemControl.
 C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Release\DY.SAMPLE.LEAK_TESTER.g.resources
 C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Release\DY.SAMPLE.LEAK_TESTER.Properties.Resources.resources
 C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Release\DY.SAMPLE.LEAK_TESTER.csproj.GenerateResource.Cache
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\CsvHelper.dll
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\NET.dll
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\Newtonsoft.Json.dll
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\CsvHelper.pdb
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\CsvHelper.xml
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\Newtonsoft.Json.pdb
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\Newtonsoft.Json.xml
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Release\NET.pdb
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Release\DY.SAMPLE.LEAK_TESTER.csprojResolveAssemblyReference.cache

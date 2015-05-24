@@ -8,14 +8,14 @@
 	x:Name="UserControl"
 	d:DesignWidth="1024" d:DesignHeight="287.25">
 
-	<Grid >
-		<ListView x:Name="NModelListView" >
-			<ListView.View>
-				<GridView>
+    <Grid >
+        <ListView x:Name="NView" >
+            <ListView.View>
+                <GridView>
                     <GridViewColumn Header="번호" Width="30" DisplayMemberBinding="{Binding Index}" />
-					<GridViewColumn Header="날짜"  Width="60" DisplayMemberBinding="{Binding Date}" />
-					<GridViewColumn Header="시간" Width="60"  DisplayMemberBinding="{Binding Time}" />
-                    <GridViewColumn Header="기종 번호" DisplayMemberBinding="{Binding ItemNumber}" />
+                    <GridViewColumn Header="날짜"  Width="60" DisplayMemberBinding="{Binding Date, StringFormat='yy.MM.dd'}" />
+                    <GridViewColumn Header="시간" Width="60"  DisplayMemberBinding="{Binding Time, StringFormat='{}{0:hh\\:mm\\:ss}'}" />
+                    <GridViewColumn Header="기종 번호" DisplayMemberBinding="{Binding ModelNumber}" />
                     <GridViewColumn Header="기종" Width="110"  DisplayMemberBinding="{Binding ModelName}" />
                     <GridViewColumn Header="납품처" Width="60"  DisplayMemberBinding="{Binding Customer}" />
                     <GridViewColumn Header="제품 정보" Width="60" DisplayMemberBinding="{Binding ProductInfo}" />
@@ -25,9 +25,9 @@
                     <GridViewColumn Header="제품 결과"  Width="60" DisplayMemberBinding="{Binding Result}" />
                     <GridViewColumn Header="시리얼 번호" Width="110" DisplayMemberBinding="{Binding SerialNumber}" />
                     <GridViewColumn Header="QR 코드" Width="180" DisplayMemberBinding="{Binding QRCode}" />
-					<GridViewColumn Header="L/R" DisplayMemberBinding="{Binding LR}" />
-				</GridView>
-			</ListView.View>
-		</ListView>
-	</Grid>
+                    <GridViewColumn Header="L/R" DisplayMemberBinding="{Binding LR}" />
+                </GridView>
+            </ListView.View>
+        </ListView>
+    </Grid>
 </UserControl>

@@ -4,17 +4,17 @@
 winexe
 C#
 .cs
-C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Release\
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\obj\Release\
 DY.SAMPLE.LEAK_TESTER
 none
 false
 TRACE
-C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\App.xaml
+C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\App.xaml
 834943298
 
-161480861938
-12-1401562060
+257021977
+15276311223
 MainWindow.xaml;MenuItems\Menu\CommSetupWindow.xaml;MenuItems\Menu\IOTestWindow.xaml;MenuItems\Menu\ModelSettingWindow.xaml;TabItems\Browse\BrowseModelItemControl.xaml;TabItems\ModelListViewItemControl.xaml;TabItems\Work\WorkItemControl.xaml;TabItems\Work\WorkModelItemControl.xaml;
 
-False
+True
 

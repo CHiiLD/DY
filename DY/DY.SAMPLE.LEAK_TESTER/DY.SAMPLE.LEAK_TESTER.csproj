@@ -55,7 +55,10 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Director\ModelDirector.cs" />
+    <Compile Include="Director\ModelItemDirector.cs" />
+    <Compile Include="Director\SerialNumberDirector.cs" />
     <Compile Include="Director\SetupDirector.cs" />
+    <Compile Include="Event\LeakResultReceivedEventArgs.cs" />
     <Compile Include="MenuItems\Menu\CommSetupWindow.xaml.cs">
       <DependentUpon>CommSetupWindow.xaml</DependentUpon>
     </Compile>
@@ -67,6 +70,7 @@
     </Compile>
     <Compile Include="Structures\Model.cs" />
     <Compile Include="Structures\ModelItem.cs" />
+    <Compile Include="Structures\SerialNumber.cs" />
     <Compile Include="Structures\SetupInfos.cs" />
     <Compile Include="TabItems\Browse\BrowseModelItemControl.xaml.cs">
       <DependentUpon>BrowseModelItemControl.xaml</DependentUpon>

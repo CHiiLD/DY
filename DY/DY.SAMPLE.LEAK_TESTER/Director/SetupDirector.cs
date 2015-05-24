@@ -32,13 +32,13 @@ namespace DY.SAMPLE.LEAK_TESTER
                 SerialInfo = new SerialPortInfo();
                 EthernetInfo = new EthernetInfo();
 
-                TimeInfo.Day.BeginTime = new TimeSpan(08, 00, 00);
-                TimeInfo.Day.EndTime = new TimeSpan(19, 59, 59);
-                TimeInfo.Night.BeginTime = new TimeSpan(20, 00, 00);
-                TimeInfo.Night.EndTime = new TimeSpan(7, 59, 59);
+                TimeInfo.Day.BeginTime = new TimeSpan(00, 08, 00, 00, 00);
+                TimeInfo.Day.EndTime = new TimeSpan(00, 19, 59, 59, 999);
+                TimeInfo.Night.BeginTime = new TimeSpan(00, 20, 00, 00, 00);
+                TimeInfo.Night.EndTime = new TimeSpan(00, 07, 59, 59, 999);
             }
         }
-        private const string SETUP_FILE = "./SETUP INFO.JSON";
+        private const string SETUP_FILE = "./SETUP INFO.json";
         private static SetupDirector _Setup;
 
         public HOW_TO_CONNECT Comm { get; set; }
@@ -70,7 +70,7 @@ namespace DY.SAMPLE.LEAK_TESTER
         public void SaveToFile()
         {
             string json = JsonConvert.SerializeObject(Package, Formatting.Indented);
-            System.IO.File.WriteAllText(SETUP_FILE, json);
+            System.IO.File.WriteAllText(SETUP_FILE, json, System.Text.Encoding.UTF8);
         }
     }
 }

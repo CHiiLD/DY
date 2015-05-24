@@ -93,13 +93,13 @@ namespace DY.SAMPLE.LEAK_TESTER
             //시간
             int h, m;
             if (Int32.TryParse(NDayStartH.Text, out h) && Int32.TryParse(NDayStartM.Text, out m))
-                _Package.TimeInfo.Day.BeginTime = new TimeSpan(h, m, 00);
+                _Package.TimeInfo.Day.BeginTime = new TimeSpan(00, h, m, 00, 00);
             if (Int32.TryParse(NDayEndH.Text, out h) && Int32.TryParse(NDayEndM.Text, out m))
-                _Package.TimeInfo.Day.EndTime = new TimeSpan(h, m, 59);
+                _Package.TimeInfo.Day.EndTime = new TimeSpan(00, h, m, 59, 999);
             if (Int32.TryParse(NNightStartH.Text, out h) && Int32.TryParse(NNightStartM.Text, out m))
-                _Package.TimeInfo.Night.BeginTime = new TimeSpan(h, m, 00);
+                _Package.TimeInfo.Night.BeginTime = new TimeSpan(00, h, m, 00, 00);
             if (Int32.TryParse(NNightEndH.Text, out h) && Int32.TryParse(NNightEndM.Text, out m))
-                _Package.TimeInfo.Night.EndTime = new TimeSpan(h, m, 59);
+                _Package.TimeInfo.Night.EndTime = new TimeSpan(00, h, m, 59, 999);
 
             SetupDirector.GetInstance().Package = _Package;
             SetupDirector.GetInstance().Comm = _Comm;

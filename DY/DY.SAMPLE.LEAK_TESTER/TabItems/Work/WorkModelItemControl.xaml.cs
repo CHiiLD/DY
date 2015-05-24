@@ -17,6 +17,10 @@ namespace DY.SAMPLE.LEAK_TESTER
     {
         private SolidColorBrush OK_COLOR = new SolidColorBrush(Color.FromArgb(0xFF, 0x37, 0xBD, 0x5B));
         private SolidColorBrush NG_COLOR = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0x4A, 0x27));
+        private SolidColorBrush PNG_COLOR = new SolidColorBrush(Color.FromArgb(0xFF, 0xE8, 0x4A, 0x27));
+
+        public Model SelectedModel { get; private set; }
+        public SerialNumber SelectedSerialNumber { get; private set; }
 
         public WorkModelItemControl()
         {
@@ -31,11 +35,16 @@ namespace DY.SAMPLE.LEAK_TESTER
         {
             if (m != null)
             {
-                NModel.Content = m.ModelName;
-                NCustomer.Content = m.Customer;
-                NProdectInfo.Content = m.ProductInfo;
-                NProductNum.Content = m.PartNumber;
-                NLabelID.Content = m.LabelID;
+                if ((string)NModel.Content != m.ModelName)
+                    NModel.Content = m.ModelName;
+                if ((string)NCustomer.Content != m.Customer)
+                    NCustomer.Content = m.Customer;
+                if ((string)NProdectInfo.Content != m.ProductInfo)
+                    NProdectInfo.Content = m.ProductInfo;
+                if ((string)NProductNum.Content != m.PartNumber)
+                    NProductNum.Content = m.PartNumber;
+                if ((string)NLabelID.Content != m.LabelID)
+                    NLabelID.Content = m.LabelID;
             }
             if (m is ModelItem)
             {
@@ -44,13 +53,28 @@ namespace DY.SAMPLE.LEAK_TESTER
                 NSerialNum.Content = i.SerialNumber;
                 NQrCode.Content = i.QRCode;
                 var ret = NProductRet;
-                switch(i.Result)
+                switch (i.Result)
                 {
                     case ModelItem.RESULT.OK: //#FF37BD5B
-                        ret.Background = OK_COLOR;
+                        if (ret.Background != OK_COLOR)
+                        {
+                            ret.Background = OK_COLOR;
+                            ret.Content = ModelItem.RESULT.OK;
+                        }
                         break;
                     case ModelItem.RESULT.NG: //#FFE84A27
-                        ret.Background = NG_COLOR;
+                        if (ret.Background != NG_COLOR)
+                        {
+                            ret.Background = NG_COLOR;
+                            ret.Content = ModelItem.RESULT.NG;
+                        }
+                        break;
+                    case ModelItem.RESULT.PNG: //#FFE84A27
+                        if (ret.Background != PNG_COLOR)
+                        {
+                            ret.Background = PNG_COLOR;
+                            ret.Content = ModelItem.RESULT.PNG;
+                        }
                         break;
                 }
             }
@@ -60,19 +84,25 @@ namespace DY.SAMPLE.LEAK_TESTER
         {
             string selectedItem = e.AddedItems[0] as string;
             Model model = null;
+            SerialNumber serialN = null;
             switch (selectedItem)
             {
                 case ModelSettingWindow.MODEL_ITEM_1:
                     model = ModelDirector.GetInstance().Item[0];
+                    serialN = SerialNumberDirector.GetInstance().Item[0];
                     break;
                 case ModelSettingWindow.MODEL_ITEM_2:
                     model = ModelDirector.GetInstance().Item[1];
+                    serialN = SerialNumberDirector.GetInstance().Item[1];
                     break;
                 case ModelSettingWindow.MODEL_ITEM_3:
                     model = ModelDirector.GetInstance().Item[2];
+                    serialN = SerialNumberDirector.GetInstance().Item[2];
                     break;
             }
             SetModelItemInfo(model);
+            SelectedModel = model;
+            SelectedSerialNumber = serialN;
         }
     }
 }

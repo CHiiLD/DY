@@ -6,7 +6,7 @@ namespace DY.SAMPLE.LEAK_TESTER
     public class ModelDirector
     {
         private static ModelDirector _Model;
-        private const string MODEL_FILE = "./MODEL INFO.JSON";
+        private const string MODEL_FILE = "./MODEL INFO.json";
 
         public List<Model> Item { get; private set; }
 
@@ -42,7 +42,7 @@ namespace DY.SAMPLE.LEAK_TESTER
         public void SaveToFile()
         {
             string json = JsonConvert.SerializeObject(Item, Formatting.Indented);
-            System.IO.File.WriteAllText(MODEL_FILE, json);
+            System.IO.File.WriteAllText(MODEL_FILE, json, System.Text.Encoding.UTF8);
         }
     }
 }

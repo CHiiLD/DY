@@ -10,15 +10,17 @@
 				<Separator />
 				<MenuItem x:Name="NMISetup" Header="네트워크 관리 및 설정" Click="NMISetup_Click" />
 				<MenuItem x:Name="NMI_IO" Header="입출력 장치 모니터링" Click="NMI_IO_Click" />
-				<MenuItem x:Name="NMI_Init" Header="시리얼 초기화" />
+				<MenuItem x:Name="NMI_Init" Header="시리얼 번호 초기화하기" Click="NMI_Init_Click" />
 				<Separator />
-				<MenuItem x:Name="NMI_Exit" Header="프로그램 종료" />
+                <MenuItem x:Name="NMI_Test" Header="테스트하기" Click="NMI_Test_Click" />
+                <Separator />
+                <MenuItem x:Name="NMI_Exit" Header="프로그램 종료" Click="NMI_Exit_Click" />
 			</MenuItem>
 		</Menu>
 		<TabControl >
 			<TabItem Header="작업" >
 				<Grid Background="#FFE5E5E5">
-					<local:WorkItemControl DataContext="{Binding}"/>
+					<local:WorkItemControl x:Name="NTabItem_Work" DataContext="{Binding}"/>
 				</Grid>
 			</TabItem>
 

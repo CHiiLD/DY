@@ -5,7 +5,6 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
 	x:Class="DY.SAMPLE.LEAK_TESTER.WorkModelItemControl"
-	x:Name="UserControl"
 	d:DesignWidth="512" d:DesignHeight="478.75">
 
     <Grid >
@@ -43,7 +42,7 @@
                             <ColumnDefinition Width="54"/>
                         </Grid.ColumnDefinitions>
                         <Label x:Name="NProductValue" BorderBrush="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" Margin="0,0,5,0" />
-                        <Label x:Name="NProductRet" BorderBrush="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch" FontSize="18.667" BorderThickness="1" Margin="0" Grid.ColumnSpan="1" Grid.Column="1" />
+                        <Label x:Name="NProductRet" BorderBrush="{DynamicResource {x:Static SystemColors.WindowTextBrushKey}}" HorizontalContentAlignment="Center" VerticalContentAlignment="Center" FontSize="18.667" BorderThickness="1" Margin="0" Grid.ColumnSpan="1" Grid.Column="1" />
                     </Grid>
 
                 </DockPanel>

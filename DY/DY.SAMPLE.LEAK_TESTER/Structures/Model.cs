@@ -7,18 +7,19 @@
         public string ProductInfo { get; set; }
         public string PartNumber { get; set; }
         public string LabelID { get; set; }
-        public string LHSerialStartNo { get; set; }
-        public string RHSerialStartNo { get; set; }
 
         public Model(Model model)
+        {
+            Paste(model);
+        }
+
+        public void Paste(Model model)
         {
             ModelName = model.ModelName;
             Customer = model.Customer;
             ProductInfo = model.ProductInfo;
             PartNumber = model.PartNumber;
             LabelID = model.LabelID;
-            LHSerialStartNo = model.LHSerialStartNo;
-            RHSerialStartNo = model.RHSerialStartNo;
         }
 
         public Model()

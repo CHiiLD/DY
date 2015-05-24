@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Windows;
 using System.Windows.Controls;
+using System;
 
 namespace DY.SAMPLE.LEAK_TESTER
 {
@@ -14,7 +15,7 @@ namespace DY.SAMPLE.LEAK_TESTER
         public const string MODEL_ITEM_3 = "3";
 
         private List<Model> _ModelItem = new List<Model>();
-        private bool _Changed = false;
+        private List<SerialNumber> _SerialItem = new List<SerialNumber>();
 
         public ModelSettingWindow()
         {
@@ -24,65 +25,70 @@ namespace DY.SAMPLE.LEAK_TESTER
             NModelNum.Items.Add(MODEL_ITEM_2);
             NModelNum.Items.Add(MODEL_ITEM_3);
 
-            for (int i = 0; i < ModelDirector.GetInstance().Item.Count; i++)
-                _ModelItem.Add(new Model(ModelDirector.GetInstance().Item[i]));
+            foreach (var i in ModelDirector.GetInstance().Item)
+                _ModelItem.Add(new Model(i));
+            foreach (var i in SerialNumberDirector.GetInstance().Item)
+                _SerialItem.Add(new SerialNumber(i));
         }
 
-        private void WriteTextBox(Model model)
+        private void WriteTextBox(Model model, SerialNumber serial)
         {
             NModel.Text = model.ModelName;
             NCustomer.Text = model.Customer;
             NProdectInfo.Text = model.ProductInfo;
             NProductNum.Text = model.PartNumber;
             NLabelID.Text = model.LabelID;
-            NLHSerialNum.Text = model.LHSerialStartNo;
-            NRHSerialNum.Text = model.RHSerialStartNo;
+            NLHSerialNum.Text = serial.SerialNumberStart_L.ToString();
+            NRHSerialNum.Text = serial.SerialNumberStart_R.ToString();
         }
 
-        private void WriteModel(Model model)
+        private void WriteModel(Model model, SerialNumber serial)
         {
             model.ModelName = NModel.Text;
             model.Customer = NCustomer.Text;
             model.ProductInfo = NProdectInfo.Text;
             model.PartNumber = NProductNum.Text;
             model.LabelID = NLabelID.Text;
-            model.LHSerialStartNo = NLHSerialNum.Text;
-            model.RHSerialStartNo = NRHSerialNum.Text;
+
+            int temp;
+            if (Int32.TryParse(NLHSerialNum.Text, out temp))
+                serial.SerialNumberStart_L = temp;
+            if (Int32.TryParse(NRHSerialNum.Text, out temp))
+                serial.SerialNumberStart_R = temp;
+        }
+
+        private void WriteModel(string combobox_item)
+        {
+            switch (combobox_item)
+            {
+                case MODEL_ITEM_1:
+                    WriteModel(_ModelItem[0], _SerialItem[0]);
+                    break;
+                case MODEL_ITEM_2:
+                    WriteModel(_ModelItem[1], _SerialItem[1]);
+                    break;
+                case MODEL_ITEM_3:
+                    WriteModel(_ModelItem[2], _SerialItem[2]);
+                    break;
+            }
         }
 
         private void NModelNum_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!_Changed)
-                _Changed = true;
-
             if (e.RemovedItems.Count != 0)
-            {
-                string old = e.RemovedItems[0] as string;
-                switch (old)
-                {
-                    case MODEL_ITEM_1:
-                        WriteModel(_ModelItem[0]);
-                        break;
-                    case MODEL_ITEM_2:
-                        WriteModel(_ModelItem[1]);
-                        break;
-                    case MODEL_ITEM_3:
-                        WriteModel(_ModelItem[2]);
-                        break;
-                }
-            }
+                WriteModel(e.RemovedItems[0] as string);
 
             string selectedItem = e.AddedItems[0] as string;
             switch (selectedItem)
             {
                 case MODEL_ITEM_1:
-                    WriteTextBox(_ModelItem[0]);
+                    WriteTextBox(_ModelItem[0], _SerialItem[0]);
                     break;
                 case MODEL_ITEM_2:
-                    WriteTextBox(_ModelItem[1]);
+                    WriteTextBox(_ModelItem[1], _SerialItem[1]);
                     break;
                 case MODEL_ITEM_3:
-                    WriteTextBox(_ModelItem[2]);
+                    WriteTextBox(_ModelItem[2], _SerialItem[2]);
                     break;
                 default:
                     return;
@@ -91,12 +97,15 @@ namespace DY.SAMPLE.LEAK_TESTER
 
         private void NOK_Click(object sender, RoutedEventArgs e)
         {
-            if (_Changed)
-            {
-                ModelDirector.GetInstance().Item.Clear();
-                ModelDirector.GetInstance().Item.AddRange(_ModelItem);
-                ModelDirector.GetInstance().SaveToFile();
-            }
+            WriteModel(NModelNum.SelectedValue as string);
+
+            ModelDirector.GetInstance().Item.Clear();
+            ModelDirector.GetInstance().Item.AddRange(_ModelItem);
+            ModelDirector.GetInstance().SaveToFile();
+
+            SerialNumberDirector.GetInstance().Item.Clear();
+            SerialNumberDirector.GetInstance().Item.AddRange(_SerialItem);
+            SerialNumberDirector.GetInstance().SaveToFile();
             this.Close();
         }
 

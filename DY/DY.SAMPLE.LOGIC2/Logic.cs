@@ -78,7 +78,7 @@ namespace DY.SAMPLE.LOGIC2
             {
                 var p = XGTCnetExclusiveProtocol.NewYSSProtocol(_LocalPort, REGISTER_NUMBER_0);
                 p.Description = "ON/OFF 확인해보기";
-                p.ReceivedEvent += OnLookSwtichVarEvent;
+                p.ReceivedEvent += OnLookSwtichVar;
                 p.ErrorEvent += OnErrorError;
                 Socket.Send(p);
             }
@@ -89,7 +89,7 @@ namespace DY.SAMPLE.LOGIC2
         /// </summary>
         /// <param name="o"></param>
         /// <param name="e"></param>
-        public void OnLookSwtichVarEvent(object o, SocketDataReceivedEventArgs e)
+        public void OnLookSwtichVar(object o, SocketDataReceivedEventArgs e)
         {
 #if PRINT_OUT
             ((XGTCnetExclusiveProtocol)e.Protocol).PrintBinaryFrameInfo();
@@ -99,7 +99,7 @@ namespace DY.SAMPLE.LOGIC2
             {
                 var p = XGTCnetExclusiveProtocol.NewYSBProtocol(_LocalPort, REGISTER_NUMBER_1, PLCVarType.WORD);
                 p.Description = "읽어들일 값 요청하기";
-                p.ReceivedEvent += OnReadStorageVarEvent;
+                p.ReceivedEvent += OnReadStorageVar;
                 p.ErrorEvent += OnErrorError;
                 Socket.Send(p);
             }
@@ -115,7 +115,7 @@ namespace DY.SAMPLE.LOGIC2
         /// </summary>
         /// <param name="o"></param>
         /// <param name="e"></param>
-        public void OnReadStorageVarEvent(object o, SocketDataReceivedEventArgs e)
+        public void OnReadStorageVar(object o, SocketDataReceivedEventArgs e)
         {
 #if PRINT_OUT
             ((XGTCnetExclusiveProtocol)e.Protocol).PrintBinaryFrameInfo();
