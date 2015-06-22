@@ -17,9 +17,6 @@ namespace DY.NET.LSIS.XGT
         /// <summary>
         /// PROTOCOL MAIN DATAS
         /// </summary>
-        public ushort BlockCount { protected set; get; }   //2byte
-        public ushort ByteSize { protected set; get; }     //읽거나 쓸 데이터의 바이트 사이즈 (BYTE = 데이터 타입 * 개수) 최대 240byte word는 120byte 가 한계 //2byte
-        public ushort RegiNumber { protected set; get; }   //등록 번호    2byte
         public List<RespDataFmt> RespDatas { get; protected set; }
 
         /// <summary>
@@ -30,9 +27,7 @@ namespace DY.NET.LSIS.XGT
             : base(that)
         {
             Init();
-            this.BlockCount = that.BlockCount;
-            this.ByteSize = that.ByteSize;
-            this.RegiNumber = that.RegiNumber;
+            
             this.RespDatas.AddRange(that.RespDatas);
         }
 
@@ -255,7 +250,6 @@ namespace DY.NET.LSIS.XGT
         {
             Console.WriteLine(string.Format("블록 수: {0}", BlockCount));
             Console.WriteLine(string.Format("등록 번호: {0}", RegiNumber));
-            Console.WriteLine(string.Format("데이터 개수: {0}", ByteSize));
 
             int cnt = 0;
             cnt = 0;
@@ -266,6 +260,5 @@ namespace DY.NET.LSIS.XGT
                     Console.WriteLine(string.Format("[{0}] ACKData 값: {1}", cnt, a.Data));
             }
         }
-
     }
 }

@@ -35,48 +35,61 @@ namespace DY.SAMPLE.LEAK_TESTER
 
         public void OnLeakResultDateReceived(object sender, LeakResultReceivedEventArgs e)
         {
-            this.Dispatcher.BeginInvoke(new Action(() =>
+            if (this.Dispatcher.CheckAccess())
             {
-                ModelItem modelItem = e.Item;
-                Model settedModel = null;
-                SerialNumber settedSerialN = null;
-                WorkModelItemControl control = null;
-                switch (modelItem.LR)
+                ModelItemFactory(e.Item);
+            }
+            else
+            {
+                this.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    case ModelItem.DIRECTION.L:
-                        settedModel = _WorkModelItemControl_L.SelectedModel;
-                        settedSerialN = _WorkModelItemControl_L.SelectedSerialNumber;
-                        control = _WorkModelItemControl_L;
-                        break;
-                    case ModelItem.DIRECTION.R:
-                        settedModel = _WorkModelItemControl_R.SelectedModel;
-                        settedSerialN = _WorkModelItemControl_R.SelectedSerialNumber;
-                        control = _WorkModelItemControl_R;
-                        break;
-                    default:
-                        return;
-                }
-                if (settedModel == null)
-                    return;
-                modelItem.Paste(settedModel);
-                int idx = _ListViewItem.Count + 1;
-                string model_number = (modelItem.LR == ModelItem.DIRECTION.L ? _WorkModelItemControl_L.NModelNum.SelectedValue : _WorkModelItemControl_R.NModelNum.SelectedValue) as string;
-                string serial_number = "";
-                string qr_code = "";
-                if(modelItem.Result == ModelItem.RESULT.OK)
-                {
-                    serial_number = ModelItem.AssembleSerialNumber(modelItem, settedSerialN);
-                    qr_code = ModelItem.AssembleQRCode(modelItem, serial_number);
-                }
-                modelItem.PullRestMember(idx, model_number, serial_number, qr_code);
-                _ListViewItem.Add(new ModelItem(modelItem));
-                ModelItemDirector.GetInstance().AddItem(new ModelItem(modelItem));
-                control.SetModelItemInfo(modelItem);
-                // 내리기
-                var listview = NTabItem_Work.NListViewControl.NView;
-                listview.ScrollIntoView(listview.Items[listview.Items.Count - 1]);
-            }));
+                    ModelItemFactory(e.Item);
+                }));
+            }
         }
+
+        private void ModelItemFactory(ModelItem item)
+        {
+            ModelItem modelItem = item;
+            Model settedModel = null;
+            SerialNumber settedSerialN = null;
+            WorkModelItemControl control = null;
+            switch (modelItem.LR)
+            {
+                case ModelItem.DIRECTION.L:
+                    settedModel = _WorkModelItemControl_L.SelectedModel;
+                    settedSerialN = _WorkModelItemControl_L.SelectedSerialNumber;
+                    control = _WorkModelItemControl_L;
+                    break;
+                case ModelItem.DIRECTION.R:
+                    settedModel = _WorkModelItemControl_R.SelectedModel;
+                    settedSerialN = _WorkModelItemControl_R.SelectedSerialNumber;
+                    control = _WorkModelItemControl_R;
+                    break;
+                default:
+                    return;
+            }
+            if (settedModel == null)
+                return;
+            modelItem.Paste(settedModel);
+            int idx = _ListViewItem.Count + 1;
+            string model_number = (modelItem.LR == ModelItem.DIRECTION.L ? _WorkModelItemControl_L.NModelNum.SelectedValue : _WorkModelItemControl_R.NModelNum.SelectedValue) as string;
+            string serial_number = "";
+            string qr_code = "";
+            if (modelItem.Result == ModelItem.RESULT.OK)
+            {
+                serial_number = ModelItem.AssembleSerialNumber(modelItem, settedSerialN);
+                qr_code = ModelItem.AssembleQRCode(modelItem, serial_number);
+            }
+            modelItem.PullRestMember(idx, model_number, serial_number, qr_code);
+            _ListViewItem.Add(new ModelItem(modelItem));
+            ModelItemDirector.GetInstance().AddItem(new ModelItem(modelItem));
+            control.SetModelItemInfo(modelItem);
+            // 내리기
+            var listview = NTabItem_Work.NListViewControl.NView;
+            listview.ScrollIntoView(listview.Items[listview.Items.Count - 1]);
+        }
+
 
         private void NMI_Init_Click(object sender, RoutedEventArgs e)
         {
@@ -90,11 +103,11 @@ namespace DY.SAMPLE.LEAK_TESTER
 
             DispatcherTimer Timer = new DispatcherTimer();
             Timer.Interval = new TimeSpan(00, 00, 00, 01, 00);
-            Timer.Tick += (object sender1, EventArgs e1) => 
+            Timer.Tick += (object sender1, EventArgs e1) =>
             {
                 Random r = new Random();
                 double leak = r.NextDouble();
-                OnLeakResultDateReceived(null, new LeakResultReceivedEventArgs(new ModelItem(leak, leak < 0.75 ? ModelItem.RESULT.OK : ModelItem.RESULT.NG, ModelItem.DIRECTION.L))); 
+                OnLeakResultDateReceived(null, new LeakResultReceivedEventArgs(new ModelItem(leak, leak < 0.75 ? ModelItem.RESULT.OK : ModelItem.RESULT.NG, ModelItem.DIRECTION.L)));
             };
             Timer.Start();
 
@@ -104,7 +117,7 @@ namespace DY.SAMPLE.LEAK_TESTER
             {
                 Random r = new Random();
                 double leak = r.NextDouble();
-                OnLeakResultDateReceived(null, new LeakResultReceivedEventArgs(new ModelItem(leak, leak < 0.75 ? ModelItem.RESULT.OK : ModelItem.RESULT.NG, ModelItem.DIRECTION.R))); 
+                OnLeakResultDateReceived(null, new LeakResultReceivedEventArgs(new ModelItem(leak, leak < 0.75 ? ModelItem.RESULT.OK : ModelItem.RESULT.NG, ModelItem.DIRECTION.R)));
             };
             Timer.Start();
         }

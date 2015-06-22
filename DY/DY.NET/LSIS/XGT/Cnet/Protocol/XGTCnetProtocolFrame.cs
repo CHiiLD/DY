@@ -52,7 +52,9 @@ namespace DY.NET.LSIS.XGT
         public XGTCnetCommandType CommandType { protected set; get; }       //명령어 타입  2byte
         public XGTCnetControlCodeType Tail { protected set; get; }          //테일         1byte
         public byte BCC { protected set; get; }                             //프레임 체크  1byte or null
- 
+
+        public ushort BlockCount { protected set; get; }   //블록 수      2byte
+        public ushort RegiNumber { protected set; get; }   //등록 번호    2byte
         #endregion
 
         #region interface
@@ -134,6 +136,8 @@ namespace DY.NET.LSIS.XGT
             this.Tag = that.Tag;
             this.Description = that.Description;
             this.UserData = that.UserData;
+            this.BlockCount = that.BlockCount;
+            this.RegiNumber = that.RegiNumber;
         }
 
         protected XGTCnetProtocolFrame(byte[] binaryDatas)

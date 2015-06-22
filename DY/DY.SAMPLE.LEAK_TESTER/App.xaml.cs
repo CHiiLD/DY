@@ -10,6 +10,7 @@ namespace DY.SAMPLE.LEAK_TESTER
         private void Application_Exit(object sender, ExitEventArgs e)
         {
             ModelItemDirector.GetInstance().SaveToFile();
+            SerialNumberDirector.GetInstance().SaveToFile();
         }
     }
 }
