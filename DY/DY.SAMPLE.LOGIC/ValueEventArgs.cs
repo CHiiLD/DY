@@ -6,11 +6,11 @@ using System.Threading.Tasks;
 
 namespace DY.SAMPLE.LOGIC
 {
-    public class ValueStorageEventArgs : EventArgs
+    public class ValueEventArgs : EventArgs
     {
         private object _Value;
         public object Value { get { return _Value; } }
-        public ValueStorageEventArgs(object value)
+        public ValueEventArgs(object value)
         {
             _Value = value;
         }

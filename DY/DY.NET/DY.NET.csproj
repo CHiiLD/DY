@@ -50,23 +50,34 @@
     <Compile Include="Inheritance\ITag.cs" />
     <Compile Include="Extension\CA2C.cs" />
     <Compile Include="Inheritance\ISocketCover.cs" />
+    <Compile Include="LSIS\Enum\CpuType.cs" />
     <Compile Include="LSIS\LD2Glopa.cs" />
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetCommand.cs" />
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetCommandType.cs" />
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetControlCodeType.cs" />
-    <Compile Include="LSIS\XGT\Cnet\Protocol\ACKDataFormat.cs" />
-    <Compile Include="LSIS\XGT\Cnet\Protocol\ENQDataFormat.cs" />
-    <Compile Include="LSIS\XGT\Cnet\Protocol\XGTCnetExclusiveProtocol.cs" />
-    <Compile Include="LSIS\XGT\Cnet\Protocol\XGTCnetExclusiveProtocolFrame.cs" />
-    <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetExclusiveProtocolError.cs" />
-    <Compile Include="LSIS\XGT\Cnet\XGTCnetExclusiveSocket.cs" />
+    <Compile Include="LSIS\XGT\Cnet\Protocol\RespDataFmt.cs" />
+    <Compile Include="LSIS\XGT\Cnet\Protocol\ReqtDataFmt.cs" />
+    <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetProtocolError.cs" />
+    <Compile Include="LSIS\XGT\Cnet\Protocol\XGTCnetRequestProtocol.cs" />
+    <Compile Include="LSIS\XGT\Cnet\Protocol\XGTCnetResponseProtocol.cs" />
+    <Compile Include="LSIS\XGT\Cnet\Protocol\XGTCnetProtocolFrame.cs" />
+    <Compile Include="LSIS\XGT\Cnet\XGTCnetSocket.cs" />
     <Compile Include="LSIS\Glopa.cs" />
     <Compile Include="Extension\NumericTypeExtension.cs" />
-    <Compile Include="LSIS\XGT\Cnet\XGTCnetExSktPropertyExtension.cs" />
+    <Compile Include="LSIS\XGT\Cnet\XGTCnetSocketExtension.cs" />
+    <Compile Include="LSIS\Enum\CompanyID.cs" />
+    <Compile Include="LSIS\XGT\FEnet\AppDataFormat\AppHeaderFormat\XGTFEnetPLCInfo.cs" />
+    <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetPLCSystemState.cs" />
+    <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetCommand.cs" />
+    <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetDataType.cs" />
+    <Compile Include="LSIS\XGT\FEnet\AppDataFormat\AppHeaderFormat\XGTFEnetHeader.cs" />
+    <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetSourceOfFrame.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Event\SocketDataReceivedEventArgs.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="LSIS\XGT\FEnet\AppDataFormat\AppInstructionFormat\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

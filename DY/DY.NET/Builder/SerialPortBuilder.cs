@@ -2,6 +2,9 @@
 
 namespace DY.NET
 {
+    /// <summary>
+    /// 시리얼포트 초기화를 위한 빌더 패턴 추상 클래스
+    /// </summary>
     public abstract class SerialPortBuilder
     {
         protected string _PortName;

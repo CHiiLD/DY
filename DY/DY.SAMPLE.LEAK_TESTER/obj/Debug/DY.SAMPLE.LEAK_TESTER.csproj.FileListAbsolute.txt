@@ -69,6 +69,3 @@ C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Debug\Newtonsoft.Json.dll
 C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Debug\Newtonsoft.Json.pdb
 C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Debug\Newtonsoft.Json.xml
 C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Debug\NET.pdb
-C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Debug\CsvHelper.dll
-C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Debug\CsvHelper.pdb
-C:\GitHub\DY\DY\DY.SAMPLE.LEAK_TESTER\bin\Debug\CsvHelper.xml

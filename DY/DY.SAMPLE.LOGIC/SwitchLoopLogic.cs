@@ -15,11 +15,11 @@ namespace DY.SAMPLE.LOGIC
         private const string PLC_SWITCH_VAL = "%MX00010";
         private const string PLC_READ_VAL = "%DW00100";
         private readonly object _lock4skt = new object();
-        private XGTCnetExclusiveSocket _CnetExclusiveSocket;
+        private XGTCnetSocket _CnetExclusiveSocket;
         private bool _IsExecute = false;
-        public event EventHandler<ValueStorageEventArgs> OnReceivedValueEvent;
+        public event EventHandler<ValueEventArgs> OnReceivedValueEvent;
 
-        public XGTCnetExclusiveSocket CnetExclusiveSocket
+        public XGTCnetSocket CnetExclusiveSocket
         {
             get
             {
@@ -35,7 +35,7 @@ namespace DY.SAMPLE.LOGIC
             _CnetExclusiveSocket = null;
         }
 
-        public SwitchLoopLogic(XGTCnetExclusiveSocket xgtskt)
+        public SwitchLoopLogic(XGTCnetSocket xgtskt)
         {
             _CnetExclusiveSocket = xgtskt;
         }
@@ -58,25 +58,25 @@ namespace DY.SAMPLE.LOGIC
                 CnetExclusiveSocket.Send(CreateRSSP4SwitchValue());
         }
 
-        private XGTCnetExclusiveProtocol CreateRSSP4SwitchValue()
+        private XGTCnetRequestProtocol CreateRSSP4SwitchValue()
         {
-            var rss_p = XGTCnetExclusiveProtocol.NewRSSProtocol(PLC_LOCAL_PORT, new ENQDataFormat(PLC_SWITCH_VAL));
+            var rss_p = XGTCnetRequestProtocol.NewRSSProtocol(PLC_LOCAL_PORT, new ReqtDataFmt(PLC_SWITCH_VAL));
             rss_p.ReceivedEvent += OnDataReceiveFromSwitchVar;
             rss_p.ErrorEvent += OnRSSProtocolError;
             return rss_p;
         }
 
-        private XGTCnetExclusiveProtocol CreateRSSP4GetValue()
+        private XGTCnetRequestProtocol CreateRSSP4GetValue()
         {
-            var rss_p = XGTCnetExclusiveProtocol.NewRSSProtocol(PLC_LOCAL_PORT, new ENQDataFormat(PLC_READ_VAL));
+            var rss_p = XGTCnetRequestProtocol.NewRSSProtocol(PLC_LOCAL_PORT, new ReqtDataFmt(PLC_READ_VAL));
             rss_p.ReceivedEvent += OnDataReceiveFromReadVar;
             rss_p.ErrorEvent += OnRSSProtocolError;
             return rss_p;
         }
 
-        private XGTCnetExclusiveProtocol CreateWSSP4SwtichValue()
+        private XGTCnetRequestProtocol CreateWSSP4SwtichValue()
         {
-            var rss_p = XGTCnetExclusiveProtocol.NewWSSProtocol(PLC_LOCAL_PORT, new ENQDataFormat(PLC_SWITCH_VAL, 0));
+            var rss_p = XGTCnetRequestProtocol.NewWSSProtocol(PLC_LOCAL_PORT, new ReqtDataFmt(PLC_SWITCH_VAL, 0));
             rss_p.ReceivedEvent += (object sender, SocketDataReceivedEventArgs e) => { RepeatExecute(); };
             rss_p.ErrorEvent += OnRSSProtocolError;
             return rss_p;
@@ -84,8 +84,8 @@ namespace DY.SAMPLE.LOGIC
 
         private void OnDataReceiveFromSwitchVar(object sender, SocketDataReceivedEventArgs e)
         {
-            var p = e.Protocol as XGTCnetExclusiveProtocol;
-            byte recv_data = (byte)p.ACKDatas[0].Data;
+            var p = e.Protocol as XGTCnetResponseProtocol;
+            byte recv_data = (byte)p.RespDatas[0].Data;
 
             if (recv_data == 1)
             {
@@ -101,18 +101,18 @@ namespace DY.SAMPLE.LOGIC
         {
             if (!_IsExecute)
                 return;
-            var p = e.Protocol as XGTCnetExclusiveProtocol;
-            short recv_data = (short)p.ACKDatas[0].Data;
+            var p = e.Protocol as XGTCnetResponseProtocol;
+            short recv_data = (short)p.RespDatas[0].Data;
             Console.WriteLine("Value in {0} -> {1}", PLC_READ_VAL, recv_data);
             if (OnReceivedValueEvent != null)
-                OnReceivedValueEvent(this, new ValueStorageEventArgs(recv_data));
+                OnReceivedValueEvent(this, new ValueEventArgs(recv_data));
             CnetExclusiveSocket.Send(CreateWSSP4SwtichValue());
         }
 
         private void OnRSSProtocolError(object sender, SocketDataReceivedEventArgs e)
         {
             Console.WriteLine("RSSProtocol 통신 중 에러 발생");
-            var p = e.Protocol as XGTCnetExclusiveProtocol;
+            var p = e.Protocol as XGTCnetResponseProtocol;
             Console.WriteLine("에러 코드 : " + p.Error.ToString());
         }
     }

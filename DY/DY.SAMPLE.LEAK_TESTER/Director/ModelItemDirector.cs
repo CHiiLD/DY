@@ -21,22 +21,20 @@ namespace DY.SAMPLE.LEAK_TESTER
             _CurrentDateTime = DateTime.Now;
         }
 
-        public void AddItem(ModelItem model_item)
+        public void AddItem(ModelItem item)
         {
-            if (model_item == null)
-                return;
-
-            if (_CurrentDateTime.DayOfYear == model_item.Date.DayOfYear && _CurrentDateTime.Year == model_item.Date.Year)
+            if (_CurrentDateTime.DayOfYear == DateTime.Now.DayOfYear && _CurrentDateTime.Year == DateTime.Now.Year)
             {
-                _ModelItemList.Add(model_item);
-                if (_ModelItemList.Count > STORAGE_LIMIT_COUNT)
-                    SaveToFile(model_item.Date);
+                if (item != null)
+                    _ModelItemList.Add(item);
+                if (_ModelItemList.Count > STORAGE_LIMIT_COUNT || item == null)
+                    SaveToFile(DateTime.Now);
             }
             else //날짜가 바뀐 경우 
             {
                 SaveToFile(_CurrentDateTime);
-                _ModelItemList.Add(model_item);
-                _CurrentDateTime = model_item.Date;
+                if (item != null)
+                    _ModelItemList.Add(item);
             }
         }
 
@@ -45,21 +43,14 @@ namespace DY.SAMPLE.LEAK_TESTER
             if (_ModelItemList.Count == 0)
                 return;
             string filename = AssembleFileName(time);
-
-            List<ModelItem> temp;
-            if (LoadByFile(out temp, time))
-                temp.AddRange(_ModelItemList);
-            else
-                temp = _ModelItemList;
-
-            string json = JsonConvert.SerializeObject(temp, Formatting.Indented);
-            System.IO.File.WriteAllText(filename, json, System.Text.Encoding.UTF8);
+            string json = JsonConvert.SerializeObject(_ModelItemList, Formatting.Indented);
+            System.IO.File.AppendAllText(filename, json, System.Text.Encoding.UTF8);
             _ModelItemList.Clear();
         }
 
         public void SaveToFile()
         {
-            SaveToFile(_CurrentDateTime);
+            AddItem(null);
         }
 
         public static string AssembleFileName(DateTime time)

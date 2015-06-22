@@ -38,7 +38,7 @@ namespace DY.SAMPLE.NET
         /// <summary>
         /// PLC LSIS XGT Cnet Socekt 객체
         /// </summary>
-        static XGTCnetExclusiveSocket CnetExclusiveSocket;
+        static XGTCnetSocket CnetExclusiveSocket;
 
         /// <summary>
         /// 메인 함수
@@ -47,7 +47,7 @@ namespace DY.SAMPLE.NET
         static void Main(string[] args)
         {
             //소켓 생성 하기
-            CnetExclusiveSocket = (XGTCnetExclusiveSocket) new XGTCnetExclusiveSocket.Builder("COM3", 9600).Build();
+            CnetExclusiveSocket = (XGTCnetSocket) new XGTCnetSocket.Builder("COM3", 9600).Build();
 
             //통신 연결 하기
             if (CnetExclusiveSocket.Connect())
@@ -80,7 +80,7 @@ namespace DY.SAMPLE.NET
                 }
                 else if (Int32.TryParse(line, out integer))
                 {
-                    var wss = XGTCnetExclusiveProtocol.NewWSSProtocol(PLC_LOCAL_PORT, new ENQDataFormat(PLC_CHECK_VAL, (short)integer));
+                    var wss = XGTCnetProtocol.NewWSSProtocol(PLC_LOCAL_PORT, new ReqtDataFormat(PLC_CHECK_VAL, (short)integer));
                     wss.ErrorEvent += OnRSSProtocolError;
                     wss.ReceivedEvent += (object sender, SocketDataReceivedEventArgs e) => { Console.WriteLine("WRITE에 성공하였습니다."); };
                     CnetExclusiveSocket.Send(wss);
@@ -97,9 +97,9 @@ namespace DY.SAMPLE.NET
             CnetExclusiveSocket.Send(CreateRSSProtocolObject());
         }
 
-        static XGTCnetExclusiveProtocol CreateRSSProtocolObject()
+        static XGTCnetProtocol CreateRSSProtocolObject()
         {
-            var rss_p = XGTCnetExclusiveProtocol.NewRSSProtocol(PLC_LOCAL_PORT, new ENQDataFormat(PLC_CHECK_VAL));
+            var rss_p = XGTCnetProtocol.NewRSSProtocol(PLC_LOCAL_PORT, new ReqtDataFormat(PLC_CHECK_VAL));
             rss_p.ReceivedEvent += OnRSSProtocolDataReceive;
             rss_p.ErrorEvent += OnRSSProtocolError;
             return rss_p;
@@ -107,8 +107,8 @@ namespace DY.SAMPLE.NET
 
         static void OnRSSProtocolDataReceive(object sender, SocketDataReceivedEventArgs e)
         {
-            var p = e.Protocol as XGTCnetExclusiveProtocol;
-            short recv_data = (short)p.ACKDatas[0].Data;
+            var p = e.Protocol as XGTCnetProtocol;
+            short recv_data = (short)p.RespDatas[0].Data;
 
             lock (Value)
             {
@@ -124,7 +124,7 @@ namespace DY.SAMPLE.NET
         static void OnRSSProtocolError(object sender, SocketDataReceivedEventArgs e)
         {
             Console.WriteLine("RSSProtocol 통신 중 에러 발생");
-            var p = e.Protocol as XGTCnetExclusiveProtocol;
+            var p = e.Protocol as XGTCnetProtocol;
             Console.WriteLine("에러 코드 : " + p.Error.ToString());
         }
 

@@ -144,7 +144,7 @@ namespace DY.SAMPLE.PLC
             switch (com)
             {
                 case COM.SERIAL:
-                    XGTCnetExclusiveSocket skt = port as XGTCnetExclusiveSocket;
+                    XGTCnetSocket skt = port as XGTCnetSocket;
                     StringBuilder sb = new StringBuilder();
                     sb.Append(skt.GetPortName() + " ");
                     sb.Append(skt.GetBaudRate() + " ");
@@ -165,7 +165,7 @@ namespace DY.SAMPLE.PLC
             }
         }
 
-        private void OnRecvValueToPLC(object sender, ValueStorageEventArgs e)
+        private void OnRecvValueToPLC(object sender, ValueEventArgs e)
         {
             NRetLV.Dispatcher.BeginInvoke(new Action(() =>
             {

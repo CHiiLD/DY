@@ -10,12 +10,12 @@ namespace DY.SAMPLE.LOGIC2
 {
     public class Logic
     {
-        public event EventHandler<DY.SAMPLE.LOGIC.ValueStorageEventArgs> RecvEvent;
+        public event EventHandler<DY.SAMPLE.LOGIC.ValueEventArgs> RecvEvent;
 
         private ushort _LocalPort;
         private string _SwitchVariable;
         private string _StorageVariable;
-        public XGTCnetExclusiveSocket Socket;
+        public XGTCnetSocket Socket;
         private volatile bool _isExecute = false;
 
         private const ushort REGISTER_NUMBER_0 = 0x00;
@@ -23,7 +23,7 @@ namespace DY.SAMPLE.LOGIC2
         private const byte ON = 1;
         private const byte OFF = 0;
 
-        public Logic(XGTCnetExclusiveSocket skt, ushort localport, string switch_var, string storage_var)
+        public Logic(XGTCnetSocket skt, ushort localport, string switch_var, string storage_var)
         {
             Socket = skt;
             _LocalPort = localport;
@@ -38,20 +38,20 @@ namespace DY.SAMPLE.LOGIC2
         {
             if(Socket.Connect())
             {
-                var p = XGTCnetExclusiveProtocol.NewXSSProtocol(_LocalPort, REGISTER_NUMBER_0, new List<ENQDataFormat>() { new ENQDataFormat(_SwitchVariable) });
+                var p = XGTCnetRequestProtocol.NewXSSProtocol(_LocalPort, REGISTER_NUMBER_0, new List<ReqtDataFmt>() { new ReqtDataFmt(_SwitchVariable) });
                 p.Description = "ON/OFF보는 XSS 등록";
                 p.ReceivedEvent += (object o, SocketDataReceivedEventArgs e) => 
-                { 
-                    ((XGTCnetExclusiveProtocol)e.Protocol).PrintBinaryFrameInfo(); 
+                {
+                    ((XGTCnetResponseProtocol)e.Protocol).PrintBinaryFrameInfo(); 
                 };
                 p.ErrorEvent += OnErrorError;
                 Socket.Send(p);
 
-                p = XGTCnetExclusiveProtocol.NewXSBProtocol(_LocalPort, REGISTER_NUMBER_1, _StorageVariable, 1);
+                p = XGTCnetRequestProtocol.NewXSBProtocol(_LocalPort, REGISTER_NUMBER_1, _StorageVariable, 1);
                 p.Description = "값 읽는 XSB 등록";
                 p.ReceivedEvent += (object o, SocketDataReceivedEventArgs e) =>
                 {
-                    ((XGTCnetExclusiveProtocol)e.Protocol).PrintBinaryFrameInfo();
+                    ((XGTCnetResponseProtocol)e.Protocol).PrintBinaryFrameInfo();
                 };
                 p.ErrorEvent += OnErrorError;
                 Socket.Send(p);
@@ -76,7 +76,7 @@ namespace DY.SAMPLE.LOGIC2
         {
             if (_isExecute)
             {
-                var p = XGTCnetExclusiveProtocol.NewYSSProtocol(_LocalPort, REGISTER_NUMBER_0);
+                var p = XGTCnetRequestProtocol.NewYSSProtocol(_LocalPort, REGISTER_NUMBER_0);
                 p.Description = "ON/OFF 확인해보기";
                 p.ReceivedEvent += OnLookSwtichVar;
                 p.ErrorEvent += OnErrorError;
@@ -94,10 +94,10 @@ namespace DY.SAMPLE.LOGIC2
 #if PRINT_OUT
             ((XGTCnetExclusiveProtocol)e.Protocol).PrintBinaryFrameInfo();
 #endif
-            var bit = (byte)((XGTCnetExclusiveProtocol)e.Protocol).ACKDatas[0].Data;
+            var bit = (byte)((XGTCnetResponseProtocol)e.Protocol).RespDatas[0].Data;
             if (bit == ON)
             {
-                var p = XGTCnetExclusiveProtocol.NewYSBProtocol(_LocalPort, REGISTER_NUMBER_1, PLCVarType.WORD);
+                var p = XGTCnetRequestProtocol.NewYSBProtocol(_LocalPort, REGISTER_NUMBER_1, PLCVarType.WORD);
                 p.Description = "읽어들일 값 요청하기";
                 p.ReceivedEvent += OnReadStorageVar;
                 p.ErrorEvent += OnErrorError;
@@ -120,12 +120,12 @@ namespace DY.SAMPLE.LOGIC2
 #if PRINT_OUT
             ((XGTCnetExclusiveProtocol)e.Protocol).PrintBinaryFrameInfo();
 #endif
-            short storage_value = (short)((XGTCnetExclusiveProtocol)e.Protocol).ACKDatas[0].Data;
+            short storage_value = (short)((XGTCnetResponseProtocol)e.Protocol).RespDatas[0].Data;
             
             if (RecvEvent != null)
-                RecvEvent(this, new LOGIC.ValueStorageEventArgs(storage_value));
+                RecvEvent(this, new LOGIC.ValueEventArgs(storage_value));
 
-            var p = XGTCnetExclusiveProtocol.NewWSSProtocol(_LocalPort, new ENQDataFormat(_SwitchVariable, OFF));
+            var p = XGTCnetRequestProtocol.NewWSSProtocol(_LocalPort, new ReqtDataFmt(_SwitchVariable, OFF));
             p.Description = "다시 OFF 시키자";
             p.ReceivedEvent += (object sender, SocketDataReceivedEventArgs args) => 
             {
