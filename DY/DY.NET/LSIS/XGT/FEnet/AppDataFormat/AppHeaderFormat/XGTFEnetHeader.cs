@@ -17,24 +17,24 @@ namespace DY.NET.LSIS.XGT
 
         //CONST 맴버 변수
         public const int APPLICATION_HEARDER_FORMAT_SIZE = 20;  //헤더 포맷의 사이즈 (20byte)
-        protected const byte RESERVED_VALUE = 0x00;             //예약영역 초기값 or Don't care
-        protected const byte CPUINFO_VALUE = 0xA0;              //RESERVED 영역을 통해 XGK/XGI 시리즈임을 판단
+        private const byte RESERVED_VALUE = 0x00;             //예약영역 초기값 or Don't care
+        private const byte CPUINFO_VALUE = 0xA0;              //RESERVED 영역을 통해 XGK/XGI 시리즈임을 판단
 
         //HEADER INFOS
-        CompanyID _CompanyID;                   //PLC 제품
-        XGTFEnetPLCInfo _PLCInfo;               //PLC 정보
-        XGTFEnetSourceOfFrame SourceOfFrame;    //클라 -> 서버 or 서버 -> 클라
-        ushort InvokeID; //프레임 간의  순서를 구별하기 위한 ID (응답 프레임에 이 번호를 붙여 보내줌)
-        ushort AppInstructionDataLength;        //실질 데이터의 바이트 길이
-        byte SlotPosition;                // FEnet 모듈의 슬롯 넘버
-        byte BasePosition;                // FEnet 모듈의 베이스 넘버
+        public XGTFEnetCompanyID _CompanyID { private set; get; }           //PLC 제품
+        public XGTFEnetPLCInfo _PLCInfo { private set; get; }               //PLC 정보
+        public XGTFEnetSourceOfFrame SourceOfFrame { private set; get; }    //클라 -> 서버 or 서버 -> 클라
+        public ushort InvokeID { private set; get; }                        //프레임 간의  순서를 구별하기 위한 ID (응답 프레임에 이 번호를 붙여 보내줌)
+        public ushort AppInstructionDataLength { private set; get; }        //실질 데이터의 바이트 길이
+        public byte SlotPosition { private set; get; }                      // FEnet 모듈의 슬롯 넘버
+        public byte BasePosition { private set; get; }                      // FEnet 모듈의 베이스 넘버
 
-        byte[] _HeaderData;                     //헤더 바이트 데이터 (20byte)
+        private byte[] _HeaderData;                                         //헤더 바이트 데이터 (20byte)
 
         /// <summary>
         /// 생성자 방지
         /// </summary>
-        protected XGTFEnetHeader()
+        private XGTFEnetHeader()
         {
 
         }
@@ -60,22 +60,23 @@ namespace DY.NET.LSIS.XGT
         /// <param name="headerData">PLC로부터 받은 이더넷 프레임 데이터의 헤더 정보 반드시 데이터는 20byte여야 합니다.</param>
         /// <returns>XGTFEnetHeader 객체</returns>
         /// <exception cref="System.ArgumentException">해더 데이터의 길이가 20byte가 아닐 경우 예외가 발생합니다.</exception>
-        /// /// <exception cref="System.ArgumentNullException">파라미터가 null인 경우 예외가 발생합니다.</exception>
+        /// <exception cref="System.ArgumentNullException">파라미터가 null인 경우 예외가 발생합니다.</exception>
         public XGTFEnetHeader CreateXGTFEnetHeader(byte[] headerData)
         {
             if (headerData == null)
                 throw new ArgumentNullException();
             if (headerData.Length != APPLICATION_HEARDER_FORMAT_SIZE)
                 throw new ArgumentException(ERROR_APP_DATA_FMT_HEADER_SIZE);
-            XGTFEnetHeader target = new XGTFEnetHeader();
-            target._HeaderData = headerData;
-            target.ParseCompanyID();
-            target.ParsePLCInfo();
-            target.ParseSourceOfFrame();
-            target.ParseInvolkeID();
-            target.ParseAppDataLen();
-            target.ParseDevicePosition();
-            return target;
+            XGTFEnetHeader header = new XGTFEnetHeader();
+            header._HeaderData = new byte[APPLICATION_HEARDER_FORMAT_SIZE];
+            Buffer.BlockCopy(headerData, 0, header._HeaderData, 0, APPLICATION_HEARDER_FORMAT_SIZE);
+            header.ParseCompanyID();
+            header.ParsePLCInfo();
+            header.ParseSourceOfFrame();
+            header.ParseInvolkeID();
+            header.ParseAppDataLen();
+            header.ParseDevicePosition();
+            return header;
         }
 
         /// <summary>
@@ -92,7 +93,7 @@ namespace DY.NET.LSIS.XGT
             Buffer.BlockCopy(_HeaderData, 0, target, 0, target.Length);
 
             if (target.SequenceEqual(XGT))
-                _CompanyID = CompanyID.LSIS_XGT;
+                _CompanyID = XGTFEnetCompanyID.LSIS_XGT;
 #if DEBUG
             else
                 System.Diagnostics.Debug.Assert(false);

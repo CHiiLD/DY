@@ -17,15 +17,15 @@ namespace DY.NET
         /// <summary>
         /// 통신 중 예외 또는 에러가 발생시 통지
         /// </summary>
-        event EventHandler<SocketDataReceivedEventArgs> ErrorEvent;         
+        event EventHandler<SocketDataReceivedEventArgs> ErrorReceived;         
         /// <summary>
         /// 프로토콜 요청을 성공적으로 전달되었을 시 통지
         /// </summary>
-        event EventHandler<SocketDataReceivedEventArgs> RequestedEvent; 
+        event EventHandler<SocketDataReceivedEventArgs> DataRequested; 
         /// <summary>
         /// 요청된 프로토콜에 따른 응답 프로토콜을 성공적으로 받았을 시 통지
         /// </summary>
-        event EventHandler<SocketDataReceivedEventArgs> ReceivedEvent;
+        event EventHandler<SocketDataReceivedEventArgs> DataReceived;
 
         /// <summary>
         /// RequestedEvent 이벤트를 발생시킵니다.

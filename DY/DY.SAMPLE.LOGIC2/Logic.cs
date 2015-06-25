@@ -40,20 +40,20 @@ namespace DY.SAMPLE.LOGIC2
             {
                 var p = XGTCnetRequestProtocol.NewXSSProtocol(_LocalPort, REGISTER_NUMBER_0, new List<ReqtDataFmt>() { new ReqtDataFmt(_SwitchVariable) });
                 p.Description = "ON/OFF보는 XSS 등록";
-                p.ReceivedEvent += (object o, SocketDataReceivedEventArgs e) => 
+                p.DataReceived += (object o, SocketDataReceivedEventArgs e) => 
                 {
                     ((XGTCnetResponseProtocol)e.Protocol).PrintBinaryFrameInfo(); 
                 };
-                p.ErrorEvent += OnErrorError;
+                p.ErrorReceived += OnErrorError;
                 Socket.Send(p);
 
                 p = XGTCnetRequestProtocol.NewXSBProtocol(_LocalPort, REGISTER_NUMBER_1, _StorageVariable, 1);
                 p.Description = "값 읽는 XSB 등록";
-                p.ReceivedEvent += (object o, SocketDataReceivedEventArgs e) =>
+                p.DataReceived += (object o, SocketDataReceivedEventArgs e) =>
                 {
                     ((XGTCnetResponseProtocol)e.Protocol).PrintBinaryFrameInfo();
                 };
-                p.ErrorEvent += OnErrorError;
+                p.ErrorReceived += OnErrorError;
                 Socket.Send(p);
             }
         }
@@ -78,8 +78,8 @@ namespace DY.SAMPLE.LOGIC2
             {
                 var p = XGTCnetRequestProtocol.NewYSSProtocol(_LocalPort, REGISTER_NUMBER_0);
                 p.Description = "ON/OFF 확인해보기";
-                p.ReceivedEvent += OnLookSwtichVar;
-                p.ErrorEvent += OnErrorError;
+                p.DataReceived += OnLookSwtichVar;
+                p.ErrorReceived += OnErrorError;
                 Socket.Send(p);
             }
         }
@@ -99,8 +99,8 @@ namespace DY.SAMPLE.LOGIC2
             {
                 var p = XGTCnetRequestProtocol.NewYSBProtocol(_LocalPort, REGISTER_NUMBER_1, PLCVarType.WORD);
                 p.Description = "읽어들일 값 요청하기";
-                p.ReceivedEvent += OnReadStorageVar;
-                p.ErrorEvent += OnErrorError;
+                p.DataReceived += OnReadStorageVar;
+                p.ErrorReceived += OnErrorError;
                 Socket.Send(p);
             }
             else
@@ -127,14 +127,14 @@ namespace DY.SAMPLE.LOGIC2
 
             var p = XGTCnetRequestProtocol.NewWSSProtocol(_LocalPort, new ReqtDataFmt(_SwitchVariable, OFF));
             p.Description = "다시 OFF 시키자";
-            p.ReceivedEvent += (object sender, SocketDataReceivedEventArgs args) => 
+            p.DataReceived += (object sender, SocketDataReceivedEventArgs args) => 
             {
 #if PRINT_OUT
                 ((XGTCnetExclusiveProtocol)e.Protocol).PrintBinaryFrameInfo();
 #endif
                 LookSwtichVar(); 
             };
-            p.ErrorEvent += OnErrorError;
+            p.ErrorReceived += OnErrorError;
             Socket.Send(p);
         }
 

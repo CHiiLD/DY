@@ -27,7 +27,6 @@ namespace DY.NET.LSIS.XGT
             : base(that)
         {
             Init();
-            
             this.RespDatas.AddRange(that.RespDatas);
         }
 
@@ -252,12 +251,11 @@ namespace DY.NET.LSIS.XGT
             Console.WriteLine(string.Format("등록 번호: {0}", RegiNumber));
 
             int cnt = 0;
-            cnt = 0;
             foreach (RespDataFmt a in RespDatas)
             {
-                Console.WriteLine(string.Format("[{0}] ACKData 변수 바이트 크기 : {1}", ++cnt, a.SizeOfType));
+                Console.Write(string.Format("[{0:D2}] TYPE_SIZE: {1}, ", ++cnt, a.SizeOfType));
                 if (a.Data != null)
-                    Console.WriteLine(string.Format("[{0}] ACKData 값: {1}", cnt, a.Data));
+                    Console.WriteLine(string.Format("VALUE: {0}", a.Data));
             }
         }
     }

@@ -61,24 +61,24 @@ namespace DY.SAMPLE.LOGIC
         private XGTCnetRequestProtocol CreateRSSP4SwitchValue()
         {
             var rss_p = XGTCnetRequestProtocol.NewRSSProtocol(PLC_LOCAL_PORT, new ReqtDataFmt(PLC_SWITCH_VAL));
-            rss_p.ReceivedEvent += OnDataReceiveFromSwitchVar;
-            rss_p.ErrorEvent += OnRSSProtocolError;
+            rss_p.DataReceived += OnDataReceiveFromSwitchVar;
+            rss_p.ErrorReceived += OnRSSProtocolError;
             return rss_p;
         }
 
         private XGTCnetRequestProtocol CreateRSSP4GetValue()
         {
             var rss_p = XGTCnetRequestProtocol.NewRSSProtocol(PLC_LOCAL_PORT, new ReqtDataFmt(PLC_READ_VAL));
-            rss_p.ReceivedEvent += OnDataReceiveFromReadVar;
-            rss_p.ErrorEvent += OnRSSProtocolError;
+            rss_p.DataReceived += OnDataReceiveFromReadVar;
+            rss_p.ErrorReceived += OnRSSProtocolError;
             return rss_p;
         }
 
         private XGTCnetRequestProtocol CreateWSSP4SwtichValue()
         {
             var rss_p = XGTCnetRequestProtocol.NewWSSProtocol(PLC_LOCAL_PORT, new ReqtDataFmt(PLC_SWITCH_VAL, 0));
-            rss_p.ReceivedEvent += (object sender, SocketDataReceivedEventArgs e) => { RepeatExecute(); };
-            rss_p.ErrorEvent += OnRSSProtocolError;
+            rss_p.DataReceived += (object sender, SocketDataReceivedEventArgs e) => { RepeatExecute(); };
+            rss_p.ErrorReceived += OnRSSProtocolError;
             return rss_p;
         }
 

@@ -50,7 +50,7 @@
     <Compile Include="Inheritance\ITag.cs" />
     <Compile Include="Extension\CA2C.cs" />
     <Compile Include="Inheritance\ISocketCover.cs" />
-    <Compile Include="LSIS\Enum\CpuType.cs" />
+    <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetCpuType.cs" />
     <Compile Include="LSIS\LD2Glopa.cs" />
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetCommand.cs" />
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetCommandType.cs" />
@@ -65,7 +65,7 @@
     <Compile Include="LSIS\Glopa.cs" />
     <Compile Include="Extension\NumericTypeExtension.cs" />
     <Compile Include="LSIS\XGT\Cnet\XGTCnetSocketExtension.cs" />
-    <Compile Include="LSIS\Enum\CompanyID.cs" />
+    <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetCompanyID.cs" />
     <Compile Include="LSIS\XGT\FEnet\AppDataFormat\AppHeaderFormat\XGTFEnetPLCInfo.cs" />
     <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetPLCSystemState.cs" />
     <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetCommand.cs" />

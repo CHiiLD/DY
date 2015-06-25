@@ -23,7 +23,7 @@ namespace DY.NET.LSIS.XGT
         /// <summary>
         /// PROTOCOL MAIN DATAS
         /// </summary>
-        public ushort ByteSize { protected set; get; }     //읽거나 쓸 데이터의 바이트 사이즈 (BYTE = 데이터 타입 * 개수) 최대 240byte word는 120byte 가 한계 //2byte
+        public ushort SizeOfData { protected set; get; }     //읽거나 쓸 데이터의 바이트 사이즈 (BYTE = 데이터 타입 * 개수) 최대 240byte word는 120byte 가 한계 //2byte
         public List<ReqtDataFmt> ReqtDatas { get; protected set; }
 
         /// <summary>
@@ -34,7 +34,7 @@ namespace DY.NET.LSIS.XGT
             : base(that)
         {
             Init();
-            this.ByteSize = that.ByteSize;
+            this.SizeOfData = that.SizeOfData;
             this.ReqtDatas.AddRange(that.ReqtDatas);
         }
 
@@ -147,13 +147,13 @@ namespace DY.NET.LSIS.XGT
         public static XGTCnetRequestProtocol NewRSBProtocol(ushort localPort, string varName, ushort read_data_cnt)
         {
             if (Glopa.GetDataType(varName) == PLCVarType.BIT)
-                throw new ArgumentException("RSB communication not supported bit data type");
+                throw new ArgumentException("RSB COMMUNICATION NOT SUPPORTED BIT DATA TYPE");
             if ((read_data_cnt * (Glopa.GetDataType(varName)).ToSize() * 2) > CNET_PROTOCOL_SB_MAX_DATA_CNT)
                 throw new ArgumentException(ERROR_CNET_PROTOCOL_SB_DATACNT_LIMIT);
 
             var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SB);
             protocol.ReqtDatas.Add(new ReqtDataFmt(varName));
-            protocol.ByteSize = read_data_cnt;
+            protocol.SizeOfData = read_data_cnt; // byte * 변수의 개수로 계산하는 것이 아니다. 변수의 개수만 
             return protocol;
         }
 
@@ -172,7 +172,7 @@ namespace DY.NET.LSIS.XGT
 
             var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SB);
             protocol.ReqtDatas.Add(new ReqtDataFmt(varName, data));
-            protocol.ByteSize = 1;
+            protocol.SizeOfData = 1;
             return protocol;
         }
 
@@ -196,7 +196,7 @@ namespace DY.NET.LSIS.XGT
 
             var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SB);
             protocol.ReqtDatas = enqs;
-            protocol.ByteSize = (ushort)enqs.Count;
+            protocol.SizeOfData = (ushort)enqs.Count;
             return protocol;
         }
 
@@ -344,14 +344,14 @@ namespace DY.NET.LSIS.XGT
         {
             asc_list.AddRange(CA2C.ToASC(ReqtDatas[0].GlopaVarName.Length, typeof(ushort)));
             asc_list.AddRange(CA2C.ToASC(ReqtDatas[0].GlopaVarName));
-            asc_list.AddRange(CA2C.ToASC(ByteSize));
+            asc_list.AddRange(CA2C.ToASC(SizeOfData));
         }
 
         protected void AddProtocolWSB(List<byte> asc_list)
         {
             asc_list.AddRange(CA2C.ToASC(ReqtDatas[0].GlopaVarName.Length, typeof(ushort)));
             asc_list.AddRange(CA2C.ToASC(ReqtDatas[0].GlopaVarName));
-            asc_list.AddRange(CA2C.ToASC(ByteSize));
+            asc_list.AddRange(CA2C.ToASC(SizeOfData));
             foreach (ReqtDataFmt e in ReqtDatas)
                 asc_list.AddRange(CA2C.ToASC(e.Data, (PLCVarType)(Glopa.GetDataType(e.GlopaVarName).ToSize() * 2)));
         }
@@ -365,7 +365,7 @@ namespace DY.NET.LSIS.XGT
 
             asc_list.AddRange(CA2C.ToASC(ReqtDatas[0].GlopaVarName.Length, typeof(ushort)));
             asc_list.AddRange(CA2C.ToASC(ReqtDatas[0].GlopaVarName));
-            asc_list.AddRange(CA2C.ToASC(ByteSize));
+            asc_list.AddRange(CA2C.ToASC(SizeOfData));
         }
 
         protected void AddProtocolYSB(List<byte> asc_list)
@@ -412,14 +412,16 @@ namespace DY.NET.LSIS.XGT
         {
             Console.WriteLine(string.Format("블록 수: {0}", BlockCount));
             Console.WriteLine(string.Format("등록 번호: {0}", RegiNumber));
-            Console.WriteLine(string.Format("데이터 개수: {0}", ByteSize));
+            Console.WriteLine(string.Format("데이터 개수: {0}", SizeOfData));
 
             int cnt = 0;
             foreach (ReqtDataFmt e in ReqtDatas)
             {
-                Console.WriteLine(string.Format("[{0}] ENQData 변수이름: {1}", ++cnt, e.GlopaVarName));
+                Console.Write(string.Format("[{0:D2}] VAR_NAME: {1}", ++cnt, e.GlopaVarName));
                 if (e.Data != null)
-                    Console.WriteLine(string.Format("[{0}] ENQData 값: {1}", cnt, e.Data));
+                    Console.WriteLine(string.Format(", VALUE: {0}", e.Data));
+                else
+                    Console.WriteLine("");
             }
         }
     }

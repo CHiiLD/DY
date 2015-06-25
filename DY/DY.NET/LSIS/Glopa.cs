@@ -23,7 +23,7 @@ namespace DY.NET.LSIS
 
             foreach (char c in glopa_var_name)
             {
-                if (c != '%' && (!('a' <= c && c <= 'z')) && (!('A' <= c && c <= 'Z')) && (!('0' <= c && c <= '9')) && c != '_')
+                if (c != '%' && (!('a' <= c && c <= 'z')) && (!('A' <= c && c <= 'Z')) && (!('0' <= c && c <= '9')) && c != '_' && c != '.')
                     return false;
             }
             return glopa_var_name[0] == '%';

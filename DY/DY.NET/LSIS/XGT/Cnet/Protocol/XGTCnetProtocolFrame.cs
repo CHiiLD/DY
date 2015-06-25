@@ -61,15 +61,15 @@ namespace DY.NET.LSIS.XGT
         /// <summary>
         /// 통신 중 예외 또는 에러가 발생시 통지
         /// </summary>
-        public event EventHandler<SocketDataReceivedEventArgs> ErrorEvent;
+        public event EventHandler<SocketDataReceivedEventArgs> ErrorReceived;
         /// <summary>
         /// 프로토콜 요청을 성공적으로 전달되었을 시 통지
         /// </summary>
-        public event EventHandler<SocketDataReceivedEventArgs> RequestedEvent;
+        public event EventHandler<SocketDataReceivedEventArgs> DataRequested;
         /// <summary>
         /// 요청된 프로토콜에 따른 응답 프로토콜을 성공적으로 받았을 시 통지
         /// </summary>
-        public event EventHandler<SocketDataReceivedEventArgs> ReceivedEvent;
+        public event EventHandler<SocketDataReceivedEventArgs> DataReceived;
 
         /// <summary>
         /// Requested 이벤트를 발생시킵니다.
@@ -79,8 +79,8 @@ namespace DY.NET.LSIS.XGT
         public void OnDataReceived(object obj, IProtocol protocol)
         {
             var pt = System.Threading.Volatile.Read(ref protocol);
-            if (ReceivedEvent != null)
-                ReceivedEvent(obj, new SocketDataReceivedEventArgs(pt));
+            if (DataReceived != null)
+                DataReceived(obj, new SocketDataReceivedEventArgs(pt));
         }
         /// <summary>
         /// Requested 이벤트를 발생시킵니다.
@@ -90,8 +90,8 @@ namespace DY.NET.LSIS.XGT
         public void OnDataRequested(object obj, IProtocol protocol)
         {
             var pt = System.Threading.Volatile.Read(ref protocol);
-            if (RequestedEvent != null)
-                RequestedEvent(obj, new SocketDataReceivedEventArgs(pt));
+            if (DataRequested != null)
+                DataRequested(obj, new SocketDataReceivedEventArgs(pt));
         }
         /// <summary>
         /// OnError 이벤트를 발생시킵니다.
@@ -101,8 +101,8 @@ namespace DY.NET.LSIS.XGT
         public void OnError(object obj, IProtocol protocol)
         {
             var pt = System.Threading.Volatile.Read(ref protocol);
-            if (ErrorEvent != null)
-                ErrorEvent(obj, new SocketDataReceivedEventArgs(pt));
+            if (ErrorReceived != null)
+                ErrorReceived(obj, new SocketDataReceivedEventArgs(pt));
         }
         #endregion
 
@@ -122,9 +122,9 @@ namespace DY.NET.LSIS.XGT
         protected XGTCnetProtocolFrame(XGTCnetProtocolFrame that)
         {
             this.ProtocolData = that.ProtocolData;
-            this.ReceivedEvent = that.ReceivedEvent;
-            this.ErrorEvent = that.ErrorEvent;
-            this.RequestedEvent = that.RequestedEvent;
+            this.DataReceived = that.DataReceived;
+            this.ErrorReceived = that.ErrorReceived;
+            this.DataRequested = that.DataRequested;
             this.Error = that.Error;
             this.Header = that.Header;
             this.LocalPort = that.LocalPort;
@@ -256,7 +256,12 @@ namespace DY.NET.LSIS.XGT
             {
                 byte[] main_data = this.GetMainData();
                 if (main_data.Length == 4)
-                    this.Error = (XGTCnetProtocolError)CA2C.ToValue(main_data, typeof(uint));
+                {
+                    byte[] swap = new byte[4];
+                    Buffer.BlockCopy(main_data, 0, swap, 2, 2);
+                    Buffer.BlockCopy(main_data, 2, swap, 0, 2);
+                    this.Error = (XGTCnetProtocolError)CA2C.ToValue(swap, typeof(uint));
+                }
                 ret = true;
             }
             return ret;
@@ -331,7 +336,7 @@ namespace DY.NET.LSIS.XGT
 
         public void PrintBinaryFrameInfo()
         {
-            Console.WriteLine("XGT 프로토콜 정보");
+            Console.WriteLine(Header.ToString() +  " XGT 프로토콜 정보");
             Console.WriteLine("ASC 코드: " + B2HS.Change(ProtocolData));
             Console.WriteLine("국번: {0}", LocalPort);
             Console.WriteLine(string.Format("헤더: {0}", Header == XGTCnetControlCodeType.ENQ ? "ENQ" : Header == XGTCnetControlCodeType.ACK ? "ACK" : "NAK"));
