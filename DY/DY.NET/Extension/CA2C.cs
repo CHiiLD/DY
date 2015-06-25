@@ -6,6 +6,8 @@
 
 using System;
 using System.Text;
+using System.Runtime.Serialization.Formatters.Binary;
+using System.IO;
 
 namespace DY.NET
 {
@@ -101,6 +103,16 @@ namespace DY.NET
         public static object ToValue(byte[] value, PLCVarType type)
         {
             return ToValue(value, type.ToType());
+        }
+
+        public static byte[] ToByte(object value, Type type)
+        {
+            BinaryFormatter bf = new BinaryFormatter();
+            using (MemoryStream ms = new MemoryStream())
+            {
+                bf.Serialize(ms, value);
+                return ms.ToArray();
+            }
         }
     }
 }

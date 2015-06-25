@@ -50,6 +50,10 @@
     <Compile Include="Inheritance\ITag.cs" />
     <Compile Include="Extension\CA2C.cs" />
     <Compile Include="Inheritance\ISocketCover.cs" />
+    <Compile Include="LSIS\XGT\Cnet\PostBox\Mail.cs" />
+    <Compile Include="LSIS\XGT\Cnet\PostBox\AbstructXGTCnetFrame.cs" />
+    <Compile Include="LSIS\XGT\Cnet\PostBox\XGTCnetPost.cs" />
+    <Compile Include="LSIS\XGT\Cnet\PostBox\XGTCnetReply.cs" />
     <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetCpuType.cs" />
     <Compile Include="LSIS\LD2Glopa.cs" />
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetCommand.cs" />
@@ -72,6 +76,8 @@
     <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetDataType.cs" />
     <Compile Include="LSIS\XGT\FEnet\AppDataFormat\AppHeaderFormat\XGTFEnetHeader.cs" />
     <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetSourceOfFrame.cs" />
+    <Compile Include="LSIS\XGT\Cnet\PostBox\PostAlgorithm.cs" />
+    <Compile Include="LSIS\XGT\TypeExtension.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Event\SocketDataReceivedEventArgs.cs" />
   </ItemGroup>

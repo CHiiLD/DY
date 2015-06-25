@@ -20,4 +20,17 @@ namespace DY.NET.LSIS.XGT
         X = 0x58,
         Y = 0x59
     }
+
+    public static class XGTCnetCommandExtension
+    {
+        /// <summary>
+        /// XGTCnetControlCodeType 열거형을 바이트값으로 리턴
+        /// </summary>
+        /// <param name="cmd"></param>
+        /// <returns></returns>
+        public static byte ToByte(this XGTCnetCommand cmd)
+        {
+            return (byte)cmd;
+        }
+    }
 }

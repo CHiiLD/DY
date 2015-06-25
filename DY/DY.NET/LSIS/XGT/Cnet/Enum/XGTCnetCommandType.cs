@@ -17,7 +17,7 @@ namespace DY.NET.LSIS.XGT
     /// <summary>
     /// XGTCnetCommandType 열거형의 확장메서드를 위한 클래스
     /// </summary>
-    public static class XGTCnetCommandTypeExtensions
+    public static class XGTCnetCommandTypeExtension
     {
         public static string ToString(this XGTCnetCommandType type)
         {
@@ -37,9 +37,9 @@ namespace DY.NET.LSIS.XGT
         public static XGTCnetCommandType ToCmdType(byte[] data)
         {
             if(data.Length != 2)
-                throw new ArgumentException("it's not XGTCnetCommandType's binary data");
+                throw new ArgumentException("IT'S NOT XGTCNETCOMMANDTYPE'S BINARY DATA");
             if(data[0] != 'S')
-                throw new ArgumentException("prefix is not 'S'");
+                throw new ArgumentException("PREFIX IS NOT 'S'");
             if (data[1] == 'S')
                 return XGTCnetCommandType.SS;
             else

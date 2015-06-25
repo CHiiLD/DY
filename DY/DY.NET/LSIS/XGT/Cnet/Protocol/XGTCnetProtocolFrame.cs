@@ -205,7 +205,7 @@ namespace DY.NET.LSIS.XGT
              || Command == XGTCnetCommand.R || Command == XGTCnetCommand.W)
             {
                 byte[] type = { head[4], head[5] };
-                CommandType = XGTCnetCommandTypeExtensions.ToCmdType(type);
+                CommandType = XGTCnetCommandTypeExtension.ToCmdType(type);
             }
             else
             {
@@ -288,7 +288,7 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
-        /// 맴머 변수의 정보를 토대로 원시 프로토콜 데이터를 구합니다.
+        /// 맴버 변수의 정보를 토대로 원시 프로토콜 데이터를 구합니다.
         /// </summary>
         internal void AssembleProtocol()
         {
@@ -308,7 +308,7 @@ namespace DY.NET.LSIS.XGT
         internal void AnalysisProtocol()
         {
             if (ProtocolData == null)
-                throw new NullReferenceException("ProtocolData is null.");
+                throw new NullReferenceException("PROTOCOLDATA IS NULL.");
             if (ProtocolData.Length < CNET_RW_PROTOCOL_HEAD_SIZE)
                 throw new ArgumentOutOfRangeException(ERROR_CNET_PROTOCOL_HEAD_SIZE);
 
@@ -325,7 +325,7 @@ namespace DY.NET.LSIS.XGT
         internal bool IsExistBCCFromASCData()
         {
             if (ProtocolData == null)
-                throw new NullReferenceException("ProtocolData is null.");
+                throw new NullReferenceException("PROTOCOLDATA IS NULL.");
 
             if (Command == XGTCnetCommand.r || Command == XGTCnetCommand.w || Command == XGTCnetCommand.x || Command == XGTCnetCommand.y)
                 return true;

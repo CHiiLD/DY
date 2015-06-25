@@ -14,4 +14,17 @@ namespace DY.NET.LSIS.XGT
         EOT = 0x04, //요청 마감 코드
         ETX = 0x03, //응답 프레임 마감 코드
     }
+
+    public static class XGTCnetControlCodeTypeExtension
+    {
+        /// <summary>
+        /// XGTCnetControlCodeType 열거형을 바이트값으로 리턴
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
+        public static byte ToByte(this XGTCnetControlCodeType type)
+        {
+            return (byte)type;
+        }
+    }
 }

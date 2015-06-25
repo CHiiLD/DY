@@ -106,10 +106,10 @@ namespace DY.SAMPLE.COMM
             }
 
             {
-                string[] vars = { "%DD02000" }; //2004318071
+                string[] vars = { "%DW04003" }; //2004318071
                 List<ReqtDataFmt> datas = new List<ReqtDataFmt>();
                 foreach (var var_name in vars)
-                    datas.Add(new ReqtDataFmt(var_name, 0x77777777));
+                    datas.Add(new ReqtDataFmt(var_name, 0x1234));
                 wsbReqtProtocol3 = XGTCnetRequestProtocol.NewWSSProtocol(LOCAL_NUMBER, datas);
                 wsbReqtProtocol3.DataReceived += OnReceived_RSS;
                 wsbReqtProtocol3.DataRequested += OnReqeusted_RSS;
@@ -137,7 +137,6 @@ namespace DY.SAMPLE.COMM
                 //Socket.Send(rssReqtProtocol1);
                 //Socket.Send(rssReqtProtocol3);
                 Socket.Send(wsbReqtProtocol3);
-
                 //Socket.Send(rsbReqtProtocol1);
                 //Socket.Send(rsbReqtProtocol2);
             }

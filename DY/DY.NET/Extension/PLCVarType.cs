@@ -17,7 +17,7 @@ namespace DY.NET
         LWORD = 8
     }
 
-    public static class PLCVarTypeExtensions
+    public static class PLCVarTypeExtension
     {
         public static int ToSize(this PLCVarType type)
         {
