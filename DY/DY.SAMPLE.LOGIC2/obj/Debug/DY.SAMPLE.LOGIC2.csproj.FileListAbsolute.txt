@@ -16,3 +16,12 @@ C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LOGIC2\bin\Debug\DY.SAMPLE.LOGIC.pdb
 C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LOGIC2\obj\Debug\DY.SAMPLE.LOGIC2.csprojResolveAssemblyReference.cache
 C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LOGIC2\obj\Debug\DY.SAMPLE.LOGIC2.dll
 C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LOGIC2\obj\Debug\DY.SAMPLE.LOGIC2.pdb
+C:\dev\github\DY\DY\DY.SAMPLE.LOGIC2\bin\Debug\DY.SAMPLE.LOGIC2.dll
+C:\dev\github\DY\DY\DY.SAMPLE.LOGIC2\bin\Debug\DY.SAMPLE.LOGIC2.pdb
+C:\dev\github\DY\DY\DY.SAMPLE.LOGIC2\bin\Debug\DY.SAMPLE.LOGIC.dll
+C:\dev\github\DY\DY\DY.SAMPLE.LOGIC2\bin\Debug\NET.dll
+C:\dev\github\DY\DY\DY.SAMPLE.LOGIC2\bin\Debug\NET.pdb
+C:\dev\github\DY\DY\DY.SAMPLE.LOGIC2\bin\Debug\DY.SAMPLE.LOGIC.pdb
+C:\dev\github\DY\DY\DY.SAMPLE.LOGIC2\obj\Debug\DY.SAMPLE.LOGIC2.csprojResolveAssemblyReference.cache
+C:\dev\github\DY\DY\DY.SAMPLE.LOGIC2\obj\Debug\DY.SAMPLE.LOGIC2.dll
+C:\dev\github\DY\DY\DY.SAMPLE.LOGIC2\obj\Debug\DY.SAMPLE.LOGIC2.pdb

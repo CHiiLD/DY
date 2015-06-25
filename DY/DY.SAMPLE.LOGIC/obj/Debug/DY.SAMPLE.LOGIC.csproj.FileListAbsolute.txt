@@ -33,3 +33,10 @@ C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LOGIC\bin\Debug\NET.pdb
 C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LOGIC\obj\Debug\DY.SAMPLE.LOGIC.dll
 C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LOGIC\obj\Debug\DY.SAMPLE.LOGIC.pdb
 C:\Users\CHILD\GitHub\DY\DY\DY.SAMPLE.LOGIC\obj\Debug\DY.SAMPLE.LOGIC.csprojResolveAssemblyReference.cache
+C:\dev\github\DY\DY\DY.SAMPLE.LOGIC\bin\Debug\DY.SAMPLE.LOGIC.dll
+C:\dev\github\DY\DY\DY.SAMPLE.LOGIC\bin\Debug\DY.SAMPLE.LOGIC.pdb
+C:\dev\github\DY\DY\DY.SAMPLE.LOGIC\bin\Debug\NET.dll
+C:\dev\github\DY\DY\DY.SAMPLE.LOGIC\bin\Debug\NET.pdb
+C:\dev\github\DY\DY\DY.SAMPLE.LOGIC\obj\Debug\DY.SAMPLE.LOGIC.csprojResolveAssemblyReference.cache
+C:\dev\github\DY\DY\DY.SAMPLE.LOGIC\obj\Debug\DY.SAMPLE.LOGIC.dll
+C:\dev\github\DY\DY\DY.SAMPLE.LOGIC\obj\Debug\DY.SAMPLE.LOGIC.pdb

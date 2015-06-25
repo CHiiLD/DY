@@ -9,10 +9,10 @@ namespace DY.NET.LSIS.XGT.Cnet
     /// <summary>
     /// RSS, WSS 포맷 기반의 시리얼 통신 Cnet 응답 프로토콜 처리 클래스
     /// </summary>
-    public class XGTCnetReply : AbstructXGTCnetFrame
+    public class XGTCnetReply : AbstractXGTCnetFrame
     {
         private int ProtocolCount;
-
+        public XGTCnetProtocolError Error { get; internal set; }
         /// <summary>
         /// 응답 프로토콜을 저장한다. 
         /// </summary>
@@ -36,16 +36,21 @@ namespace DY.NET.LSIS.XGT.Cnet
 
         }
 
+        private void Init(XGTCnetPost post)
+        {
+            Error = XGTCnetProtocolError.OK;
+            LocalPort = post.LocalPort;
+            Post = post.Post;
+            ProtocolCount = post.Protocols.Count();
+        }
+
         /// <summary>
         /// 생성자
         /// </summary>
         /// <param name="post">요청한 XGTCnetPost 객체</param>
         internal XGTCnetReply(XGTCnetPost post) : base()
         {
-            LocalPort = post.LocalPort;
-            Post = post.Post;
-            ProtocolCount = post.Protocols.Count();
-            Protocols = new List<List<byte>>();
+            Init(post);
         }
     }
 }

@@ -51,7 +51,7 @@
     <Compile Include="Extension\CA2C.cs" />
     <Compile Include="Inheritance\ISocketCover.cs" />
     <Compile Include="LSIS\XGT\Cnet\PostBox\Mail.cs" />
-    <Compile Include="LSIS\XGT\Cnet\PostBox\AbstructXGTCnetFrame.cs" />
+    <Compile Include="LSIS\XGT\Cnet\PostBox\AbstractXGTCnetFrame.cs" />
     <Compile Include="LSIS\XGT\Cnet\PostBox\XGTCnetPost.cs" />
     <Compile Include="LSIS\XGT\Cnet\PostBox\XGTCnetReply.cs" />
     <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetCpuType.cs" />

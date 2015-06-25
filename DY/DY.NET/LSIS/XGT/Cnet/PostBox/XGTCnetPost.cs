@@ -11,7 +11,7 @@ namespace DY.NET.LSIS.XGT
     /// 여러 타입의 변수와 개수에 상관없이 사전 정의된 알고리즘과 시스템에 의해 자동처리됩니다.
     /// Bit, Byte, Word는 1 DWord는 2, LWord는 4로 취급하여 합이 16이하일 때 가장 빠른 응답을 보여줍니다.
     /// </summary>
-    public class XGTCnetPost : AbstructXGTCnetFrame
+    public class XGTCnetPost : AbstractXGTCnetFrame
     {
         public const int RSS_MAX_BLOCK_COUNT = 16;
         /// <summary>
@@ -24,7 +24,7 @@ namespace DY.NET.LSIS.XGT
             : base()
         {
             Init(cmd, localport, post);
-            SetWrap();
+            Wrap();
         }
 
         /// <summary>
@@ -41,7 +41,7 @@ namespace DY.NET.LSIS.XGT
         /// 헤더 붙이기
         /// </summary>
         /// <returns>header 데이터</returns>
-        virtual private List<byte> GetHeader(XGTCnetCommand cmd)
+        virtual protected List<byte> CreateProtocolHeader(XGTCnetCommand cmd)
         {
             List<byte> header = new List<byte>();
             header.Add(XGTCnetControlCodeType.ENQ.ToByte());
@@ -55,7 +55,7 @@ namespace DY.NET.LSIS.XGT
         /// 테일 설정
         /// </summary>
         /// <param name="data"></param>
-        virtual private void SetTail(List<byte> data)
+        virtual protected void AttachTail(List<byte> data)
         {
             data.Add(XGTCnetControlCodeType.EOT.ToByte());
         }
@@ -65,12 +65,12 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         /// <param name="data"></param>
         /// <param name="block"></param>
-        virtual private void SetBlockNumber(List<byte> data, int block)
+        virtual protected void AddBlockNumber(List<byte> data, int block)
         {
             data.InsertRange(6, CA2C.ToASC(block, typeof(ushort))); //블록 수
         }
 
-        virtual private void Init(XGTCnetCommand cmd, ushort localport, IEnumerable<Mail> post)
+        virtual protected void Init(XGTCnetCommand cmd, ushort localport, IEnumerable<Mail> post)
         {
             Cmd = cmd;
             LocalPort = localport;
@@ -79,12 +79,24 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
+        /// byte 리스트(프로토콜 아스키 코드들)에 블록 수와 테일을 붙이고 Protocols리스트에 저장
+        /// </summary>
+        /// <param name="p_temp">아스키 코드들</param>
+        /// <param name="cur_block_cnt">블록 수</param>
+        private void Mopup(List<byte> p_temp, int cur_block_cnt)
+        {
+            AddBlockNumber(p_temp, cur_block_cnt);
+            AttachTail(p_temp);
+            Protocols.Add(p_temp); //저장
+        }
+
+        /// <summary>
         /// 쓰거나 저장할 데이터들을 적절하게 포장
         /// </summary>
-        private void SetWrap()
+        private void Wrap()
         {
             int block_cnt = 0;
-            List<byte> p_temp = GetHeader(Cmd);
+            List<byte> p_temp = CreateProtocolHeader(Cmd);
             if (Post != null)
             {
                 for (int i = 0; i < Post.Count(); i++)
@@ -93,10 +105,8 @@ namespace DY.NET.LSIS.XGT
                     WrappedPost.AddRange(sealedMails);
                     if (block_cnt + sealedMails.Count() > RSS_MAX_BLOCK_COUNT)
                     {
-                        SetBlockNumber(p_temp, block_cnt);
-                        SetTail(p_temp);
-                        Protocols.Add(p_temp); //저장
-                        p_temp = GetHeader(Cmd);
+                        Mopup(p_temp, block_cnt);
+                        p_temp = CreateProtocolHeader(Cmd);
                         block_cnt = 0;
                         i--;
                         continue;
@@ -110,9 +120,7 @@ namespace DY.NET.LSIS.XGT
                         block_cnt++;
                     }
                 }
-                SetBlockNumber(p_temp, block_cnt);
-                SetTail(p_temp);
-                Protocols.Add(p_temp); //저장
+                Mopup(p_temp, block_cnt);
             }
         }
     }
