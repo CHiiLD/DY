@@ -1,0 +1,54 @@
+프로토콜 구조 
+
+RW
+바이트 사이즈    1      2      1       2             ?                 1     1/0
+EQN:			헤더 - 국번 - 명령어 - 명령어 타입 - 구조화된 데이터  - 테일 - BCC
+ACK:			헤더 - 국번 - 명령어 - 명령어 타입 - 구조화된 데이터  - 테일 - BCC
+													4
+NAK:			헤더 - 국번 - 명령어 - 명령어 타입 - 에러코드         - 테일 - BCC
+
+XY
+바이트 사이즈    1      2      1       2             ?        1     1/0
+EQN:			헤더 - 국번 - 명령어 - 등록번호 - 등록 포맷  - 테일 - BCC
+ACK:			헤더 - 국번 - 명령어 - 등록번호 - 등록 포맷  - 테일 - BCC
+													4
+NAK:			헤더 - 국번 - 명령어 - 등록번호 - 에러코드   - 테일 - BCC
+
+
+BC - 2B 블록 수 
+VL - 2B 변수 길이
+VN - ?? 변수 이름
+BS - 2B 바이트 사이즈 
+DT - ?? 데이타 
+RN - 2B 등록 번호 *등록포맷에 속한 카테고리가 아님
+
+요청 - 구조화된 데이터 
+    RSS | WSS | RSB | WSB | XSS | YSS | XSB | YSB | RET
+TYPE    |     |     |     |     |     |     |     |  
+BC   O  |  O  |  X  |  X  |  O  |  X  |  X  |  X  |  O
+VL   O  |  O  |  O  |  O  |  O  |  X  |  O  |  X  |  O
+VN   O  |  O  |  O  |  O  |  O  |  X  |  O  |  X  |  O
+BS   X  |  X  |  O  |  O  |  X  |  X  |  O  |  X  |  O
+DT   X  |  O  |  X  |  O  |  X  |  X  |  X  |  X  |  O
+RN   X  |  X  |  X  |  X  |  O  |  O  |  O  |  O  |  O
+
+*** 주의점
+*** RSB 에서 BS는 연속해서 읽을 변수의 개수
+*** WSB, RSB 에서 최대 데이터 사이즈는 120 byte
+*** RSB 에서 Bit 데이터 변수는 지원하지 않는다
+
+
+응답 - 구조화된 데이터
+    RSS | WSS | RSB | WSB | XSS | YSS | XSB | YSB | RET
+TYPE    |     |     |     |     |     |     |     |
+BC   O  |  X  |  O  |  X  |  X  |  O  |  X  |  X  |  O
+VL   X  |  X  |  X  |  X  |  X  |  X  |  X  |  X  |  X
+VN   X  |  X  |  X  |  X  |  X  |  X  |  X  |  X  |  X
+BS   X  |  X  |  O  |  X  |  X  |  O  |  X  |  O  |  O
+DT   O  |  X  |  O  |  X  |  X  |  O  |  X  |  O  |  O
+RN   X  |  X  |  X  |  X  |  O  |  O  |  O  |  O  |  O
+
+*** 주의점
+*** RSB 에서 BS는 연속해서 읽은 변수의 사이즈 * 변수의 개수
+
+*** 의문점
