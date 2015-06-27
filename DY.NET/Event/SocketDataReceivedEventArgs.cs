@@ -11,9 +11,9 @@ namespace DY.NET
     /// <summary>
     /// EventHandler 제네릭 타입을 위한 클래스입니다.
     /// </summary>
-    public class SocketDataReceivedEventArgs : EventArgs, ITag
+    public class DataReceivedEventArgs : EventArgs, ITag
     {
-        public SocketDataReceivedEventArgs(IProtocol protocol)
+        public DataReceivedEventArgs(IProtocol protocol)
         {
             Protocol = protocol;
         }

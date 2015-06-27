@@ -7,7 +7,7 @@
 
 namespace DY.NET.LSIS.XGT
 {
-    public enum XGTCnetExclusiveProtocolError : uint
+    public enum XGTCnetProtocolError : uint
     {
         //사용자 정의 
         OK = 0x00000000,                //정상

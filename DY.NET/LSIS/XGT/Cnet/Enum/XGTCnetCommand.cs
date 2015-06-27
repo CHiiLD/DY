@@ -20,4 +20,12 @@ namespace DY.NET.LSIS.XGT
         X = 0x58,
         Y = 0x59
     }
+
+    public static class XGTCnetCommandExtension
+    {
+        public static byte ToByte(this XGTCnetCommand cmd)
+        {
+            return (byte)cmd;
+        }
+    }
 }

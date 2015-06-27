@@ -8,7 +8,7 @@ using System;
 
 namespace DY.NET.LSIS.XGT
 {
-    public enum XGTCnetCommandType : ushort
+    public enum XGTCnetCmdType : ushort
     {
         SS = 0x5353,    //개별 읽기/쓰기
         SB = 0x5342     //연속 읽기/쓰기
@@ -19,43 +19,43 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public static class XGTCnetCommandTypeExtensions
     {
-        public static string ToString(this XGTCnetCommandType type)
+        public static string ToString(this XGTCnetCmdType type)
         {
             string s = null;
             switch(type)
             {
-                case XGTCnetCommandType.SS:
+                case XGTCnetCmdType.SS:
                     s = "SS";
                     break;
-                case XGTCnetCommandType.SB:
+                case XGTCnetCmdType.SB:
                     s = "SB";
                     break;
             }
             return s;
         }
 
-        public static XGTCnetCommandType ToCmdType(byte[] data)
+        public static XGTCnetCmdType ToCmdType(byte[] data)
         {
             if(data.Length != 2)
                 throw new ArgumentException("it's not XGTCnetCommandType's binary data");
             if(data[0] != 'S')
                 throw new ArgumentException("prefix is not 'S'");
             if (data[1] == 'S')
-                return XGTCnetCommandType.SS;
+                return XGTCnetCmdType.SS;
             else
-                return XGTCnetCommandType.SB;
+                return XGTCnetCmdType.SB;
         }
 
-        public static byte[] ToByteArray(this XGTCnetCommandType type)
+        public static byte[] ToByteArray(this XGTCnetCmdType type)
         {
             byte[] b = new byte[2];
             switch (type)
             {
-                case XGTCnetCommandType.SS:
+                case XGTCnetCmdType.SS:
                     b[0] = (byte)'S';
                     b[1] = (byte)'S';
                     break;
-                case XGTCnetCommandType.SB:
+                case XGTCnetCmdType.SB:
                     b[0] = (byte)'S';
                     b[1] = (byte)'B';
                     break;

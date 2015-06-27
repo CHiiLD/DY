@@ -12,51 +12,55 @@ namespace DY.NET.LSIS.XGT
     /// <summary>
     /// XGT Cnet 통신을 위한 프로토콜 클래스
     /// </summary>
-    public class XGTCnetExclusiveProtocol : XGTCnetExclusiveProtocolFrame
+    public class XGTCnetProtocol : AXGTCnetProtocol
     {
+        #region CONST VARIABLE
         private const string ERROR_ENQ_IS_NULL_OR_EMPTY = "ENQDATAS HAVE PROBLEM (NULL OR EMPTY DATA)";
         private const string ERROR_READED_MEM_COUNT_LIMIT = "ENQDATAS OVER LIMIT OF COUNT (NULL OR EMPTY DATA)";
         private const string ERROR_MONITER_INVALID_REGISTER_NUMBER = "REGISTER_NUMBER HAVE TO REGISTER TO 0 FROM 31";
         private const int READED_MEM_MAX_COUNT = 16;
         private const int MONITER_VAR_REGISTER_MAX_NUMBER = 31;
+        #endregion
 
+        #region PUBLIC PROPERTIES
         /// <summary>
         /// PROTOCOL MAIN DATAS
         /// </summary>
-        public ushort BlockCnt { protected set; get; }      //2byte
+        public ushort BlocCnt { protected set; get; }      //2byte
         public ushort DataCnt { protected set; get; }       //읽거나 쓸 데이터의 개수 (BYTE = 데이터 타입 * 개수) 최대 240byte word는 120byte 가 한계 //2byte
-        public ushort RegisterNum { protected set; get; }   //등록 번호    2byte
-        public List<ENQDataFormat> ENQDatas { get; protected set; }
-        public List<ACKDataFormat> ACKDatas { get; protected set; }
+        public ushort RegiNum { protected set; get; }   //등록 번호    2byte
+        public List<PValue> ReqeustList { get; protected set; }
+        public Dictionary<string, object> ResponseDic { get; protected set; }
+        #endregion
 
+        #region CONSTRUCTOR
         /// <summary>
         /// XGTCnetExclusiveProtocol 복사생성자
         /// </summary>
         /// <param name="that"> 복사하고자 할 XGTCnetExclusiveProtocol 객체 </param>
-        internal XGTCnetExclusiveProtocol(XGTCnetExclusiveProtocol that)
+        internal XGTCnetProtocol(XGTCnetProtocol that)
             : base(that)
         {
             Init();
-            this.BlockCnt = that.BlockCnt;
-            this.DataCnt = that.DataCnt;
-            this.RegisterNum = that.RegisterNum;
-            this.ENQDatas.AddRange(that.ENQDatas);
-            this.ACKDatas.AddRange(that.ACKDatas);
+            BlocCnt = that.BlocCnt;
+            DataCnt = that.DataCnt;
+            RegiNum = that.RegiNum;
+            ReqeustList.AddRange(that.ReqeustList);
         }
 
-        protected XGTCnetExclusiveProtocol()
+        protected XGTCnetProtocol()
             : base()
         {
             Init();
         }
 
-        protected XGTCnetExclusiveProtocol(byte[] binaryDatas)
+        protected XGTCnetProtocol(byte[] binaryDatas)
             : base(binaryDatas)
         {
             Init();
         }
 
-        protected XGTCnetExclusiveProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
+        protected XGTCnetProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCmdType type)
             : base(localPort, cmd, type)
         {
             Init();
@@ -67,46 +71,30 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         private void Init()
         {
-            ENQDatas = new List<ENQDataFormat>();
-            ACKDatas = new List<ACKDataFormat>();
+            ReqeustList = new List<PValue>();
+            ResponseDic = new Dictionary<string, object>();
         }
+        #endregion
 
-        #region static factory construct method
-
+        #region STATIC FACTORY CONSTRUCT METHOD
         /// <summary>
         /// 직접 변수 개별 읽기 RSS
         /// PLC에서 데이터 타입에 맞게 직접 변수이름을 지정하여 읽는 요청의 프로토콜 입니다
         /// 한번에 16개의 독립된 디바이스 메모리를 읽을 수가 있습니다
         /// </summary>
         /// <param name="localPort"> 국번 </param>
-        /// <param name="enqs"> 변수이름과 메모리 주소가 담긴 구조체의 리스트 최대 16개까지 사용 가능합니다 </param>
+        /// <param name="plc_data"> 변수이름과 메모리 주소가 담긴 구조체의 리스트 최대 16개까지 사용 가능합니다 </param>
         /// <returns> RSS 모드의 XGTCnetExclusiveProtocol 프로토콜 </returns>
-        public static XGTCnetExclusiveProtocol NewRSSProtocol(ushort localPort, List<ENQDataFormat> enqs)
+        public static XGTCnetProtocol NewRSSProtocol(ushort localPort, List<PValue> plc_data)
         {
-            if (enqs.Count == 0 || enqs == null)
+            if (plc_data.Count == 0 || plc_data == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
-            if (enqs.Count > READED_MEM_MAX_COUNT)
+            if (plc_data.Count > READED_MEM_MAX_COUNT)
                 throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
 
-            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SS);
-            protocol.ENQDatas = enqs;
-            protocol.BlockCnt = (ushort)protocol.ENQDatas.Count;
-            return protocol;
-        }
-
-        /// <summary>
-        /// 직접 변수 개별 읽기 RSS
-        /// PLC에서 데이터 타입에 맞게 직접 변수이름을 지정하여 읽는 요청의 프로토콜 입니다
-        /// 한번에 16개의 독립된 디바이스 메모리를 읽을 수가 있습니다
-        /// </summary>
-        /// <param name="localPort"> 국번 </param>
-        /// <param name="enqs"> 변수이름과 메모리 주소가 담긴 구조체, 하나의 변수만 읽습니다 </param>
-        /// <returns> RSS 모드의 XGTCnetExclusiveProtocol 프로토콜 </returns>
-        public static XGTCnetExclusiveProtocol NewRSSProtocol(ushort localPort, ENQDataFormat enq)
-        {
-            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SS);
-            protocol.ENQDatas.Add(enq);
-            protocol.BlockCnt = 1;
+            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCmdType.SS);
+            protocol.ReqeustList.AddRange(plc_data); //깊은 복사
+            protocol.BlocCnt = (ushort)protocol.ReqeustList.Count;
             return protocol;
         }
 
@@ -117,29 +105,14 @@ namespace DY.NET.LSIS.XGT
         /// <param name="localPort"> 국번 </param>
         /// <param name="enqs"> 변수이름과 메모리 주소가 담긴 구조체의 리스트 최대 16개까지 사용 가능합니다 </param>
         /// <returns> WSS 모드의 XGTCnetExclusiveProtocol 프로토콜 </returns>
-        public static XGTCnetExclusiveProtocol NewWSSProtocol(ushort localPort, List<ENQDataFormat> enqs)
+        public static XGTCnetProtocol NewWSSProtocol(ushort localPort, List<PValue> enqs)
         {
             if (enqs.Count == 0 || enqs == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
 
-            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SS);
-            protocol.ENQDatas = enqs;
-            protocol.BlockCnt = (ushort)protocol.ENQDatas.Count;
-            return protocol;
-        }
-
-        /// <summary>
-        /// 직접 변수 개별 쓰기 WSS
-        /// PLC 의 메모리 번지를 직접 지정하여 데이터 타입에 맞게 값을 쓰는 프로토콜입니다.
-        /// </summary>
-        /// <param name="localPort"> 국번 </param>
-        /// <param name="enqs"> 변수이름과 메모리 주소가 담긴 구조체, 하나의 메모리에만 값을 씁니다 </param>
-        /// <returns> RSS 모드의 XGTCnetExclusiveProtocol 프로토콜 </returns>
-        public static XGTCnetExclusiveProtocol NewWSSProtocol(ushort localPort, ENQDataFormat enq)
-        {
-            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SS);
-            protocol.ENQDatas.Add(enq);
-            protocol.BlockCnt = 1;
+            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCmdType.SS);
+            protocol.ReqeustList = enqs;
+            protocol.BlocCnt = (ushort)protocol.ReqeustList.Count;
             return protocol;
         }
 
@@ -148,19 +121,28 @@ namespace DY.NET.LSIS.XGT
         /// PLC 에서 지정된 번지의 메모리에서 지정된 개수만큼 데이터를 일렬로 읽는 기능을 제공하는 프로토콜 입니다
         /// </summary>
         /// <param name="localPort"> 국번 </param>
-        /// <param name="varName"> 변수이름 </param>
+        /// <param name="glopa_name"> 변수이름 </param>
         /// <param name="read_data_cnt"> 읽을 메모리 번지의 개수 </param>
         /// <returns> RSB 모드의 XGTCnetExclusiveProtocol 프로토콜 </returns>
-        public static XGTCnetExclusiveProtocol NewRSBProtocol(ushort localPort, string varName, ushort read_data_cnt)
+        public static XGTCnetProtocol NewRSBProtocol(ushort localPort, PValue data, ushort read_data_cnt)
         {
-            if (Glopa.GetDataType(varName) == PLCVarType.BIT)
+            string glopa_name = data.Name;
+            Type type = data.Type;
+            if (Glopa.GetDataType(glopa_name) == typeof(Boolean)) //BIT 데이터는 연속 읽기를 할 수 없어요 ㅠ_ㅠ
                 throw new ArgumentException("RSB communication not supported bit data type");
-            if ((read_data_cnt * (Glopa.GetDataType(varName)).ToSize() * 2) > PROTOCOL_SB_MAX_DATA_CNT)
+            if ((read_data_cnt * (Glopa.GetDataType(glopa_name)).ToSize() * 2) > PROTOCOL_SB_MAX_DATA_CNT)
                 throw new ArgumentException(ERROR_PROTOCOL_SB_DATACNT_LIMIT);
 
-            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCommandType.SB);
-            protocol.ENQDatas.Add(new ENQDataFormat(varName));
+            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCmdType.SB);
             protocol.DataCnt = read_data_cnt;
+            for (int i = 0; i < read_data_cnt; i++)
+            {
+                string str_header = glopa_name.Substring(0, 3);
+                string str_num = glopa_name.Substring(3, glopa_name.Length - 2);
+                int mem_num;
+                if (Int32.TryParse(str_num, out mem_num))
+                    protocol.ReqeustList.Add(new PValue() { Name = str_header + (mem_num + i).ToString(), Type = type });
+            }
             return protocol;
         }
 
@@ -169,41 +151,22 @@ namespace DY.NET.LSIS.XGT
         /// PLC 의 메모리에서 지정된 번지로부터 지정된 길이만큼 데이터를 일렬로 쓰는 기능의 프로토콜 입니다
         /// </summary>
         /// <param name="localPort"> 국번 </param>
-        /// <param name="varName"> 변수이름 </param>
-        /// <param name="data"> 값을 쓸 하나의 데이터 </param>
+        /// <param name="datas"> 변수이름과 메모리 주소가 담긴 구조체 </param>
         /// <returns> WSB 모드의 XGTCnetExclusiveProtocol 프로토콜 </returns>
-        public static XGTCnetExclusiveProtocol NewWSBProtocol(ushort localPort, string varName, object data)
+        public static XGTCnetProtocol NewWSBProtocol(ushort localPort, List<PValue> datas)
         {
-            if (!NumericTypeExtension.IsNumeric(data))
-                throw new ArgumentException(NumericTypeExtension.ERROR_NOT_NEMERIC_TYPE);
-
-            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SB);
-            protocol.ENQDatas.Add(new ENQDataFormat(varName, data));
-            protocol.DataCnt = 1;
-            return protocol;
-        }
-
-        /// <summary>
-        /// 직접 변수 연속 쓰기 WSB
-        /// PLC 의 메모리에서 지정된 번지로부터 지정된 길이만큼 데이터를 일렬로 쓰는 기능의 프로토콜 입니다
-        /// </summary>
-        /// <param name="localPort"> 국번 </param>
-        /// <param name="enqs"> 변수이름과 메모리 주소가 담긴 구조체 </param>
-        /// <returns> WSB 모드의 XGTCnetExclusiveProtocol 프로토콜 </returns>
-        public static XGTCnetExclusiveProtocol NewWSBProtocol(ushort localPort, List<ENQDataFormat> enqs)
-        {
-            if (enqs.Count == 0 || enqs == null)
+            if (datas.Count == 0 || datas == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
 
             int size_sum = 0;
-            foreach (var ed in enqs)
-                size_sum += (Glopa.GetDataType(ed.GlopaVarName).ToSize() * 2);
+            foreach (var ed in datas)
+                size_sum += (Glopa.GetDataType(ed.Name).ToSize() * 2);
             if (size_sum > PROTOCOL_SB_MAX_DATA_CNT)
                 throw new ArgumentException(ERROR_PROTOCOL_SB_DATACNT_LIMIT);
 
-            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCommandType.SB);
-            protocol.ENQDatas = enqs;
-            protocol.DataCnt = (ushort)enqs.Count;
+            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCmdType.SB);
+            protocol.ReqeustList = datas;
+            protocol.DataCnt = (ushort)datas.Count;
             return protocol;
         }
 
@@ -213,18 +176,18 @@ namespace DY.NET.LSIS.XGT
         /// 등록 후 모니터 명령에 의해 등록된 것을 실행 시킵니다 
         /// </summary>
         /// <param name="localPort"> 국번 </param>
-        /// <param name="register"> 등록 번호 0 ~ 31까지 등록 가능합니다 이미 등록된 번호로 등록하면 현재 실행되는 것이 등록됩니다 </param>
-        /// <param name="enqs"> 모니터 등록할 변수이름들의 리스트 </param>
+        /// <param name="register_num"> 등록 번호 0 ~ 31까지 등록 가능합니다 이미 등록된 번호로 등록하면 현재 실행되는 것이 등록됩니다 </param>
+        /// <param name="datas"> 모니터 등록할 변수이름들의 리스트 </param>
         /// <returns> XSS 모드의 XGTCnetExclusiveProtocol 프로토콜 </returns>
-        public static XGTCnetExclusiveProtocol NewXSSProtocol(ushort localPort, ushort register, List<ENQDataFormat> enqs)
+        public static XGTCnetProtocol NewXSSProtocol(ushort localPort, ushort register_num, List<PValue> datas)
         {
-            if (!(0 <= register && register <= MONITER_VAR_REGISTER_MAX_NUMBER))
+            if (!(0 <= register_num && register_num <= MONITER_VAR_REGISTER_MAX_NUMBER))
                 throw new ArgumentException(ERROR_MONITER_INVALID_REGISTER_NUMBER);
 
-            var protocol = NewRSSProtocol(localPort, enqs);
+            var protocol = NewRSSProtocol(localPort, datas);
             protocol.Command = XGTCnetCommand.X;
-            protocol.CommandType = XGTCnetCommandType.SS;
-            protocol.RegisterNum = register;
+            protocol.CommandType = XGTCnetCmdType.SS;
+            protocol.RegiNum = register_num;
             return protocol;
         }
 
@@ -234,19 +197,19 @@ namespace DY.NET.LSIS.XGT
         /// 등록 후 모니터 명령에 의해 등록된 것을 실행 시킵니다 
         /// </summary>
         /// <param name="localPort"> 국번 </param>
-        /// <param name="register"> 등록 번호 0 ~ 31까지 등록 가능합니다 이미 등록된 번호로 등록하면 현재 실행되는 것이 등록됩니다 </param>
-        /// <param name="varName"> 변수 이름 </param>
+        /// <param name="register_num"> 등록 번호 0 ~ 31까지 등록 가능합니다 이미 등록된 번호로 등록하면 현재 실행되는 것이 등록됩니다 </param>
+        /// <param name="glopa_name"> 변수 이름 </param>
         /// <param name="read_data_cnt"> 등록할 메모리의 개수 </param>
         /// <returns> XSB 모드의 XGTCnetExclusiveProtocol 프로토콜 </returns>
-        public static XGTCnetExclusiveProtocol NewXSBProtocol(ushort localPort, ushort register, string varName, ushort read_data_cnt)
+        public static XGTCnetProtocol NewXSBProtocol(ushort localPort, ushort register_num, PValue data, ushort read_data_cnt)
         {
-            if (!(0 <= register && register <= MONITER_VAR_REGISTER_MAX_NUMBER))
+            if (!(0 <= register_num && register_num <= MONITER_VAR_REGISTER_MAX_NUMBER))
                 throw new ArgumentException(ERROR_MONITER_INVALID_REGISTER_NUMBER);
 
-            var protocol = NewRSBProtocol(localPort, varName, read_data_cnt);
+            var protocol = NewRSBProtocol(localPort, data, read_data_cnt);
             protocol.Command = XGTCnetCommand.X;
-            protocol.CommandType = XGTCnetCommandType.SB;
-            protocol.RegisterNum = register;
+            protocol.CommandType = XGTCnetCmdType.SB;
+            protocol.RegiNum = register_num;
             return protocol;
         }
 
@@ -255,15 +218,17 @@ namespace DY.NET.LSIS.XGT
         /// 모니터 실행은 모니터 등록으로 등록된 디바이스 읽기 기능을 실행시키는 기능을 가집니다
         /// </summary>
         /// <param name="localPort"> 국번 </param>
-        /// <param name="register"> 등록 번호 0 ~ 31 사이입니다 </param>
+        /// <param name="register_num"> 등록 번호 0 ~ 31 사이입니다 </param>
         /// <returns></returns>
-        public static XGTCnetExclusiveProtocol NewYSSProtocol(ushort localPort, ushort register)
+        public static XGTCnetProtocol NewYSSProtocol(ushort localPort, ushort register_num, XGTCnetProtocol xss_protocol)
         {
-            if (!(0 <= register && register <= MONITER_VAR_REGISTER_MAX_NUMBER))
+            if (!(0 <= register_num && register_num <= MONITER_VAR_REGISTER_MAX_NUMBER))
                 throw new ArgumentException(ERROR_MONITER_INVALID_REGISTER_NUMBER);
-
-            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.Y, XGTCnetCommandType.SS);
-            protocol.RegisterNum = register;
+            if ((!(xss_protocol.Command == XGTCnetCommand.X || xss_protocol.Command == XGTCnetCommand.x)) || (xss_protocol.CommandType != XGTCnetCmdType.SS))
+                throw new ArgumentException("XSS_PROTOCOL IS NOT XSS TYPE.");
+            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.Y, XGTCnetCmdType.SS);
+            protocol.RegiNum = register_num;
+            protocol.ReqeustList.AddRange(xss_protocol.ReqeustList);
             return protocol;
         }
 
@@ -274,17 +239,15 @@ namespace DY.NET.LSIS.XGT
         /// <param name="localPort"> 국번 </param>
         /// <param name="register"> 등록 번호 0 ~ 31 사이입니다 </param>
         /// <returns></returns>
-        public static XGTCnetExclusiveProtocol NewYSBProtocol(ushort localPort, ushort register, PLCVarType plcVarType)
+        public static XGTCnetProtocol NewYSBProtocol(ushort localPort, ushort register, XGTCnetProtocol xsb_protocol)
         {
             if (!(0 <= register && register <= MONITER_VAR_REGISTER_MAX_NUMBER))
                 throw new ArgumentException(ERROR_MONITER_INVALID_REGISTER_NUMBER);
-
-            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.Y, XGTCnetCommandType.SB);
-            protocol.RegisterNum = register;
-
-            // 데이터 형식 유추를 위해 가상의 변수를 넣는다. ㅡ_ㅡ;
-            var virtual_varName =  LD2Glopa.VarConvert("M0", plcVarType);
-            protocol.ENQDatas.Add(new ENQDataFormat(virtual_varName));
+            if ((!(xsb_protocol.Command == XGTCnetCommand.X || xsb_protocol.Command == XGTCnetCommand.x)) || (xsb_protocol.CommandType != XGTCnetCmdType.SB))
+                throw new ArgumentException("XSS_PROTOCOL IS NOT XSS TYPE.");
+            var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.Y, XGTCnetCmdType.SB);
+            protocol.RegiNum = register;
+            protocol.ReqeustList.AddRange(xsb_protocol.ReqeustList);
             return protocol;
         }
 
@@ -294,91 +257,90 @@ namespace DY.NET.LSIS.XGT
         /// <param name="binaryData"> 원시데이터 </param>
         /// <param name="reqtProtocol"> 요청 프로토콜 클래스 </param>
         /// <returns> 응답 프로토콜 클래스 </returns>
-        internal static XGTCnetExclusiveProtocol CreateReceiveProtocol(byte[] binaryData, XGTCnetExclusiveProtocol reqtProtocol)
+        internal static XGTCnetProtocol CreateReceiveProtocol(byte[] binaryData, XGTCnetProtocol reqtProtocol)
         {
-            XGTCnetExclusiveProtocol protocol = new XGTCnetExclusiveProtocol(binaryData);
-            protocol.ProtocolPointer = reqtProtocol;
+            XGTCnetProtocol protocol = new XGTCnetProtocol(binaryData);
+            protocol.OtherParty = reqtProtocol;
             return protocol;
         }
 
-        internal static XGTCnetExclusiveProtocol CreateRequestProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
+        internal static XGTCnetProtocol CreateRequestProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCmdType type)
         {
-            XGTCnetExclusiveProtocol protocol = new XGTCnetExclusiveProtocol(localPort, cmd, type);
-            protocol.Header = XGTCnetControlCodeType.ENQ;
-            protocol.Tail = XGTCnetControlCodeType.EOT;
+            XGTCnetProtocol protocol = new XGTCnetProtocol(localPort, cmd, type);
+            protocol.Header = XGTCnetCCType.ENQ;
+            protocol.Tail = XGTCnetCCType.EOT;
             return protocol;
         }
-
         #endregion
 
-        #region For ENQ Protocol Type
+        #region FOR REQUEST PROTOCOL TYPE
 
         protected void AddProtocolRSS(List<byte> asc_list)
         {
-            asc_list.AddRange(CA2C.ToASC(ENQDatas.Count, typeof(ushort)));               // 블록 수
-            foreach (ENQDataFormat e in ENQDatas)
+            asc_list.AddRange(CA2C.ToASC(ReqeustList.Count, typeof(UInt16)));// 블록 수
+            foreach (PValue e in ReqeustList)
             {
-                asc_list.AddRange(CA2C.ToASC(e.GlopaVarName.Length, typeof(ushort)));
-                asc_list.AddRange(CA2C.ToASC(e.GlopaVarName));
+                asc_list.AddRange(CA2C.ToASC(e.Name.Length, typeof(UInt16)));// 변수 이름 길이
+                asc_list.AddRange(CA2C.ToASC(e.Name));                       // 변수 이름 정보 
             }
         }
 
         protected void AddProtocolWSS(List<byte> asc_list)
         {
-            asc_list.AddRange(CA2C.ToASC(ENQDatas.Count, typeof(ushort)));               // 블록 수
-            foreach (ENQDataFormat e in ENQDatas)
+            asc_list.AddRange(CA2C.ToASC(ReqeustList.Count, typeof(UInt16)));               // 블록 수
+            foreach (PValue e in ReqeustList)
             {
-                asc_list.AddRange(CA2C.ToASC(e.GlopaVarName.Length, typeof(ushort)));
-                asc_list.AddRange(CA2C.ToASC(e.GlopaVarName));
-                asc_list.AddRange(CA2C.ToASC(e.Data, (PLCVarType)(Glopa.GetDataType(e.GlopaVarName).ToSize() * 2)));
+                asc_list.AddRange(CA2C.ToASC(e.Name.Length, typeof(UInt16)));// 변수 이름 길이
+                asc_list.AddRange(CA2C.ToASC(e.Name));                       // 변수 이름 정보 
+                asc_list.AddRange(CA2C.ToASC(e.Value, e.Type));              // WRITE될 값 
             }
         }
 
         protected void AddProtocolXSS(List<byte> asc_list)
         {
-            asc_list.AddRange(CA2C.ToASC(RegisterNum));
+            asc_list.AddRange(CA2C.ToASC(RegiNum));
             asc_list.Add((byte)'R');
             asc_list.Add((byte)'S');
             asc_list.Add((byte)'S');
-            asc_list.AddRange(CA2C.ToASC(ENQDatas.Count, typeof(ushort)));
-            foreach (ENQDataFormat e in ENQDatas)
+            asc_list.AddRange(CA2C.ToASC(ReqeustList.Count, typeof(UInt16)));
+            foreach (PValue e in ReqeustList)
             {
-                asc_list.AddRange(CA2C.ToASC(e.GlopaVarName.Length, typeof(ushort)));
-                asc_list.AddRange(CA2C.ToASC(e.GlopaVarName));
+                asc_list.AddRange(CA2C.ToASC(e.Name.Length, typeof(UInt16)));
+                asc_list.AddRange(CA2C.ToASC(e.Name));
             }
         }
 
         protected void AddProtocolYSS(List<byte> asc_list)
         {
-            asc_list.AddRange(CA2C.ToASC(RegisterNum));
+            asc_list.AddRange(CA2C.ToASC(RegiNum));
         }
 
         // not support bit data
         protected void AddProtocolRSB(List<byte> asc_list)
         {
-            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].GlopaVarName.Length, typeof(ushort)));
-            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].GlopaVarName));
+            asc_list.AddRange(CA2C.ToASC(ReqeustList[0].Name.Length, typeof(UInt16)));
+            asc_list.AddRange(CA2C.ToASC(ReqeustList[0].Name));
             asc_list.AddRange(CA2C.ToASC(DataCnt));
         }
 
         protected void AddProtocolWSB(List<byte> asc_list)
         {
-            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].GlopaVarName.Length, typeof(ushort)));
-            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].GlopaVarName));
+            asc_list.AddRange(CA2C.ToASC(ReqeustList[0].Name.Length, typeof(UInt16)));
+            asc_list.AddRange(CA2C.ToASC(ReqeustList[0].Name));
             asc_list.AddRange(CA2C.ToASC(DataCnt));
-            foreach (ENQDataFormat e in ENQDatas)
-                asc_list.AddRange(CA2C.ToASC(e.Data, (PLCVarType)(Glopa.GetDataType(e.GlopaVarName).ToSize() * 2)));
+            foreach (PValue e in ReqeustList)
+                asc_list.AddRange(CA2C.ToASC(e.Value, e.Type));
         }
 
         protected void AddProtocolXSB(List<byte> asc_list)
         {
-            asc_list.AddRange(CA2C.ToASC(RegisterNum));
+            asc_list.AddRange(CA2C.ToASC(RegiNum));
             asc_list.Add((byte)'R');
             asc_list.Add((byte)'S');
             asc_list.Add((byte)'B');
 
-            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].GlopaVarName.Length, typeof(ushort)));
-            asc_list.AddRange(CA2C.ToASC(ENQDatas[0].GlopaVarName));
+            asc_list.AddRange(CA2C.ToASC(ReqeustList[0].Name.Length, typeof(UInt16)));
+            asc_list.AddRange(CA2C.ToASC(ReqeustList[0].Name));
             asc_list.AddRange(CA2C.ToASC(DataCnt));
         }
 
@@ -391,7 +353,7 @@ namespace DY.NET.LSIS.XGT
         {
             switch (CommandType)
             {
-                case XGTCnetCommandType.SS:
+                case XGTCnetCmdType.SS:
 
                     if (Command == XGTCnetCommand.R || Command == XGTCnetCommand.r)
                         AddProtocolRSS(asc_list);
@@ -402,7 +364,7 @@ namespace DY.NET.LSIS.XGT
                     else if (Command == XGTCnetCommand.Y || Command == XGTCnetCommand.y)
                         AddProtocolYSS(asc_list);
                     break;
-                case XGTCnetCommandType.SB:
+                case XGTCnetCmdType.SB:
 
                     if (Command == XGTCnetCommand.R || Command == XGTCnetCommand.r)
                         AddProtocolRSB(asc_list);
@@ -417,26 +379,21 @@ namespace DY.NET.LSIS.XGT
         }
         #endregion
 
-        #region For ACK Protocol Type
+        #region FOR RESPONSE PROTOCOL TYPE
 
         protected void QueryProtocolRSS()
         {
             byte[] data = GetMainData();
-            byte[] block_arr = { data[0], data[1] };
-            BlockCnt = (ushort)CA2C.ToValue(block_arr, typeof(ushort));
-
+            BlocCnt = (ushort)CA2C.ToValue(new byte[] { data[0], data[1] }, typeof(UInt16));
             int data_idx = 2;
-            for (int i = 0; i < BlockCnt; i++)
+            for (int i = 0; i < BlocCnt; i++)
             {
-                byte[] data_size_arr = { data[data_idx + 0], data[data_idx + 1] };
+                ushort sizeOfType = (ushort)CA2C.ToValue(new byte[] { data[data_idx + 0], data[data_idx + 1] }, typeof(ushort));
                 data_idx += 2;
-                ushort sizeOfType = (ushort)CA2C.ToValue(data_size_arr, typeof(ushort));
-
                 byte[] data_arr = new byte[sizeOfType * 2];
                 Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
                 data_idx += data_arr.Length;
-                object value = CA2C.ToValue(data_arr, ((PLCVarType)sizeOfType));
-                ACKDatas.Add(new ACKDataFormat(sizeOfType, value));
+                ResponseDic.Add(ReqeustList[i].Name, CA2C.ToValue(data_arr, ReqeustList[i].Type));
             }
         }
 
@@ -448,32 +405,23 @@ namespace DY.NET.LSIS.XGT
         protected void QueryProtocolXSS()
         {
             byte[] type = GetMainData(); // { ProtocolData[4], ProtocolData[5] };
-            RegisterNum = (ushort)CA2C.ToValue(type, typeof(ushort));
+            RegiNum = (ushort)CA2C.ToValue(type, typeof(UInt16));
         }
 
         protected void QueryProtocolYSS()
         {
             byte[] data = GetMainData();
-            byte[] register_arr = { data[0], data[1] };
-            RegisterNum = (ushort)CA2C.ToValue(register_arr, typeof(ushort));
-
-            byte[] block_arr = { data[2], data[3] };
-            BlockCnt = (ushort)CA2C.ToValue(block_arr, typeof(ushort));
-
+            RegiNum = (ushort)CA2C.ToValue(new byte[] { data[0], data[1] }, typeof(UInt16));
+            BlocCnt = (ushort)CA2C.ToValue(new byte[] { data[2], data[3] }, typeof(UInt16));
             int data_idx = 4;
-
-            for (int i = 0; i < BlockCnt; i++)
+            for (int i = 0; i < BlocCnt; i++)
             {
-                byte[] data_size_arr = { data[data_idx + 0], data[data_idx + 1] };
+                ushort sizeOfType = (ushort)CA2C.ToValue(new byte[] { data[data_idx + 0], data[data_idx + 1] }, typeof(UInt16));
                 data_idx += 2;
-                ushort sizeOfType = (ushort)CA2C.ToValue(data_size_arr, typeof(ushort));
-
                 byte[] data_arr = new byte[sizeOfType * 2];
                 Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
-                object value = CA2C.ToValue(data_arr, (PLCVarType)sizeOfType);
                 data_idx += data_arr.Length;
-
-                ACKDatas.Add(new ACKDataFormat(sizeOfType, value));
+                ResponseDic.Add(ReqeustList[i].Name, CA2C.ToValue(data_arr, ReqeustList[i].Type));
             }
         }
 
@@ -496,28 +444,15 @@ namespace DY.NET.LSIS.XGT
         protected void QueryProtocolRSB()
         {
             byte[] data = GetMainData();
-
-            // 블록 수 정보 쿼리
-            byte[] bcnt_arr = { data[0], data[1] };
-            BlockCnt = (ushort)CA2C.ToValue(bcnt_arr, typeof(ushort)); // 정말 이해할 수 없는 정보.. LSIS 측에 문의해봐야함
-
-            // 데이터 개수 정보 쿼리
-            byte[] size_arr = { data[2], data[3] };
-            ushort data_len = (ushort)CA2C.ToValue(size_arr, typeof(ushort));
-
-            // 그로파 변수이름에서 자료형 정보를 얻어낸다
-            string var_name = ProtocolPointer.ENQDatas[0].GlopaVarName;
-            PLCVarType plc_var_type = Glopa.GetDataType(var_name);
-            int data_type_size = plc_var_type.ToSize();
-
-            int data_idx = 4;
+            ushort data_len = (ushort)CA2C.ToValue(new byte[] { data[0], data[1] }, typeof(ushort));// 데이터 개수 정보 쿼리
+            int data_idx = 2;
+            int data_type_size = ReqeustList[0].Type.ToSize();
             // 일렬로 정렬된 데이터들을 데이터타입에 따라 적절하게 파싱하여 데이터 쿼리
             for (int i = 0; i < data_len / data_type_size; i++)
             {
                 byte[] temp_arr = new byte[data_type_size * 2];
                 Buffer.BlockCopy(data, data_idx, temp_arr, 0, temp_arr.Length);
-                object value = CA2C.ToValue(temp_arr, plc_var_type);
-                ACKDatas.Add(new ACKDataFormat((ushort)data_type_size, value));
+                ResponseDic.Add(ReqeustList[i].Name, CA2C.ToValue(temp_arr, ReqeustList[i].Type));
                 data_idx += temp_arr.Length;
             }
         }
@@ -536,26 +471,18 @@ namespace DY.NET.LSIS.XGT
         {
             var data = GetMainData();
             // 등록 번호 정보 쿼리
-            byte[] bcnt_arr = { data[0], data[1] };
-            RegisterNum = (ushort)CA2C.ToValue(bcnt_arr, typeof(ushort)); // 정말 이해할 수 없는 정보.. LSIS 측에 문의해봐야함
-
+            RegiNum = (ushort)CA2C.ToValue(new byte[] { data[0], data[1] }, typeof(ushort));
             // 데이터 개수 정보 쿼리
-            byte[] size_arr = { data[2], data[3] };
-            ushort data_len = (ushort)CA2C.ToValue(size_arr, typeof(ushort));
-
+            ushort data_len = (ushort)CA2C.ToValue(new byte[] { data[2], data[3] }, typeof(ushort));
             // 그로파 변수이름에서 자료형 정보를 얻어낸다
-            string var_name = ProtocolPointer.ENQDatas[0].GlopaVarName;
-            PLCVarType plc_var_type = Glopa.GetDataType(var_name);
-            int data_type_size = plc_var_type.ToSize();
-
+            int data_type_size = ReqeustList[0].Type.ToSize();
             int data_idx = 4;
             // 일렬로 정렬된 데이터들을 데이터타입에 따라 적절하게 파싱하여 데이터 쿼리
             for (int i = 0; i < data_len / data_type_size; i++)
             {
                 byte[] temp_arr = new byte[data_type_size * 2];
                 Buffer.BlockCopy(data, data_idx, temp_arr, 0, temp_arr.Length);
-                object value = CA2C.ToValue(temp_arr, plc_var_type);
-                ACKDatas.Add(new ACKDataFormat((ushort)data_type_size, value));
+                ResponseDic.Add(ReqeustList[i].Name, CA2C.ToValue(temp_arr, ReqeustList[i].Type));
                 data_idx += temp_arr.Length;
             }
         }
@@ -564,7 +491,7 @@ namespace DY.NET.LSIS.XGT
         {
             switch (CommandType)
             {
-                case XGTCnetCommandType.SS:
+                case XGTCnetCmdType.SS:
 
                     if (Command == XGTCnetCommand.R || Command == XGTCnetCommand.r)
                         QueryProtocolRSS();
@@ -575,7 +502,7 @@ namespace DY.NET.LSIS.XGT
                     else if (Command == XGTCnetCommand.Y || Command == XGTCnetCommand.y)
                         QueryProtocolYSS();
                     break;
-                case XGTCnetCommandType.SB:
+                case XGTCnetCmdType.SB:
                     if (Command == XGTCnetCommand.R || Command == XGTCnetCommand.r)
                         QueryProtocolRSB();
                     else if (Command == XGTCnetCommand.W || Command == XGTCnetCommand.w)
@@ -591,24 +518,30 @@ namespace DY.NET.LSIS.XGT
 
         protected override void PrintBinaryMainInfo()
         {
-            Console.WriteLine(string.Format("블록 수: {0}", BlockCnt));
-            Console.WriteLine(string.Format("등록 번호: {0}", RegisterNum));
+            Console.WriteLine(string.Format("블록 수: {0}", BlocCnt));
+            Console.WriteLine(string.Format("등록 번호: {0}", RegiNum));
             Console.WriteLine(string.Format("데이터 개수: {0}", DataCnt));
-
             int cnt = 0;
-            foreach (ENQDataFormat e in ENQDatas)
+            switch (Header)
             {
-                Console.WriteLine(string.Format("[{0}] ENQData 변수이름: {1}", ++cnt, e.GlopaVarName));
-                if (e.Data != null)
-                    Console.WriteLine(string.Format("[{0}] ENQData 값: {1}", cnt, e.Data));
-            }
-
-            cnt = 0;
-            foreach (ACKDataFormat a in ACKDatas)
-            {
-                Console.WriteLine(string.Format("[{0}] ACKData 변수 바이트 크기 : {1}", ++cnt, a.SizeOfType));
-                if (a.Data != null)
-                    Console.WriteLine(string.Format("[{0}] ACKData 값: {1}", cnt, a.Data));
+                case XGTCnetCCType.ENQ:
+                    foreach (var data in ReqeustList)
+                    {
+                        Console.Write(string.Format("[{0}] 변수이름: {1}", ++cnt, data.Name));
+                        if (data.Value != null)
+                            Console.WriteLine(string.Format(" ENQData 값: {1}", data.Value));
+                    }
+                    break;
+                case XGTCnetCCType.ACK:
+                    foreach (var dic in ResponseDic)
+                    {
+                        Console.Write(string.Format("[{0}] 변수이름: {1}", ++cnt, dic.Key));
+                        Console.WriteLine(string.Format(" 값: {1}", dic.Value));
+                    }
+                    break;
+                case XGTCnetCCType.NAK:
+                    Console.WriteLine(string.Format("Error: " + Error.ToString()));
+                    break;
             }
         }
     }

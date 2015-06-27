@@ -28,3 +28,8 @@ C:\Users\CHILD\GitHub\DY\DY\DY.NET\obj\Debug\NET.dll
 C:\Users\CHILD\GitHub\DY\DY\DY.NET\obj\Debug\NET.pdb
 C:\GitHub\DY\DY\DY.NET\obj\Debug\DY.NET.csprojResolveAssemblyReference.cache
 C:\Users\CHILD\GitHub\DY\DY\DY.NET\obj\Debug\DY.NET.csprojResolveAssemblyReference.cache
+C:\dev\github\DY\DY.NET\obj\Debug\DY.NET.csprojResolveAssemblyReference.cache
+C:\dev\github\DY\DY.NET\obj\Debug\NET.dll
+C:\dev\github\DY\DY.NET\bin\Debug\NET.dll
+C:\dev\github\DY\DY.NET\bin\Debug\NET.pdb
+C:\dev\github\DY\DY.NET\obj\Debug\NET.pdb

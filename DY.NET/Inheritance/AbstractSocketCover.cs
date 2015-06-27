@@ -11,9 +11,9 @@ namespace DY.NET
     /// <summary>
     /// 추상 소켓 클래스
     /// </summary>
-    public abstract class AbstractSocketCover : ISocketCover
+    public abstract class ASocketCover : ISocketCover
     {
-        protected AbstractSocketCover()
+        protected ASocketCover()
         {
             
         }
@@ -56,11 +56,11 @@ namespace DY.NET
         /// <summary>
         /// 데이터를 성공적으로 전송하였을 때 호출되는 이벤트
         /// </summary>
-        public EventHandler<EventArgs> OnSendedSuccessfully;
+        public EventHandler<DataReceivedEventArgs> OnSendedSuccessfully;
 
         /// <summary>
         /// 데이터를 성공적으로 전송받았을 때 호출되는 이벤트
         /// </summary>
-        public EventHandler<EventArgs> OnReceivedSuccessfully;
+        public EventHandler<DataReceivedEventArgs> OnReceivedSuccessfully;
     }
 }

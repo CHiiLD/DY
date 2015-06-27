@@ -24,8 +24,9 @@ namespace DY.NET
         {
             byte[] target = null;
             string hex_str;
-
-            if (type == typeof(Byte) || type == typeof(SByte))
+            if (type == typeof(Boolean))
+                hex_str = string.Format("{0:X}", value);
+            else if (type == typeof(Byte) || type == typeof(SByte))
                 hex_str = string.Format("{0:X}", value);
             else if (type == typeof(Int16) || type == typeof(UInt16))
                 hex_str = string.Format("{0:X2}", value);
@@ -43,11 +44,6 @@ namespace DY.NET
                 target[i] = (byte)hex_str[i];
 
             return target;
-        }
-
-        public static byte[] ToASC(object value, PLCVarType type)
-        {
-            return ToASC(value, type.ToType());
         }
 
         /// <summary>
@@ -96,11 +92,6 @@ namespace DY.NET
             else
                 throw new ArgumentException("argument is not integer or string type");
             return target;
-        }
-
-        public static object ToValue(byte[] value, PLCVarType type)
-        {
-            return ToValue(value, type.ToType());
         }
     }
 }
