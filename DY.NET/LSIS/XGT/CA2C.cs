@@ -71,16 +71,18 @@ namespace DY.NET
                 sb.Append(Convert.ToChar(b));
             string hex_str = sb.ToString();
 
-            if (type == typeof(Byte))
-                target = Convert.ToByte(hex_str, 16);
+            if (type == typeof(Boolean))
+                target = Convert.ToBoolean(Convert.ToByte(hex_str, 16));
+            else if (type == typeof(SByte))
+                target = Convert.ToSByte(hex_str, 16);
             else if (type == typeof(Int16))
                 target = Convert.ToInt16(hex_str, 16);
             else if (type == typeof(Int32))
                 target = Convert.ToInt32(hex_str, 16);
             else if (type == typeof(Int64))
                 target = Convert.ToInt64(hex_str, 16);
-            else if (type == typeof(SByte))
-                target = Convert.ToSByte(hex_str, 16);
+            else if (type == typeof(Byte))
+                target = Convert.ToByte(hex_str, 16);
             else if (type == typeof(UInt16))
                 target = Convert.ToUInt16(hex_str, 16);
             else if (type == typeof(UInt32))
