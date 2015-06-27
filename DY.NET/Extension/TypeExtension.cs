@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DY.NET.LSIS.XGT
+namespace DY.NET
 {
     /// <summary>
     /// Type 확장 클래스

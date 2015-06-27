@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace DY.NET.LSIS.XGT
+namespace DY.NET
 {
     /// <summary>
     /// PLC 데이터를 처리하기 위한 데이터 정보 구조체

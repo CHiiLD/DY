@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace DY.NET.LSIS.XGT
+﻿namespace DY.NET.LSIS.XGT
 {
     /// <summary>
     /// FEnet 헤더 구조 중 PLC Info의 데이터 구조체

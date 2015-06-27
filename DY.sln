@@ -9,6 +9,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{D2
 	ProjectSection(SolutionItems) = preProject
 		Doc\Cnet Protocol.txt = Doc\Cnet Protocol.txt
 		Doc\FEnet Protocol.txt = Doc\FEnet Protocol.txt
+		README.md = README.md
 		Doc\문서 주석.txt = Doc\문서 주석.txt
 	EndProjectSection
 EndProject

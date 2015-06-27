@@ -7,7 +7,7 @@
 using System;
 using System.Text;
 
-namespace DY.NET
+namespace DY.NET.LSIS.XGT
 {
     /// <summary>
     /// 바이트 타입에 따른 문자 배열 데이터 <-> 문자열데이터, 정수형 데이터로의 변환 클래스입니다.

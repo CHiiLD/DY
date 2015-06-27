@@ -70,11 +70,13 @@
     <Compile Include="Extension\PLCData.cs" />
     <Compile Include="LSIS\XGT\ServiceableDevice.cs" />
     <Compile Include="Extension\TypeExtension.cs" />
+    <Compile Include="LSIS\XGT\BS2G.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Event\SocketDataReceivedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="LSIS\XGT\FEnet\AppDataFormat\AppInstructionFormat\" />
+    <Folder Include="MITSUBISHI\MELSEC-Q\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

@@ -5,7 +5,7 @@
  */
 using System.Text;
 
-namespace DY.NET
+namespace DY.NET.LSIS.XGT
 {
     /// <summary>
     /// 디버깅용 byte 배열을 확인하기 위한 클래스입니다.
