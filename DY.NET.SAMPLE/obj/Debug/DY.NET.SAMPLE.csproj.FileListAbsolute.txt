@@ -1,0 +1,8 @@
+C:\Users\CHILD\GitHub\DY\DY.NET.SAMPLE\bin\Debug\DY.NET.SAMPLE.exe.config
+C:\Users\CHILD\GitHub\DY\DY.NET.SAMPLE\bin\Debug\DY.NET.SAMPLE.exe
+C:\Users\CHILD\GitHub\DY\DY.NET.SAMPLE\bin\Debug\DY.NET.SAMPLE.pdb
+C:\Users\CHILD\GitHub\DY\DY.NET.SAMPLE\bin\Debug\NET.dll
+C:\Users\CHILD\GitHub\DY\DY.NET.SAMPLE\bin\Debug\NET.pdb
+C:\Users\CHILD\GitHub\DY\DY.NET.SAMPLE\obj\Debug\DY.NET.SAMPLE.csprojResolveAssemblyReference.cache
+C:\Users\CHILD\GitHub\DY\DY.NET.SAMPLE\obj\Debug\DY.NET.SAMPLE.exe
+C:\Users\CHILD\GitHub\DY\DY.NET.SAMPLE\obj\Debug\DY.NET.SAMPLE.pdb

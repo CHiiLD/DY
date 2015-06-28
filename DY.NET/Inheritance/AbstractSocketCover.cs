@@ -49,18 +49,18 @@ namespace DY.NET
         public virtual void Dispose()
         {
             ProtocolStandByQueue = null;
-            OnSendedSuccessfully = null;
-            OnReceivedSuccessfully = null;
+            SendedSuccessfully = null;
+            ReceivedSuccessfully = null;
         }
 
         /// <summary>
         /// 데이터를 성공적으로 전송하였을 때 호출되는 이벤트
         /// </summary>
-        public EventHandler<DataReceivedEventArgs> OnSendedSuccessfully;
+        public EventHandler<DataReceivedEventArgs> SendedSuccessfully;
 
         /// <summary>
         /// 데이터를 성공적으로 전송받았을 때 호출되는 이벤트
         /// </summary>
-        public EventHandler<DataReceivedEventArgs> OnReceivedSuccessfully;
+        public EventHandler<DataReceivedEventArgs> ReceivedSuccessfully;
     }
 }

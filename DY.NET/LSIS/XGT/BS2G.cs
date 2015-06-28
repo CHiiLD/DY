@@ -47,11 +47,9 @@ namespace DY.NET.LSIS.XGT
                 uint integer = 0;
                 string str_num = std_name;
                 str_num = str_num.Replace(".", "");
-                str_num = std_name.Substring(1, std_name.Length - 1);
+                str_num = str_num.Substring(1, str_num.Length - 1);
                 if (type == typeof(Boolean))
                 {
-                    if (!UInt32.TryParse(str_num.ToString(), out integer))
-                        break;
                     sb.Append('X');
                     sb.Append(str_num);
                 }

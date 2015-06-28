@@ -38,7 +38,7 @@ namespace DY.NET.LSIS.XGT
         }
 
         #region var_properties_event
-        private const string ERROR_SERIAL_IS_NULL = "XGTCnetExclusiveSocket._SerialPort var is null";
+        private const string ERROR_SERIAL_IS_NULL = "XGTCNETEXCLUSIVESOCKET._SERIALPORT VAR IS NULL";
         protected volatile bool IsWaitACKProtocol = false;
         protected readonly object _SerialLock = new object();
         protected volatile SerialPort _SerialPort;
@@ -117,16 +117,16 @@ namespace DY.NET.LSIS.XGT
         public override void Send(IProtocol iProtocol)
         {
             if (iProtocol == null)
-                throw new ArgumentNullException("protocol argument is null");
+                throw new ArgumentNullException("PROTOCOL ARGUMENT IS NULL");
             if (!(iProtocol is XGTCnetProtocol))
-                throw new ArgumentException("protocol not match XGTCnetExclusiveProtocolFrame type");
+                throw new ArgumentException("PROTOCOL NOT MATCH XGTCNETEXCLUSIVEPROTOCOLFRAME TYPE");
             
-            XGTCnetProtocol copy = new XGTCnetProtocol(iProtocol as XGTCnetProtocol);
-            if (copy.ASC2Protocol == null)
-                copy.AssembleProtocol();
+            XGTCnetProtocol cpy_protocol = new XGTCnetProtocol(iProtocol as XGTCnetProtocol);
+            if (cpy_protocol.ASC2Protocol == null)
+                cpy_protocol.AssembleProtocol();
             if (IsWaitACKProtocol)   //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
             {
-                ProtocolStandByQueue.Enqueue(copy);
+                ProtocolStandByQueue.Enqueue(cpy_protocol);
                 return;
             }
             lock(_SerialLock)
@@ -134,14 +134,14 @@ namespace DY.NET.LSIS.XGT
                 if (_SerialPort == null)
                     return;
                 if (!_SerialPort.IsOpen)
-                    throw new Exception("serial port is not opend");
-                ReqtProtocol = copy;
-                _SerialPort.Write(copy.ASC2Protocol, 0, copy.ASC2Protocol.Length);
+                    throw new Exception("SERIAL PORT IS NOT OPEND");
+                ReqtProtocol = cpy_protocol;
+                _SerialPort.Write(cpy_protocol.ASC2Protocol, 0, cpy_protocol.ASC2Protocol.Length);
             }
+            if (SendedSuccessfully != null)
+                SendedSuccessfully(this, new DataReceivedEventArgs(cpy_protocol));
+            cpy_protocol.OnDataRequested(this, cpy_protocol);
             IsWaitACKProtocol = true;
-            if (OnSendedSuccessfully != null)
-                OnSendedSuccessfully(this, new DataReceivedEventArgs(copy));
-            copy.OnDataRequested(this, copy);
         }
         /// <summary>
         /// 요청 프로토콜에 의한 응답 프로토콜 이벤트 메서드
@@ -176,26 +176,26 @@ namespace DY.NET.LSIS.XGT
             }
             if (!recv.IsComeInEXTTail())
                 return;
-            if (OnReceivedSuccessfully != null)
-                OnReceivedSuccessfully(this, new DataReceivedEventArgs(recv));
             try
             {
                 recv.AnalysisProtocol();  //예외 발생
             }
+#if !DEBUG
             catch (Exception exception)
             {
-                recv.Error = XGTCnetProtocolError.EXCEPTION;
-#if DEBUG
-                Console.WriteLine(exception.Message);
-                System.Diagnostics.Debug.Assert(false);
-#endif
+                //System.Diagnostics.Debug.Assert(false, exception.Message);
             }
+#endif
             finally
             {
+                if (ReceivedSuccessfully != null)
+                    ReceivedSuccessfully(this, new DataReceivedEventArgs(recv));
                 if (recv.Error == XGTCnetProtocolError.OK)
                     reqt.OnDataReceived(this, recv);
                 else
                     reqt.OnError(this, recv);
+                RecvProtocol = null;
+                ReqtProtocol = null;
                 IsWaitACKProtocol = false;
                 if (ProtocolStandByQueue.Count != 0)
                     SendNextProtocol();

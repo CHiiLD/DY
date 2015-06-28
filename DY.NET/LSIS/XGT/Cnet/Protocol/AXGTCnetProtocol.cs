@@ -15,7 +15,7 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public abstract class AXGTCnetProtocol : IProtocol
     {
-        #region :PUBLIC PROPERTIES
+        #region PUBLIC PROPERTIES
         public int Tag { get; set; }
         public string Description { get; set; }
         public object UserData { get; set; }
@@ -52,15 +52,15 @@ namespace DY.NET.LSIS.XGT
         /// <summary>
         /// 통신 중 예외 또는 에러가 발생시 통지
         /// </summary>
-        public event EventHandler<DataReceivedEventArgs> ErrorEvent;
+        public event EventHandler<DataReceivedEventArgs> ErrorReceived;
         /// <summary>
         /// 프로토콜 요청을 성공적으로 전달되었을 시 통지
         /// </summary>
-        public event EventHandler<DataReceivedEventArgs> RequestedEvent;
+        public event EventHandler<DataReceivedEventArgs> ProtocolRequested;
         /// <summary>
         /// 요청된 프로토콜에 따른 응답 프로토콜을 성공적으로 받았을 시 통지
         /// </summary>
-        public event EventHandler<DataReceivedEventArgs> ReceivedEvent;
+        public event EventHandler<DataReceivedEventArgs> ProtocolReceived;
 
         /// <summary>
         /// Requested 이벤트를 발생시킵니다.
@@ -70,8 +70,8 @@ namespace DY.NET.LSIS.XGT
         public void OnDataReceived(object obj, IProtocol protocol)
         {
             var pt = System.Threading.Volatile.Read(ref protocol);
-            if (ReceivedEvent != null)
-                ReceivedEvent(obj, new DataReceivedEventArgs(pt));
+            if (ProtocolReceived != null)
+                ProtocolReceived(obj, new DataReceivedEventArgs(pt));
         }
         /// <summary>
         /// Requested 이벤트를 발생시킵니다.
@@ -81,8 +81,8 @@ namespace DY.NET.LSIS.XGT
         public void OnDataRequested(object obj, IProtocol protocol)
         {
             var pt = System.Threading.Volatile.Read(ref protocol);
-            if (RequestedEvent != null)
-                RequestedEvent(obj, new DataReceivedEventArgs(pt));
+            if (ProtocolRequested != null)
+                ProtocolRequested(obj, new DataReceivedEventArgs(pt));
         }
         /// <summary>
         /// OnError 이벤트를 발생시킵니다.
@@ -92,8 +92,8 @@ namespace DY.NET.LSIS.XGT
         public void OnError(object obj, IProtocol protocol)
         {
             var pt = System.Threading.Volatile.Read(ref protocol);
-            if (ErrorEvent != null)
-                ErrorEvent(obj, new DataReceivedEventArgs(pt));
+            if (ErrorReceived != null)
+                ErrorReceived(obj, new DataReceivedEventArgs(pt));
         }
         #endregion
 
@@ -122,16 +122,18 @@ namespace DY.NET.LSIS.XGT
             this.BCC = that.BCC;
             this.OtherParty = that.OtherParty;
 
-            this.ReceivedEvent = that.ReceivedEvent;
-            this.ErrorEvent = that.ErrorEvent;
-            this.RequestedEvent = that.RequestedEvent;
+            this.ProtocolReceived = that.ProtocolReceived;
+            this.ErrorReceived = that.ErrorReceived;
+            this.ProtocolRequested = that.ProtocolRequested;
 
-            this.ASC2Protocol = that.ASC2Protocol;
+            if (that.ASC2Protocol != null)
+                this.ASC2Protocol = (byte[]) that.ASC2Protocol.Clone();
         }
 
         protected AXGTCnetProtocol(byte[] binaryDatas)
         {
-            ASC2Protocol = (byte[])binaryDatas.Clone();
+            if (binaryDatas != null)
+                ASC2Protocol = (byte[])binaryDatas.Clone();
         }
 
         protected AXGTCnetProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCmdType type)
@@ -214,7 +216,7 @@ namespace DY.NET.LSIS.XGT
         {
             int head_size = (Command == XGTCnetCommand.r || Command == XGTCnetCommand.R || Command == XGTCnetCommand.w || Command == XGTCnetCommand.W) ? RW_PROTOCOL_HEAD_SIZE : XY_PROTOCOL_HEAD_SIZE;
             int asc_data_cnt = ASC2Protocol.Length - head_size - (IsExistBCCFromASCData() ? 2 : 1);
-            if (!(PROTOCOL_MIN_MAIN_DATA_SIZE <= asc_data_cnt && asc_data_cnt < PROTOCOL_ASC_SIZE_LIMIT))
+            if (!(PROTOCOL_MIN_MAIN_DATA_SIZE <= asc_data_cnt))
                 throw new Exception("IMPOSSIBIE BYTE ASC STURECTED DATA COUNT");
 
             byte[] asc_arr = new byte[asc_data_cnt];
@@ -269,8 +271,8 @@ namespace DY.NET.LSIS.XGT
             AttachProtocolFrame(asc_list);
             AddProtocolTail(asc_list);
             ASC2Protocol = asc_list.ToArray();
-            if (ASC2Protocol.Length > PROTOCOL_ASC_SIZE_LIMIT)
-                throw new Exception(ERROR_PROTOCOL_ASC_SIZE_LIMIT);
+            //if (ASC2Protocol.Length > PROTOCOL_ASC_SIZE_LIMIT)
+            //    throw new Exception(ERROR_PROTOCOL_ASC_SIZE_LIMIT);
         }
 
         /// <summary>

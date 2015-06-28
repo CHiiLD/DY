@@ -25,9 +25,9 @@ namespace DY.NET.LSIS.XGT
             byte[] target = null;
             string hex_str;
             if (type == typeof(Boolean))
-                hex_str = string.Format("{0:X}", value);
+                hex_str = (bool)value == true ? "01" : "00";
             else if (type == typeof(Byte) || type == typeof(SByte))
-                hex_str = string.Format("{0:X}", value);
+                hex_str = string.Format("{0:X2}", value);
             else if (type == typeof(Int16) || type == typeof(UInt16))
                 hex_str = string.Format("{0:X2}", value);
             else if (type == typeof(Int32) || type == typeof(UInt32))
