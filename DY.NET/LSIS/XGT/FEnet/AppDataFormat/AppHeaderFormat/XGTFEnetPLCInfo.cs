@@ -5,21 +5,44 @@
     /// </summary>
     public struct XGTFEnetPLCInfo
     {
-        public XGTFEnetCpuType Cpu_Type; //bit00-05 시피유 타입
-        public bool IsSlave; // bit06 -> 1인 경우 슬레이브, 0인 경우 마스터 or 단독
-        public bool IsError; // bit07 -> 1인 경우 동작에러, 0인 경우 동작정상
-        public XGTFEnetPLCSystemState State; //bit08-12 시스템 상태
-
-        internal void Init(byte[] data)
+        public XGTFEnetCpuType CpuType; //bit00-05 시피유 타입
+        public XGTFEnetClass Class; // 7bit
+        public XGTFEnetCpuState CpuState; //8bit 
+        public XGTFEnetPLCSystemState PLCState; //bit08-12 시스템 상태
+        
+        /// <summary>
+        /// byte array로 초기화
+        /// </summary>
+        /// <param name="data"></param>
+        public void Init(byte[] data)
         {
-            byte flag_slave = 0x2; // 0000010
-            byte flag_error = 0x1; // 0000001
+            CpuType = (XGTFEnetCpuType)(0xFC & data[0]);
+            Class = (XGTFEnetClass)(0x02 & data[0]); ;
+            CpuState = (XGTFEnetCpuState)(0x01 & data[0]);
+            PLCState = (XGTFEnetPLCSystemState)(0xF8 & data[1]);
+        }
 
-            IsSlave = (data[0] & flag_slave) == flag_slave;
-            IsError = (data[0] & flag_error) == flag_error;
+        /// <summary>
+        /// 셋팅
+        /// </summary>
+        public void Set(XGTFEnetCpuType cpy_type, XGTFEnetClass clazz, XGTFEnetCpuState cpu_st, XGTFEnetPLCSystemState sys_st)
+        {
+            CpuType = cpy_type;
+            Class = clazz;
+            CpuState = cpu_st;
+            PLCState = sys_st;
+        }
 
-            Cpu_Type = (XGTFEnetCpuType)(data[0] >> 2);
-            State = (XGTFEnetPLCSystemState)(data[1] >> 3);
+        /// <summary>
+        /// byte array로 변환
+        /// </summary>
+        /// <returns></returns>
+        public byte[] ToByteArray()
+        {
+            byte[] ret = new byte[2];
+            ret[0] = (byte)((byte)CpuType | (byte)Class | (byte)CpuState);
+            ret[1] = (byte) PLCState;
+            return ret;
         }
     }
 }

@@ -19,6 +19,7 @@ namespace DY.NET.LSIS.XGT
         public static Dictionary<char, DeviceMode> GetDeviceInfo()
         {
             Dictionary<char, DeviceMode> info = new Dictionary<char, DeviceMode>();
+            // XGK 
             info.Add('P', DeviceMode.READ | DeviceMode.WRITE | DeviceMode.MONITER);
             info.Add('M', DeviceMode.READ | DeviceMode.WRITE | DeviceMode.MONITER);
             info.Add('K', DeviceMode.READ | DeviceMode.WRITE | DeviceMode.MONITER);
@@ -32,6 +33,15 @@ namespace DY.NET.LSIS.XGT
             info.Add('R', DeviceMode.READ | DeviceMode.WRITE | DeviceMode.MONITER);
             info.Add('F', DeviceMode.READ | DeviceMode.MONITER);
             info.Add('W', DeviceMode.READ | DeviceMode.WRITE | DeviceMode.MONITER); //ZR //XGK-CPUH 에서만 사용가능
+
+            // XGI, XGR
+
+            info.Add('I', DeviceMode.READ | DeviceMode.WRITE | DeviceMode.MONITER);
+            info.Add('Q', DeviceMode.READ | DeviceMode.WRITE | DeviceMode.MONITER);
+            info.Add('M', DeviceMode.READ | DeviceMode.WRITE | DeviceMode.MONITER);
+            info.Add('R', DeviceMode.READ | DeviceMode.WRITE | DeviceMode.MONITER);//비트 모니터링 주소는 16진수이고 워드영역 모니터링 주소는 10진수
+            info.Add('U', DeviceMode.MONITER); 
+
             return info;
         }
     }

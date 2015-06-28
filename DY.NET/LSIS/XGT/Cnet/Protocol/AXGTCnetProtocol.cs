@@ -13,12 +13,9 @@ namespace DY.NET.LSIS.XGT
     /// <summary>
     /// XGT Cnet 개방형 프로토콜 추상 클래스
     /// </summary>
-    public abstract class AXGTCnetProtocol : IProtocol
+    public abstract class AXGTCnetProtocol : AXGTProtocol
     {
         #region PUBLIC PROPERTIES
-        public int Tag { get; set; }
-        public string Description { get; set; }
-        public object UserData { get; set; }
         /// <summary>
         /// PROTOCOL FRAME DATAS
         /// </summary>
@@ -33,68 +30,14 @@ namespace DY.NET.LSIS.XGT
 
         #region CONST VARIABLE
         protected const string ERROR_PROTOCOL_HEAD_SIZE = "ASCDATA'S ARRAY LENGTH UNDER 6";
-        protected const string ERROR_PROTOCOL_ASC_SIZE_LIMIT = "PROTOCOLDATA DATA'S LENGTH OVER PROTOCOL_ASC_SIZE_LIMIT(256BYTE)";
-        protected const string ERROR_PROTOCOL_SB_DATACNT_LIMIT = "DATA COUNT(ASC BYTES) LIMITED 240BYTE";
+        protected const string ERROR_PROTOCOL_ASC_SIZE_MAX_256BYTE = "PROTOCOLDATA DATA'S LENGTH OVER PROTOCOL_ASC_SIZE_LIMIT(256BYTE)";
+        protected const string ERROR_PROTOCOL_SB_SIZE_MAX_240BYTE = "DATA COUNT(ASC BYTES) LIMITED 240BYTE";
 
         public const int XY_PROTOCOL_HEAD_SIZE = 4;
         public const int RW_PROTOCOL_HEAD_SIZE = 6;
-        public const int PROTOCOL_ASC_SIZE_LIMIT = 256;
+        public const int PROTOCOL_ASC_SIZE_MAX_256BYTE = 256;
         public const int PROTOCOL_MIN_MAIN_DATA_SIZE = 2;
-        public const int PROTOCOL_SB_MAX_DATA_CNT = 240;
-        #endregion
-
-        #region INTENAL VARIABLE
-        internal byte[] ASC2Protocol { get; set; } // 원시 프로토콜 데이터
-        internal XGTCnetProtocol OtherParty { get; set; } //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
-        #endregion
-
-        #region INTERFACE
-        /// <summary>
-        /// 통신 중 예외 또는 에러가 발생시 통지
-        /// </summary>
-        public event EventHandler<DataReceivedEventArgs> ErrorReceived;
-        /// <summary>
-        /// 프로토콜 요청을 성공적으로 전달되었을 시 통지
-        /// </summary>
-        public event EventHandler<DataReceivedEventArgs> ProtocolRequested;
-        /// <summary>
-        /// 요청된 프로토콜에 따른 응답 프로토콜을 성공적으로 받았을 시 통지
-        /// </summary>
-        public event EventHandler<DataReceivedEventArgs> ProtocolReceived;
-
-        /// <summary>
-        /// Requested 이벤트를 발생시킵니다.
-        /// </summary>
-        /// <param name="obj"> DYSocekt 클래스 객체 </param>
-        /// <param name="protocol"> IProtocol 인터페이스 객체 </param>
-        public void OnDataReceived(object obj, IProtocol protocol)
-        {
-            var pt = System.Threading.Volatile.Read(ref protocol);
-            if (ProtocolReceived != null)
-                ProtocolReceived(obj, new DataReceivedEventArgs(pt));
-        }
-        /// <summary>
-        /// Requested 이벤트를 발생시킵니다.
-        /// </summary>
-        /// <param name="obj"> DYSocekt 클래스 객체 </param>
-        /// <param name="protocol"> IProtocol 인터페이스 객체 </param>
-        public void OnDataRequested(object obj, IProtocol protocol)
-        {
-            var pt = System.Threading.Volatile.Read(ref protocol);
-            if (ProtocolRequested != null)
-                ProtocolRequested(obj, new DataReceivedEventArgs(pt));
-        }
-        /// <summary>
-        /// OnError 이벤트를 발생시킵니다.
-        /// </summary>
-        /// <param name="obj"> DYSocekt 클래스 객체 </param>
-        /// <param name="protocol"> IProtocol 인터페이스 객체 </param>
-        public void OnError(object obj, IProtocol protocol)
-        {
-            var pt = System.Threading.Volatile.Read(ref protocol);
-            if (ErrorReceived != null)
-                ErrorReceived(obj, new DataReceivedEventArgs(pt));
-        }
+        public const int PROTOCOL_SB_SIZE_MAX_240BYTE = 240;
         #endregion
 
         #region PROTECTED METHOD
@@ -108,11 +51,8 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         /// <param name="that"> 복사할 XGTCnetExclusiveProtocolFrame 상속 객체 </param>
         protected AXGTCnetProtocol(AXGTCnetProtocol that)
+            : base(that)
         {
-            this.Tag = that.Tag;
-            this.Description = that.Description;
-            this.UserData = that.UserData;
-
             this.Error = that.Error;
             this.Header = that.Header;
             this.LocalPort = that.LocalPort;
@@ -120,23 +60,18 @@ namespace DY.NET.LSIS.XGT
             this.CommandType = that.CommandType;
             this.Tail = that.Tail;
             this.BCC = that.BCC;
-            this.OtherParty = that.OtherParty;
-
-            this.ProtocolReceived = that.ProtocolReceived;
-            this.ErrorReceived = that.ErrorReceived;
-            this.ProtocolRequested = that.ProtocolRequested;
-
-            if (that.ASC2Protocol != null)
-                this.ASC2Protocol = (byte[]) that.ASC2Protocol.Clone();
+            
         }
 
         protected AXGTCnetProtocol(byte[] binaryDatas)
+            : base()
         {
             if (binaryDatas != null)
                 ASC2Protocol = (byte[])binaryDatas.Clone();
         }
 
         protected AXGTCnetProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCmdType type)
+            : base()
         {
             LocalPort = localPort;
             Command = cmd;
@@ -264,24 +199,24 @@ namespace DY.NET.LSIS.XGT
         /// <summary>
         /// 맴머 변수의 정보를 토대로 원시 프로토콜 데이터를 구합니다.
         /// </summary>
-        internal void AssembleProtocol()
+        internal override void AssembleProtocol()
         {
             List<byte> asc_list = new List<byte>();
             AddProtocolHead(asc_list);
             AttachProtocolFrame(asc_list);
             AddProtocolTail(asc_list);
             ASC2Protocol = asc_list.ToArray();
-            //if (ASC2Protocol.Length > PROTOCOL_ASC_SIZE_LIMIT)
-            //    throw new Exception(ERROR_PROTOCOL_ASC_SIZE_LIMIT);
+            if (ASC2Protocol.Length > PROTOCOL_ASC_SIZE_MAX_256BYTE)
+                throw new Exception(ERROR_PROTOCOL_ASC_SIZE_MAX_256BYTE);
         }
 
         /// <summary>
         /// 받은 원시 프로토콜 데이터를 바탕으로 프로토콜 구조와 데이터를 파악합니다.
         /// </summary>
-        internal void AnalysisProtocol()
+        internal override void AnalysisProtocol()
         {
             if (ASC2Protocol == null)
-                throw new NullReferenceException("ProtocolData is null.");
+                throw new NullReferenceException("PROTOCOLDATA IS NULL.");
             if (ASC2Protocol.Length < RW_PROTOCOL_HEAD_SIZE)
                 throw new ArgumentOutOfRangeException(ERROR_PROTOCOL_HEAD_SIZE);
             CatchProtocolHead();
@@ -297,7 +232,7 @@ namespace DY.NET.LSIS.XGT
         internal bool IsExistBCCFromASCData()
         {
             if (ASC2Protocol == null)
-                throw new NullReferenceException("ProtocolData is null.");
+                throw new NullReferenceException("PROTOCOLDATA IS NULL.");
             if (Command == XGTCnetCommand.r || Command == XGTCnetCommand.w || Command == XGTCnetCommand.x || Command == XGTCnetCommand.y)
                 return true;
             else

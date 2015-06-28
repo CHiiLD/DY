@@ -42,7 +42,8 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Builder\SerialPortBuilder.cs" />
+    <Compile Include="Builder\AEthernetBuilder.cs" />
+    <Compile Include="Builder\ASerialPortBuilder.cs" />
     <Compile Include="LSIS\XGT\B2HS.cs" />
     <Compile Include="Inheritance\AbstractSocketCover.cs" />
     <Compile Include="Inheritance\IProtocol.cs" />
@@ -50,6 +51,7 @@
     <Compile Include="LSIS\XGT\CA2C.cs" />
     <Compile Include="Inheritance\ISocketCover.cs" />
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetProtocolError.cs" />
+    <Compile Include="LSIS\XGT\AXGTProtocol.cs" />
     <Compile Include="LSIS\XGT\Cnet\Protocol\XGTCnetProtocol.cs" />
     <Compile Include="LSIS\XGT\Cnet\Protocol\AXGTCnetProtocol.cs" />
     <Compile Include="LSIS\XGT\Cnet\Socket\XGTCnetSocektExtension.cs" />
@@ -57,6 +59,13 @@
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetCommandType.cs" />
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetControlCodeType.cs" />
     <Compile Include="LSIS\XGT\Cnet\Socket\XGTCnetSocket.cs" />
+    <Compile Include="LSIS\XGT\FEnet\AppDataFormat\AppInstructionFormat\XGTFEnetProtocol.cs" />
+    <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetClass.cs" />
+    <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetCpuInfo.cs" />
+    <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetCpuState.cs" />
+    <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetPort.cs" />
+    <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetProtocolError.cs" />
+    <Compile Include="LSIS\XGT\FEnet\Socket\XGTFEnetSocket.cs" />
     <Compile Include="LSIS\XGT\Glopa.cs" />
     <Compile Include="Extension\NumericType.cs" />
     <Compile Include="LSIS\XGT\FEnet\AppDataFormat\AppHeaderFormat\XGTFEnetHeader.cs" />
@@ -75,7 +84,6 @@
     <Compile Include="Event\SocketDataReceivedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
-    <Folder Include="LSIS\XGT\FEnet\AppDataFormat\AppInstructionFormat\" />
     <Folder Include="MITSUBISHI\MELSEC-Q\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

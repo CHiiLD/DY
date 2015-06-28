@@ -15,12 +15,12 @@ namespace DY.NET.LSIS.XGT
         //CONST 맴버 변수
         public const int APPLICATION_HEARDER_FORMAT_SIZE = 20;  //헤더 포맷의 사이즈 (20byte)
         private const byte RESERVED_VALUE = 0x00;             //예약영역 초기값 or Don't care
-        private const byte CPUINFO_VALUE = 0xA0;              //RESERVED 영역을 통해 XGK/XGI 시리즈임을 판단
 
         //HEADER INFOS
-        public XGTFEnetCompanyID _CompanyID { private set; get; }           //PLC 제품
-        public XGTFEnetPLCInfo _PLCInfo { private set; get; }               //PLC 정보
+        public XGTFEnetCompanyID CompanyID { private set; get; }           //PLC 제품
+        public XGTFEnetPLCInfo PLCInfo { private set; get; }               //PLC 정보
         public XGTFEnetSourceOfFrame SourceOfFrame { private set; get; }    //클라 -> 서버 or 서버 -> 클라
+        public XGTFEnetCpuInfo CpuInfo { private set; get; }
         public ushort InvokeID { private set; get; }                        //프레임 간의  순서를 구별하기 위한 ID (응답 프레임에 이 번호를 붙여 보내줌)
         public ushort AppInstructionDataLength { private set; get; }        //실질 데이터의 바이트 길이
         public byte SlotPosition { private set; get; }                      // FEnet 모듈의 슬롯 넘버
@@ -42,13 +42,16 @@ namespace DY.NET.LSIS.XGT
         /// <param name="that">복사할 XGTFEnetHeader 객체</param>
         public XGTFEnetHeader(XGTFEnetHeader that)
         {
-            this._CompanyID = that._CompanyID;
-            this._PLCInfo = that._PLCInfo;
+            this.CompanyID = that.CompanyID;
+            this.PLCInfo = that.PLCInfo;
+            this.CpuInfo = that.CpuInfo;
             this.SourceOfFrame = that.SourceOfFrame;
             this.InvokeID = that.InvokeID;
             this.AppInstructionDataLength = that.AppInstructionDataLength;
             this.SlotPosition = that.SlotPosition;
             this.BasePosition = that.BasePosition;
+            if (that._HeaderData != null)
+                this._HeaderData = (byte[])that._HeaderData.Clone();
         }
 
         /// <summary>
@@ -69,10 +72,32 @@ namespace DY.NET.LSIS.XGT
             Buffer.BlockCopy(headerData, 0, header._HeaderData, 0, APPLICATION_HEARDER_FORMAT_SIZE);
             header.ParseCompanyID();
             header.ParsePLCInfo();
+            header.ParseCpuInfo();
             header.ParseSourceOfFrame();
             header.ParseInvolkeID();
             header.ParseAppDataLen();
             header.ParseDevicePosition();
+            return header;
+        }
+
+        public XGTFEnetHeader CreateXGTFEnetHeader(XGTFEnetCompanyID id, XGTFEnetPLCInfo info, XGTFEnetCpuInfo cpuinfo,
+            ushort invokeID, ushort aif_size, byte slot_n, byte base_n)
+        {
+            byte slot_shift = (byte)(slot_n << 4);
+            XGTFEnetHeader header = new XGTFEnetHeader();
+            _HeaderData = new byte[APPLICATION_HEARDER_FORMAT_SIZE];
+            Buffer.BlockCopy(_HeaderData, 0, id.ToByteArray(), 0, 8); //회사 인증
+            Buffer.BlockCopy(_HeaderData, 8, new byte[] { 0, 0 }, 0, 2); //예약
+            Buffer.BlockCopy(_HeaderData, 10, info.ToByteArray(), 0, 2); //PLC INFO  
+            Buffer.SetByte(_HeaderData, 12, (byte)cpuinfo); //CPU INFO
+            Buffer.SetByte(_HeaderData, 13, XGTFEnetSourceOfFrame.PC2PLC.ToByte()); //CPU INFO
+            Buffer.BlockCopy(_HeaderData, 14, CA2C.ToASC(invokeID), 0, 2); //Invoke ID 
+            Buffer.BlockCopy(_HeaderData, 16, CA2C.ToASC(aif_size), 0, 2); // Instruction byte 크기
+            Buffer.SetByte(_HeaderData, 18, (byte)(slot_shift | base_n)); // 슬롯과 베이스 자리
+            byte sum = 0;
+            for (int i = 0; i < APPLICATION_HEARDER_FORMAT_SIZE - 1; i++)
+                sum += _HeaderData[i];
+            Buffer.SetByte(_HeaderData, 19, sum); //BCC
             return header;
         }
 
@@ -90,7 +115,7 @@ namespace DY.NET.LSIS.XGT
             Buffer.BlockCopy(_HeaderData, 0, target, 0, target.Length);
 
             if (target.SequenceEqual(XGT))
-                _CompanyID = XGTFEnetCompanyID.LSIS_XGT;
+                CompanyID = XGTFEnetCompanyID.LSIS_XGT;
 #if DEBUG
             else
                 System.Diagnostics.Debug.Assert(false);
@@ -107,12 +132,18 @@ namespace DY.NET.LSIS.XGT
             if (target[0] == 0x00 && target[1] == 0x00)
             {
                 Buffer.BlockCopy(_HeaderData, 10, target, 0, target.Length);
-                _PLCInfo.Init(target);
+                PLCInfo.Init(target);
             }
 #if DEBUG
             else
                 System.Diagnostics.Debug.Assert(false);
 #endif
+        }
+
+        private void ParseCpuInfo()
+        {
+            byte target = _HeaderData[12];
+            CpuInfo = (XGTFEnetCpuInfo)target;
         }
 
         /// <summary>
@@ -131,7 +162,7 @@ namespace DY.NET.LSIS.XGT
         {
             byte[] target = new byte[2];
             Buffer.BlockCopy(_HeaderData, 14, target, 0, target.Length);
-            InvokeID = (ushort)CA2C.ToValue(target, typeof(ushort));
+            InvokeID = (ushort)CA2C.ToValue(target, typeof(UInt16));
         }
 
         /// <summary>
@@ -141,7 +172,7 @@ namespace DY.NET.LSIS.XGT
         {
             byte[] target = new byte[2];
             Buffer.BlockCopy(_HeaderData, 16, target, 0, target.Length);
-            AppInstructionDataLength = (ushort)CA2C.ToValue(target, typeof(ushort));
+            AppInstructionDataLength = (ushort)CA2C.ToValue(target, typeof(UInt16));
         }
 
         /// <summary>
@@ -151,8 +182,7 @@ namespace DY.NET.LSIS.XGT
         {
             byte target = _HeaderData[18];
             SlotPosition = (byte)(target >> 4);
-            BasePosition = (byte)(target << 4);
-            BasePosition = (byte)(BasePosition >> 4);
+            BasePosition = (byte) (((byte)0xF0 & target) >> 4);
         }
     }
 }

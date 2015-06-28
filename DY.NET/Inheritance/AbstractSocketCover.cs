@@ -42,7 +42,7 @@ namespace DY.NET
         protected ConcurrentQueue<IProtocol> ProtocolStandByQueue = new ConcurrentQueue<IProtocol>();
 
         public abstract bool Connect();
-        public abstract bool Close();
+        public abstract void Close();
         public abstract void Send(IProtocol protocolFrame);
         public abstract bool IsOpen();
 

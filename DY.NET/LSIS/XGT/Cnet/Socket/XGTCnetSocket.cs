@@ -15,12 +15,12 @@ namespace DY.NET.LSIS.XGT
     /// <summary>
     /// XGTCnetExclusiveProtocol을 이용한 Serial 통신소켓 클래스
     /// </summary>
-    public partial class XGTCnetSocket : ASocketCover
+    public sealed partial class XGTCnetSocket : ASocketCover
     {
         /// <summary>
         /// 빌더 디자인 패턴 (빌더 디자인패턴을 모른다면 Effective Java 2/E P21을 참고) 
         /// </summary>
-        public class Builder : SerialPortBuilder
+        public class Builder : ASerialPortBuilder
         {
             public Builder(string name, int baud)
                 : base(name, baud)
@@ -37,13 +37,13 @@ namespace DY.NET.LSIS.XGT
             }
         }
 
-        #region var_properties_event
+        #region VAR_PROPERTIES_EVENT
         private const string ERROR_SERIAL_IS_NULL = "XGTCNETEXCLUSIVESOCKET._SERIALPORT VAR IS NULL";
-        protected volatile bool IsWaitACKProtocol = false;
-        protected readonly object _SerialLock = new object();
-        protected volatile SerialPort _SerialPort;
-        protected IProtocol ReqtProtocol;
-        protected IProtocol RecvProtocol;
+        private volatile bool IsWait = false;
+        private readonly object _SerialLock = new object();
+        private volatile SerialPort _SerialPort;
+        private IProtocol ReqtProtocol;
+        private IProtocol RecvProtocol;
 
         /// <summary>
         /// 시리얼포트 에러 이벤트
@@ -57,7 +57,7 @@ namespace DY.NET.LSIS.XGT
 
         #region method
 
-        protected XGTCnetSocket()
+        private XGTCnetSocket()
         {
 
         }
@@ -84,18 +84,13 @@ namespace DY.NET.LSIS.XGT
         /// 끊기
         /// </summary>
         /// <returns> 통신 끊기 성공 여부 </returns>
-        public override bool Close()
+        public override void Close()
         {
-            bool result;
             lock (_SerialLock)
             {
-                if (_SerialPort == null)
-                    return false;
                 if (_SerialPort.IsOpen)
                     _SerialPort.Close();
-                result = !_SerialPort.IsOpen;
             }
-            return result;
         }
 
         /// <summary>
@@ -124,7 +119,7 @@ namespace DY.NET.LSIS.XGT
             XGTCnetProtocol cpy_protocol = new XGTCnetProtocol(iProtocol as XGTCnetProtocol);
             if (cpy_protocol.ASC2Protocol == null)
                 cpy_protocol.AssembleProtocol();
-            if (IsWaitACKProtocol)   //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
+            if (IsWait)   //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
             {
                 ProtocolStandByQueue.Enqueue(cpy_protocol);
                 return;
@@ -141,14 +136,14 @@ namespace DY.NET.LSIS.XGT
             if (SendedSuccessfully != null)
                 SendedSuccessfully(this, new DataReceivedEventArgs(cpy_protocol));
             cpy_protocol.OnDataRequested(this, cpy_protocol);
-            IsWaitACKProtocol = true;
+            IsWait = true;
         }
         /// <summary>
         /// 요청 프로토콜에 의한 응답 프로토콜 이벤트 메서드
         /// </summary>
         /// <param name="sender"> DYSerialPort 객체 </param>
         /// <param name="e"> SerialDataReceivedEventArgs 이벤트 argument </param>
-        protected void OnDataRecieve(object sender, SerialDataReceivedEventArgs e)
+        private void OnDataRecieve(object sender, SerialDataReceivedEventArgs e)
         {
             XGTCnetProtocol recv, reqt;
             lock (_SerialLock)
@@ -196,26 +191,26 @@ namespace DY.NET.LSIS.XGT
                     reqt.OnError(this, recv);
                 RecvProtocol = null;
                 ReqtProtocol = null;
-                IsWaitACKProtocol = false;
+                IsWait = false;
                 if (ProtocolStandByQueue.Count != 0)
                     SendNextProtocol();
             }
         }
 
-        protected virtual void SendNextProtocol()
+        private void SendNextProtocol()
         {
             IProtocol temp = null;
             if (ProtocolStandByQueue.TryDequeue(out temp))
                 Send(temp);
         }
 
-        protected void OnSerialErrorReceived(object sender, SerialErrorReceivedEventArgs e)
+        private void OnSerialErrorReceived(object sender, SerialErrorReceivedEventArgs e)
         {
             if (ErrorReceived != null)
                 ErrorReceived(sender, e);
         }
 
-        protected void OnSerialPinChanged(object sender, SerialPinChangedEventArgs e)
+        private void OnSerialPinChanged(object sender, SerialPinChangedEventArgs e)
         {
             if (PinChanged != null)
                 PinChanged(sender, e);
