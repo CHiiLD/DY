@@ -48,6 +48,7 @@
     <Compile Include="Inheritance\AbstractSocketCover.cs" />
     <Compile Include="Inheritance\IProtocol.cs" />
     <Compile Include="Inheritance\ITag.cs" />
+    <Compile Include="LSIS\XGT\CA2CR.cs" />
     <Compile Include="LSIS\XGT\CA2C.cs" />
     <Compile Include="Inheritance\ISocketCover.cs" />
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetProtocolError.cs" />

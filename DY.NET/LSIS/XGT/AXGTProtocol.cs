@@ -18,7 +18,7 @@ namespace DY.NET.LSIS.XGT
 
         #region INTENAL VARIABLE
         internal byte[] ASC2Protocol { get; set; } // 원시 프로토콜 데이터
-        internal XGTCnetProtocol OtherParty { get; set; } //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
+        internal IProtocol OtherParty { get; set; } //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
         #endregion
 
         protected AXGTProtocol()

@@ -39,11 +39,13 @@ namespace DY.NET.LSIS.XGT
 
         #region VAR_PROPERTIES_EVENT
         private const string ERROR_SERIAL_IS_NULL = "XGTCNETEXCLUSIVESOCKET._SERIALPORT VAR IS NULL";
-        private volatile bool IsWait = false;
+
+        private volatile bool _IsWait = false;
         private readonly object _SerialLock = new object();
         private volatile SerialPort _SerialPort;
-        private IProtocol ReqtProtocol;
-        private IProtocol RecvProtocol;
+        private XGTCnetProtocol _ReqtProtocol;
+        private byte[] _Buffer = new byte[1024];
+        private int _BufferIndex;
 
         /// <summary>
         /// 시리얼포트 에러 이벤트
@@ -69,7 +71,7 @@ namespace DY.NET.LSIS.XGT
         public override bool Connect()
         {
             bool result;
-            lock(_SerialLock)
+            lock (_SerialLock)
             {
                 if (_SerialPort == null)
                     throw new NullReferenceException(ERROR_SERIAL_IS_NULL);
@@ -115,29 +117,29 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentNullException("PROTOCOL ARGUMENT IS NULL");
             if (!(iProtocol is XGTCnetProtocol))
                 throw new ArgumentException("PROTOCOL NOT MATCH XGTCNETEXCLUSIVEPROTOCOLFRAME TYPE");
-            
-            XGTCnetProtocol cpy_protocol = new XGTCnetProtocol(iProtocol as XGTCnetProtocol);
-            if (cpy_protocol.ASC2Protocol == null)
-                cpy_protocol.AssembleProtocol();
-            if (IsWait)   //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
+
+            XGTCnetProtocol cpy_p = new XGTCnetProtocol(iProtocol as XGTCnetProtocol);
+            if (_IsWait)   //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
             {
-                ProtocolStandByQueue.Enqueue(cpy_protocol);
+                ProtocolStandByQueue.Enqueue(cpy_p);
                 return;
             }
-            lock(_SerialLock)
+            cpy_p.AssembleProtocol();
+            lock (_SerialLock)
             {
                 if (_SerialPort == null)
                     return;
                 if (!_SerialPort.IsOpen)
                     throw new Exception("SERIAL PORT IS NOT OPEND");
-                ReqtProtocol = cpy_protocol;
-                _SerialPort.Write(cpy_protocol.ASC2Protocol, 0, cpy_protocol.ASC2Protocol.Length);
+                _ReqtProtocol = cpy_p;
+                _SerialPort.Write(cpy_p.ASC2Protocol, 0, cpy_p.ASC2Protocol.Length);
             }
             if (SendedSuccessfully != null)
-                SendedSuccessfully(this, new DataReceivedEventArgs(cpy_protocol));
-            cpy_protocol.OnDataRequested(this, cpy_protocol);
-            IsWait = true;
+                SendedSuccessfully(this, new DataReceivedEventArgs(cpy_p));
+            cpy_p.OnDataRequested(this, cpy_p);
+            _IsWait = true;
         }
+
         /// <summary>
         /// 요청 프로토콜에 의한 응답 프로토콜 이벤트 메서드
         /// </summary>
@@ -145,7 +147,6 @@ namespace DY.NET.LSIS.XGT
         /// <param name="e"> SerialDataReceivedEventArgs 이벤트 argument </param>
         private void OnDataRecieve(object sender, SerialDataReceivedEventArgs e)
         {
-            XGTCnetProtocol recv, reqt;
             lock (_SerialLock)
             {
                 SerialPort serialPort = sender as SerialPort;
@@ -153,45 +154,29 @@ namespace DY.NET.LSIS.XGT
                     return;
                 if (!serialPort.IsOpen)
                     return;
-                recv = this.RecvProtocol as XGTCnetProtocol;
-                reqt = this.ReqtProtocol as XGTCnetProtocol;
                 byte[] recv_data = System.Text.Encoding.ASCII.GetBytes(serialPort.ReadExisting());
-                if (recv == null)
-                {
-                    recv = XGTCnetProtocol.CreateReceiveProtocol(recv_data, reqt);
-                    RecvProtocol = recv;
-                }
-                else
-                {
-                    byte[] newBytes = new byte[recv.ASC2Protocol.Length + recv_data.Length];
-                    Buffer.BlockCopy(recv.ASC2Protocol, 0, newBytes, 0, recv.ASC2Protocol.Length);
-                    Buffer.BlockCopy(recv_data, 0, newBytes, recv.ASC2Protocol.Length, recv_data.Length);
-                    recv.ASC2Protocol = newBytes;
-                }
+                Buffer.BlockCopy(recv_data, 0, _Buffer, _BufferIndex, recv_data.Length);
+                _BufferIndex += recv_data.Length;
             }
-            if (!recv.IsComeInEXTTail())
+            if (e.EventType != SerialData.Eof)
                 return;
+            XGTCnetProtocol resp_p = XGTCnetProtocol.CreateReceiveProtocol((byte[])_Buffer.Clone(), _ReqtProtocol);
             try
             {
-                recv.AnalysisProtocol();  //예외 발생
+                resp_p.AnalysisProtocol();  //예외 발생
             }
-#if !DEBUG
-            catch (Exception exception)
-            {
-                //System.Diagnostics.Debug.Assert(false, exception.Message);
-            }
-#endif
             finally
             {
                 if (ReceivedSuccessfully != null)
-                    ReceivedSuccessfully(this, new DataReceivedEventArgs(recv));
-                if (recv.Error == XGTCnetProtocolError.OK)
-                    reqt.OnDataReceived(this, recv);
+                    ReceivedSuccessfully(this, new DataReceivedEventArgs(resp_p));
+                if (resp_p.Error == XGTCnetProtocolError.OK)
+                    _ReqtProtocol.OnDataReceived(this, resp_p);
                 else
-                    reqt.OnError(this, recv);
-                RecvProtocol = null;
-                ReqtProtocol = null;
-                IsWait = false;
+                    _ReqtProtocol.OnError(this, resp_p);
+                _ReqtProtocol = null;
+                _Buffer.Initialize();
+                _BufferIndex = 0;
+                _IsWait = false;
                 if (ProtocolStandByQueue.Count != 0)
                     SendNextProtocol();
             }
@@ -226,15 +211,11 @@ namespace DY.NET.LSIS.XGT
                 if (_SerialPort != null)
                 {
                     Close();
-
                     ErrorReceived = null;
                     PinChanged = null;
-
                     _SerialPort.Dispose();
                     _SerialPort = null;
-                    
-                    ReqtProtocol = null;
-                    RecvProtocol = null;
+                    _ReqtProtocol = null;
                 }
             }
             base.Dispose();

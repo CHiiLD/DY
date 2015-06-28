@@ -61,44 +61,48 @@ namespace DY.NET.LSIS.XGT
         /// <returns>XGTFEnetHeader 객체</returns>
         /// <exception cref="System.ArgumentException">해더 데이터의 길이가 20byte가 아닐 경우 예외가 발생합니다.</exception>
         /// <exception cref="System.ArgumentNullException">파라미터가 null인 경우 예외가 발생합니다.</exception>
-        public XGTFEnetHeader CreateXGTFEnetHeader(byte[] headerData)
+        public static XGTFEnetHeader CreateXGTFEnetHeader(byte[] headerData)
         {
             if (headerData == null)
                 throw new ArgumentNullException();
             if (headerData.Length != APPLICATION_HEARDER_FORMAT_SIZE)
                 throw new ArgumentException(ERROR_APP_DATA_FMT_HEADER_SIZE);
-            XGTFEnetHeader header = new XGTFEnetHeader();
-            header._HeaderData = new byte[APPLICATION_HEARDER_FORMAT_SIZE];
-            Buffer.BlockCopy(headerData, 0, header._HeaderData, 0, APPLICATION_HEARDER_FORMAT_SIZE);
-            header.ParseCompanyID();
-            header.ParsePLCInfo();
-            header.ParseCpuInfo();
-            header.ParseSourceOfFrame();
-            header.ParseInvolkeID();
-            header.ParseAppDataLen();
-            header.ParseDevicePosition();
-            return header;
+            XGTFEnetHeader instance = new XGTFEnetHeader();
+            instance._HeaderData = new byte[APPLICATION_HEARDER_FORMAT_SIZE];
+            Buffer.BlockCopy(headerData, 0, instance._HeaderData, 0, APPLICATION_HEARDER_FORMAT_SIZE);
+            instance.ParseCompanyID();
+            instance.ParsePLCInfo();
+            instance.ParseCpuInfo();
+            instance.ParseSourceOfFrame();
+            instance.ParseInvolkeID();
+            instance.ParseAppDataLen();
+            instance.ParseDevicePosition();
+            return instance;
         }
 
-        public XGTFEnetHeader CreateXGTFEnetHeader(XGTFEnetCompanyID id, XGTFEnetPLCInfo info, XGTFEnetCpuInfo cpuinfo,
-            ushort invokeID, ushort aif_size, byte slot_n, byte base_n)
+        public static XGTFEnetHeader CreateXGTFEnetHeader(XGTFEnetPLCInfo info, XGTFEnetCpuInfo cpu_info, ushort invokeID, byte slot_n, byte base_n)
         {
             byte slot_shift = (byte)(slot_n << 4);
-            XGTFEnetHeader header = new XGTFEnetHeader();
-            _HeaderData = new byte[APPLICATION_HEARDER_FORMAT_SIZE];
-            Buffer.BlockCopy(_HeaderData, 0, id.ToByteArray(), 0, 8); //회사 인증
-            Buffer.BlockCopy(_HeaderData, 8, new byte[] { 0, 0 }, 0, 2); //예약
-            Buffer.BlockCopy(_HeaderData, 10, info.ToByteArray(), 0, 2); //PLC INFO  
-            Buffer.SetByte(_HeaderData, 12, (byte)cpuinfo); //CPU INFO
-            Buffer.SetByte(_HeaderData, 13, XGTFEnetSourceOfFrame.PC2PLC.ToByte()); //CPU INFO
-            Buffer.BlockCopy(_HeaderData, 14, CA2C.ToASC(invokeID), 0, 2); //Invoke ID 
-            Buffer.BlockCopy(_HeaderData, 16, CA2C.ToASC(aif_size), 0, 2); // Instruction byte 크기
-            Buffer.SetByte(_HeaderData, 18, (byte)(slot_shift | base_n)); // 슬롯과 베이스 자리
+            XGTFEnetHeader instance = new XGTFEnetHeader();
+            instance._HeaderData = new byte[APPLICATION_HEARDER_FORMAT_SIZE];
+            Buffer.BlockCopy(instance._HeaderData, 0, XGTFEnetCompanyID.LSIS_XGT.ToByteArray(), 0, 8); //회사 인증
+            Buffer.BlockCopy(instance._HeaderData, 8, new byte[] { 0, 0 }, 0, 2); //예약
+            Buffer.BlockCopy(instance._HeaderData, 10, info.ToByteArray(), 0, 2); //PLC INFO  
+            Buffer.SetByte(instance._HeaderData, 12, (byte)cpu_info); //CPU INFO
+            Buffer.SetByte(instance._HeaderData, 13, XGTFEnetSourceOfFrame.PC2PLC.ToByte()); //CPU INFO
+            Buffer.BlockCopy(instance._HeaderData, 14, CA2C.ToASC(invokeID), 0, 2); //Invoke ID 
+            Buffer.SetByte(instance._HeaderData, 18, (byte)(slot_shift | base_n)); // 슬롯과 베이스 자리
+            return instance;
+        }
+
+        public byte[] GetHeaderASC2Data(int instruction_byte_size)
+        {
+            Buffer.BlockCopy(_HeaderData, 16, CA2C.ToASC(instruction_byte_size), 0, 2); // Instruction byte 크기
             byte sum = 0;
             for (int i = 0; i < APPLICATION_HEARDER_FORMAT_SIZE - 1; i++)
                 sum += _HeaderData[i];
             Buffer.SetByte(_HeaderData, 19, sum); //BCC
-            return header;
+            return (byte[])_HeaderData.Clone();
         }
 
         /// <summary>
@@ -182,7 +186,7 @@ namespace DY.NET.LSIS.XGT
         {
             byte target = _HeaderData[18];
             SlotPosition = (byte)(target >> 4);
-            BasePosition = (byte) (((byte)0xF0 & target) >> 4);
+            BasePosition = (byte)(((byte)0xF0 & target) >> 4);
         }
     }
 }

@@ -129,7 +129,7 @@ namespace DY.NET.LSIS.XGT
             else
                 // XY 응답 프로토콜은 SS, SB의 구분을 알려주는 값을 주지 않습니다.
                 // 따라서 요청프로토콜을 사용하여 SS, SB의 여부를 가져옵니다. (뭔가 좀 이상한 LS산전 프로토콜)
-                CommandType = OtherParty.CommandType;
+                CommandType = ((AXGTCnetProtocol)OtherParty).CommandType;
         }
 
         /// <summary>
@@ -194,6 +194,13 @@ namespace DY.NET.LSIS.XGT
             if (ASC2Protocol.Length < RW_PROTOCOL_HEAD_SIZE)
                 return false;
             return ASC2Protocol[ASC2Protocol.Length - 1 - (IsExistBCCFromASCData() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte();
+        }
+
+        internal bool IsComeInEXTTail(byte[] asc_data)
+        {
+            if (asc_data.Length < RW_PROTOCOL_HEAD_SIZE)
+                return false;
+            return asc_data[asc_data.Length - 1 - (IsExistBCCFromASCData() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte();
         }
 
         /// <summary>

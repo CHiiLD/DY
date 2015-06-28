@@ -311,8 +311,8 @@ namespace DY.NET.LSIS.XGT
             asc_list.AddRange(CA2C.ToASC(ReqeustList[0].Name.Length, typeof(UInt16)));
             asc_list.AddRange(CA2C.ToASC(ReqeustList[0].Name));
             asc_list.AddRange(CA2C.ToASC(DataCnt));
-            foreach (PValue e in ReqeustList)
-                asc_list.AddRange(CA2C.ToASC(e.Value, e.Type));
+            foreach (PValue pv in ReqeustList)
+                asc_list.AddRange(CA2C.ToASC(pv.Value, pv.Type));
         }
 
         private void AddProtocolXSB(List<byte> asc_list)
@@ -431,10 +431,10 @@ namespace DY.NET.LSIS.XGT
             // 일렬로 정렬된 데이터들을 데이터타입에 따라 적절하게 파싱하여 데이터 쿼리
             for (int i = 0; i < data_len / data_type_size; i++)
             {
-                byte[] temp_arr = new byte[data_type_size * 2];
-                Buffer.BlockCopy(data, data_idx, temp_arr, 0, temp_arr.Length);
-                ResponseDic.Add(ReqeustList[i].Name, CA2C.ToValue(temp_arr, ReqeustList[i].Type));
-                data_idx += temp_arr.Length;
+                byte[] data_arr = new byte[data_type_size * 2];
+                Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
+                ResponseDic.Add(ReqeustList[i].Name, CA2C.ToValue(data_arr, ReqeustList[i].Type));
+                data_idx += data_arr.Length;
             }
         }
 
