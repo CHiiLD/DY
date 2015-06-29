@@ -4,15 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DY.NET.LSIS.XGT
+namespace DY.NET
 {
-    public abstract class AXGTProtocol : IProtocol
+    public abstract class AProtocol : IProtocol
     {
-        protected const string ERROR_ENQ_IS_NULL_OR_EMPTY = "ENQDATAS HAVE PROBLEM (NULL OR EMPTY DATA)";
-        protected const string ERROR_READED_MEM_COUNT_LIMIT = "ENQDATAS OVER LIMIT OF COUNT (NULL OR EMPTY DATA)";
-        protected const string ERROR_MONITER_INVALID_REGISTER_NUMBER = "REGISTER_NUMBER HAVE TO REGISTER TO 0 FROM 31";
-        protected const int READED_MEM_MAX_COUNT = 16;
-
         public List<PValue> ReqeustList { get; private set; }
         public Dictionary<string, object> ResponseDic { get; private set; }
 
@@ -21,13 +16,13 @@ namespace DY.NET.LSIS.XGT
         internal IProtocol OtherParty { get; set; } //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
         #endregion
 
-        protected AXGTProtocol()
+        protected AProtocol()
         {
             ReqeustList = new List<PValue>();
             ResponseDic = new Dictionary<string, object>();
         }
 
-        public AXGTProtocol(AXGTProtocol that)
+        public AProtocol(AProtocol that)
         {
             this.Tag = that.Tag;
             this.Description = that.Description;

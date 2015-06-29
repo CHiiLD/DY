@@ -52,7 +52,7 @@
     <Compile Include="LSIS\XGT\CA2C.cs" />
     <Compile Include="Inheritance\ISocketCover.cs" />
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetProtocolError.cs" />
-    <Compile Include="LSIS\XGT\AXGTProtocol.cs" />
+    <Compile Include="Inheritance\AProtocol.cs" />
     <Compile Include="LSIS\XGT\Cnet\Protocol\XGTCnetProtocol.cs" />
     <Compile Include="LSIS\XGT\Cnet\Protocol\AXGTCnetProtocol.cs" />
     <Compile Include="LSIS\XGT\Cnet\Socket\XGTCnetSocektExtension.cs" />
@@ -81,6 +81,7 @@
     <Compile Include="LSIS\XGT\ServiceableDevice.cs" />
     <Compile Include="Extension\TypeExtension.cs" />
     <Compile Include="LSIS\XGT\BS2G.cs" />
+    <Compile Include="LSIS\XGT\XGTModuleComm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Event\SocketDataReceivedEventArgs.cs" />
   </ItemGroup>

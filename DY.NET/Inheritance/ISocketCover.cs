@@ -8,5 +8,8 @@ namespace DY.NET
         void Close();
         void Send(IProtocol protocolFrame);
         bool IsOpen();
+
+        EventHandler<DataReceivedEventArgs> SendedSuccessfully { get; set; }
+        EventHandler<DataReceivedEventArgs> ReceivedSuccessfully { get; set; }
     }
 }

@@ -6,6 +6,7 @@
 
 using System;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace DY.NET.LSIS.XGT
 {
@@ -14,6 +15,10 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public class XGTCnetProtocol : AXGTCnetProtocol
     {
+        protected const string ERROR_ENQ_IS_NULL_OR_EMPTY = "ENQDATAS HAVE PROBLEM (NULL OR EMPTY DATA)";
+        protected const string ERROR_READED_MEM_COUNT_LIMIT = "ENQDATAS OVER LIMIT OF COUNT (NULL OR EMPTY DATA)";
+        protected const string ERROR_MONITER_INVALID_REGISTER_NUMBER = "REGISTER_NUMBER HAVE TO REGISTER TO 0 FROM 31";
+        protected const int READED_MEM_MAX_COUNT = 16;
         private const int MONITER_VAR_REGISTER_MAX_NUMBER = 31;
         
         #region PUBLIC PROPERTIES
@@ -301,15 +306,15 @@ namespace DY.NET.LSIS.XGT
         // not support bit data
         private void AddProtocolRSB(List<byte> asc_list)
         {
-            asc_list.AddRange(CA2C.ToASC(ReqeustList[0].Name.Length, typeof(UInt16)));
-            asc_list.AddRange(CA2C.ToASC(ReqeustList[0].Name));
+            asc_list.AddRange(CA2C.ToASC(ReqeustList.First().Name.Length, typeof(UInt16)));
+            asc_list.AddRange(CA2C.ToASC(ReqeustList.First().Name));
             asc_list.AddRange(CA2C.ToASC(DataCnt));
         }
 
         private void AddProtocolWSB(List<byte> asc_list)
         {
-            asc_list.AddRange(CA2C.ToASC(ReqeustList[0].Name.Length, typeof(UInt16)));
-            asc_list.AddRange(CA2C.ToASC(ReqeustList[0].Name));
+            asc_list.AddRange(CA2C.ToASC(ReqeustList.First().Name.Length, typeof(UInt16)));
+            asc_list.AddRange(CA2C.ToASC(ReqeustList.First().Name));
             asc_list.AddRange(CA2C.ToASC(DataCnt));
             foreach (PValue pv in ReqeustList)
                 asc_list.AddRange(CA2C.ToASC(pv.Value, pv.Type));
@@ -322,8 +327,8 @@ namespace DY.NET.LSIS.XGT
             asc_list.Add((byte)'S');
             asc_list.Add((byte)'B');
 
-            asc_list.AddRange(CA2C.ToASC(ReqeustList[0].Name.Length, typeof(UInt16)));
-            asc_list.AddRange(CA2C.ToASC(ReqeustList[0].Name));
+            asc_list.AddRange(CA2C.ToASC(ReqeustList.First().Name.Length, typeof(UInt16)));
+            asc_list.AddRange(CA2C.ToASC(ReqeustList.First().Name));
             asc_list.AddRange(CA2C.ToASC(DataCnt));
         }
 
@@ -427,7 +432,7 @@ namespace DY.NET.LSIS.XGT
             byte[] data = GetMainData();
             ushort data_len = (ushort)CA2C.ToValue(new byte[] { data[2], data[3] }, typeof(UInt16));// 데이터 개수 정보 쿼리
             int data_idx = 4;
-            int data_type_size = ReqeustList[0].Type.ToSize();
+            int data_type_size = ReqeustList.First().Type.ToSize();
             // 일렬로 정렬된 데이터들을 데이터타입에 따라 적절하게 파싱하여 데이터 쿼리
             for (int i = 0; i < data_len / data_type_size; i++)
             {
@@ -456,7 +461,7 @@ namespace DY.NET.LSIS.XGT
             // 데이터 개수 정보 쿼리
             ushort data_len = (ushort)CA2C.ToValue(new byte[] { data[2], data[3] }, typeof(UInt16));
             // 그로파 변수이름에서 자료형 정보를 얻어낸다
-            int data_type_size = ReqeustList[0].Type.ToSize();
+            int data_type_size = ReqeustList.First().Type.ToSize();
             int data_idx = 4;
             // 일렬로 정렬된 데이터들을 데이터타입에 따라 적절하게 파싱하여 데이터 쿼리
             for (int i = 0; i < data_len / data_type_size; i++)

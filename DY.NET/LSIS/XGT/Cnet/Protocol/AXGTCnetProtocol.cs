@@ -13,7 +13,7 @@ namespace DY.NET.LSIS.XGT
     /// <summary>
     /// XGT Cnet 개방형 프로토콜 추상 클래스
     /// </summary>
-    public abstract class AXGTCnetProtocol : AXGTProtocol
+    public abstract class AXGTCnetProtocol : AProtocol
     {
         #region PUBLIC PROPERTIES
         /// <summary>

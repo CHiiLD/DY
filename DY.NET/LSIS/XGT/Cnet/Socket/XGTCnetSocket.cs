@@ -40,12 +40,9 @@ namespace DY.NET.LSIS.XGT
         #region VAR_PROPERTIES_EVENT
         private const string ERROR_SERIAL_IS_NULL = "XGTCNETEXCLUSIVESOCKET._SERIALPORT VAR IS NULL";
 
-        private volatile bool _IsWait = false;
         private readonly object _SerialLock = new object();
         private volatile SerialPort _SerialPort;
         private XGTCnetProtocol _ReqtProtocol;
-        private byte[] _Buffer = new byte[1024];
-        private int _BufferIndex;
 
         /// <summary>
         /// 시리얼포트 에러 이벤트
@@ -119,7 +116,7 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentException("PROTOCOL NOT MATCH XGTCNETEXCLUSIVEPROTOCOLFRAME TYPE");
 
             XGTCnetProtocol cpy_p = new XGTCnetProtocol(iProtocol as XGTCnetProtocol);
-            if (_IsWait)   //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
+            if (IsWait)   //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
             {
                 ProtocolStandByQueue.Enqueue(cpy_p);
                 return;
@@ -137,7 +134,7 @@ namespace DY.NET.LSIS.XGT
             if (SendedSuccessfully != null)
                 SendedSuccessfully(this, new DataReceivedEventArgs(cpy_p));
             cpy_p.OnDataRequested(this, cpy_p);
-            _IsWait = true;
+            IsWait = true;
         }
 
         /// <summary>
@@ -155,12 +152,12 @@ namespace DY.NET.LSIS.XGT
                 if (!serialPort.IsOpen)
                     return;
                 byte[] recv_data = System.Text.Encoding.ASCII.GetBytes(serialPort.ReadExisting());
-                Buffer.BlockCopy(recv_data, 0, _Buffer, _BufferIndex, recv_data.Length);
-                _BufferIndex += recv_data.Length;
+                Buffer.BlockCopy(recv_data, 0, Buf, BufIdx, recv_data.Length);
+                BufIdx += recv_data.Length;
             }
             if (e.EventType != SerialData.Eof)
                 return;
-            XGTCnetProtocol resp_p = XGTCnetProtocol.CreateReceiveProtocol((byte[])_Buffer.Clone(), _ReqtProtocol);
+            XGTCnetProtocol resp_p = XGTCnetProtocol.CreateReceiveProtocol((byte[])Buf.Clone(), _ReqtProtocol);
             try
             {
                 resp_p.AnalysisProtocol();  //예외 발생
@@ -174,9 +171,8 @@ namespace DY.NET.LSIS.XGT
                 else
                     _ReqtProtocol.OnError(this, resp_p);
                 _ReqtProtocol = null;
-                _Buffer.Initialize();
-                _BufferIndex = 0;
-                _IsWait = false;
+                BufIdx = 0;
+                IsWait = false;
                 if (ProtocolStandByQueue.Count != 0)
                     SendNextProtocol();
             }

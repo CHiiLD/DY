@@ -2,16 +2,17 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace DY.NET.LSIS.XGT
 {
-    public class XGTFEnetProtocol : AXGTProtocol
+    public class XGTFEnetProtocol : AProtocol
     {
-        public const int PROTOCOL_SB_MAX_DATA_CNT = 1400;
+        protected const string ERROR_ENQ_IS_NULL_OR_EMPTY = "ENQDATAS HAVE PROBLEM (NULL OR EMPTY DATA)";
+        protected const string ERROR_READED_MEM_COUNT_LIMIT = "ENQDATAS OVER LIMIT OF COUNT (NULL OR EMPTY DATA)";
         private const string ERROR_PROTOCOL_SB_DATACNT_LIMIT = "DATA COUNT(ASC BYTES) LIMITED 1400BYTE";
         
+        protected const int READED_MEM_MAX_COUNT = 16;
+        public const int PROTOCOL_SB_MAX_DATA_CNT = 1400;
         public XGTFEnetHeader Header { get; private set; } //heaer 
         public int BlocCnt { get; private set; } //블록수 
         public int ByteSize { get; private set; } //byte data size 
@@ -240,7 +241,7 @@ namespace DY.NET.LSIS.XGT
             //RSB
             else if (Command == XGTFEnetCommand.READ_RESP && DataType == XGTFEnetDataType.CONTINUATION)
             {
-                int data_type_size = ReqeustList[0].Type.ToSize();
+                int data_type_size = ReqeustList.First().Type.ToSize();
                 for (int i = 0; i < BlocCnt / data_type_size; i++)
                 {
                     byte[] data_arr = new byte[data_type_size * 2];

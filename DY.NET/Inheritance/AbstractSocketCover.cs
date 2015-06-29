@@ -53,14 +53,19 @@ namespace DY.NET
             ReceivedSuccessfully = null;
         }
 
+        public const int BUFFER_SIZE = 2048;
+        protected byte[] Buf = new byte[BUFFER_SIZE];
+        protected int BufIdx;
+        protected volatile bool IsWait = false;
+
         /// <summary>
         /// 데이터를 성공적으로 전송하였을 때 호출되는 이벤트
         /// </summary>
-        public EventHandler<DataReceivedEventArgs> SendedSuccessfully;
+        public EventHandler<DataReceivedEventArgs> SendedSuccessfully { get; set; }
 
         /// <summary>
         /// 데이터를 성공적으로 전송받았을 때 호출되는 이벤트
         /// </summary>
-        public EventHandler<DataReceivedEventArgs> ReceivedSuccessfully;
+        public EventHandler<DataReceivedEventArgs> ReceivedSuccessfully { get; set; }
     }
 }
