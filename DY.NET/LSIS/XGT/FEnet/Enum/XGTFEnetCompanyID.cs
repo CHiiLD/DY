@@ -5,12 +5,13 @@
     /// </summary>
     public enum XGTFEnetCompanyID
     {
+        NONE,
         LSIS_XGT
     }
 
     public static class XGTFEnetCompanyIDExtension
     {
-        public static byte[] ToByteArray(this XGTFEnetCompanyID id)
+        public static byte[] ToBytes(this XGTFEnetCompanyID id)
         {
             byte[] ret = new byte[8];
             switch(id)

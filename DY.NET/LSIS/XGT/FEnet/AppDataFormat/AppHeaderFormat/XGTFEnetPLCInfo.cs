@@ -3,29 +3,37 @@
     /// <summary>
     /// FEnet 헤더 구조 중 PLC Info의 데이터 구조체
     /// </summary>
-    public struct XGTFEnetPLCInfo
+    public class XGTFEnetPLCInfo
     {
         public XGTFEnetCpuType CpuType; //bit00-05 시피유 타입
         public XGTFEnetClass Class; // 7bit
         public XGTFEnetCpuState CpuState; //8bit 
         public XGTFEnetPLCSystemState PLCState; //bit08-12 시스템 상태
         
+        public XGTFEnetPLCInfo(XGTFEnetPLCInfo that)
+        {
+            CpuType = that.CpuType;
+            Class = that.Class;
+            CpuState = that.CpuState;
+            PLCState = that.PLCState;
+        }
+
         /// <summary>
         /// byte array로 초기화
         /// </summary>
         /// <param name="data"></param>
-        public void Init(byte[] data)
+        public XGTFEnetPLCInfo(byte[] data)
         {
             CpuType = (XGTFEnetCpuType)(0xFC & data[0]);
-            Class = (XGTFEnetClass)(0x02 & data[0]); ;
+            Class = (XGTFEnetClass)(0x02 & data[0]);
             CpuState = (XGTFEnetCpuState)(0x01 & data[0]);
-            PLCState = (XGTFEnetPLCSystemState)(0xF8 & data[1]);
+            PLCState = (XGTFEnetPLCSystemState)(0x1F & data[1]);
         }
 
         /// <summary>
         /// 셋팅
         /// </summary>
-        public void Set(XGTFEnetCpuType cpy_type, XGTFEnetClass clazz, XGTFEnetCpuState cpu_st, XGTFEnetPLCSystemState sys_st)
+        public XGTFEnetPLCInfo(XGTFEnetCpuType cpy_type, XGTFEnetClass clazz, XGTFEnetCpuState cpu_st, XGTFEnetPLCSystemState sys_st)
         {
             CpuType = cpy_type;
             Class = clazz;

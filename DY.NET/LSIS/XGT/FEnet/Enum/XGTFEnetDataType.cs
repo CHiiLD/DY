@@ -5,7 +5,7 @@ namespace DY.NET.LSIS.XGT
     /// 데이터 타입
     /// - 직접 변수를 읽거나 쓰고자 할 경우 명령어 타입으로 데이터 타입을 지정합니다.
     /// </summary>
-    public enum XGTFEnetDataType : byte
+    public enum XGTFEnetDataType : ushort
     {
         BIT = 0x00,
         BYTE = 0x01,
@@ -20,7 +20,7 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public static class XGTFEnetDataTypeExtension
     {
-        public static byte[] ToByteArray(this XGTFEnetDataType type)
+        public static byte[] ToBytes(this XGTFEnetDataType type)
         {
             byte[] ret = new byte[2];
             ret[0] = 0x00;

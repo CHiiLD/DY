@@ -42,7 +42,6 @@ namespace DY.NET.LSIS.XGT
 
         private readonly object _SerialLock = new object();
         private volatile SerialPort _SerialPort;
-        private XGTCnetProtocol _ReqtProtocol;
 
         /// <summary>
         /// 시리얼포트 에러 이벤트
@@ -54,7 +53,7 @@ namespace DY.NET.LSIS.XGT
         public event SerialPinChangedEventHandler PinChanged;
         #endregion
 
-        #region method
+        #region METHOD
 
         private XGTCnetSocket()
         {
@@ -128,7 +127,7 @@ namespace DY.NET.LSIS.XGT
                     return;
                 if (!_SerialPort.IsOpen)
                     throw new Exception("SERIAL PORT IS NOT OPEND");
-                _ReqtProtocol = cpy_p;
+                ReqeustProtocol = cpy_p;
                 _SerialPort.Write(cpy_p.ASC2Protocol, 0, cpy_p.ASC2Protocol.Length);
             }
             if (SendedSuccessfully != null)
@@ -157,7 +156,9 @@ namespace DY.NET.LSIS.XGT
             }
             if (e.EventType != SerialData.Eof)
                 return;
-            XGTCnetProtocol resp_p = XGTCnetProtocol.CreateReceiveProtocol((byte[])Buf.Clone(), _ReqtProtocol);
+            byte[] buf_temp = new byte[BufIdx];
+            Buffer.BlockCopy(Buf, 0, buf_temp, 0, buf_temp.Length);
+            XGTCnetProtocol resp_p = XGTCnetProtocol.CreateReceiveProtocol(buf_temp, ReqeustProtocol as XGTCnetProtocol);
             try
             {
                 resp_p.AnalysisProtocol();  //예외 발생
@@ -167,10 +168,10 @@ namespace DY.NET.LSIS.XGT
                 if (ReceivedSuccessfully != null)
                     ReceivedSuccessfully(this, new DataReceivedEventArgs(resp_p));
                 if (resp_p.Error == XGTCnetProtocolError.OK)
-                    _ReqtProtocol.OnDataReceived(this, resp_p);
+                    ReqeustProtocol.OnDataReceived(this, resp_p);
                 else
-                    _ReqtProtocol.OnError(this, resp_p);
-                _ReqtProtocol = null;
+                    ReqeustProtocol.OnError(this, resp_p);
+                ReqeustProtocol = null;
                 BufIdx = 0;
                 IsWait = false;
                 if (ProtocolStandByQueue.Count != 0)
@@ -211,7 +212,7 @@ namespace DY.NET.LSIS.XGT
                     PinChanged = null;
                     _SerialPort.Dispose();
                     _SerialPort = null;
-                    _ReqtProtocol = null;
+                    ReqeustProtocol = null;
                 }
             }
             base.Dispose();

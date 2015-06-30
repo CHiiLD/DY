@@ -13,7 +13,7 @@
 
     public static class XGTFEnetCommandExtension
     {
-        public static byte[] ToByteArray(this XGTFEnetCommand cmd)
+        public static byte[] ToBytes(this XGTFEnetCommand cmd)
         {
             byte[] ret = new byte[2];
             ret[0] = 0x00;

@@ -40,6 +40,7 @@ namespace DY.NET
         /// 스레드 세이프 프로토콜 전송 대기 큐
         /// </summary>
         protected ConcurrentQueue<IProtocol> ProtocolStandByQueue = new ConcurrentQueue<IProtocol>();
+        protected IProtocol ReqeustProtocol;
 
         public abstract bool Connect();
         public abstract void Close();

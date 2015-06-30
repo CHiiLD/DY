@@ -67,7 +67,7 @@ namespace DY.NET.LSIS.XGT
             : base()
         {
             if (binaryDatas != null)
-                ASC2Protocol = (byte[])binaryDatas.Clone();
+                ASC2Protocol = binaryDatas;
         }
 
         protected AXGTCnetProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCmdType type)
@@ -88,7 +88,7 @@ namespace DY.NET.LSIS.XGT
             asc_list.AddRange(CA2C.ToASC(LocalPort));
             asc_list.Add(Command.ToByte());
             if (Command == XGTCnetCommand.r || Command == XGTCnetCommand.w || Command == XGTCnetCommand.R || Command == XGTCnetCommand.W)
-                asc_list.AddRange(CommandType.ToByteArray());
+                asc_list.AddRange(CommandType.ToBytes());
         }
 
         /// <summary>
@@ -104,8 +104,7 @@ namespace DY.NET.LSIS.XGT
                 ushort sum = 0;
                 foreach (byte b in asc_list)
                     sum += b;
-                sum = (ushort)(sum << 8);
-                sum = (ushort)(sum >> 8);
+                sum = (ushort)((ushort)0xFF & sum);
                 BCC = (byte)sum;
                 asc_list.Add(BCC);
             }

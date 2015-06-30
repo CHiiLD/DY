@@ -45,10 +45,9 @@
     <Compile Include="Builder\AEthernetBuilder.cs" />
     <Compile Include="Builder\ASerialPortBuilder.cs" />
     <Compile Include="LSIS\XGT\B2HS.cs" />
-    <Compile Include="Inheritance\AbstractSocketCover.cs" />
+    <Compile Include="Inheritance\ASocketCover.cs" />
     <Compile Include="Inheritance\IProtocol.cs" />
     <Compile Include="Inheritance\ITag.cs" />
-    <Compile Include="LSIS\XGT\CA2CR.cs" />
     <Compile Include="LSIS\XGT\CA2C.cs" />
     <Compile Include="Inheritance\ISocketCover.cs" />
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetProtocolError.cs" />
@@ -60,6 +59,7 @@
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetCommandType.cs" />
     <Compile Include="LSIS\XGT\Cnet\Enum\XGTCnetControlCodeType.cs" />
     <Compile Include="LSIS\XGT\Cnet\Socket\XGTCnetSocket.cs" />
+    <Compile Include="LSIS\XGT\CV2BR.cs" />
     <Compile Include="LSIS\XGT\FEnet\AppDataFormat\AppInstructionFormat\XGTFEnetProtocol.cs" />
     <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetClass.cs" />
     <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetCpuInfo.cs" />
@@ -77,13 +77,13 @@
     <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetDataType.cs" />
     <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetPLCSystemState.cs" />
     <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetSourceOfFrame.cs" />
-    <Compile Include="Extension\PLCData.cs" />
+    <Compile Include="Extension\PValue.cs" />
     <Compile Include="LSIS\XGT\ServiceableDevice.cs" />
     <Compile Include="Extension\TypeExtension.cs" />
     <Compile Include="LSIS\XGT\BS2G.cs" />
     <Compile Include="LSIS\XGT\XGTModuleComm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Event\SocketDataReceivedEventArgs.cs" />
+    <Compile Include="Event\DataReceivedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="MITSUBISHI\MELSEC-Q\" />

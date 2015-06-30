@@ -12,10 +12,10 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public class B2HS
     {
-        public static string Change(byte[] data)
+        public static string Change(byte[] bytes)
         {
             StringBuilder sb = new StringBuilder();
-            foreach(byte b in data)
+            foreach(byte b in bytes)
             {
                 sb.Append(string.Format("{0:X2}", b));
                 sb.Append(' ');

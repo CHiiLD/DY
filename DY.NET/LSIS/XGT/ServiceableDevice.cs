@@ -16,7 +16,11 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public static class ServiceableDevice
     {
-        public static Dictionary<char, DeviceMode> GetDeviceInfo()
+        /// <summary>
+        /// 각 디바이스 별 읽기 쓰기 모니터 가능 정보를 얻는다
+        /// </summary>
+        /// <returns></returns>
+        public static Dictionary<char, DeviceMode> GetCnetDeviceMotionDictionary()
         {
             Dictionary<char, DeviceMode> info = new Dictionary<char, DeviceMode>();
             // XGK 
@@ -38,11 +42,66 @@ namespace DY.NET.LSIS.XGT
 
             info.Add('I', DeviceMode.READ | DeviceMode.WRITE | DeviceMode.MONITER);
             info.Add('Q', DeviceMode.READ | DeviceMode.WRITE | DeviceMode.MONITER);
-            info.Add('M', DeviceMode.READ | DeviceMode.WRITE | DeviceMode.MONITER);
-            info.Add('R', DeviceMode.READ | DeviceMode.WRITE | DeviceMode.MONITER);//비트 모니터링 주소는 16진수이고 워드영역 모니터링 주소는 10진수
-            info.Add('U', DeviceMode.MONITER); 
+            info.Add('U', DeviceMode.MONITER);
 
             return info;
         }
+
+        /// <summary>
+        /// Cnet 통신에서 사용할 수 있는 디바이스 목록
+        /// </summary>
+        /// <returns></returns>
+        public static Dictionary<char, int> GetCnetServiceableDeviceDictionary()
+        {
+            Dictionary<char, int> info = new Dictionary<char, int>();
+            const int I = 2;
+            //바이트 단위로 계산
+            info.Add('P', 2048 * I);
+            info.Add('M', 2048 * I);
+            info.Add('K', 2048 * I);
+            info.Add('F', 2048 * I);
+            info.Add('T', 2048 * I);
+            info.Add('C', 2048 * I);
+            info.Add('Z', 128 * I);
+            info.Add('S', 128 * I);
+            info.Add('L', 11264 * I);
+            info.Add('N', 21504 * I);
+            info.Add('D', 32768 * I); //단, CPUS 는 20000만 까지 
+            info.Add('R', 32768 * I);
+            info.Add('W', 65536 * I);
+            return info;
+        }
+
+        public static List<char> GetFEnetSBProtocolServiceableDeviceList()
+        {
+            List<char> list = new List<char>();
+            list.Add('P');
+            list.Add('N');
+            list.Add('N');
+            list.Add('K');
+            list.Add('T');
+            list.Add('C');
+            list.Add('D');
+            list.Add('N');
+            list.Add('F');
+            return list;
+        }
+
+#if false
+        public static List<char> GetFEnetSSProtocolServiceableDeviceList(Type type)
+        {
+            List<char> list = new List<char>();
+            list.Add('P');
+            list.Add('N');
+            list.Add('N');
+            list.Add('K');
+            list.Add('T');
+            list.Add('C');
+            list.Add('D');
+            list.Add('N');
+            list.Add('F');
+            return list;
+        }
+#endif
     }
 }

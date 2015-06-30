@@ -46,7 +46,7 @@ namespace DY.NET.LSIS.XGT
                 return XGTCnetCmdType.SB;
         }
 
-        public static byte[] ToByteArray(this XGTCnetCmdType type)
+        public static byte[] ToBytes(this XGTCnetCmdType type)
         {
             byte[] b = new byte[2];
             switch (type)

@@ -37,7 +37,7 @@ namespace DY.NET.LSIS.XGT
             if (Glopa.IsGlopaType(std_name))
                 throw new ArgumentException("already glopa type.");
             char device_char = std_name[0];
-            if (!ServiceableDevice.GetDeviceInfo().ContainsKey(device_char))
+            if (!ServiceableDevice.GetCnetDeviceMotionDictionary().ContainsKey(device_char))
                 throw new ArgumentException("invalid plc variable name");
             bool isConvert = false;
             StringBuilder sb = new StringBuilder("%");
@@ -85,6 +85,10 @@ namespace DY.NET.LSIS.XGT
                     sb.Append('L');
                     sb.Append((integer / 4).ToString());
                 }
+#if DEBUG
+                else
+                    System.Diagnostics.Debug.Assert(false);
+#endif
                 isConvert = true;
             } while (false);
             target = sb.ToString();

@@ -4,7 +4,7 @@
     /// PLC INFO
     /// LSIS XGT 시피유 종류
     /// </summary>
-    public enum XGTFEnetCpuType
+    public enum XGTFEnetCpuType : byte
     {
         XGK_CPUH = 0x04, // 00000100
         XGK_CPUS = 0x08, // 00001000

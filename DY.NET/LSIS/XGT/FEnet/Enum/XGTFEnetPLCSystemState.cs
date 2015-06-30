@@ -6,9 +6,9 @@
     /// </summary>
     public enum XGTFEnetPLCSystemState
     {
-        STOP = 0x10,    //정지 00010 000 
-        RUN = 0x20,     //작동 00100 000 
-        PAUSE = 0x40,   //일시정지 01000 000
-        DEBUG = 0x80    //디버그   10000 000
+        RUN = 0x01,     //작동 
+        STOP = 0x02,    //정지 
+        PAUSE = 0x04,   //일시정지 
+        DEBUG = 0x08    //디버그   
     }
 }

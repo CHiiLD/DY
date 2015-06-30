@@ -26,7 +26,7 @@ namespace DY.NET.LSIS.XGT
                 if (name[0] != '%')
                     break;
                 //디바이스 정보가 올바르지 않은 경우를 검사
-                if (!ServiceableDevice.GetDeviceInfo().ContainsKey(name[1]))
+                if (!ServiceableDevice.GetCnetDeviceMotionDictionary().ContainsKey(name[1]))
                     break;
                 //메모리 번지의 타입이 올바르지 않은 경우를 검사 
                 char type = name[2];

@@ -21,6 +21,11 @@
         HEADER_COMPANY_ID = 0x0075, //전용 서비스에서 프레임 헤더의 선두 부분이 잘못된 경우(LSIS-XGT)
         HEADER_LENGTH = 0x0076, //전용 서비스에서 프레임 헤더의 길이가 잘못된 경우
         HEADER_CHECKSUM = 0x0077, //전용 서비스에서 프레임 헤더의 Checksum이 잘못된 경우
-        HEADER_COMMAND = 0x0078, //전용 서비스에서 명령어가 잘못된 경우
+        INSTRUCTION_COMMAND = 0x0078, //전용 서비스에서 명령어가 잘못된 경우
+
+        //메뉴얼에 실려있지 않아 직접 문의해서 알아낸 에러들 
+        DEVICE_TYPE = 0x0010,
+        ADDRESS_FORMAT = 0x0011,
+        DATA_TYPE2 = 0x0012, 
     }
 }

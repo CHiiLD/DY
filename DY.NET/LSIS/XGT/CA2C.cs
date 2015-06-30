@@ -23,7 +23,7 @@ namespace DY.NET.LSIS.XGT
         public static byte[] ToASC(object value, Type type)
         {
             byte[] target = null;
-            string hex_str;
+            string hex_str = string.Empty;
             if (type == typeof(Boolean))
                 hex_str = (bool)value == true ? "01" : "00";
             else if (type == typeof(Byte) || type == typeof(SByte))
@@ -36,8 +36,11 @@ namespace DY.NET.LSIS.XGT
                 hex_str = string.Format("{0:X8}", value);
             else if (type == typeof(string))
                 hex_str = (string)value;
+#if DEBUG
             else
-                throw new ArgumentException("argument is not integer or string type");
+
+                System.Diagnostics.Debug.Assert(false);
+#endif
 
             target = new byte[hex_str.Length];
             for (int i = 0; i < hex_str.Length; i++)
@@ -59,15 +62,15 @@ namespace DY.NET.LSIS.XGT
         /// <summary>
         /// 문자 배열 데이터를 타입에 맞게 변환합니다.
         /// </summary>
-        /// <param name="value"> 문자 배열 </param>
+        /// <param name="bytes"> 문자 배열 </param>
         /// <param name="type"> 정수형, 문자열 타입 정보 </param>
         /// <returns></returns>
-        public static object ToValue(byte[] value, Type type)
+        public static object ToValue(byte[] bytes, Type type)
         {
             object target = null;
 
             StringBuilder sb = new StringBuilder();
-            foreach (byte b in value)
+            foreach (byte b in bytes)
                 sb.Append(Convert.ToChar(b));
             string hex_str = sb.ToString();
 
@@ -91,8 +94,9 @@ namespace DY.NET.LSIS.XGT
                 target = Convert.ToUInt64(hex_str, 16);
             else if (type == typeof(string))
                 target = hex_str;
-            else
-                throw new ArgumentException("argument is not integer or string type");
+#if DEBUG
+            System.Diagnostics.Debug.Assert(false);
+#endif
             return target;
         }
     }

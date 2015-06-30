@@ -13,7 +13,6 @@ namespace DY.NET.SAMPLE
     class Program
     {
         static XGTCnetSocket CnetSkt;
-        static XGTFEnetHeader FEnetHeader;
         static XGTFEnetSocket FEnetSkt;
 
         static void OnError(object sender, DataReceivedEventArgs args)
@@ -27,14 +26,19 @@ namespace DY.NET.SAMPLE
             Console.Write("--------------------------------------------------------------------------------");
             if (cnet != null)
             {
-                Console.Write(cnet.Command.ToString(), cnet.CommandType.ToString());
+                Console.WriteLine(cnet.Command.ToString(), cnet.CommandType.ToString());
                 foreach (var d in cnet.ResponseDic)
                     Console.WriteLine("NAME: " + d.Key + " VALUE: " + d.Value);
             }
             XGTFEnetProtocol fenet = args.Protocol as XGTFEnetProtocol;
             if (fenet != null)
             {
-                Console.Write(fenet.Command.ToString(), fenet.DataType.ToString());
+                if (fenet.Error != XGTFEnetProtocolError.OK)
+                {
+                    Console.WriteLine(fenet.Error.ToString());
+                    return;
+                }
+                Console.WriteLine(fenet.Command.ToString(), fenet.DataType.ToString());
                 foreach (var d in fenet.ResponseDic)
                     Console.WriteLine("NAME: " + d.Key + " VALUE: " + d.Value);
             }
@@ -48,7 +52,7 @@ namespace DY.NET.SAMPLE
             {
                 string[] rat = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", };
                 for (int i = 0; i < 16; i++)
-                    var_names.Add("D00000." + rat[i]);
+                    var_names.Add("%DX0600" + rat[i]);
             }
             else if (type == typeof(Byte) || type == typeof(SByte))
             {
@@ -67,18 +71,18 @@ namespace DY.NET.SAMPLE
             }
             else if (type == typeof(Int64) || type == typeof(UInt64))
             {
-                for (int i = 0; i < 16; i++)
-                    var_names.Add("D00" + string.Format("{0:D2}", (i * 4) + 36));
+                for (int i = 0; i < 16; i++) //1600
+                    var_names.Add("D16" + string.Format("{0:D2}", (i * 4)));
             }
             List<PValue> p_datas = new List<PValue>();
             foreach (var b in var_names)
             {
                 string glopa_name;
-                if (BS2G.ToGlopaNotation(b, type, out glopa_name))
-                {
-                    var p_data = new PValue() { Name = glopa_name, Type = type };
+                //if (BS2G.ToGlopaNotation(b, type, out glopa_name))
+               // {
+                    var p_data = new PValue() { Name = b, Type = type };
                     p_datas.Add(p_data);
-                }
+               // }
             }
             IProtocol rss;
             switch (comm)
@@ -89,7 +93,7 @@ namespace DY.NET.SAMPLE
                     CnetSkt.Send(rss);
                     break;
                 case XGTModuleComm.FENET:
-                    rss = XGTFEnetProtocol.NewRSSProtocol(FEnetHeader, p_datas);
+                    rss = XGTFEnetProtocol.NewRSSProtocol(00, p_datas);
                     rss.ErrorReceived += OnError;
                     FEnetSkt.Send(rss);
                     break;
@@ -105,7 +109,7 @@ namespace DY.NET.SAMPLE
                 value = true;
                 string[] rat = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", };
                 for (int i = 0; i < 16; i++)
-                    var_names.Add("D00000." + rat[i]);
+                    var_names.Add("D06000." + rat[i]);
             }
             else if (type == typeof(Byte) || type == typeof(SByte))
             {
@@ -129,7 +133,7 @@ namespace DY.NET.SAMPLE
             {
                 value = 0xFFFFFFFFFFFFFFFF;
                 for (int i = 0; i < 16; i++)
-                    var_names.Add("D00" + string.Format("{0:D2}", (i * 4) + 36));
+                    var_names.Add("D16" + string.Format("{0:D2}", (i * 4)));
             }
             List<PValue> p_datas = new List<PValue>();
             foreach (var b in var_names)
@@ -151,7 +155,7 @@ namespace DY.NET.SAMPLE
                     CnetSkt.Send(wss);
                     break;
                 case XGTModuleComm.FENET:
-                    wss = XGTFEnetProtocol.NewWSSProtocol(FEnetHeader, p_datas);
+                    wss = XGTFEnetProtocol.NewWSSProtocol(00, p_datas);
                     wss.ErrorReceived += OnError;
                     FEnetSkt.Send(wss);
                     break;
@@ -162,13 +166,13 @@ namespace DY.NET.SAMPLE
         {
             string var = "";
             if (type == typeof(Byte) || type == typeof(SByte))
-                var = "%DB8000";
+                var = "%DB08000"; //D06000
             else if (type == typeof(Int16) || type == typeof(UInt16))
                 var = "%DW04300";
             else if (type == typeof(Int32) || type == typeof(UInt32))
                 var = "%DD2";
             else if (type == typeof(Int64) || type == typeof(UInt64))
-                var = "%DL9";
+                var = "%DL1600";
 
             IProtocol rsb;
             switch (comm)
@@ -179,7 +183,7 @@ namespace DY.NET.SAMPLE
                     CnetSkt.Send(rsb);
                     break;
                 case XGTModuleComm.FENET:
-                    rsb = XGTFEnetProtocol.NewRSBProtocol(FEnetHeader, new PValue() { Name = var, Type = type }, 16);
+                    rsb = XGTFEnetProtocol.NewRSBProtocol(00, new PValue() { Name = var, Type = type }, 16);
                     rsb.ErrorReceived += OnError;
                     FEnetSkt.Send(rsb);
                     break;
@@ -195,7 +199,7 @@ namespace DY.NET.SAMPLE
                 value = true;
                 string[] rat = { "0", "1", "2", "3", "4", "5", "6", "7", "8", "9", "A", "B", "C", "D", "E", "F", };
                 for (int i = 0; i < 16; i++)
-                    var_names.Add("D00000." + rat[i]);
+                    var_names.Add("D06000." + rat[i]);
             }
             else if (type == typeof(Byte) || type == typeof(SByte))
             {
@@ -219,7 +223,7 @@ namespace DY.NET.SAMPLE
             {
                 value = 0xFFFFFFFFFFFFFFFF;
                 for (int i = 0; i < 16; i++)
-                    var_names.Add("D00" + string.Format("{0:D2}", (i * 4) + 36));
+                    var_names.Add("D16" + string.Format("{0:D2}", (i * 4)));
             }
             List<PValue> p_datas = new List<PValue>();
             foreach (var b in var_names)
@@ -231,7 +235,7 @@ namespace DY.NET.SAMPLE
                     p_datas.Add(p_data);
                 }
             }
-           
+
             IProtocol wsb;
             switch (comm)
             {
@@ -241,7 +245,7 @@ namespace DY.NET.SAMPLE
                     CnetSkt.Send(wsb);
                     break;
                 case XGTModuleComm.FENET:
-                    wsb = XGTFEnetProtocol.NewWSBProtocol(FEnetHeader, p_datas);
+                    wsb = XGTFEnetProtocol.NewWSBProtocol(00, p_datas);
                     wsb.ErrorReceived += OnError;
                     FEnetSkt.Send(wsb);
                     break;
@@ -283,44 +287,40 @@ namespace DY.NET.SAMPLE
 
         static void LSIS_XGT_TcpIP_Communication()
         {
-            XGTFEnetPLCInfo plc_info = new XGTFEnetPLCInfo();
-            plc_info.Set(XGTFEnetCpuType.XGK_CPUH, XGTFEnetClass.SLAVE, XGTFEnetCpuState.CPU_NOR, XGTFEnetPLCSystemState.RUN);
-            FEnetHeader = XGTFEnetHeader.CreateXGTFEnetHeader(plc_info, XGTFEnetCpuInfo.XGK, 00, 02, 00);
-            try
+            FEnetSkt = (XGTFEnetSocket)new XGTFEnetSocket("192.168.10.150", XGTFEnetPort.TCP);
+            FEnetSkt.ReceivedSuccessfully += OnReceived;
+            if (FEnetSkt.Connect())
             {
-                FEnetSkt = (XGTFEnetSocket)new XGTFEnetSocket.Builder("192.168.10.150", (int)XGTFEnetPort.TCP).Build();
-                FEnetSkt.ReceivedSuccessfully += OnReceived;
-                if (FEnetSkt.Connect())
-                {
-                    ReadRSS(typeof(Boolean), XGTModuleComm.FENET);
-                    //ReadRSS(typeof(Byte), XGTModuleComm.FENET);
-                    //ReadRSS(typeof(UInt16), XGTModuleComm.FENET);
-                    //ReadRSS(typeof(UInt32), XGTModuleComm.FENET);
-                    //ReadRSS(typeof(UInt64), XGTModuleComm.FENET);
+                List<PValue> pvs = new List<PValue>() { new PValue() { 
+                    Name = "%DX060000", 
+                    Type = typeof(Boolean), 
+                    Value = false } };
+                FEnetSkt.Send(XGTFEnetProtocol.NewWSSProtocol(0x1234, pvs));
 
-                    //ReadWSS(typeof(Boolean), XGTModuleComm.FENET);
-                    //ReadWSS(typeof(Byte), XGTModuleComm.FENET);
-                    //ReadWSS(typeof(UInt16), XGTModuleComm.FENET);
-                    //ReadWSS(typeof(UInt32), XGTModuleComm.FENET);
-                    //ReadWSS(typeof(UInt64), XGTModuleComm.FENET);
+                //ReadRSS(typeof(Boolean), XGTModuleComm.FENET);
+                //ReadRSS(typeof(Byte), XGTModuleComm.FENET);
+                //ReadRSS(typeof(UInt16), XGTModuleComm.FENET);
+                //ReadRSS(typeof(UInt32), XGTModuleComm.FENET);
+                //ReadRSS(typeof(UInt64), XGTModuleComm.FENET);
 
-                    //ReadRSB(typeof(Byte), XGTModuleComm.FENET);
-                    //ReadRSB(typeof(UInt16), XGTModuleComm.FENET);
-                    //ReadRSB(typeof(UInt32), XGTModuleComm.FENET);
-                    //ReadRSB(typeof(UInt64), XGTModuleComm.FENET);
+                //ReadWSS(typeof(Boolean), XGTModuleComm.FENET);
+                //ReadWSS(typeof(Byte), XGTModuleComm.FENET);
+                //ReadWSS(typeof(UInt16), XGTModuleComm.FENET);
+                //ReadWSS(typeof(UInt32), XGTModuleComm.FENET);
+                //ReadWSS(typeof(UInt64), XGTModuleComm.FENET);
 
-                    //ReadWSB(typeof(Byte), XGTModuleComm.FENET);
-                    //ReadWSB(typeof(UInt16), XGTModuleComm.FENET);
-                    //ReadWSB(typeof(UInt32), XGTModuleComm.FENET);
-                    //ReadWSB(typeof(UInt64), XGTModuleComm.FENET);
-                }
-                else
-                    Console.WriteLine("CnetSkt open error!");
+                //ReadRSB(typeof(Byte), XGTModuleComm.FENET);
+                //ReadRSB(typeof(UInt16), XGTModuleComm.FENET);
+                //ReadRSB(typeof(UInt32), XGTModuleComm.FENET);
+                //ReadRSB(typeof(UInt64), XGTModuleComm.FENET);
+
+                //ReadWSB(typeof(Byte), XGTModuleComm.FENET);
+                //ReadWSB(typeof(UInt16), XGTModuleComm.FENET);
+                //ReadWSB(typeof(UInt32), XGTModuleComm.FENET);
+                //ReadWSB(typeof(UInt64), XGTModuleComm.FENET);
             }
-            catch(Exception e)
-            {
-                System.Diagnostics.Debug.Assert(false);
-            }
+            else
+                Console.WriteLine("CnetSkt open error!");
             Console.ReadLine();
         }
 
