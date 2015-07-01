@@ -7,9 +7,9 @@ namespace DY.NET.LSIS.XGT
 {
     public class XGTFEnetProtocol : AProtocol
     {
-        protected const string ERROR_ENQ_IS_NULL_OR_EMPTY = "ENQDATAS HAVE PROBLEM (NULL OR EMPTY DATA)";
-        protected const string ERROR_READED_MEM_COUNT_LIMIT = "ENQDATAS OVER LIMIT OF COUNT (NULL OR EMPTY DATA)";
-        private const string ERROR_PROTOCOL_SB_DATACNT_LIMIT = "DATA COUNT(ASC BYTES) LIMITED 1400BYTE";
+        protected const string ERROR_ENQ_IS_NULL_OR_EMPTY = "Enqdatas have problem (null or empty data)";
+        protected const string ERROR_READED_MEM_COUNT_LIMIT = "Enqdatas over limit of count (null or empty data)";
+        private const string ERROR_PROTOCOL_SB_DATACNT_LIMIT = "Data count(asc bytes) limited 1400byte";
         protected const int READED_MEM_MAX_COUNT = 16;
         private const int INSTRUCTION_BASIC_FORMAT_SIZE = 10;
         public const int PROTOCOL_SB_MAX_DATA_CNT = 1400;
@@ -128,7 +128,7 @@ namespace DY.NET.LSIS.XGT
             string glopa_name = pvalue.Name;
             Type type = pvalue.Type;
             if (!(pvalue.Type == typeof(Byte) || pvalue.Type == typeof(Byte))) //BYTE타입만 가능
-                throw new ArgumentException("RSB COMMUNICATION ONLY SUPPORTED BYTE DATA TYPE");
+                throw new ArgumentException("Rsb communication only supported byte data type");
             int buf_size = (block_cnt * pvalue.Type.ToSize() * 2);
             if (buf_size > PROTOCOL_SB_MAX_DATA_CNT)
                 throw new ArgumentException(ERROR_PROTOCOL_SB_DATACNT_LIMIT);
@@ -158,7 +158,7 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
             foreach (var pv in pvalues)
                 if (!(pv.Type == typeof(Byte) || pv.Type == typeof(Byte))) //BYTE타입만 가능
-                    throw new ArgumentException("RSB COMMUNICATION ONLY SUPPORTED BYTE DATA TYPE");
+                    throw new ArgumentException("Rsb communication only supported byte data type");
             int size_sum = 0;
             foreach (var pv in pvalues)
                 size_sum += pv.Type.ToSize() * 2;

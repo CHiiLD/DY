@@ -15,9 +15,9 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public class XGTCnetProtocol : AXGTCnetProtocol
     {
-        protected const string ERROR_ENQ_IS_NULL_OR_EMPTY = "ENQDATAS HAVE PROBLEM (NULL OR EMPTY DATA)";
-        protected const string ERROR_READED_MEM_COUNT_LIMIT = "ENQDATAS OVER LIMIT OF COUNT (NULL OR EMPTY DATA)";
-        protected const string ERROR_MONITER_INVALID_REGISTER_NUMBER = "REGISTER_NUMBER HAVE TO REGISTER TO 0 FROM 31";
+        protected const string ERROR_ENQ_IS_NULL_OR_EMPTY = "Enqdatas have problem (null or empty data)";
+        protected const string ERROR_READED_MEM_COUNT_LIMIT = "Enqdatas over limit of count (null or empty data)";
+        protected const string ERROR_MONITER_INVALID_REGISTER_NUMBER = "Register_number have to register to 0 from 31";
         protected const int READED_MEM_MAX_COUNT = 16;
         private const int MONITER_VAR_REGISTER_MAX_NUMBER = 31;
         
@@ -212,7 +212,7 @@ namespace DY.NET.LSIS.XGT
             if (!(0 <= register_num && register_num <= MONITER_VAR_REGISTER_MAX_NUMBER))
                 throw new ArgumentException(ERROR_MONITER_INVALID_REGISTER_NUMBER);
             if ((!(xss_protocol.Command == XGTCnetCommand.X || xss_protocol.Command == XGTCnetCommand.x)) || (xss_protocol.CommandType != XGTCnetCmdType.SS))
-                throw new ArgumentException("XSS_PROTOCOL IS NOT XSS TYPE.");
+                throw new ArgumentException("xss_protocol is not xss type.");
             var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.Y, XGTCnetCmdType.SS);
             protocol.RegiNum = register_num;
             protocol.ReqeustList.AddRange(xss_protocol.ReqeustList);
@@ -231,7 +231,7 @@ namespace DY.NET.LSIS.XGT
             if (!(0 <= register && register <= MONITER_VAR_REGISTER_MAX_NUMBER))
                 throw new ArgumentException(ERROR_MONITER_INVALID_REGISTER_NUMBER);
             if ((!(xsb_protocol.Command == XGTCnetCommand.X || xsb_protocol.Command == XGTCnetCommand.x)) || (xsb_protocol.CommandType != XGTCnetCmdType.SB))
-                throw new ArgumentException("XSS_PROTOCOL IS NOT XSS TYPE.");
+                throw new ArgumentException("xsb_protocol is not xss type.");
             var protocol = CreateRequestProtocol(localPort, XGTCnetCommand.Y, XGTCnetCmdType.SB);
             protocol.RegiNum = register;
             protocol.ReqeustList.AddRange(xsb_protocol.ReqeustList);

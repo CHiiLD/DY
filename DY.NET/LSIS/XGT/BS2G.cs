@@ -37,7 +37,7 @@ namespace DY.NET.LSIS.XGT
             if (Glopa.IsGlopaType(std_name))
                 throw new ArgumentException("already glopa type.");
             char device_char = std_name[0];
-            if (!XGTCnetServiceableDevice.GetCnetDevicServiceableModeDictionary().ContainsKey(device_char))
+            if (!XGTServiceableDevice.GetCnetServiceableModeDictionary().ContainsKey(device_char))
                 throw new ArgumentException("invalid plc variable name");
             bool isConvert = false;
             StringBuilder sb = new StringBuilder("%");

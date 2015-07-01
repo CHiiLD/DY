@@ -35,7 +35,7 @@ namespace DY.NET.LSIS.XGT
         }
 
         #region VAR_PROPERTIES_EVENT
-        private const string ERROR_SERIAL_IS_NULL = "XGTCNETEXCLUSIVESOCKET._SERIALPORT VAR IS NULL";
+        private const string ERROR_SERIAL_IS_NULL = "_SerialPort is null.";
 
         private readonly object _SerialLock = new object();
         private volatile SerialPort _SerialPort;
@@ -107,9 +107,9 @@ namespace DY.NET.LSIS.XGT
         public override void Send(IProtocol iProtocol)
         {
             if (iProtocol == null)
-                throw new ArgumentNullException("PROTOCOL ARGUMENT IS NULL");
+                throw new ArgumentNullException("Protocol argument is null");
             if (!(iProtocol is XGTCnetProtocol))
-                throw new ArgumentException("PROTOCOL NOT MATCH XGTCNETEXCLUSIVEPROTOCOLFRAME TYPE");
+                throw new ArgumentException("Protocol not match xgtcnetexclusiveprotocolframe type");
 
             XGTCnetProtocol cpy_p = new XGTCnetProtocol(iProtocol as XGTCnetProtocol);
             if (IsWait)   //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
@@ -123,7 +123,7 @@ namespace DY.NET.LSIS.XGT
                 if (_SerialPort == null)
                     return;
                 if (!_SerialPort.IsOpen)
-                    throw new Exception("SERIAL PORT IS NOT OPEND");
+                    throw new Exception("Serial port is not opend");
                 ReqeustProtocol = cpy_p;
                 _SerialPort.Write(cpy_p.ASC2Protocol, 0, cpy_p.ASC2Protocol.Length);
             }

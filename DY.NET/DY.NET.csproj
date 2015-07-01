@@ -79,8 +79,9 @@
     <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetPLCSystemState.cs" />
     <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetSourceOfFrame.cs" />
     <Compile Include="Extension\PValue.cs" />
+    <Compile Include="LSIS\XGT\XGKCpuType.cs" />
     <Compile Include="LSIS\XGT\XGTMemoryExpression.cs" />
-    <Compile Include="LSIS\XGT\Cnet\XGTCnetServiceableDevice.cs" />
+    <Compile Include="LSIS\XGT\XGTServiceableDevice.cs" />
     <Compile Include="Extension\TypeExtension.cs" />
     <Compile Include="LSIS\XGT\BS2G.cs" />
     <Compile Include="LSIS\XGT\XGTModuleComm.cs" />

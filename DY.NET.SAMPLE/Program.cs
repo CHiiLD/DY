@@ -327,18 +327,18 @@ namespace DY.NET.SAMPLE
         static void Main(string[] args)
         {
             //LSIS_XGT_SerialPortCommunication();
-            LSIS_XGT_TcpIP_Communication();
+            //LSIS_XGT_TcpIP_Communication();
 
-            //var CnetSkt = new XGTCnetSocket.Builder("COM3", 9600).Build() as XGTCnetSocket;
-            //CnetSkt.ReceivedSuccessfully += OnReceived;
-            //PValue p = new PValue() { Name = "%PX00020", Type = typeof(Boolean), Value = true };
-            //var ps = new List<PValue>();
-            //ps.Add(p);
-            //var pro = XGTCnetProtocol.NewWSSProtocol(00, ps);
-            //pro.ErrorReceived += OnError;
-            //if (CnetSkt.Connect())
-            //    CnetSkt.Send(pro);
-            //Console.ReadLine();
+            var CnetSkt = new XGTCnetSocket.Builder("COM3", 9600).Build() as XGTCnetSocket;
+            CnetSkt.ReceivedSuccessfully += OnReceived;
+            PValue p = new PValue() { Name = "%PD00001", Type = typeof(UInt32), Value = 0xFFFFFFFF };
+            var ps = new List<PValue>();
+            ps.Add(p);
+            var pro = XGTCnetProtocol.NewWSSProtocol(00, ps);
+            pro.ErrorReceived += OnError;
+            if (CnetSkt.Connect())
+                CnetSkt.Send(pro);
+            Console.ReadLine();
         }
     }
 }

@@ -26,22 +26,33 @@ namespace NET.LSIS.XGT
         public static Dictionary<char, MemoryExpression> GetMemExpDictionary()
         {
             Dictionary<char, MemoryExpression> dic = new Dictionary<char, MemoryExpression>();
-            dic.Add('P', MemoryExpression.BIT);
-            dic.Add('M', MemoryExpression.BIT);
-            dic.Add('L', MemoryExpression.BIT);
-            dic.Add('K', MemoryExpression.BIT);
-            dic.Add('F', MemoryExpression.BIT);
-            dic.Add('T', MemoryExpression.BIT | MemoryExpression.WORD);
-            dic.Add('C', MemoryExpression.BIT | MemoryExpression.WORD);
-            dic.Add('S', MemoryExpression.BIT);
+            dic.Add('P', MemoryExpression.BIT); //16
+            dic.Add('M', MemoryExpression.BIT); //16
+            dic.Add('L', MemoryExpression.BIT); //16
+            dic.Add('K', MemoryExpression.BIT); //16
+            dic.Add('F', MemoryExpression.BIT); //16
 
-            dic.Add('D', MemoryExpression.BIT | MemoryExpression.WORD);
-            dic.Add('R', MemoryExpression.BIT | MemoryExpression.WORD);
-            dic.Add('U', MemoryExpression.BIT | MemoryExpression.WORD);
+            dic.Add('T', MemoryExpression.WORD); //10.0
+            dic.Add('C', MemoryExpression.WORD); //10.0
+            dic.Add('S', MemoryExpression.WORD); //10
 
-            dic.Add('N', MemoryExpression.WORD);
-            dic.Add('Z', MemoryExpression.WORD);
+            dic.Add('D', MemoryExpression.BIT | MemoryExpression.WORD);//10.0
+            dic.Add('R', MemoryExpression.BIT | MemoryExpression.WORD);//10.0
+            dic.Add('U', MemoryExpression.BIT | MemoryExpression.WORD);//10.0
+
+            dic.Add('N', MemoryExpression.WORD); //10
+            dic.Add('Z', MemoryExpression.WORD); //10
             return dic;
+        }
+
+        public static bool IsDecimal(MemoryExpression me)
+        {
+            return (me & MemoryExpression.WORD) != 0;
+        }
+
+        public static bool IsHexDecimal(MemoryExpression me)
+        {
+            return (me & MemoryExpression.WORD) == 0;
         }
     }
 }

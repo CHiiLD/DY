@@ -32,7 +32,7 @@ namespace DY.NET.LSIS.XGT
             if (!Client.Connected)
             {
                 Client.Connect(Host, (int)Port);
-                Client.GetStream().BeginRead(Buf, BufIdx, BUFFER_SIZE - BufIdx, OnRead, null);
+                Client.GetStream().BeginRead(Buf, BufIdx, BUFFER_SIZE - BufIdx, OnRead, Client);
             }
             return Client.Connected;
         }
@@ -42,7 +42,7 @@ namespace DY.NET.LSIS.XGT
             if (Client == null)
                 return;
             if (!(iProtocol is XGTFEnetProtocol))
-                throw new ArgumentException("PROTOCOL NOT MATCH XGT_FENE_PROTOCOL TYPE");
+                throw new ArgumentException("Protocol not match xgt_fene_protocol type");
             XGTFEnetProtocol cpy_p = iProtocol as XGTFEnetProtocol;
             if (IsWait)   //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
             {
@@ -51,12 +51,13 @@ namespace DY.NET.LSIS.XGT
             }
             cpy_p.AssembleProtocol();
             ReqeustProtocol = cpy_p;
-            Client.GetStream().BeginWrite(cpy_p.ASC2Protocol, 0, cpy_p.ASC2Protocol.Length, OnSended, cpy_p);
+            Client.GetStream().BeginWrite(cpy_p.ASC2Protocol, 0, cpy_p.ASC2Protocol.Length, OnSended, Client);
             IsWait = true;
         }
 
         private void OnSended(IAsyncResult ar)
         {
+            var Client = ar.AsyncState as TcpClient;
             if (Client == null)
                 return;
             if (!Client.Connected)
@@ -102,12 +103,19 @@ namespace DY.NET.LSIS.XGT
 
         private void OnRead(IAsyncResult ar)
         {
+            var Client = ar.AsyncState as TcpClient;
             if (Client == null)
                 return;
             if (!Client.Connected)
                 return;
-            var stream = Client.GetStream();
-            BufIdx = stream.EndRead(ar);
+            NetworkStream stream = Client.GetStream();
+            try
+            {
+                BufIdx = stream.EndRead(ar);
+            }
+            catch (Exception e)
+            {
+            }
             if (BufIdx == 0) //서버측에서 연결을 끊음
             {
                 if (ReceivedSignOff != null)
@@ -130,9 +138,8 @@ namespace DY.NET.LSIS.XGT
                     reqt_p.OnDataReceived(this, response_protocol);
                 else
                     reqt_p.OnError(this, response_protocol);
+                //stream.BeginRead(Buf, BufIdx, BUFFER_SIZE - BufIdx, OnRead, Client);
             }
-            //비동기 리딩 재요청
-            stream.BeginRead(Buf, BufIdx, BUFFER_SIZE - BufIdx, OnRead, null);
         }
     }
 }

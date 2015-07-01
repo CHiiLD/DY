@@ -10,7 +10,7 @@ namespace DY.NET.LSIS.XGT
     public class XGTFEnetHeader
     {
         //ERROR CONST STRING
-        public const string ERROR_APP_DATA_FMT_HEADER_SIZE = "DATA'S LENGTH MUST OVER 20BYTE.";
+        public const string ERROR_APP_DATA_FMT_HEADER_SIZE = "Data's length must over 20byte.";
 
         //CONST 맴버 변수
         public const int APPLICATION_HEARDER_FORMAT_SIZE = 20;  //헤더 포맷의 사이즈 (20byte)
