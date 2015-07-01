@@ -95,7 +95,8 @@ namespace DY.NET.LSIS.XGT
             else if (type == typeof(string))
                 target = hex_str;
 #if DEBUG
-            System.Diagnostics.Debug.Assert(false);
+            else
+                System.Diagnostics.Debug.Assert(false);
 #endif
             return target;
         }

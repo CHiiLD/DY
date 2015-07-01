@@ -78,11 +78,11 @@ namespace DY.NET.SAMPLE
             foreach (var b in var_names)
             {
                 string glopa_name;
-                //if (BS2G.ToGlopaNotation(b, type, out glopa_name))
-               // {
-                    var p_data = new PValue() { Name = b, Type = type };
+                if (BS2G.ToGlopaNotation(b, type, out glopa_name))
+                {
+                    var p_data = new PValue() { Name = glopa_name, Type = type };
                     p_datas.Add(p_data);
-               // }
+                }
             }
             IProtocol rss;
             switch (comm)
@@ -292,10 +292,10 @@ namespace DY.NET.SAMPLE
             if (FEnetSkt.Connect())
             {
                 List<PValue> pvs = new List<PValue>() { new PValue() { 
-                    Name = "%DX060000", 
+                    Name = "%PX00032",
                     Type = typeof(Boolean), 
                     Value = false } };
-                FEnetSkt.Send(XGTFEnetProtocol.NewWSSProtocol(0x1234, pvs));
+                FEnetSkt.Send(XGTFEnetProtocol.NewWSSProtocol(0x4321, pvs));
 
                 //ReadRSS(typeof(Boolean), XGTModuleComm.FENET);
                 //ReadRSS(typeof(Byte), XGTModuleComm.FENET);
@@ -328,6 +328,17 @@ namespace DY.NET.SAMPLE
         {
             //LSIS_XGT_SerialPortCommunication();
             LSIS_XGT_TcpIP_Communication();
+
+            //var CnetSkt = new XGTCnetSocket.Builder("COM3", 9600).Build() as XGTCnetSocket;
+            //CnetSkt.ReceivedSuccessfully += OnReceived;
+            //PValue p = new PValue() { Name = "%PX00020", Type = typeof(Boolean), Value = true };
+            //var ps = new List<PValue>();
+            //ps.Add(p);
+            //var pro = XGTCnetProtocol.NewWSSProtocol(00, ps);
+            //pro.ErrorReceived += OnError;
+            //if (CnetSkt.Connect())
+            //    CnetSkt.Send(pro);
+            //Console.ReadLine();
         }
     }
 }

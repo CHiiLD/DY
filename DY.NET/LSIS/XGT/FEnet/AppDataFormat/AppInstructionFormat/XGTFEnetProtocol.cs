@@ -179,12 +179,12 @@ namespace DY.NET.LSIS.XGT
             List<byte> asc_data = new List<byte>();
             asc_data.AddRange(Command.ToBytes().Reverse());     //명령어
             asc_data.AddRange(DataType.ToBytes().Reverse());    //데이터 타입
-            asc_data.AddRange(new byte[] {0,0}); //예약
+            asc_data.AddRange(new byte[] { 0, 0 }); //예약
             asc_data.AddRange(CV2BR.ToBytes(BlocCnt, typeof(ushort))); //블록수
             //RSS
             if (Command == XGTFEnetCommand.READ_REQT && DataType != XGTFEnetDataType.CONTINUATION)
             {
-                foreach(var pv in ReqeustList)
+                foreach (var pv in ReqeustList)
                 {
                     asc_data.AddRange(CV2BR.ToBytes(pv.Name.Length, typeof(UInt16))); //변수 길이
                     asc_data.AddRange(CV2BR.ToBytes(pv.Name)); //변수 이름
@@ -232,7 +232,7 @@ namespace DY.NET.LSIS.XGT
             DataType = (XGTFEnetDataType)CV2BR.ToValue(new byte[] { ASC2Protocol[22], ASC2Protocol[23] }, typeof(UInt16));
             //var reserved = CV2BR.ToValue(new byte[] { ASC2Protocol[24], ASC2Protocol[25] }, typeof(UInt16)); //예약 영역
             ushort err_state = (ushort)CV2BR.ToValue(new byte[] { ASC2Protocol[26], ASC2Protocol[27] }, typeof(UInt16)); //에러 상태
-            ushort bloc_errcode = (ushort) CV2BR.ToValue(new byte[] { ASC2Protocol[28], ASC2Protocol[29] }, typeof(UInt16)); //에러코드 or 블록 수 
+            ushort bloc_errcode = (ushort)CV2BR.ToValue(new byte[] { ASC2Protocol[28], ASC2Protocol[29] }, typeof(UInt16)); //에러코드 or 블록 수 
             if (err_state == ERROR_STATE_CHECK_0 || err_state == ERROR_STATE_CHECK_1)
             {
                 Error = (XGTFEnetProtocolError)bloc_errcode;
@@ -245,7 +245,7 @@ namespace DY.NET.LSIS.XGT
             //RSS
             if (Command == XGTFEnetCommand.READ_RESP && DataType != XGTFEnetDataType.CONTINUATION)
             {
-                for(int i = 0; i < BlocCnt; i++)
+                for (int i = 0; i < BlocCnt; i++)
                 {
                     ushort sizeOfType = (ushort)CV2BR.ToValue(new byte[] { data[data_idx + 0], data[data_idx + 1] }, typeof(ushort));
                     data_idx += 2;
@@ -265,6 +265,39 @@ namespace DY.NET.LSIS.XGT
                     Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
                     ResponseDic.Add(ReqeustList[i].Name, CV2BR.ToValue(data_arr, ReqeustList[i].Type));
                     data_idx += data_arr.Length;
+                }
+            }
+        }
+
+        public override void Print()
+        {
+            Console.WriteLine("XGT FEnet 프로토콜 정보");
+            Console.WriteLine("ASC 코드: " + B2HS.Change(ASC2Protocol));
+            Console.WriteLine("명령: " + Command.ToString());
+            Console.WriteLine("데이터 타입: " + DataType.ToString());
+
+            Console.WriteLine(string.Format("블록 수: {0}", BlocCnt));
+            if (Error != XGTFEnetProtocolError.OK)
+            {
+                Console.WriteLine(string.Format("Error: " + Error.ToString()));
+                return;
+            }
+            int i = 0;
+            if (Command == XGTFEnetCommand.READ_REQT || Command == XGTFEnetCommand.READ_RESP)
+            {
+                foreach (var data in ReqeustList)
+                {
+                    Console.Write(string.Format("[{0}] 변수이름: {1}", ++i, data.Name));
+                    if (data.Value != null)
+                        Console.WriteLine(string.Format(" ENQData 값: {1}", data.Value));
+                }
+            }
+            else
+            {
+                foreach (var dic in ResponseDic)
+                {
+                    Console.Write(string.Format("[{0}] 변수이름: {1}", ++i, dic.Key));
+                    Console.WriteLine(string.Format(" 값: {1}", dic.Value));
                 }
             }
         }

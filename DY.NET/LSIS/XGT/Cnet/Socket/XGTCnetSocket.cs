@@ -17,9 +17,6 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public sealed partial class XGTCnetSocket : ASocketCover
     {
-        /// <summary>
-        /// 빌더 디자인 패턴 (빌더 디자인패턴을 모른다면 Effective Java 2/E P21을 참고) 
-        /// </summary>
         public class Builder : ASerialPortBuilder
         {
             public Builder(string name, int baud)
@@ -154,7 +151,7 @@ namespace DY.NET.LSIS.XGT
                 Buffer.BlockCopy(recv_data, 0, Buf, BufIdx, recv_data.Length);
                 BufIdx += recv_data.Length;
             }
-            if (e.EventType != SerialData.Eof)
+            if (XGTCnetCCType.ETX != (XGTCnetCCType)Buf[BufIdx - (((XGTCnetProtocol)ReqeustProtocol).IsExistBCCFromASCData() ? 2 : 1)])
                 return;
             byte[] buf_temp = new byte[BufIdx];
             Buffer.BlockCopy(Buf, 0, buf_temp, 0, buf_temp.Length);

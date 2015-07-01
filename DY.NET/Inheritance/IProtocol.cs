@@ -12,7 +12,7 @@ namespace DY.NET
     /// PLC에서 보낼 원시 프로토콜 데이터는 반드시 이 인터페이스를 상속받아 구현합니다.
     /// 일반적인 Socket에서의 이벤트 설정과 달리, 유연한 이벤트 제어를 위해 프로토콜 단위로 이벤트를 설정합니다.
     /// </summary>
-    public interface IProtocol : ITag
+    public interface IProtocol : ITag, IDebug
     {
         /// <summary>
         /// 통신 중 예외 또는 에러가 발생시 통지

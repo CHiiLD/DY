@@ -44,6 +44,7 @@
   <ItemGroup>
     <Compile Include="Builder\AEthernetBuilder.cs" />
     <Compile Include="Builder\ASerialPortBuilder.cs" />
+    <Compile Include="Inheritance\IDebug.cs" />
     <Compile Include="LSIS\XGT\B2HS.cs" />
     <Compile Include="Inheritance\ASocketCover.cs" />
     <Compile Include="Inheritance\IProtocol.cs" />
@@ -78,7 +79,8 @@
     <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetPLCSystemState.cs" />
     <Compile Include="LSIS\XGT\FEnet\Enum\XGTFEnetSourceOfFrame.cs" />
     <Compile Include="Extension\PValue.cs" />
-    <Compile Include="LSIS\XGT\ServiceableDevice.cs" />
+    <Compile Include="LSIS\XGT\XGTMemoryExpression.cs" />
+    <Compile Include="LSIS\XGT\Cnet\XGTCnetServiceableDevice.cs" />
     <Compile Include="Extension\TypeExtension.cs" />
     <Compile Include="LSIS\XGT\BS2G.cs" />
     <Compile Include="LSIS\XGT\XGTModuleComm.cs" />

@@ -25,10 +25,8 @@ namespace DY.NET
                 size = 4;
             else if (type == typeof(Int64) || type == typeof(UInt64))
                 size = 8;
-#if DEBUG
             else
-                System.Diagnostics.Debug.Assert(false);
-#endif
+                throw new ArgumentOutOfRangeException("Can't find size by type.");
             return size;
         }
     }

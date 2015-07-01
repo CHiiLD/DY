@@ -60,33 +60,20 @@ namespace DY.NET
         /// </summary>
         public event EventHandler<DataReceivedEventArgs> ProtocolReceived;
 
-        /// <summary>
-        /// Requested 이벤트를 발생시킵니다.
-        /// </summary>
-        /// <param name="obj"> DYSocekt 클래스 객체 </param>
-        /// <param name="protocol"> IProtocol 인터페이스 객체 </param>
         public void OnDataReceived(object obj, IProtocol protocol)
         {
             var pt = System.Threading.Volatile.Read(ref protocol);
             if (ProtocolReceived != null)
                 ProtocolReceived(obj, new DataReceivedEventArgs(pt));
         }
-        /// <summary>
-        /// Requested 이벤트를 발생시킵니다.
-        /// </summary>
-        /// <param name="obj"> DYSocekt 클래스 객체 </param>
-        /// <param name="protocol"> IProtocol 인터페이스 객체 </param>
+
         public void OnDataRequested(object obj, IProtocol protocol)
         {
             var pt = System.Threading.Volatile.Read(ref protocol);
             if (ProtocolRequested != null)
                 ProtocolRequested(obj, new DataReceivedEventArgs(pt));
         }
-        /// <summary>
-        /// OnError 이벤트를 발생시킵니다.
-        /// </summary>
-        /// <param name="obj"> DYSocekt 클래스 객체 </param>
-        /// <param name="protocol"> IProtocol 인터페이스 객체 </param>
+
         public void OnError(object obj, IProtocol protocol)
         {
             var pt = System.Threading.Volatile.Read(ref protocol);
@@ -102,5 +89,7 @@ namespace DY.NET
         /// 받은 원시 프로토콜 데이터를 바탕으로 프로토콜 구조와 데이터를 파악합니다.
         /// </summary>
         internal abstract void AnalysisProtocol();
+
+        public abstract void Print();
     }
 }

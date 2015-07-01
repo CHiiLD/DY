@@ -369,7 +369,7 @@ namespace DY.NET.LSIS.XGT
 
         private void QueryProtocolRSS()
         {
-            byte[] data = GetMainData();
+            byte[] data = GetInstructData();
             BlocCnt = (ushort)CA2C.ToValue(new byte[] { data[0], data[1] }, typeof(UInt16));
             int data_idx = 2;
             for (int i = 0; i < BlocCnt; i++)
@@ -390,13 +390,13 @@ namespace DY.NET.LSIS.XGT
 
         private void QueryProtocolXSS()
         {
-            byte[] type = GetMainData(); // { ProtocolData[4], ProtocolData[5] };
+            byte[] type = GetInstructData(); // { ProtocolData[4], ProtocolData[5] };
             RegiNum = (ushort)CA2C.ToValue(type, typeof(UInt16));
         }
 
         private void QueryProtocolYSS()
         {
-            byte[] data = GetMainData();
+            byte[] data = GetInstructData();
             RegiNum = (ushort)CA2C.ToValue(new byte[] { data[0], data[1] }, typeof(UInt16));
             BlocCnt = (ushort)CA2C.ToValue(new byte[] { data[2], data[3] }, typeof(UInt16));
             int data_idx = 4;
@@ -429,7 +429,7 @@ namespace DY.NET.LSIS.XGT
 
         private void QueryProtocolRSB()
         {
-            byte[] data = GetMainData();
+            byte[] data = GetInstructData();
             ushort data_len = (ushort)CA2C.ToValue(new byte[] { data[2], data[3] }, typeof(UInt16));// 데이터 개수 정보 쿼리
             int data_idx = 4;
             int data_type_size = ReqeustList.First().Type.ToSize();
@@ -455,7 +455,7 @@ namespace DY.NET.LSIS.XGT
 
         private void QueryProtocolYSB()
         {
-            var data = GetMainData();
+            var data = GetInstructData();
             // 등록 번호 정보 쿼리
             RegiNum = (ushort)CA2C.ToValue(new byte[] { data[0], data[1] }, typeof(UInt16));
             // 데이터 개수 정보 쿼리
@@ -502,7 +502,7 @@ namespace DY.NET.LSIS.XGT
         }
         #endregion
 
-        protected override void PrintBinaryMainInfo()
+        protected override void PrintInstruct()
         {
             Console.WriteLine(string.Format("블록 수: {0}", BlocCnt));
             Console.WriteLine(string.Format("등록 번호: {0}", RegiNum));
