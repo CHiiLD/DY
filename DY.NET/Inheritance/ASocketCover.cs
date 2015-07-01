@@ -15,7 +15,7 @@ namespace DY.NET
     {
         protected ASocketCover()
         {
-            
+
         }
 
         public int Tag
@@ -50,8 +50,8 @@ namespace DY.NET
         public virtual void Dispose()
         {
             ProtocolStandByQueue = null;
-            SendedSuccessfully = null;
-            ReceivedSuccessfully = null;
+            SendedProtocolSuccessfully = null;
+            ReceivedProtocolSuccessfully = null;
         }
 
         public const int BUFFER_SIZE = 2048;
@@ -62,11 +62,29 @@ namespace DY.NET
         /// <summary>
         /// 데이터를 성공적으로 전송하였을 때 호출되는 이벤트
         /// </summary>
-        public EventHandler<DataReceivedEventArgs> SendedSuccessfully { get; set; }
+        public EventHandler<DataReceivedEventArgs> SendedProtocolSuccessfully { get; set; }
 
         /// <summary>
         /// 데이터를 성공적으로 전송받았을 때 호출되는 이벤트
         /// </summary>
-        public EventHandler<DataReceivedEventArgs> ReceivedSuccessfully { get; set; }
+        public EventHandler<DataReceivedEventArgs> ReceivedProtocolSuccessfully { get; set; }
+
+        public void SendedProtocolSuccessfullyEvent(IProtocol iProtocol)
+        {
+            if (ReceivedProtocolSuccessfully != null)
+            {
+                var cold_pt = System.Threading.Volatile.Read(ref iProtocol);
+                ReceivedProtocolSuccessfully(this, new DataReceivedEventArgs(cold_pt));
+            }
+        }
+
+        public void ReceivedProtocolSuccessfullyEvent(IProtocol iProtocol)
+        {
+            if (ReceivedProtocolSuccessfully != null)
+            {
+                var cold_pt = System.Threading.Volatile.Read(ref iProtocol);
+                ReceivedProtocolSuccessfully(this, new DataReceivedEventArgs(cold_pt));
+            }
+        }
     }
 }

@@ -6,23 +6,23 @@ using System.Threading.Tasks;
 
 namespace DY.NET
 {
-    public abstract class AProtocol : IProtocol
+    public abstract class AXGTProtocol<T> : IProtocol
     {
-        public List<PValue> ReqeustList { get; private set; }
-        public Dictionary<string, object> ResponseDic { get; private set; }
+        internal Dictionary<string, T> Datas { get; set; }
 
         #region INTENAL VARIABLE
         internal byte[] ASC2Protocol { get; set; } // 원시 프로토콜 데이터
         internal IProtocol OtherParty { get; set; } //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
+        //protected Type TypeParamiter { get; private set; }
         #endregion
 
-        protected AProtocol()
+        protected AXGTProtocol()
         {
-            ReqeustList = new List<PValue>();
-            ResponseDic = new Dictionary<string, object>();
+            //TypeParamiter = typeof(T);
+            Datas = new Dictionary<string, T>();
         }
 
-        public AProtocol(AProtocol that)
+        public AXGTProtocol(AXGTProtocol<T> that)
         {
             this.Tag = that.Tag;
             this.Description = that.Description;
@@ -36,11 +36,7 @@ namespace DY.NET
             if (that.ASC2Protocol != null)
                 this.ASC2Protocol = (byte[])that.ASC2Protocol.Clone();
 
-            ReqeustList = new List<PValue>();
-            ResponseDic = new Dictionary<string, object>();
-            ReqeustList.AddRange(that.ReqeustList);
-            foreach (var d in ResponseDic)
-                ResponseDic.Add(d.Key, d.Value);
+            this.Datas = new Dictionary<string, T>(that.Datas);
         }
 
         public int Tag { get; set; }
@@ -60,25 +56,31 @@ namespace DY.NET
         /// </summary>
         public event EventHandler<DataReceivedEventArgs> ProtocolReceived;
 
-        public void OnDataReceived(object obj, IProtocol protocol)
+        public void ProtocolReceivedEvent(object obj, IProtocol protocol)
         {
-            var pt = System.Threading.Volatile.Read(ref protocol);
             if (ProtocolReceived != null)
-                ProtocolReceived(obj, new DataReceivedEventArgs(pt));
+            {
+                var cold_pt = System.Threading.Volatile.Read(ref protocol);
+                ProtocolReceived(obj, new DataReceivedEventArgs(cold_pt));
+            }
         }
 
-        public void OnDataRequested(object obj, IProtocol protocol)
+        public void ProtocolRequestedEvent(object obj, IProtocol protocol)
         {
-            var pt = System.Threading.Volatile.Read(ref protocol);
             if (ProtocolRequested != null)
-                ProtocolRequested(obj, new DataReceivedEventArgs(pt));
+            {
+                var cold_pt = System.Threading.Volatile.Read(ref protocol);
+                ProtocolRequested(obj, new DataReceivedEventArgs(cold_pt));
+            }
         }
 
-        public void OnError(object obj, IProtocol protocol)
+        public void ErrorReceivedEvent(object obj, IProtocol protocol)
         {
-            var pt = System.Threading.Volatile.Read(ref protocol);
             if (ErrorReceived != null)
-                ErrorReceived(obj, new DataReceivedEventArgs(pt));
+            {
+                var cold_pt = System.Threading.Volatile.Read(ref protocol);
+                ErrorReceived(obj, new DataReceivedEventArgs(cold_pt));
+            }
         }
 
         /// <summary>

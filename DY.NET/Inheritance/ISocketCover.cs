@@ -9,7 +9,10 @@ namespace DY.NET
         void Send(IProtocol protocolFrame);
         bool IsOpen();
 
-        EventHandler<DataReceivedEventArgs> SendedSuccessfully { get; set; }
-        EventHandler<DataReceivedEventArgs> ReceivedSuccessfully { get; set; }
+        EventHandler<DataReceivedEventArgs> SendedProtocolSuccessfully { get; set; }
+        EventHandler<DataReceivedEventArgs> ReceivedProtocolSuccessfully { get; set; }
+
+        void SendedProtocolSuccessfullyEvent(IProtocol iProtocol);
+        void ReceivedProtocolSuccessfullyEvent(IProtocol iProtocol);
     }
 }

@@ -13,7 +13,7 @@ namespace DY.NET.LSIS.XGT
     /// <summary>
     /// XGT Cnet 개방형 프로토콜 추상 클래스
     /// </summary>
-    public abstract class AXGTCnetProtocol : AProtocol
+    public abstract class AXGTCnetProtocol<T> : AXGTProtocol<T>
     {
         #region PUBLIC PROPERTIES
         /// <summary>
@@ -31,13 +31,13 @@ namespace DY.NET.LSIS.XGT
         #region CONST VARIABLE
         protected const string ERROR_PROTOCOL_HEAD_SIZE = "Ascdata's array length under 6";
         protected const string ERROR_PROTOCOL_ASC_SIZE_MAX_256BYTE = "Protocoldata data's length over protocol_asc_size_limit(256byte)";
-        protected const string ERROR_PROTOCOL_SB_SIZE_MAX_240BYTE = "Data count(asc bytes) limited 240byte";
+        protected const string ERROR_PROTOCOL_WSB_SIZE_MAX_240BYTE = "Data count(asc bytes) limited 240byte";
 
         public const int XY_PROTOCOL_HEAD_SIZE = 4;
         public const int RW_PROTOCOL_HEAD_SIZE = 6;
         public const int PROTOCOL_ASC_SIZE_MAX_256BYTE = 256;
         public const int PROTOCOL_MIN_MAIN_DATA_SIZE = 2;
-        public const int PROTOCOL_SB_SIZE_MAX_240BYTE = 240;
+        public const int PROTOCOL_WSB_SIZE_MAX_240BYTE = 240;
         #endregion
 
         #region PROTECTED METHOD
@@ -50,7 +50,7 @@ namespace DY.NET.LSIS.XGT
         /// 복사생성자
         /// </summary>
         /// <param name="that"> 복사할 XGTCnetExclusiveProtocolFrame 상속 객체 </param>
-        protected AXGTCnetProtocol(AXGTCnetProtocol that)
+        protected AXGTCnetProtocol(AXGTCnetProtocol<T> that)
             : base(that)
         {
             this.Error = that.Error;
@@ -126,7 +126,7 @@ namespace DY.NET.LSIS.XGT
             if (Command == XGTCnetCommand.r || Command == XGTCnetCommand.w || Command == XGTCnetCommand.R || Command == XGTCnetCommand.W)
                 CommandType = XGTCnetCommandTypeExtensions.ToCmdType(new byte[] { head[4], head[5] });
             else
-                CommandType = ((AXGTCnetProtocol)OtherParty).CommandType;
+                CommandType = ((AXGTCnetProtocol<T>)OtherParty).CommandType;
             // XY 응답 프로토콜은 SS, SB의 구분을 알려주는 값을 주지 않습니다.
             // 따라서 요청프로토콜을 사용하여 SS, SB의 여부를 가져옵니다. (뭔가 좀 이상한 LS산전 프로토콜)
         }
@@ -136,7 +136,7 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         protected void CatchProtocolTail()
         {
-            bool isBCC_Exist = IsExistBCCFromASCData();
+            bool isBCC_Exist = IsExistBCC();
             if (isBCC_Exist)
                 BCC = ASC2Protocol.Last();
             Tail = (XGTCnetCCType)ASC2Protocol[ASC2Protocol.Length - 1 - (isBCC_Exist ? 1 : 0)];
@@ -149,7 +149,7 @@ namespace DY.NET.LSIS.XGT
         protected byte[] GetInstructData()
         {
             int head_size = (Command == XGTCnetCommand.r || Command == XGTCnetCommand.R || Command == XGTCnetCommand.w || Command == XGTCnetCommand.W) ? RW_PROTOCOL_HEAD_SIZE : XY_PROTOCOL_HEAD_SIZE;
-            int asc_data_cnt = ASC2Protocol.Length - head_size - (IsExistBCCFromASCData() ? 2 : 1);
+            int asc_data_cnt = ASC2Protocol.Length - head_size - (IsExistBCC() ? 2 : 1);
             if (!(PROTOCOL_MIN_MAIN_DATA_SIZE <= asc_data_cnt))
                 throw new Exception("Impossibie byte asc sturected data count");
             byte[] asc_arr = new byte[asc_data_cnt];
@@ -190,14 +190,14 @@ namespace DY.NET.LSIS.XGT
         {
             if (ASC2Protocol.Length < RW_PROTOCOL_HEAD_SIZE)
                 return false;
-            return ASC2Protocol[ASC2Protocol.Length - 1 - (IsExistBCCFromASCData() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte();
+            return ASC2Protocol[ASC2Protocol.Length - 1 - (IsExistBCC() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte();
         }
 
         internal bool IsComeInEXTTail(byte[] asc_data)
         {
             if (asc_data.Length < RW_PROTOCOL_HEAD_SIZE)
                 return false;
-            return asc_data[asc_data.Length - 1 - (IsExistBCCFromASCData() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte();
+            return asc_data[asc_data.Length - 1 - (IsExistBCC() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte();
         }
 
         /// <summary>
@@ -233,7 +233,7 @@ namespace DY.NET.LSIS.XGT
         /// BCC데이터가 추가 될지 확인하는 메서드
         /// </summary>
         /// <returns></returns>
-        internal bool IsExistBCCFromASCData()
+        internal bool IsExistBCC()
         {
             if (ASC2Protocol == null)
                 throw new NullReferenceException("PROTOCOLDATA IS NULL.");

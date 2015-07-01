@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace DY.NET.LSIS.XGT
 {
-    public class XGTFEnetProtocol : AProtocol
+    public partial class XGTFEnetProtocol<T> : AXGTProtocol<T>
     {
         protected const string ERROR_ENQ_IS_NULL_OR_EMPTY = "Enqdatas have problem (null or empty data)";
         protected const string ERROR_READED_MEM_COUNT_LIMIT = "Enqdatas over limit of count (null or empty data)";
@@ -28,7 +28,7 @@ namespace DY.NET.LSIS.XGT
             Error = XGTFEnetProtocolError.OK;
         }
 
-        public XGTFEnetProtocol(XGTFEnetProtocol that)
+        public XGTFEnetProtocol(XGTFEnetProtocol<T> that)
             : base(that)
         {
             Header = that.Header;
@@ -37,40 +37,40 @@ namespace DY.NET.LSIS.XGT
             Command = that.Command;
         }
 
-        public static XGTFEnetProtocol CreateXGTFEnetProtocol(XGTFEnetHeader header, XGTFEnetCommand cmd, ushort block_cnt)
+        public static XGTFEnetProtocol<T> CreateXGTFEnetProtocol(XGTFEnetHeader header, XGTFEnetCommand cmd, ushort block_cnt)
         {
-            XGTFEnetProtocol instance = new XGTFEnetProtocol();
+            XGTFEnetProtocol<T> instance = new XGTFEnetProtocol<T>();
             instance.Command = cmd;
             instance.BlocCnt = block_cnt;
             instance.Header = header;
             return instance;
         }
 
-        public static XGTFEnetProtocol CreateXGTFEnetProtocol(byte[] asc_data, XGTFEnetProtocol reqtProtocol)
+        public static XGTFEnetProtocol<T> CreateXGTFEnetProtocol(byte[] asc_data, XGTFEnetProtocol<T> reqtProtocol)
         {
-            XGTFEnetProtocol instance = new XGTFEnetProtocol();
-            instance.ReqeustList.AddRange(reqtProtocol.ReqeustList);
+            XGTFEnetProtocol<T> instance = new XGTFEnetProtocol<T>();
+            instance.Datas = new Dictionary<string, T>(reqtProtocol.Datas);
             instance.OtherParty = reqtProtocol;
             instance.ASC2Protocol = asc_data;
             return instance;
         }
 
-        public static XGTFEnetProtocol NewRSSProtocol(ushort tag, List<PValue> pvalues)
+        public static XGTFEnetProtocol<T> NewRSSProtocol(ushort tag, Dictionary<string, T> pvalues)
         {
             return NewRSSProtocol(XGTFEnetHeader.CreateXGTFEnetHeader(tag), pvalues);
         }
 
-        public static XGTFEnetProtocol NewWSSProtocol(ushort tag, List<PValue> pvalues)
+        public static XGTFEnetProtocol<T> NewWSSProtocol(ushort tag, Dictionary<string, T> pvalues)
         {
             return NewWSSProtocol(XGTFEnetHeader.CreateXGTFEnetHeader(tag), pvalues);
         }
 
-        public static XGTFEnetProtocol NewRSBProtocol(ushort tag, PValue pvalue, ushort block_cnt)
+        public static XGTFEnetProtocol<T> NewRSBProtocol(ushort tag, string name, ushort block_cnt)
         {
-            return NewRSBProtocol(XGTFEnetHeader.CreateXGTFEnetHeader(tag), pvalue, block_cnt);
+            return NewRSBProtocol(XGTFEnetHeader.CreateXGTFEnetHeader(tag), name, block_cnt);
         }
 
-        public static XGTFEnetProtocol NewWSBProtocol(ushort tag, List<PValue> pvalues)
+        public static XGTFEnetProtocol<T> NewWSBProtocol(ushort tag, Dictionary<string, T> pvalues)
         {
             return NewWSBProtocol(XGTFEnetHeader.CreateXGTFEnetHeader(tag), pvalues);
         }
@@ -82,17 +82,17 @@ namespace DY.NET.LSIS.XGT
         /// <param name="header">XGTFEnetHeader 객체</param>
         /// <param name="pvalues">PValue 리스트</param>
         /// <returns>XGTFEnetProtocol 객체</returns>
-        private static XGTFEnetProtocol NewRSSProtocol(XGTFEnetHeader header, List<PValue> pvalues)
+        private static XGTFEnetProtocol<T> NewRSSProtocol(XGTFEnetHeader header, Dictionary<string, T> datas)
         {
-            if (pvalues.Count == 0 || pvalues == null)
+            if (datas.Count == 0 || datas == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
-            if (pvalues.Count > READED_MEM_MAX_COUNT)
+            if (datas.Count > READED_MEM_MAX_COUNT)
                 throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
 
-            var protocol = CreateXGTFEnetProtocol(header, XGTFEnetCommand.READ_REQT, (ushort)pvalues.Count);
-            protocol.ReqeustList.AddRange(pvalues); //깊은 복사
-            protocol.DataType = pvalues.First().Type.ToXGTFEnetDataType();
-            return protocol;
+            var instance = CreateXGTFEnetProtocol(header, XGTFEnetCommand.READ_REQT, (ushort)datas.Count);
+            instance.Datas = new Dictionary<string, T>(datas);
+            instance.DataType = typeof(T).ToXGTFEnetDataType();
+            return instance;
         }
 
         /// <summary>
@@ -101,17 +101,17 @@ namespace DY.NET.LSIS.XGT
         /// <param name="header">XGTFEnetHeader 객체</param>
         /// <param name="pvalues">PValue 리스트</param>
         /// <returns>XGTFEnetProtocol 객체</returns>
-        private static XGTFEnetProtocol NewWSSProtocol(XGTFEnetHeader header, List<PValue> pvalues)
+        private static XGTFEnetProtocol<T> NewWSSProtocol(XGTFEnetHeader header, Dictionary<string, T> datas)
         {
-            if (pvalues.Count == 0 || pvalues == null)
+            if (datas.Count == 0 || datas == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
-            if (pvalues.Count > READED_MEM_MAX_COUNT)
+            if (datas.Count > READED_MEM_MAX_COUNT)
                 throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
 
-            var protocol = CreateXGTFEnetProtocol(header, XGTFEnetCommand.WRITE_REQT, (ushort)pvalues.Count);
-            protocol.ReqeustList.AddRange(pvalues); //깊은 복사
-            protocol.DataType = pvalues.First().Type.ToXGTFEnetDataType();
-            return protocol;
+            var instance = CreateXGTFEnetProtocol(header, XGTFEnetCommand.WRITE_REQT, (ushort)datas.Count);
+            instance.Datas = new Dictionary<string, T>(datas);
+            instance.DataType = typeof(T).ToXGTFEnetDataType();
+            return instance;
         }
 
         /// <summary>
@@ -120,30 +120,27 @@ namespace DY.NET.LSIS.XGT
         /// 연속 읽기에는 바이트 타입 직접변수만 가능합니다
         /// </summary>
         /// <param name="header">XGTFEnetHeader 객체</param>
-        /// <param name="pvalue">READ 시작점</param>
+        /// <param name="name">READ 시작점</param>
         /// <param name="block_cnt">읽을 개수 (최대 16개)</param>
         /// <returns>XGTFEnetProtocol 객체</returns>
-        private static XGTFEnetProtocol NewRSBProtocol(XGTFEnetHeader header, PValue pvalue, ushort block_cnt)
+        private static XGTFEnetProtocol<T> NewRSBProtocol(XGTFEnetHeader header, string name, ushort block_cnt)
         {
-            string glopa_name = pvalue.Name;
-            Type type = pvalue.Type;
-            if (!(pvalue.Type == typeof(Byte) || pvalue.Type == typeof(Byte))) //BYTE타입만 가능
+            string gname = name;
+            Type type = typeof(T);
+            if (!(type == typeof(Byte) || type == typeof(SByte))) //BYTE타입만 가능
                 throw new ArgumentException("Rsb communication only supported byte data type");
-            int buf_size = (block_cnt * pvalue.Type.ToSize() * 2);
-            if (buf_size > PROTOCOL_SB_MAX_DATA_CNT)
-                throw new ArgumentException(ERROR_PROTOCOL_SB_DATACNT_LIMIT);
 
-            var protocol = CreateXGTFEnetProtocol(header, XGTFEnetCommand.WRITE_REQT, 1);
-            protocol.DataType = XGTFEnetDataType.CONTINUATION;
+            var instance = CreateXGTFEnetProtocol(header, XGTFEnetCommand.WRITE_REQT, 1);
+            instance.DataType = XGTFEnetDataType.CONTINUATION;
             for (int i = 0; i < block_cnt; i++)
             {
-                string str_header = glopa_name.Substring(0, 3);
-                string str_num = glopa_name.Substring(3, glopa_name.Length - 3);
+                string str_header = gname.Substring(0, 3);
+                string str_num = gname.Substring(3, gname.Length - 3);
                 int mem_num;
                 if (Int32.TryParse(str_num, out mem_num))
-                    protocol.ReqeustList.Add(new PValue() { Name = str_header + (mem_num + i).ToString(), Type = type });
+                    instance.Datas.Add(str_header + (mem_num + i).ToString(), default(T));
             }
-            return protocol;
+            return instance;
         }
 
         /// <summary>
@@ -152,23 +149,19 @@ namespace DY.NET.LSIS.XGT
         /// <param name="header">XGTFEnetHeader 객체</param>
         /// <param name="pvalues">PValue 리스트</param>
         /// <returns>XGTFEnetProtocol 객체</returns>
-        private static XGTFEnetProtocol NewWSBProtocol(XGTFEnetHeader header, List<PValue> pvalues)
+        private static XGTFEnetProtocol<T> NewWSBProtocol(XGTFEnetHeader header, Dictionary<string, T> datas)
         {
-            if (pvalues.Count == 0 || pvalues == null)
+            if (datas.Count == 0 || datas == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
-            foreach (var pv in pvalues)
-                if (!(pv.Type == typeof(Byte) || pv.Type == typeof(Byte))) //BYTE타입만 가능
+            Type type = typeof(T);
+            foreach (var pv in datas)
+                if (!(type == typeof(Byte) || type == typeof(SByte))) //BYTE타입만 가능
                     throw new ArgumentException("Rsb communication only supported byte data type");
-            int size_sum = 0;
-            foreach (var pv in pvalues)
-                size_sum += pv.Type.ToSize() * 2;
-            if (size_sum > PROTOCOL_SB_MAX_DATA_CNT)
-                throw new ArgumentException(ERROR_PROTOCOL_SB_DATACNT_LIMIT);
 
-            var protocol = CreateXGTFEnetProtocol(header, XGTFEnetCommand.WRITE_REQT, 1);
-            protocol.ReqeustList.AddRange(pvalues); //깊은 복사
-            protocol.DataType = XGTFEnetDataType.CONTINUATION;
-            return protocol;
+            var instance = CreateXGTFEnetProtocol(header, XGTFEnetCommand.WRITE_REQT, 1);
+            instance.Datas = new Dictionary<string, T>(datas);
+            instance.DataType = XGTFEnetDataType.CONTINUATION;
+            return instance;
         }
 
         /// <summary>
@@ -184,44 +177,55 @@ namespace DY.NET.LSIS.XGT
             //RSS
             if (Command == XGTFEnetCommand.READ_REQT && DataType != XGTFEnetDataType.CONTINUATION)
             {
-                foreach (var pv in ReqeustList)
+                foreach (var d in Datas)
                 {
-                    asc_data.AddRange(CV2BR.ToBytes(pv.Name.Length, typeof(UInt16))); //변수 길이
-                    asc_data.AddRange(CV2BR.ToBytes(pv.Name)); //변수 이름
+                    asc_data.AddRange(CV2BR.ToBytes(d.Key.Length, typeof(UInt16))); //변수 길이
+                    asc_data.AddRange(CV2BR.ToBytes(d.Key)); //변수 이름
                 }
             }
             //RSB
             else if (Command == XGTFEnetCommand.READ_REQT && DataType == XGTFEnetDataType.CONTINUATION)
             {
-                asc_data.AddRange(CV2BR.ToBytes(ReqeustList.First().Name.Length, typeof(UInt16))); //변수 길이
-                asc_data.AddRange(CV2BR.ToBytes(ReqeustList.First().Name)); //변수 이름
-                asc_data.AddRange(CV2BR.ToBytes(BlocCnt, typeof(UInt16))); //읽을 개수
+                asc_data.AddRange(CV2BR.ToBytes(Datas.First().Key.Length, typeof(UInt16))); //변수 길이
+                asc_data.AddRange(CV2BR.ToBytes(Datas.First().Key)); //변수 이름
+                int byte_size = Datas.Count() * typeof(T).ToSize();
+                if (byte_size > PROTOCOL_SB_MAX_DATA_CNT)
+                    throw new Exception(ERROR_PROTOCOL_SB_DATACNT_LIMIT);
+                asc_data.AddRange(CV2BR.ToBytes(byte_size, typeof(UInt16))); //읽을 개수
             }
             //WSS
             else if (Command == XGTFEnetCommand.WRITE_REQT && DataType != XGTFEnetDataType.CONTINUATION)
             {
-                foreach (var pv in ReqeustList)
+                foreach (var d in Datas)
                 {
-                    asc_data.AddRange(CV2BR.ToBytes(pv.Name.Length, typeof(UInt16))); //변수 길이
-                    asc_data.AddRange(CV2BR.ToBytes(pv.Name)); //변수 이름
-                    asc_data.AddRange(CV2BR.ToBytes(pv.Type.ToSize())); //변수 크기
-                    asc_data.AddRange(CV2BR.ToBytes(pv.Value, pv.Type)); //변수 값
+                    asc_data.AddRange(CV2BR.ToBytes(d.Key.Length, typeof(UInt16))); //변수 길이
+                    asc_data.AddRange(CV2BR.ToBytes(d.Key)); //변수 이름
+                    asc_data.AddRange(CV2BR.ToBytes(typeof(T).ToSize())); //변수 크기
+                    asc_data.AddRange(CV2BR.ToBytes(d.Value)); //변수 값
                 }
             }
             //WSB
             else if (Command == XGTFEnetCommand.READ_REQT && DataType == XGTFEnetDataType.CONTINUATION)
             {
-                asc_data.AddRange(CV2BR.ToBytes(ReqeustList.First().Name.Length, typeof(UInt16))); //변수 길이
-                asc_data.AddRange(CV2BR.ToBytes(ReqeustList.First().Name)); //변수 이름
-                asc_data.AddRange(CV2BR.ToBytes(ReqeustList.Count(), typeof(UInt16))); //쓸 데이터 개수
-                foreach (PValue pv in ReqeustList)
-                    asc_data.AddRange(CV2BR.ToBytes(pv.Value, pv.Type));
+                asc_data.AddRange(CV2BR.ToBytes(Datas.First().Key.Length, typeof(UInt16))); //변수 길이
+                asc_data.AddRange(CV2BR.ToBytes(Datas.First().Key)); //변수 이름
+                asc_data.AddRange(CV2BR.ToBytes(Datas.Count(), typeof(UInt16))); //쓸 데이터 개수
+                int sum = 0;
+                foreach (var d in Datas)
+                {
+                    var bytes = CV2BR.ToBytes(d.Value);
+                    sum += bytes.Length;
+                    asc_data.AddRange(bytes);
+                }
+                if (sum > PROTOCOL_SB_MAX_DATA_CNT)
+                    throw new Exception(ERROR_PROTOCOL_SB_DATACNT_LIMIT);
             }
             var header_byte_data = Header.GetBytes(asc_data.Count());
             ASC2Protocol = new byte[header_byte_data.Length + asc_data.Count()];
             Buffer.BlockCopy(header_byte_data, 0, ASC2Protocol, 0, header_byte_data.Length);
             Buffer.BlockCopy(asc_data.ToArray(), 0, ASC2Protocol, header_byte_data.Length, asc_data.Count);
         }
+
         /// <summary>
         /// 받은 원시 프로토콜 데이터를 바탕으로 프로토콜 구조와 데이터를 파악합니다.
         /// </summary>
@@ -243,6 +247,7 @@ namespace DY.NET.LSIS.XGT
             int data_idx = 0;
             Buffer.BlockCopy(ASC2Protocol, XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE + INSTRUCTION_BASIC_FORMAT_SIZE, data, 0, data.Length);
             //RSS
+            var list = Datas.ToList();
             if (Command == XGTFEnetCommand.READ_RESP && DataType != XGTFEnetDataType.CONTINUATION)
             {
                 for (int i = 0; i < BlocCnt; i++)
@@ -251,19 +256,19 @@ namespace DY.NET.LSIS.XGT
                     data_idx += 2;
                     byte[] data_arr = new byte[sizeOfType];
                     Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
+                    Datas[list[i].Key] = (T)CV2BR.ToValue(data_arr, typeof(T));
                     data_idx += data_arr.Length;
-                    ResponseDic.Add(ReqeustList[i].Name, CV2BR.ToValue(data_arr, ReqeustList[i].Type));
                 }
             }
             //RSB
             else if (Command == XGTFEnetCommand.READ_RESP && DataType == XGTFEnetDataType.CONTINUATION)
             {
-                int data_type_size = ReqeustList.First().Type.ToSize();
+                int data_type_size = typeof(T).ToSize();
                 for (int i = 0; i < BlocCnt / data_type_size; i++)
                 {
                     byte[] data_arr = new byte[data_type_size];
                     Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
-                    ResponseDic.Add(ReqeustList[i].Name, CV2BR.ToValue(data_arr, ReqeustList[i].Type));
+                    Datas[list[i].Key] = (T)CV2BR.ToValue(data_arr, typeof(T));
                     data_idx += data_arr.Length;
                 }
             }
@@ -285,19 +290,11 @@ namespace DY.NET.LSIS.XGT
             int i = 0;
             if (Command == XGTFEnetCommand.READ_REQT || Command == XGTFEnetCommand.READ_RESP)
             {
-                foreach (var data in ReqeustList)
+                foreach (var d in Datas)
                 {
-                    Console.Write(string.Format("[{0}] 변수이름: {1}", ++i, data.Name));
-                    if (data.Value != null)
-                        Console.WriteLine(string.Format(" ENQData 값: {1}", data.Value));
-                }
-            }
-            else
-            {
-                foreach (var dic in ResponseDic)
-                {
-                    Console.Write(string.Format("[{0}] 변수이름: {1}", ++i, dic.Key));
-                    Console.WriteLine(string.Format(" 값: {1}", dic.Value));
+                    Console.Write(string.Format("[{0}] name: {1}", ++i, d.Key));
+                    if (d.Value != null)
+                        Console.WriteLine(string.Format(" value: {0}", d.Value));
                 }
             }
         }

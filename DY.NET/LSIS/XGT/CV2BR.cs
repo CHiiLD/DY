@@ -54,6 +54,12 @@ namespace DY.NET.LSIS.XGT
             return bytes;
         }
 
+        public static byte[] ToBytes(byte value)
+        {
+            byte[] bytes = new byte[] { value };
+            return bytes;
+        }
+
         public static byte[] ToBytes(short value)
         {
             byte[] bytes = BitConverter.GetBytes(value);
@@ -76,6 +82,12 @@ namespace DY.NET.LSIS.XGT
             byte[] bytes = BitConverter.GetBytes(value);
             if (BitConverter.IsLittleEndian)
                 Array.Reverse(bytes);
+            return bytes;
+        }
+
+        public static byte[] ToBytes(sbyte value)
+        {
+            byte[] bytes = new byte[] { (byte)value };
             return bytes;
         }
 
@@ -109,16 +121,9 @@ namespace DY.NET.LSIS.XGT
             return Encoding.ASCII.GetBytes(value);
         }
 
-        public static byte[] ToBytes(byte value)
+        public static byte[] ToBytes(object value)
         {
-            byte[] bytes = new byte[] { value };
-            return bytes;
-        }
-
-        public static byte[] ToBytes(sbyte value)
-        {
-            byte[] bytes = new byte[] { (byte)value };
-            return bytes;
+            return ToBytes(value, value.GetType());
         }
 
         public static byte[] ToBytes(object value, Type type)
@@ -184,11 +189,6 @@ namespace DY.NET.LSIS.XGT
             {
                 bytes = Encoding.ASCII.GetBytes((string)value);
             }
-#if DEBUG
-            else
-
-                System.Diagnostics.Debug.Assert(false);
-#endif
             return bytes;
         }
     }
