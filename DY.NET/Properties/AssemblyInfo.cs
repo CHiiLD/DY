@@ -5,11 +5,11 @@ using System.Runtime.InteropServices;
 // General Information about an assembly is controlled through the following 
 // set of attributes. Change these attribute values to modify the information
 // associated with an assembly.
-[assembly: AssemblyTitle("NET")]
-[assembly: AssemblyDescription("")]
+[assembly: AssemblyTitle("DY.NET")]
+[assembly: AssemblyDescription("PLC 통신 및 제어 라이브러리")]
 [assembly: AssemblyConfiguration("")]
-[assembly: AssemblyCompany("")]
-[assembly: AssemblyProduct("NET")]
+[assembly: AssemblyCompany("Dongyang FA")]
+[assembly: AssemblyProduct("DY.NET")]
 [assembly: AssemblyCopyright("Copyright ©  2015")]
 [assembly: AssemblyTrademark("")]
 [assembly: AssemblyCulture("")]

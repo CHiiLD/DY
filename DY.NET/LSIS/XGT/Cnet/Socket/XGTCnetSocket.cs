@@ -94,21 +94,24 @@ namespace DY.NET.LSIS.XGT
                 return;
             if (!_SerialPort.IsOpen)
                 throw new Exception("Serial port is not opend");
-            XGTCnetProtocol<dynamic> reqt_p = iProtocol as XGTCnetProtocol<dynamic>;
+            AProtocol reqt_p = iProtocol as AProtocol;
             if (reqt_p == null)
-                throw new ArgumentNullException("Argument is not XGTCnetProtocol<dynamic type.");
-            if (reqt_p.ASC2Protocol == null)
+                throw new ArgumentNullException("Argument is not XGTCnetProtocol<T>.");
+            byte[] reqt_p_asciiprotocol = reqt_p.ASCIIProtocol;
+            if (reqt_p_asciiprotocol == null)
+            {
                 reqt_p.AssembleProtocol();
+                reqt_p_asciiprotocol = reqt_p.ASCIIProtocol;
+            }
             if (IsWait) //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
             {
                 ProtocolStandByQueue.Enqueue(reqt_p);
                 return;
             }
             ReqeustProtocol = reqt_p;
-            _SerialPort.Write(reqt_p.ASC2Protocol, 0, reqt_p.ASC2Protocol.Length);
+            _SerialPort.Write(reqt_p_asciiprotocol, 0, reqt_p_asciiprotocol.Length);
+            SendedProtocolSuccessfullyEvent(reqt_p);
             reqt_p.ProtocolRequestedEvent(this, reqt_p);
-            if (SendedProtocolSuccessfully != null)
-                SendedProtocolSuccessfully(this, new DataReceivedEventArgs(reqt_p));
             IsWait = true;
         }
 
@@ -126,32 +129,31 @@ namespace DY.NET.LSIS.XGT
                     break;
                 if (!serialPort.IsOpen)
                     break;
-                var reqt_p = ReqeustProtocol as XGTCnetProtocol<dynamic>;
+                AXGTCnetProtocol reqt_p = ReqeustProtocol as AXGTCnetProtocol;
                 if (reqt_p == null)
                     break;
+                Type type_T = ReqeustProtocol.GetType().GenericTypeArguments[0]; //<T>의 Type 얻기
+                Type type_pt = typeof(XGTCnetProtocol<>).MakeGenericType(type_T); //XGTCnetProtocol<T> 타입 생성
 
                 byte[] recv_data = System.Text.Encoding.ASCII.GetBytes(serialPort.ReadExisting());
                 Buffer.BlockCopy(recv_data, 0, Buf, BufIdx, recv_data.Length);
                 BufIdx += recv_data.Length;
-                if (XGTCnetCCType.ETX != (XGTCnetCCType)(Buf[BufIdx - (reqt_p.IsExistBCC() ? 2 : 1)]))
+                if (XGTCnetCCType.ETX != (XGTCnetCCType)(Buf[BufIdx - ((bool)reqt_p.IsExistBCC() ? 2 : 1)]))
                     break;
-
                 byte[] buf_temp = new byte[BufIdx];
                 Buffer.BlockCopy(Buf, 0, buf_temp, 0, buf_temp.Length);
-                var resp_p = XGTCnetProtocol<dynamic>.CreateReceiveProtocol(buf_temp, reqt_p);
-
+                AXGTCnetProtocol resp_p = type_pt.GetMethod("CreateReceiveProtocol").Invoke(reqt_p, new object[] { buf_temp, reqt_p }) as AXGTCnetProtocol;
                 try
                 {
-                    resp_p.AnalysisProtocol();  //예외 발생
+                    resp_p.AnalysisProtocol();
                 }
-                catch(Exception exception)
+                catch (Exception exception)
                 {
                     resp_p.Error = XGTCnetProtocolError.EXCEPTION;
                 }
                 finally
                 {
-                    if (ReceivedProtocolSuccessfully != null)
-                        ReceivedProtocolSuccessfully(this, new DataReceivedEventArgs(resp_p));
+                    ReceivedProtocolSuccessfullyEvent(resp_p);
                     if (resp_p.Error == XGTCnetProtocolError.OK)
                         ReqeustProtocol.ProtocolReceivedEvent(this, resp_p);
                     else

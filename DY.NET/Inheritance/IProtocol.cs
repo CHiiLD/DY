@@ -14,36 +14,14 @@ namespace DY.NET
     /// </summary>
     public interface IProtocol : ITag, IDebug
     {
-        /// <summary>
-        /// 통신 중 예외 또는 에러가 발생시 통지
-        /// </summary>
         event EventHandler<DataReceivedEventArgs> ErrorReceived;         
-        /// <summary>
-        /// 프로토콜 요청을 성공적으로 전달되었을 시 통지
-        /// </summary>
         event EventHandler<DataReceivedEventArgs> ProtocolRequested; 
-        /// <summary>
-        /// 요청된 프로토콜에 따른 응답 프로토콜을 성공적으로 받았을 시 통지
-        /// </summary>
         event EventHandler<DataReceivedEventArgs> ProtocolReceived;
 
-        /// <summary>
-        /// RequestedEvent 이벤트를 발생시킵니다.
-        /// </summary>
-        /// <param name="obj"> DYSocekt 클래스 객체 </param>
-        /// <param name="protocol"> IProtocol 인터페이스 객체 </param>
         void ProtocolReceivedEvent(object obj, IProtocol protocol);
-        /// <summary>
-        /// OnDataRequestedEvent 이벤트를 발생시킵니다.
-        /// </summary>
-        /// <param name="obj"> DYSocekt 클래스 객체 </param>
-        /// <param name="protocol"> IProtocol 인터페이스 객체 </param>
         void ProtocolRequestedEvent(object obj, IProtocol protocol);
-        /// <summary>
-        /// OnErrorEvent 이벤트를 발생시킵니다.
-        /// </summary>
-        /// <param name="obj"> DYSocekt 클래스 객체 </param>
-        /// <param name="protocol"> IProtocol 인터페이스 객체 </param>
         void ErrorReceivedEvent(object obj, IProtocol protocol);
+
+        object GetStorage();
     }
 }

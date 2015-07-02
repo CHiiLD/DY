@@ -13,7 +13,7 @@ namespace DY.NET.LSIS.XGT
     /// <summary>
     /// XGT Cnet 개방형 프로토콜 추상 클래스
     /// </summary>
-    public abstract class AXGTCnetProtocol<T> : AXGTProtocol<T>
+    public abstract class AXGTCnetProtocol : AProtocol
     {
         #region PUBLIC PROPERTIES
         /// <summary>
@@ -50,7 +50,7 @@ namespace DY.NET.LSIS.XGT
         /// 복사생성자
         /// </summary>
         /// <param name="that"> 복사할 XGTCnetExclusiveProtocolFrame 상속 객체 </param>
-        protected AXGTCnetProtocol(AXGTCnetProtocol<T> that)
+        protected AXGTCnetProtocol(AXGTCnetProtocol that)
             : base(that)
         {
             this.Error = that.Error;
@@ -67,7 +67,7 @@ namespace DY.NET.LSIS.XGT
             : base()
         {
             if (binaryDatas != null)
-                ASC2Protocol = binaryDatas;
+                _ASCIIProtocol = binaryDatas;
         }
 
         protected AXGTCnetProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCmdType type)
@@ -115,18 +115,18 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         protected void CatchProtocolHead()
         {
-            if (ASC2Protocol.Length < RW_PROTOCOL_HEAD_SIZE)
+            if (_ASCIIProtocol.Length < RW_PROTOCOL_HEAD_SIZE)
                 throw new IndexOutOfRangeException(ERROR_PROTOCOL_HEAD_SIZE);
 
             byte[] head = new byte[RW_PROTOCOL_HEAD_SIZE];
-            Buffer.BlockCopy(ASC2Protocol, 0, head, 0, head.Length);
+            Buffer.BlockCopy(_ASCIIProtocol, 0, head, 0, head.Length);
             Header = (XGTCnetCCType)head[0];
             LocalPort = (ushort)CA2C.ToValue(new byte[] { head[1], head[2] }, typeof(ushort));
             Command = (XGTCnetCommand)head[3];
             if (Command == XGTCnetCommand.r || Command == XGTCnetCommand.w || Command == XGTCnetCommand.R || Command == XGTCnetCommand.W)
                 CommandType = XGTCnetCommandTypeExtensions.ToCmdType(new byte[] { head[4], head[5] });
             else
-                CommandType = ((AXGTCnetProtocol<T>)OtherParty).CommandType;
+                CommandType = ((AXGTCnetProtocol)OtherParty).CommandType;
             // XY 응답 프로토콜은 SS, SB의 구분을 알려주는 값을 주지 않습니다.
             // 따라서 요청프로토콜을 사용하여 SS, SB의 여부를 가져옵니다. (뭔가 좀 이상한 LS산전 프로토콜)
         }
@@ -138,8 +138,8 @@ namespace DY.NET.LSIS.XGT
         {
             bool isBCC_Exist = IsExistBCC();
             if (isBCC_Exist)
-                BCC = ASC2Protocol.Last();
-            Tail = (XGTCnetCCType)ASC2Protocol[ASC2Protocol.Length - 1 - (isBCC_Exist ? 1 : 0)];
+                BCC = _ASCIIProtocol.Last();
+            Tail = (XGTCnetCCType)_ASCIIProtocol[_ASCIIProtocol.Length - 1 - (isBCC_Exist ? 1 : 0)];
         }
 
         /// <summary>
@@ -149,11 +149,11 @@ namespace DY.NET.LSIS.XGT
         protected byte[] GetInstructData()
         {
             int head_size = (Command == XGTCnetCommand.r || Command == XGTCnetCommand.R || Command == XGTCnetCommand.w || Command == XGTCnetCommand.W) ? RW_PROTOCOL_HEAD_SIZE : XY_PROTOCOL_HEAD_SIZE;
-            int asc_data_cnt = ASC2Protocol.Length - head_size - (IsExistBCC() ? 2 : 1);
+            int asc_data_cnt = _ASCIIProtocol.Length - head_size - (IsExistBCC() ? 2 : 1);
             if (!(PROTOCOL_MIN_MAIN_DATA_SIZE <= asc_data_cnt))
                 throw new Exception("Impossibie byte asc sturected data count");
             byte[] asc_arr = new byte[asc_data_cnt];
-            Buffer.BlockCopy(ASC2Protocol, head_size, asc_arr, 0, asc_data_cnt);
+            Buffer.BlockCopy(_ASCIIProtocol, head_size, asc_arr, 0, asc_data_cnt);
             return asc_arr;
         }
 
@@ -188,9 +188,9 @@ namespace DY.NET.LSIS.XGT
         /// <returns> 검사값, 프로토콜 로스 없이 전부 받았다면 ture 아니면 false </returns>
         internal bool IsComeInEXTTail()
         {
-            if (ASC2Protocol.Length < RW_PROTOCOL_HEAD_SIZE)
+            if (_ASCIIProtocol.Length < RW_PROTOCOL_HEAD_SIZE)
                 return false;
-            return ASC2Protocol[ASC2Protocol.Length - 1 - (IsExistBCC() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte();
+            return _ASCIIProtocol[_ASCIIProtocol.Length - 1 - (IsExistBCC() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte();
         }
 
         internal bool IsComeInEXTTail(byte[] asc_data)
@@ -203,25 +203,25 @@ namespace DY.NET.LSIS.XGT
         /// <summary>
         /// 맴머 변수의 정보를 토대로 원시 프로토콜 데이터를 구합니다.
         /// </summary>
-        internal override void AssembleProtocol()
+        public override void AssembleProtocol()
         {
             List<byte> asc_list = new List<byte>();
             AddProtocolHead(asc_list);
             AttachProtocolFrame(asc_list);
             AddProtocolTail(asc_list);
-            ASC2Protocol = asc_list.ToArray();
-            if (ASC2Protocol.Length > PROTOCOL_ASC_SIZE_MAX_256BYTE)
+            _ASCIIProtocol = asc_list.ToArray();
+            if (_ASCIIProtocol.Length > PROTOCOL_ASC_SIZE_MAX_256BYTE)
                 throw new Exception(ERROR_PROTOCOL_ASC_SIZE_MAX_256BYTE);
         }
 
         /// <summary>
         /// 받은 원시 프로토콜 데이터를 바탕으로 프로토콜 구조와 데이터를 파악합니다.
         /// </summary>
-        internal override void AnalysisProtocol()
+        public override void AnalysisProtocol()
         {
-            if (ASC2Protocol == null)
+            if (_ASCIIProtocol == null)
                 throw new NullReferenceException("PROTOCOLDATA IS NULL.");
-            if (ASC2Protocol.Length < RW_PROTOCOL_HEAD_SIZE)
+            if (_ASCIIProtocol.Length < RW_PROTOCOL_HEAD_SIZE)
                 throw new ArgumentOutOfRangeException(ERROR_PROTOCOL_HEAD_SIZE);
             CatchProtocolHead();
             if (!CatchErrorCode())
@@ -233,9 +233,9 @@ namespace DY.NET.LSIS.XGT
         /// BCC데이터가 추가 될지 확인하는 메서드
         /// </summary>
         /// <returns></returns>
-        internal bool IsExistBCC()
+        public bool IsExistBCC()
         {
-            if (ASC2Protocol == null)
+            if (_ASCIIProtocol == null)
                 throw new NullReferenceException("PROTOCOLDATA IS NULL.");
             if (Command == XGTCnetCommand.r || Command == XGTCnetCommand.w || Command == XGTCnetCommand.x || Command == XGTCnetCommand.y)
                 return true;
@@ -247,7 +247,7 @@ namespace DY.NET.LSIS.XGT
         public override void Print()
         {
             Console.WriteLine("XGT Cnet 프로토콜 정보");
-            Console.WriteLine("ASC 코드: " + B2HS.Change(ASC2Protocol));
+            Console.WriteLine("ASC 코드: " + B2HS.Change(_ASCIIProtocol));
             Console.WriteLine("국번: {0}", LocalPort);
             Console.WriteLine(string.Format("헤더: {0}", Header == XGTCnetCCType.ENQ ? "ENQ" : Header == XGTCnetCCType.ACK ? "ACK" : "NAK"));
             Console.WriteLine(string.Format("명령: {0}", (char)Command));

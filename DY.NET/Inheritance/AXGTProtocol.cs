@@ -6,23 +6,24 @@ using System.Threading.Tasks;
 
 namespace DY.NET
 {
-    public abstract class AXGTProtocol<T> : IProtocol
+    public abstract class AProtocol : IProtocol
     {
-        internal Dictionary<string, T> Datas { get; set; }
-
         #region INTENAL VARIABLE
-        internal byte[] ASC2Protocol { get; set; } // 원시 프로토콜 데이터
-        internal IProtocol OtherParty { get; set; } //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
-        //protected Type TypeParamiter { get; private set; }
-        #endregion
-
-        protected AXGTProtocol()
+        protected byte[] _ASCIIProtocol;
+        public byte[] ASCIIProtocol 
         {
-            //TypeParamiter = typeof(T);
-            Datas = new Dictionary<string, T>();
+            get
+            {
+                return _ASCIIProtocol == null ? null : (byte[])_ASCIIProtocol.Clone();
+            }
+        }
+        internal IProtocol OtherParty { get; set; } //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
+        #endregion
+        protected AProtocol()
+        {
         }
 
-        public AXGTProtocol(AXGTProtocol<T> that)
+        public AProtocol(AProtocol that)
         {
             this.Tag = that.Tag;
             this.Description = that.Description;
@@ -33,15 +34,9 @@ namespace DY.NET
             this.ProtocolRequested = that.ProtocolRequested;
 
             this.OtherParty = that.OtherParty;
-            if (that.ASC2Protocol != null)
-                this.ASC2Protocol = (byte[])that.ASC2Protocol.Clone();
-
-            this.Datas = new Dictionary<string, T>(that.Datas);
+            if (that._ASCIIProtocol != null)
+                this._ASCIIProtocol = (byte[])that._ASCIIProtocol.Clone();
         }
-
-        public int Tag { get; set; }
-        public string Description { get; set; }
-        public object UserData { get; set; }
 
         /// <summary>
         /// 통신 중 예외 또는 에러가 발생시 통지
@@ -83,15 +78,13 @@ namespace DY.NET
             }
         }
 
-        /// <summary>
-        /// 맴머 변수의 정보를 토대로 원시 프로토콜 데이터를 구합니다.
-        /// </summary>
-        internal abstract void AssembleProtocol();
-        /// <summary>
-        /// 받은 원시 프로토콜 데이터를 바탕으로 프로토콜 구조와 데이터를 파악합니다.
-        /// </summary>
-        internal abstract void AnalysisProtocol();
+        public int Tag { get; set; }
+        public string Description { get; set; }
+        public object UserData { get; set; }
 
+        public abstract void AssembleProtocol();
+        public abstract void AnalysisProtocol();
         public abstract void Print();
+        public abstract object GetStorage();
     }
 }

@@ -39,10 +39,6 @@ namespace DY.NET.LSIS.XGT
                 target = BitConverter.ToUInt64(r_bytes, 0);
             else if (type == typeof(string))
                 target = BitConverter.ToString(r_bytes, 0);
-            else
-#if DEBUG
-                System.Diagnostics.Debug.Assert(false);
-#endif
             return target;
         }
 

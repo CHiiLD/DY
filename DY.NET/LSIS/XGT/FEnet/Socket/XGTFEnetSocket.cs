@@ -33,18 +33,22 @@ namespace DY.NET.LSIS.XGT
         {
             if (Client == null)
                 return;
-            XGTFEnetProtocol<dynamic> reqt_p = iProtocol as XGTFEnetProtocol<dynamic>;
+            AProtocol reqt_p = iProtocol as AProtocol;
             if (reqt_p == null)
                 throw new ArgumentException("Protocol not match xgt_fene_protocol type");
-            if (reqt_p.ASC2Protocol == null)
+            byte[] reqt_p_asciiprotocol = reqt_p.ASCIIProtocol;
+            if (reqt_p_asciiprotocol == null)
+            {
                 reqt_p.AssembleProtocol();
+                reqt_p_asciiprotocol = reqt_p.ASCIIProtocol;
+            }
             if (IsWait)   //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
             {
                 ProtocolStandByQueue.Enqueue(reqt_p);
                 return;
             }
             ReqeustProtocol = reqt_p;
-            Client.GetStream().BeginWrite(reqt_p.ASC2Protocol, 0, reqt_p.ASC2Protocol.Length, OnSended, Client);
+            Client.GetStream().BeginWrite(reqt_p_asciiprotocol, 0, reqt_p_asciiprotocol.Length, OnSended, Client);
             IsWait = true;
         }
 
@@ -113,32 +117,34 @@ namespace DY.NET.LSIS.XGT
                         ReceivedSignOff(this, EventArgs.Empty);
                     break;
                 }
-                XGTFEnetProtocol<dynamic> reqt_p = ReqeustProtocol as XGTFEnetProtocol<dynamic>;
+                AProtocol reqt_p = ReqeustProtocol as AProtocol;
                 if (reqt_p == null)
                     break;
+                Type type_T = ReqeustProtocol.GetType().GenericTypeArguments[0]; //<T>의 Type 얻기
+                Type type_pt = typeof(XGTFEnetProtocol<>).MakeGenericType(type_T); //XGTCnetProtocol<T> 타입 생성
 
                 byte[] buf_temp = new byte[BufIdx];
                 Buffer.BlockCopy(Buf, 0, buf_temp, 0, buf_temp.Length);
-                var resp_p = XGTFEnetProtocol<dynamic>.CreateXGTFEnetProtocol(buf_temp, reqt_p);
+                AProtocol resp_p = type_pt.GetMethod("CreateResponseProtocol").Invoke(reqt_p, new object[] { buf_temp, reqt_p }) as AProtocol;
                 try
                 {
                     resp_p.AnalysisProtocol();  //예외 발생
                 }
                 catch (Exception exception)
                 {
-                    resp_p.Error = XGTFEnetProtocolError.EXCEPTION;
+                    type_pt.GetProperty("Error").SetValue(resp_p, XGTFEnetProtocolError.EXCEPTION);
                 }
                 finally
                 {
                     ReceivedProtocolSuccessfullyEvent(resp_p);
-                    if (resp_p.Error == XGTFEnetProtocolError.OK)
+                    if ((XGTFEnetProtocolError)type_pt.GetProperty("Error").GetValue(resp_p) == XGTFEnetProtocolError.OK)
                         reqt_p.ProtocolReceivedEvent(this, resp_p);
                     else
                         reqt_p.ErrorReceivedEvent(this, resp_p);
                     BufIdx = 0;
                     stream.BeginRead(Buf, BufIdx, BUFFER_SIZE, OnRead, Client);
                 }
-            } while(false);
+            } while (false);
         }
     }
 }

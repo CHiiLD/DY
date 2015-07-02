@@ -71,10 +71,10 @@ namespace DY.NET
 
         public void SendedProtocolSuccessfullyEvent(IProtocol iProtocol)
         {
-            if (ReceivedProtocolSuccessfully != null)
+            if (SendedProtocolSuccessfully != null)
             {
                 var cold_pt = System.Threading.Volatile.Read(ref iProtocol);
-                ReceivedProtocolSuccessfully(this, new DataReceivedEventArgs(cold_pt));
+                SendedProtocolSuccessfully(this, new DataReceivedEventArgs(cold_pt));
             }
         }
 
