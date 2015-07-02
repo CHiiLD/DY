@@ -12,13 +12,14 @@ namespace DY.NET.LSIS.XGT
         {
             List<char> list = new List<char>();
             list.Add('P');
-            list.Add('N');
+            list.Add('M');
             list.Add('L');
-            list.Add('K');
-            list.Add('T');
+            list.Add('F');
             list.Add('C');
             list.Add('D');
-            list.Add('F');
+            list.Add('T');
+            list.Add('N');
+            list.Add('R');
             return list;
         }
 
@@ -26,20 +27,14 @@ namespace DY.NET.LSIS.XGT
         {
             List<char> list = new List<char>();
             list.Add('P');
-            list.Add('N');
-            list.Add('L');
+            list.Add('M');
             list.Add('K');
-            list.Add('T');
             list.Add('C');
             list.Add('D');
+            list.Add('T');
+            list.Add('N');
+            list.Add('R');
             return list;
         }
-
-#if false
-        public static List<char> GetPossibleDeviceList(XGTFEnetDataType type)
-        {
-
-        }
-#endif
     }
 }

@@ -83,7 +83,7 @@
     <Compile Include="LSIS\XGT\XGTMemoryExpression.cs" />
     <Compile Include="LSIS\XGT\XGTServiceableDevice.cs" />
     <Compile Include="Extension\TypeExtension.cs" />
-    <Compile Include="LSIS\XGT\BS2G.cs" />
+    <Compile Include="LSIS\XGT\BS2D.cs" />
     <Compile Include="LSIS\XGT\XGTModuleComm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Event\DataReceivedEventArgs.cs" />

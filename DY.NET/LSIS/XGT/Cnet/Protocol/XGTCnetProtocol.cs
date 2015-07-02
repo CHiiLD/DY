@@ -78,7 +78,7 @@ namespace DY.NET.LSIS.XGT
         /// <param name="localPort"> 국번 </param>
         /// <param name="datas"> 변수이름과 메모리 주소가 담긴 구조체의 리스트 최대 16개까지 사용 가능합니다 </param>
         /// <returns> RSS 모드의 XGTCnetExclusiveProtocol 프로토콜 </returns>
-        public static XGTCnetProtocol<T> NewRSSProtocol(ushort localPort, Dictionary<string, T> datas)
+        public static XGTCnetProtocol<T> NewRSSProtocol(ushort localPort, List<string> datas)
         {
             if (datas.Count == 0 || datas == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
@@ -86,7 +86,8 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
 
             var instance = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCmdType.SS);
-            instance.DataStorageDictionary = new Dictionary<string, T>(datas);
+            foreach (var l in datas)
+                instance.DataStorageDictionary.Add(l, default(T));
             instance.BlocCnt = (ushort)instance.DataStorageDictionary.Count;
             return instance;
         }
@@ -173,7 +174,7 @@ namespace DY.NET.LSIS.XGT
         /// <param name="register_num"> 등록 번호 0 ~ 31까지 등록 가능합니다 이미 등록된 번호로 등록하면 현재 실행되는 것이 등록됩니다 </param>
         /// <param name="datas"> 모니터 등록할 변수이름들의 리스트 </param>
         /// <returns> XSS 모드의 XGTCnetExclusiveProtocol 프로토콜 </returns>
-        public static XGTCnetProtocol<T> NewXSSProtocol(ushort localPort, ushort register_num, Dictionary<string, T> datas)
+        public static XGTCnetProtocol<T> NewXSSProtocol(ushort localPort, ushort register_num, List<string> datas)
         {
             if (!(0 <= register_num && register_num <= MONITER_VAR_REGISTER_MAX_NUMBER))
                 throw new ArgumentException(ERROR_MONITER_INVALID_REGISTER_NUMBER);

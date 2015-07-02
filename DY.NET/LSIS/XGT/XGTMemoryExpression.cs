@@ -1,10 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
-namespace NET.LSIS.XGT
+namespace DY.NET.LSIS.XGT
 {
     [Flags]
     public enum MemoryExpression
@@ -45,12 +42,12 @@ namespace NET.LSIS.XGT
             return dic;
         }
 
-        public static bool IsDecimal(MemoryExpression me)
+        public static bool IsDecimal(this MemoryExpression me)
         {
             return (me & MemoryExpression.WORD) != 0;
         }
 
-        public static bool IsHexDecimal(MemoryExpression me)
+        public static bool IsHexDecimal(this MemoryExpression me)
         {
             return (me & MemoryExpression.WORD) == 0;
         }

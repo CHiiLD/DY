@@ -67,14 +67,14 @@ namespace DY.NET.LSIS.XGT
             return instance;
         }
 
-        public static XGTFEnetProtocol<T> NewRSSProtocol(ushort tag, Dictionary<string, T> pvalues)
+        public static XGTFEnetProtocol<T> NewRSSProtocol(ushort tag, List<string> name_list)
         {
-            return NewRSSProtocol(XGTFEnetHeader.CreateXGTFEnetHeader(tag), pvalues);
+            return NewRSSProtocol(XGTFEnetHeader.CreateXGTFEnetHeader(tag), name_list);
         }
 
-        public static XGTFEnetProtocol<T> NewWSSProtocol(ushort tag, Dictionary<string, T> pvalues)
+        public static XGTFEnetProtocol<T> NewWSSProtocol(ushort tag, Dictionary<string, T> datas)
         {
-            return NewWSSProtocol(XGTFEnetHeader.CreateXGTFEnetHeader(tag), pvalues);
+            return NewWSSProtocol(XGTFEnetHeader.CreateXGTFEnetHeader(tag), datas);
         }
 
         public static XGTFEnetProtocol<T> NewRSBProtocol(ushort tag, string name, ushort block_cnt)
@@ -82,9 +82,9 @@ namespace DY.NET.LSIS.XGT
             return NewRSBProtocol(XGTFEnetHeader.CreateXGTFEnetHeader(tag), name, block_cnt);
         }
 
-        public static XGTFEnetProtocol<T> NewWSBProtocol(ushort tag, Dictionary<string, T> pvalues)
+        public static XGTFEnetProtocol<T> NewWSBProtocol(ushort tag, Dictionary<string, T> datas)
         {
-            return NewWSBProtocol(XGTFEnetHeader.CreateXGTFEnetHeader(tag), pvalues);
+            return NewWSBProtocol(XGTFEnetHeader.CreateXGTFEnetHeader(tag), datas);
         }
 
         /// <summary>
@@ -94,7 +94,7 @@ namespace DY.NET.LSIS.XGT
         /// <param name="header">XGTFEnetHeader 객체</param>
         /// <param name="pvalues">PValue 리스트</param>
         /// <returns>XGTFEnetProtocol 객체</returns>
-        private static XGTFEnetProtocol<T> NewRSSProtocol(XGTFEnetHeader header, Dictionary<string, T> datas)
+        private static XGTFEnetProtocol<T> NewRSSProtocol(XGTFEnetHeader header, List<string> datas)
         {
             if (datas.Count == 0 || datas == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
@@ -102,7 +102,8 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
 
             var instance = CreateRequestProtocol(header, XGTFEnetCommand.READ_REQT, (ushort)datas.Count);
-            instance.DataStorageDictionary = new Dictionary<string, T>(datas);
+            foreach (var l in datas)
+                instance.DataStorageDictionary.Add(l, default(T));
             instance.DataType = typeof(T).ToXGTFEnetDataType();
             return instance;
         }
@@ -141,7 +142,8 @@ namespace DY.NET.LSIS.XGT
             Type type = typeof(T);
             if (!(type == typeof(Byte) || type == typeof(SByte))) //BYTE타입만 가능
                 throw new ArgumentException("Rsb communication only supported byte data type");
-
+            if (!GetPossibleRSBList().Contains(name[1]))
+                throw new ArgumentException("this device type can not service");
             var instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, 1);
             instance.DataType = XGTFEnetDataType.CONTINUATION;
             for (int i = 0; i < block_cnt; i++)
@@ -166,10 +168,10 @@ namespace DY.NET.LSIS.XGT
             if (datas.Count == 0 || datas == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
             Type type = typeof(T);
-            foreach (var pv in datas)
-                if (!(type == typeof(Byte) || type == typeof(SByte))) //BYTE타입만 가능
-                    throw new ArgumentException("Rsb communication only supported byte data type");
-
+            if (!(type == typeof(Byte) || type == typeof(SByte))) //BYTE타입만 가능
+                throw new ArgumentException("Rsb communication only supported byte data type");
+            if (!GetPossibleRSBList().Contains(datas.First().Key[1]))
+                throw new ArgumentException("this device type can not service");
             var instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, 1);
             instance.DataStorageDictionary = new Dictionary<string, T>(datas);
             instance.DataType = XGTFEnetDataType.CONTINUATION;
@@ -212,8 +214,8 @@ namespace DY.NET.LSIS.XGT
                 {
                     asc_data.AddRange(CV2BR.ToBytes(d.Key.Length, typeof(UInt16))); //변수 길이
                     asc_data.AddRange(CV2BR.ToBytes(d.Key)); //변수 이름
-                    asc_data.AddRange(CV2BR.ToBytes(typeof(T).ToSize())); //변수 크기
-                    asc_data.AddRange(CV2BR.ToBytes(d.Value)); //변수 값
+                    asc_data.AddRange(CV2BR.ToBytes(typeof(T).ToSize(), typeof(UInt16))); //변수 크기
+                     asc_data.AddRange(CV2BR.ToBytes(d.Value)); //변수 값
                 }
             }
             //WSB
@@ -305,8 +307,7 @@ namespace DY.NET.LSIS.XGT
                 foreach (var d in DataStorageDictionary)
                 {
                     Console.Write(string.Format("[{0}] name: {1}", ++i, d.Key));
-                    if (d.Value.CompareTo(default(T)) == 0)
-                        Console.WriteLine(string.Format(" value: {0}", d.Value));
+                    Console.WriteLine(string.Format(" value: {0}", d.Value));
                 }
             }
         }
