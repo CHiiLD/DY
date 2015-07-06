@@ -6,3 +6,11 @@ C:\Users\CHILD\GitHub\DY\DY.NET.TEST\bin\Debug\NET.pdb
 C:\Users\CHILD\GitHub\DY\DY.NET.TEST\obj\Debug\DY.NET.TEST.csprojResolveAssemblyReference.cache
 C:\Users\CHILD\GitHub\DY\DY.NET.TEST\obj\Debug\DY.NET.TEST.exe
 C:\Users\CHILD\GitHub\DY\DY.NET.TEST\obj\Debug\DY.NET.TEST.pdb
+C:\dev\github\DY\DY.NET.TEST\bin\Debug\DY.NET.TEST.exe.config
+C:\dev\github\DY\DY.NET.TEST\obj\Debug\DY.NET.TEST.exe
+C:\dev\github\DY\DY.NET.TEST\obj\Debug\DY.NET.TEST.pdb
+C:\dev\github\DY\DY.NET.TEST\bin\Debug\DY.NET.TEST.exe
+C:\dev\github\DY\DY.NET.TEST\bin\Debug\DY.NET.TEST.pdb
+C:\dev\github\DY\DY.NET.TEST\bin\Debug\NET.dll
+C:\dev\github\DY\DY.NET.TEST\bin\Debug\NET.pdb
+C:\dev\github\DY\DY.NET.TEST\obj\Debug\DY.NET.TEST.csprojResolveAssemblyReference.cache

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DY.NET.DATALOGIC.MATRIX
 {
-    public enum Matrix200HostModeState
+    public enum Matrix200HostModeError
     {
         OK,
 

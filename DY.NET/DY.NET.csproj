@@ -43,8 +43,10 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Barcode\DATALOGIC\MATRIX\matrix200\Matrix200HostModeError.cs" />
-    <Compile Include="Barcode\DATALOGIC\MATRIX\matrix200\Maxtrix200HostMode.cs" />
-    <Compile Include="Barcode\DATALOGIC\MATRIX\matrix200\Maxtrix200HostModeCommand.cs" />
+    <Compile Include="Barcode\DATALOGIC\MATRIX\matrix200\Matrix200HostModeState.cs" />
+    <Compile Include="Barcode\DATALOGIC\MATRIX\matrix200\Matrix200EventArgs.cs" />
+    <Compile Include="Barcode\DATALOGIC\MATRIX\matrix200\Matrix200HostMode.cs" />
+    <Compile Include="Barcode\DATALOGIC\MATRIX\matrix200\Matrix200HostModeCommand.cs" />
     <Compile Include="PLC\Builder\AEthernetBuilder.cs" />
     <Compile Include="PLC\Builder\ASerialPortBuilder.cs" />
     <Compile Include="PLC\Inheritance\IDebug.cs" />
