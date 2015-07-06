@@ -102,7 +102,7 @@ namespace DY.NET.TEST
 
         public static void DataLogic_Matrix200_Test()
         {
-            Matrix200HostMode hostmode = Matrix200HostMode.CreateMaxtrix200HostMode("COM4", 115200);
+            Matrix200HostMode hostmode = Matrix200HostMode.CreateMaxtrix200HostMode("COM6", 115200);
             if (!hostmode.Connect())
             {
                 Console.WriteLine("시리얼포트 연결 실패");
@@ -113,8 +113,7 @@ namespace DY.NET.TEST
                 if(e.Error == Matrix200HostModeError.OK)
                 {
                     Console.WriteLine("프로그래밍 모드 진입 중 ..");
-                    //hostmode.EnterProgrammingMode(DataLogic_Matrix200_Enter);
-                    DataLogic_Matrix200_Enter(hostmode, null);
+                    hostmode.EnterProgrammingMode(DataLogic_Matrix200_Enter);
                 }
                 else
                 {
