@@ -16,6 +16,7 @@ namespace DY.NET.TEST
         static void Main(string[] args)
         {
             DataLogic_Matrix200_Sample.DataLogic_Matrix200_Test();
+            Console.ReadLine();
         }
     }
 }
