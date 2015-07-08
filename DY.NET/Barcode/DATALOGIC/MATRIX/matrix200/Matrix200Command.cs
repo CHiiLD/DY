@@ -1,5 +1,8 @@
 ﻿namespace DY.NET.DATALOGIC.MATRIX
 {
+    /// <summary>
+    /// Matrix200과 통신에 쓰일 메세지
+    /// </summary>
     public class Matrix200Command
     {
 #if false

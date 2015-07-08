@@ -8,6 +8,9 @@ using System.Collections.Concurrent;
 
 namespace DY.NET.DATALOGIC.MATRIX
 {
+    /// <summary>
+    /// Matrix200과의 통신을 안정적으로 하기 위한 메세지 큐 랩핑 클래스
+    /// </summary>
     public class Matrix200Queue
     {
         public enum Todo
@@ -27,12 +30,20 @@ namespace DY.NET.DATALOGIC.MATRIX
             m_m200 = m200;
         }
 
+        /// <summary>
+        /// 큐 객체를 비운다
+        /// </summary>
         public void Clear()
         {
             Tuple<Todo, EventHandler<Matrix200DataReceivedEventArgs>> mail;
             while (m_Queue.TryDequeue(out mail)) { }
         }
 
+        /// <summary>
+        /// 큐 객체에 핸들러를 추가한다.
+        /// </summary>
+        /// <param name="todo"></param>
+        /// <param name="callback">응답 메세지 도착을 알리는 콜백 메세지</param>
         public void Enqueue(Todo todo, EventHandler<Matrix200DataReceivedEventArgs> callback)
         {
             if (m_Working)
@@ -72,12 +83,9 @@ namespace DY.NET.DATALOGIC.MATRIX
 
             if (m_Queue.Count > 0)
             {
-                //await Task.Factory.StartNew(() =>
-                //{
                 Tuple<Todo, EventHandler<Matrix200DataReceivedEventArgs>> mail;
                 if (m_Queue.TryDequeue(out mail))
                     Enqueue(mail.Item1, mail.Item2);
-                //});
             }
         }
     }

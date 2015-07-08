@@ -6,6 +6,10 @@ using System.Threading.Tasks;
 
 namespace DY.NET.LSIS.XGT
 {
+    /// <summary>
+    /// RSB, WSB 프로토콜에서 사용 가능한 디바이스 목록 관리
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public partial class XGTFEnetProtocol<T>
     {
         public static List<char> GetPossibleRSBList()

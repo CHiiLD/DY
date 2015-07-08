@@ -46,6 +46,13 @@ namespace DY.NET.LSIS.XGT
             Command = that.Command;
         }
 
+        /// <summary>
+        /// 요청 프로토콜 정적 생성 팩토리 메서드
+        /// </summary>
+        /// <param name="header">해더 정보</param>
+        /// <param name="cmd">XGTFEnetCommand 열거</param>
+        /// <param name="block_cnt">읽을 변수의 개수</param>
+        /// <returns>XGTFEnetProtocol 객체</returns>
         public static XGTFEnetProtocol<T> CreateRequestProtocol(XGTFEnetHeader header, XGTFEnetCommand cmd, ushort block_cnt)
         {
             XGTFEnetProtocol<T> instance = new XGTFEnetProtocol<T>();
@@ -55,6 +62,12 @@ namespace DY.NET.LSIS.XGT
             return instance;
         }
 
+        /// <summary>
+        /// 응답 프로토콜 정적 생성 팩토리 메서드
+        /// </summary>
+        /// <param name="asc_data">바이트 배열 데이터</param>
+        /// <param name="reqtProtocol">응답 프로토콜 객체</param>
+        /// <returns>XGTFEnetProtocol 객체</returns>
         public static XGTFEnetProtocol<T> CreateResponseProtocol(byte[] asc_data, XGTFEnetProtocol<T> reqtProtocol)
         {
             XGTFEnetProtocol<T> instance = new XGTFEnetProtocol<T>();

@@ -5,7 +5,7 @@ namespace DY.NET.LSIS.XGT
 {
     /// <summary>
     /// LSIS 이더넷 모듈 애플리케이션 프레임 구조의 헤더 포맷 클래스
-    /// 해당 바이트 데이터를 분석하여 필요한 정보를 얻을 수 있다.
+    /// 해당 바이트 데이터를 분석하여 필요한 정보를 쿼리
     /// </summary>
     public class XGTFEnetHeader
     {
@@ -87,21 +87,27 @@ namespace DY.NET.LSIS.XGT
             return obj;
         }
 
+        /// <summary>
+        /// XGTFEnetHeader 객체 정적 생성 팩토리 메서드
+        /// </summary>
+        /// <param name="invokeID">유저 태그 값</param>
+        /// <returns>XGTFEnetHeader 객체</returns>
         public static XGTFEnetHeader CreateXGTFEnetHeader(ushort invokeID)
         {
             XGTFEnetHeader instance = new XGTFEnetHeader();
             instance._HeaderData = new byte[APPLICATION_HEARDER_FORMAT_SIZE];
             Buffer.BlockCopy(XGTFEnetCompanyID.LSIS_XGT.ToBytes(), 0, instance._HeaderData, 0, HEADER_FORMAT_COMPANY_ID_SIZE); //회사 인증
             Buffer.BlockCopy(new byte[] {0,0}, 0, instance._HeaderData, 8, HEADER_FORMAT_RESERVED_SIZE); //예약
-            //Buffer.BlockCopy(info.ToByteArray(), 0, instance._HeaderData, 10, HEADER_FORMAT_PLC_INFO_SIZE); //PLC INFO  
-            //Buffer.SetByte(instance._HeaderData, 12, (byte)cpu_info); //CPU INFO
             Buffer.SetByte(instance._HeaderData, 13, XGTFEnetSourceOfFrame.PC2PLC.ToByte()); //CPU INFO
             Buffer.BlockCopy(CV2BR.ToBytes(invokeID), 0, instance._HeaderData, 14, HEADER_FORMAT_INVOKE_ID_SIZE); //Invoke ID
-            //byte base_shift = (byte)(base_n << 4);
-            //Buffer.SetByte(instance._HeaderData, 18, (byte)(base_shift | slot_n)); // 슬롯과 베이스 자리
             return instance;
         }
 
+        /// <summary>
+        /// 설정된 맴버변수와 해더 뒤 구조화된 데이터의 크기로 바이트 배열 정보를 얻는다.
+        /// </summary>
+        /// <param name="instruction_byte_size">구조화된 데이터의 바이트 크기</param>
+        /// <returns>헤더 바이트 배열</returns>
         internal byte[] GetBytes(int instruction_byte_size)
         {
             Buffer.BlockCopy(CV2BR.ToBytes((ushort)instruction_byte_size), 0, _HeaderData, 16, HEADER_FORMAT_INSTRUCTION_LENGTH_SIZE); // Instruction byte 크기 <<

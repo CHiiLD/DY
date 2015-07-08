@@ -94,6 +94,7 @@
     <Compile Include="PLC\Event\DataReceivedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
+    <Folder Include="Barcode\HONEYWELL\VUQUEST\" />
     <Folder Include="PLC\MITSUBISHI\MELSEC-Q\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

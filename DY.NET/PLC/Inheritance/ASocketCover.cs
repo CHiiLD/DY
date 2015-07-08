@@ -16,7 +16,7 @@ namespace DY.NET
         protected ASocketCover()
         {
 
-        }
+        } 
 
         public int Tag
         {

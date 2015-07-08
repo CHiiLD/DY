@@ -6,16 +6,25 @@ using System.Threading.Tasks;
 
 namespace DY.NET.DATALOGIC.MATRIX
 {
+    /// <summary>
+    /// 좌표
+    /// </summary>
     public struct Point
     {
         public int X, Y;
     }
 
+    /// <summary>
+    /// 코드 영역 좌표
+    /// </summary>
     public struct Bounds
     {
         public Point TL, TR, BL, BR;
     }
 
+    /// <summary>
+    /// 바코드 정보 클래스
+    /// </summary>
     public class ProcessingInfo
     {
         public string NewCode;
@@ -33,13 +42,7 @@ namespace DY.NET.DATALOGIC.MATRIX
 
         public ProcessingInfo()
         {
-            //CodeCenterPosition = new Point();
             RawData = new Dictionary<string, string>();
-            //CodeBounds = new Bounds();
-            //CodeBounds.BL = new Point();
-            //CodeBounds.BR = new Point();
-            //CodeBounds.TL = new Point();
-            //CodeBounds.TR = new Point();
         }
     }
 }

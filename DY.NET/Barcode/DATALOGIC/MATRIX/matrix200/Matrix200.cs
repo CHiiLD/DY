@@ -9,6 +9,10 @@ using System.Diagnostics;
 
 namespace DY.NET.DATALOGIC.MATRIX
 {
+    /// <summary>
+    /// Matrix200 바코드 리더기를 기준으로 만들어진 디바이스 통신 클래스
+    /// Matrix210과 함께 Matrix 시리즈와 호환이 될 것으로 예상 (테스트는 안해봄)
+    /// </summary>
     public class Matrix200 : Matrix200Command
     {
         private volatile SerialPort m_SerialPort;
@@ -28,6 +32,9 @@ namespace DY.NET.DATALOGIC.MATRIX
         {
         }
 
+        /// <summary>
+        /// 빌더 패턴의 Matrix200 객체생성 클래스
+        /// </summary>
         public class Builder
         {
             protected string _PortName;
@@ -67,6 +74,10 @@ namespace DY.NET.DATALOGIC.MATRIX
             }
         }
 
+        /// <summary>
+        /// 시리얼 포트에 접속
+        /// </summary>
+        /// <returns>접속 여부</returns>
         public bool Connect()
         {
             if (m_SerialPort == null)
@@ -79,6 +90,10 @@ namespace DY.NET.DATALOGIC.MATRIX
             return m_SerialPort.IsOpen;
         }
 
+        /// <summary>
+        /// 리더기에 종료 신호를 보낸 뒤
+        /// 시리얼통신을 종료
+        /// </summary>
         public void Close()
         {
             if(IsEnableSerial)
@@ -88,12 +103,20 @@ namespace DY.NET.DATALOGIC.MATRIX
             }
         }
 
+        /// <summary>
+        /// 시리얼포트 객체의 자원을 소멸
+        /// </summary>
         public void Dispose()
         {
             m_SerialPort.Dispose();
             m_SerialPort = null;
         }
 
+        /// <summary>
+        /// 리더기에 접속
+        /// 응답이 오기 까지 대략 1초 정도 걸림
+        /// </summary>
+        /// <returns></returns>
         public async Task PrepareAsync()
         {
             if (!IsEnableSerial)
@@ -108,12 +131,19 @@ namespace DY.NET.DATALOGIC.MATRIX
             } while (buf_size != 0);
         }
 
+        /// <summary>
+        /// 리더기에 연결 종료 메세지 전달 
+        /// </summary>
         public void Disconnect()
         {
             if (!IsEnableSerial)
                 m_SerialPort.Write(CMD_VISISET_DISCONNECT, 0, CMD_VISISET_DISCONNECT.Length);
         }
 
+        /// <summary>
+        /// 바코드의 사진을 촬영하여 리더기의 메모리에 저장 
+        /// </summary>
+        /// <returns>촬영된 이미지의 가로, 세로 길이</returns>
         public async Task<Tuple<int, int>> CaptureAsync()
         {
             if (!IsEnableSerial)
@@ -150,6 +180,10 @@ namespace DY.NET.DATALOGIC.MATRIX
             return null;
         }
 
+        /// <summary>
+        /// 메모리에 저장된 이미지를 분석하여 바코드 코드 정보를 얻는다
+        /// </summary>
+        /// <returns>성공할 시 ProcessingInfo 리턴, 그렇지 않으면 null 리턴</returns>
         public async Task<ProcessingInfo> DecodingAsync()
         {
             if (!IsEnableSerial)
@@ -173,6 +207,11 @@ namespace DY.NET.DATALOGIC.MATRIX
             return ProcessReply(reply);
         }
 
+        /// <summary>
+        /// 바코드 종류를 리더기에 인식케 한다.
+        /// 대략 3 ~ 30초 가량 시간이 소요된다.
+        /// </summary>
+        /// <returns></returns>
         public async Task<ProcessingInfo> LearnBarCodeAsync()
         {
             if (!IsEnableSerial)

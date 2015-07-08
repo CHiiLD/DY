@@ -8,7 +8,12 @@ namespace DY.NET.LSIS.XGT
         private string Host;
         private XGTFEnetPort Port;
         private TcpClient Client = new TcpClient();
-        public EventHandler<EventArgs> ReceivedSignOff { get; set; } //서버로부터 연결 종료 신호를 받았을 때
+
+        /// <summary>
+        /// 서버로부터 연결 종료 신호를 받았을 때 이벤트 발생
+        /// </summary>
+        public EventHandler<EventArgs> ReceivedSignOff { get; set; }
+        
         /// <summary>
         /// new 생성 방지
         /// </summary>
