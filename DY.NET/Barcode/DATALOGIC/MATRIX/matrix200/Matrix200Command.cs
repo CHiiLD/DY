@@ -2,6 +2,7 @@
 {
     public class Matrix200Command
     {
+#if false
         private const byte ESC = 0x1B;
         protected const byte CR = 0x0D;
         protected const byte LF = 0x0A;
@@ -39,7 +40,7 @@
         protected readonly byte[] CMD_OPER_MODE_1ONESHOT = { ESC, (byte)'A', (byte)'A', (byte)'0' };
         protected readonly byte[] CMD_OPER_MODE_2CONTINUOUS = { ESC, (byte)'A', (byte)'A', (byte)'1' };
         protected readonly byte[] CMD_OPER_MODE_3PHASEMODE = { ESC, (byte)'A', (byte)'A', (byte)'2' };
-
+#endif
         //Visiset 패킷 캐치 코드
         protected readonly byte[] CMD_VISISET_CONNECT = { 
         0x1B, 0x5B, 0x43, 0x02, 0x00, 0x04, 0x00, 0x04, 0x06, 0x06, 

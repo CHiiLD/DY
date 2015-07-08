@@ -42,7 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200ProcessingInfo.cs" />
+    <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\ProcessingInfo.cs" />
     <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200.cs" />
     <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200Command.cs" />
     <Compile Include="PLC\Builder\AEthernetBuilder.cs" />

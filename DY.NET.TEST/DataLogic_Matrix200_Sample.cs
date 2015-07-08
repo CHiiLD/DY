@@ -12,6 +12,13 @@ namespace DY.NET.TEST
     {
         private static bool m_Loop = true;
 
+        public static async void Capture(Matrix200 m200)
+        {
+            Tuple<int, int> cap_size = await m200.CaptureAsync();
+            if (cap_size != null)
+                Console.WriteLine("capture size width: {0}, height: {1}", cap_size.Item1, cap_size.Item2);
+        }
+
         public static async void DataLogic_Matrix200_Test()
         {
             Matrix200 m200 = Matrix200.CreateMaxtrix200HostMode("COM3", 115200);
@@ -22,30 +29,31 @@ namespace DY.NET.TEST
             {
                 Console.WriteLine("*****************************");
                 Console.WriteLine("Q -> Exit");
-                Console.WriteLine("DISC -> Disconnect");
-                Console.WriteLine("CAP -> Capture");
-                Console.WriteLine("DEC -> Decoding");
+                Console.WriteLine("D -> Disconnect");
+                Console.WriteLine("C -> Capture");
+                Console.WriteLine("E -> Decoding");
                 Console.WriteLine("*****************************");
-                string str = Console.ReadLine();
-                if ("Q" == str)
+                ConsoleKeyInfo str = Console.ReadKey();
+                if ('Q' == str.KeyChar)
                 {
-                    //m200.Dispose();
+                    m200.Close();
+                    m200.Dispose();
                     m_Loop = false;
                 }
-                else if ("DISC" == str)
+                else if ('D' == str.KeyChar)
                 {
                     Console.WriteLine("disconnect ..");
                     m200.Disconnect();
                 }
-                else if ("CAP" == str)
+                else if ('C' == str.KeyChar)
                 {
                     Console.WriteLine("capture ..");
-                    m200.Capture();
+                    Capture(m200);
                 }
-                else if ("DEC" == str)
+                else if ('E' == str.KeyChar)
                 {
                     Console.WriteLine("decoding ..");
-                    m200.Decoding();
+                    await m200.DecodingAsync();
                 }
             } while (m_Loop);
             System.Threading.Thread.Sleep(1000);
