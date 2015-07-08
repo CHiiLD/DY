@@ -1,0 +1,5 @@
+/home/child/dev/github/DY/DY.NET/obj/Debug/.NETFramework,Version=v4.5.AssemblyAttribute.cs
+/home/child/dev/github/DY/DY.NET/obj/Debug/NET.dll
+/home/child/dev/github/DY/DY.NET/bin/Debug/NET.dll.mdb
+/home/child/dev/github/DY/DY.NET/bin/Debug/NET.dll
+/home/child/dev/github/DY/DY.NET/obj/Debug/NET.dll.mdb

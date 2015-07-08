@@ -309,7 +309,7 @@ namespace DY.NET.DATALOGIC.MATRIX
                 if (Int32.TryParse(match.Groups[1].Value.Trim(), out p_time))
                     info.ProcessingTime = new TimeSpan(0, 0, 0, 0, p_time);
             }
-            //기타 
+            //기타 작업
             string[] reply_a = reply_s.Split('\n');
             foreach (var r in reply_a)
             {
