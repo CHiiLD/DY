@@ -16,7 +16,7 @@ namespace DY.NET.DATALOGIC.MATRIX
         public Point TL, TR, BL, BR;
     }
 
-    public struct ProcessingInfo
+    public class ProcessingInfo
     {
         public string NewCode;
         public string Symbology;
@@ -29,5 +29,17 @@ namespace DY.NET.DATALOGIC.MATRIX
         public string Data;
         public int ExposureQuality;
         public TimeSpan ProcessingTime;
+        public Dictionary<string, string> RawData;
+
+        public ProcessingInfo()
+        {
+            //CodeCenterPosition = new Point();
+            RawData = new Dictionary<string, string>();
+            //CodeBounds = new Bounds();
+            //CodeBounds.BL = new Point();
+            //CodeBounds.BR = new Point();
+            //CodeBounds.TL = new Point();
+            //CodeBounds.TR = new Point();
+        }
     }
 }
