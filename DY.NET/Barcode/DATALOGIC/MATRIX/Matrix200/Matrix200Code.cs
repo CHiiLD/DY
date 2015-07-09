@@ -25,7 +25,7 @@ namespace DY.NET.DATALOGIC.MATRIX
     /// <summary>
     /// 바코드 정보 클래스
     /// </summary>
-    public class ProcessingInfo
+    public class Matrix200Code
     {
         public string NewCode;
         public string Symbology;
@@ -40,7 +40,7 @@ namespace DY.NET.DATALOGIC.MATRIX
         public TimeSpan ProcessingTime;
         public Dictionary<string, string> RawData;
 
-        public ProcessingInfo()
+        public Matrix200Code()
         {
             RawData = new Dictionary<string, string>();
         }

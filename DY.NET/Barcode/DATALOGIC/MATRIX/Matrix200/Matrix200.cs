@@ -38,7 +38,7 @@ namespace DY.NET.DATALOGIC.MATRIX
         public class Builder
         {
             protected string _PortName;
-            protected int _BaudRate = 9600;
+            protected int _BaudRate = 115200;
             protected Parity _Parity = System.IO.Ports.Parity.None;
             protected int _DataBits = 8;
             protected StopBits _StopBits = System.IO.Ports.StopBits.One;
@@ -184,7 +184,7 @@ namespace DY.NET.DATALOGIC.MATRIX
         /// 메모리에 저장된 이미지를 분석하여 바코드 코드 정보를 얻는다
         /// </summary>
         /// <returns>성공할 시 ProcessingInfo 리턴, 그렇지 않으면 null 리턴</returns>
-        public async Task<ProcessingInfo> DecodingAsync()
+        public async Task<Matrix200Code> DecodingAsync()
         {
             if (!IsEnableSerial)
                 return null;
@@ -212,7 +212,7 @@ namespace DY.NET.DATALOGIC.MATRIX
         /// 대략 3 ~ 30초 가량 시간이 소요된다.
         /// </summary>
         /// <returns></returns>
-        public async Task<ProcessingInfo> LearnBarCodeAsync()
+        public async Task<Matrix200Code> LearnBarCodeAsync()
         {
             if (!IsEnableSerial)
                 return null;
@@ -242,9 +242,9 @@ namespace DY.NET.DATALOGIC.MATRIX
             return match.Success ? ProcessReply(reply) : null;
         }
 
-        private ProcessingInfo ProcessReply(string reply_s)
+        private Matrix200Code ProcessReply(string reply_s)
         {
-            ProcessingInfo info = new ProcessingInfo();
+            Matrix200Code info = new Matrix200Code();
             //코드
             Match match = Regex.Match(reply_s, @"New Code \((.+)\)");
             if (match.Success)

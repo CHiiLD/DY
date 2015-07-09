@@ -30,11 +30,11 @@ namespace DY.NET.LSIS.XGT
         public ushort RegiNum { private set; get; }   //등록 번호    2byte
         #endregion
 
-        private Dictionary<string, T> DataStorageDictionary = new Dictionary<string, T>();
+        private Dictionary<string, T> m_DataStorageDictionary = new Dictionary<string, T>();
         public override object GetStorage()
         {
             var dic = new Dictionary<string, object>();
-            foreach (var d in DataStorageDictionary)
+            foreach (var d in m_DataStorageDictionary)
                 dic.Add(d.Key, d.Value);
             return dic;
         }
@@ -87,8 +87,8 @@ namespace DY.NET.LSIS.XGT
 
             var instance = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCmdType.SS);
             foreach (var l in datas)
-                instance.DataStorageDictionary.Add(l, default(T));
-            instance.BlocCnt = (ushort)instance.DataStorageDictionary.Count;
+                instance.m_DataStorageDictionary.Add(l, default(T));
+            instance.BlocCnt = (ushort)instance.m_DataStorageDictionary.Count;
             return instance;
         }
 
@@ -107,8 +107,8 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
 
             var instance = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCmdType.SS);
-            instance.DataStorageDictionary = new Dictionary<string, T>(datas);
-            instance.BlocCnt = (ushort)instance.DataStorageDictionary.Count;
+            instance.m_DataStorageDictionary = new Dictionary<string, T>(datas);
+            instance.BlocCnt = (ushort)instance.m_DataStorageDictionary.Count;
             return instance;
         }
 
@@ -136,7 +136,7 @@ namespace DY.NET.LSIS.XGT
                 string str_num = name.Substring(3, name.Length - 3);
                 int mem_num;
                 if (Int32.TryParse(str_num, out mem_num))
-                    instance.DataStorageDictionary.Add(str_header + (mem_num + i).ToString(), default(T));
+                    instance.m_DataStorageDictionary.Add(str_header + (mem_num + i).ToString(), default(T));
             }
             return instance;
         }
@@ -160,7 +160,7 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentException(ERROR_PROTOCOL_WSB_SIZE_MAX_240BYTE);
 
             var instance = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCmdType.SB);
-            instance.DataStorageDictionary = new Dictionary<string, T>(datas);
+            instance.m_DataStorageDictionary = new Dictionary<string, T>(datas);
             instance.DataCnt = (ushort)datas.Count;
             return instance;
         }
@@ -223,7 +223,7 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentException("xss_protocol is not xss type.");
             var instance = CreateRequestProtocol(localPort, XGTCnetCommand.Y, XGTCnetCmdType.SS);
             instance.RegiNum = register_num;
-            instance.DataStorageDictionary = new Dictionary<string, T>(xss_protocol.DataStorageDictionary);
+            instance.m_DataStorageDictionary = new Dictionary<string, T>(xss_protocol.m_DataStorageDictionary);
             return instance;
         }
 
@@ -242,7 +242,7 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentException("xsb_protocol is not xss type.");
             var instance = CreateRequestProtocol(localPort, XGTCnetCommand.Y, XGTCnetCmdType.SB);
             instance.RegiNum = register;
-            instance.DataStorageDictionary = new Dictionary<string, T>(xsb_protocol.DataStorageDictionary);
+            instance.m_DataStorageDictionary = new Dictionary<string, T>(xsb_protocol.m_DataStorageDictionary);
             return instance;
         }
 
@@ -255,7 +255,7 @@ namespace DY.NET.LSIS.XGT
         public static XGTCnetProtocol<T> CreateReceiveProtocol(byte[] binaryData, XGTCnetProtocol<T> reqtProtocol)
         {
             XGTCnetProtocol<T> instance = new XGTCnetProtocol<T>(binaryData);
-            instance.DataStorageDictionary = new Dictionary<string, T>(reqtProtocol.DataStorageDictionary);
+            instance.m_DataStorageDictionary = new Dictionary<string, T>(reqtProtocol.m_DataStorageDictionary);
             instance.OtherParty = reqtProtocol;
             instance.Tag = reqtProtocol.Tag;
             instance.UserData = reqtProtocol.UserData;
@@ -276,8 +276,8 @@ namespace DY.NET.LSIS.XGT
 
         private void AddProtocolRSS(List<byte> asc_list)
         {
-            asc_list.AddRange(CA2C.ToASC(DataStorageDictionary.Count, typeof(UInt16)));// 블록 수
-            foreach (var d in DataStorageDictionary)
+            asc_list.AddRange(CA2C.ToASC(m_DataStorageDictionary.Count, typeof(UInt16)));// 블록 수
+            foreach (var d in m_DataStorageDictionary)
             {
                 asc_list.AddRange(CA2C.ToASC(d.Key.Length, typeof(UInt16)));// 변수 이름 길이
                 asc_list.AddRange(CA2C.ToASC(d.Key));                       // 변수 이름 정보 
@@ -286,8 +286,8 @@ namespace DY.NET.LSIS.XGT
 
         private void AddProtocolWSS(List<byte> asc_list)
         {
-            asc_list.AddRange(CA2C.ToASC(DataStorageDictionary.Count, typeof(UInt16)));               // 블록 수
-            foreach (var d in DataStorageDictionary)
+            asc_list.AddRange(CA2C.ToASC(m_DataStorageDictionary.Count, typeof(UInt16)));               // 블록 수
+            foreach (var d in m_DataStorageDictionary)
             {
                 asc_list.AddRange(CA2C.ToASC(d.Key.Length, typeof(UInt16)));// 변수 이름 길이
                 asc_list.AddRange(CA2C.ToASC(d.Key));                       // 변수 이름 정보 
@@ -301,8 +301,8 @@ namespace DY.NET.LSIS.XGT
             asc_list.Add((byte)'R');
             asc_list.Add((byte)'S');
             asc_list.Add((byte)'S');
-            asc_list.AddRange(CA2C.ToASC(DataStorageDictionary.Count, typeof(UInt16)));
-            foreach (var d in DataStorageDictionary)
+            asc_list.AddRange(CA2C.ToASC(m_DataStorageDictionary.Count, typeof(UInt16)));
+            foreach (var d in m_DataStorageDictionary)
             {
                 asc_list.AddRange(CA2C.ToASC(d.Key.Length, typeof(UInt16)));
                 asc_list.AddRange(CA2C.ToASC(d.Key));
@@ -317,17 +317,17 @@ namespace DY.NET.LSIS.XGT
         // not support bit data
         private void AddProtocolRSB(List<byte> asc_list)
         {
-            asc_list.AddRange(CA2C.ToASC(DataStorageDictionary.First().Key.Length, typeof(UInt16)));
-            asc_list.AddRange(CA2C.ToASC(DataStorageDictionary.First().Key));
-            asc_list.AddRange(CA2C.ToASC(DataStorageDictionary));
+            asc_list.AddRange(CA2C.ToASC(m_DataStorageDictionary.First().Key.Length, typeof(UInt16)));
+            asc_list.AddRange(CA2C.ToASC(m_DataStorageDictionary.First().Key));
+            asc_list.AddRange(CA2C.ToASC(m_DataStorageDictionary));
         }
 
         private void AddProtocolWSB(List<byte> asc_list)
         {
-            asc_list.AddRange(CA2C.ToASC(DataStorageDictionary.First().Key.Length, typeof(UInt16)));
-            asc_list.AddRange(CA2C.ToASC(DataStorageDictionary.First().Key));
+            asc_list.AddRange(CA2C.ToASC(m_DataStorageDictionary.First().Key.Length, typeof(UInt16)));
+            asc_list.AddRange(CA2C.ToASC(m_DataStorageDictionary.First().Key));
             asc_list.AddRange(CA2C.ToASC(DataCnt));
-            foreach (var d in DataStorageDictionary)
+            foreach (var d in m_DataStorageDictionary)
                 asc_list.AddRange(CA2C.ToASC(d.Value));
         }
 
@@ -338,8 +338,8 @@ namespace DY.NET.LSIS.XGT
             asc_list.Add((byte)'S');
             asc_list.Add((byte)'B');
 
-            asc_list.AddRange(CA2C.ToASC(DataStorageDictionary.First().Key.Length, typeof(UInt16)));
-            asc_list.AddRange(CA2C.ToASC(DataStorageDictionary.First().Key));
+            asc_list.AddRange(CA2C.ToASC(m_DataStorageDictionary.First().Key.Length, typeof(UInt16)));
+            asc_list.AddRange(CA2C.ToASC(m_DataStorageDictionary.First().Key));
             asc_list.AddRange(CA2C.ToASC(DataCnt));
         }
 
@@ -383,7 +383,7 @@ namespace DY.NET.LSIS.XGT
             byte[] data = GetInstructData();
             BlocCnt = (ushort)CA2C.ToValue(new byte[] { data[0], data[1] }, typeof(UInt16));
             int data_idx = 2;
-            var list = DataStorageDictionary.ToList();
+            var list = m_DataStorageDictionary.ToList();
             for (int i = 0; i < BlocCnt; i++)
             {
                 ushort sizeOfType = (ushort)CA2C.ToValue(new byte[] { data[data_idx + 0], data[data_idx + 1] }, typeof(UInt16));
@@ -391,7 +391,7 @@ namespace DY.NET.LSIS.XGT
                 byte[] data_arr = new byte[sizeOfType * 2];
                 Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
                 data_idx += data_arr.Length;
-                DataStorageDictionary[list[i].Key] = (T) CA2C.ToValue(data_arr, list[i].Value.GetType());
+                m_DataStorageDictionary[list[i].Key] = (T) CA2C.ToValue(data_arr, list[i].Value.GetType());
             }
         }
 
@@ -412,7 +412,7 @@ namespace DY.NET.LSIS.XGT
             RegiNum = (ushort)CA2C.ToValue(new byte[] { data[0], data[1] }, typeof(UInt16));
             BlocCnt = (ushort)CA2C.ToValue(new byte[] { data[2], data[3] }, typeof(UInt16));
             int data_idx = 4;
-            var list = DataStorageDictionary.ToList();
+            var list = m_DataStorageDictionary.ToList();
             for (int i = 0; i < BlocCnt; i++)
             {
                 ushort sizeOfType = (ushort)CA2C.ToValue(new byte[] { data[data_idx + 0], data[data_idx + 1] }, typeof(UInt16));
@@ -420,7 +420,7 @@ namespace DY.NET.LSIS.XGT
                 byte[] data_arr = new byte[sizeOfType * 2];
                 Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
                 data_idx += data_arr.Length;
-                DataStorageDictionary[list[i].Key] = (T)CA2C.ToValue(data_arr, list[i].Value.GetType());
+                m_DataStorageDictionary[list[i].Key] = (T)CA2C.ToValue(data_arr, list[i].Value.GetType());
             }
         }
 
@@ -445,14 +445,14 @@ namespace DY.NET.LSIS.XGT
             byte[] data = GetInstructData();
             ushort data_len = (ushort)CA2C.ToValue(new byte[] { data[2], data[3] }, typeof(UInt16));// 데이터 개수 정보 쿼리
             int data_idx = 4;
-            var list = DataStorageDictionary.ToList();
+            var list = m_DataStorageDictionary.ToList();
             int data_type_size = typeof(T).ToSize(); //list.First().Value.GetType().ToSize();
             // 일렬로 정렬된 데이터들을 데이터타입에 따라 적절하게 파싱하여 데이터 쿼리
             for (int i = 0; i < data_len / data_type_size; i++)
             {
                 byte[] data_arr = new byte[data_type_size * 2];
                 Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
-                DataStorageDictionary[list[i].Key] = (T)CA2C.ToValue(data_arr, list[i].Value.GetType());
+                m_DataStorageDictionary[list[i].Key] = (T)CA2C.ToValue(data_arr, list[i].Value.GetType());
                 data_idx += data_arr.Length;
             }
         }
@@ -476,14 +476,14 @@ namespace DY.NET.LSIS.XGT
             ushort data_len = (ushort)CA2C.ToValue(new byte[] { data[2], data[3] }, typeof(UInt16));
             // 그로파 변수이름에서 자료형 정보를 얻어낸다
             int data_idx = 4;
-            var list = DataStorageDictionary.ToList();
+            var list = m_DataStorageDictionary.ToList();
             int data_type_size = typeof(T).ToSize();
             // 일렬로 정렬된 데이터들을 데이터타입에 따라 적절하게 파싱하여 데이터 쿼리
             for (int i = 0; i < data_len / data_type_size; i++)
             {
                 byte[] temp_arr = new byte[data_type_size * 2];
                 Buffer.BlockCopy(data, data_idx, temp_arr, 0, temp_arr.Length);
-                DataStorageDictionary[list[i].Key] = (T)CA2C.ToValue(temp_arr, list[i].Value.GetType());
+                m_DataStorageDictionary[list[i].Key] = (T)CA2C.ToValue(temp_arr, list[i].Value.GetType());
                 data_idx += temp_arr.Length;
             }
         }
@@ -528,7 +528,7 @@ namespace DY.NET.LSIS.XGT
             {
                 case XGTCnetCCType.ENQ:
                 case XGTCnetCCType.ACK:
-                    foreach (var d in DataStorageDictionary)
+                    foreach (var d in m_DataStorageDictionary)
                     {
                         Console.Write(string.Format("[{0}] name: {1}", ++cnt, d.Key));
                         Console.WriteLine(string.Format(" value: {0}", d.Value));

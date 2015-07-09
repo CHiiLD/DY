@@ -44,16 +44,17 @@
   <ItemGroup>
     <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200DataReceivedEventArgs.cs" />
     <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200Queue.cs" />
-    <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\ProcessingInfo.cs" />
+    <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200Code.cs" />
     <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200.cs" />
     <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200Command.cs" />
     <Compile Include="PLC\Builder\AEthernetBuilder.cs" />
     <Compile Include="PLC\Builder\ASerialPortBuilder.cs" />
     <Compile Include="PLC\Inheritance\IDebug.cs" />
-    <Compile Include="PLC\LSIS\XGT\B2HS.cs" />
+    <Compile Include="PLC\LSIS\XGT\ByteArray2HexStr.cs" />
     <Compile Include="PLC\Inheritance\ASocketCover.cs" />
     <Compile Include="PLC\Inheritance\IProtocol.cs" />
     <Compile Include="PLC\Inheritance\ITag.cs" />
+    <Compile Include="PLC\LSIS\XGT\B2W.cs" />
     <Compile Include="PLC\LSIS\XGT\CA2C.cs" />
     <Compile Include="PLC\Inheritance\ISocketCover.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Enum\XGTCnetProtocolError.cs" />

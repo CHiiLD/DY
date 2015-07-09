@@ -11,37 +11,37 @@ namespace DY.NET.LSIS.XGT
     {
         public string GetPortName()
         {
-            if (_SerialPort == null)
+            if (m_SerialPort == null)
                 throw new NullReferenceException(ERROR_SERIAL_IS_NULL);
-            return _SerialPort.PortName;
+            return m_SerialPort.PortName;
         }
 
         public int GetBaudRate()
         {
-            if (_SerialPort == null)
+            if (m_SerialPort == null)
                 throw new NullReferenceException(ERROR_SERIAL_IS_NULL);
-            return _SerialPort.BaudRate;
+            return m_SerialPort.BaudRate;
         }
 
         public Parity GetParity()
         {
-            if (_SerialPort == null)
+            if (m_SerialPort == null)
                 throw new NullReferenceException(ERROR_SERIAL_IS_NULL);
-            return _SerialPort.Parity;
+            return m_SerialPort.Parity;
         }
 
         public int GetDataBits()
         {
-            if (_SerialPort == null)
+            if (m_SerialPort == null)
                 throw new NullReferenceException(ERROR_SERIAL_IS_NULL);
-            return _SerialPort.DataBits;
+            return m_SerialPort.DataBits;
         }
 
         public StopBits GetStopBits()
         {
-            if (_SerialPort == null)
+            if (m_SerialPort == null)
                 throw new NullReferenceException(ERROR_SERIAL_IS_NULL);
-            return _SerialPort.StopBits;
+            return m_SerialPort.StopBits;
         }
     }
 }

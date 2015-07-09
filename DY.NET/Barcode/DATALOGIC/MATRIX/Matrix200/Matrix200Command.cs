@@ -5,7 +5,7 @@
     /// </summary>
     public class Matrix200Command
     {
-#if false
+#if true
         private const byte ESC = 0x1B;
         protected const byte CR = 0x0D;
         protected const byte LF = 0x0A;
@@ -43,6 +43,11 @@
         protected readonly byte[] CMD_OPER_MODE_1ONESHOT = { ESC, (byte)'A', (byte)'A', (byte)'0' };
         protected readonly byte[] CMD_OPER_MODE_2CONTINUOUS = { ESC, (byte)'A', (byte)'A', (byte)'1' };
         protected readonly byte[] CMD_OPER_MODE_3PHASEMODE = { ESC, (byte)'A', (byte)'A', (byte)'2' };
+
+        //이미지 프로세싱 - 타임아웃 설정
+        protected readonly byte[] CMD_IMG_PROC_TIMEOUT_DISABLE = { ESC, (byte)'F', (byte)'F', (byte)'0' };
+        protected readonly byte[] CMD_IMG_PROC_TIMEOUT_500MS = { ESC, (byte)'F', (byte)'F', (byte)'5', (byte)'0', (byte)'0' };
+        protected readonly byte[] CMD_IMG_PROC_TIMEOUT_1000MS = { ESC, (byte)'F', (byte)'F', (byte)'1', (byte)'0', (byte)'0', (byte)'0' };
 #endif
         //Visiset 패킷 캐치 코드
         protected readonly byte[] CMD_VISISET_CONNECT = { 
@@ -50,8 +55,8 @@
         0x06, 0x06, 0x03, 0x00, 0x25, 0x1B, 0x5B, 0x41, 0x02, 0x00, 0x01, 0x00, 0x48, 0x00, 0x03, 0x00, 0x4E, 0x02, 0x00, 0x01, 0x00, 0x1E, 0x00, 
         0x03, 0x00, 0x24, };
         protected readonly byte[] CMD_VISISET_DISCONNECT = { 0x02, 0x00, 0x02, 0xFE, 0x00, 0x0E, 0x00, 0x00, 0x03, 0x00, 0x15 };
-        protected readonly byte[] CMD_VISISET_CAPTURE =  { 0x02, 0x00, 0x01, 0x00, 0x04, 0x42, 0x03, 0x00, 0x4C };
+        protected readonly byte[] CMD_VISISET_CAPTURE = { 0x02, 0x00, 0x01, 0x00, 0x04, 0x42, 0x03, 0x00, 0x4C };
         protected readonly byte[] CMD_VISISET_DECODING = { 0x02, 0x00, 0x01, 0x00, 0x04, 0x43, 0x03, 0x00, 0x4D };
-        protected readonly byte[] CMD_VISISET_LEARN = { 0x02, 0x00, 0x05, 0x00, 0x04, 0x59, 0x31, 0x2C, 0x34, 0x00, 0x03, 0x00, 0xF8};
+        protected readonly byte[] CMD_VISISET_LEARN = { 0x02, 0x00, 0x05, 0x00, 0x04, 0x59, 0x31, 0x2C, 0x34, 0x00, 0x03, 0x00, 0xF8 };
     }
 }

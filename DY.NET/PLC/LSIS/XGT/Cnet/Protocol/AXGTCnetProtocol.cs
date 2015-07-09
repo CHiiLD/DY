@@ -247,7 +247,7 @@ namespace DY.NET.LSIS.XGT
         public override void Print()
         {
             Console.WriteLine("XGT Cnet 프로토콜 정보");
-            Console.WriteLine("ASC 코드: " + B2HS.Change(_ASCIIProtocol));
+            Console.WriteLine("ASC 코드: " + ByteArray2HexStr.Change(_ASCIIProtocol));
             Console.WriteLine("국번: {0}", LocalPort);
             Console.WriteLine(string.Format("헤더: {0}", Header == XGTCnetCCType.ENQ ? "ENQ" : Header == XGTCnetCCType.ACK ? "ACK" : "NAK"));
             Console.WriteLine(string.Format("명령: {0}", (char)Command));

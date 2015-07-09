@@ -15,15 +15,20 @@ namespace DY.NET.DATALOGIC.MATRIX
     {
         public enum Todo
         {
-            Prepare,
-            Disconnect,
-            Scan,
-            Sysbol_Verification
+            PREPARE,
+            DISCONNECT,
+            SCAN,
+            SYMBOL_VERIFICATION
         }
 
         private ConcurrentQueue<Tuple<Todo, EventHandler<Matrix200DataReceivedEventArgs>>> m_Queue = new ConcurrentQueue<Tuple<Todo, EventHandler<Matrix200DataReceivedEventArgs>>>();
         private bool m_Working = false;
         private Matrix200 m_m200;
+
+        /// <summary>
+        /// 코드를 스캔하고 난 뒤에 발생되는 이벤트
+        /// </summary>
+        public EventHandler<Matrix200DataReceivedEventArgs> CodeScanned { get; set; }
 
         public Matrix200Queue(Matrix200 m200)
         {
@@ -58,21 +63,23 @@ namespace DY.NET.DATALOGIC.MATRIX
         {
             m_Working = true;
             {
-                ProcessingInfo info = null;
+                Matrix200Code info = null;
                 switch (todo)
                 {
-                    case Todo.Prepare:
+                    case Todo.PREPARE:
                         await m_m200.PrepareAsync();
                         break;
-                    case Todo.Disconnect:
+                    case Todo.DISCONNECT:
                         m_m200.Disconnect();
                         Clear();
                         break;
-                    case Todo.Scan:
+                    case Todo.SCAN:
                         await m_m200.CaptureAsync();
                         info = await m_m200.DecodingAsync();
+                        if (CodeScanned != null)
+                            CodeScanned(this, new Matrix200DataReceivedEventArgs(todo, info));
                         break;
-                    case Todo.Sysbol_Verification:
+                    case Todo.SYMBOL_VERIFICATION:
                         info = await m_m200.LearnBarCodeAsync();
                         break;
                 }

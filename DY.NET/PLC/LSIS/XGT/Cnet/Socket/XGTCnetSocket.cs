@@ -26,24 +26,18 @@ namespace DY.NET.LSIS.XGT
 
             public override object Build()
             {
-                var skt = new XGTCnetSocket() { _SerialPort = new SerialPort(_PortName, _BaudRate, _Parity, _DataBits, _StopBits) };
-                skt._SerialPort.DataReceived += skt.OnDataRecieve;
-                skt._SerialPort.ErrorReceived += skt.OnSerialErrorReceived;
-                skt._SerialPort.PinChanged += skt.OnSerialPinChanged;
+                var skt = new XGTCnetSocket() { m_SerialPort = new SerialPort(_PortName, _BaudRate, _Parity, _DataBits, _StopBits) };
+                skt.m_SerialPort.DataReceived += skt.OnDataRecieve;
+                skt.m_SerialPort.ErrorReceived += skt.OnSerialErrorReceived;
+                skt.m_SerialPort.PinChanged += skt.OnSerialPinChanged;
                 return skt;
             }
         }
 
         #region VAR_PROPERTIES_EVENT
-        private const string ERROR_SERIAL_IS_NULL = "_SerialPort is null.";
-        private volatile SerialPort _SerialPort;
-        /// <summary>
-        /// 시리얼포트 에러 이벤트
-        /// </summary>
+        private const string ERROR_SERIAL_IS_NULL = "m_SerialPort is null.";
+        private volatile SerialPort m_SerialPort;
         public event SerialErrorReceivedEventHandler ErrorReceived;
-        /// <summary>
-        /// 시리얼포트 핀 변경 이벤트
-        /// </summary>
         public event SerialPinChangedEventHandler PinChanged;
         #endregion
 
@@ -59,11 +53,11 @@ namespace DY.NET.LSIS.XGT
         /// <returns> 통신 접속 성공 여부 </returns>
         public override bool Connect()
         {
-            if (_SerialPort == null)
+            if (m_SerialPort == null)
                 throw new NullReferenceException(ERROR_SERIAL_IS_NULL);
-            if (!_SerialPort.IsOpen)
-                _SerialPort.Open();
-            return _SerialPort.IsOpen;
+            if (!m_SerialPort.IsOpen)
+                m_SerialPort.Open();
+            return m_SerialPort.IsOpen;
         }
 
         /// <summary>
@@ -72,7 +66,7 @@ namespace DY.NET.LSIS.XGT
         /// <returns> 통신 끊기 성공 여부 </returns>
         public override void Close()
         {
-            _SerialPort.Close();
+            m_SerialPort.Close();
         }
 
         /// <summary>
@@ -81,7 +75,7 @@ namespace DY.NET.LSIS.XGT
         /// <returns> 결과 </returns>
         public override bool IsOpen()
         {
-            return _SerialPort.IsOpen;
+            return m_SerialPort.IsOpen;
         }
 
         /// <summary>
@@ -90,9 +84,9 @@ namespace DY.NET.LSIS.XGT
         /// <param name="iProtocol"> XGTCnetProtocol 프로토콜 클래스, 반드시 사전에 AssembleProtocol() 함수 실행해야함</param>
         public override void Send(IProtocol iProtocol)
         {
-            if (_SerialPort == null)
+            if (m_SerialPort == null)
                 return;
-            if (!_SerialPort.IsOpen)
+            if (!m_SerialPort.IsOpen)
                 throw new Exception("Serial port is not opend");
             AProtocol reqt_p = iProtocol as AProtocol;
             if (reqt_p == null)
@@ -109,7 +103,7 @@ namespace DY.NET.LSIS.XGT
                 return;
             }
             ReqeustProtocol = reqt_p;
-            _SerialPort.Write(reqt_p_asciiprotocol, 0, reqt_p_asciiprotocol.Length);
+            m_SerialPort.Write(reqt_p_asciiprotocol, 0, reqt_p_asciiprotocol.Length);
             SendedProtocolSuccessfullyEvent(reqt_p);
             reqt_p.ProtocolRequestedEvent(this, reqt_p);
             IsWait = true;
@@ -192,16 +186,16 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         public override void Dispose()
         {
-            if (_SerialPort != null)
+            if (m_SerialPort != null)
             {
                 this.Close();
                 ErrorReceived = null;
                 PinChanged = null;
 
-                _SerialPort.Dispose();
+                m_SerialPort.Dispose();
 
                 ReqeustProtocol = null;
-                _SerialPort = null;
+                m_SerialPort = null;
             }
             base.Dispose();
         }

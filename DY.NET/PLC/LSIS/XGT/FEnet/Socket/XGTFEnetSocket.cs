@@ -5,38 +5,38 @@ namespace DY.NET.LSIS.XGT
 {
     public class XGTFEnetSocket : ASocketCover
     {
-        private string Host;
-        private XGTFEnetPort Port;
-        private TcpClient Client = new TcpClient();
+        private string m_Host;
+        private XGTFEnetPort m_Port;
+        private TcpClient m_Client = new TcpClient();
 
         /// <summary>
         /// 서버로부터 연결 종료 신호를 받았을 때 이벤트 발생
         /// </summary>
-        public EventHandler<EventArgs> ReceivedSignOff { get; set; }
+        public EventHandler<EventArgs> SignOffReceived { get; set; }
         
         /// <summary>
         /// new 생성 방지
         /// </summary>
         public XGTFEnetSocket(string host, XGTFEnetPort port)
         {
-            Host = host;
-            Port = port;
+            m_Host = host;
+            m_Port = port;
         }
 
         public override bool Connect()
         {
             //비동기 요청
-            if (!Client.Connected)
+            if (!m_Client.Connected)
             {
-                Client.Connect(Host, (int)Port);
-                Client.GetStream().BeginRead(Buf, BufIdx, BUFFER_SIZE, OnRead, Client);
+                m_Client.Connect(m_Host, (int)m_Port);
+                m_Client.GetStream().BeginRead(Buf, BufIdx, BUFFER_SIZE, OnRead, m_Client);
             }
-            return Client.Connected;
+            return m_Client.Connected;
         }
 
         public override void Send(IProtocol iProtocol)
         {
-            if (Client == null)
+            if (m_Client == null)
                 return;
             AProtocol reqt_p = iProtocol as AProtocol;
             if (reqt_p == null)
@@ -53,7 +53,7 @@ namespace DY.NET.LSIS.XGT
                 return;
             }
             ReqeustProtocol = reqt_p;
-            Client.GetStream().BeginWrite(reqt_p_asciiprotocol, 0, reqt_p_asciiprotocol.Length, OnSended, Client);
+            m_Client.GetStream().BeginWrite(reqt_p_asciiprotocol, 0, reqt_p_asciiprotocol.Length, OnSended, m_Client);
             IsWait = true;
         }
 
@@ -80,26 +80,26 @@ namespace DY.NET.LSIS.XGT
 
         public override void Close()
         {
-            if (Client != null)
+            if (m_Client != null)
             {
-                Client.GetStream().Close();
-                Client.Close();
+                m_Client.GetStream().Close();
+                m_Client.Close();
             }
         }
 
         public override bool IsOpen()
         {
-            if (Client == null)
+            if (m_Client == null)
                 return false;
-            return Client.Connected;
+            return m_Client.Connected;
         }
 
         public virtual new void Dispose()
         {
-            if (Client != null)
+            if (m_Client != null)
             {
                 Close();
-                Client = null;
+                m_Client = null;
             }
             base.Dispose();
         }
@@ -118,8 +118,8 @@ namespace DY.NET.LSIS.XGT
                 catch (Exception exception) { }
                 if (BufIdx == 0) //서버측에서 연결을 끊음
                 {
-                    if (ReceivedSignOff != null)
-                        ReceivedSignOff(this, EventArgs.Empty);
+                    if (SignOffReceived != null)
+                        SignOffReceived(this, EventArgs.Empty);
                     break;
                 }
                 AProtocol reqt_p = ReqeustProtocol as AProtocol;
