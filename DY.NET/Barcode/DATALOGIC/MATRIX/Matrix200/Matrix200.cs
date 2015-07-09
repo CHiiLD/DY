@@ -96,7 +96,7 @@ namespace DY.NET.DATALOGIC.MATRIX
         /// </summary>
         public void Close()
         {
-            if(IsEnableSerial)
+            if (IsEnableSerial)
             {
                 Disconnect();
                 m_SerialPort.Close();
@@ -109,7 +109,6 @@ namespace DY.NET.DATALOGIC.MATRIX
         public void Dispose()
         {
             m_SerialPort.Dispose();
-            m_SerialPort = null;
         }
 
         /// <summary>
@@ -121,14 +120,19 @@ namespace DY.NET.DATALOGIC.MATRIX
         {
             if (!IsEnableSerial)
                 return;
-            await m_SerialPort.BaseStream.WriteAsync(CMD_VISISET_CONNECT, 0, CMD_VISISET_CONNECT.Length);
-            int buf_size = 0;
-            do
-            {
-                buf_size = await m_SerialPort.BaseStream.ReadAsync(m_Buffer, 0, m_Buffer.Length);
-                if (m_Buffer[buf_size - 1] == 0x8E)
-                    break;
-            } while (buf_size != 0);
+
+            // 오토런 모드의 타임아웃 시간을 1초로 설정한다.
+            await SendAsync(H_CMD_ENTER_HOST_MODE, R_CMD_ENTER_HOST_MODE);
+            await SendAsync(H_CMD_ENTER_PROGRAMMING_MODE, R_CMD_ENTER_PROGRAMMING_MODE);
+
+            m_SerialPort.Write(CMD_LED_AUTOLEARN_TIMEOUT_1000MS, 0, CMD_LED_AUTOLEARN_TIMEOUT_1000MS.Length);
+            m_SerialPort.Write(CMD_END_SINGLE_PARAMETER_SEQ, 0, CMD_END_SINGLE_PARAMETER_SEQ.Length);
+
+            m_SerialPort.Write(CMD_EXIT_PROG_MODE_AND_DATA_STORAGE, 0, CMD_EXIT_PROG_MODE_AND_DATA_STORAGE.Length);
+            await SendAsync(H_CMD_EXIT_HOST_MODE, R_CMD_EXIT_HOST_MODE);
+
+            // VISISET MODE 접속
+            await SendAsync(CMD_VISISET_CONNECT, new byte[] { 0x8E });
         }
 
         /// <summary>
@@ -148,36 +152,19 @@ namespace DY.NET.DATALOGIC.MATRIX
         {
             if (!IsEnableSerial)
                 return null;
-
-            await m_SerialPort.BaseStream.WriteAsync(CMD_VISISET_CAPTURE, 0, CMD_VISISET_CAPTURE.Length);
-            List<byte> storage = new List<byte>();
-            int buf_size = 0;
-            do
-            {
-                buf_size = await m_SerialPort.BaseStream.ReadAsync(m_Buffer, 0, m_Buffer.Length);
-                for (int i = 0; i < buf_size; i++)
-                    storage.Add(m_Buffer[i]);
-                if (storage.Count > 3)
-                    if (storage[storage.Count - 3] == 0x03 &&
-                        storage[storage.Count - 2] == 0x1A &&
-                        storage[storage.Count - 1] == 0x57)
-                        break;
-            } while (buf_size != 0);
-
-            string reply = Encoding.ASCII.GetString(storage.ToArray());
+            byte[] bytes = await SendAsync(CMD_VISISET_CAPTURE, new byte[] { 0x03, 0x1A, 0x57 });
+            string reply = Encoding.ASCII.GetString(bytes);
             Match match = Regex.Match(reply, @"\(([0-9]*)x([0-9]*)\)");
+            Tuple<int, int> ret = null;
             if (match.Success)
             {
                 string s_width = match.Groups[1].Value;
                 string s_height = match.Groups[2].Value;
                 int width, height;
                 if (Int32.TryParse(s_width, out width) && Int32.TryParse(s_height, out height))
-                {
-                    Tuple<int, int> ret = new Tuple<int, int>(width, height);
-                    return ret;
-                }
+                    ret = new Tuple<int, int>(width, height);
             }
-            return null;
+            return ret;
         }
 
         /// <summary>
@@ -188,8 +175,22 @@ namespace DY.NET.DATALOGIC.MATRIX
         {
             if (!IsEnableSerial)
                 return null;
+            List<byte[]> list = new List<byte[]>();
+            list.Add(new byte[] { 0x03, 0x03, 0x45 }); //성공 시
+            list.Add(new byte[] { 0x03, 0x48, 0x05 }); //실패 시
+            byte[] bytes = await SendAsync(CMD_VISISET_DECODING, list);
+            string reply = Encoding.ASCII.GetString(bytes);
+            return ProcessReply(reply);
+        }
 
-            await m_SerialPort.BaseStream.WriteAsync(CMD_VISISET_DECODING, 0, CMD_VISISET_DECODING.Length);
+        public async Task OpenSetupAsync()
+        {
+            await SendAsync(CMD_VISISET_SETUP_OPEN, new byte[] { 0x03, 0x01, 0x17 });
+        }
+
+        public async Task CaptureForSetupAsync()
+        {
+            await m_SerialPort.BaseStream.WriteAsync(CMD_VISISET_SETUP_CAPTURE, 0, CMD_VISISET_SETUP_CAPTURE.Length);
             List<byte> storage = new List<byte>();
             int buf_size = 0;
             do
@@ -197,14 +198,95 @@ namespace DY.NET.DATALOGIC.MATRIX
                 buf_size = await m_SerialPort.BaseStream.ReadAsync(m_Buffer, 0, m_Buffer.Length);
                 for (int i = 0; i < buf_size; i++)
                     storage.Add(m_Buffer.ElementAt(i));
-                if (storage.Count > 3)
-                    if (storage[storage.Count - 3] == 0x03 &&
-                        storage[storage.Count - 2] == 0x03 &&
-                        storage[storage.Count - 1] == 0x45)
-                        break;
+                if (storage.Count < 3)
+                    continue;
+                if (storage[storage.Count() - 3] == 0x03)
+                    break;
             } while (buf_size != 0);
-            string reply = Encoding.ASCII.GetString(storage.ToArray());
-            return ProcessReply(reply);
+        }
+
+        public async Task<string> SettingCodeForSetupAsync()
+        {
+            byte[] bytes = await SendAsync(CMD_VISISET_SETUP_CODESETTING, new byte[] { 0x03, 0x00, 0x84 });
+            string reply = Encoding.ASCII.GetString(bytes);
+            Match match = Regex.Match(reply, @"[0-9]\. (.*)");
+            string symbol = "";
+            if (match.Success)
+                symbol = match.Groups[1].Value.Trim();
+            string[] split = symbol.Split('\0');
+            return split[0];
+        }
+
+        public async Task<bool> SavePermenentForSetupAsync()
+        {
+            byte[] bytes = await SendAsync(CMD_VISISET_SETUP_SAVE, new byte[] { 0x03, 0x19, 0xD8 });
+            string reply = Encoding.ASCII.GetString(bytes);
+            Match match = Regex.Match(reply, @"Checking configuration...OK");
+            return match.Success;
+        }
+
+        public async Task CloseSetupAsync()
+        {
+            await SendAsync(CMD_VISISET_SETUP_CLOSE, new byte[] { 0x03, 0x00, 0x38 });
+        }
+
+        private async Task<byte[]> SendAsync(byte[] CMD, byte[] tail)
+        {
+            List<byte[]> list = new List<byte[]>();
+            list.Add(tail);
+            return await SendAsync(CMD, list);
+        }
+
+        private async Task<byte[]> SendAsync(byte[] CMD, List<byte[]> tailList)
+        {
+            await m_SerialPort.BaseStream.WriteAsync(CMD, 0, CMD.Length);
+            List<byte> storage = new List<byte>();
+            int buf_size = 0;
+            do
+            {
+                buf_size = await m_SerialPort.BaseStream.ReadAsync(m_Buffer, 0, m_Buffer.Length);
+#if false
+                Console.WriteLine("**************************************************");
+                for (int i = 0; i < buf_size; i++)
+                {
+                    Console.Write("{0:X2} ", m_Buffer[i]);
+                    if (i % 8 == 0)
+                        Console.WriteLine("");
+                }
+                Console.WriteLine("");
+                //if (buf_size > 0)
+                //{
+                //    byte[] temp_buf = new byte[buf_size];
+                //    Buffer.BlockCopy(m_Buffer, 0, temp_buf, 0, buf_size);
+                //    Console.WriteLine(Encoding.ASCII.GetString(temp_buf));
+                //}
+                Console.WriteLine("**************************************************");
+#endif
+                for (int i = 0; i < buf_size; i++)
+                    storage.Add(m_Buffer.ElementAt(i));
+                bool isBreak = false;
+                foreach (var item in tailList)
+                {
+                    if (storage.Count() < item.Count())
+                        continue;
+                    int cnt = 0;
+                    for (int i = 0; i < item.Count(); i++)
+                    {
+                        if (storage[storage.Count() - 1 - i] == item[item.Count() - 1 - i])
+                            cnt++;
+                        else
+                            break;
+                    }
+                    if (cnt == item.Count())
+                    {
+                        isBreak = true;
+                        break;
+                    }
+                }
+                if (isBreak)
+                    break;
+            } while (buf_size != 0);
+            return storage.ToArray();
         }
 
         /// <summary>
@@ -212,12 +294,22 @@ namespace DY.NET.DATALOGIC.MATRIX
         /// 대략 3 ~ 30초 가량 시간이 소요된다.
         /// </summary>
         /// <returns></returns>
-        public async Task<Matrix200Code> LearnBarCodeAsync()
+        public async Task<Matrix200Code> LearnCodeAsync()
         {
             if (!IsEnableSerial)
                 return null;
+            List<byte[]> list = new List<byte[]>();
+            list.Add(new byte[] { 0x03, 0x03, 0x45 });
+            list.Add(new byte[] { 0x03, 0x48, 0x05 });
+            byte[] bytes = await SendAsync(CMD_VISISET_LEARN_START, list);
+            string reply = Encoding.ASCII.GetString(bytes);
+            Match match = Regex.Match(reply, @"Checking configuration...OK");
+            return match.Success ? ProcessReply(reply) : null;
+        }
 
-            await m_SerialPort.BaseStream.WriteAsync(CMD_VISISET_LEARN, 0, CMD_VISISET_LEARN.Length);
+        public async Task CancelLearnCodeAsync()
+        {
+            await m_SerialPort.BaseStream.WriteAsync(CMD_VISISET_LEARN_CANCLE, 0, CMD_VISISET_LEARN_CANCLE.Length);
             List<byte> storage = new List<byte>();
             int buf_size = 0;
             do
@@ -228,18 +320,10 @@ namespace DY.NET.DATALOGIC.MATRIX
 
                 if (storage.Count > 3)
                     if (storage[storage.Count - 3] == 0x03 &&
-                        storage[storage.Count - 2] == 0x03 &&
-                        storage[storage.Count - 1] == 0x45)
-                        break;
-                if (storage.Count > 3)
-                    if (storage[storage.Count - 3] == 0x03 &&
                         storage[storage.Count - 2] == 0x48 &&
                         storage[storage.Count - 1] == 0x05)
                         break;
             } while (buf_size != 0);
-            string reply = Encoding.ASCII.GetString(storage.ToArray());
-            Match match = Regex.Match(reply, @"Checking configuration...OK");
-            return match.Success ? ProcessReply(reply) : null;
         }
 
         private Matrix200Code ProcessReply(string reply_s)
@@ -283,7 +367,7 @@ namespace DY.NET.DATALOGIC.MATRIX
             //데이터
             match = Regex.Match(reply_s, @"Data: ([\S ]*)");
             if (match.Success)
-                info.Data = match.Groups[1].Value.Trim().Substring(0, info.NumberofCharacters);
+                info.Code = match.Groups[1].Value.Trim().Substring(0, info.NumberofCharacters);
             //코드 바운딩 좌표
             match = Regex.Match(reply_s, @"Code Bounds: TL\[([0-9]*),([0-9]*)\].+TR\[([0-9]*),([0-9]*)\].+BL\[([0-9]*),([0-9]*)\].+BR\[([0-9]*),([0-9]*)\]");
             if (match.Success)

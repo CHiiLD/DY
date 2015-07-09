@@ -11,18 +11,18 @@ namespace DY.NET.DATALOGIC.MATRIX
     /// </summary>
     public class Matrix200DataReceivedEventArgs : EventArgs
     {
-        public Matrix200Code Data { get; private set; }
+        public Matrix200Code CodeInfo { get; private set; }
         public Matrix200Queue.Todo Todo { get; private set; }
 
-        public Matrix200DataReceivedEventArgs(Matrix200Queue.Todo todo, Matrix200Code data)
+        public Matrix200DataReceivedEventArgs(Matrix200Queue.Todo todo, Matrix200Code code_info)
         {
             Todo = todo;
-            Data = data;
+            CodeInfo = code_info;
         }
 
         public Matrix200DataReceivedEventArgs()
         {
-            Data = null;
+            CodeInfo = null;
         }
     }
 }

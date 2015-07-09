@@ -35,7 +35,7 @@ namespace DY.NET.DATALOGIC.MATRIX
         public TimeSpan DecodingTime;
         public int CodeOrientation;
         public Bounds CodeBounds;
-        public string Data;
+        public string Code;
         public int ExposureQuality;
         public TimeSpan ProcessingTime;
         public Dictionary<string, string> RawData;

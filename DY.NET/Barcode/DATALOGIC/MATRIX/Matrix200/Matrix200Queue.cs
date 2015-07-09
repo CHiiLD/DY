@@ -15,15 +15,35 @@ namespace DY.NET.DATALOGIC.MATRIX
     {
         public enum Todo
         {
+            /// <summary>
+            /// 사용하지 않는다.
+            /// </summary>
+            NONE,
+            /// <summary>
+            /// 디바이스와 통신 준비
+            /// </summary>
             PREPARE,
+            /// <summary>
+            /// 디바이스와 통신 해제
+            /// </summary>
             DISCONNECT,
+            /// <summary>
+            /// 스캔 및 코드 분석 시도 
+            /// </summary>
             SCAN,
-            SYMBOL_VERIFICATION
+            /// <summary>
+            /// 바코드 종류 인식 및 영구 저장
+            /// </summary>
+            CODE_VERIFICATION,
+#if false
+            SETUP,
+            CODE_VERIFICATION_CANCEL
+#endif
         }
 
         private ConcurrentQueue<Tuple<Todo, EventHandler<Matrix200DataReceivedEventArgs>>> m_Queue = new ConcurrentQueue<Tuple<Todo, EventHandler<Matrix200DataReceivedEventArgs>>>();
-        private bool m_Working = false;
         private Matrix200 m_m200;
+        private Todo m_CurTodo = Todo.NONE;
 
         /// <summary>
         /// 코드를 스캔하고 난 뒤에 발생되는 이벤트
@@ -51,7 +71,20 @@ namespace DY.NET.DATALOGIC.MATRIX
         /// <param name="callback">응답 메세지 도착을 알리는 콜백 메세지</param>
         public void Enqueue(Todo todo, EventHandler<Matrix200DataReceivedEventArgs> callback)
         {
-            if (m_Working)
+            if (todo == Todo.NONE)
+                throw new ArgumentException("Todo.NONE is not used");
+#if false
+            /// 코드 식별 취소 명령을 보낼 때는 최우선 순위로 보낸다.
+            if (todo == Todo.CODE_VERIFICATION_CANCEL)
+            {
+                if (m_CurTodo == Todo.CODE_VERIFICATION)
+                    DirectWork(todo, callback);
+                return;
+            }
+#endif
+            if (todo == Todo.DISCONNECT)
+                Clear();
+            if (m_CurTodo != Todo.NONE)
             {
                 m_Queue.Enqueue(new Tuple<Todo, EventHandler<Matrix200DataReceivedEventArgs>>(todo, callback));
                 return;
@@ -59,34 +92,56 @@ namespace DY.NET.DATALOGIC.MATRIX
             Work(todo, callback);
         }
 
+#if false
+        private async void DirectWork(Todo todo, EventHandler<Matrix200DataReceivedEventArgs> callback)
+        {
+            await m_m200.CancelLearnCodeAsync();
+            if (callback != null)
+                callback(todo, new Matrix200DataReceivedEventArgs(todo, null));
+        }
+#endif
+
         private async void Work(Todo todo, EventHandler<Matrix200DataReceivedEventArgs> callback)
         {
-            m_Working = true;
+            m_CurTodo = todo;
+            Matrix200Code info = null;
+            switch (todo)
             {
-                Matrix200Code info = null;
-                switch (todo)
-                {
-                    case Todo.PREPARE:
-                        await m_m200.PrepareAsync();
-                        break;
-                    case Todo.DISCONNECT:
-                        m_m200.Disconnect();
-                        Clear();
-                        break;
-                    case Todo.SCAN:
-                        await m_m200.CaptureAsync();
-                        info = await m_m200.DecodingAsync();
-                        if (CodeScanned != null)
-                            CodeScanned(this, new Matrix200DataReceivedEventArgs(todo, info));
-                        break;
-                    case Todo.SYMBOL_VERIFICATION:
-                        info = await m_m200.LearnBarCodeAsync();
-                        break;
-                }
-                if (callback != null)
-                    callback(this, new Matrix200DataReceivedEventArgs(todo, info));
+                case Todo.PREPARE:
+                    await m_m200.PrepareAsync();
+                    break;
+                case Todo.DISCONNECT:
+                    m_m200.Disconnect();
+                    break;
+                case Todo.SCAN:
+                    await m_m200.CaptureAsync();
+                    info = await m_m200.DecodingAsync();
+                    if (CodeScanned != null)
+                        CodeScanned(this, new Matrix200DataReceivedEventArgs(todo, info));
+                    break;
+#if false
+                case Todo.SETUP:
+                    Console.WriteLine("OpenSetupAsync");
+                    await m_m200.OpenSetupAsync();
+                    Console.WriteLine("CaptureForSetupAsync");
+                    await m_m200.CaptureForSetupAsync();
+                    Console.WriteLine("SettingCodeForSetupAsync");
+                    string symbol = await m_m200.SettingCodeForSetupAsync();
+                    Console.WriteLine("SavePermenentForSetupAsync");
+                    bool save_ok =  await m_m200.SavePermenentForSetupAsync();
+                    Console.WriteLine("CloseSetupAsync");
+                    await m_m200.CloseSetupAsync();
+                    if (save_ok)
+                        info = new Matrix200Code() { Symbology = symbol };
+                    break;
+#endif
+                case Todo.CODE_VERIFICATION:
+                    info = await m_m200.LearnCodeAsync();
+                    break;
             }
-            m_Working = false;
+            if (callback != null)
+                callback(this, new Matrix200DataReceivedEventArgs(todo, info));
+            m_CurTodo = Todo.NONE;
 
             if (m_Queue.Count > 0)
             {
