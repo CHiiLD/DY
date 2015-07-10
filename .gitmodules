@@ -4,3 +4,6 @@
 [submodule "submodule/CsvHelper"]
 	path = submodule/CsvHelper
 	url = https://github.com/CHiiLD/CsvHelper.git
+[submodule "submodule/HidLibrary"]
+	path = submodule/HidLibrary
+	url = https://github.com/CHiiLD/HidLibrary.git

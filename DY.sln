@@ -5,13 +5,17 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DY.NET", "DY.NET\DY.NET.csproj", "{C658782C-A96E-466E-B2BE-99590A289E39}"
 EndProject
-Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Document", "Document", "{D2FC5C93-F3B2-4312-9068-FCFE69D0FE2A}"
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{D2FC5C93-F3B2-4312-9068-FCFE69D0FE2A}"
 	ProjectSection(SolutionItems) = preProject
 		Doc\Cnet Protocol.txt = Doc\Cnet Protocol.txt
 		Doc\FEnet Protocol.txt = Doc\FEnet Protocol.txt
 		README.md = README.md
 		Doc\문서 주석.txt = Doc\문서 주석.txt
 	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HidLibrary", "submodule\HidLibrary\src\HidLibrary\HidLibrary.csproj", "{9E8F1D50-74EA-4C60-BD5C-AB2C5B53BC66}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "submodules", "submodules", "{1F42DA8F-9A04-4DCF-8656-DAD3428B9C21}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -23,8 +27,15 @@ Global
 		{C658782C-A96E-466E-B2BE-99590A289E39}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C658782C-A96E-466E-B2BE-99590A289E39}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C658782C-A96E-466E-B2BE-99590A289E39}.Release|Any CPU.Build.0 = Release|Any CPU
+		{9E8F1D50-74EA-4C60-BD5C-AB2C5B53BC66}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{9E8F1D50-74EA-4C60-BD5C-AB2C5B53BC66}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{9E8F1D50-74EA-4C60-BD5C-AB2C5B53BC66}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{9E8F1D50-74EA-4C60-BD5C-AB2C5B53BC66}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(NestedProjects) = preSolution
+		{9E8F1D50-74EA-4C60-BD5C-AB2C5B53BC66} = {1F42DA8F-9A04-4DCF-8656-DAD3428B9C21}
 	EndGlobalSection
 EndGlobal

@@ -44,8 +44,8 @@ namespace DY.NET
 
         public abstract bool Connect();
         public abstract void Close();
-        public abstract void Send(IProtocol protocolFrame);
-        public abstract bool IsOpen();
+        public abstract void Send(IProtocol protocol);
+        public abstract bool IsConnected();
 
         public virtual void Dispose()
         {
@@ -54,7 +54,7 @@ namespace DY.NET
             ReceivedProtocolSuccessfully = null;
         }
 
-        public const int BUFFER_SIZE = 2048;
+        public const int BUFFER_SIZE = 4096;
         protected byte[] Buf = new byte[BUFFER_SIZE];
         protected int BufIdx;
         protected volatile bool IsWait = false;

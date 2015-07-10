@@ -13,7 +13,7 @@ namespace DY.NET.DATALOGIC.MATRIX
     /// Matrix200 바코드 리더기를 기준으로 만들어진 디바이스 통신 클래스
     /// Matrix210과 함께 Matrix 시리즈와 호환이 될 것으로 예상 (테스트는 안해봄)
     /// </summary>
-    public class Matrix200 : Matrix200Command
+    public class Matrix200 : Matrix200Command, IDisposable
     {
         private volatile SerialPort m_SerialPort;
         private byte[] m_Buffer;
@@ -30,6 +30,11 @@ namespace DY.NET.DATALOGIC.MATRIX
 
         private Matrix200()
         {
+        }
+
+        ~Matrix200()
+        {
+            Dispose();
         }
 
         /// <summary>
@@ -109,6 +114,7 @@ namespace DY.NET.DATALOGIC.MATRIX
         public void Dispose()
         {
             m_SerialPort.Dispose();
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>

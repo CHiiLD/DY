@@ -6,13 +6,13 @@ namespace DY.NET
     {
         bool Connect();
         void Close();
-        void Send(IProtocol protocolFrame);
-        bool IsOpen();
+        void Send(IProtocol protocol);
+        bool IsConnected();
 
         EventHandler<DataReceivedEventArgs> SendedProtocolSuccessfully { get; set; }
         EventHandler<DataReceivedEventArgs> ReceivedProtocolSuccessfully { get; set; }
 
-        void SendedProtocolSuccessfullyEvent(IProtocol iProtocol);
-        void ReceivedProtocolSuccessfullyEvent(IProtocol iProtocol);
+        void SendedProtocolSuccessfullyEvent(IProtocol protocol);
+        void ReceivedProtocolSuccessfullyEvent(IProtocol protocol);
     }
 }

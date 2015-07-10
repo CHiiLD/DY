@@ -5,7 +5,7 @@ using System.Linq;
 
 namespace DY.NET.LSIS.XGT
 {
-    public partial class XGTFEnetProtocol<T> : AProtocol where T : struct, IComparable
+    public partial class XGTFEnetProtocol<T> : AProtocol
     {
         protected const string ERROR_ENQ_IS_NULL_OR_EMPTY = "Enqdatas have problem (null or empty data)";
         protected const string ERROR_READED_MEM_COUNT_LIMIT = "Enqdatas over limit of count (null or empty data)";
@@ -73,7 +73,7 @@ namespace DY.NET.LSIS.XGT
             XGTFEnetProtocol<T> instance = new XGTFEnetProtocol<T>();
             instance.m_DataStorageDictionary = new Dictionary<string, T>(reqtProtocol.m_DataStorageDictionary);
             instance.OtherParty = reqtProtocol;
-            instance._ASCIIProtocol = asc_data;
+            instance.ProtocolData = asc_data;
             instance.Tag = reqtProtocol.Tag;
             instance.UserData = reqtProtocol.UserData;
             instance.Description = reqtProtocol.Description;
@@ -248,9 +248,9 @@ namespace DY.NET.LSIS.XGT
                     throw new Exception(ERROR_PROTOCOL_SB_DATACNT_LIMIT);
             }
             var header_byte_data = Header.GetBytes(asc_data.Count());
-            _ASCIIProtocol = new byte[header_byte_data.Length + asc_data.Count()];
-            Buffer.BlockCopy(header_byte_data, 0, _ASCIIProtocol, 0, header_byte_data.Length);
-            Buffer.BlockCopy(asc_data.ToArray(), 0, _ASCIIProtocol, header_byte_data.Length, asc_data.Count);
+            ProtocolData = new byte[header_byte_data.Length + asc_data.Count()];
+            Buffer.BlockCopy(header_byte_data, 0, ProtocolData, 0, header_byte_data.Length);
+            Buffer.BlockCopy(asc_data.ToArray(), 0, ProtocolData, header_byte_data.Length, asc_data.Count);
         }
 
         /// <summary>
@@ -258,21 +258,21 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         public override void AnalysisProtocol()
         {
-            Header = XGTFEnetHeader.CreateXGTFEnetHeader(_ASCIIProtocol);
-            Command = (XGTFEnetCommand)CV2BR.ToValue(new byte[] { _ASCIIProtocol[20], _ASCIIProtocol[21] }, typeof(UInt16));
-            DataType = (XGTFEnetDataType)CV2BR.ToValue(new byte[] { _ASCIIProtocol[22], _ASCIIProtocol[23] }, typeof(UInt16));
+            Header = XGTFEnetHeader.CreateXGTFEnetHeader(ProtocolData);
+            Command = (XGTFEnetCommand)CV2BR.ToValue(new byte[] { ProtocolData[20], ProtocolData[21] }, typeof(UInt16));
+            DataType = (XGTFEnetDataType)CV2BR.ToValue(new byte[] { ProtocolData[22], ProtocolData[23] }, typeof(UInt16));
             //var reserved = CV2BR.ToValue(new byte[] { ASC2Protocol[24], ASC2Protocol[25] }, typeof(UInt16)); //예약 영역
-            ushort err_state = (ushort)CV2BR.ToValue(new byte[] { _ASCIIProtocol[26], _ASCIIProtocol[27] }, typeof(UInt16)); //에러 상태
-            ushort bloc_errcode = (ushort)CV2BR.ToValue(new byte[] { _ASCIIProtocol[28], _ASCIIProtocol[29] }, typeof(UInt16)); //에러코드 or 블록 수 
+            ushort err_state = (ushort)CV2BR.ToValue(new byte[] { ProtocolData[26], ProtocolData[27] }, typeof(UInt16)); //에러 상태
+            ushort bloc_errcode = (ushort)CV2BR.ToValue(new byte[] { ProtocolData[28], ProtocolData[29] }, typeof(UInt16)); //에러코드 or 블록 수 
             if (err_state == ERROR_STATE_CHECK_0 || err_state == ERROR_STATE_CHECK_1)
             {
                 Error = (XGTFEnetProtocolError)bloc_errcode;
                 return;
             }
             BlocCnt = bloc_errcode;
-            byte[] data = new byte[_ASCIIProtocol.Length - XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE - INSTRUCTION_BASIC_FORMAT_SIZE];
+            byte[] data = new byte[ProtocolData.Length - XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE - INSTRUCTION_BASIC_FORMAT_SIZE];
             int data_idx = 0;
-            Buffer.BlockCopy(_ASCIIProtocol, XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE + INSTRUCTION_BASIC_FORMAT_SIZE, data, 0, data.Length);
+            Buffer.BlockCopy(ProtocolData, XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE + INSTRUCTION_BASIC_FORMAT_SIZE, data, 0, data.Length);
             //RSS
             var list = m_DataStorageDictionary.ToList();
             if (Command == XGTFEnetCommand.READ_RESP && DataType != XGTFEnetDataType.CONTINUATION)
@@ -304,7 +304,7 @@ namespace DY.NET.LSIS.XGT
         public override void Print()
         {
             Console.WriteLine("XGT FEnet 프로토콜 정보");
-            Console.WriteLine("ASC 코드: " + ByteArray2HexStr.Change(_ASCIIProtocol));
+            Console.WriteLine("ASC 코드: " + ByteArray2HexStr.Change(ProtocolData));
             Console.WriteLine("명령: " + Command.ToString());
             Console.WriteLine("데이터 타입: " + DataType.ToString());
 

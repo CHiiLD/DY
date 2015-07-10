@@ -8,20 +8,17 @@ namespace DY.NET
 {
     public abstract class AProtocol : IProtocol
     {
-        #region INTENAL VARIABLE
-        protected byte[] _ASCIIProtocol;
+        protected byte[] ProtocolData;
         public byte[] ASCIIProtocol 
         {
             get
             {
-                return _ASCIIProtocol == null ? null : (byte[])_ASCIIProtocol.Clone();
+                return ProtocolData == null ? null : (byte[])ProtocolData.Clone();
             }
         }
-        internal IProtocol OtherParty { get; set; } //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
-        #endregion
-        protected AProtocol()
-        {
-        }
+        public IProtocol OtherParty { get; set; } //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
+        
+        protected AProtocol() { }
 
         public AProtocol(AProtocol that)
         {
@@ -34,8 +31,8 @@ namespace DY.NET
             this.ProtocolRequested = that.ProtocolRequested;
 
             this.OtherParty = that.OtherParty;
-            if (that._ASCIIProtocol != null)
-                this._ASCIIProtocol = (byte[])that._ASCIIProtocol.Clone();
+            if (that.ProtocolData != null)
+                this.ProtocolData = (byte[])that.ProtocolData.Clone();
         }
 
         /// <summary>

@@ -67,7 +67,7 @@ namespace DY.NET.LSIS.XGT
             : base()
         {
             if (binaryDatas != null)
-                _ASCIIProtocol = binaryDatas;
+                ProtocolData = binaryDatas;
         }
 
         protected AXGTCnetProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCmdType type)
@@ -115,11 +115,11 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         protected void CatchProtocolHead()
         {
-            if (_ASCIIProtocol.Length < RW_PROTOCOL_HEAD_SIZE)
+            if (ProtocolData.Length < RW_PROTOCOL_HEAD_SIZE)
                 throw new IndexOutOfRangeException(ERROR_PROTOCOL_HEAD_SIZE);
 
             byte[] head = new byte[RW_PROTOCOL_HEAD_SIZE];
-            Buffer.BlockCopy(_ASCIIProtocol, 0, head, 0, head.Length);
+            Buffer.BlockCopy(ProtocolData, 0, head, 0, head.Length);
             Header = (XGTCnetCCType)head[0];
             LocalPort = (ushort)CA2C.ToValue(new byte[] { head[1], head[2] }, typeof(ushort));
             Command = (XGTCnetCommand)head[3];
@@ -138,8 +138,8 @@ namespace DY.NET.LSIS.XGT
         {
             bool isBCC_Exist = IsExistBCC();
             if (isBCC_Exist)
-                BCC = _ASCIIProtocol.Last();
-            Tail = (XGTCnetCCType)_ASCIIProtocol[_ASCIIProtocol.Length - 1 - (isBCC_Exist ? 1 : 0)];
+                BCC = ProtocolData.Last();
+            Tail = (XGTCnetCCType)ProtocolData[ProtocolData.Length - 1 - (isBCC_Exist ? 1 : 0)];
         }
 
         /// <summary>
@@ -149,11 +149,11 @@ namespace DY.NET.LSIS.XGT
         protected byte[] GetInstructData()
         {
             int head_size = (Command == XGTCnetCommand.r || Command == XGTCnetCommand.R || Command == XGTCnetCommand.w || Command == XGTCnetCommand.W) ? RW_PROTOCOL_HEAD_SIZE : XY_PROTOCOL_HEAD_SIZE;
-            int asc_data_cnt = _ASCIIProtocol.Length - head_size - (IsExistBCC() ? 2 : 1);
+            int asc_data_cnt = ProtocolData.Length - head_size - (IsExistBCC() ? 2 : 1);
             if (!(PROTOCOL_MIN_MAIN_DATA_SIZE <= asc_data_cnt))
                 throw new Exception("Impossibie byte asc sturected data count");
             byte[] asc_arr = new byte[asc_data_cnt];
-            Buffer.BlockCopy(_ASCIIProtocol, head_size, asc_arr, 0, asc_data_cnt);
+            Buffer.BlockCopy(ProtocolData, head_size, asc_arr, 0, asc_data_cnt);
             return asc_arr;
         }
 
@@ -188,9 +188,9 @@ namespace DY.NET.LSIS.XGT
         /// <returns> 검사값, 프로토콜 로스 없이 전부 받았다면 ture 아니면 false </returns>
         internal bool IsComeInEXTTail()
         {
-            if (_ASCIIProtocol.Length < RW_PROTOCOL_HEAD_SIZE)
+            if (ProtocolData.Length < RW_PROTOCOL_HEAD_SIZE)
                 return false;
-            return _ASCIIProtocol[_ASCIIProtocol.Length - 1 - (IsExistBCC() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte();
+            return ProtocolData[ProtocolData.Length - 1 - (IsExistBCC() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte();
         }
 
         internal bool IsComeInEXTTail(byte[] asc_data)
@@ -209,8 +209,8 @@ namespace DY.NET.LSIS.XGT
             AddProtocolHead(asc_list);
             AttachProtocolFrame(asc_list);
             AddProtocolTail(asc_list);
-            _ASCIIProtocol = asc_list.ToArray();
-            if (_ASCIIProtocol.Length > PROTOCOL_ASC_SIZE_MAX_256BYTE)
+            ProtocolData = asc_list.ToArray();
+            if (ProtocolData.Length > PROTOCOL_ASC_SIZE_MAX_256BYTE)
                 throw new Exception(ERROR_PROTOCOL_ASC_SIZE_MAX_256BYTE);
         }
 
@@ -219,9 +219,9 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         public override void AnalysisProtocol()
         {
-            if (_ASCIIProtocol == null)
-                throw new NullReferenceException("PROTOCOLDATA IS NULL.");
-            if (_ASCIIProtocol.Length < RW_PROTOCOL_HEAD_SIZE)
+            if (ProtocolData == null)
+                throw new NullReferenceException("Protocoldata is null.");
+            if (ProtocolData.Length < RW_PROTOCOL_HEAD_SIZE)
                 throw new ArgumentOutOfRangeException(ERROR_PROTOCOL_HEAD_SIZE);
             CatchProtocolHead();
             if (!CatchErrorCode())
@@ -235,8 +235,8 @@ namespace DY.NET.LSIS.XGT
         /// <returns></returns>
         public bool IsExistBCC()
         {
-            if (_ASCIIProtocol == null)
-                throw new NullReferenceException("PROTOCOLDATA IS NULL.");
+            if (ProtocolData == null)
+                throw new NullReferenceException("Protocoldata is null.");
             if (Command == XGTCnetCommand.r || Command == XGTCnetCommand.w || Command == XGTCnetCommand.x || Command == XGTCnetCommand.y)
                 return true;
             else
@@ -247,7 +247,7 @@ namespace DY.NET.LSIS.XGT
         public override void Print()
         {
             Console.WriteLine("XGT Cnet 프로토콜 정보");
-            Console.WriteLine("ASC 코드: " + ByteArray2HexStr.Change(_ASCIIProtocol));
+            Console.WriteLine("ASC 코드: " + ByteArray2HexStr.Change(ProtocolData));
             Console.WriteLine("국번: {0}", LocalPort);
             Console.WriteLine(string.Format("헤더: {0}", Header == XGTCnetCCType.ENQ ? "ENQ" : Header == XGTCnetCCType.ACK ? "ACK" : "NAK"));
             Console.WriteLine(string.Format("명령: {0}", (char)Command));

@@ -8,19 +8,20 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
+
 namespace DY.NET.LSIS.XGT
 {
     /// <summary>
     /// XGT Cnet 통신을 위한 프로토콜 클래스
     /// </summary>
-    public class XGTCnetProtocol<T> : AXGTCnetProtocol where T : struct, IComparable
+    public class XGTCnetProtocol<T> : AXGTCnetProtocol
     {
         protected const string ERROR_ENQ_IS_NULL_OR_EMPTY = "Enqdatas have problem (null or empty data)";
         protected const string ERROR_READED_MEM_COUNT_LIMIT = "Enqdatas over limit of count (null or empty data)";
         protected const string ERROR_MONITER_INVALID_REGISTER_NUMBER = "Register_number have to register to 0 from 31";
         protected const int READED_MEM_MAX_COUNT = 16;
         private const int MONITER_VAR_REGISTER_MAX_NUMBER = 31;
-        
+
         #region PUBLIC PROPERTIES
         /// <summary>
         /// PROTOCOL MAIN DATAS
@@ -391,7 +392,7 @@ namespace DY.NET.LSIS.XGT
                 byte[] data_arr = new byte[sizeOfType * 2];
                 Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
                 data_idx += data_arr.Length;
-                m_DataStorageDictionary[list[i].Key] = (T) CA2C.ToValue(data_arr, list[i].Value.GetType());
+                m_DataStorageDictionary[list[i].Key] = (T)CA2C.ToValue(data_arr, list[i].Value.GetType());
             }
         }
 
@@ -517,7 +518,7 @@ namespace DY.NET.LSIS.XGT
         }
         #endregion
 
-        
+
         protected override void PrintInstruct()
         {
             Console.WriteLine(string.Format("블록 수: {0}", BlocCnt));
