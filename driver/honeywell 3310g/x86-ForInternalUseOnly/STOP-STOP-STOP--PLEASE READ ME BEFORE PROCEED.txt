@@ -1,2 +1,0 @@
-This folder is for internal use only. Do not attempt to install the driver by executing "Honeywell HSM USB Serial Driver xXX ver x.x.x.msi"
-in this directory. Please consult the "README.txt" file in the parent directory for proper install/uninstall instruction.

@@ -60,7 +60,6 @@ namespace DY.NET.LSIS.XGT
             this.CommandType = that.CommandType;
             this.Tail = that.Tail;
             this.BCC = that.BCC;
-            
         }
 
         protected AXGTCnetProtocol(byte[] binaryDatas)
@@ -126,7 +125,7 @@ namespace DY.NET.LSIS.XGT
             if (Command == XGTCnetCommand.r || Command == XGTCnetCommand.w || Command == XGTCnetCommand.R || Command == XGTCnetCommand.W)
                 CommandType = XGTCnetCommandTypeExtensions.ToCmdType(new byte[] { head[4], head[5] });
             else
-                CommandType = ((AXGTCnetProtocol)OtherParty).CommandType;
+                CommandType = ((AXGTCnetProtocol)MirrorProtocol).CommandType;
             // XY 응답 프로토콜은 SS, SB의 구분을 알려주는 값을 주지 않습니다.
             // 따라서 요청프로토콜을 사용하여 SS, SB의 여부를 가져옵니다. (뭔가 좀 이상한 LS산전 프로토콜)
         }

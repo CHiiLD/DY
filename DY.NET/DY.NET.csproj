@@ -48,8 +48,9 @@
     <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200Code.cs" />
     <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200.cs" />
     <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200Command.cs" />
-    <Compile Include="Barcode\HONEYWELL\VUQUEST\Vuquest3310gBuilder.cs" />
-    <Compile Include="Barcode\HONEYWELL\VUQUEST\Vuquest3310g.cs" />
+    <Compile Include="Barcode\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310gBuilder.cs" />
+    <Compile Include="Barcode\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310g.cs" />
+    <Compile Include="Barcode\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310gDataReceivedEventArgs.cs" />
     <Compile Include="PLC\Builder\ASerialPortBuilder.cs" />
     <Compile Include="PLC\Inheritance\IDebug.cs" />
     <Compile Include="PLC\Inheritance\ISocketCoverAsync.cs" />
@@ -99,12 +100,6 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PLC\MITSUBISHI\MELSEC-Q\" />
-  </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\submodule\HidLibrary\src\HidLibrary\HidLibrary.csproj">
-      <Project>{9e8f1d50-74ea-4c60-bd5c-ab2c5b53bc66}</Project>
-      <Name>HidLibrary</Name>
-    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

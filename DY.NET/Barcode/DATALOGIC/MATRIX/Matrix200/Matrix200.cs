@@ -327,7 +327,10 @@ namespace DY.NET.DATALOGIC.MATRIX
             //데이터
             match = Regex.Match(reply_s, @"Data: ([\S ]*)");
             if (match.Success)
-                info.Code = match.Groups[1].Value.Trim().Substring(0, info.NumberofCharacters);
+            {
+                string code_str = match.Groups[1].Value.Trim().Substring(0, info.NumberofCharacters);
+                info.Code = Encoding.ASCII.GetBytes(code_str);
+            }
             //코드 바운딩 좌표
             match = Regex.Match(reply_s, @"Code Bounds: TL\[([0-9]*),([0-9]*)\].+TR\[([0-9]*),([0-9]*)\].+BL\[([0-9]*),([0-9]*)\].+BR\[([0-9]*),([0-9]*)\]");
             if (match.Success)

@@ -72,7 +72,7 @@ namespace DY.NET.LSIS.XGT
         {
             XGTFEnetProtocol<T> instance = new XGTFEnetProtocol<T>();
             instance.m_DataStorageDictionary = new Dictionary<string, T>(reqtProtocol.m_DataStorageDictionary);
-            instance.OtherParty = reqtProtocol;
+            instance.MirrorProtocol = reqtProtocol;
             instance.ProtocolData = asc_data;
             instance.Tag = reqtProtocol.Tag;
             instance.UserData = reqtProtocol.UserData;

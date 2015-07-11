@@ -9,14 +9,25 @@ namespace DY.NET
     public abstract class AProtocol : IProtocol
     {
         protected byte[] ProtocolData;
-        public byte[] ASCIIProtocol 
+        public byte[] ASCIIProtocol
         {
             get
             {
-                return ProtocolData == null ? null : (byte[])ProtocolData.Clone();
+                if (ProtocolData == null)
+                    AssembleProtocol();
+                return ProtocolData;
+            }
+            internal set
+            {
+                ProtocolData = value;
             }
         }
-        public IProtocol OtherParty { get; set; } //응답 프로토콜일 경우 요청프로토콜 주소를 저장하는 변수
+
+        /// <summary>
+        /// AProtocol 클래스가 응답클래스로 쓰인 경우 요청프로토콜 클래스를 담고 
+        /// AProtocol 클래스가 요청클래스로 쓰인 경우 응답프로토콜 클래스를 담는다.
+        /// </summary>
+        public IProtocol MirrorProtocol { get; set; }
         
         protected AProtocol() { }
 
@@ -30,7 +41,7 @@ namespace DY.NET
             this.ErrorReceived = that.ErrorReceived;
             this.ProtocolRequested = that.ProtocolRequested;
 
-            this.OtherParty = that.OtherParty;
+            this.MirrorProtocol = that.MirrorProtocol;
             if (that.ProtocolData != null)
                 this.ProtocolData = (byte[])that.ProtocolData.Clone();
         }

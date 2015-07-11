@@ -115,7 +115,7 @@ namespace DY.NET.LSIS.XGT
             for (int i = 0; i < APPLICATION_HEARDER_FORMAT_SIZE - 1; i++)
                 sum += m_HeaderData[i];
             Buffer.SetByte(m_HeaderData, 19, sum); //BCC
-            return (byte[])m_HeaderData.Clone();
+            return m_HeaderData;
         }
 
         /// <summary>

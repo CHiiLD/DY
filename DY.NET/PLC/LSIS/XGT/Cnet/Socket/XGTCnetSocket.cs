@@ -100,17 +100,12 @@ namespace DY.NET.LSIS.XGT
             if (reqt_p == null)
                 throw new ArgumentNullException("Argument is not XGTCnetProtocol<T>.");
             byte[] reqt_bytes = reqt_p.ASCIIProtocol;
-            if (reqt_bytes == null)
-            {
-                reqt_p.AssembleProtocol();
-                reqt_bytes = reqt_p.ASCIIProtocol;
-            }
             if (IsWait) //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
             {
                 ProtocolStandByQueue.Enqueue(reqt_p);
                 return;
             }
-            ReqeustProtocol = reqt_p;
+            SavePoint_ReqeustProtocol = reqt_p;
             m_SerialPort.Write(reqt_bytes, 0, reqt_bytes.Length);
             SendedProtocolSuccessfullyEvent(reqt_p);
             reqt_p.ProtocolRequestedEvent(this, reqt_p);
@@ -119,10 +114,19 @@ namespace DY.NET.LSIS.XGT
 
         private void ReportResponseProtocol(byte[] buf_temp)
         {
-            Type type_T = ReqeustProtocol.GetType().GenericTypeArguments[0]; //<T>의 Type 얻기
+            Type type_T = SavePoint_ReqeustProtocol.GetType().GenericTypeArguments[0]; //<T>의 Type 얻기
             Type type_pt = typeof(XGTCnetProtocol<>).MakeGenericType(type_T); //XGTCnetProtocol<T> 타입 생성
-            AXGTCnetProtocol reqt_p = ReqeustProtocol as AXGTCnetProtocol;
-            AXGTCnetProtocol resp_p = type_pt.GetMethod("CreateReceiveProtocol").Invoke(reqt_p, new object[] { buf_temp, reqt_p }) as AXGTCnetProtocol;
+            AXGTCnetProtocol reqt_p = SavePoint_ReqeustProtocol as AXGTCnetProtocol;
+            AXGTCnetProtocol resp_p = reqt_p.MirrorProtocol as AXGTCnetProtocol; //응답 객체 생성 전에 재활용이 가능한지 검토
+            if (reqt_p.MirrorProtocol == null)
+            {
+                resp_p = type_pt.GetMethod("CreateReceiveProtocol").Invoke(reqt_p, new object[] { buf_temp, reqt_p }) as AXGTCnetProtocol;
+                reqt_p.MirrorProtocol = resp_p;
+            }
+            else
+            {
+                resp_p.ASCIIProtocol = buf_temp;
+            }
 #if !DEBUG
             try
             {
@@ -139,9 +143,9 @@ namespace DY.NET.LSIS.XGT
 #endif
             ReceivedProtocolSuccessfullyEvent(resp_p);
             if (resp_p.Error == XGTCnetProtocolError.OK)
-                ReqeustProtocol.ProtocolReceivedEvent(this, resp_p);
+                SavePoint_ReqeustProtocol.ProtocolReceivedEvent(this, resp_p);
             else
-                ReqeustProtocol.ErrorReceivedEvent(this, resp_p);
+                SavePoint_ReqeustProtocol.ErrorReceivedEvent(this, resp_p);
 #if !DEBUG
             }
 #endif
@@ -154,27 +158,22 @@ namespace DY.NET.LSIS.XGT
         /// <param name="e"> SerialDataReceivedEventArgs 이벤트 argument </param>
         private void OnDataRecieve(object sender, SerialDataReceivedEventArgs e)
         {
-            SerialPort serialPort = sender as SerialPort;
+            SerialPort sp = sender as SerialPort;
             do
             {
-                if (serialPort == null)
+                if (sp == null)
                     break;
-                if (!serialPort.IsOpen)
+                if (!sp.IsOpen)
                     break;
-                byte[] recv_data = System.Text.Encoding.ASCII.GetBytes(serialPort.ReadExisting());
-                Buffer.BlockCopy(recv_data, 0, Buf, BufIdx, recv_data.Length);
-                BufIdx += recv_data.Length;
-
-                AXGTCnetProtocol reqt_p = ReqeustProtocol as AXGTCnetProtocol;
-                if (XGTCnetCCType.ETX != (XGTCnetCCType)(Buf[BufIdx - ((bool)reqt_p.IsExistBCC() ? 2 : 1)]))
+                BufferIdx += sp.Read(Buffer_, BufferIdx, Buffer_.Length);
+                AXGTCnetProtocol reqt_p = SavePoint_ReqeustProtocol as AXGTCnetProtocol;
+                if (XGTCnetCCType.ETX != (XGTCnetCCType)(Buffer_[BufferIdx - ((bool)reqt_p.IsExistBCC() ? 2 : 1)]))
                     return;
-                byte[] buf_temp = new byte[BufIdx];
-                Buffer.BlockCopy(Buf, 0, buf_temp, 0, buf_temp.Length);
-
-                ReportResponseProtocol(buf_temp);
-
-                ReqeustProtocol = null;
-                BufIdx = 0;
+                byte[] recv_data = new byte[BufferIdx];
+                Buffer.BlockCopy(Buffer_, 0, recv_data, 0, recv_data.Length);
+                ReportResponseProtocol(recv_data);
+                SavePoint_ReqeustProtocol = null;
+                BufferIdx = 0;
                 IsWait = false;
                 if (ProtocolStandByQueue.Count != 0)
                     SendNextProtocol();
@@ -210,7 +209,7 @@ namespace DY.NET.LSIS.XGT
             {
                 ErrorReceived = null;
                 PinChanged = null;
-                ReqeustProtocol = null;
+                SavePoint_ReqeustProtocol = null;
                 if (IsConnected())
                     Close();
                 m_SerialPort.Dispose();

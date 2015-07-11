@@ -40,7 +40,7 @@ namespace DY.NET
         /// 스레드 세이프 프로토콜 전송 대기 큐
         /// </summary>
         protected ConcurrentQueue<IProtocol> ProtocolStandByQueue = new ConcurrentQueue<IProtocol>();
-        protected IProtocol ReqeustProtocol;
+        protected IProtocol SavePoint_ReqeustProtocol;
 
         public abstract bool Connect();
         public abstract void Close();
@@ -55,8 +55,8 @@ namespace DY.NET
         }
 
         public const int BUFFER_SIZE = 4096;
-        protected byte[] Buf = new byte[BUFFER_SIZE];
-        protected int BufIdx;
+        protected byte[] Buffer_ = new byte[BUFFER_SIZE];
+        protected int BufferIdx;
         protected volatile bool IsWait = false;
 
         /// <summary>

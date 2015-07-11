@@ -257,7 +257,7 @@ namespace DY.NET.LSIS.XGT
         {
             XGTCnetProtocol<T> instance = new XGTCnetProtocol<T>(binaryData);
             instance.m_DataStorageDictionary = new Dictionary<string, T>(reqtProtocol.m_DataStorageDictionary);
-            instance.OtherParty = reqtProtocol;
+            instance.MirrorProtocol = reqtProtocol;
             instance.Tag = reqtProtocol.Tag;
             instance.UserData = reqtProtocol.UserData;
             instance.Description = reqtProtocol.Description;
@@ -403,7 +403,7 @@ namespace DY.NET.LSIS.XGT
 
         private void QueryProtocolXSS()
         {
-            byte[] data = GetInstructData(); // { ProtocolData[4], ProtocolData[5] };
+            byte[] data = GetInstructData();
             RegiNum = (ushort)CA2C.ToValue(data, typeof(UInt16));
         }
 

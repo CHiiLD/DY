@@ -7,7 +7,7 @@ namespace DY.NET.LSIS.XGT
     {
         private string m_Host;
         private XGTFEnetPort m_Port;
-        private TcpClient m_Client = new TcpClient();
+        private volatile TcpClient m_Client = new TcpClient();
 
         /// <summary>
         /// 서버로부터 연결 종료 신호를 받았을 때 이벤트 발생
@@ -34,7 +34,7 @@ namespace DY.NET.LSIS.XGT
             if (!m_Client.Connected)
             {
                 m_Client.Connect(m_Host, (int)m_Port);
-                m_Client.GetStream().BeginRead(Buf, BufIdx, BUFFER_SIZE, OnRead, m_Client);
+                m_Client.GetStream().BeginRead(Buffer_, BufferIdx, BUFFER_SIZE, OnRead, m_Client);
             }
             return m_Client.Connected;
         }
@@ -47,17 +47,12 @@ namespace DY.NET.LSIS.XGT
             if (reqt_p == null)
                 throw new ArgumentException("Protocol not match xgt_fene_protocol type");
             byte[] reqt_data = reqt_p.ASCIIProtocol;
-            if (reqt_data == null)
-            {
-                reqt_p.AssembleProtocol();
-                reqt_data = reqt_p.ASCIIProtocol;
-            }
             if (IsWait)   //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
             {
                 ProtocolStandByQueue.Enqueue(reqt_p);
                 return;
             }
-            ReqeustProtocol = reqt_p;
+            SavePoint_ReqeustProtocol = reqt_p;
             m_Client.GetStream().BeginWrite(reqt_data, 0, reqt_data.Length, OnSended, m_Client);
             IsWait = true;
         }
@@ -70,8 +65,8 @@ namespace DY.NET.LSIS.XGT
                 return;
             m_Client.GetStream().EndWrite(ar);
 
-            SendedProtocolSuccessfullyEvent(ReqeustProtocol);
-            ReqeustProtocol.ProtocolRequestedEvent(this, ReqeustProtocol);
+            SendedProtocolSuccessfullyEvent(SavePoint_ReqeustProtocol);
+            SavePoint_ReqeustProtocol.ProtocolRequestedEvent(this, SavePoint_ReqeustProtocol);
 
             IsWait = false;
             if (ProtocolStandByQueue.Count != 0)
@@ -111,10 +106,19 @@ namespace DY.NET.LSIS.XGT
 
         private void ReportResponseProtocol(byte[] recv_data)
         {
-            AProtocol reqt_p = ReqeustProtocol as AProtocol;
-            Type type_T = ReqeustProtocol.GetType().GenericTypeArguments[0]; //<T>의 Type 얻기
+            AProtocol reqt_p = SavePoint_ReqeustProtocol as AProtocol;
+            Type type_T = SavePoint_ReqeustProtocol.GetType().GenericTypeArguments[0]; //<T>의 Type 얻기
             Type type_pt = typeof(XGTFEnetProtocol<>).MakeGenericType(type_T); //XGTCnetProtocol<T> 타입 생성
-            AProtocol resp_p = type_pt.GetMethod("CreateResponseProtocol").Invoke(reqt_p, new object[] { recv_data, reqt_p }) as AProtocol;
+            AProtocol resp_p = reqt_p.MirrorProtocol as AProtocol; //응답 객체 생성 전에 재활용이 가능한지 검토
+            if (reqt_p.MirrorProtocol == null)
+            {
+                resp_p = type_pt.GetMethod("CreateReceiveProtocol").Invoke(reqt_p, new object[] { recv_data, reqt_p }) as AXGTCnetProtocol;
+                reqt_p.MirrorProtocol = resp_p;
+            }
+            else
+            {
+                resp_p.ASCIIProtocol = recv_data;
+            }
 #if !DEBUG
             try
             {
@@ -148,20 +152,25 @@ namespace DY.NET.LSIS.XGT
                 if (!m_Client.Connected)
                     break;
                 NetworkStream stream = m_Client.GetStream();
-                try { BufIdx = stream.EndRead(ar); }
-                catch (Exception exception) { }
+                try 
+                { 
+                    BufferIdx = stream.EndRead(ar); 
+                }
+                catch (Exception exception) 
+                { 
+                }
 
-                if (BufIdx == 0) //서버측에서 연결을 끊음
+                if (BufferIdx == 0) //서버측에서 연결을 끊음
                 {
                     if (SignOffReceived != null)
                         SignOffReceived(this, EventArgs.Empty);
                     break;
                 }
-                byte[] recv_data = new byte[BufIdx];
-                Buffer.BlockCopy(Buf, 0, recv_data, 0, recv_data.Length);
+                byte[] recv_data = new byte[BufferIdx];
+                Buffer.BlockCopy(Buffer_, 0, recv_data, 0, recv_data.Length);
                 ReportResponseProtocol(recv_data);
-                BufIdx = 0;
-                stream.BeginRead(Buf, BufIdx, BUFFER_SIZE, OnRead, m_Client);
+                BufferIdx = 0;
+                stream.BeginRead(Buffer_, BufferIdx, BUFFER_SIZE, OnRead, m_Client);
             } while (false);
         }
     }
