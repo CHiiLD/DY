@@ -42,11 +42,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200Builder.cs" />
     <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200DataReceivedEventArgs.cs" />
     <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200Queue.cs" />
     <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200Code.cs" />
     <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200.cs" />
     <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200Command.cs" />
+    <Compile Include="Barcode\HONEYWELL\VUQUEST\Vuquest3310gBuilder.cs" />
     <Compile Include="Barcode\HONEYWELL\VUQUEST\Vuquest3310g.cs" />
     <Compile Include="PLC\Builder\ASerialPortBuilder.cs" />
     <Compile Include="PLC\Inheritance\IDebug.cs" />
@@ -62,7 +64,7 @@
     <Compile Include="PLC\Inheritance\AXGTProtocol.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Protocol\XGTCnetProtocol.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Protocol\AXGTCnetProtocol.cs" />
-    <Compile Include="PLC\LSIS\XGT\Cnet\Socket\XGTCnetSocektExtension.cs" />
+    <Compile Include="PLC\LSIS\XGT\Cnet\Socket\XGTCnetSocektSerialPort.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Enum\XGTCnetCommand.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Enum\XGTCnetCommandType.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Enum\XGTCnetControlCodeType.cs" />
@@ -71,7 +73,7 @@
     <Compile Include="PLC\LSIS\XGT\FEnet\AppDataFormat\AppHeaderFormat\XGTFEnetHeader.cs" />
     <Compile Include="PLC\LSIS\XGT\FEnet\AppDataFormat\AppHeaderFormat\XGTFEnetPLCInfo.cs" />
     <Compile Include="PLC\LSIS\XGT\FEnet\AppDataFormat\AppInstructionFormat\XGTFEnetProtocol.cs" />
-    <Compile Include="PLC\LSIS\XGT\FEnet\AppDataFormat\AppInstructionFormat\XGTFEnetProtocolExtension.cs" />
+    <Compile Include="PLC\LSIS\XGT\FEnet\AppDataFormat\AppInstructionFormat\XGTFEnetProtocolDevice.cs" />
     <Compile Include="PLC\LSIS\XGT\FEnet\Enum\XGTFEnetClass.cs" />
     <Compile Include="PLC\LSIS\XGT\FEnet\Enum\XGTFEnetCommand.cs" />
     <Compile Include="PLC\LSIS\XGT\FEnet\Enum\XGTFEnetCompanyID.cs" />

@@ -3,39 +3,52 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using HidLibrary;
+using System.IO.Ports;
 
 namespace DY.NET.HONEYWELL.VUQUEST
 {
-    /// <summary>
-    /// 허니웰 VUQUEST 3310g 바코드 리더기 통신 클래스
-    /// </summary>
-    public class Vuquest3310g : IDisposable
+    public partial class Vuquest3310g : IDisposable
     {
-        private const int VENDOR_ID = 0x0C2E;
-        private int[] m_ProductIds;
-        private HidDevice m_Device;
+        private const byte SYN = 0x16;
+        private const byte CR = 0x0D;
+        private const byte ACK = 0x06;
+        private const byte ENQ = 0x05;
+        private const byte NAK = 0x15;
 
-        private static readonly byte[] CHAR_ACTIVATION_MODE_ON = new byte[] {
-            (byte)'H', (byte)'S', (byte)'T', (byte)'A', (byte)'C', (byte)'H', (byte)'.'
-        };
-        private static readonly byte[] CHAR_ACTIVATION_LASER_TIMEOUT = new byte[] {
-            (byte)'H', (byte)'S', (byte)'T', (byte)'C', (byte)'D', (byte)'T', (byte)'.'
-        };
-        private static readonly byte[] CHAR_ACTIVATION_MODE_OFF = new byte[] {
-            (byte)'H', (byte)'S', (byte)'T', (byte)'D', (byte)'C', (byte)'H', (byte)'.'
-        };
+        private static readonly byte[] SPC_TRIGGER_ACTIVATE = { SYN, (byte)'T', CR };
+        private static readonly byte[] SPC_TRIGGER_DEACTIVATE = { SYN, (byte)'U', CR };
 
-        private Vuquest3310g() { }
+        private static readonly byte[] PREFIX = { SYN, (byte)'M', CR };
+        /// <summary>
+        /// read time out ( 0 - 300000ms) TRGSTO#### 으로 전송해야함
+        /// </summary>
+        private static readonly byte[] SPC_TRIGGER_READ_TIMEOUT_N = {
+        (byte)'T', (byte)'R', (byte)'G', (byte)'S', (byte)'T', (byte)'O' };
+        private static readonly byte[] MNC_SAVE_CUSTOM_DEFAULTS = {
+        (byte)'M', (byte)'N', (byte)'U', (byte)'C', (byte)'D', (byte)'S' };
 
-        public static Vuquest3310g CreateVuquest3310g(int[] productIds)
+        private byte[] m_Buffer = new byte[4096];
+
+        private SerialPort m_SerialPort;
+        public bool IsEnableSerial
         {
-            var instance = new Vuquest3310g();
-            instance.m_ProductIds = productIds;
-            instance.m_Device = HidDevices.Enumerate(VENDOR_ID, instance.m_ProductIds).FirstOrDefault();
-            if (instance.m_Device == null)
-                throw new Exception("Not find product info");
-            return instance;
+            get
+            {
+                if (m_SerialPort == null)
+                    return false;
+                return m_SerialPort.IsOpen;
+            }
+        }
+
+        public int TimeOut
+        {
+            get;
+            set;
+        }
+
+        private Vuquest3310g() 
+        {
+            TimeOut = 1000; //1초
         }
 
         ~Vuquest3310g()
@@ -43,56 +56,78 @@ namespace DY.NET.HONEYWELL.VUQUEST
             Dispose();
         }
 
-        public async Task<string> ScanAsync()
+        //타임 아웃 설정
+        //액티베이트
+        //대기
+        //디엑티베이트
+
+        //public async Task PrepareAsync()
+        //{
+        //    if (!IsEnableSerial)
+        //        return;
+        //    await SetTimeOutAsync(TimeOut);
+        //}
+
+        //public async Task SetTimeOutAsync(int ms)
+        //{
+        //    if (!(0 <= ms && ms <= 300000))
+        //        return;
+        //    TimeOut = ms;
+        //    var cmd_list = PREFIX.ToList();
+        //    cmd_list.AddRange(SPC_TRIGGER_READ_TIMEOUT_N);
+        //    foreach (var i in ms.ToString())
+        //        cmd_list.Add((byte)i);
+        //    var bytes = cmd_list.ToArray();
+        //    await m_SerialPort.BaseStream.WriteAsync(bytes, 0, bytes.Length);
+
+        //    int size = await m_SerialPort.BaseStream.ReadAsync(m_Buffer, 0, m_Buffer.Length);
+        //    Console.Write("");
+        //    //return size == 1 && m_Buffer[0] == ACK;
+        //}
+
+        public void ActivateScan()
         {
-            return await ScanAsync(0);
+            if (!IsEnableSerial)
+                return;
+            m_SerialPort.Write(SPC_TRIGGER_ACTIVATE, 0, SPC_TRIGGER_ACTIVATE.Length);
         }
 
-        public async Task<string> ScanAsync(int timeout)
+        public void DeactivateScan()
         {
-            //캐릭터 액티베이션 모드 명령어 전송
-            bool act_on = await m_Device.WriteAsync(CHAR_ACTIVATION_MODE_ON);
-            if (!act_on)
-            {
-                Console.WriteLine("Vuquest3310g write failure(ACT)");
-                return null;
-            }
-            //읽기 대기
-            HidDeviceData deviceData = await m_Device.ReadAsync();
-            if (deviceData.Status != HidDeviceData.ReadStatus.Success)
-            {
-                Console.WriteLine("Vuquest3310g read failure");
-                return null;
-            }
-            //캐릭터 디액티베이션 모드 명령어 전송
-            bool act_off = await m_Device.WriteAsync(CHAR_ACTIVATION_MODE_OFF);
-            if (!act_off)
-            {
-                Console.WriteLine("Vuquest3310g write failure(DEACT)");
-                return null;
-            }
-            return Encoding.ASCII.GetString(deviceData.Data);
+            if (!IsEnableSerial)
+                return;
+            m_SerialPort.Write(SPC_TRIGGER_DEACTIVATE, 0, SPC_TRIGGER_DEACTIVATE.Length);
         }
 
+        /// <summary>
+        /// 시리얼 포트에 접속
+        /// </summary>
+        /// <returns>접속 여부</returns>
         public bool Connect()
         {
-            if (m_ProductIds == null)
+            if (m_SerialPort == null)
                 return false;
-            if (!m_Device.IsOpen) 
-                m_Device.OpenDevice();
-            m_Device.MonitorDeviceEvents = true;
-            return true;
+            if (!m_SerialPort.IsOpen)
+                m_SerialPort.Open();
+            return m_SerialPort.IsOpen;
         }
 
+        /// <summary>
+        /// 리더기에 종료 신호를 보낸 뒤
+        /// 시리얼통신을 종료
+        /// </summary>
         public void Close()
         {
-            if (m_Device != null)
-                m_Device.CloseDevice();
+            if (IsEnableSerial)
+                m_SerialPort.Close();
         }
 
+        /// <summary>
+        /// 시리얼포트 객체의 자원을 소멸
+        /// </summary>
         public void Dispose()
         {
-            Close();
+            m_SerialPort.Dispose();
             GC.SuppressFinalize(this);
         }
     }

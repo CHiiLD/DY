@@ -17,7 +17,7 @@ namespace DY.NET.LSIS.XGT
     /// <summary>
     /// XGTCnetExclusiveProtocol을 이용한 Serial 통신소켓 클래스
     /// </summary>
-    public sealed partial class XGTCnetSocket : ASocketCover
+    public partial class XGTCnetSocket : ASocketCover
     {
         public class Builder : ASerialPortBuilder
         {
@@ -44,7 +44,6 @@ namespace DY.NET.LSIS.XGT
         #endregion
 
         #region METHOD
-
         private XGTCnetSocket()
         {
         }

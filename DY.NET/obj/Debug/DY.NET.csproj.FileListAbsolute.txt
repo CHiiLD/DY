@@ -40,3 +40,5 @@ C:\Users\CHILD\GitHub\DY\DY.NET\obj\Debug\NET.dll
 C:\Users\CHILD\GitHub\DY\DY.NET\obj\Debug\NET.pdb
 C:\dev\github\DY\DY.NET\bin\Debug\HidLibrary.dll
 C:\dev\github\DY\DY.NET\bin\Debug\HidLibrary.pdb
+C:\Users\CHILD\GitHub\DY\DY.NET\bin\Debug\HidLibrary.dll
+C:\Users\CHILD\GitHub\DY\DY.NET\bin\Debug\HidLibrary.pdb

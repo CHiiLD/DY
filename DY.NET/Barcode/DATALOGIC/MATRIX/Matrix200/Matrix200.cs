@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO.Ports;
 using System.Text.RegularExpressions;
-using System.Diagnostics;
 
 namespace DY.NET.DATALOGIC.MATRIX
 {
@@ -13,10 +12,10 @@ namespace DY.NET.DATALOGIC.MATRIX
     /// Matrix200 바코드 리더기를 기준으로 만들어진 디바이스 통신 클래스
     /// Matrix210과 함께 Matrix 시리즈와 호환이 될 것으로 예상 (테스트는 안해봄)
     /// </summary>
-    public class Matrix200 : Matrix200Command, IDisposable
+    public partial class Matrix200 : Matrix200Command, IDisposable
     {
-        private volatile SerialPort m_SerialPort;
-        private byte[] m_Buffer;
+        private SerialPort m_SerialPort;
+        private byte[] m_Buffer = new byte[4096];
 
         public bool IsEnableSerial
         {
@@ -38,48 +37,6 @@ namespace DY.NET.DATALOGIC.MATRIX
         }
 
         /// <summary>
-        /// 빌더 패턴의 Matrix200 객체생성 클래스
-        /// </summary>
-        public class Builder
-        {
-            protected string _PortName;
-            protected int _BaudRate = 115200;
-            protected Parity _Parity = System.IO.Ports.Parity.None;
-            protected int _DataBits = 8;
-            protected StopBits _StopBits = System.IO.Ports.StopBits.One;
-
-            public Builder(string name, int baud)
-            {
-                _PortName = name;
-                _BaudRate = baud;
-            }
-
-            public Builder Parity(Parity parity)
-            {
-                _Parity = parity;
-                return this;
-            }
-
-            public Builder DataBits(int databits)
-            {
-                _DataBits = databits;
-                return this;
-            }
-
-            public Builder StopBits(StopBits stopbits)
-            {
-                _StopBits = stopbits;
-                return this;
-            }
-
-            public Matrix200 Build()
-            {
-                var m200 = new Matrix200() { m_SerialPort = new SerialPort(_PortName, _BaudRate, _Parity, _DataBits, _StopBits) };
-                return m200;
-            }
-        }
-
-        /// <summary>
         /// 시리얼 포트에 접속
         /// </summary>
         /// <returns>접속 여부</returns>
@@ -88,10 +45,7 @@ namespace DY.NET.DATALOGIC.MATRIX
             if (m_SerialPort == null)
                 return false;
             if (!m_SerialPort.IsOpen)
-            {
                 m_SerialPort.Open();
-                m_Buffer = new byte[m_SerialPort.ReadBufferSize];
-            }
             return m_SerialPort.IsOpen;
         }
 
