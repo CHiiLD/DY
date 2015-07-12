@@ -1,9 +1,15 @@
 ﻿using System;
 using System.IO.Ports;
 using System.Timers;
+using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Linq;
 
 namespace DY.NET.HONEYWELL.VUQUEST
 {
+    /// <summary>
+    /// 허니웰 Vuquest3310g 바코드 리더기 통신 클래스
+    /// </summary>
     public partial class Vuquest3310g : IDisposable
     {
         private const byte SYN = 0x16;
@@ -11,6 +17,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
         private const byte ACK = 0x06;
         private const byte ENQ = 0x05;
         private const byte NAK = 0x15;
+        private const byte DOT = (byte)'.';
 
         private static readonly byte[] SPC_TRIGGER_ACTIVATE = { SYN, (byte)'T', CR };
         private static readonly byte[] SPC_TRIGGER_DEACTIVATE = { SYN, (byte)'U', CR };
@@ -20,9 +27,17 @@ namespace DY.NET.HONEYWELL.VUQUEST
         /// read time out ( 0 - 300000ms) TRGSTO#### 으로 전송해야함
         /// </summary>
         private static readonly byte[] SPC_TRIGGER_READ_TIMEOUT_N = {
-        (byte)'T', (byte)'R', (byte)'G', (byte)'S', (byte)'T', (byte)'O' };
+        (byte)'T', (byte)'R', (byte)'G', (byte)'S', (byte)'T', (byte)'O'};
+
         private static readonly byte[] MNC_SAVE_CUSTOM_DEFAULTS = {
-        (byte)'M', (byte)'N', (byte)'U', (byte)'C', (byte)'D', (byte)'S' };
+        (byte)'M', (byte)'N', (byte)'U', (byte)'C', (byte)'D', (byte)'S'};
+        
+        private static readonly byte[] PSS_ADD_CR_SUFIX_ALL_SYMBOL = {
+        (byte)'V', (byte)'S', (byte)'U', (byte)'F', (byte)'C', (byte)'R'};
+
+        private static readonly byte[] SPC_TRIGGER_READ_TIMEOUT_300000MS = {
+        (byte)'T', (byte)'R', (byte)'G', (byte)'S', (byte)'T', (byte)'O',
+        (byte)'3', (byte)'0', (byte)'0', (byte)'0', (byte)'0', (byte)'0'};
 
         private volatile byte[] m_Buffer = new byte[4096];
         private volatile int m_BufferIdx;
@@ -33,7 +48,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
         /// <summary>
         /// 리더기가 바코드를 스캔하여 값을 읽어들일 때 발생
         /// </summary>
-        public EventHandler<Vuquest3310gDataReceivedEventArgs> Scanned;
+        public EventHandler<Vuquest3310gScanEventArgs> Scanned;
         
         public bool IsEnableSerial
         {
@@ -72,7 +87,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
                 m_IsActivate = false;
                 m_BufferIdx = 0;
                 if (Scanned != null)
-                    Scanned(this, new Vuquest3310gDataReceivedEventArgs(null));
+                    Scanned(this, new Vuquest3310gScanEventArgs(null));
             }
         }
 
@@ -91,7 +106,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
             m_IsActivate = false;
             m_BufferIdx = 0;
             if (Scanned != null)
-                Scanned(this, new Vuquest3310gDataReceivedEventArgs(bytes));
+                Scanned(this, new Vuquest3310gScanEventArgs(bytes));
         }
 
         private void ActivateScan()
@@ -111,6 +126,45 @@ namespace DY.NET.HONEYWELL.VUQUEST
         }
 
         /// <summary>
+        /// 스캔에 필요한 리더기 파라미터를 설정한다. 
+        /// 스캔에 앞서 먼저 한번 호출해야한다.
+        /// </summary>
+        /// <returns></returns>
+        public async Task PrepareAsync()
+        {
+            if (!IsEnableSerial)
+                return;
+            List<byte> syn = new List<byte>();
+            List<byte> rep = new List<byte>();
+            byte[] reply;
+
+            Dictionary<byte[], string> CMDDIC = new Dictionary<byte[], string>();
+            CMDDIC.Add(PSS_ADD_CR_SUFIX_ALL_SYMBOL, "CR sufix setting error");
+            CMDDIC.Add(SPC_TRIGGER_READ_TIMEOUT_300000MS, "Timeout setting error");
+
+            foreach(var CMD in CMDDIC)
+            {
+                syn.Clear();
+                syn.AddRange(PREFIX);
+                syn.AddRange(CMD.Key);
+                syn.Add(DOT);
+
+                rep.Clear();
+                rep.AddRange(CMD.Key);
+                rep.Add(ACK);
+                rep.Add(DOT);
+
+                await m_SerialPort.BaseStream.WriteAsync(syn.ToArray(), 0, syn.Count);
+                int size = await m_SerialPort.BaseStream.ReadAsync(m_Buffer, 0, m_Buffer.Length);
+                reply = new byte[size];
+                Array.Copy(m_Buffer, reply, size);
+
+                if (!rep.SequenceEqual(reply))
+                    throw new Exception(CMD.Value);
+            }
+        }
+
+        /// <summary>
         /// 리더기의 스캔을 시작
         /// </summary>
         public void Scan()
@@ -126,10 +180,11 @@ namespace DY.NET.HONEYWELL.VUQUEST
         {
             if (!(0 <= timeout && timeout <= 300000))
                 throw new ArgumentOutOfRangeException("timeout");
+            TimeOut = timeout;
             if (m_IsActivate)
                 return;
             ActivateScan();
-            m_TimeoutTimer.Interval = timeout;
+            m_TimeoutTimer.Interval = TimeOut;
             m_TimeoutTimer.Start();
         }
 

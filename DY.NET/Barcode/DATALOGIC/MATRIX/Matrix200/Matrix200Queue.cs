@@ -36,14 +36,14 @@ namespace DY.NET.DATALOGIC.MATRIX
 #endif
         }
 
-        private ConcurrentQueue<Tuple<Todo, EventHandler<Matrix200DataReceivedEventArgs>>> m_Queue = new ConcurrentQueue<Tuple<Todo, EventHandler<Matrix200DataReceivedEventArgs>>>();
+        private ConcurrentQueue<Tuple<Todo, EventHandler<Matrix200EventArgs>>> m_Queue = new ConcurrentQueue<Tuple<Todo, EventHandler<Matrix200EventArgs>>>();
         private Matrix200 m_m200;
         private Todo m_CurTodo = Todo.NONE;
 
         /// <summary>
         /// 코드를 스캔하고 난 뒤에 발생되는 이벤트
         /// </summary>
-        public EventHandler<Matrix200DataReceivedEventArgs> CodeScanned { get; set; }
+        public EventHandler<Matrix200EventArgs> CodeScanned { get; set; }
 
         public Matrix200Queue(Matrix200 m200)
         {
@@ -55,7 +55,7 @@ namespace DY.NET.DATALOGIC.MATRIX
         /// </summary>
         public void Clear()
         {
-            Tuple<Todo, EventHandler<Matrix200DataReceivedEventArgs>> mail;
+            Tuple<Todo, EventHandler<Matrix200EventArgs>> mail;
             while (m_Queue.TryDequeue(out mail)) { }
         }
 
@@ -64,7 +64,7 @@ namespace DY.NET.DATALOGIC.MATRIX
         /// </summary>
         /// <param name="todo"></param>
         /// <param name="callback">응답 메세지 도착을 알리는 콜백 메세지</param>
-        public void Enqueue(Todo todo, EventHandler<Matrix200DataReceivedEventArgs> callback)
+        public void Enqueue(Todo todo, EventHandler<Matrix200EventArgs> callback)
         {
             if (todo == Todo.NONE)
                 throw new ArgumentException("Todo.NONE is not used");
@@ -81,7 +81,7 @@ namespace DY.NET.DATALOGIC.MATRIX
                 Clear();
             if (m_CurTodo != Todo.NONE)
             {
-                m_Queue.Enqueue(new Tuple<Todo, EventHandler<Matrix200DataReceivedEventArgs>>(todo, callback));
+                m_Queue.Enqueue(new Tuple<Todo, EventHandler<Matrix200EventArgs>>(todo, callback));
                 return;
             }
             Work(todo, callback);
@@ -96,7 +96,7 @@ namespace DY.NET.DATALOGIC.MATRIX
         }
 #endif
 
-        private async void Work(Todo todo, EventHandler<Matrix200DataReceivedEventArgs> callback)
+        private async void Work(Todo todo, EventHandler<Matrix200EventArgs> callback)
         {
             m_CurTodo = todo;
             Matrix200Code info = null;
@@ -112,7 +112,7 @@ namespace DY.NET.DATALOGIC.MATRIX
                     await m_m200.CaptureAsync();
                     info = await m_m200.DecodingAsync();
                     if (CodeScanned != null)
-                        CodeScanned(this, new Matrix200DataReceivedEventArgs(todo, info));
+                        CodeScanned(this, new Matrix200EventArgs(todo, info));
                     break;
 #if false
                 case Todo.SETUP:
@@ -135,12 +135,12 @@ namespace DY.NET.DATALOGIC.MATRIX
                     break;
             }
             if (callback != null)
-                callback(this, new Matrix200DataReceivedEventArgs(todo, info));
+                callback(this, new Matrix200EventArgs(todo, info));
             m_CurTodo = Todo.NONE;
 
             if (m_Queue.Count > 0)
             {
-                Tuple<Todo, EventHandler<Matrix200DataReceivedEventArgs>> mail;
+                Tuple<Todo, EventHandler<Matrix200EventArgs>> mail;
                 if (m_Queue.TryDequeue(out mail))
                     Enqueue(mail.Item1, mail.Item2);
             }

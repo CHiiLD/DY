@@ -2,7 +2,7 @@
 
 namespace DY.NET.HONEYWELL.VUQUEST
 {
-    public class Vuquest3310gDataReceivedEventArgs : EventArgs
+    public class Vuquest3310gScanEventArgs : EventArgs
     {
         public byte[] Code
         {
@@ -10,7 +10,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
             private set;
         }
 
-        public Vuquest3310gDataReceivedEventArgs(byte[] data)
+        public Vuquest3310gScanEventArgs(byte[] data)
         {
             Code = data;
         }
