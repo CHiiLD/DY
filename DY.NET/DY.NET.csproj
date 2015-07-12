@@ -51,6 +51,7 @@
     <Compile Include="Barcode\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310gBuilder.cs" />
     <Compile Include="Barcode\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310g.cs" />
     <Compile Include="Barcode\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310gScanEventArgs.cs" />
+    <Compile Include="Barcode\IBarcodeSerialCommAsync.cs" />
     <Compile Include="PLC\Builder\ASerialPortBuilder.cs" />
     <Compile Include="PLC\Inheritance\IDebug.cs" />
     <Compile Include="PLC\Inheritance\ISocketCoverAsync.cs" />

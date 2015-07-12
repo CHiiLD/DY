@@ -11,8 +11,9 @@ namespace DY.NET.DATALOGIC.MATRIX
     /// <summary>
     /// Matrix200 바코드 리더기를 기준으로 만들어진 디바이스 통신 클래스
     /// Matrix210과 함께 Matrix 시리즈와 호환이 될 것으로 예상 (테스트는 안해봄)
+    /// 115200-N-8-1
     /// </summary>
-    public partial class Matrix200 : Matrix200Command, IDisposable
+    public partial class Matrix200 : Matrix200Command, IBarcodeSerialCommAsync
     {
         private SerialPort m_SerialPort;
         private byte[] m_Buffer = new byte[4096];
@@ -34,6 +35,11 @@ namespace DY.NET.DATALOGIC.MATRIX
         ~Matrix200()
         {
             Dispose();
+        }
+
+        public bool IsConnected()
+        {
+            return IsEnableSerial;
         }
 
         /// <summary>
@@ -102,6 +108,13 @@ namespace DY.NET.DATALOGIC.MATRIX
         {
             if (!IsEnableSerial)
                 m_SerialPort.Write(CMD_VISISET_DISCONNECT, 0, CMD_VISISET_DISCONNECT.Length);
+        }
+
+        public async Task<object> ScanAsync()
+        {
+            await CaptureAsync();
+            var info = await DecodingAsync();
+            return info;
         }
 
         /// <summary>
@@ -189,66 +202,6 @@ namespace DY.NET.DATALOGIC.MATRIX
         {
             await SendAsync(CMD_VISISET_SETUP_CLOSE, new byte[] { 0x03, 0x00, 0x38 });
         }
-
-        private async Task<byte[]> SendAsync(byte[] CMD, byte[] tail)
-        {
-            List<byte[]> list = new List<byte[]>();
-            list.Add(tail);
-            return await SendAsync(CMD, list);
-        }
-
-        private async Task<byte[]> SendAsync(byte[] CMD, List<byte[]> tailList)
-        {
-            await m_SerialPort.BaseStream.WriteAsync(CMD, 0, CMD.Length);
-            List<byte> storage = new List<byte>();
-            int buf_size = 0;
-            do
-            {
-                buf_size = await m_SerialPort.BaseStream.ReadAsync(m_Buffer, 0, m_Buffer.Length);
-#if false
-                Console.WriteLine("**************************************************");
-                for (int i = 0; i < buf_size; i++)
-                {
-                    Console.Write("{0:X2} ", m_Buffer[i]);
-                    if (i % 8 == 0)
-                        Console.WriteLine("");
-                }
-                Console.WriteLine("");
-                //if (buf_size > 0)
-                //{
-                //    byte[] temp_buf = new byte[buf_size];
-                //    Buffer.BlockCopy(m_Buffer, 0, temp_buf, 0, buf_size);
-                //    Console.WriteLine(Encoding.ASCII.GetString(temp_buf));
-                //}
-                Console.WriteLine("**************************************************");
-#endif
-                for (int i = 0; i < buf_size; i++)
-                    storage.Add(m_Buffer.ElementAt(i));
-                bool isBreak = false;
-                foreach (var item in tailList)
-                {
-                    if (storage.Count() < item.Count())
-                        continue;
-                    int cnt = 0;
-                    for (int i = 0; i < item.Count(); i++)
-                    {
-                        if (storage[storage.Count() - 1 - i] == item[item.Count() - 1 - i])
-                            cnt++;
-                        else
-                            break;
-                    }
-                    if (cnt == item.Count())
-                    {
-                        isBreak = true;
-                        break;
-                    }
-                }
-                if (isBreak)
-                    break;
-            } while (buf_size != 0);
-            return storage.ToArray();
-        }
-
         /// <summary>
         /// 바코드 종류를 리더기에 인식케 한다.
         /// 대략 3 ~ 30초 가량 시간이 소요된다.
@@ -372,6 +325,65 @@ namespace DY.NET.DATALOGIC.MATRIX
                 }
             }
             return info;
+        }
+
+        private async Task<byte[]> SendAsync(byte[] CMD, List<byte[]> tailList)
+        {
+            await m_SerialPort.BaseStream.WriteAsync(CMD, 0, CMD.Length);
+            List<byte> storage = new List<byte>();
+            int buf_size = 0;
+            do
+            {
+                buf_size = await m_SerialPort.BaseStream.ReadAsync(m_Buffer, 0, m_Buffer.Length);
+#if false
+                Console.WriteLine("**************************************************");
+                for (int i = 0; i < buf_size; i++)
+                {
+                    Console.Write("{0:X2} ", m_Buffer[i]);
+                    if (i % 8 == 0)
+                        Console.WriteLine("");
+                }
+                Console.WriteLine("");
+                //if (buf_size > 0)
+                //{
+                //    byte[] temp_buf = new byte[buf_size];
+                //    Buffer.BlockCopy(m_Buffer, 0, temp_buf, 0, buf_size);
+                //    Console.WriteLine(Encoding.ASCII.GetString(temp_buf));
+                //}
+                Console.WriteLine("**************************************************");
+#endif
+                for (int i = 0; i < buf_size; i++)
+                    storage.Add(m_Buffer.ElementAt(i));
+                bool isBreak = false;
+                foreach (var item in tailList)
+                {
+                    if (storage.Count() < item.Count())
+                        continue;
+                    int cnt = 0;
+                    for (int i = 0; i < item.Count(); i++)
+                    {
+                        if (storage[storage.Count() - 1 - i] == item[item.Count() - 1 - i])
+                            cnt++;
+                        else
+                            break;
+                    }
+                    if (cnt == item.Count())
+                    {
+                        isBreak = true;
+                        break;
+                    }
+                }
+                if (isBreak)
+                    break;
+            } while (buf_size != 0);
+            return storage.ToArray();
+        }
+
+        private async Task<byte[]> SendAsync(byte[] CMD, byte[] tail)
+        {
+            List<byte[]> list = new List<byte[]>();
+            list.Add(tail);
+            return await SendAsync(CMD, list);
         }
     }
 }

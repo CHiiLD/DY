@@ -1,9 +1,10 @@
 ﻿using System;
 using System.Net.Sockets;
+using System.Threading.Tasks;
 
 namespace DY.NET.LSIS.XGT
 {
-    public class XGTFEnetSocket : ASocketCover
+    public class XGTFEnetSocket : ASocketCover, ISocketCoverAsync
     {
         private string m_Host;
         private XGTFEnetPort m_Port;
@@ -34,9 +35,54 @@ namespace DY.NET.LSIS.XGT
             if (!m_Client.Connected)
             {
                 m_Client.Connect(m_Host, (int)m_Port);
-                m_Client.GetStream().BeginRead(Buffer_, BufferIdx, BUFFER_SIZE, OnRead, m_Client);
+                m_Client.GetStream().BeginRead(Buffer_, BufferIdx, BUFFER_SIZE, OnRead, null);
             }
             return m_Client.Connected;
+        }
+
+        public async Task<bool> ConnectAsync()
+        {
+            if (!m_Client.Connected)
+            {
+                await m_Client.ConnectAsync(m_Host, (int)m_Port);
+                m_Client.GetStream().BeginRead(Buffer_, BufferIdx, BUFFER_SIZE, OnRead, null);
+            }
+            return m_Client.Connected;
+        }
+        /// <summary>
+        /// 비동기적으로 요청프로토콜을 보내고 응답 프로토콜을 받아 리턴.
+        /// </summary>
+        /// <param name="protocol"></param>
+        /// <returns></returns>
+        public async Task<object> SendAsync(IProtocol protocol)
+        {
+            if (m_Client == null)
+                return null;
+            NetworkStream ns = m_Client.GetStream();
+            AProtocol reqt_p = protocol as AProtocol;
+            if (reqt_p == null)
+                throw new ArgumentException("Protocol not match AProtocol type");
+            await ns.WriteAsync(reqt_p.ASCIIProtocol, 0, reqt_p.ASCIIProtocol.Length);
+            //execute event
+            SendedProtocolSuccessfullyEvent(reqt_p);
+            reqt_p.ProtocolRequestedEvent(this, reqt_p);
+            BufferIdx = 0;
+            do
+            {
+                int size = await ns.ReadAsync(Buffer_, BufferIdx, BUFFER_SIZE);
+                if (size == 0)
+                {
+                    if (SignOffReceived != null)
+                        SignOffReceived(this, EventArgs.Empty);
+                    return null;
+                }
+                BufferIdx += size;
+            } while (!IsMatchInstructSizeSum());
+            byte[] recv_data = new byte[BufferIdx];
+            Buffer.BlockCopy(Buffer_, 0, recv_data, 0, recv_data.Length);
+            BufferIdx = 0;
+            AProtocol resp_p = ReportResponseProtocol(reqt_p, recv_data);
+            return resp_p;
         }
 
         public override void Send(IProtocol protocol)
@@ -45,39 +91,16 @@ namespace DY.NET.LSIS.XGT
                 return;
             AProtocol reqt_p = protocol as AProtocol;
             if (reqt_p == null)
-                throw new ArgumentException("Protocol not match xgt_fene_protocol type");
+                throw new ArgumentException("Protocol not match AProtocol type");
             byte[] reqt_data = reqt_p.ASCIIProtocol;
-            if (IsWait)   //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
+            if (Wait)   //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
             {
                 ProtocolStandByQueue.Enqueue(reqt_p);
                 return;
             }
+            Wait = true;
             SavePoint_ReqeustProtocol = reqt_p;
-            m_Client.GetStream().BeginWrite(reqt_data, 0, reqt_data.Length, OnSended, m_Client);
-            IsWait = true;
-        }
-
-        private void OnSended(IAsyncResult ar)
-        {
-            if (m_Client == null)
-                return;
-            if (!m_Client.Connected)
-                return;
-            m_Client.GetStream().EndWrite(ar);
-
-            SendedProtocolSuccessfullyEvent(SavePoint_ReqeustProtocol);
-            SavePoint_ReqeustProtocol.ProtocolRequestedEvent(this, SavePoint_ReqeustProtocol);
-
-            IsWait = false;
-            if (ProtocolStandByQueue.Count != 0)
-                SendNextProtocol();
-        }
-
-        private void SendNextProtocol()
-        {
-            IProtocol temp = null;
-            if (ProtocolStandByQueue.TryDequeue(out temp))
-                Send(temp);
+            m_Client.GetStream().BeginWrite(reqt_data, 0, reqt_data.Length, OnSended, reqt_p);
         }
 
         public override void Close()
@@ -104,10 +127,24 @@ namespace DY.NET.LSIS.XGT
             GC.SuppressFinalize(this);
         }
 
-        private void ReportResponseProtocol(byte[] recv_data)
+        /// <summary>
+        /// 헤더부분의 Length 부분과 실제 Instruct Size를 계산하여 일치하는지 계산 
+        /// </summary>
+        /// <returns>일치할 시(프로토콜을 모두 전송 받았을 때)true, 아니면 false</returns>
+        private bool IsMatchInstructSizeSum()
         {
-            AProtocol reqt_p = SavePoint_ReqeustProtocol as AProtocol;
-            Type type_T = SavePoint_ReqeustProtocol.GetType().GenericTypeArguments[0]; //<T>의 Type 얻기
+            ushort instruct_size_sum = 0, instruct_size_cnt = 0;
+            if (BufferIdx < XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE)
+                return false;
+            instruct_size_sum = CV2BR.ToValue(new byte[] { Buffer_[16], Buffer_[17] });
+            for (int i = XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE; i < BufferIdx - XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE; i++)
+                instruct_size_cnt += Buffer_[i];
+            return instruct_size_sum == instruct_size_cnt;
+        }
+
+        private AProtocol ReportResponseProtocol(AProtocol reqt_p, byte[] recv_data)
+        {
+            Type type_T = reqt_p.GetType().GenericTypeArguments[0]; //<T>의 Type 얻기
             Type type_pt = typeof(XGTFEnetProtocol<>).MakeGenericType(type_T); //XGTCnetProtocol<T> 타입 생성
             AProtocol resp_p = reqt_p.MirrorProtocol as AProtocol; //응답 객체 생성 전에 재활용이 가능한지 검토
             if (reqt_p.MirrorProtocol == null)
@@ -141,37 +178,64 @@ namespace DY.NET.LSIS.XGT
 #if !DEBUG
             }
 #endif
+            return resp_p;
         }
 
         private void OnRead(IAsyncResult ar)
         {
+            if (m_Client == null)
+                return;
+            if (!m_Client.Connected)
+                return;
+            NetworkStream ns = m_Client.GetStream();
+            int size = 0;
+            try
+            {
+                size += ns.EndRead(ar);
+            }
+            catch (Exception exception)
+            {
+            }
+            if (size == 0) //서버측에서 연결을 끊음
+            {
+                if (SignOffReceived != null)
+                    SignOffReceived(this, EventArgs.Empty);
+                return;
+            }
             do
             {
-                if (m_Client == null)
+                BufferIdx += size;
+                if (!IsMatchInstructSizeSum())
                     break;
-                if (!m_Client.Connected)
-                    break;
-                NetworkStream stream = m_Client.GetStream();
-                try 
-                { 
-                    BufferIdx = stream.EndRead(ar); 
-                }
-                catch (Exception exception) 
-                { 
-                }
-
-                if (BufferIdx == 0) //서버측에서 연결을 끊음
-                {
-                    if (SignOffReceived != null)
-                        SignOffReceived(this, EventArgs.Empty);
-                    break;
-                }
                 byte[] recv_data = new byte[BufferIdx];
                 Buffer.BlockCopy(Buffer_, 0, recv_data, 0, recv_data.Length);
-                ReportResponseProtocol(recv_data);
                 BufferIdx = 0;
-                stream.BeginRead(Buffer_, BufferIdx, BUFFER_SIZE, OnRead, m_Client);
+                AProtocol reqt_p = SavePoint_ReqeustProtocol as AProtocol;
+                ReportResponseProtocol(reqt_p, recv_data);
+                Wait = false;
+                if (ProtocolStandByQueue.Count != 0)
+                    SendNextProtocol();
             } while (false);
+            ns.BeginRead(Buffer_, BufferIdx, BUFFER_SIZE, OnRead, null);
+        }
+
+        private void OnSended(IAsyncResult ar)
+        {
+            if (m_Client == null)
+                return;
+            if (!m_Client.Connected)
+                return;
+            m_Client.GetStream().EndWrite(ar);
+            AProtocol reqt_p = ar.AsyncState as AProtocol;
+            SendedProtocolSuccessfullyEvent(reqt_p);
+            reqt_p.ProtocolRequestedEvent(this, reqt_p);
+        }
+
+        private void SendNextProtocol()
+        {
+            IProtocol temp = null;
+            if (ProtocolStandByQueue.TryDequeue(out temp))
+                Send(temp);
         }
     }
 }

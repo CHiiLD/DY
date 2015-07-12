@@ -57,7 +57,7 @@ namespace DY.NET
         public const int BUFFER_SIZE = 4096;
         protected byte[] Buffer_ = new byte[BUFFER_SIZE];
         protected int BufferIdx;
-        protected volatile bool IsWait = false;
+        protected volatile bool Wait = false;
 
         /// <summary>
         /// 데이터를 성공적으로 전송하였을 때 호출되는 이벤트

@@ -4,13 +4,16 @@ using System.Timers;
 using System.Threading.Tasks;
 using System.Collections.Generic;
 using System.Linq;
+using System.IO;
+using System.Threading;
 
 namespace DY.NET.HONEYWELL.VUQUEST
 {
     /// <summary>
     /// 허니웰 Vuquest3310g 바코드 리더기 통신 클래스
+    /// 115200-N-8-1
     /// </summary>
-    public partial class Vuquest3310g : IDisposable
+    public partial class Vuquest3310g : IBarcodeSerialCommAsync
     {
         private const byte SYN = 0x16;
         private const byte CR = 0x0D;
@@ -42,7 +45,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
         private volatile byte[] m_Buffer = new byte[4096];
         private volatile int m_BufferIdx;
         private volatile bool m_IsActivate = false;
-        private volatile Timer m_TimeoutTimer;
+        private volatile System.Timers.Timer m_TimeoutTimer;
         private volatile SerialPort m_SerialPort;
 
         /// <summary>
@@ -68,7 +71,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
         private Vuquest3310g()
         {
             TimeOut = 1000; //1초
-            m_TimeoutTimer = new Timer();
+            m_TimeoutTimer = new System.Timers.Timer();
             m_TimeoutTimer.Elapsed += OnElapsedTimer;
         }
 
@@ -77,9 +80,14 @@ namespace DY.NET.HONEYWELL.VUQUEST
             Dispose();
         }
 
+        public bool IsConnected()
+        {
+            return IsEnableSerial;
+        }
+
         private void OnElapsedTimer(object sender, ElapsedEventArgs args)
         {
-            var timer = sender as Timer;
+            var timer = sender as System.Timers.Timer;
             timer.Stop();
             if (m_IsActivate)
             {
@@ -123,6 +131,26 @@ namespace DY.NET.HONEYWELL.VUQUEST
                 return;
             m_IsActivate = false;
             m_SerialPort.Write(SPC_TRIGGER_DEACTIVATE, 0, SPC_TRIGGER_DEACTIVATE.Length);
+        }
+
+        private async Task<byte[]> ActivateAsync()
+        {
+            if (m_IsActivate)
+                return null;
+            m_IsActivate = true;
+            Stream bs = m_SerialPort.BaseStream;
+            await bs.WriteAsync(SPC_TRIGGER_ACTIVATE, 0, SPC_TRIGGER_ACTIVATE.Length);
+            m_BufferIdx = 0;
+            do
+            {
+                m_BufferIdx += await bs.ReadAsync(m_Buffer, m_BufferIdx, m_Buffer.Length);
+            } while (m_Buffer.Last() != CR);
+            byte[] ret = new byte[m_BufferIdx - 1];
+            Array.Copy(m_Buffer, 0, ret, 0, ret.Length);
+
+            await bs.WriteAsync(SPC_TRIGGER_DEACTIVATE, 0, SPC_TRIGGER_DEACTIVATE.Length);
+            m_IsActivate = false;
+            return ret;
         }
 
         /// <summary>
@@ -188,6 +216,24 @@ namespace DY.NET.HONEYWELL.VUQUEST
             m_TimeoutTimer.Start();
         }
 
+        public async Task<object> ScanAsync()
+        {
+            return await ScanAsync(TimeOut);
+        }
+
+        public async Task<object> ScanAsync(int timeout)
+        {
+            if (!(0 <= timeout && timeout <= 300000))
+                throw new ArgumentOutOfRangeException("timeout");
+            TimeOut = timeout;
+            byte[] ret = null;
+            var task = ActivateAsync();
+            if (await Task.WhenAny(task, Task.Delay(TimeOut)) == task)
+                ret = await task;
+            else
+                DeactivateScan();
+            return ret;
+        }
         /// <summary>
         /// 시리얼 포트에 접속
         /// </summary>

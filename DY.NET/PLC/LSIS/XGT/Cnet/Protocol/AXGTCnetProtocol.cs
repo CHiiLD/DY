@@ -180,7 +180,7 @@ namespace DY.NET.LSIS.XGT
 
         #endregion
 
-        #region internal
+        #region INTERNAL
         /// <summary>
         /// 받은 ASC데이터들의 테일을 검사하여 EXT 값이 왔는지 검사합니다.
         /// </summary>
@@ -198,20 +198,23 @@ namespace DY.NET.LSIS.XGT
                 return false;
             return asc_data[asc_data.Length - 1 - (IsExistBCC() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte();
         }
-
+        
         /// <summary>
-        /// 맴머 변수의 정보를 토대로 원시 프로토콜 데이터를 구합니다.
+        /// BCC데이터가 추가 될지 확인하는 메서드
         /// </summary>
-        public override void AssembleProtocol()
+        /// <returns></returns>
+        internal bool IsExistBCC()
         {
-            List<byte> asc_list = new List<byte>();
-            AddProtocolHead(asc_list);
-            AttachProtocolFrame(asc_list);
-            AddProtocolTail(asc_list);
-            ProtocolData = asc_list.ToArray();
-            if (ProtocolData.Length > PROTOCOL_ASC_SIZE_MAX_256BYTE)
-                throw new Exception(ERROR_PROTOCOL_ASC_SIZE_MAX_256BYTE);
+            if (ProtocolData == null)
+                throw new NullReferenceException("Protocoldata is null.");
+            if (Command == XGTCnetCommand.r || Command == XGTCnetCommand.w || Command == XGTCnetCommand.x || Command == XGTCnetCommand.y)
+                return true;
+            else
+                return false;
         }
+        #endregion
+
+        #region PUBLIC
 
         /// <summary>
         /// 받은 원시 프로토콜 데이터를 바탕으로 프로토콜 구조와 데이터를 파악합니다.
@@ -229,19 +232,18 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
-        /// BCC데이터가 추가 될지 확인하는 메서드
+        /// 맴머 변수의 정보를 토대로 원시 프로토콜 데이터를 구합니다.
         /// </summary>
-        /// <returns></returns>
-        public bool IsExistBCC()
+        public override void AssembleProtocol()
         {
-            if (ProtocolData == null)
-                throw new NullReferenceException("Protocoldata is null.");
-            if (Command == XGTCnetCommand.r || Command == XGTCnetCommand.w || Command == XGTCnetCommand.x || Command == XGTCnetCommand.y)
-                return true;
-            else
-                return false;
+            List<byte> asc_list = new List<byte>();
+            AddProtocolHead(asc_list);
+            AttachProtocolFrame(asc_list);
+            AddProtocolTail(asc_list);
+            ProtocolData = asc_list.ToArray();
+            if (ProtocolData.Length > PROTOCOL_ASC_SIZE_MAX_256BYTE)
+                throw new Exception(ERROR_PROTOCOL_ASC_SIZE_MAX_256BYTE);
         }
-        #endregion 
 
         public override void Print()
         {
@@ -258,6 +260,8 @@ namespace DY.NET.LSIS.XGT
             Console.WriteLine(string.Format("테일: {0}", Tail == XGTCnetCCType.EOT ? "EOT" : "EXT"));
             Console.WriteLine(string.Format("BCC: {0}", BCC));
         }
+
+        #endregion
 
         #region ABSTRACT METHOD
         protected abstract void PrintInstruct();
