@@ -42,23 +42,23 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200Builder.cs" />
-    <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200EventArgs.cs" />
-    <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200Queue.cs" />
-    <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200Code.cs" />
-    <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200.cs" />
-    <Compile Include="Barcode\DATALOGIC\MATRIX\Matrix200\Matrix200Command.cs" />
-    <Compile Include="Barcode\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310gBuilder.cs" />
-    <Compile Include="Barcode\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310g.cs" />
-    <Compile Include="Barcode\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310gScanEventArgs.cs" />
-    <Compile Include="Barcode\IBarcodeSerialCommAsync.cs" />
+    <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200Builder.cs" />
+    <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200EventArgs.cs" />
+    <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200Queue.cs" />
+    <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200Code.cs" />
+    <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200.cs" />
+    <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200Command.cs" />
+    <Compile Include="Scanner\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310gBuilder.cs" />
+    <Compile Include="Scanner\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310g.cs" />
+    <Compile Include="Scanner\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310gScanEventArgs.cs" />
+    <Compile Include="Scanner\IScannerSerialCommAsync.cs" />
     <Compile Include="PLC\Builder\ASerialPortBuilder.cs" />
     <Compile Include="PLC\Inheritance\IDebug.cs" />
     <Compile Include="PLC\Inheritance\ISocketCoverAsync.cs" />
     <Compile Include="PLC\LSIS\XGT\ByteArray2HexStr.cs" />
     <Compile Include="PLC\Inheritance\ASocketCover.cs" />
     <Compile Include="PLC\Inheritance\IProtocol.cs" />
-    <Compile Include="PLC\Inheritance\ITag.cs" />
+    <Compile Include="ITag.cs" />
     <Compile Include="PLC\LSIS\XGT\B2W.cs" />
     <Compile Include="PLC\LSIS\XGT\CA2C.cs" />
     <Compile Include="PLC\Inheritance\ISocketCover.cs" />
