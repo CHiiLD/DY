@@ -17,7 +17,7 @@ namespace DY.NET.LSIS.XGT
     /// <summary>
     /// XGTCnetExclusiveProtocol을 이용한 Serial 통신소켓 클래스
     /// </summary>
-    public partial class XGTCnetSocket : ASocketCover, ISocketCoverAsync
+    public partial class XGTCnetSocket : ASocketCover, IPostAsync
     {
         public class Builder : ASerialPortBuilder
         {
@@ -92,7 +92,7 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         /// <param name="protocol"></param>
         /// <returns></returns>
-        public async Task<object> SendAsync(IProtocol protocol)
+        public async Task<IProtocol> PostAsync(IProtocol protocol)
         {
             if (IsConnected())
                 return null;

@@ -67,7 +67,7 @@ namespace DY.NET.DATALOGIC.MATRIX
         {
             if (IsEnableSerial)
             {
-                Disconnect();
+                DisconnectAsync();
                 m_SerialPort.Close();
             }
         }
@@ -108,10 +108,11 @@ namespace DY.NET.DATALOGIC.MATRIX
         /// <summary>
         /// 리더기에 연결 종료 메세지 전달 
         /// </summary>
-        public void Disconnect()
+        public async Task DisconnectAsync()
         {
             if (!IsEnableSerial)
-                m_SerialPort.Write(CMD_VISISET_DISCONNECT, 0, CMD_VISISET_DISCONNECT.Length);
+                return;
+            await m_SerialPort.BaseStream.WriteAsync(CMD_VISISET_DISCONNECT, 0, CMD_VISISET_DISCONNECT.Length);
         }
 
         public async Task<object> ScanAsync()

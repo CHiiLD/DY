@@ -155,7 +155,7 @@ namespace DY.NET.LSIS.XGT
             Type type = typeof(T);
             if (!(type == typeof(Byte) || type == typeof(SByte))) //BYTE타입만 가능
                 throw new ArgumentException("Rsb communication only supported byte data type");
-            if (!GetPossibleRSBList().Contains(name[1]))
+            if (!PossibleRSBList.Contains(name[1]))
                 throw new ArgumentException("this device type can not service");
             var instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, 1);
             instance.DataType = XGTFEnetDataType.CONTINUATION;
@@ -183,7 +183,7 @@ namespace DY.NET.LSIS.XGT
             Type type = typeof(T);
             if (!(type == typeof(Byte) || type == typeof(SByte))) //BYTE타입만 가능
                 throw new ArgumentException("Rsb communication only supported byte data type");
-            if (!GetPossibleRSBList().Contains(datas.First().Key[1]))
+            if (!PossibleRSBList.Contains(datas.First().Key[1]))
                 throw new ArgumentException("this device type can not service");
             var instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, 1);
             instance.m_DataStorageDictionary = new Dictionary<string, T>(datas);

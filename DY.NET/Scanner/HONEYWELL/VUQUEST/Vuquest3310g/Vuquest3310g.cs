@@ -46,6 +46,8 @@ namespace DY.NET.HONEYWELL.VUQUEST
         (byte)'T', (byte)'R', (byte)'G', (byte)'S', (byte)'T', (byte)'O',
         (byte)'3', (byte)'0', (byte)'0', (byte)'0', (byte)'0', (byte)'0'};
 
+        public const int VUQUEST3310G_TIMEOUT_MAX = 300000;
+
         private volatile byte[] m_Buffer = new byte[4096];
         private volatile int m_BufferIdx;
         private volatile bool m_IsActivate = false;
@@ -210,7 +212,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
         /// <param name="timeout">타임아웃 시간을 지정</param>
         public void Scan(int timeout)
         {
-            if (!(0 <= timeout && timeout <= 300000))
+            if (!(0 <= timeout && timeout <= VUQUEST3310G_TIMEOUT_MAX))
                 throw new ArgumentOutOfRangeException("timeout");
             TimeOut = timeout;
             if (m_IsActivate)
@@ -227,7 +229,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
 
         public async Task<object> ScanAsync(int timeout)
         {
-            if (!(0 <= timeout && timeout <= 300000))
+            if (!(0 <= timeout && timeout <= VUQUEST3310G_TIMEOUT_MAX))
                 throw new ArgumentOutOfRangeException("timeout");
             TimeOut = timeout;
             byte[] ret = null;

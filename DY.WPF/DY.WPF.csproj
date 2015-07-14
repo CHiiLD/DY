@@ -47,15 +47,10 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CTRL\COMM\Comm.cs" />
-    <Compile Include="CTRL\COMM\CommConfig.cs" />
+    <Compile Include="CommType.cs" />
     <Compile Include="CTRL\COMM\CommConfigDataGrid.xaml.cs">
       <DependentUpon>CommConfigDataGrid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="CTRL\COMM\CommDeviceType.cs" />
-    <Compile Include="CTRL\COMM\CommEthernet.cs" />
-    <Compile Include="CTRL\COMM\CommSerial.cs" />
-    <Compile Include="CTRL\COMM\CommState.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -69,6 +64,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <Compile Include="ServiceableDevice.cs" />
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>

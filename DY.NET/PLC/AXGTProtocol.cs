@@ -49,22 +49,22 @@ namespace DY.NET
         /// <summary>
         /// 통신 중 예외 또는 에러가 발생시 통지
         /// </summary>
-        public event EventHandler<DataReceivedEventArgs> ErrorReceived;
+        public event EventHandler<ProtocolReceivedEventArgs> ErrorReceived;
         /// <summary>
         /// 프로토콜 요청을 성공적으로 전달되었을 시 통지
         /// </summary>
-        public event EventHandler<DataReceivedEventArgs> ProtocolRequested;
+        public event EventHandler<ProtocolReceivedEventArgs> ProtocolRequested;
         /// <summary>
         /// 요청된 프로토콜에 따른 응답 프로토콜을 성공적으로 받았을 시 통지
         /// </summary>
-        public event EventHandler<DataReceivedEventArgs> ProtocolReceived;
+        public event EventHandler<ProtocolReceivedEventArgs> ProtocolReceived;
 
         public void ProtocolReceivedEvent(object obj, IProtocol protocol)
         {
             if (ProtocolReceived != null)
             {
                 var cold_pt = System.Threading.Volatile.Read(ref protocol);
-                ProtocolReceived(obj, new DataReceivedEventArgs(cold_pt));
+                ProtocolReceived(obj, new ProtocolReceivedEventArgs(cold_pt));
             }
         }
 
@@ -73,7 +73,7 @@ namespace DY.NET
             if (ProtocolRequested != null)
             {
                 var cold_pt = System.Threading.Volatile.Read(ref protocol);
-                ProtocolRequested(obj, new DataReceivedEventArgs(cold_pt));
+                ProtocolRequested(obj, new ProtocolReceivedEventArgs(cold_pt));
             }
         }
 
@@ -82,7 +82,7 @@ namespace DY.NET
             if (ErrorReceived != null)
             {
                 var cold_pt = System.Threading.Volatile.Read(ref protocol);
-                ErrorReceived(obj, new DataReceivedEventArgs(cold_pt));
+                ErrorReceived(obj, new ProtocolReceivedEventArgs(cold_pt));
             }
         }
 

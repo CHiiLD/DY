@@ -12,3 +12,17 @@ C:\Users\CHILD\GitHub\DY\DY.WPF\obj\Debug\DY.WPF.csproj.GenerateResource.Cache
 C:\Users\CHILD\GitHub\DY\DY.WPF\obj\Debug\DY.WPF.dll
 C:\Users\CHILD\GitHub\DY\DY.WPF\obj\Debug\DY.WPF.pdb
 C:\Users\CHILD\GitHub\DY\DY.WPF\obj\Debug\DY.WPF_MarkupCompile.lref
+C:\dev\github\DY\DY.WPF\bin\Debug\DY.WPF.dll
+C:\dev\github\DY\DY.WPF\bin\Debug\DY.WPF.pdb
+C:\dev\github\DY\DY.WPF\bin\Debug\NET.dll
+C:\dev\github\DY\DY.WPF\bin\Debug\NET.pdb
+C:\dev\github\DY\DY.WPF\obj\Debug\DY.WPF.csprojResolveAssemblyReference.cache
+C:\dev\github\DY\DY.WPF\obj\Debug\CTRL\COMM\CommConfigDataGrid.g.cs
+C:\dev\github\DY\DY.WPF\obj\Debug\DY.WPF_MarkupCompile.cache
+C:\dev\github\DY\DY.WPF\obj\Debug\DY.WPF_MarkupCompile.lref
+C:\dev\github\DY\DY.WPF\obj\Debug\CTRL\COMM\CommConfigDataGrid.baml
+C:\dev\github\DY\DY.WPF\obj\Debug\DY.WPF.g.resources
+C:\dev\github\DY\DY.WPF\obj\Debug\DY.WPF.Properties.Resources.resources
+C:\dev\github\DY\DY.WPF\obj\Debug\DY.WPF.csproj.GenerateResource.Cache
+C:\dev\github\DY\DY.WPF\obj\Debug\DY.WPF.dll
+C:\dev\github\DY\DY.WPF\obj\Debug\DY.WPF.pdb

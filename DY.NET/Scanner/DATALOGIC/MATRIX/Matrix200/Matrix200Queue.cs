@@ -106,7 +106,7 @@ namespace DY.NET.DATALOGIC.MATRIX
                     await m_m200.PrepareAsync();
                     break;
                 case Todo.DISCONNECT:
-                    m_m200.Disconnect();
+                    await m_m200.DisconnectAsync();
                     break;
                 case Todo.SCAN:
                     info = await m_m200.ScanAsync() as Matrix200Code;

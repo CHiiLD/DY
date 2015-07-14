@@ -12,33 +12,29 @@ namespace DY.NET.LSIS.XGT
     /// <typeparam name="T"></typeparam>
     public partial class XGTFEnetProtocol<T>
     {
-        public static List<char> GetPossibleRSBList()
+        public static readonly List<char> PossibleRSBList = new List<char>
         {
-            List<char> list = new List<char>();
-            list.Add('P');
-            list.Add('M');
-            list.Add('L');
-            list.Add('F');
-            list.Add('C');
-            list.Add('D');
-            list.Add('T');
-            list.Add('N');
-            list.Add('R');
-            return list;
-        }
+            { 'P' }, 
+            { 'M' }, 
+            { 'L' }, 
+            { 'F' }, 
+            { 'C' }, 
+            { 'D' }, 
+            { 'T' }, 
+            { 'N' }, 
+            { 'R' }, 
+        };
 
-        public static List<char> GetPossibleWSBList()
+        public static readonly List<char> PossibleWSBList = new List<char>
         {
-            List<char> list = new List<char>();
-            list.Add('P');
-            list.Add('M');
-            list.Add('K');
-            list.Add('C');
-            list.Add('D');
-            list.Add('T');
-            list.Add('N');
-            list.Add('R');
-            return list;
-        }
+            { 'P' }, 
+            { 'M' }, 
+            { 'K' }, 
+            { 'C' }, 
+            { 'D' }, 
+            { 'T' }, 
+            { 'N' }, 
+            { 'R' }, 
+        };
     }
 }

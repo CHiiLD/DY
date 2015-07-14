@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="IConnect.cs" />
     <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200Builder.cs" />
     <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200EventArgs.cs" />
     <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200Queue.cs" />
@@ -52,18 +53,18 @@
     <Compile Include="Scanner\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310g.cs" />
     <Compile Include="Scanner\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310gScanEventArgs.cs" />
     <Compile Include="Scanner\IScannerSerialCommAsync.cs" />
-    <Compile Include="PLC\Builder\ASerialPortBuilder.cs" />
-    <Compile Include="PLC\Inheritance\IDebug.cs" />
-    <Compile Include="PLC\Inheritance\ISocketCoverAsync.cs" />
+    <Compile Include="PLC\ASerialPortBuilder.cs" />
+    <Compile Include="PLC\IDebug.cs" />
+    <Compile Include="PLC\IPostAsync.cs" />
     <Compile Include="PLC\LSIS\XGT\ByteArray2HexStr.cs" />
-    <Compile Include="PLC\Inheritance\ASocketCover.cs" />
-    <Compile Include="PLC\Inheritance\IProtocol.cs" />
+    <Compile Include="PLC\ASocketCover.cs" />
+    <Compile Include="PLC\IProtocol.cs" />
     <Compile Include="ITag.cs" />
     <Compile Include="PLC\LSIS\XGT\B2W.cs" />
     <Compile Include="PLC\LSIS\XGT\CA2C.cs" />
-    <Compile Include="PLC\Inheritance\ISocketCover.cs" />
+    <Compile Include="PLC\ISocketCover.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Enum\XGTCnetProtocolError.cs" />
-    <Compile Include="PLC\Inheritance\AXGTProtocol.cs" />
+    <Compile Include="PLC\AXGTProtocol.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Protocol\XGTCnetProtocol.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Protocol\AXGTCnetProtocol.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Socket\XGTCnetSocektSerialPort.cs" />
@@ -89,15 +90,15 @@
     <Compile Include="PLC\LSIS\XGT\FEnet\Enum\XGTFEnetSourceOfFrame.cs" />
     <Compile Include="PLC\LSIS\XGT\FEnet\Socket\XGTFEnetSocket.cs" />
     <Compile Include="PLC\LSIS\XGT\Glopa.cs" />
-    <Compile Include="PLC\Extension\NumericType.cs" />
+    <Compile Include="PLC\NumericType.cs" />
     <Compile Include="PLC\LSIS\XGT\XGKCpuType.cs" />
     <Compile Include="PLC\LSIS\XGT\XGTMemoryExpression.cs" />
     <Compile Include="PLC\LSIS\XGT\XGTServiceableDevice.cs" />
-    <Compile Include="PLC\Extension\TypeExtension.cs" />
+    <Compile Include="PLC\TypeExtension.cs" />
     <Compile Include="PLC\LSIS\XGT\BS2D.cs" />
     <Compile Include="PLC\LSIS\XGT\XGTModuleComm.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PLC\Event\DataReceivedEventArgs.cs" />
+    <Compile Include="PLC\ProtocolReceivedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PLC\MITSUBISHI\MELSEC-Q\" />

@@ -14,9 +14,9 @@ namespace DY.NET
     /// </summary>
     public interface IProtocol : ITag, IDebug
     {
-        event EventHandler<DataReceivedEventArgs> ErrorReceived;         
-        event EventHandler<DataReceivedEventArgs> ProtocolRequested; 
-        event EventHandler<DataReceivedEventArgs> ProtocolReceived;
+        event EventHandler<ProtocolReceivedEventArgs> ErrorReceived;         
+        event EventHandler<ProtocolReceivedEventArgs> ProtocolRequested; 
+        event EventHandler<ProtocolReceivedEventArgs> ProtocolReceived;
 
         void ProtocolReceivedEvent(object obj, IProtocol protocol);
         void ProtocolRequestedEvent(object obj, IProtocol protocol);

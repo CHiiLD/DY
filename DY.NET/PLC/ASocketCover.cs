@@ -62,19 +62,19 @@ namespace DY.NET
         /// <summary>
         /// 데이터를 성공적으로 전송하였을 때 호출되는 이벤트
         /// </summary>
-        public EventHandler<DataReceivedEventArgs> SendedProtocolSuccessfully { get; set; }
+        public EventHandler<ProtocolReceivedEventArgs> SendedProtocolSuccessfully { get; set; }
 
         /// <summary>
         /// 데이터를 성공적으로 전송받았을 때 호출되는 이벤트
         /// </summary>
-        public EventHandler<DataReceivedEventArgs> ReceivedProtocolSuccessfully { get; set; }
+        public EventHandler<ProtocolReceivedEventArgs> ReceivedProtocolSuccessfully { get; set; }
 
         public void SendedProtocolSuccessfullyEvent(IProtocol iProtocol)
         {
             if (SendedProtocolSuccessfully != null)
             {
                 var cold_pt = System.Threading.Volatile.Read(ref iProtocol);
-                SendedProtocolSuccessfully(this, new DataReceivedEventArgs(cold_pt));
+                SendedProtocolSuccessfully(this, new ProtocolReceivedEventArgs(cold_pt));
             }
         }
 
@@ -83,7 +83,7 @@ namespace DY.NET
             if (ReceivedProtocolSuccessfully != null)
             {
                 var cold_pt = System.Threading.Volatile.Read(ref iProtocol);
-                ReceivedProtocolSuccessfully(this, new DataReceivedEventArgs(cold_pt));
+                ReceivedProtocolSuccessfully(this, new ProtocolReceivedEventArgs(cold_pt));
             }
         }
     }

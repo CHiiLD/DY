@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DY.NET.LSIS.XGT
 {
-    public class XGTFEnetSocket : ASocketCover, ISocketCoverAsync
+    public class XGTFEnetSocket : ASocketCover, IPostAsync
     {
         private string m_Host;
         private XGTFEnetPort m_Port;
@@ -54,7 +54,7 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         /// <param name="protocol"></param>
         /// <returns></returns>
-        public async Task<object> SendAsync(IProtocol protocol)
+        public async Task<IProtocol> PostAsync(IProtocol protocol)
         {
             if (m_Client == null)
                 return null;

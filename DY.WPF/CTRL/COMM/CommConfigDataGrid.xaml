@@ -14,14 +14,14 @@
                     <Setter Property="HorizontalContentAlignment" Value="Center" />
                 </Style>
             </DataGrid.ColumnHeaderStyle>
-
+ 
             <DataGrid.ContextMenu>
                 <ContextMenu >
                     <MenuItem x:Name="NCM_AddNewComm" Header="Add New Communication Setting" Click="NCM_AddNewComm_Click" />
                 </ContextMenu>
             </DataGrid.ContextMenu>
 
-            <DataGrid.Columns>
+            <!--<DataGrid.Columns>
                 <DataGridTemplateColumn Header="State" IsReadOnly="True">
                     <DataGridTemplateColumn.CellTemplate>
                         <DataTemplate>
@@ -69,7 +69,7 @@
                         </DataTemplate>
                     </DataGridTemplateColumn.CellTemplate>
                 </DataGridTemplateColumn>
-            </DataGrid.Columns>
+            </DataGrid.Columns>-->
         </DataGrid>
     </Grid>
 </UserControl>

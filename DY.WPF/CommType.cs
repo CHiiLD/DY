@@ -4,12 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DY.WPF.CTRL.COMM
+namespace DY.WPF
 {
-    public enum CommState
+    [Flags]
+    public enum CommType
     {
-        DISCONNECT,
-        CONNECT,
-        FAIL,
+        SERIAL = 1,
+        ETHERNET = 2,
     }
 }

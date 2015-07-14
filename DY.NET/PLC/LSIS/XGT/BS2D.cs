@@ -40,7 +40,7 @@ namespace DY.NET.LSIS.XGT
             char device_char = std_name[0];
             if (!XGTServiceableDevice.GetCnetServiceableModeDictionary().ContainsKey(device_char))
                 throw new ArgumentException("Invalid plc variable name");
-            var memExp = XGTMemoryExpression.GetMemExpDictionary();
+            var memExp = XGTMemoryExpression.GetMemExpDictionary;
             if (!memExp.ContainsKey(device_char))
                 throw new ArgumentException("It is not surpport device type");
             //var

@@ -20,22 +20,6 @@ namespace DY.WPF.CTRL.COMM
     /// </summary>
     public partial class CommConfigDataGrid : UserControl
     {
-        public Comm[] m_Comms
-        {
-            get
-            {
-                return new Comm[] { Comm.ETHERNET, Comm.SERIAL };
-            }
-        }
-
-        public CommDeviceType[] m_CommDeviceTypes
-        {
-            get
-            {
-                return new CommDeviceType[] { CommDeviceType.XGT, CommDeviceType.VUQUEST3310G, CommDeviceType.MATRIX200 };
-            }
-        }
-
         public CommConfigDataGrid()
         {
             InitializeComponent();
@@ -48,8 +32,6 @@ namespace DY.WPF.CTRL.COMM
         /// <param name="e"></param>
         private void NCM_AddNewComm_Click(object sender, RoutedEventArgs e)
         {
-            CommConfig cc = new CommConfig();
-            NCommDataGrid.Items.Add(cc);
         }
     }
 }
