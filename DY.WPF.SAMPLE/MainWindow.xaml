@@ -1,0 +1,25 @@
+﻿<Window
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        
+        xmlns:local="clr-namespace:DY.WPF;assembly=DY.WPF"
+        xmlns:system="clr-namespace:System;assembly=mscorlib"
+        xmlns:port="clr-namespace:System.IO.Ports;assembly=System"
+        xmlns:WPF="clr-namespace:DY.WPF"
+        x:Class="DY.WPF.SAMPLE.MainWindow"
+        x:Name="this"
+        Width="{Binding Source={x:Static local:WindowSize.Width}}"
+        Height="{Binding Source={x:Static local:WindowSize.Height}}"
+        Title="MainWindow">
+
+    <!--string StateImage {get; set;}
+        Device Target { get; set; }
+        CommType Type { get; set; }
+        string Option { get; set; }
+        string Note { get; set; }
+        bool IsConnected { get; set; }-->
+
+	<Grid>
+		<local:CommDataGrid Margin="201,20,145,361"/>
+	</Grid>
+</Window>

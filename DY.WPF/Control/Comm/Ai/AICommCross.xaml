@@ -1,0 +1,11 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	mc:Ignorable="d"
+	x:Class="DY.WPF.AICommCross"
+	x:Name="UserControl"
+	d:DesignWidth="32" d:DesignHeight="32">
+    <Path x:Name="NPath" Data="M21.5,23C21.086,23,20.711,22.832,20.439,22.561L16,18.121 11.561,22.561C11.289,22.832 10.914,23 10.5,23 9.672,23 9,22.328 9,21.5 9,21.086 9.168,20.711 9.439,20.439L13.879,16 9.439,11.561C9.168,11.29 9,10.915 9,10.5 9,9.672 9.672,9 10.5,9 10.914,9 11.289,9.168 11.561,9.439L16,13.879 20.439,9.439C20.711,9.168 21.086,9 21.5,9 22.328,9 23,9.672 23,10.5 23,10.915 22.832,11.29 22.561,11.561L18.121,16 22.561,20.439C22.832,20.711 23,21.086 23,21.5 23,22.328 22.328,23 21.5,23 M16,3C8.82,3 3,8.82 3,16 3,23.18 8.82,29 16,29 23.18,29 29,23.18 29,16 29,8.82 23.18,3 16,3 M16,32C7.164,32 0,24.837 0,16 0,7.164 7.164,0 16,0 24.837,0 32,7.164 32,16 32,24.837 24.837,32 16,32" Fill="#FFE33C54" Height="32" Canvas.Left="0" Canvas.Top="0" Width="32"/>
+</UserControl>

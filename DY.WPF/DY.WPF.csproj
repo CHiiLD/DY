@@ -47,10 +47,29 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="CommType.cs" />
-    <Compile Include="CTRL\COMM\CommConfigDataGrid.xaml.cs">
-      <DependentUpon>CommConfigDataGrid.xaml</DependentUpon>
+    <Compile Include="Control\Bar\TextBlockBar.xaml.cs">
+      <DependentUpon>TextBlockBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Control\Bar\ComboBoxWithBar.xaml.cs">
+      <DependentUpon>ComboBoxWithBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Bar\TextBoxWithBar.xaml.cs">
+      <DependentUpon>TextBoxWithBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Comm\CommDataGrid.xaml.cs">
+      <DependentUpon>CommDataGrid.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Comm\CommDataGridItem.cs" />
+    <Compile Include="Control\Comm\CommEthernetConfig.xaml.cs">
+      <DependentUpon>CommEthernetConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Comm\CommSerialConfig.xaml.cs">
+      <DependentUpon>CommSerialConfig.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Property\Font.cs" />
+    <Compile Include="Property\WindowSize.cs" />
+    <Compile Include="Control\Comm\Enum\CommType.cs" />
+    <Compile Include="Control\Comm\Enum\CommDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -64,7 +83,20 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ServiceableDevice.cs" />
+    <Compile Include="Control\Comm\Enum\SerialPortOption.cs" />
+    <Compile Include="Control\Comm\Enum\ServiceableDevice.cs" />
+    <Compile Include="Control\Comm\CommEthernetStruct.cs" />
+    <Compile Include="Control\Comm\CommSerialStruct.cs" />
+    <Compile Include="Control\Comm\Ai\AICommCheck.xaml.cs">
+      <DependentUpon>AICommCheck.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Comm\Ai\CommStateAi.cs" />
+    <Compile Include="Control\Comm\Ai\AICommCircle.xaml.cs">
+      <DependentUpon>AICommCircle.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Comm\Ai\AICommCross.xaml.cs">
+      <DependentUpon>AICommCross.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -74,12 +106,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-  </ItemGroup>
-  <ItemGroup>
-    <Page Include="CTRL\COMM\CommConfigDataGrid.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
+    <Resource Include="Resources\Font\나눔고딕.ttf" />
+    <Resource Include="Resources\Font\나눔고딕Bold.ttf" />
+    <Resource Include="Resources\Font\나눔고딕ExtraBold.ttf" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DY.NET\DY.NET.csproj">
@@ -87,9 +116,44 @@
       <Name>DY.NET</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
-    <Resource Include="Resources\circle_check.png" />
-    <Resource Include="Resources\circle_x.png" />
+    <Page Include="Control\Bar\TextBlockBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Control\Bar\ComboBoxWithBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Control\Bar\TextBoxWithBar.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Control\Comm\CommDataGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Control\Comm\CommEthernetConfig.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Control\Comm\CommSerialConfig.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Control\Comm\Ai\AICommCheck.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Control\Comm\Ai\AICommCircle.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Control\Comm\Ai\AICommCross.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

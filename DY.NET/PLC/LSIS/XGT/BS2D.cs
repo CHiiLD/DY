@@ -38,9 +38,9 @@ namespace DY.NET.LSIS.XGT
             if (Glopa.IsGlopaType(std_name))
                 throw new ArgumentException("Already glopa type.");
             char device_char = std_name[0];
-            if (!XGTServiceableDevice.GetCnetServiceableModeDictionary().ContainsKey(device_char))
+            if (!XGTServiceableDevice.CnetServiceableModeDictionary.ContainsKey(device_char))
                 throw new ArgumentException("Invalid plc variable name");
-            var memExp = XGTMemoryExpression.GetMemExpDictionary;
+            var memExp = XGTMemoryExpression.MemExpDictionary;
             if (!memExp.ContainsKey(device_char))
                 throw new ArgumentException("It is not surpport device type");
             //var

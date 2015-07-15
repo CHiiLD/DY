@@ -7,3 +7,6 @@
 [submodule "submodule/HidLibrary"]
 	path = submodule/HidLibrary
 	url = https://github.com/CHiiLD/HidLibrary.git
+[submodule "submodule/MahApps.Metro"]
+	path = submodule/MahApps.Metro
+	url = https://github.com/CHiiLD/MahApps.Metro.git

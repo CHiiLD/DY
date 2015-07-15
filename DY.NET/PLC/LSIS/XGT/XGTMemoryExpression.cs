@@ -21,7 +21,7 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         /// <returns>key: device info, value: 비트, 워드 디바이스 영역 정보</returns>
 
-        public static readonly Dictionary<char, MemoryExpression> GetMemExpDictionary = new Dictionary<char, MemoryExpression>
+        public static readonly Dictionary<char, MemoryExpression> MemExpDictionary = new Dictionary<char, MemoryExpression>
         {
             { 'P', MemoryExpression.BIT},
             { 'M', MemoryExpression.BIT},
