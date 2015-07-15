@@ -21,7 +21,7 @@ namespace DY.NET
         public IProtocol Protocol
         {
             get;
-            set;
+            private set;
         }
 
         public int Tag

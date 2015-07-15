@@ -4,7 +4,7 @@ using System.Threading.Tasks;
 
 namespace DY.NET.LSIS.XGT
 {
-    public class XGTFEnetSocket : ASocketCover, IPostAsync
+    public class XGTFEnetSocket : ASocketCover, IPostAsync, IConnectAsync
     {
         private string m_Host;
         private XGTFEnetPort m_Port;
@@ -37,6 +37,8 @@ namespace DY.NET.LSIS.XGT
                 m_Client.Connect(m_Host, (int)m_Port);
                 m_Client.GetStream().BeginRead(Buffer_, BufferIdx, BUFFER_SIZE, OnRead, null);
             }
+            if (ConnectionStatusChanged != null)
+                ConnectionStatusChanged(this, new ConnectionChanged(m_Client.Connected));
             return m_Client.Connected;
         }
 
@@ -47,6 +49,8 @@ namespace DY.NET.LSIS.XGT
                 await m_Client.ConnectAsync(m_Host, (int)m_Port);
                 m_Client.GetStream().BeginRead(Buffer_, BufferIdx, BUFFER_SIZE, OnRead, null);
             }
+            if (ConnectionStatusChanged != null)
+                ConnectionStatusChanged(this, new ConnectionChanged(m_Client.Connected));
             return m_Client.Connected;
         }
         /// <summary>
@@ -107,6 +111,8 @@ namespace DY.NET.LSIS.XGT
         {
             if (m_Client != null)
                 m_Client.Close();
+            if (ConnectionStatusChanged != null)
+                ConnectionStatusChanged(this, new ConnectionChanged(m_Client.Connected));
         }
 
         public override bool IsConnected()
@@ -200,6 +206,7 @@ namespace DY.NET.LSIS.XGT
             {
                 if (SignOffReceived != null)
                     SignOffReceived(this, EventArgs.Empty);
+                Close();
                 return;
             }
             do

@@ -41,8 +41,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
 
             public Vuquest3310g Build()
             {
-                var v3310g = new Vuquest3310g() { m_SerialPort = new SerialPort(_PortName, _BaudRate, _Parity, _DataBits, _StopBits) };
-                v3310g.m_SerialPort.DataReceived += v3310g.OnCodeReceived;
+                var v3310g = new Vuquest3310g(new SerialPort(_PortName, _BaudRate, _Parity, _DataBits, _StopBits));
                 return v3310g;
             }
         }

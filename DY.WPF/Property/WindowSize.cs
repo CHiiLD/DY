@@ -1,5 +1,8 @@
 ﻿namespace DY.WPF
 {
+    /// <summary>
+    /// 윈도우 사이즈 정의
+    /// </summary>
     public static class WindowSize
     {
         private const int WIDTH = 1024;

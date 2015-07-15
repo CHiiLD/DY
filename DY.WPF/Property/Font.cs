@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DY.WPF
 {
+    /// <summary>
+    /// 폰트 주소 
+    /// </summary>
     public static class Font
     {
         public static string NanumGothic { get { return "pack://application:,,,/Resource/Font/나눔고딕.ttf"; } }

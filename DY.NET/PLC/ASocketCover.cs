@@ -36,6 +36,8 @@ namespace DY.NET
             set;
         }
 
+        public EventHandler<ConnectionChanged> ConnectionStatusChanged { get; set; }
+
         /// <summary>
         /// 스레드 세이프 프로토콜 전송 대기 큐
         /// </summary>

@@ -10,3 +10,6 @@
 [submodule "submodule/MahApps.Metro"]
 	path = submodule/MahApps.Metro
 	url = https://github.com/CHiiLD/MahApps.Metro.git
+[submodule "submodule/log4net"]
+	path = submodule/log4net
+	url = https://github.com/CHiiLD/log4net.git

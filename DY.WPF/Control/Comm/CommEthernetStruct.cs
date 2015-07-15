@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 using System.Net.Sockets;
 namespace DY.WPF
 {
+    /// <summary>
+    /// 이더넷 통신 설정 옵션
+    /// </summary>
     public struct EthernetCommStruct
     {
         public string Host { get; set; }

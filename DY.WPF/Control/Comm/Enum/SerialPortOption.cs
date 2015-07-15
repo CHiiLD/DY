@@ -7,6 +7,9 @@ using System.Collections.ObjectModel;
 
 namespace DY.WPF
 {
+    /// <summary>
+    /// 시리얼포트 생성자 매개 변수 리스트 프로퍼티 제공 클래스
+    /// </summary>
     public static class SerialPortOption
     {
         private static readonly ObservableCollection<int> BAND_RATE = new ObservableCollection<int>

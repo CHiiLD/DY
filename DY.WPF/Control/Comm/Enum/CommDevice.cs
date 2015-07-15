@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DY.WPF
 {
+    /// <summary>
+    /// 통신 가능한 디바이스
+    /// </summary>
     public enum CommDevice
     {
         LSIS_XGT,

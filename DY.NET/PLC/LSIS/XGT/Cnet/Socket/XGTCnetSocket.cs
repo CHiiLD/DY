@@ -63,6 +63,8 @@ namespace DY.NET.LSIS.XGT
                 throw new NullReferenceException(ERROR_SERIAL_IS_NULL);
             if (!m_SerialPort.IsOpen)
                 m_SerialPort.Open();
+            if (ConnectionStatusChanged != null)
+                ConnectionStatusChanged(this, new ConnectionChanged(m_SerialPort.IsOpen));
             return m_SerialPort.IsOpen;
         }
 
@@ -74,6 +76,8 @@ namespace DY.NET.LSIS.XGT
         {
             if (m_SerialPort != null)
                 m_SerialPort.Close();
+            if (ConnectionStatusChanged != null)
+                ConnectionStatusChanged(this, new ConnectionChanged(m_SerialPort.IsOpen));
         }
 
         /// <summary>
@@ -155,8 +159,7 @@ namespace DY.NET.LSIS.XGT
                 ErrorReceived = null;
                 PinChanged = null;
                 SavePoint_ReqeustProtocol = null;
-                if (IsConnected())
-                    Close();
+                Close();
                 m_SerialPort.Dispose();
             }
             base.Dispose();
@@ -243,12 +246,14 @@ namespace DY.NET.LSIS.XGT
         {
             if (ErrorReceived != null)
                 ErrorReceived(sender, e);
+            Close();
         }
 
         private void OnSerialPinChanged(object sender, SerialPinChangedEventArgs e)
         {
             if (PinChanged != null)
                 PinChanged(sender, e);
+            Close();
         }
         #endregion
     }

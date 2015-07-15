@@ -29,6 +29,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
         public int Tag { get; set; }
         public string Description { get; set; }
         public object UserData { get; set; }
+        public EventHandler<ConnectionChanged> ConnectionStatusChanged { get; set; }
 
         /// <summary>
         /// read time out ( 0 - 300000ms) TRGSTO#### 으로 전송해야함
@@ -74,8 +75,12 @@ namespace DY.NET.HONEYWELL.VUQUEST
         /// </summary>
         public int TimeOut { get; set; }
 
-        private Vuquest3310g()
+        public Vuquest3310g(SerialPort serialPort)
         {
+            m_SerialPort = serialPort;
+            m_SerialPort.ErrorReceived += OnSerialErrorReceived;
+            m_SerialPort.PinChanged += OnSerialPinChanged;
+            m_SerialPort.DataReceived += OnCodeReceived;
             TimeOut = 1000; //1초
             m_TimeoutTimer = new System.Timers.Timer();
             m_TimeoutTimer.Elapsed += OnElapsedTimer;
@@ -84,6 +89,16 @@ namespace DY.NET.HONEYWELL.VUQUEST
         ~Vuquest3310g()
         {
             Dispose();
+        }
+
+        private void OnSerialErrorReceived(object sender, SerialErrorReceivedEventArgs e)
+        {
+            Close();
+        }
+
+        private void OnSerialPinChanged(object sender, SerialPinChangedEventArgs e)
+        {
+            Close();
         }
 
         public bool IsConnected()
@@ -250,6 +265,8 @@ namespace DY.NET.HONEYWELL.VUQUEST
                 return false;
             if (!m_SerialPort.IsOpen)
                 m_SerialPort.Open();
+            if (ConnectionStatusChanged != null)
+                ConnectionStatusChanged(this, new ConnectionChanged(m_SerialPort.IsOpen));
             return m_SerialPort.IsOpen;
         }
 
@@ -265,6 +282,8 @@ namespace DY.NET.HONEYWELL.VUQUEST
                 DeactivateScan();
             if (IsEnableSerial)
                 m_SerialPort.Close();
+            if (ConnectionStatusChanged != null)
+                ConnectionStatusChanged(this, new ConnectionChanged(m_SerialPort.IsOpen));
         }
 
         /// <summary>
@@ -272,6 +291,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
         /// </summary>
         public void Dispose()
         {
+            Close();
             m_SerialPort.Dispose();
             m_TimeoutTimer.Dispose();
             GC.SuppressFinalize(this);

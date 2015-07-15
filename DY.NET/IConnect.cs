@@ -7,5 +7,6 @@ namespace DY.NET
         bool Connect();
         void Close();
         bool IsConnected();
+        EventHandler<ConnectionChanged> ConnectionStatusChanged { get; set;}
     }
 }

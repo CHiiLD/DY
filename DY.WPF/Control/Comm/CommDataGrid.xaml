@@ -10,8 +10,17 @@
 
 	<Grid x:Name="LayoutRoot">
 		<DataGrid  ItemsSource="{Binding CommItem, ElementName=this, Mode=TwoWay}" AutoGenerateColumns="False" Height="356" VerticalAlignment="Top">
-			<DataGrid.Columns>
-				<DataGridTemplateColumn Header="State" IsReadOnly="True">
+
+            <!--헤더 텍스트를 중앙에 위치-->
+            <DataGrid.ColumnHeaderStyle>
+                <Style TargetType="{x:Type DataGridColumnHeader}">
+                    <Setter Property="HorizontalContentAlignment" Value="Center" />
+                </Style>
+            </DataGrid.ColumnHeaderStyle>
+
+            <!--컬럼 정의-->
+            <DataGrid.Columns>
+                <DataGridTemplateColumn Header="State" IsReadOnly="True">
 					<DataGridTemplateColumn.CellTemplate>
 						<DataTemplate>
 							<Grid>

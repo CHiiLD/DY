@@ -1,7 +1,7 @@
 ﻿<Window
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-        
+        xmlns:mah="http://metro.mahapps.com/winfx/xaml/controls"
         xmlns:local="clr-namespace:DY.WPF;assembly=DY.WPF"
         xmlns:system="clr-namespace:System;assembly=mscorlib"
         xmlns:port="clr-namespace:System.IO.Ports;assembly=System"

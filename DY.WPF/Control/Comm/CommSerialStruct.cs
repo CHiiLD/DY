@@ -8,6 +8,9 @@ using System.IO.Ports;
 
 namespace DY.WPF
 {
+    /// <summary>
+    /// SerialPort 설정 옵션
+    /// </summary>
     public struct CommSerialStruct
     {
         public string Com { get; set; }

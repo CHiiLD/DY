@@ -9,28 +9,29 @@
 	mc:Ignorable="d"
 	x:Class="DY.WPF.CommSerialConfig"
 	x:Name="UserControl">
-		<StackPanel>
-			<StackPanel.Resources>
-				<ObjectDataProvider x:Key="ParityEnum" MethodName="GetValues"
+    <StackPanel>
+        <!--열거형을 Enum.GetValues을 호출하여 배열로 로드-->
+        <StackPanel.Resources>
+            <ObjectDataProvider x:Key="ParityEnum" MethodName="GetValues"
 					ObjectType="{x:Type System:Enum}">
-					<ObjectDataProvider.MethodParameters>
-						<x:Type TypeName="Ports:Parity"/>
-					</ObjectDataProvider.MethodParameters>
-				</ObjectDataProvider>
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="Ports:Parity"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
 
-				<ObjectDataProvider x:Key="StopBitsEnum" MethodName="GetValues"
+            <ObjectDataProvider x:Key="StopBitsEnum" MethodName="GetValues"
 					ObjectType="{x:Type System:Enum}">
-					<ObjectDataProvider.MethodParameters>
-						<x:Type TypeName="Ports:StopBits"/>
-					</ObjectDataProvider.MethodParameters>
-				</ObjectDataProvider>
-			</StackPanel.Resources>
-        
-			<local:ComboBoxWithBar x:Name="NCom" ItemSource="{Binding Source={x:Static local:SerialPortOption.Com}}" Title="Com port" />
-			<local:ComboBoxWithBar x:Name="NBaud" ItemSource="{Binding Source={x:Static local:SerialPortOption.BandRate}}" Title="Band rate" />
-			<local:ComboBoxWithBar x:Name="NParity" ItemSource="{Binding Source={StaticResource ParityEnum}}" Title="Parity" />
-			<local:ComboBoxWithBar x:Name="NDataBit" ItemSource="{Binding Source={x:Static local:SerialPortOption.DataBit}}" Title="Data bit" />
-			<local:ComboBoxWithBar x:Name="NStopBit" ItemSource="{Binding Source={StaticResource StopBitsEnum}}" Title="Stop bit" />
-		</StackPanel>
-	
+                <ObjectDataProvider.MethodParameters>
+                    <x:Type TypeName="Ports:StopBits"/>
+                </ObjectDataProvider.MethodParameters>
+            </ObjectDataProvider>
+        </StackPanel.Resources>
+
+        <local:ComboBoxWithBar x:Name="NCom" ItemSource="{Binding Source={x:Static local:SerialPortOption.Com}}" Title="Com port" />
+        <local:ComboBoxWithBar x:Name="NBaud" ItemSource="{Binding Source={x:Static local:SerialPortOption.BandRate}}" Title="Band rate" />
+        <local:ComboBoxWithBar x:Name="NParity" ItemSource="{Binding Source={StaticResource ParityEnum}}" Title="Parity" />
+        <local:ComboBoxWithBar x:Name="NDataBit" ItemSource="{Binding Source={x:Static local:SerialPortOption.DataBit}}" Title="Data bit" />
+        <local:ComboBoxWithBar x:Name="NStopBit" ItemSource="{Binding Source={StaticResource StopBitsEnum}}" Title="Stop bit" />
+    </StackPanel>
+
 </UserControl>

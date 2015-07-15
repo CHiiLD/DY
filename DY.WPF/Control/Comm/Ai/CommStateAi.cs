@@ -9,6 +9,9 @@ using System.Windows.Media;
 
 namespace DY.WPF
 {
+    /// <summary>
+    /// 통신 상태 표현을 위한 Vector Image Path 연결을 제공하는 클래스
+    /// </summary>
     public static class CommStateAi
     {
         private static readonly Path CIRCLE_GREEN_CONNECTED = new AICommCheck().Path;

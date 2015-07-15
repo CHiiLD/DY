@@ -41,7 +41,7 @@ namespace DY.NET.DATALOGIC.MATRIX
 
             public Matrix200 Build()
             {
-                var m200 = new Matrix200() { m_SerialPort = new SerialPort(_PortName, _BaudRate, _Parity, _DataBits, _StopBits) };
+                var m200 = new Matrix200(new SerialPort(_PortName, _BaudRate, _Parity, _DataBits, _StopBits));
                 return m200;
             }
         }

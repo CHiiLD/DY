@@ -18,6 +18,7 @@ namespace DY.NET.DATALOGIC.MATRIX
         public int Tag { get; set; }
         public string Description { get; set; }
         public object UserData { get; set; }
+        public EventHandler<ConnectionChanged> ConnectionStatusChanged { get; set; }
 
         private SerialPort m_SerialPort;
         private byte[] m_Buffer = new byte[4096];
@@ -36,6 +37,13 @@ namespace DY.NET.DATALOGIC.MATRIX
         {
         }
 
+        public Matrix200(SerialPort serialPort)
+        {
+            m_SerialPort = serialPort;
+            m_SerialPort.ErrorReceived += OnSerialErrorReceived;
+            m_SerialPort.PinChanged += OnSerialPinChanged;
+        }
+
         ~Matrix200()
         {
             Dispose();
@@ -44,6 +52,16 @@ namespace DY.NET.DATALOGIC.MATRIX
         public bool IsConnected()
         {
             return IsEnableSerial;
+        }
+
+        private void OnSerialErrorReceived(object sender, SerialErrorReceivedEventArgs e)
+        {
+            Close();
+        }
+
+        private void OnSerialPinChanged(object sender, SerialPinChangedEventArgs e)
+        {
+            Close();
         }
 
         /// <summary>
@@ -56,6 +74,8 @@ namespace DY.NET.DATALOGIC.MATRIX
                 return false;
             if (!m_SerialPort.IsOpen)
                 m_SerialPort.Open();
+            if (ConnectionStatusChanged != null) 
+                ConnectionStatusChanged(this, new ConnectionChanged(m_SerialPort.IsOpen));
             return m_SerialPort.IsOpen;
         }
 
@@ -69,6 +89,8 @@ namespace DY.NET.DATALOGIC.MATRIX
             {
                 Disconnect();
                 m_SerialPort.Close();
+                if (ConnectionStatusChanged != null)
+                    ConnectionStatusChanged(this, new ConnectionChanged(m_SerialPort.IsOpen));
             }
         }
 
@@ -77,6 +99,7 @@ namespace DY.NET.DATALOGIC.MATRIX
         /// </summary>
         public void Dispose()
         {
+            m_SerialPort.Close();
             m_SerialPort.Dispose();
             GC.SuppressFinalize(this);
         }
