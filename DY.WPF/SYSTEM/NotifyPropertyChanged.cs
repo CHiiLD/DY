@@ -10,9 +10,7 @@ namespace DY.WPF.SYSTEM
     public class NotifyPropertyChanged<T> : INotifyPropertyChanged
     {
         private T m_Source;
-
         public event PropertyChangedEventHandler PropertyChanged;
-
         public NotifyPropertyChanged() { }
 
         public NotifyPropertyChanged(T value)

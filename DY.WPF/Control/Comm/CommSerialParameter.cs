@@ -11,7 +11,7 @@ namespace DY.WPF
     /// <summary>
     /// SerialPort 설정 옵션
     /// </summary>
-    public struct CommSerialStruct
+    public class CommSerialParameter
     {
         public string Com { get; set; }
         public int Bandrate { get; set; }

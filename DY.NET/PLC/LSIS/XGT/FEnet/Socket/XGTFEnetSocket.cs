@@ -7,7 +7,7 @@ namespace DY.NET.LSIS.XGT
     public class XGTFEnetSocket : ASocketCover, IPostAsync, IConnectAsync
     {
         private string m_Host;
-        private XGTFEnetPort m_Port;
+        private int m_Port;
         private volatile TcpClient m_Client = new TcpClient();
 
         /// <summary>
@@ -19,6 +19,12 @@ namespace DY.NET.LSIS.XGT
         /// new 생성 방지
         /// </summary>
         public XGTFEnetSocket(string host, XGTFEnetPort port)
+        {
+            m_Host = host;
+            m_Port = (int) port;
+        }
+
+        public XGTFEnetSocket(string host, int port)
         {
             m_Host = host;
             m_Port = port;
@@ -34,7 +40,7 @@ namespace DY.NET.LSIS.XGT
             //비동기 요청
             if (!m_Client.Connected)
             {
-                m_Client.Connect(m_Host, (int)m_Port);
+                m_Client.Connect(m_Host, m_Port);
                 m_Client.GetStream().BeginRead(Buffer_, BufferIdx, BUFFER_SIZE, OnRead, null);
             }
             if (ConnectionStatusChanged != null)
@@ -46,7 +52,7 @@ namespace DY.NET.LSIS.XGT
         {
             if (!m_Client.Connected)
             {
-                await m_Client.ConnectAsync(m_Host, (int)m_Port);
+                await m_Client.ConnectAsync(m_Host, m_Port);
                 m_Client.GetStream().BeginRead(Buffer_, BufferIdx, BUFFER_SIZE, OnRead, null);
             }
             if (ConnectionStatusChanged != null)

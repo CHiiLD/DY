@@ -5,7 +5,11 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
 	x:Class="DY.WPF.AICommCircle"
-	x:Name="UserControl"
-	d:DesignWidth="32" d:DesignHeight="32">
-    <Path x:Name="NPath" Data="M16,3C8.82,3 3,8.82 3,16 3,23.18 8.82,29 16,29 23.18,29 29,23.18 29,16 29,8.82 23.18,3 16,3 M16,32C7.164,32 0,24.837 0,16 0,7.164 7.164,0 16,0 24.837,0 32,7.164 32,16 32,24.837 24.837,32 16,32" Fill="#FF5C5D5D" Height="32" Canvas.Left="0" Canvas.Top="0" Width="32"/>
+	x:Name="UserControl">
+    <Path x:Name="NPath" Data="M16,3C8.82,3 3,8.82 3,16 3,23.18 8.82,29 16,29 23.18,29 29,23.18 29,16 29,8.82 23.18,3 16,3 M16,32C7.164,32 0,24.837 0,16 0,7.164 7.164,0 16,0 24.837,0 32,7.164 32,16 32,24.837 24.837,32 16,32" 
+          Fill="#FF5C5D5D" 
+          Height="20" 
+          Width="20"
+          Canvas.Left="0" 
+          Canvas.Top="0" Stretch="Fill" />
 </UserControl>

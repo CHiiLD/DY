@@ -26,9 +26,9 @@ namespace DY.WPF
             
         }
 
-        public EthernetCommStruct GetSerialCommStruct()
+        public CommEthernetParameter GetSerialCommStruct()
         {
-            EthernetCommStruct ecs = new EthernetCommStruct();
+            CommEthernetParameter ecs = new CommEthernetParameter();
             ecs.Host = NIP.Text;
             int port;
             Int32.TryParse(NPort.Text, out port);

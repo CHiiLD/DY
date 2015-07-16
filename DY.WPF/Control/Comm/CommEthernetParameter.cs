@@ -9,7 +9,7 @@ namespace DY.WPF
     /// <summary>
     /// 이더넷 통신 설정 옵션
     /// </summary>
-    public struct EthernetCommStruct
+    public class CommEthernetParameter
     {
         public string Host { get; set; }
         public int Port { get; set; }

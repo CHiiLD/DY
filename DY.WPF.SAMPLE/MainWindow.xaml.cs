@@ -19,15 +19,41 @@ using MahApps.Metro.Controls;
 using DY.WPF;
 using System.Collections;
 using System.ComponentModel;
+using DY.WPF.SYSTEM;
 
 namespace DY.WPF.SAMPLE
 {
     /// <summary>
     /// MainWindow.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class MainWindow : Window
+    public partial class MainWindow : MetroWindow
     {
         public IEnumerable CommItem { get; private set; }
+
+        NotifyPropertyChanged<bool> booleanProperty = new NotifyPropertyChanged<bool>(true);
+        public bool IsChecked1
+        {
+            set
+            {
+                booleanProperty.Source = value;
+            }
+            get
+            {
+                return booleanProperty.Source;
+            }
+        }
+
+        public bool IsChecked2
+        {
+            set
+            {
+                booleanProperty.Source = value;
+            }
+            get
+            {
+                return booleanProperty.Source;
+            }
+        }
 
         public MainWindow()
         {
@@ -56,6 +82,18 @@ namespace DY.WPF.SAMPLE
             };
             CommItem = commList;
             InitializeComponent();
+        }
+
+        private void NB2_Click(object sender, RoutedEventArgs e)
+        {
+            //if (NB2.IsChecked == true)
+            //{
+            //    booleanProperty.Source = true;
+            //}
+            //else
+            //{
+            //    booleanProperty.Source = false;
+            //}
         }
     }
 }

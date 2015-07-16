@@ -25,9 +25,9 @@ namespace DY.WPF
             this.InitializeComponent();
         }
 
-        public CommSerialStruct GetSerialCommStruct()
+        public CommSerialParameter GetSerialCommStruct()
         {
-            CommSerialStruct scs = new CommSerialStruct();
+            CommSerialParameter scs = new CommSerialParameter();
             scs.Com = (string)NCom.NComboBox.SelectedItem;
             scs.Bandrate = (int)NBaud.NComboBox.SelectedItem;
             scs.Parity = (Parity)NParity.NComboBox.SelectedItem;

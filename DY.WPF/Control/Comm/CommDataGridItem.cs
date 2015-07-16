@@ -14,11 +14,12 @@ namespace DY.WPF
     /// </summary>
     public class CommDataGridItem
     {
+        public bool Usable { get; set; }
         public Path Image { get; set; }
         public CommDevice Target { get; set; }
         public CommType Type { get; set; }
         public string Option { get; set; }
         public string Note { get; set; }
-        public ContentControl OnOffButton { get; set; }
+        public string Key { get; set; }
     }
 }

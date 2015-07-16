@@ -6,19 +6,22 @@ using System.Threading.Tasks;
 using System.Timers;
 using System.Collections.Concurrent;
 using DY.NET;
+using System.ComponentModel;
 
 namespace DY.WPF.SYSTEM
 {
-    public class ClientCommManagement
+    public class ClientCommManagement : IDisposable
     {
         private static ClientCommManagement m_Thiz;
+        private Timer m_Timer = new Timer();
 
-        public int ResponseLatencyTime { get; set; } //응답대기시간
-        public int RetryConnectingInteval { get; set; } //재연결간격 시간
-        public bool IsRetryConnectng { get; set; } //재연결 시도
-        
-        private Timer m_RetryConnectingTimer = new Timer();
+        public NotifyPropertyChanged<int> ResponseLatencyProperty { get; private set; }
+        public NotifyPropertyChanged<int> ReconnectIntevalProperty { get; private set; }
+        public NotifyPropertyChanged<bool> UsableReconnectProperty { get; private set; }
 
+        /// <summary>
+        /// 클라이언트 소켓 사전 
+        /// </summary>
         public ConcurrentDictionary<string, ClientComm> Clientele
         {
             get;
@@ -28,6 +31,39 @@ namespace DY.WPF.SYSTEM
         private ClientCommManagement()
         {
             Clientele = new ConcurrentDictionary<string, ClientComm>();
+            m_Timer.Elapsed += OnElapse;
+
+            ResponseLatencyProperty = new NotifyPropertyChanged<int>(500);
+            ReconnectIntevalProperty = new NotifyPropertyChanged<int>(5000);
+            ReconnectIntevalProperty.PropertyChanged += (object sender, PropertyChangedEventArgs args) =>
+            {
+                var notifyProperty = sender as NotifyPropertyChanged<int>;
+                m_Timer.Interval = notifyProperty.Source;
+            };
+
+            UsableReconnectProperty = new NotifyPropertyChanged<bool>(true);
+            UsableReconnectProperty.PropertyChanged += (object sender, PropertyChangedEventArgs args) =>
+            {
+                var notifyProperty = sender as NotifyPropertyChanged<bool>;
+                if (notifyProperty.Source)
+                    m_Timer.Start();
+                else
+                    m_Timer.Stop();
+            };
+        }
+
+        ~ClientCommManagement()
+        {
+            Dispose();
+        }
+
+        public void Dispose()
+        {
+            m_Timer.Dispose();
+            foreach (var c in Clientele)
+                c.Value.Client.Dispose();
+            Clientele.Clear();
+            GC.SuppressFinalize(this);
         }
 
         public static ClientCommManagement GetInstance()
@@ -37,26 +73,12 @@ namespace DY.WPF.SYSTEM
             return m_Thiz;
         }
 
-        private async void OnElapse(object sender, ElapsedEventArgs args)
+        public async void ConnectClientAsync(object client)
         {
-            foreach (var commClient in Clientele)
-            {
-                var client = commClient.Value.Client;
-                if (!client.IsConnected())
-                {
-                    var clientsync = client as IConnectAsync;
-                    if (clientsync == null)
-                    {
-                        client.Connect();
-                    }
-                    else
-                    {
-                        Task task = clientsync.ConnectAsync();
-                        if (Task.WhenAny(task, Task.Delay(ResponseLatencyTime)) == task)
-                            await task;
-                    }
-                }
-            }
+            var client_async = client as IConnectAsync;
+            Task task = client_async.ConnectAsync();
+            if (Task.WhenAny(task, Task.Delay(ResponseLatencyProperty.Source)) == task)
+                await task;
         }
 
         public string CreateKey()
@@ -65,10 +87,10 @@ namespace DY.WPF.SYSTEM
             return guid.ToString();
         }
 
-        public string SetClinet(IConnect client)
+        public string SetClinet(ClientComm clientComm)
         {
             string key = CreateKey();
-            Clientele.TryAdd(key, new ClientComm(client));
+            Clientele.TryAdd(key, clientComm);
             return key;
         }
 
@@ -78,6 +100,22 @@ namespace DY.WPF.SYSTEM
             if (Clientele.ContainsKey(key))
                 Clientele.TryGetValue(key, out ret);
             return ret;
+        }
+
+        private void OnElapse(object sender, ElapsedEventArgs args)
+        {
+            foreach (var commClient in Clientele)
+            {
+                var client = commClient.Value.Client;
+                if (!client.IsConnected())
+                {
+                    var clientsync = client as IConnectAsync;
+                    if (clientsync == null)
+                        client.Connect();
+                    else
+                        Task.Factory.StartNew(ConnectClientAsync, clientsync);
+                }
+            }
         }
     }
 }

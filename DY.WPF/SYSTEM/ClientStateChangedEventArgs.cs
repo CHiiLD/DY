@@ -11,4 +11,3 @@ namespace DY.WPF.SYSTEM
         public IConnect Client { get; private set; }
     }
 }
- 

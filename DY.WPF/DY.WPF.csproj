@@ -13,6 +13,7 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <ExpressionBlendVersion>12.0.51020.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -56,10 +57,19 @@
     <Compile Include="Control\Bar\TextBoxWithBar.xaml.cs">
       <DependentUpon>TextBoxWithBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Control\Comm\CommConnectionSetting.xaml.cs">
+      <DependentUpon>CommConnectionSetting.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Comm\CommConnectionStatusDataGrid.xaml.cs">
+      <DependentUpon>CommConnectionStatusDataGrid.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Control\Comm\CommDataGrid.xaml.cs">
       <DependentUpon>CommDataGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="Control\Comm\CommDataGridItem.cs" />
+    <Compile Include="Control\Comm\CommDeviceAddition.xaml.cs">
+      <DependentUpon>CommDeviceAddition.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Control\Comm\CommEthernetConfig.xaml.cs">
       <DependentUpon>CommEthernetConfig.xaml</DependentUpon>
     </Compile>
@@ -68,8 +78,8 @@
     </Compile>
     <Compile Include="Property\Font.cs" />
     <Compile Include="Property\WindowSize.cs" />
-    <Compile Include="Control\Comm\Enum\CommType.cs" />
-    <Compile Include="Control\Comm\Enum\CommDevice.cs" />
+    <Compile Include="Enum\CommType.cs" />
+    <Compile Include="Enum\CommDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -83,10 +93,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Control\Comm\Enum\SerialPortOption.cs" />
-    <Compile Include="Control\Comm\Enum\ServiceableDevice.cs" />
-    <Compile Include="Control\Comm\CommEthernetStruct.cs" />
-    <Compile Include="Control\Comm\CommSerialStruct.cs" />
+    <Compile Include="Enum\SerialPortOption.cs" />
+    <Compile Include="SYSTEM\ServiceableDevice.cs" />
+    <Compile Include="Control\Comm\CommEthernetParameter.cs" />
+    <Compile Include="Control\Comm\CommSerialParameter.cs" />
     <Compile Include="Control\Comm\Ai\AICommCheck.xaml.cs">
       <DependentUpon>AICommCheck.xaml</DependentUpon>
     </Compile>
@@ -128,7 +138,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="Control\Comm\CommConnectionSetting.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Control\Comm\CommConnectionStatusDataGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Control\Comm\CommDataGrid.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Control\Comm\CommDeviceAddition.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -161,6 +183,14 @@
     <ProjectReference Include="..\submodule\log4net\src\log4net\log4net.vs2010.csproj">
       <Project>{181fe707-e161-4722-9f38-6aaab6faa106}</Project>
       <Name>log4net.vs2010</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\submodule\MahApps.Metro\MahApps.Metro\MahApps.Metro.NET45.csproj">
+      <Project>{942d11c4-29f5-46c4-8c14-4b976d56c637}</Project>
+      <Name>MahApps.Metro.NET45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\submodule\Newtonsoft.Json\Src\Newtonsoft.Json\Newtonsoft.Json.csproj">
+      <Project>{eeea67f9-9089-481d-a4dc-0966dec9fd7d}</Project>
+      <Name>Newtonsoft.Json</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

@@ -1,0 +1,22 @@
+﻿<UserControl
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:local="clr-namespace:DY.WPF"
+	mc:Ignorable="d"
+	x:Class="DY.WPF.CommConnectionStatusDataGrid"
+	x:Name="UserControl">
+
+	<Grid x:Name="LayoutRoot">
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="250"/>
+				<ColumnDefinition Width="10"/>
+				<ColumnDefinition Width="1*"/>
+			</Grid.ColumnDefinitions>
+			<local:CommConnectionSetting />
+			<local:CommDataGrid Grid.Column="2"/>
+		</Grid>
+	</Grid>
+</UserControl>
