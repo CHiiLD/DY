@@ -6,14 +6,14 @@
 	xmlns:local="clr-namespace:DY.WPF"
 	mc:Ignorable="d"
 	x:Class="DY.WPF.CommDeviceAddition"
-	x:Name="UserControl"
-	d:DesignWidth="240" d:DesignHeight="300">
-
-	<Grid x:Name="LayoutRoot">
-		<StackPanel Orientation="Vertical">
-			<local:ComboBoxWithBar Title="Communication Device" Height="300"/>
-			<local:ComboBoxWithBar Title="Communication Type" Height="300"/>
-		</StackPanel>
-	</Grid>
-
+	x:Name="UserControl">
+    <StackPanel>
+        <!--<local:TitleForBar 
+            TitleText="Communication settings"
+            SubText="Please input device info for communication."
+            Height="75" Width="320"/>-->
+        <local:ComboBoxWithBar x:Name="NDevice" Title="Device" />
+        <local:ComboBoxWithBar x:Name="NType" Title="Type"/>
+        <Grid x:Name="NGrid"/>
+    </StackPanel>
 </UserControl>

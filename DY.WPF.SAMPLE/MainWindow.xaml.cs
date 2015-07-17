@@ -21,6 +21,8 @@ using System.Collections;
 using System.ComponentModel;
 using DY.WPF.SYSTEM;
 
+using DY.WPF.WINDOW;
+
 namespace DY.WPF.SAMPLE
 {
     /// <summary>
@@ -94,6 +96,12 @@ namespace DY.WPF.SAMPLE
             //{
             //    booleanProperty.Source = false;
             //}
+        }
+
+        private void Button_Click(object sender, RoutedEventArgs e)
+        {
+            CommDeviceSetWindow win = new CommDeviceSetWindow() { Owner = this };
+            win.Show();
         }
     }
 }

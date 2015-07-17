@@ -10,18 +10,20 @@
 	x:Class="DY.WPF.CommEthernetConfig"
 	x:Name="UserControl">
     <StackPanel >
-        <StackPanel.Resources>
+        <!--<StackPanel.Resources>
             <ObjectDataProvider x:Key="ProtocolTypeEnum" MethodName="GetValues"
 					ObjectType="{x:Type System:Enum}">
                 <ObjectDataProvider.MethodParameters>
                     <x:Type TypeName="Socket:ProtocolType"/>
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
-        </StackPanel.Resources>
+        </StackPanel.Resources>-->
 
+        <!--ItemSource="{Binding Source={StaticResource ProtocolTypeEnum}}"-->
+        
         <local:TextBoxWithBar x:Name="NIP" Text="" Title="IP" />
         <local:TextBoxWithBar x:Name="NPort" Text="" Title="Port(0 ~ 65535)" />
-        <local:ComboBoxWithBar x:Name="NType" ItemSource="{Binding Source={StaticResource ProtocolTypeEnum}}" Title="Protocol Type" />
+        <local:ComboBoxWithBar x:Name="NType" Title="Protocol Type" />
     </StackPanel>
 
 </UserControl>

@@ -5,7 +5,6 @@
     xmlns:local="clr-namespace:DY.WPF;assembly=DY.WPF"
     xmlns:system="clr-namespace:System;assembly=mscorlib"
     xmlns:port="clr-namespace:System.IO.Ports;assembly=System"
-    xmlns:WPF="clr-namespace:DY.WPF"
     x:Class="DY.WPF.SAMPLE.MainWindow"
     x:Name="this"
     Width="{Binding Source={x:Static local:WindowSize.Width}}"
@@ -19,6 +18,7 @@
         <!--<local:CommConnectionStatusDataGrid Margin="0,0,116,437" Grid.RowSpan="2"/>-->
         <!--<mah:ToggleSwitchButton x:Name="NB1" Content="ToggleSwitchButton" HorizontalAlignment="Left" Margin="240,270,0,0" Grid.Row="1" VerticalAlignment="Top"/>
         <mah:ToggleSwitchButton x:Name="NB2" HorizontalAlignment="Left" Margin="335,270,0,0" Grid.Row="1" VerticalAlignment="Top" Checked="ToggleSwitchButton_Checked"/>-->
-        <local:CommConnectionStatusDataGrid Margin="0,0,0,493" Grid.RowSpan="2"></local:CommConnectionStatusDataGrid>
+        <local:CommConnectionStatusDataGrid Grid.RowSpan="2"></local:CommConnectionStatusDataGrid>
+        <Button Content="Button" HorizontalAlignment="Left" Height="54" Margin="142,85,0,0" Grid.Row="1" VerticalAlignment="Top" Width="150" Click="Button_Click"/>
     </Grid>
 </mah:MetroWindow>

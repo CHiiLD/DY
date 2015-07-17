@@ -23,10 +23,11 @@ namespace DY.WPF
         public CommEthernetConfig()
         {
             this.InitializeComponent();
-            
+            NType.ItemSource = Enum.GetValues(typeof(ProtocolType));
+            NType.SelectedItem = ProtocolType.Tcp;
         }
 
-        public CommEthernetParameter GetSerialCommStruct()
+        public CommEthernetParameter GetCommEthernetStruct()
         {
             CommEthernetParameter ecs = new CommEthernetParameter();
             ecs.Host = NIP.Text;

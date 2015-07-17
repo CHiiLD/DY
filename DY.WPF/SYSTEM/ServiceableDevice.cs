@@ -15,7 +15,7 @@ namespace DY.WPF
     /// </summary>
     public static class ServiceableDevice
     {
-        public static readonly Dictionary<CommDevice, CommType> List = new Dictionary<CommDevice, CommType>
+        public static readonly Dictionary<CommDevice, CommType> Dic = new Dictionary<CommDevice, CommType>
         {
             { CommDevice.LSIS_XGT,                  CommType.SERIAL | CommType.ETHERNET },
             { CommDevice.HONEYWELL_VUQUEST3310G,    CommType.SERIAL },

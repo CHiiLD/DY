@@ -48,6 +48,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Control\Bar\ButtonsForBar.xaml.cs">
+      <DependentUpon>ButtonsForBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Control\Bar\TextBlockBar.xaml.cs">
       <DependentUpon>TextBlockBar.xaml</DependentUpon>
     </Compile>
@@ -56,6 +59,9 @@
     </Compile>
     <Compile Include="Control\Bar\TextBoxWithBar.xaml.cs">
       <DependentUpon>TextBoxWithBar.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Bar\TitleForBar.xaml.cs">
+      <DependentUpon>TitleForBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Control\Comm\CommConnectionSetting.xaml.cs">
       <DependentUpon>CommConnectionSetting.xaml</DependentUpon>
@@ -76,6 +82,7 @@
     <Compile Include="Control\Comm\CommSerialConfig.xaml.cs">
       <DependentUpon>CommSerialConfig.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Control\Comm\ISummaryParameter.cs" />
     <Compile Include="Property\Font.cs" />
     <Compile Include="Property\WindowSize.cs" />
     <Compile Include="Enum\CommType.cs" />
@@ -112,6 +119,9 @@
     <Compile Include="SYSTEM\ClientStateChangedEventArgs.cs" />
     <Compile Include="SYSTEM\ClinetState.cs" />
     <Compile Include="SYSTEM\NotifyPropertyChanged.cs" />
+    <Compile Include="WINDOW\CommDeviceSetWindow.xaml.cs">
+      <DependentUpon>CommDeviceSetWindow.xaml</DependentUpon>
+    </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -126,6 +136,10 @@
     <Resource Include="Resources\Font\나눔고딕ExtraBold.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Control\Bar\ButtonsForBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Control\Bar\TextBlockBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -137,6 +151,10 @@
     <Page Include="Control\Bar\TextBoxWithBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="Control\Bar\TitleForBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Control\Comm\CommConnectionSetting.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -174,6 +192,14 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="STYLE\DialogWindowStyle.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="WINDOW\CommDeviceSetWindow.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\DY.NET\DY.NET.csproj">
@@ -196,6 +222,7 @@
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

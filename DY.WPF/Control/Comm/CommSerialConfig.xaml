@@ -11,7 +11,7 @@
 	x:Name="UserControl">
     <StackPanel>
         <!--열거형을 Enum.GetValues을 호출하여 배열로 로드-->
-        <StackPanel.Resources>
+        <!--<StackPanel.Resources>
             <ObjectDataProvider x:Key="ParityEnum" MethodName="GetValues"
 					ObjectType="{x:Type System:Enum}">
                 <ObjectDataProvider.MethodParameters>
@@ -25,13 +25,19 @@
                     <x:Type TypeName="Ports:StopBits"/>
                 </ObjectDataProvider.MethodParameters>
             </ObjectDataProvider>
-        </StackPanel.Resources>
+        </StackPanel.Resources>-->
 
-        <local:ComboBoxWithBar x:Name="NCom" ItemSource="{Binding Source={x:Static local:SerialPortOption.Com}}" Title="Com port" />
+        <!--<local:ComboBoxWithBar x:Name="NCom" ItemSource="{Binding Source={x:Static local:SerialPortOption.Com}}" Title="Com port" />
         <local:ComboBoxWithBar x:Name="NBaud" ItemSource="{Binding Source={x:Static local:SerialPortOption.BandRate}}" Title="Band rate" />
         <local:ComboBoxWithBar x:Name="NParity" ItemSource="{Binding Source={StaticResource ParityEnum}}" Title="Parity" />
         <local:ComboBoxWithBar x:Name="NDataBit" ItemSource="{Binding Source={x:Static local:SerialPortOption.DataBit}}" Title="Data bit" />
-        <local:ComboBoxWithBar x:Name="NStopBit" ItemSource="{Binding Source={StaticResource StopBitsEnum}}" Title="Stop bit" />
+        <local:ComboBoxWithBar x:Name="NStopBit" ItemSource="{Binding Source={StaticResource StopBitsEnum}}" Title="Stop bit" />-->
+
+        <local:ComboBoxWithBar x:Name="NCom" Title="Com port" />
+        <local:ComboBoxWithBar x:Name="NBaud" Title="Band rate" />
+        <local:ComboBoxWithBar x:Name="NParity" Title="Parity" />
+        <local:ComboBoxWithBar x:Name="NDataBit" Title="Data bit" />
+        <local:ComboBoxWithBar x:Name="NStopBit" Title="Stop bit" />
     </StackPanel>
 
 </UserControl>

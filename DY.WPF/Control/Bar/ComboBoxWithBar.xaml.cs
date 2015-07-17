@@ -36,6 +36,14 @@ namespace DY.WPF
             set { SetValue(ItemSourceProperty, value); }
         }
 
+        public static readonly DependencyProperty SelectedItemProperty =
+              DependencyProperty.Register("SelectedItem", typeof(object), typeof(ComboBoxWithBar), new PropertyMetadata());
+        public object SelectedItem
+        {
+            get { return (object)GetValue(SelectedItemProperty); }
+            set { SetValue(SelectedItemProperty, value); }
+        }
+
         public ComboBoxWithBar()
         {
             this.InitializeComponent();

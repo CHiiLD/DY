@@ -12,8 +12,8 @@
     <StackPanel>
         <!--<Label Content="Connection Settings" FontSize="22" HorizontalAlignment="Center" Margin="0,0,0,10"/>-->
         <mah:ToggleSwitch x:Name="NBT_ReconnectSwtich" Header="Reconnect when non-response" Margin="10,0" />
-        <local:TextBoxWithBar x:Name="NTB_ReconnectInteval" Text="" Title="Reconnect interval (ms)"/>
-        <local:TextBoxWithBar x:Name="NTB_RespLatencyTime" Text="" Title="Respnse latency time (ms)"/>
+        <local:TextBoxWithBar x:Name="NTB_ReconnectInteval" Text="" Title="Reconnect interval(ms)"/>
+        <local:TextBoxWithBar x:Name="NTB_RespLatencyTime" Text="" Title="Respnse latency time(ms)"/>
 
         <!--<Button Content="Add" Style="{DynamicResource AccentedSquareButtonStyle}" Margin="10,3" />
                 <Button Content="Edit" Style="{DynamicResource AccentedSquareButtonStyle}" Margin="10,3" />

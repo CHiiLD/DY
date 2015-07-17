@@ -41,7 +41,7 @@ namespace DY.WPF.SYSTEM
                 m_Timer.Interval = notifyProperty.Source;
             };
 
-            UsableReconnectProperty = new NotifyPropertyChanged<bool>(true);
+            UsableReconnectProperty = new NotifyPropertyChanged<bool>(false);
             UsableReconnectProperty.PropertyChanged += (object sender, PropertyChangedEventArgs args) =>
             {
                 var notifyProperty = sender as NotifyPropertyChanged<bool>;

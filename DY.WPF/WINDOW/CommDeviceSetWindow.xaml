@@ -1,0 +1,23 @@
+﻿<mah:MetroWindow 
+        x:Class="DY.WPF.WINDOW.CommDeviceSetWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+		xmlns:local="clr-namespace:DY.WPF"
+        xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro" 
+        x:Name="this"
+        Title="Communication Device Setup" 
+        Style="{DynamicResource DialogWindowStyle}"
+        Height="560" >
+
+    <Window.Resources>
+        <ResourceDictionary Source="pack://application:,,,/DY.WPF;component/STYLE/DialogWindowStyle.xaml" />
+    </Window.Resources>
+
+    <DockPanel>
+        <StackPanel Orientation="Vertical" DockPanel.Dock="Top" >
+            <local:TitleForBar TitleText="Communication Setting" SubText="Please set device's communication options." Height="68" />
+            <local:CommDeviceAddition x:Name="NSetBox" Margin="10,0" />
+        </StackPanel>
+        <local:ButtonsForBar x:Name="NButton" DockPanel.Dock="Bottom" Height="34" VerticalAlignment="Bottom" Margin="0,0,0,10"/>
+    </DockPanel>
+</mah:MetroWindow>

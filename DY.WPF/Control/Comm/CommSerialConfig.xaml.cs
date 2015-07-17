@@ -23,9 +23,24 @@ namespace DY.WPF
         public CommSerialConfig()
         {
             this.InitializeComponent();
+
+            NCom.ItemSource = SerialPortOption.Com;
+            NCom.SelectedItem = SerialPortOption.Com[0];
+
+            NBaud.ItemSource = SerialPortOption.BandRate;
+            NBaud.SelectedItem = SerialPortOption.BandRate[SerialPortOption.BandRate.Count - 1];
+
+            NDataBit.ItemSource = SerialPortOption.DataBit;
+            NDataBit.SelectedItem = SerialPortOption.DataBit[SerialPortOption.DataBit.Count - 1];
+
+            NParity.ItemSource = Enum.GetValues(typeof(Parity));
+            NParity.SelectedItem = Parity.None;
+
+            NStopBit.ItemSource = Enum.GetValues(typeof(StopBits));
+            NStopBit.SelectedItem = StopBits.One;
         }
 
-        public CommSerialParameter GetSerialCommStruct()
+        public CommSerialParameter GetCommSerialStruct()
         {
             CommSerialParameter scs = new CommSerialParameter();
             scs.Com = (string)NCom.NComboBox.SelectedItem;
