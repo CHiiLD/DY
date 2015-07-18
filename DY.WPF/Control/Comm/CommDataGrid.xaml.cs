@@ -29,7 +29,7 @@ namespace DY.WPF
         {
             get
             {
-                return ClientCommManagement.GetInstance().Clientele;
+                return CommClientManagement.GetInstance().Clientele;
             }
         }
 

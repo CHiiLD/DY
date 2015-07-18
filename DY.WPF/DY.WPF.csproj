@@ -85,8 +85,8 @@
     <Compile Include="SYSTEM\COMM\ISummaryParameter.cs" />
     <Compile Include="Property\Font.cs" />
     <Compile Include="Property\WindowSize.cs" />
-    <Compile Include="Enum\CommType.cs" />
-    <Compile Include="Enum\CommDevice.cs" />
+    <Compile Include="Enum\DeviceProtocolType.cs" />
+    <Compile Include="Enum\DYDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -114,9 +114,9 @@
     <Compile Include="Control\Comm\Ai\AICommCross.xaml.cs">
       <DependentUpon>AICommCross.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SYSTEM\COMM\ClientComm.cs" />
-    <Compile Include="SYSTEM\COMM\ClientCommManagement.cs" />
-    <Compile Include="SYSTEM\COMM\ClientStateChangedEventArgs.cs" />
+    <Compile Include="SYSTEM\COMM\CommClient.cs" />
+    <Compile Include="SYSTEM\COMM\CommClientManagement.cs" />
+    <Compile Include="SYSTEM\NLogConfig.cs" />
     <Compile Include="SYSTEM\NotifyPropertyChanged.cs" />
     <Compile Include="WINDOW\CommDeviceSetWindow.xaml.cs">
       <DependentUpon>CommDeviceSetWindow.xaml</DependentUpon>
@@ -130,9 +130,9 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <Resource Include="Resources\Font\나눔고딕.ttf" />
-    <Resource Include="Resources\Font\나눔고딕Bold.ttf" />
-    <Resource Include="Resources\Font\나눔고딕ExtraBold.ttf" />
+    <Resource Include="Resource\Font\나눔고딕.ttf" />
+    <Resource Include="Resource\Font\나눔고딕Bold.ttf" />
+    <Resource Include="Resource\Font\나눔고딕ExtraBold.ttf" />
   </ItemGroup>
   <ItemGroup>
     <Page Include="Control\Bar\ButtonsForBar.xaml">
@@ -205,10 +205,6 @@
       <Project>{c658782c-a96e-466e-b2be-99590a289e39}</Project>
       <Name>DY.NET</Name>
     </ProjectReference>
-    <ProjectReference Include="..\submodule\log4net\src\log4net\log4net.vs2010.csproj">
-      <Project>{181fe707-e161-4722-9f38-6aaab6faa106}</Project>
-      <Name>log4net.vs2010</Name>
-    </ProjectReference>
     <ProjectReference Include="..\submodule\MahApps.Metro\MahApps.Metro\MahApps.Metro.NET45.csproj">
       <Project>{942d11c4-29f5-46c4-8c14-4b976d56c637}</Project>
       <Name>MahApps.Metro.NET45</Name>
@@ -221,11 +217,14 @@
       <Project>{eeea67f9-9089-481d-a4dc-0966dec9fd7d}</Project>
       <Name>Newtonsoft.Json</Name>
     </ProjectReference>
+    <ProjectReference Include="..\submodule\NLog\src\NLog\NLog.netfx45.csproj">
+      <Project>{a0bff0db-ed9a-4639-ae86-8e709a1efc66}</Project>
+      <Name>NLog.netfx45</Name>
+    </ProjectReference>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

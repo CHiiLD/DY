@@ -6,7 +6,10 @@ using System.Threading.Tasks;
 
 namespace DY.WPF.SYSTEM.COMM
 {
-    interface ISummaryParameter
+    /// <summary>
+    /// CommDataGrid를 위해 통신 객체의 요약 문자열을 리턴
+    /// </summary>
+    public interface ISummaryParameter
     {
         string GetParameterSummaryString();
     }

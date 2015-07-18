@@ -6,6 +6,8 @@ using System.Linq;
 using System.Threading.Tasks;
 using System.Windows;
 
+using DY.WPF.SYSTEM;
+
 namespace DY.WPF.SAMPLE
 {
     /// <summary>
@@ -13,5 +15,6 @@ namespace DY.WPF.SAMPLE
     /// </summary>
     public partial class App : Application
     {
+       
     }
 }

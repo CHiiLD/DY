@@ -32,8 +32,8 @@ namespace DY.WPF
         {
             CommEthernetParameter ecs = new CommEthernetParameter();
             ecs.Host = NIP.Text;
-            int port;
-            Int32.TryParse(NPort.Text, out port);
+            ushort port = 0;
+            UInt16.TryParse(NPort.Text, out port);
             ecs.Port = port;
             ecs.Type = (ProtocolType)NType.NComboBox.SelectedItem;
             return ecs;

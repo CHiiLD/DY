@@ -7,6 +7,10 @@ using System.ComponentModel;
 
 namespace DY.WPF.SYSTEM
 {
+    /// <summary>
+    /// xaml 컨트롤 객체와 바인딩하기 위한 제너릭 클래스
+    /// </summary>
+    /// <typeparam name="T"></typeparam>
     public class NotifyPropertyChanged<T> : INotifyPropertyChanged
     {
         private T m_Source;

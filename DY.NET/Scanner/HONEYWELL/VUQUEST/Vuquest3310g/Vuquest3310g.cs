@@ -29,7 +29,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
         public int Tag { get; set; }
         public string Description { get; set; }
         public object UserData { get; set; }
-        public EventHandler<ConnectionChanged> ConnectionStatusChanged { get; set; }
+        public EventHandler<ConnectionStatusChangedEventArgs> ConnectionStatusChanged { get; set; }
 
         /// <summary>
         /// read time out ( 0 - 300000ms) TRGSTO#### 으로 전송해야함
@@ -266,7 +266,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
             if (!m_SerialPort.IsOpen)
                 m_SerialPort.Open();
             if (ConnectionStatusChanged != null)
-                ConnectionStatusChanged(this, new ConnectionChanged(m_SerialPort.IsOpen));
+                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_SerialPort.IsOpen));
             return m_SerialPort.IsOpen;
         }
 
@@ -283,7 +283,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
             if (IsEnableSerial)
                 m_SerialPort.Close();
             if (ConnectionStatusChanged != null)
-                ConnectionStatusChanged(this, new ConnectionChanged(m_SerialPort.IsOpen));
+                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_SerialPort.IsOpen));
         }
 
         /// <summary>

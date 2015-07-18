@@ -11,44 +11,51 @@ using DY.NET;
 namespace DY.WPF.SYSTEM.COMM
 {
     /// <summary>
-    /// 디바이스 별 통신 방법 정의
+    /// 디바이스 별, 통신방법 정의
     /// </summary>
     public static class ServiceableDevice
     {
-        public static readonly Dictionary<CommDevice, CommType> Dic = new Dictionary<CommDevice, CommType>
+        public static readonly Dictionary<DYDevice, DYDeviceProtocolType> Dic = new Dictionary<DYDevice, DYDeviceProtocolType>
         {
-            { CommDevice.LSIS_XGT,                  CommType.SERIAL | CommType.ETHERNET },
-            { CommDevice.HONEYWELL_VUQUEST3310G,    CommType.SERIAL },
-            { CommDevice.DATALOGIC_MATRIX200,       CommType.SERIAL },
+            { DYDevice.LSIS_XGT,                  DYDeviceProtocolType.SERIAL | DYDeviceProtocolType.ETHERNET },
+            { DYDevice.HONEYWELL_VUQUEST3310G,    DYDeviceProtocolType.SERIAL },
+            { DYDevice.DATALOGIC_MATRIX200,       DYDeviceProtocolType.SERIAL },
         };
 
-        public static IConnect CreateClient(CommDevice device, CommType type, object commOption)
+        /// <summary>
+        /// DY.NET 라이브러리에서 지원하는 클라이언트 통신 객체를 생성한다
+        /// </summary>
+        /// <param name="device"></param>
+        /// <param name="type"></param>
+        /// <param name="summayPapameter"></param>
+        /// <returns></returns>
+        public static IConnect CreateClient(DYDevice device, DYDeviceProtocolType type, ISummaryParameter summayPapameter)
         {
             IConnect ret = null;
-            CommSerialParameter s = commOption as CommSerialParameter;
-            CommEthernetParameter e = commOption as CommEthernetParameter;
-            if (type == CommType.SERIAL && s == null)
+            CommSerialParameter s = summayPapameter as CommSerialParameter;
+            CommEthernetParameter e = summayPapameter as CommEthernetParameter;
+            if (type == DYDeviceProtocolType.SERIAL && s == null)
                 throw new ArgumentException("Type, commOption mismatch error");
-            if (type == CommType.ETHERNET && e == null)
+            if (type == DYDeviceProtocolType.ETHERNET && e == null)
                 throw new ArgumentException("Type, commOption mismatch error");
 
             switch (device)
             {
-                case CommDevice.DATALOGIC_MATRIX200:
+                case DYDevice.DATALOGIC_MATRIX200:
                     ret = new Matrix200.Builder(s.Com, s.Bandrate).DataBits(s.DataBit)
                         .Parity(s.Parity).StopBits(s.StopBit).Build();
                     break;
-                case CommDevice.HONEYWELL_VUQUEST3310G:
+                case DYDevice.HONEYWELL_VUQUEST3310G:
                     ret = new Vuquest3310g.Builder(s.Com, s.Bandrate).DataBits(s.DataBit)
                         .Parity(s.Parity).StopBits(s.StopBit).Build();
                     break;
-                case CommDevice.LSIS_XGT:
+                case DYDevice.LSIS_XGT:
                     switch (type)
                     {
-                        case CommType.ETHERNET:
+                        case DYDeviceProtocolType.ETHERNET:
                             ret = new XGTFEnetSocket(e.Host, e.Port);
                             break;
-                        case CommType.SERIAL:
+                        case DYDeviceProtocolType.SERIAL:
                             ret = (IConnect)new XGTCnetSocket.Builder(s.Com, s.Bandrate).DataBits(s.DataBit)
                         .Parity(s.Parity).StopBits(s.StopBit).Build();
                             break;

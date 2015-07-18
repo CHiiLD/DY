@@ -42,9 +42,9 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ConnectionChanged.cs" />
+    <Compile Include="ConnectionStatusChangedEventArgs.cs" />
     <Compile Include="IConnect.cs" />
-    <Compile Include="IConnectAsync.cs" />
+    <Compile Include="PLC\IConnectAsync.cs" />
     <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200Builder.cs" />
     <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200EventArgs.cs" />
     <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200Queue.cs" />

@@ -18,7 +18,7 @@ namespace DY.NET.DATALOGIC.MATRIX
         public int Tag { get; set; }
         public string Description { get; set; }
         public object UserData { get; set; }
-        public EventHandler<ConnectionChanged> ConnectionStatusChanged { get; set; }
+        public EventHandler<ConnectionStatusChangedEventArgs> ConnectionStatusChanged { get; set; }
 
         private SerialPort m_SerialPort;
         private byte[] m_Buffer = new byte[4096];
@@ -75,7 +75,7 @@ namespace DY.NET.DATALOGIC.MATRIX
             if (!m_SerialPort.IsOpen)
                 m_SerialPort.Open();
             if (ConnectionStatusChanged != null) 
-                ConnectionStatusChanged(this, new ConnectionChanged(m_SerialPort.IsOpen));
+                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_SerialPort.IsOpen));
             return m_SerialPort.IsOpen;
         }
 
@@ -90,7 +90,7 @@ namespace DY.NET.DATALOGIC.MATRIX
                 Disconnect();
                 m_SerialPort.Close();
                 if (ConnectionStatusChanged != null)
-                    ConnectionStatusChanged(this, new ConnectionChanged(m_SerialPort.IsOpen));
+                    ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_SerialPort.IsOpen));
             }
         }
 

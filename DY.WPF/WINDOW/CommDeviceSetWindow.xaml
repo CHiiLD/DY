@@ -7,7 +7,7 @@
         x:Name="this"
         Title="Communication Device Setup" 
         Style="{DynamicResource DialogWindowStyle}"
-        Height="560" >
+        Height="560" WindowStartupLocation="CenterOwner">
 
     <Window.Resources>
         <ResourceDictionary Source="pack://application:,,,/DY.WPF;component/STYLE/DialogWindowStyle.xaml" />

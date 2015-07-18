@@ -7,8 +7,8 @@
 	x:Class="DY.WPF.CommDataGrid"
 	x:Name="this" >
 
-    <DataGrid ItemsSource="{Binding ClientCommItems, ElementName=this, Mode=OneWay}" 
-              AutoGenerateColumns="False" 
+    <DataGrid ItemsSource="{Binding ClientCommItems, ElementName=this}"
+              AutoGenerateColumns="False"
               SelectionUnit="FullRow"
               GridLinesVisibility="All"
               CanUserAddRows="false"
@@ -37,17 +37,37 @@
             <DataGridTemplateColumn IsReadOnly="True" Width="34" >
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
-                        <Grid>
-                            <ContentPresenter  Content="{ Binding Path=VectorImage}"/>
+                        <Grid >
+                            <ContentPresenter Content="{ Binding Path=VectorImage, Mode=TwoWay }"/>
                         </Grid>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-            <DataGridCheckBoxColumn Header="Use" Binding="{ Binding Path=Usable }" />
-            <DataGridTextColumn Header="Target" ElementStyle="{StaticResource TextAlignmentCenter}" IsReadOnly="True" Binding="{ Binding Path=Target}" Width="2*" />
-            <DataGridTextColumn Header="Type" ElementStyle="{StaticResource TextAlignmentCenter}"  IsReadOnly="True" Binding="{ Binding Path=CommType}" Width="2*" />
-            <DataGridTextColumn Header="Summary"  ElementStyle="{StaticResource TextAlignmentCenter}"  IsReadOnly="True" Binding="{ Binding Path=Summary}" Width="3*" />
-            <DataGridTextColumn Header="Comment" ElementStyle="{StaticResource TextAlignmentCenter}"  IsReadOnly="False" Binding="{ Binding Path=Comment, Mode=TwoWay}" Width="3*" />
+
+            <DataGridTemplateColumn IsReadOnly="True" Width="50" Header="Use"  >
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <Grid HorizontalAlignment="Center" Margin="5,0,0,0" >
+                            <CheckBox IsChecked="{ Binding Path=Usable, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                        </Grid>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+
+            <!--<DataGridCheckBoxColumn IsReadOnly="True" Header="Use" Binding="{Binding Path=Usable, Mode=TwoWay}"/>-->
+            <!--<DataGridCheckBoxColumn Header="Use" Binding="{ Binding Path=Usable, Mode=TwoWay }" />-->
+            <DataGridTextColumn Header="Target" ElementStyle="{StaticResource TextAlignmentCenter}" IsReadOnly="True" Binding="{ Binding Path=Target, Mode=TwoWay }" Width="2*" />
+            <DataGridTextColumn Header="Type" ElementStyle="{StaticResource TextAlignmentCenter}"  IsReadOnly="True" Binding="{ Binding Path=CommType, Mode=TwoWay }" Width="2*" />
+            <DataGridTextColumn Header="Summary" ElementStyle="{StaticResource TextAlignmentCenter}"  IsReadOnly="True" Binding="{ Binding Path=Summary, Mode=TwoWay }" Width="3*" />
+
+            <DataGridTemplateColumn IsReadOnly="True" Header="Comment" Width="3*">
+                <DataGridTemplateColumn.CellTemplate>
+                    <DataTemplate>
+                        <TextBox TextAlignment="Center" Text="{Binding  Path=Comment, Mode=TwoWay, UpdateSourceTrigger=PropertyChanged}"/>
+                    </DataTemplate>
+                </DataGridTemplateColumn.CellTemplate>
+            </DataGridTemplateColumn>
+            <!--<DataGridTextColumn Header="Comment" ElementStyle="{StaticResource TextAlignmentCenter}" Binding="{ Binding Path=Comment, Mode=TwoWay}" Width="3*" />-->
         </DataGrid.Columns>
     </DataGrid>
 </UserControl>

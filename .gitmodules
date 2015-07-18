@@ -16,3 +16,6 @@
 [submodule "submodule/net-toolkit"]
 	path = submodule/net-toolkit
 	url = https://github.com/CHiiLD/net-toolkit.git
+[submodule "submodule/NLog"]
+	path = submodule/NLog
+	url = https://github.com/CHiiLD/NLog

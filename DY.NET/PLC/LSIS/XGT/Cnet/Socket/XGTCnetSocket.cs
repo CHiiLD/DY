@@ -64,7 +64,7 @@ namespace DY.NET.LSIS.XGT
             if (!m_SerialPort.IsOpen)
                 m_SerialPort.Open();
             if (ConnectionStatusChanged != null)
-                ConnectionStatusChanged(this, new ConnectionChanged(m_SerialPort.IsOpen));
+                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_SerialPort.IsOpen));
             return m_SerialPort.IsOpen;
         }
 
@@ -77,7 +77,7 @@ namespace DY.NET.LSIS.XGT
             if (m_SerialPort != null)
                 m_SerialPort.Close();
             if (ConnectionStatusChanged != null)
-                ConnectionStatusChanged(this, new ConnectionChanged(m_SerialPort.IsOpen));
+                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_SerialPort.IsOpen));
         }
 
         /// <summary>

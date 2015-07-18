@@ -23,7 +23,7 @@ namespace DY.WPF
         public CommDeviceAddition()
         {
             this.InitializeComponent();
-            NDevice.ItemSource = Enum.GetValues(typeof(CommDevice));
+            NDevice.ItemSource = Enum.GetValues(typeof(DYDevice));
             NDevice.NComboBox.SelectionChanged += OnSelectionChanged_Device;
             NType.NComboBox.SelectionChanged += OnSelectionChanged_Type;
         }
@@ -31,14 +31,14 @@ namespace DY.WPF
         private void OnSelectionChanged_Device(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cb = sender as ComboBox;
-            CommDevice item = (CommDevice)cb.SelectedItem;
-            List<CommType> source = new List<CommType>();
+            DYDevice item = (DYDevice)cb.SelectedItem;
+            List<DYDeviceProtocolType> source = new List<DYDeviceProtocolType>();
             NType.SelectedItem = null;
             NGrid.Children.Clear();
             if (ServiceableDevice.Dic.ContainsKey(item))
             {
-                CommType type = ServiceableDevice.Dic[item];
-                CommType[] types = (CommType[])Enum.GetValues(typeof(CommType));
+                DYDeviceProtocolType type = ServiceableDevice.Dic[item];
+                DYDeviceProtocolType[] types = (DYDeviceProtocolType[])Enum.GetValues(typeof(DYDeviceProtocolType));
                 foreach (var t in types)
                     if ((t & type) != 0)
                         source.Add(t);
@@ -52,13 +52,13 @@ namespace DY.WPF
             ComboBox cb = sender as ComboBox;
             if (cb.SelectedItem == null)
                 return;
-            CommType item = (CommType)cb.SelectedItem;
+            DYDeviceProtocolType item = (DYDeviceProtocolType)cb.SelectedItem;
             switch (item)
             {
-                case CommType.ETHERNET:
+                case DYDeviceProtocolType.ETHERNET:
                     NGrid.Children.Add(new CommEthernetConfig());
                     break;
-                case CommType.SERIAL:
+                case DYDeviceProtocolType.SERIAL:
                     NGrid.Children.Add(new CommSerialConfig());
                     break;
             }

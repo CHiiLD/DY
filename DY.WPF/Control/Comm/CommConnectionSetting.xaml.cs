@@ -24,14 +24,14 @@ namespace DY.WPF
         public CommConnectionSetting()
         {
             this.InitializeComponent();
-            var client_comm_m = ClientCommManagement.GetInstance();
-            Binding reconnect_swtich_bind = new Binding("Source") { Source = client_comm_m.UsableReconnectProperty };
+            CommClientManagement client_mm = CommClientManagement.GetInstance();
+            Binding reconnect_swtich_bind = new Binding("Source") { Source = client_mm.UsableReconnectProperty };
             this.NBT_ReconnectSwtich.SetBinding(ToggleSwitch.IsCheckedProperty, reconnect_swtich_bind);
 
-            Binding reconnect_inteval_bind = new Binding("Source") { Source = client_comm_m.ReconnectIntevalProperty };
+            Binding reconnect_inteval_bind = new Binding("Source") { Source = client_mm.ReconnectIntevalProperty };
             this.NTB_ReconnectInteval.NTextBox.SetBinding(TextBox.TextProperty, reconnect_inteval_bind);
 
-            Binding resp_ratency_bind = new Binding("Source") { Source = client_comm_m.ResponseLatencyProperty };
+            Binding resp_ratency_bind = new Binding("Source") { Source = client_mm.ResponseLatencyProperty };
             this.NTB_RespLatencyTime.NTextBox.SetBinding(TextBox.TextProperty, resp_ratency_bind);
         }
     }

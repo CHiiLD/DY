@@ -24,6 +24,7 @@ using DY.WPF.SYSTEM;
 using DY.WPF.SYSTEM.COMM;
 using DY.WPF.WINDOW;
 
+
 namespace DY.WPF.SAMPLE
 {
     /// <summary>
@@ -60,6 +61,8 @@ namespace DY.WPF.SAMPLE
 
         public MainWindow()
         {
+            NLogConfig.Load();
+
             //var commList = new ObservableCollection<CommDataGridItem>
             //{
             //    new CommDataGridItem 

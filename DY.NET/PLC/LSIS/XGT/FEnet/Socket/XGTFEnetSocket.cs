@@ -44,7 +44,7 @@ namespace DY.NET.LSIS.XGT
                 m_Client.GetStream().BeginRead(Buffer_, BufferIdx, BUFFER_SIZE, OnRead, null);
             }
             if (ConnectionStatusChanged != null)
-                ConnectionStatusChanged(this, new ConnectionChanged(m_Client.Connected));
+                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_Client.Connected));
             return m_Client.Connected;
         }
 
@@ -56,7 +56,7 @@ namespace DY.NET.LSIS.XGT
                 m_Client.GetStream().BeginRead(Buffer_, BufferIdx, BUFFER_SIZE, OnRead, null);
             }
             if (ConnectionStatusChanged != null)
-                ConnectionStatusChanged(this, new ConnectionChanged(m_Client.Connected));
+                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_Client.Connected));
             return m_Client.Connected;
         }
         /// <summary>
@@ -118,7 +118,7 @@ namespace DY.NET.LSIS.XGT
             if (m_Client != null)
                 m_Client.Close();
             if (ConnectionStatusChanged != null)
-                ConnectionStatusChanged(this, new ConnectionChanged(m_Client.Connected));
+                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_Client.Connected));
         }
 
         public override bool IsConnected()
