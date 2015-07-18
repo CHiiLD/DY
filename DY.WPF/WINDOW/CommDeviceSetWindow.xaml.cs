@@ -14,7 +14,7 @@ using System.Windows.Shapes;
 
 using MahApps.Metro.Controls;
 using DY.NET;
-using DY.WPF.SYSTEM;
+using DY.WPF.SYSTEM.COMM;
 
 namespace DY.WPF.WINDOW
 {
@@ -38,7 +38,7 @@ namespace DY.WPF.WINDOW
         {
             do
             {
-                CommDeviceAddition device_add = sender as CommDeviceAddition;
+                CommDeviceAddition device_add = NSetBox as CommDeviceAddition;
                 if (device_add.NDevice.SelectedItem == null || device_add.NType.SelectedItem == null)
                     break;
                 
@@ -62,8 +62,8 @@ namespace DY.WPF.WINDOW
 
                 IConnect client = ServiceableDevice.CreateClient(comm_device, comm_type, comm_option);
                 ClientComm client_comm = new ClientComm(client, comm_device, comm_type);
-                client_comm.Summary = comm_option.GetParameterSummaryString();
-                client_comm.Key = ClientCommManagement.GetInstance().SetClinet(client_comm);
+                client_comm.CommSummaryProperty.Source = comm_option.GetParameterSummaryString();
+                client_comm.KeyProperty.Source = ClientCommManagement.GetInstance().SetClinet(client_comm);
             } while (false);
             Close();
         }

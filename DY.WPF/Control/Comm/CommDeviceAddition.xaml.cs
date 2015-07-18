@@ -11,7 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 
-using DY.WPF.SYSTEM;
+using DY.WPF.SYSTEM.COMM;
 
 namespace DY.WPF
 {

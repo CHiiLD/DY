@@ -12,6 +12,11 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 
+using DY.WPF.WINDOW;
+using DY.WPF.SYSTEM.COMM;
+using System.Collections.Concurrent;
+using System.Collections;
+
 namespace DY.WPF
 {
 	/// <summary>
@@ -20,41 +25,22 @@ namespace DY.WPF
 
 	public partial class CommDataGrid : UserControl
 	{
-        public ObservableCollection<CommDataGridItem> DataGridItems
+        public IEnumerable ClientCommItems
         {
-            get;
-            private set;
+            get
+            {
+                return ClientCommManagement.GetInstance().Clientele;
+            }
         }
 
 		public CommDataGrid()
 		{
-            DataGridItems = new ObservableCollection<CommDataGridItem>();
-            var item = new CommDataGridItem
-            {
-                Usable = true,
-                Image = CommStateAi.Connected,
-                Target = CommDevice.DATALOGIC_MATRIX200,
-                Type = CommType.SERIAL,
-                Option = "115200-8-N-1",
-                Note = "데이타 로직 바코드"
-            };
-            DataGridItems.Add(item);
 			this.InitializeComponent();
 		}
 
-        /// <summary>
-        /// DataGrid 통신 디바이스 추가
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void DataGrid_AddingNewItem(object sender, AddingNewItemEventArgs e)
-        {
-
-        }
-
         private void NMI_AddCommDevice_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-        	// TODO: 여기에 구현된 이벤트 처리기를 추가하십시오.
+            new CommDeviceSetWindow() { Owner = Window.GetWindow(this) }.Show();
         }
 	}
 }

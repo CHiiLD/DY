@@ -7,13 +7,12 @@
 	x:Class="DY.WPF.CommDataGrid"
 	x:Name="this" >
 
-    <DataGrid ItemsSource="{Binding DataGridItems, ElementName=this, Mode=TwoWay}" 
+    <DataGrid ItemsSource="{Binding ClientCommItems, ElementName=this}" 
               AutoGenerateColumns="False" 
               SelectionUnit="FullRow"
               GridLinesVisibility="All"
               CanUserAddRows="false"
               HeadersVisibility="All">
-
         <!--헤더 텍스트를 중앙에 위치-->
         <!--<DataGrid.ColumnHeaderStyle>
             <Style TargetType="{x:Type DataGridColumnHeader}">
@@ -35,25 +34,20 @@
         </DataGrid.Resources>
 
         <DataGrid.Columns>
-
             <DataGridTemplateColumn IsReadOnly="True" Width="34" >
                 <DataGridTemplateColumn.CellTemplate>
                     <DataTemplate>
                         <Grid>
-                            <ContentPresenter Content="{Binding Image}"/>
+                            <ContentPresenter  Content="{ Binding Path=Value.VectorImage, Mode=OneWay }"/>
                         </Grid>
                     </DataTemplate>
                 </DataGridTemplateColumn.CellTemplate>
             </DataGridTemplateColumn>
-
-            <DataGridCheckBoxColumn Header="Use" Binding="{ Binding Path=Usable, Mode=TwoWay }" />
-
-            <DataGridTextColumn Header="Target" ElementStyle="{StaticResource TextAlignmentCenter}" IsReadOnly="True" Binding="{ Binding Path=Target, Mode=TwoWay }" Width="2*" />
-            <DataGridTextColumn Header="Type" ElementStyle="{StaticResource TextAlignmentCenter}"  IsReadOnly="True" Binding="{ Binding Path=Type, Mode=TwoWay }" Width="2*" />
-            <DataGridTextColumn Header="Option"  ElementStyle="{StaticResource TextAlignmentCenter}"  IsReadOnly="True" Binding="{ Binding Path=Option, Mode=TwoWay }" Width="3*" />
-            <DataGridTextColumn Header="Note" ElementStyle="{StaticResource TextAlignmentCenter}"  IsReadOnly="False" Binding="{ Binding Path=Note, Mode=TwoWay }" Width="3*" />
-
+            <DataGridCheckBoxColumn Header="Use" Binding="{ Binding Path=Value.Usable , Mode=OneWay }" />
+            <DataGridTextColumn Header="Target" ElementStyle="{StaticResource TextAlignmentCenter}" IsReadOnly="True" Binding="{ Binding Path=Value.Target, Mode=OneWay }" Width="2*" />
+            <DataGridTextColumn Header="Type" ElementStyle="{StaticResource TextAlignmentCenter}"  IsReadOnly="True" Binding="{ Binding Path=Value.CommType, Mode=OneWay }" Width="2*" />
+            <DataGridTextColumn Header="Summary"  ElementStyle="{StaticResource TextAlignmentCenter}"  IsReadOnly="True" Binding="{ Binding Path=Value.Summary, Mode=OneWay }" Width="3*" />
+            <DataGridTextColumn Header="Comment" ElementStyle="{StaticResource TextAlignmentCenter}"  IsReadOnly="False" Binding="{ Binding Path=Value.Comment, Mode=TwoWay }" Width="3*" />
         </DataGrid.Columns>
     </DataGrid>
-
 </UserControl>

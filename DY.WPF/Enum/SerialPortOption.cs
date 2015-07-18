@@ -12,7 +12,7 @@ namespace DY.WPF
     /// </summary>
     public static class SerialPortOption
     {
-        private static readonly ObservableCollection<int> BAND_RATE = new ObservableCollection<int>
+        private static readonly List<int> BAND_RATE = new List<int>
         {
             2400, 
             4800, 
@@ -23,7 +23,7 @@ namespace DY.WPF
             115200, 
         };
 
-        public static ObservableCollection<int> BandRate
+        public static List<int> BandRate
         {
             get
             {
@@ -31,14 +31,14 @@ namespace DY.WPF
             }
         }
 
-        private static readonly ObservableCollection<int> DATA_BIT = new ObservableCollection<int>
+        private static readonly List<int> DATA_BIT = new List<int>
         {
             7,
             8
         };
 
 
-        public static ObservableCollection<int> DataBit
+        public static List<int> DataBit
         {
             get
             {
@@ -46,7 +46,7 @@ namespace DY.WPF
             }
         }
 
-        private static readonly ObservableCollection<string> COM = new ObservableCollection<string>
+        private static readonly List<string> COM = new List<string>
         {
             "COM1", 
             "COM2", 
@@ -70,7 +70,7 @@ namespace DY.WPF
             "COM20"  
         };
 
-        public static ObservableCollection<string> Com
+        public static List<string> Com
         {
             get
             {

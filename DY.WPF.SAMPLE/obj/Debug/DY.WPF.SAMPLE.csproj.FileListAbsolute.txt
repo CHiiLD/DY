@@ -20,7 +20,6 @@ C:\dev\github\DY\DY.WPF.SAMPLE\obj\Debug\DY.WPF.Properties.Resources.resources
 C:\dev\github\DY\DY.WPF.SAMPLE\obj\Debug\DY.WPF.SAMPLE.csproj.GenerateResource.Cache
 C:\dev\github\DY\DY.WPF.SAMPLE\obj\Debug\DY.WPF.SAMPLE.exe
 C:\dev\github\DY\DY.WPF.SAMPLE\obj\Debug\DY.WPF.SAMPLE.pdb
-C:\dev\github\DY\DY.WPF.SAMPLE\obj\Debug\DY.WPF.SAMPLE_MarkupCompile.lref
 C:\Users\CHILD\GitHub\DY\DY.WPF.SAMPLE\obj\Debug\DY.WPF.SAMPLE.csprojResolveAssemblyReference.cache
 C:\Users\CHILD\GitHub\DY\DY.WPF.SAMPLE\obj\Debug\App.baml
 C:\Users\CHILD\GitHub\DY\DY.WPF.SAMPLE\obj\Debug\App.g.cs

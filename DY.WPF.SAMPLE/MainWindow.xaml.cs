@@ -21,6 +21,7 @@ using System.Collections;
 using System.ComponentModel;
 using DY.WPF.SYSTEM;
 
+using DY.WPF.SYSTEM.COMM;
 using DY.WPF.WINDOW;
 
 namespace DY.WPF.SAMPLE
@@ -59,30 +60,30 @@ namespace DY.WPF.SAMPLE
 
         public MainWindow()
         {
-            var commList = new ObservableCollection<CommDataGridItem>
-            {
-                new CommDataGridItem 
-                {
-                    Image = CommStateAi.Connected,
-                    Target = CommDevice.DATALOGIC_MATRIX200,
-                    Type= CommType.ETHERNET
-                },
+            //var commList = new ObservableCollection<CommDataGridItem>
+            //{
+            //    new CommDataGridItem 
+            //    {
+            //        Image = CommStateAi.Connected,
+            //        Target = CommDevice.DATALOGIC_MATRIX200,
+            //        Type= CommType.ETHERNET
+            //    },
 
-                new CommDataGridItem 
-                {
-                    Image = CommStateAi.ConnectFailure,
-                    Target = CommDevice.DATALOGIC_MATRIX200,
-                    Type= CommType.ETHERNET
-                },
+            //    new CommDataGridItem 
+            //    {
+            //        Image = CommStateAi.ConnectFailure,
+            //        Target = CommDevice.DATALOGIC_MATRIX200,
+            //        Type= CommType.ETHERNET
+            //    },
 
-                new CommDataGridItem 
-                {
-                    Image = CommStateAi.Idle,
-                    Target = CommDevice.DATALOGIC_MATRIX200,
-                    Type= CommType.ETHERNET
-                },
-            };
-            CommItem = commList;
+            //    new CommDataGridItem 
+            //    {
+            //        Image = CommStateAi.Idle,
+            //        Target = CommDevice.DATALOGIC_MATRIX200,
+            //        Type= CommType.ETHERNET
+            //    },
+            //};
+            //CommItem = commList;
             InitializeComponent();
         }
 

@@ -97,3 +97,12 @@ C:\Users\CHILD\GitHub\DY\DY.WPF\obj\Debug\DY.WPF.pdb
 C:\Users\CHILD\GitHub\DY\DY.WPF\obj\Debug\STYLE\DialogWindowStyle.baml
 C:\Users\CHILD\GitHub\DY\DY.WPF\obj\Debug\WINDOW\CommDeviceSetWindow.g.cs
 C:\Users\CHILD\GitHub\DY\DY.WPF\obj\Debug\WINDOW\CommDeviceSetWindow.baml
+C:\dev\github\DY\DY.WPF\obj\Debug\Control\Bar\ButtonsForBar.baml
+C:\dev\github\DY\DY.WPF\obj\Debug\Control\Bar\TitleForBar.baml
+C:\dev\github\DY\DY.WPF\obj\Debug\STYLE\DialogWindowStyle.baml
+C:\dev\github\DY\DY.WPF\obj\Debug\Control\Bar\ButtonsForBar.g.cs
+C:\dev\github\DY\DY.WPF\obj\Debug\Control\Bar\TitleForBar.g.cs
+C:\dev\github\DY\DY.WPF\obj\Debug\Control\Comm\CommDeviceAddition.g.cs
+C:\dev\github\DY\DY.WPF\obj\Debug\WINDOW\CommDeviceSetWindow.g.cs
+C:\dev\github\DY\DY.WPF\obj\Debug\Control\Comm\CommDeviceAddition.baml
+C:\dev\github\DY\DY.WPF\obj\Debug\WINDOW\CommDeviceSetWindow.baml

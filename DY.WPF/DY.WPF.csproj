@@ -72,7 +72,6 @@
     <Compile Include="Control\Comm\CommDataGrid.xaml.cs">
       <DependentUpon>CommDataGrid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\CommDataGridItem.cs" />
     <Compile Include="Control\Comm\CommDeviceAddition.xaml.cs">
       <DependentUpon>CommDeviceAddition.xaml</DependentUpon>
     </Compile>
@@ -82,7 +81,7 @@
     <Compile Include="Control\Comm\CommSerialConfig.xaml.cs">
       <DependentUpon>CommSerialConfig.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\ISummaryParameter.cs" />
+    <Compile Include="SYSTEM\COMM\ISummaryParameter.cs" />
     <Compile Include="Property\Font.cs" />
     <Compile Include="Property\WindowSize.cs" />
     <Compile Include="Enum\CommType.cs" />
@@ -101,9 +100,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Enum\SerialPortOption.cs" />
-    <Compile Include="SYSTEM\ServiceableDevice.cs" />
-    <Compile Include="Control\Comm\CommEthernetParameter.cs" />
-    <Compile Include="Control\Comm\CommSerialParameter.cs" />
+    <Compile Include="SYSTEM\COMM\ServiceableDevice.cs" />
+    <Compile Include="SYSTEM\COMM\CommEthernetParameter.cs" />
+    <Compile Include="SYSTEM\COMM\CommSerialParameter.cs" />
     <Compile Include="Control\Comm\Ai\AICommCheck.xaml.cs">
       <DependentUpon>AICommCheck.xaml</DependentUpon>
     </Compile>
@@ -114,10 +113,9 @@
     <Compile Include="Control\Comm\Ai\AICommCross.xaml.cs">
       <DependentUpon>AICommCross.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SYSTEM\ClientComm.cs" />
-    <Compile Include="SYSTEM\ClientCommManagement.cs" />
-    <Compile Include="SYSTEM\ClientStateChangedEventArgs.cs" />
-    <Compile Include="SYSTEM\ClinetState.cs" />
+    <Compile Include="SYSTEM\COMM\ClientComm.cs" />
+    <Compile Include="SYSTEM\COMM\ClientCommManagement.cs" />
+    <Compile Include="SYSTEM\COMM\ClientStateChangedEventArgs.cs" />
     <Compile Include="SYSTEM\NotifyPropertyChanged.cs" />
     <Compile Include="WINDOW\CommDeviceSetWindow.xaml.cs">
       <DependentUpon>CommDeviceSetWindow.xaml</DependentUpon>

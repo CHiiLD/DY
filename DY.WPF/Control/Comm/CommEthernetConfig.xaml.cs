@@ -12,6 +12,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using System.Net.Sockets;
+using DY.WPF.SYSTEM.COMM;
 
 namespace DY.WPF
 {

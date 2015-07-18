@@ -12,6 +12,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using System.IO.Ports;
+using DY.WPF.SYSTEM.COMM;
 
 namespace DY.WPF
 {
@@ -24,8 +25,12 @@ namespace DY.WPF
         {
             this.InitializeComponent();
 
-            NCom.ItemSource = SerialPortOption.Com;
-            NCom.SelectedItem = SerialPortOption.Com[0];
+            string[] coms = SerialPort.GetPortNames();
+            if (coms.Length != 0)
+            {
+                NCom.ItemSource = coms;
+                NCom.SelectedItem = coms[0];
+            }
 
             NBaud.ItemSource = SerialPortOption.BandRate;
             NBaud.SelectedItem = SerialPortOption.BandRate[SerialPortOption.BandRate.Count - 1];
