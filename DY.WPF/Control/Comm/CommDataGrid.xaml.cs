@@ -40,7 +40,7 @@ namespace DY.WPF
 
         private void NMI_AddCommDevice_Click(object sender, System.Windows.RoutedEventArgs e)
         {
-            new CommDeviceSetWindow() { Owner = Window.GetWindow(this) }.Show();
+            new CommDeviceSetWindow() { Owner = Window.GetWindow(this) }.ShowDialog();
         }
 	}
 }

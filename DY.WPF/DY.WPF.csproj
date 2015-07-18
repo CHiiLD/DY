@@ -14,6 +14,7 @@
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
     <ExpressionBlendVersion>12.0.51020.0</ExpressionBlendVersion>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -99,7 +100,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="Enum\SerialPortOption.cs" />
+    <Compile Include="Property\SerialPortOption.cs" />
     <Compile Include="SYSTEM\COMM\ServiceableDevice.cs" />
     <Compile Include="SYSTEM\COMM\CommEthernetParameter.cs" />
     <Compile Include="SYSTEM\COMM\CommSerialParameter.cs" />
@@ -211,6 +212,10 @@
     <ProjectReference Include="..\submodule\MahApps.Metro\MahApps.Metro\MahApps.Metro.NET45.csproj">
       <Project>{942d11c4-29f5-46c4-8c14-4b976d56c637}</Project>
       <Name>MahApps.Metro.NET45</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\submodule\net-toolkit\NET.Tools\NET.Tools.csproj">
+      <Project>{ec6eaaa0-f4f1-419c-a9d5-9f2d3ef67120}</Project>
+      <Name>NET.Tools</Name>
     </ProjectReference>
     <ProjectReference Include="..\submodule\Newtonsoft.Json\Src\Newtonsoft.Json\Newtonsoft.Json.csproj">
       <Project>{eeea67f9-9089-481d-a4dc-0966dec9fd7d}</Project>

@@ -62,8 +62,8 @@ namespace DY.WPF.WINDOW
 
                 IConnect client = ServiceableDevice.CreateClient(comm_device, comm_type, comm_option);
                 ClientComm client_comm = new ClientComm(client, comm_device, comm_type);
-                client_comm.CommSummaryProperty.Source = comm_option.GetParameterSummaryString();
-                client_comm.KeyProperty.Source = ClientCommManagement.GetInstance().SetClinet(client_comm);
+                client_comm.Summary = comm_option.GetParameterSummaryString();
+                client_comm.Key = ClientCommManagement.GetInstance().SetClinet(client_comm);
             } while (false);
             Close();
         }

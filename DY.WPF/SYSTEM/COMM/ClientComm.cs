@@ -14,34 +14,24 @@ namespace DY.WPF.SYSTEM.COMM
     {
         private const int STATUS_CHECK_INTEVAL = 2000;
         private Timer m_StatusCheckTimer = new Timer(STATUS_CHECK_INTEVAL);
-
         public IConnect Client { get; private set; }
-
         public EventHandler<ClientStateChangedEventArgs> StateChanged { get; private set; }
-
-        //public CommDevice Device { get; private set; }
-        //public CommType DeviceType { get; private set; }
-        //public bool Usable { get; set; }
-        //public string UserComment { get; set; }
-        //public Path VectorImage { get; set; }
-        //public string Summary { get; set; }
-        //public string Key { get; set; }
 
         /// <summary>
         /// 연결 / 비연결 상태 프로퍼티
         /// </summary>
-        public NotifyPropertyChanged<bool> StatusProperty { get; private set; }
+        private NotifyPropertyChanged<bool> StatusProperty { get; set; }
 
         /// <summary>
         /// CommDataGrid를 의식해서 만든 프로퍼티
         /// </summary>
-        public NotifyPropertyChanged<CommDevice> CommDeviceProperty { get; private set; }
-        public NotifyPropertyChanged<CommType> CommTypeProperty { get; private set; }
-        public NotifyPropertyChanged<bool> CommUsableProperty { get; private set; }
-        public NotifyPropertyChanged<string> CommUserCommentProperty { get; private set; }
-        public NotifyPropertyChanged<Path> CommVectorImageProperty { get; private set; }
-        public NotifyPropertyChanged<string> CommSummaryProperty { get; private set; }
-        public NotifyPropertyChanged<string> KeyProperty { get; private set; }
+        private NotifyPropertyChanged<CommDevice> CommDeviceProperty { get; set; }
+        private NotifyPropertyChanged<CommType> CommTypeProperty { get; set; }
+        private NotifyPropertyChanged<bool> CommUsableProperty { get; set; }
+        private NotifyPropertyChanged<string> CommUserCommentProperty { get; set; }
+        private NotifyPropertyChanged<Path> CommVectorImageProperty { get; set; }
+        private NotifyPropertyChanged<string> CommSummaryProperty { get; set; }
+        private NotifyPropertyChanged<string> KeyProperty { get; set; }
 
         public CommDevice Target { get { return CommDeviceProperty.Source; } set { CommDeviceProperty.Source = value; } }
         public CommType CommType { get { return CommTypeProperty.Source; } set { CommTypeProperty.Source = value; } }
@@ -59,12 +49,10 @@ namespace DY.WPF.SYSTEM.COMM
             CommTypeProperty = new NotifyPropertyChanged<CommType>(type);
             CommUsableProperty = new NotifyPropertyChanged<bool>();
             CommUserCommentProperty = new NotifyPropertyChanged<string>();
-            CommVectorImageProperty = new NotifyPropertyChanged<Path>();
+            CommVectorImageProperty = new NotifyPropertyChanged<Path>(CommStateAi.ConnectFailure);
             CommSummaryProperty = new NotifyPropertyChanged<string>();
             KeyProperty = new NotifyPropertyChanged<string>();
 
-            //Device = device;
-            //DeviceType = type;
             Client = client;
             StateChanged = OnConnectionStatusChanged;
             m_StatusCheckTimer.Elapsed += OnElapsed;
@@ -87,7 +75,10 @@ namespace DY.WPF.SYSTEM.COMM
         {
             var value = Client.IsConnected();
             if (StatusProperty.Source != value)
+            {
                 StatusProperty.Source = value;
+                VectorImage = value ? CommStateAi.Connected : CommStateAi.ConnectFailure;
+            }
         }
 
         private void OnConnectionStatusChanged(object sender, ClientStateChangedEventArgs args)

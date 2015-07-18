@@ -13,3 +13,6 @@
 [submodule "submodule/log4net"]
 	path = submodule/log4net
 	url = https://github.com/CHiiLD/log4net.git
+[submodule "submodule/net-toolkit"]
+	path = submodule/net-toolkit
+	url = https://github.com/CHiiLD/net-toolkit.git

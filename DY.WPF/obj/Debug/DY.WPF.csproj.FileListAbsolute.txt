@@ -106,3 +106,5 @@ C:\dev\github\DY\DY.WPF\obj\Debug\Control\Comm\CommDeviceAddition.g.cs
 C:\dev\github\DY\DY.WPF\obj\Debug\WINDOW\CommDeviceSetWindow.g.cs
 C:\dev\github\DY\DY.WPF\obj\Debug\Control\Comm\CommDeviceAddition.baml
 C:\dev\github\DY\DY.WPF\obj\Debug\WINDOW\CommDeviceSetWindow.baml
+C:\Users\CHILD\GitHub\DY\DY.WPF\bin\Debug\NET.Tools.dll
+C:\Users\CHILD\GitHub\DY\DY.WPF\bin\Debug\NET.Tools.pdb

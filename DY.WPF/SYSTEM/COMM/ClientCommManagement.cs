@@ -7,6 +7,8 @@ using System.Timers;
 using System.Collections.Concurrent;
 using DY.NET;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
+using NET.Tools;
 
 namespace DY.WPF.SYSTEM.COMM
 {
@@ -22,7 +24,7 @@ namespace DY.WPF.SYSTEM.COMM
         /// <summary>
         /// 클라이언트 소켓 사전 
         /// </summary>
-        public ConcurrentDictionary<string, ClientComm> Clientele
+        public ObservableDictionary<string, ClientComm> Clientele
         {
             get;
             private set;
@@ -30,7 +32,7 @@ namespace DY.WPF.SYSTEM.COMM
 
         private ClientCommManagement()
         {
-            Clientele = new ConcurrentDictionary<string, ClientComm>();
+            Clientele = new ObservableDictionary<string, ClientComm>();
             m_Timer.Elapsed += OnElapse;
 
             ResponseLatencyProperty = new NotifyPropertyChanged<int>(500);
@@ -90,7 +92,7 @@ namespace DY.WPF.SYSTEM.COMM
         public string SetClinet(ClientComm clientComm)
         {
             string key = CreateKey();
-            Clientele.TryAdd(key, clientComm);
+            Clientele.Add(key, clientComm);
             return key;
         }
 
