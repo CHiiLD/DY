@@ -7,11 +7,11 @@ using NLog;
 using NLog.Targets;
 using NLog.Config;
 
-namespace DY.WPF.SYSTEM
+namespace DY.NET
 {
     public class NLogConfig
     {
-        private static NLogConfig m_Thiz;
+        private static NLogConfig THIS;
 
         private NLogConfig()
         {
@@ -31,7 +31,7 @@ namespace DY.WPF.SYSTEM
             fileTarget.Layout = @"${date:format=HH\:mm\:ss} ${logger}${newline}${message}${newline}";
 
             // Step 4. Define rules
-            var rule1 = new LoggingRule("*", LogLevel.Debug, consoleTarget);
+            var rule1 = new LoggingRule("*", LogLevel.Trace, consoleTarget);
             config.LoggingRules.Add(rule1);
 
             var rule2 = new LoggingRule("*", LogLevel.Debug, fileTarget);
@@ -43,8 +43,8 @@ namespace DY.WPF.SYSTEM
 
         public static void Load()
         {
-            if (m_Thiz == null)
-                m_Thiz = new NLogConfig();
+            if (THIS == null)
+                THIS = new NLogConfig();
         }
     }
 }

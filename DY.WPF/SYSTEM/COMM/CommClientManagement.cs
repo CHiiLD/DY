@@ -10,19 +10,19 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using NET.Tools;
 using NLog;
+using System.Windows;
 
 namespace DY.WPF.SYSTEM.COMM
 {
     /// <summary>
-    /// ClientComm 객체와 통신을 전체 통제하는 클래스
+    /// ClientComm, 통신을 전체 통제하는 클래스
     /// </summary>
     public class CommClientManagement : IDisposable
     {
-        private static Logger Log = LogManager.GetCurrentClassLogger();
+        private static Logger LOG = LogManager.GetCurrentClassLogger();
+        private static CommClientManagement THIS;
 
-        private static CommClientManagement m_Thiz;
-        private Timer m_Timer = new Timer();
-
+        private Timer m_TryConnectionTimer = new Timer();
         /// 통신 설정과 관련된 프로퍼티들
         public NotifyPropertyChanged<int> ResponseLatencyProperty { get; private set; }
         public NotifyPropertyChanged<int> ReconnectIntevalProperty { get; private set; }
@@ -39,17 +39,18 @@ namespace DY.WPF.SYSTEM.COMM
 
         private CommClientManagement()
         {
-
-
             Clientele = new ObservableDictionary<string, CommClient>();
-            m_Timer.Elapsed += OnElapse;
+            m_TryConnectionTimer.Elapsed += async (object sender, ElapsedEventArgs args) =>
+            {
+                await ConnectClientele();
+            };
 
             ResponseLatencyProperty = new NotifyPropertyChanged<int>();
             ReconnectIntevalProperty = new NotifyPropertyChanged<int>();
             ReconnectIntevalProperty.PropertyChanged += (object sender, PropertyChangedEventArgs args) =>
             {
                 var notifyProperty = sender as NotifyPropertyChanged<int>;
-                m_Timer.Interval = notifyProperty.Source;
+                m_TryConnectionTimer.Interval = notifyProperty.Source;
             };
 
             UsableReconnectProperty = new NotifyPropertyChanged<bool>();
@@ -57,13 +58,13 @@ namespace DY.WPF.SYSTEM.COMM
             {
                 var notifyProperty = sender as NotifyPropertyChanged<bool>;
                 if (notifyProperty.Source)
-                    m_Timer.Start();
+                    m_TryConnectionTimer.Start();
                 else
-                    m_Timer.Stop();
+                    m_TryConnectionTimer.Stop();
             };
 
             ResponseLatencyProperty.Source = 1000;
-            ReconnectIntevalProperty.Source = 30000;
+            ReconnectIntevalProperty.Source = 5000;
             UsableReconnectProperty.Source = false;
         }
 
@@ -72,49 +73,44 @@ namespace DY.WPF.SYSTEM.COMM
             Dispose();
         }
 
+        /// <summary>
+        /// Clientele 객체 메모리 해제
+        /// </summary>
         public void Dispose()
         {
-            m_Timer.Dispose();
+            m_TryConnectionTimer.Dispose();
             foreach (var c in Clientele)
                 c.Value.Client.Dispose();
             Clientele.Clear();
             GC.SuppressFinalize(this);
         }
 
+        /// <summary>
+        /// CommClientManagement 싱글톤 객체 포인터 반환
+        /// </summary>
+        /// <returns></returns>
         public static CommClientManagement GetInstance()
         {
-            if (m_Thiz == null)
-                m_Thiz = new CommClientManagement();
-            return m_Thiz;
+            if (THIS == null)
+                THIS = new CommClientManagement();
+            return THIS;
         }
 
-#if false
         /// <summary>
-        /// Clientele에서 IConnectAsync를 상속한 클래스는 ConnectAsync()를 호출한다
+        /// Dictionary에 사용할 키 생성
         /// </summary>
-        /// <param name="client"></param>
-        public async void ConnectClientAsync(object iconnect)
-        {
-            var client_async = iconnect as IConnectAsync;
-            try
-            {
-                Task task = client_async.ConnectAsync();
-                if (Task.WhenAny(task, Task.Delay(ResponseLatencyProperty.Source)) == task)
-                    await task;
-            }
-            catch (Exception ex)
-            {
-                Log.Error(ex.Message);
-            }
-        }
-#endif
-
+        /// <returns></returns>
         private string CreateKey()
         {
             var guid = System.Guid.NewGuid();
             return guid.ToString();
         }
 
+        /// <summary>
+        /// Clientele에 CommClient객체를 추가
+        /// </summary>
+        /// <param name="clientComm"></param>
+        /// <returns></returns>
         public string SetClinet(CommClient clientComm)
         {
             string key = CreateKey();
@@ -122,6 +118,11 @@ namespace DY.WPF.SYSTEM.COMM
             return key;
         }
 
+        /// <summary>
+        /// 키 값으로 Clientele에서 CommClient객체를 찾아 반환
+        /// </summary>
+        /// <param name="key"></param>
+        /// <returns></returns>
         public CommClient GetClient(string key)
         {
             CommClient ret = null;
@@ -131,26 +132,35 @@ namespace DY.WPF.SYSTEM.COMM
         }
 
         /// <summary>
-        /// UsableReconnectProperty가 On일 때 ReconnectIntevalProperty에 의해 자동적으로 IConnect 객체에 재접속을 시도
+        /// UsableReconnectProperty가 True일 때 일정 간격마다 통신 접속 시도
         /// </summary>
-        /// <param name="sender">Timer</param>
-        /// <param name="args">ElapsedEventArgs</param>
-        private void OnElapse(object sender, ElapsedEventArgs args)
+        /// <returns></returns>
+        private async Task ConnectClientele()
         {
             foreach (var client in Clientele)
             {
                 if (!client.Value.Usable)
                     continue;
-                var iconn = client.Value.Client;
+                IConnect iconn = client.Value.Client;
                 if (!iconn.IsConnected())
                 {
                     try
                     {
-                        iconn.Connect();
+                        var iconn_async = iconn as IConnectAsync;
+                        if (iconn_async != null) //페러렐 비동기(tcp client)
+                        {
+                            Task task = iconn_async.ConnectAsync();
+                            if (task == Task.WhenAny(task, Task.Delay(ResponseLatencyProperty.Source)))
+                                await task;
+                        }
+                        else //동기(serialport comm)
+                        {
+                            iconn.Connect();
+                        }
                     }
                     catch (Exception ex)
                     {
-                        Log.Error("클라이언트 연결 실패" + ex.Message);
+                        LOG.Error("통신 디바이스 접속 중 에러 발생: " + ex.Message);
                     }
                 }
             }

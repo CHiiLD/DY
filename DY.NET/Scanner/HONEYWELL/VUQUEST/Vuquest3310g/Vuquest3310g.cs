@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.IO;
 using System.Threading;
+using NLog;
 
 namespace DY.NET.HONEYWELL.VUQUEST
 {
@@ -15,6 +16,8 @@ namespace DY.NET.HONEYWELL.VUQUEST
     /// </summary>
     public partial class Vuquest3310g : IScannerSerialCommAsync, ITag
     {
+        private static Logger LOG = LogManager.GetCurrentClassLogger();
+
         private const byte SYN = 0x16;
         private const byte CR = 0x0D;
         private const byte ACK = 0x06;
@@ -227,6 +230,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
         /// <param name="timeout">타임아웃 시간을 지정</param>
         public void Scan(int timeout)
         {
+            LOG.Trace("Vuquest3310g 타이머 스캔 시도, 타임아웃: " + timeout);
             if (!(0 <= timeout && timeout <= VUQUEST3310G_TIMEOUT_MAX))
                 throw new ArgumentOutOfRangeException("timeout");
             TimeOut = timeout;
@@ -244,6 +248,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
 
         public async Task<object> ScanAsync(int timeout)
         {
+            LOG.Trace("Vuquest3310g 비동기 스캔 시도, 타임아웃: " + timeout);
             if (!(0 <= timeout && timeout <= VUQUEST3310G_TIMEOUT_MAX))
                 throw new ArgumentOutOfRangeException("timeout");
             TimeOut = timeout;
@@ -267,6 +272,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
                 m_SerialPort.Open();
             if (ConnectionStatusChanged != null)
                 ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_SerialPort.IsOpen));
+            LOG.Debug("Vuquest3310g 시리얼포트 통신 접속");
             return m_SerialPort.IsOpen;
         }
 
@@ -284,6 +290,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
                 m_SerialPort.Close();
             if (ConnectionStatusChanged != null)
                 ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_SerialPort.IsOpen));
+            LOG.Debug("Vuquest3310g 시리얼포트 통신 해제");
         }
 
         /// <summary>
@@ -295,6 +302,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
             m_SerialPort.Dispose();
             m_TimeoutTimer.Dispose();
             GC.SuppressFinalize(this);
+            LOG.Debug("Vuquest3310g 시리얼포트 메모리 해제");
         }
     }
 }

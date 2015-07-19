@@ -26,18 +26,18 @@ namespace DY.WPF.SYSTEM.COMM
         /// DY.NET 라이브러리에서 지원하는 클라이언트 통신 객체를 생성한다
         /// </summary>
         /// <param name="device"></param>
-        /// <param name="type"></param>
+        /// <param name="comm_type"></param>
         /// <param name="summayPapameter"></param>
         /// <returns></returns>
-        public static IConnect CreateClient(DYDevice device, DYDeviceProtocolType type, ISummaryParameter summayPapameter)
+        public static IConnect CreateClient(DYDevice device, DYDeviceProtocolType comm_type, ISummaryParameter summayPapameter)
         {
             IConnect ret = null;
             CommSerialParameter s = summayPapameter as CommSerialParameter;
             CommEthernetParameter e = summayPapameter as CommEthernetParameter;
-            if (type == DYDeviceProtocolType.SERIAL && s == null)
-                throw new ArgumentException("Type, commOption mismatch error");
-            if (type == DYDeviceProtocolType.ETHERNET && e == null)
-                throw new ArgumentException("Type, commOption mismatch error");
+            if (comm_type == DYDeviceProtocolType.SERIAL && s == null)
+                throw new ArgumentException("device, comm_type mismatch error");
+            if (comm_type == DYDeviceProtocolType.ETHERNET && e == null)
+                throw new ArgumentException("device, comm_type mismatch error");
 
             switch (device)
             {
@@ -50,7 +50,7 @@ namespace DY.WPF.SYSTEM.COMM
                         .Parity(s.Parity).StopBits(s.StopBit).Build();
                     break;
                 case DYDevice.LSIS_XGT:
-                    switch (type)
+                    switch (comm_type)
                     {
                         case DYDeviceProtocolType.ETHERNET:
                             ret = new XGTFEnetSocket(e.Host, e.Port);

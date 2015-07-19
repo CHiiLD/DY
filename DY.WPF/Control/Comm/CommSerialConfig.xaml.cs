@@ -52,7 +52,7 @@ namespace DY.WPF
             scs.Bandrate = (int)NBaud.NComboBox.SelectedItem;
             scs.Parity = (Parity)NParity.NComboBox.SelectedItem;
             scs.StopBit = (StopBits)NStopBit.NComboBox.SelectedItem;
-            scs.DataBit = (int)NStopBit.NComboBox.SelectedItem;
+            scs.DataBit = (int)NDataBit.NComboBox.SelectedItem;
             return scs;
         }
     }

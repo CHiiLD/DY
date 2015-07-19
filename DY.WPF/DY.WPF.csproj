@@ -116,7 +116,6 @@
     </Compile>
     <Compile Include="SYSTEM\COMM\CommClient.cs" />
     <Compile Include="SYSTEM\COMM\CommClientManagement.cs" />
-    <Compile Include="SYSTEM\NLogConfig.cs" />
     <Compile Include="SYSTEM\NotifyPropertyChanged.cs" />
     <Compile Include="WINDOW\CommDeviceSetWindow.xaml.cs">
       <DependentUpon>CommDeviceSetWindow.xaml</DependentUpon>

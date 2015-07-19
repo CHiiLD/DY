@@ -1,14 +1,17 @@
 ﻿using System;
 using System.Net.Sockets;
 using System.Threading.Tasks;
+using NLog;
 
 namespace DY.NET.LSIS.XGT
 {
     public class XGTFEnetSocket : ASocketCover, IPostAsync, IConnectAsync
     {
+        private static Logger LOG = LogManager.GetCurrentClassLogger();
+
         private string m_Host;
         private int m_Port;
-        private volatile TcpClient m_Client = new TcpClient();
+        private volatile TcpClient m_Client;
 
         /// <summary>
         /// 서버로부터 연결 종료 신호를 받았을 때 이벤트 발생
@@ -38,26 +41,29 @@ namespace DY.NET.LSIS.XGT
         public override bool Connect()
         {
             //비동기 요청
-            if (!m_Client.Connected)
+            if (!IsConnected())
             {
-                m_Client.Connect(m_Host, m_Port);
+                m_Client = new TcpClient(m_Host, m_Port);
                 m_Client.GetStream().BeginRead(Buffer_, BufferIdx, BUFFER_SIZE, OnRead, null);
             }
             if (ConnectionStatusChanged != null)
-                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_Client.Connected));
-            return m_Client.Connected;
+                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(IsConnected()));
+            LOG.Debug("XGT-FEnet 이더넷 통신 동기 접속");
+            return IsConnected();
         }
 
         public async Task<bool> ConnectAsync()
         {
-            if (!m_Client.Connected)
+            if (!IsConnected())
             {
+                m_Client = new TcpClient();
                 await m_Client.ConnectAsync(m_Host, m_Port);
-                m_Client.GetStream().BeginRead(Buffer_, BufferIdx, BUFFER_SIZE, OnRead, null);
+                //m_Client.GetStream().BeginRead(Buffer_, BufferIdx, BUFFER_SIZE, OnRead, null);
             }
             if (ConnectionStatusChanged != null)
-                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_Client.Connected));
-            return m_Client.Connected;
+                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(IsConnected()));
+            LOG.Debug("XGT-FEnet 이더넷 통신 비동기 접속");
+            return IsConnected();
         }
         /// <summary>
         /// 비동기적으로 요청프로토콜을 보내고 응답 프로토콜을 받아 리턴.
@@ -115,10 +121,7 @@ namespace DY.NET.LSIS.XGT
 
         public override void Close()
         {
-            if (m_Client != null)
-                m_Client.Close();
-            if (ConnectionStatusChanged != null)
-                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_Client.Connected));
+            throw new NotImplementedException();
         }
 
         public override bool IsConnected()
@@ -132,11 +135,15 @@ namespace DY.NET.LSIS.XGT
         {
             if (m_Client != null)
             {
-                Close();
-                m_Client.GetStream().Dispose();
+                if (m_Client != null)
+                    m_Client.Close();
+                if (ConnectionStatusChanged != null)
+                    ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(IsConnected()));
+                m_Client = null;
             }
             base.Dispose();
             GC.SuppressFinalize(this);
+            LOG.Debug("XGT-FEnet 이더넷 통신 해제 및 메모리 해제");
         }
 
         /// <summary>
@@ -197,7 +204,7 @@ namespace DY.NET.LSIS.XGT
         {
             if (m_Client == null)
                 return;
-            if (!m_Client.Connected)
+            if (!IsConnected())
                 return;
             NetworkStream ns = m_Client.GetStream();
             int size = 0;
@@ -205,14 +212,16 @@ namespace DY.NET.LSIS.XGT
             {
                 size += ns.EndRead(ar);
             }
-            catch (Exception exception)
+            catch (Exception ex)
             {
+                LOG.Debug(ex.Message);
             }
             if (size == 0) //서버측에서 연결을 끊음
             {
                 if (SignOffReceived != null)
                     SignOffReceived(this, EventArgs.Empty);
-                Close();
+                //Close();
+                LOG.Trace("XGT-FEnet PLC에서 종료신호를 보냄(received byte size = 0)");
                 return;
             }
             do
@@ -236,7 +245,7 @@ namespace DY.NET.LSIS.XGT
         {
             if (m_Client == null)
                 return;
-            if (!m_Client.Connected)
+            if (!IsConnected())
                 return;
             m_Client.GetStream().EndWrite(ar);
             AProtocol reqt_p = ar.AsyncState as AProtocol;

@@ -9,6 +9,7 @@ namespace DY.WPF
     /// <summary>
     /// 통신 종류
     /// </summary>
+    //[Flags]
     public enum DYDeviceProtocolType
     {
         SERIAL = 1,

@@ -11,6 +11,7 @@ using System;
 using System.IO;
 using System.IO.Ports;
 using System.Threading.Tasks;
+using NLog;
 
 namespace DY.NET.LSIS.XGT
 {
@@ -19,6 +20,8 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public partial class XGTCnetSocket : ASocketCover, IPostAsync
     {
+        private static Logger LOG = LogManager.GetCurrentClassLogger();
+
         public class Builder : ASerialPortBuilder
         {
             public Builder(string name, int baud)
@@ -61,11 +64,12 @@ namespace DY.NET.LSIS.XGT
         {
             if (m_SerialPort == null)
                 throw new NullReferenceException(ERROR_SERIAL_IS_NULL);
-            if (!m_SerialPort.IsOpen)
+            if (!IsConnected())
                 m_SerialPort.Open();
             if (ConnectionStatusChanged != null)
-                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_SerialPort.IsOpen));
-            return m_SerialPort.IsOpen;
+                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(IsConnected()));
+            LOG.Debug("XGT-Cnet 시리얼포트 통신 접속");
+            return IsConnected();
         }
 
         /// <summary>
@@ -77,7 +81,8 @@ namespace DY.NET.LSIS.XGT
             if (m_SerialPort != null)
                 m_SerialPort.Close();
             if (ConnectionStatusChanged != null)
-                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_SerialPort.IsOpen));
+                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(IsConnected()));
+            LOG.Debug("XGT-Cnet 시리얼포트 통신 해제");
         }
 
         /// <summary>
@@ -131,7 +136,7 @@ namespace DY.NET.LSIS.XGT
         {
             if (m_SerialPort == null)
                 return;
-            if (!m_SerialPort.IsOpen)
+            if (!IsConnected())
                 throw new Exception("Serial port is not opend");
             AProtocol reqt_p = protocol as AProtocol;
             if (reqt_p == null)
@@ -163,6 +168,7 @@ namespace DY.NET.LSIS.XGT
                 m_SerialPort.Dispose();
             }
             base.Dispose();
+            LOG.Debug("XGT-Cnet 시리얼포트 메모리 해제");
             GC.SuppressFinalize(this);
         }
 
@@ -247,6 +253,7 @@ namespace DY.NET.LSIS.XGT
             if (ErrorReceived != null)
                 ErrorReceived(sender, e);
             Close();
+            LOG.Error("XGT-Cnet 시리얼포트 에러: " + e.EventType);
         }
 
         private void OnSerialPinChanged(object sender, SerialPinChangedEventArgs e)
@@ -254,6 +261,7 @@ namespace DY.NET.LSIS.XGT
             if (PinChanged != null)
                 PinChanged(sender, e);
             Close();
+            LOG.Error("XGT-Cnet 시리얼포트 핀 변경 이벤트: " + e.EventType);
         }
         #endregion
     }

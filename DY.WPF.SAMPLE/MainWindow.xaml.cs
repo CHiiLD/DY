@@ -23,15 +23,18 @@ using DY.WPF.SYSTEM;
 
 using DY.WPF.SYSTEM.COMM;
 using DY.WPF.WINDOW;
-
+using DY.NET;
 
 namespace DY.WPF.SAMPLE
 {
     /// <summary>
     /// MainWindow.xaml에 대한 상호 작용 논리
     /// </summary>
+
     public partial class MainWindow : MetroWindow
     {
+
+
         public IEnumerable CommItem { get; private set; }
 
         NotifyPropertyChanged<bool> booleanProperty = new NotifyPropertyChanged<bool>(true);

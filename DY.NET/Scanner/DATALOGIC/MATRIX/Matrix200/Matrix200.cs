@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.IO.Ports;
 using System.Text.RegularExpressions;
+using NLog;
 
 namespace DY.NET.DATALOGIC.MATRIX
 {
@@ -15,6 +16,8 @@ namespace DY.NET.DATALOGIC.MATRIX
     /// </summary>
     public partial class Matrix200 : Matrix200Command, IScannerSerialCommAsync, ITag
     {
+        private static Logger LOG = LogManager.GetCurrentClassLogger();
+
         public int Tag { get; set; }
         public string Description { get; set; }
         public object UserData { get; set; }
@@ -76,6 +79,7 @@ namespace DY.NET.DATALOGIC.MATRIX
                 m_SerialPort.Open();
             if (ConnectionStatusChanged != null) 
                 ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_SerialPort.IsOpen));
+            LOG.Debug("Matrix200 시리얼포트 통신 접속");
             return m_SerialPort.IsOpen;
         }
 
@@ -91,6 +95,7 @@ namespace DY.NET.DATALOGIC.MATRIX
                 m_SerialPort.Close();
                 if (ConnectionStatusChanged != null)
                     ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_SerialPort.IsOpen));
+                LOG.Debug("Matrix200 시리얼포트 통신 해제");
             }
         }
 
@@ -102,6 +107,7 @@ namespace DY.NET.DATALOGIC.MATRIX
             m_SerialPort.Close();
             m_SerialPort.Dispose();
             GC.SuppressFinalize(this);
+            LOG.Debug("Matrix200 시리얼포트 메모리 해제");
         }
 
         /// <summary>
