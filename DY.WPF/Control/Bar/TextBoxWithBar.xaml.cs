@@ -83,5 +83,14 @@ namespace DY.WPF
             }
             else e.CancelCommand();
         }
+
+        private void NTextBox_KeyDown(object sender, KeyEventArgs e)
+        {
+            TextBox tb = sender as TextBox;
+            if (e.Key == Key.Enter)
+            {
+                //tb.MoveFocus(new TraversalRequest(FocusNavigationDirection.Next));
+            }
+        }
     }
 }

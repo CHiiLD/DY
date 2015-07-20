@@ -19,45 +19,21 @@ namespace DY.WPF.SYSTEM.COMM
     public class CommClient : IDisposable, INotifyPropertyChanged
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();
+        private const int STATUS_CHECK_INTEVAL = 10000; //10초
+
+        private Timer m_CommStatusCheckTimer = new Timer(STATUS_CHECK_INTEVAL);
+        private DYDevice m_Target;
+        private DYDeviceProtocolType m_CommType;
+        private bool m_Usable;
+        private string m_Comment;
+        private Geometry m_ImageData = CommStateAi.ConnectFailure.Data;
+        private Brush m_ImageColor = CommStateAi.ConnectFailure.Fill;
+        private string m_Summary;
+        private string m_Key;
 
         public event PropertyChangedEventHandler PropertyChanged;
-        protected void OnPropertyChanged(string propertyName)
-        {
-            if (PropertyChanged != null)
-                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
-        }
 
-        private const int STATUS_CHECK_INTEVAL = 10000; //10초
-        private Timer m_CommStatusCheckTimer = new Timer(STATUS_CHECK_INTEVAL);
         public IConnect Client { get; private set; }
-#if false
-        private NotifyPropertyChanged<DYDevice> CommDeviceProperty { get; set; }
-        private NotifyPropertyChanged<DYDeviceProtocolType> CommTypeProperty { get; set; }
-        private NotifyPropertyChanged<bool> UsableProperty { get; set; }
-        private NotifyPropertyChanged<string> UserCommentProperty { get; set; }
-        private NotifyPropertyChanged<Geometry> ImageDataProperty { get; set; }
-        private NotifyPropertyChanged<Brush> ImageColorProperty { get; set; }
-        private NotifyPropertyChanged<string> SummaryProperty { get; set; }
-        private NotifyPropertyChanged<string> KeyProperty { get; set; }
-
-        public DYDevice Target { get { return CommDeviceProperty.Source; } set { CommDeviceProperty.Source = value; } }
-        public DYDeviceProtocolType CommType { get { return CommTypeProperty.Source; } set { CommTypeProperty.Source = value; } }
-        public bool Usable { get { return UsableProperty.Source; } set { UsableProperty.Source = value; } }
-        public string Comment { get { return UserCommentProperty.Source; } set { UserCommentProperty.Source = value; } }
-        public Geometry ImageData { get { return ImageDataProperty.Source; } set { ImageDataProperty.Source = value; } }
-        public Brush ImageColor { get { return ImageColorProperty.Source; } set { ImageColorProperty.Source = value; } }
-        public string Summary { get { return SummaryProperty.Source; } set { SummaryProperty.Source = value; } }
-        public string Key { get { return KeyProperty.Source; } set { KeyProperty.Source = value; } }
-#endif
-        private DYDevice m_Target;
-        public DYDeviceProtocolType m_CommType;
-        public bool m_Usable;
-        public string m_Comment;
-        public Geometry m_ImageData = CommStateAi.ConnectFailure.Data;
-        public Brush m_ImageColor = CommStateAi.ConnectFailure.Fill;
-        public string m_Summary;
-        public string m_Key;
-
         public DYDevice Target { get { return m_Target; } set { m_Target = value; OnPropertyChanged("Target"); } }
         public DYDeviceProtocolType CommType { get { return m_CommType; } set { m_CommType = value; OnPropertyChanged("CommType"); } }
         public bool Usable
@@ -86,27 +62,12 @@ namespace DY.WPF.SYSTEM.COMM
 
         public CommClient(IConnect client, DYDevice device, DYDeviceProtocolType comm_type)
         {
-#if false
-            //프로퍼티 객체 초기화
-            CommDeviceProperty = new NotifyPropertyChanged<DYDevice>(device);
-            CommTypeProperty = new NotifyPropertyChanged<DYDeviceProtocolType>(type);
-            UsableProperty = new NotifyPropertyChanged<bool>(false);
-            UserCommentProperty = new NotifyPropertyChanged<string>();
-            ImageDataProperty = new NotifyPropertyChanged<Geometry>(CommStateAi.ConnectFailure.Data);
-            ImageColorProperty = new NotifyPropertyChanged<Brush>(CommStateAi.ConnectFailure.Fill);
-            SummaryProperty = new NotifyPropertyChanged<string>();
-            KeyProperty = new NotifyPropertyChanged<string>();
-
-
             Client = client;
-            Client.ConnectionStatusChanged += OnConnectionStatusChanged;
-            m_StatusCheckTimer.Elapsed += OnElapsed;
-            UsableProperty.PropertyChanged += OnUsablePropertyChanged;
-#endif
-            Client = client;
+            Target = device;
             m_CommType = comm_type;
             Client.ConnectionStatusChanged += OnConnectionStatusChanged;
             m_CommStatusCheckTimer.Elapsed += OnElapsed;
+            Key = Guid.NewGuid().ToString();
         }
 
         ~CommClient()
@@ -114,11 +75,18 @@ namespace DY.WPF.SYSTEM.COMM
             Dispose();
         }
 
+        protected void OnPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+        }
+
         public void Dispose()
         {
             m_CommStatusCheckTimer.Dispose();
             Client.Dispose();
             GC.SuppressFinalize(this);
+            LOG.Debug("CommClient 메모리 해제");
         }
 
         /// <summary>
@@ -161,6 +129,9 @@ namespace DY.WPF.SYSTEM.COMM
         /// <param name="isConnected">연결 상태</param>
         private void ChangedCommStatus(bool isConnected)
         {
+            if (Application.Current == null)
+                return;
+
             Application.Current.Dispatcher.BeginInvoke(new Action(() =>
             {
                 Path target_path = isConnected ? CommStateAi.Connected : CommStateAi.ConnectFailure;

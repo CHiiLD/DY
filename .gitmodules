@@ -19,3 +19,6 @@
 [submodule "submodule/NLog"]
 	path = submodule/NLog
 	url = https://github.com/CHiiLD/NLog
+[submodule "submodule/MonoTouchMVVMCrossValidationTester"]
+	path = submodule/MonoTouchMVVMCrossValidationTester
+	url = https://github.com/CHiiLD/MonoTouchMVVMCrossValidationTester.git

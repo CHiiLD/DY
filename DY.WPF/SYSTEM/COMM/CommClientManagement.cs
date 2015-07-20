@@ -8,7 +8,6 @@ using System.Collections.Concurrent;
 using DY.NET;
 using System.ComponentModel;
 using System.Collections.ObjectModel;
-using NET.Tools;
 using NLog;
 using System.Windows;
 
@@ -31,7 +30,7 @@ namespace DY.WPF.SYSTEM.COMM
         /// <summary>
         /// 클라이언트 소켓 사전 
         /// </summary>
-        public ObservableDictionary<string, CommClient> Clientele
+        public ObservableCollection<CommClient> Clientele
         {
             get;
             private set;
@@ -39,7 +38,7 @@ namespace DY.WPF.SYSTEM.COMM
 
         private CommClientManagement()
         {
-            Clientele = new ObservableDictionary<string, CommClient>();
+            Clientele = new ObservableCollection<CommClient>();
             m_TryConnectionTimer.Elapsed += async (object sender, ElapsedEventArgs args) =>
             {
                 await ConnectClientele();
@@ -51,6 +50,7 @@ namespace DY.WPF.SYSTEM.COMM
             {
                 var notifyProperty = sender as NotifyPropertyChanged<int>;
                 m_TryConnectionTimer.Interval = notifyProperty.Source;
+                LOG.Trace("재연결시도간격 :" + notifyProperty.Source);
             };
 
             UsableReconnectProperty = new NotifyPropertyChanged<bool>();
@@ -80,9 +80,10 @@ namespace DY.WPF.SYSTEM.COMM
         {
             m_TryConnectionTimer.Dispose();
             foreach (var c in Clientele)
-                c.Value.Client.Dispose();
-            Clientele.Clear();
+                c.Dispose();
+            Clientele = null;
             GC.SuppressFinalize(this);
+            LOG.Debug("CommClientManagement 메모리 해제");
         }
 
         /// <summary>
@@ -97,71 +98,30 @@ namespace DY.WPF.SYSTEM.COMM
         }
 
         /// <summary>
-        /// Dictionary에 사용할 키 생성
-        /// </summary>
-        /// <returns></returns>
-        private string CreateKey()
-        {
-            var guid = System.Guid.NewGuid();
-            return guid.ToString();
-        }
-
-        /// <summary>
-        /// Clientele에 CommClient객체를 추가
-        /// </summary>
-        /// <param name="clientComm"></param>
-        /// <returns></returns>
-        public string SetClinet(CommClient clientComm)
-        {
-            string key = CreateKey();
-            Clientele.Add(key, clientComm);
-            return key;
-        }
-
-        /// <summary>
-        /// 키 값으로 Clientele에서 CommClient객체를 찾아 반환
-        /// </summary>
-        /// <param name="key"></param>
-        /// <returns></returns>
-        public CommClient GetClient(string key)
-        {
-            CommClient ret = null;
-            if (Clientele.ContainsKey(key))
-                Clientele.TryGetValue(key, out ret);
-            return ret;
-        }
-
-        /// <summary>
         /// UsableReconnectProperty가 True일 때 일정 간격마다 통신 접속 시도
         /// </summary>
         /// <returns></returns>
         private async Task ConnectClientele()
         {
-            foreach (var client in Clientele)
+            foreach (var commClient in Clientele)
             {
-                if (!client.Value.Usable)
-                    continue;
-                IConnect iconn = client.Value.Client;
-                if (!iconn.IsConnected())
+                IConnect client = commClient.Client;
+                IConnectAsync client_async = client as IConnectAsync;
+                bool isConnected = false;
+                if (!client.IsConnected())
                 {
                     try
                     {
-                        var iconn_async = iconn as IConnectAsync;
-                        if (iconn_async != null) //페러렐 비동기(tcp client)
-                        {
-                            Task task = iconn_async.ConnectAsync();
-                            if (task == Task.WhenAny(task, Task.Delay(ResponseLatencyProperty.Source)))
-                                await task;
-                        }
-                        else //동기(serialport comm)
-                        {
-                            iconn.Connect();
-                        }
+                        if (client_async == null)
+                            isConnected = client.Connect();
+                        else
+                            isConnected = await client_async.ConnectAsync();
                     }
                     catch (Exception ex)
                     {
-                        LOG.Error("통신 디바이스 접속 중 에러 발생: " + ex.Message);
+                        LOG.Error("접속 에러: " + ex.Message);
                     }
+                    commClient.Usable = isConnected;
                 }
             }
         }

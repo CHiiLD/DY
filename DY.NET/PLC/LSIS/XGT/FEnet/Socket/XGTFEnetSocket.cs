@@ -128,6 +128,8 @@ namespace DY.NET.LSIS.XGT
         {
             if (m_Client == null)
                 return false;
+            if (m_Client.Client == null)
+                return false;
             return m_Client.Connected;
         }
 
@@ -221,7 +223,7 @@ namespace DY.NET.LSIS.XGT
                 if (SignOffReceived != null)
                     SignOffReceived(this, EventArgs.Empty);
                 //Close();
-                LOG.Trace("XGT-FEnet PLC에서 종료신호를 보냄(received byte size = 0)");
+                LOG.Debug("XGT-FEnet PLC에서 종료신호를 보냄(received byte size = 0)");
                 return;
             }
             do

@@ -64,22 +64,22 @@
     <Compile Include="Control\Bar\TitleForBar.xaml.cs">
       <DependentUpon>TitleForBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\CommConnectionSetting.xaml.cs">
+    <Compile Include="Control\Comm\Connection\CommConnectionSetting.xaml.cs">
       <DependentUpon>CommConnectionSetting.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\CommConnectionStatusDataGrid.xaml.cs">
+    <Compile Include="Control\Comm\Connection\CommConnectionStatusDataGrid.xaml.cs">
       <DependentUpon>CommConnectionStatusDataGrid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\CommDataGrid.xaml.cs">
+    <Compile Include="Control\Comm\Connection\CommDataGrid.xaml.cs">
       <DependentUpon>CommDataGrid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\CommDeviceAddition.xaml.cs">
+    <Compile Include="Control\Comm\Connection\CommDeviceAddition.xaml.cs">
       <DependentUpon>CommDeviceAddition.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\CommEthernetConfig.xaml.cs">
+    <Compile Include="Control\Comm\Connection\CommEthernetConfig.xaml.cs">
       <DependentUpon>CommEthernetConfig.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\CommSerialConfig.xaml.cs">
+    <Compile Include="Control\Comm\Connection\CommSerialConfig.xaml.cs">
       <DependentUpon>CommSerialConfig.xaml</DependentUpon>
     </Compile>
     <Compile Include="SYSTEM\COMM\ISummaryParameter.cs" />
@@ -154,27 +154,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\Comm\CommConnectionSetting.xaml">
+    <Page Include="Control\Comm\Connection\CommConnectionSetting.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\CommConnectionStatusDataGrid.xaml">
+    <Page Include="Control\Comm\Connection\CommConnectionStatusDataGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\CommDataGrid.xaml">
+    <Page Include="Control\Comm\Connection\CommDataGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\CommDeviceAddition.xaml">
+    <Page Include="Control\Comm\Connection\CommDeviceAddition.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\CommEthernetConfig.xaml">
+    <Page Include="Control\Comm\Connection\CommEthernetConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\CommSerialConfig.xaml">
+    <Page Include="Control\Comm\Connection\CommSerialConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -208,10 +208,6 @@
       <Project>{942d11c4-29f5-46c4-8c14-4b976d56c637}</Project>
       <Name>MahApps.Metro.NET45</Name>
     </ProjectReference>
-    <ProjectReference Include="..\submodule\net-toolkit\NET.Tools\NET.Tools.csproj">
-      <Project>{ec6eaaa0-f4f1-419c-a9d5-9f2d3ef67120}</Project>
-      <Name>NET.Tools</Name>
-    </ProjectReference>
     <ProjectReference Include="..\submodule\Newtonsoft.Json\Src\Newtonsoft.Json\Newtonsoft.Json.csproj">
       <Project>{eeea67f9-9089-481d-a4dc-0966dec9fd7d}</Project>
       <Name>Newtonsoft.Json</Name>
@@ -222,7 +218,7 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
-    <WCFMetadata Include="Service References\" />
+    <Folder Include="Control\Comm\IO\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

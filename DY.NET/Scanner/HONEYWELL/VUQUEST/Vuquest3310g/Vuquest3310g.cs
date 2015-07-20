@@ -302,7 +302,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
             m_SerialPort.Dispose();
             m_TimeoutTimer.Dispose();
             GC.SuppressFinalize(this);
-            LOG.Debug("Vuquest3310g 시리얼포트 메모리 해제");
+            LOG.Debug("Vuquest3310g 접속종료 및 메모리 해제");
         }
     }
 }

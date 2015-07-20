@@ -4,17 +4,17 @@
 library
 C#
 .cs
-C:\dev\github\DY\DY.WPF\obj\Debug\
+C:\Users\CHILD\GitHub\DY\DY.WPF\obj\Debug\
 DY.WPF
 none
 false
 DEBUG;TRACE
 
-16-662087718
+16236397134
 
-3528618682
-17282425398
-Control\Bar\ButtonsForBar.xaml;Control\Bar\TextBlockBar.xaml;Control\Bar\ComboBoxWithBar.xaml;Control\Bar\TextBoxWithBar.xaml;Control\Bar\TitleForBar.xaml;Control\Comm\CommConnectionSetting.xaml;Control\Comm\CommConnectionStatusDataGrid.xaml;Control\Comm\CommDataGrid.xaml;Control\Comm\CommDeviceAddition.xaml;Control\Comm\CommEthernetConfig.xaml;Control\Comm\CommSerialConfig.xaml;Control\Comm\Ai\AICommCheck.xaml;Control\Comm\Ai\AICommCircle.xaml;Control\Comm\Ai\AICommCross.xaml;STYLE\DialogWindowStyle.xaml;WINDOW\CommDeviceSetWindow.xaml;
+351617308037
+16-1087605181
+Control\Bar\ButtonsForBar.xaml;Control\Bar\TextBlockBar.xaml;Control\Bar\ComboBoxWithBar.xaml;Control\Bar\TextBoxWithBar.xaml;Control\Bar\TitleForBar.xaml;Control\Comm\Connection\CommConnectionSetting.xaml;Control\Comm\Connection\CommConnectionStatusDataGrid.xaml;Control\Comm\Connection\CommDataGrid.xaml;Control\Comm\Connection\CommDeviceAddition.xaml;Control\Comm\Connection\CommEthernetConfig.xaml;Control\Comm\Connection\CommSerialConfig.xaml;Control\Comm\Ai\AICommCheck.xaml;Control\Comm\Ai\AICommCircle.xaml;Control\Comm\Ai\AICommCross.xaml;STYLE\DialogWindowStyle.xaml;WINDOW\CommDeviceSetWindow.xaml;
 
 False
 
