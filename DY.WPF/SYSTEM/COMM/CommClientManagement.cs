@@ -64,7 +64,7 @@ namespace DY.WPF.SYSTEM.COMM
             };
 
             ResponseLatencyProperty.Source = 1000;
-            ReconnectIntevalProperty.Source = 5000;
+            ReconnectIntevalProperty.Source = 30000;
             UsableReconnectProperty.Source = false;
         }
 

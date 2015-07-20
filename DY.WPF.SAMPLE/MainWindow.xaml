@@ -15,10 +15,6 @@
             <RowDefinition Height="172*"/>
             <RowDefinition Height="565*"/>
         </Grid.RowDefinitions>
-        <!--<local:CommConnectionStatusDataGrid Margin="0,0,116,437" Grid.RowSpan="2"/>-->
-        <!--<mah:ToggleSwitchButton x:Name="NB1" Content="ToggleSwitchButton" HorizontalAlignment="Left" Margin="240,270,0,0" Grid.Row="1" VerticalAlignment="Top"/>
-        <mah:ToggleSwitchButton x:Name="NB2" HorizontalAlignment="Left" Margin="335,270,0,0" Grid.Row="1" VerticalAlignment="Top" Checked="ToggleSwitchButton_Checked"/>-->
         <local:CommConnectionStatusDataGrid Grid.RowSpan="2"></local:CommConnectionStatusDataGrid>
-        <Button Content="Button" HorizontalAlignment="Left" Height="54" Margin="142,85,0,0" Grid.Row="1" VerticalAlignment="Top" Width="150" Click="Button_Click"/>
     </Grid>
 </mah:MetroWindow>

@@ -35,80 +35,13 @@ namespace DY.WPF.SAMPLE
     {
 
 
-        public IEnumerable CommItem { get; private set; }
-
-        NotifyPropertyChanged<bool> booleanProperty = new NotifyPropertyChanged<bool>(true);
-        public bool IsChecked1
-        {
-            set
-            {
-                booleanProperty.Source = value;
-            }
-            get
-            {
-                return booleanProperty.Source;
-            }
-        }
-
-        public bool IsChecked2
-        {
-            set
-            {
-                booleanProperty.Source = value;
-            }
-            get
-            {
-                return booleanProperty.Source;
-            }
-        }
-
+       
         public MainWindow()
         {
             NLogConfig.Load();
-
-            //var commList = new ObservableCollection<CommDataGridItem>
-            //{
-            //    new CommDataGridItem 
-            //    {
-            //        Image = CommStateAi.Connected,
-            //        Target = CommDevice.DATALOGIC_MATRIX200,
-            //        Type= CommType.ETHERNET
-            //    },
-
-            //    new CommDataGridItem 
-            //    {
-            //        Image = CommStateAi.ConnectFailure,
-            //        Target = CommDevice.DATALOGIC_MATRIX200,
-            //        Type= CommType.ETHERNET
-            //    },
-
-            //    new CommDataGridItem 
-            //    {
-            //        Image = CommStateAi.Idle,
-            //        Target = CommDevice.DATALOGIC_MATRIX200,
-            //        Type= CommType.ETHERNET
-            //    },
-            //};
-            //CommItem = commList;
             InitializeComponent();
         }
 
-        private void NB2_Click(object sender, RoutedEventArgs e)
-        {
-            //if (NB2.IsChecked == true)
-            //{
-            //    booleanProperty.Source = true;
-            //}
-            //else
-            //{
-            //    booleanProperty.Source = false;
-            //}
-        }
-
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            CommDeviceSetWindow win = new CommDeviceSetWindow() { Owner = this };
-            win.Show();
-        }
+       
     }
 }

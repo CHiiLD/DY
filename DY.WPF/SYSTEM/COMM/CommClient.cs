@@ -74,6 +74,7 @@ namespace DY.WPF.SYSTEM.COMM
                 else
                     m_CommStatusCheckTimer.Stop();
                 OnPropertyChanged("Usable");
+                LOG.Trace("CommClient Ssable Property changed: " + value);
             }
         }
 

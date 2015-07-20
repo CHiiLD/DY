@@ -22,7 +22,7 @@
         <!--ItemSource="{Binding Source={StaticResource ProtocolTypeEnum}}"-->
         
         <local:TextBoxWithBar x:Name="NIP" Text="" Title="IP" />
-        <local:TextBoxWithBar x:Name="NPort" Text="" Title="Port(0 ~ 65535)" />
+        <local:TextBoxWithBar x:Name="NPort" IsNumberOnly="True" Text="" Title="Port(0 ~ 65535)" />
         <local:ComboBoxWithBar x:Name="NType" Title="Protocol Type" />
     </StackPanel>
 
