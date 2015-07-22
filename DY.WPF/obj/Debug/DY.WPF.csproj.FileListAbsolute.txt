@@ -1,0 +1,2 @@
+C:\dev\github\DY\DY.WPF\bin\Debug\NLog.pdb
+C:\dev\github\DY\DY.WPF\bin\Debug\NLog.xml

@@ -5,16 +5,16 @@ winexe
 C#
 .cs
 C:\dev\github\DY\DY.WPF.SAMPLE\obj\Debug\
-DY.WPF
+DY.WPF.SAMPLE
 none
 false
 DEBUG;TRACE
 C:\dev\github\DY\DY.WPF.SAMPLE\App.xaml
-11151548125
+2645000133
 
-9-22350292
+10-1912383695
 15-1228448274
-MainWindow.xaml;
+Configuration.xaml;MainWindow.xaml;
 
 False
 

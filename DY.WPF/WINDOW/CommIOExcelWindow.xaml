@@ -16,12 +16,27 @@
 
     <DockPanel>
         <Menu DockPanel.Dock="Top">
-            <MenuItem Header="File">
+            <MenuItem Header="Data">
                 <MenuItem Header="Save"/>
-                <MenuItem Header="Save by csv"/>
-                <MenuItem Header="Load by csv"/>
+                <MenuItem Header="Save as csv file"/>
+                <MenuItem Header="Load as csv file"/>
+                <MenuItem Header="Clipboard CSV"/>
                 <MenuItem Header="Exit"/>
             </MenuItem>
+
+            <MenuItem Header="Edit">
+                <MenuItem Header="Select All"/>
+                <MenuItem Header="Cut"/>
+                <MenuItem Header="Copy"/>
+                <MenuItem Header="Paste"/>
+                <MenuItem Header="Delete"/>
+                <MenuItem Header="Edit text"/>
+                <MenuItem Header="Open combo box"/>
+            </MenuItem>
         </Menu>
+
+        <local:CommIOExcelDataGrid  DockPanel.Dock="Bottom">
+
+        </local:CommIOExcelDataGrid>
     </DockPanel>
 </mah:MetroWindow>

@@ -79,14 +79,14 @@
     <Compile Include="Control\Comm\Connection\CommSerialConfig.xaml.cs">
       <DependentUpon>CommSerialConfig.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\IO\CommIODataGrid.xaml.cs">
-      <DependentUpon>CommIODataGrid.xaml</DependentUpon>
+    <Compile Include="Control\Comm\IO\CommIOExcelDataGrid.xaml.cs">
+      <DependentUpon>CommIOExcelDataGrid.xaml</DependentUpon>
     </Compile>
     <Compile Include="Enum\PLCVariableType.cs" />
     <Compile Include="Control\Comm\IO\CommIODataGridItem.cs" />
     <Compile Include="SYSTEM\COMM\ISummaryParameter.cs" />
-    <Compile Include="StaticProperty\Font.cs" />
-    <Compile Include="StaticProperty\WindowSize.cs" />
+    <Compile Include="ConstProperty\Font.cs" />
+    <Compile Include="ConstProperty\WindowSize.cs" />
     <Compile Include="Enum\DYDeviceProtocolType.cs" />
     <Compile Include="Enum\DYDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
@@ -102,7 +102,7 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="StaticProperty\SerialPortOption.cs" />
+    <Compile Include="ConstProperty\SerialPortOption.cs" />
     <Compile Include="SYSTEM\COMM\ServiceableDevice.cs" />
     <Compile Include="SYSTEM\COMM\CommEthernetParameter.cs" />
     <Compile Include="SYSTEM\COMM\CommSerialParameter.cs" />
@@ -191,9 +191,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\IO\CommIODataGrid.xaml">
-      <SubType>Designer</SubType>
+    <Page Include="Control\Comm\IO\CommIOExcelDataGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="STYLE\DialogWindowStyle.xaml">
       <SubType>Designer</SubType>
@@ -228,6 +228,10 @@
     <ProjectReference Include="..\submodule\oxyplot\Source\OxyPlot.Wpf\OxyPlot.Wpf.csproj">
       <Project>{698ccd8e-adcc-4565-8517-5edd36f07155}</Project>
       <Name>OxyPlot.Wpf</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\submodule\PropertyTools\Source\PropertyTools.Wpf\PropertyTools.Wpf_NET45.csproj">
+      <Project>{7168f82f-288a-42c4-9eb1-fbbe5112f211}</Project>
+      <Name>PropertyTools.Wpf_NET45</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

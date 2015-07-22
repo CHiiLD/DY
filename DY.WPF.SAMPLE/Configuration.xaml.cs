@@ -12,30 +12,18 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using System.Collections.ObjectModel;
 
-using MahApps.Metro;
 using MahApps.Metro.Controls;
-using DY.WPF;
-using System.Collections;
-using System.ComponentModel;
-using DY.WPF.SYSTEM;
-
-using DY.WPF.SYSTEM.COMM;
-using DY.WPF.WINDOW;
-using DY.NET;
 
 namespace DY.WPF.SAMPLE
 {
     /// <summary>
-    /// MainWindow.xaml에 대한 상호 작용 논리
+    /// Configuration.xaml에 대한 상호 작용 논리
     /// </summary>
-
-    public partial class MainWindow : MetroWindow
+    public partial class Configuration : UserControl
     {
-        public MainWindow()
+        public Configuration()
         {
-            NLogConfig.Load();
             InitializeComponent();
         }
     }
