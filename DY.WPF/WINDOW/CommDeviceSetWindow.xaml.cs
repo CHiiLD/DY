@@ -1,16 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
 
 using MahApps.Metro.Controls.Dialogs;
 using MahApps.Metro.Controls;
@@ -37,7 +26,7 @@ namespace DY.WPF.WINDOW
         {
             do
             {
-                CommDeviceAddition device_add = NSetBox as CommDeviceAddition;
+                CommDeviceSelection device_add = NSetBox as CommDeviceSelection;
                 if (device_add.NDevice.SelectedItem == null || device_add.NType.SelectedItem == null)
                 {
                     await this.ShowMessageAsync("Error", "Please select Communication Device, Type");

@@ -15,7 +15,7 @@ namespace DY.WPF.SYSTEM.COMM
     /// </summary>
     public static class ServiceableDevice
     {
-        public static readonly Dictionary<DYDevice, DYDeviceProtocolType> Dic = new Dictionary<DYDevice, DYDeviceProtocolType>
+        public static readonly Dictionary<DYDevice, DYDeviceProtocolType> Service = new Dictionary<DYDevice, DYDeviceProtocolType>
         {
             { DYDevice.LSIS_XGT,                  DYDeviceProtocolType.SERIAL | DYDeviceProtocolType.ETHERNET },
             { DYDevice.HONEYWELL_VUQUEST3310G,    DYDeviceProtocolType.SERIAL },

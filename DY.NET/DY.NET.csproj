@@ -70,7 +70,7 @@
     <Compile Include="PLC\AXGTProtocol.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Protocol\XGTCnetProtocol.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Protocol\AXGTCnetProtocol.cs" />
-    <Compile Include="PLC\LSIS\XGT\Cnet\Socket\XGTCnetSocektSerialPort.cs" />
+    <Compile Include="PLC\LSIS\XGT\Cnet\Socket\XGTCnetSocket.SerialPort.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Enum\XGTCnetCommand.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Enum\XGTCnetCommandType.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Enum\XGTCnetControlCodeType.cs" />
@@ -79,7 +79,7 @@
     <Compile Include="PLC\LSIS\XGT\FEnet\AppDataFormat\AppHeaderFormat\XGTFEnetHeader.cs" />
     <Compile Include="PLC\LSIS\XGT\FEnet\AppDataFormat\AppHeaderFormat\XGTFEnetPLCInfo.cs" />
     <Compile Include="PLC\LSIS\XGT\FEnet\AppDataFormat\AppInstructionFormat\XGTFEnetProtocol.cs" />
-    <Compile Include="PLC\LSIS\XGT\FEnet\AppDataFormat\AppInstructionFormat\XGTFEnetProtocolDevice.cs" />
+    <Compile Include="PLC\LSIS\XGT\FEnet\AppDataFormat\AppInstructionFormat\XGTFEnetProtocol.Device.cs" />
     <Compile Include="PLC\LSIS\XGT\FEnet\Enum\XGTFEnetClass.cs" />
     <Compile Include="PLC\LSIS\XGT\FEnet\Enum\XGTFEnetCommand.cs" />
     <Compile Include="PLC\LSIS\XGT\FEnet\Enum\XGTFEnetCompanyID.cs" />

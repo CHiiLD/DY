@@ -106,9 +106,9 @@
       <Project>{b087385f-01dc-4d42-a8eb-95664c002b61}</Project>
       <Name>DY.WPF</Name>
     </ProjectReference>
-    <ProjectReference Include="..\submodule\MahApps.Metro\MahApps.Metro\MahApps.Metro.NET45.csproj">
-      <Project>{942d11c4-29f5-46c4-8c14-4b976d56c637}</Project>
-      <Name>MahApps.Metro.NET45</Name>
+    <ProjectReference Include="..\submodule\MahApps.Metro\MahApps.Metro\MahApps.Metro.csproj">
+      <Project>{5b1710d2-5dc8-4754-91b2-19165de49b3d}</Project>
+      <Name>MahApps.Metro</Name>
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>

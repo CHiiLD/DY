@@ -33,15 +33,15 @@ namespace DY.WPF.SAMPLE
 
     public partial class MainWindow : MetroWindow
     {
-
-
-       
         public MainWindow()
         {
             NLogConfig.Load();
             InitializeComponent();
         }
 
-       
+        private void MenuItem_Click(object sender, System.Windows.RoutedEventArgs e)
+        {
+            new CommIOExcelWindow() { Owner = this }.ShowDialog();
+        }
     }
 }

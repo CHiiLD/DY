@@ -10,11 +10,23 @@
     Width="{Binding Source={x:Static local:WindowSize.Width}}"
     Height="{Binding Source={x:Static local:WindowSize.Height}}"
     Title="MainWindow">
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="172*"/>
-            <RowDefinition Height="565*"/>
-        </Grid.RowDefinitions>
-        <local:CommConnectionStatusDataGrid Grid.RowSpan="2"></local:CommConnectionStatusDataGrid>
-    </Grid>
+    <StackPanel>
+        <Menu>
+            <MenuItem Header="Item">
+                <MenuItem Header="Open IO" Click="MenuItem_Click">
+
+                </MenuItem>
+            </MenuItem>
+        </Menu>
+        <Grid >
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="1*"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <!--<local:CommConnectionManage Grid.Column="0"/>
+            <local:CommConnectionDataGrid Grid.Column="2"/>-->
+            <local:CommIODataGrid Grid.Column="0"></local:CommIODataGrid>
+            <local:CommIODataGrid Grid.Column="1"></local:CommIODataGrid>
+        </Grid>
+    </StackPanel>
 </mah:MetroWindow>

@@ -22,3 +22,9 @@
 [submodule "submodule/MonoTouchMVVMCrossValidationTester"]
 	path = submodule/MonoTouchMVVMCrossValidationTester
 	url = https://github.com/CHiiLD/MonoTouchMVVMCrossValidationTester.git
+[submodule "submodule/oxyplot"]
+	path = submodule/oxyplot
+	url = https://github.com/CHiiLD/oxyplot.git
+[submodule "submodule/PropertyTools"]
+	path = submodule/PropertyTools
+	url = https://github.com/CHiiLD/PropertyTools
