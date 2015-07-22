@@ -27,4 +27,4 @@
 	url = https://github.com/CHiiLD/oxyplot.git
 [submodule "submodule/PropertyTools"]
 	path = submodule/PropertyTools
-	url = https://github.com/CHiiLD/PropertyTools
+	url = https://github.com/CHiiLD/PropertyTools.git
