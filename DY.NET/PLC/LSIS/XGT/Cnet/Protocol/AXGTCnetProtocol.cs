@@ -198,7 +198,7 @@ namespace DY.NET.LSIS.XGT
                 return false;
             return asc_data[asc_data.Length - 1 - (IsExistBCC() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte();
         }
-        
+
         /// <summary>
         /// BCC데이터가 추가 될지 확인하는 메서드
         /// </summary>

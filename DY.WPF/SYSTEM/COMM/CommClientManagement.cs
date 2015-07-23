@@ -22,6 +22,7 @@ namespace DY.WPF.SYSTEM.COMM
         private static CommClientManagement THIS;
 
         private Timer m_TryConnectionTimer = new Timer();
+
         /// 통신 설정과 관련된 프로퍼티들
         public NotifyPropertyChanged<int> ResponseLatencyProperty { get; private set; }
         public NotifyPropertyChanged<int> ReconnectIntevalProperty { get; private set; }

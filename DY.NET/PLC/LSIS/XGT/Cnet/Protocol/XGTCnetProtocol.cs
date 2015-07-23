@@ -8,7 +8,6 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 
-
 namespace DY.NET.LSIS.XGT
 {
     /// <summary>
@@ -253,7 +252,7 @@ namespace DY.NET.LSIS.XGT
         /// <param name="binaryData"> 원시데이터 </param>
         /// <param name="reqtProtocol"> 요청 프로토콜 클래스 </param>
         /// <returns> 응답 프로토콜 클래스 </returns>
-        public static XGTCnetProtocol<T> CreateReceiveProtocol(byte[] binaryData, XGTCnetProtocol<T> reqtProtocol)
+        public static XGTCnetProtocol<T> CreateResponseProtocol(byte[] binaryData, XGTCnetProtocol<T> reqtProtocol)
         {
             XGTCnetProtocol<T> instance = new XGTCnetProtocol<T>(binaryData);
             instance.m_DataStorageDictionary = new Dictionary<string, T>(reqtProtocol.m_DataStorageDictionary);
@@ -392,7 +391,7 @@ namespace DY.NET.LSIS.XGT
                 byte[] data_arr = new byte[sizeOfType * 2];
                 Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
                 data_idx += data_arr.Length;
-                m_DataStorageDictionary[list[i].Key] = (T)CA2C.ToValue(data_arr, list[i].Value.GetType());
+                m_DataStorageDictionary[list[i].Key] = (T)CA2C.ToValue(data_arr, typeof(T));
             }
         }
 
@@ -421,7 +420,7 @@ namespace DY.NET.LSIS.XGT
                 byte[] data_arr = new byte[sizeOfType * 2];
                 Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
                 data_idx += data_arr.Length;
-                m_DataStorageDictionary[list[i].Key] = (T)CA2C.ToValue(data_arr, list[i].Value.GetType());
+                m_DataStorageDictionary[list[i].Key] = (T)CA2C.ToValue(data_arr, typeof(T));
             }
         }
 
@@ -453,7 +452,7 @@ namespace DY.NET.LSIS.XGT
             {
                 byte[] data_arr = new byte[data_type_size * 2];
                 Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
-                m_DataStorageDictionary[list[i].Key] = (T)CA2C.ToValue(data_arr, list[i].Value.GetType());
+                m_DataStorageDictionary[list[i].Key] = (T)CA2C.ToValue(data_arr, typeof(T));
                 data_idx += data_arr.Length;
             }
         }
@@ -484,7 +483,7 @@ namespace DY.NET.LSIS.XGT
             {
                 byte[] temp_arr = new byte[data_type_size * 2];
                 Buffer.BlockCopy(data, data_idx, temp_arr, 0, temp_arr.Length);
-                m_DataStorageDictionary[list[i].Key] = (T)CA2C.ToValue(temp_arr, list[i].Value.GetType());
+                m_DataStorageDictionary[list[i].Key] = (T)CA2C.ToValue(temp_arr, typeof(T));
                 data_idx += temp_arr.Length;
             }
         }

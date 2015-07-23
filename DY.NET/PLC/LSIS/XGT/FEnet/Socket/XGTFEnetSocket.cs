@@ -72,7 +72,7 @@ namespace DY.NET.LSIS.XGT
         /// <returns></returns>
         public async Task<IProtocol> PostAsync(IProtocol protocol)
         {
-            if (m_Client == null)
+            if (!IsConnected())
                 return null;
             NetworkStream ns = m_Client.GetStream();
             AProtocol reqt_p = protocol as AProtocol;
@@ -93,7 +93,7 @@ namespace DY.NET.LSIS.XGT
                     return null;
                 }
                 BufferIdx += size;
-            } while (!IsMatchInstructSizeSum());
+            } while (!IsMatchInstructSize());
             byte[] recv_data = new byte[BufferIdx];
             Buffer.BlockCopy(Buffer_, 0, recv_data, 0, recv_data.Length);
             BufferIdx = 0;
@@ -152,15 +152,15 @@ namespace DY.NET.LSIS.XGT
         /// 헤더부분의 Length 부분과 실제 Instruct Size를 계산하여 일치하는지 계산 
         /// </summary>
         /// <returns>일치할 시(프로토콜을 모두 전송 받았을 때)true, 아니면 false</returns>
-        private bool IsMatchInstructSizeSum()
+        private bool IsMatchInstructSize()
         {
-            ushort instruct_size_sum = 0, instruct_size_cnt = 0;
+            ushort target = 0, sum = 0;
             if (BufferIdx < XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE)
                 return false;
-            instruct_size_sum = CV2BR.ToValue(new byte[] { Buffer_[16], Buffer_[17] });
-            for (int i = XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE; i < BufferIdx - XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE; i++)
-                instruct_size_cnt += Buffer_[i];
-            return instruct_size_sum == instruct_size_cnt;
+            target = CV2BR.ToValue(new byte[] { Buffer_[16], Buffer_[17] });
+            for (int i = XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE; i < BufferIdx; i++) //바이트의 개수
+                sum++;
+            return target == sum;
         }
 
         private AProtocol ReportResponseProtocol(AProtocol reqt_p, byte[] recv_data)
@@ -170,7 +170,7 @@ namespace DY.NET.LSIS.XGT
             AProtocol resp_p = reqt_p.MirrorProtocol as AProtocol; //응답 객체 생성 전에 재활용이 가능한지 검토
             if (reqt_p.MirrorProtocol == null)
             {
-                resp_p = type_pt.GetMethod("CreateReceiveProtocol").Invoke(reqt_p, new object[] { recv_data, reqt_p }) as AXGTCnetProtocol;
+                resp_p = type_pt.GetMethod("CreateResponseProtocol").Invoke(reqt_p, new object[] { recv_data, reqt_p }) as AProtocol;
                 reqt_p.MirrorProtocol = resp_p;
             }
             else
@@ -229,7 +229,7 @@ namespace DY.NET.LSIS.XGT
             do
             {
                 BufferIdx += size;
-                if (!IsMatchInstructSizeSum())
+                if (!IsMatchInstructSize())
                     break;
                 byte[] recv_data = new byte[BufferIdx];
                 Buffer.BlockCopy(Buffer_, 0, recv_data, 0, recv_data.Length);

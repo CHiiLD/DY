@@ -18,6 +18,7 @@ namespace DY.WPF.SYSTEM.COMM
     /// </summary>
     public class CommClient : IDisposable, INotifyPropertyChanged
     {
+        #region PRIVATE VARIABLE
         private static Logger LOG = LogManager.GetCurrentClassLogger();
         private const int STATUS_CHECK_INTEVAL = 10000; //10초
 
@@ -30,6 +31,7 @@ namespace DY.WPF.SYSTEM.COMM
         private Brush m_ImageColor = CommStateAi.ConnectFailure.Fill;
         private string m_Summary;
         private string m_Key;
+        #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -65,7 +67,7 @@ namespace DY.WPF.SYSTEM.COMM
             Client = client;
             Target = device;
             m_CommType = comm_type;
-            Client.ConnectionStatusChanged += OnConnectionStatusChanged;
+            Client.ConnectionStatusChanged += OnChangedConnectionStatus;
             m_CommStatusCheckTimer.Elapsed += OnElapsed;
             Key = Guid.NewGuid().ToString();
         }
@@ -118,7 +120,7 @@ namespace DY.WPF.SYSTEM.COMM
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
-        private void OnConnectionStatusChanged(object sender, ConnectionStatusChangedEventArgs args)
+        private void OnChangedConnectionStatus(object sender, ConnectionStatusChangedEventArgs args)
         {
             ChangedCommStatus(args.IsConnected);
         }

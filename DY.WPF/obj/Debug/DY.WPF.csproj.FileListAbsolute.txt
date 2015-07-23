@@ -1,2 +1,3 @@
 C:\dev\github\DY\DY.WPF\bin\Debug\NLog.pdb
 C:\dev\github\DY\DY.WPF\bin\Debug\NLog.xml
+C:\Users\CHILD\GitHub\DY\DY.WPF\obj\Debug\DY.WPF.dll

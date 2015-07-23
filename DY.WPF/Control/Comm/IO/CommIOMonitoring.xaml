@@ -1,0 +1,55 @@
+﻿<UserControl x:Class="DY.WPF.CommIOMonitoring"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
+             xmlns:local="clr-namespace:DY.WPF"
+             x:Name="this"
+             mc:Ignorable="d" 
+             d:DesignHeight="768" d:DesignWidth="1024">
+    <DockPanel>
+        <Menu x:Name="NMenu" DockPanel.Dock="Top">
+            <MenuItem Header="Data">
+                <MenuItem Header="Save"/>
+                <MenuItem Header="Save as csv file"/>
+                <MenuItem Header="Load as csv file"/>
+                <MenuItem Header="Clipboard csv"/>
+            </MenuItem>
+
+            <MenuItem Header="Edit">
+                <MenuItem Header="Select All"/>
+                <MenuItem Header="Cut"/>
+                <MenuItem Header="Copy"/>
+                <MenuItem Header="Paste"/>
+                <MenuItem Header="Delete"/>
+                <MenuItem Header="Edit text"/>
+                <MenuItem Header="Open combo box"/>
+            </MenuItem>
+
+            <!--<MenuItem Header="Graph">
+            </MenuItem>-->
+        </Menu>
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="230"/>
+                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="1*"/>
+            </Grid.ColumnDefinitions>
+            <Grid.RowDefinitions>
+                <RowDefinition Height="240"/>
+                <RowDefinition Height="1*"/>
+            </Grid.RowDefinitions>
+
+            <StackPanel VerticalAlignment="Center">
+                <mah:ToggleSwitch x:Name="NBT_ExcelEditMode" Header="PLC IO edit mode" Margin="0,0,0,10"/>
+                <mah:ToggleSwitch x:Name="NBT_ResponseIntevalGraph" Header="PLC response rate graph activation" Margin="0,0,0,10"/>
+                <local:TextBoxWithBar Title="Transfer interval" Text="100" VerticalAlignment="Top"/>
+            </StackPanel>
+
+            <oxy:PlotView x:Name="NPlotView"  Grid.Row="0" Grid.Column="2"/>
+            <local:CommIOExcelDataGrid x:Name="NDataGrid" Grid.Row="1" Grid.ColumnSpan="3"/>
+        </Grid>
+    </DockPanel>
+</UserControl>

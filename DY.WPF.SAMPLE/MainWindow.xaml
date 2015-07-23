@@ -15,7 +15,7 @@
             <TabItem Header="Monitor" />
 
             <TabItem Header="Configuration" >
-                <local:Configuration/>
+                <dywpf:CommControlTower></dywpf:CommControlTower>
             </TabItem>
         </mah:MetroAnimatedSingleRowTabControl>
     </Grid>

@@ -1,0 +1,33 @@
+13:46:22 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+13:46:25 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+14:36:07 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+14:36:10 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+14:52:37 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+14:52:40 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+15:00:37 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+15:00:41 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+16:25:21 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+16:25:23 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+16:43:48 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+

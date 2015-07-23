@@ -32,7 +32,7 @@ namespace DY.NET.LSIS.XGT
             public override object Build()
             {
                 var skt = new XGTCnetSocket() { m_SerialPort = new SerialPort(_PortName, _BaudRate, _Parity, _DataBits, _StopBits) };
-                skt.m_SerialPort.DataReceived += skt.OnDataRecieve;
+                //skt.m_SerialPort.DataReceived += skt.OnDataRecieve;
                 skt.m_SerialPort.ErrorReceived += skt.OnSerialErrorReceived;
                 skt.m_SerialPort.PinChanged += skt.OnSerialPinChanged;
                 return skt;
@@ -103,8 +103,9 @@ namespace DY.NET.LSIS.XGT
         /// <returns></returns>
         public async Task<IProtocol> PostAsync(IProtocol protocol)
         {
-            if (IsConnected())
+            if (!IsConnected())
                 return null;
+            m_SerialPort.DataReceived -= OnDataRecieve;
             Stream stream = m_SerialPort.BaseStream;
             AXGTCnetProtocol reqt_p = protocol as AXGTCnetProtocol;
             if (reqt_p == null)
@@ -114,15 +115,18 @@ namespace DY.NET.LSIS.XGT
             SendedProtocolSuccessfullyEvent(reqt_p);
             reqt_p.ProtocolRequestedEvent(this, reqt_p);
             BufferIdx = 0;
+            byte[] recv_data = null;
             do
             {
                 int size = await stream.ReadAsync(Buffer_, BufferIdx, BUFFER_SIZE);
                 if (size == 0)
                     break;
                 BufferIdx += size;
-            } while (!(XGTCnetCCType.ETX != (XGTCnetCCType)(Buffer_[BufferIdx - ((bool)reqt_p.IsExistBCC() ? 2 : 1)])));
-            byte[] recv_data = new byte[BufferIdx];
-            Buffer.BlockCopy(Buffer_, 0, recv_data, 0, recv_data.Length);
+                recv_data = new byte[BufferIdx];
+                Buffer.BlockCopy(Buffer_, 0, recv_data, 0, recv_data.Length);
+            } while (!reqt_p.IsComeInEXTTail(recv_data));
+            //byte[] recv_data = new byte[BufferIdx];
+            //Buffer.BlockCopy(Buffer_, 0, recv_data, 0, recv_data.Length);
             BufferIdx = 0;
             AProtocol resp_p = ReportResponseProtocol(reqt_p, recv_data);
             return resp_p;
@@ -148,6 +152,7 @@ namespace DY.NET.LSIS.XGT
                 return;
             }
             SavePoint_ReqeustProtocol = reqt_p;
+            m_SerialPort.DataReceived += OnDataRecieve;
             m_SerialPort.Write(reqt_bytes, 0, reqt_bytes.Length);
             SendedProtocolSuccessfullyEvent(reqt_p);
             reqt_p.ProtocolRequestedEvent(this, reqt_p);
@@ -179,7 +184,7 @@ namespace DY.NET.LSIS.XGT
             AXGTCnetProtocol resp_p = reqt_p.MirrorProtocol as AXGTCnetProtocol; //응답 객체 생성 전에 재활용이 가능한지 검토
             if (reqt_p.MirrorProtocol == null)
             {
-                resp_p = type_pt.GetMethod("CreateReceiveProtocol").Invoke(reqt_p, new object[] { buf_temp, reqt_p }) as AXGTCnetProtocol;
+                resp_p = type_pt.GetMethod("CreateResponseProtocol").Invoke(reqt_p, new object[] { buf_temp, reqt_p }) as AXGTCnetProtocol;
                 reqt_p.MirrorProtocol = resp_p;
             }
             else
