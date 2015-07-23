@@ -107,29 +107,28 @@ namespace DY.NET.LSIS.XGT
                 return null;
             m_SerialPort.DataReceived -= OnDataRecieve;
             Stream stream = m_SerialPort.BaseStream;
-            AXGTCnetProtocol reqt_p = protocol as AXGTCnetProtocol;
-            if (reqt_p == null)
+            XGTCnetProtocol reqt = protocol as XGTCnetProtocol;
+            if (reqt == null)
                 throw new ArgumentException("Protocol not match AXGTCnetProtocol type");
-            await stream.WriteAsync(reqt_p.ASCIIProtocol, 0, reqt_p.ASCIIProtocol.Length);
+            await stream.WriteAsync(reqt.ASCIIProtocol, 0, reqt.ASCIIProtocol.Length);
             //execute event
-            SendedProtocolSuccessfullyEvent(reqt_p);
-            reqt_p.ProtocolRequestedEvent(this, reqt_p);
+            SendedProtocolSuccessfullyEvent(reqt);
+            reqt.ProtocolRequestedEvent(this, reqt);
             BufferIdx = 0;
-            byte[] recv_data = null;
+            bool loop;
             do
             {
                 int size = await stream.ReadAsync(Buffer_, BufferIdx, BUFFER_SIZE);
                 if (size == 0)
                     break;
                 BufferIdx += size;
-                recv_data = new byte[BufferIdx];
-                Buffer.BlockCopy(Buffer_, 0, recv_data, 0, recv_data.Length);
-            } while (!reqt_p.IsComeInEXTTail(recv_data));
-            //byte[] recv_data = new byte[BufferIdx];
-            //Buffer.BlockCopy(Buffer_, 0, recv_data, 0, recv_data.Length);
+                loop = Buffer_[BufferIdx - 1 - (reqt.IsExistBCC() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte();
+            } while (!loop);
+            byte[] recv_data = new byte[BufferIdx];
+            Buffer.BlockCopy(Buffer_, 0, recv_data, 0, recv_data.Length);
             BufferIdx = 0;
-            AProtocol resp_p = ReportResponseProtocol(reqt_p, recv_data);
-            return resp_p;
+            XGTCnetProtocol resp = ReportResponseProtocol(reqt, recv_data);
+            return resp;
         }
 
         /// <summary>
@@ -177,43 +176,25 @@ namespace DY.NET.LSIS.XGT
             GC.SuppressFinalize(this);
         }
 
-        private AXGTCnetProtocol ReportResponseProtocol(AXGTCnetProtocol reqt_p, byte[] buf_temp)
+        private XGTCnetProtocol ReportResponseProtocol(XGTCnetProtocol reqt, byte[] buf_temp)
         {
-            Type type_T = reqt_p.GetType().GenericTypeArguments[0]; //<T>의 Type 얻기
-            Type type_pt = typeof(XGTCnetProtocol<>).MakeGenericType(type_T); //XGTCnetProtocol<T> 타입 생성
-            AXGTCnetProtocol resp_p = reqt_p.MirrorProtocol as AXGTCnetProtocol; //응답 객체 생성 전에 재활용이 가능한지 검토
-            if (reqt_p.MirrorProtocol == null)
+            XGTCnetProtocol resp = reqt.MirrorProtocol as XGTCnetProtocol; //응답 객체 생성 전에 재활용이 가능한지 검토
+            if (reqt.MirrorProtocol == null)
             {
-                resp_p = type_pt.GetMethod("CreateResponseProtocol").Invoke(reqt_p, new object[] { buf_temp, reqt_p }) as AXGTCnetProtocol;
-                reqt_p.MirrorProtocol = resp_p;
+                resp = XGTCnetProtocol.CreateResponseProtocol(buf_temp, reqt);
+                reqt.MirrorProtocol = resp;
             }
             else
             {
-                resp_p.ASCIIProtocol = buf_temp;
+                resp.ASCIIProtocol = buf_temp;
             }
-#if !DEBUG
-            try
-            {
-#endif
-            resp_p.AnalysisProtocol();
-#if !DEBUG
-            }
-            catch (Exception exception)
-            {
-                resp_p.Error = XGTCnetProtocolError.EXCEPTION;
-            }
-            finally
-            {
-#endif
-            ReceivedProtocolSuccessfullyEvent(resp_p);
-            if (resp_p.Error == XGTCnetProtocolError.OK)
-                reqt_p.ProtocolReceivedEvent(this, resp_p);
+            resp.AnalysisProtocol();
+            ReceivedProtocolSuccessfullyEvent(resp);
+            if (resp.Error == XGTCnetProtocolError.OK)
+                reqt.ProtocolReceivedEvent(this, resp);
             else
-                reqt_p.ErrorReceivedEvent(this, resp_p);
-#if !DEBUG
-            }
-#endif
-            return resp_p;
+                reqt.ErrorReceivedEvent(this, resp);
+            return resp;
         }
 
         /// <summary>
@@ -231,12 +212,12 @@ namespace DY.NET.LSIS.XGT
                 if (!sp.IsOpen)
                     break;
                 BufferIdx += sp.Read(Buffer_, BufferIdx, Buffer_.Length);
-                AXGTCnetProtocol reqt_p = SavePoint_ReqeustProtocol as AXGTCnetProtocol;
-                if (XGTCnetCCType.ETX != (XGTCnetCCType)(Buffer_[BufferIdx - ((bool)reqt_p.IsExistBCC() ? 2 : 1)]))
+                XGTCnetProtocol reqt = SavePoint_ReqeustProtocol as XGTCnetProtocol;
+                if (XGTCnetCCType.ETX != (XGTCnetCCType)(Buffer_[BufferIdx - ((bool)reqt.IsExistBCC() ? 2 : 1)]))
                     return;
                 byte[] recv_data = new byte[BufferIdx];
                 Buffer.BlockCopy(Buffer_, 0, recv_data, 0, recv_data.Length);
-                ReportResponseProtocol(reqt_p, recv_data);
+                ReportResponseProtocol(reqt, recv_data);
                 SavePoint_ReqeustProtocol = null;
                 BufferIdx = 0;
                 Wait = false;

@@ -5,6 +5,7 @@
  */
 
 using System;
+using System.Collections.Generic;
 
 namespace DY.NET
 {
@@ -14,14 +15,14 @@ namespace DY.NET
     /// </summary>
     public interface IProtocol : ITag, IDebug
     {
-        event EventHandler<ProtocolReceivedEventArgs> ErrorReceived;         
-        event EventHandler<ProtocolReceivedEventArgs> ProtocolRequested; 
+        event EventHandler<ProtocolReceivedEventArgs> ErrorReceived;
+        event EventHandler<ProtocolReceivedEventArgs> ProtocolRequested;
         event EventHandler<ProtocolReceivedEventArgs> ProtocolReceived;
 
         void ProtocolReceivedEvent(object obj, IProtocol protocol);
         void ProtocolRequestedEvent(object obj, IProtocol protocol);
         void ErrorReceivedEvent(object obj, IProtocol protocol);
 
-        object GetStorage();
+        Dictionary<string, object> GetStorage();
     }
 }

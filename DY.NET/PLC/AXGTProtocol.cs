@@ -46,6 +46,14 @@ namespace DY.NET
                 this.ProtocolData = (byte[])that.ProtocolData.Clone();
         }
 
+        protected Dictionary<string, object> DataStorageDictionary = new Dictionary<string, object>();
+        public Dictionary<string, object> GetStorage()
+        {
+            return new Dictionary<string, object>(DataStorageDictionary);
+        }
+
+        public Type TargetType { get; protected set; }
+
         /// <summary>
         /// 통신 중 예외 또는 에러가 발생시 통지
         /// </summary>
@@ -93,6 +101,5 @@ namespace DY.NET
         public abstract void AssembleProtocol();
         public abstract void AnalysisProtocol();
         public abstract void Print();
-        public abstract object GetStorage();
     }
 }

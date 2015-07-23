@@ -1,7 +1,6 @@
 ﻿using System;
 using System.IO.Ports;
 
-
 namespace DY.NET.LSIS.XGT
 {
     /// <summary>
