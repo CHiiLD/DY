@@ -73,24 +73,24 @@ namespace DY.NET.LSIS.XGT
             return instance;
         }
 
-        public static XGTFEnetProtocol NewRSSProtocol(ushort tag, Type type, List<string> datas)
+        public static XGTFEnetProtocol NewRSSProtocol(Type type, ushort tag, List<string> datas)
         {
-            return NewRSSProtocol(XGTFEnetHeader.CreateXGTFEnetHeader(tag), type, datas);
+            return NewRSSProtocol(type, XGTFEnetHeader.CreateXGTFEnetHeader(tag), datas);
         }
 
-        public static XGTFEnetProtocol NewWSSProtocol(ushort tag, Type type, Dictionary<string, object> datas)
+        public static XGTFEnetProtocol NewWSSProtocol(Type type, ushort tag, Dictionary<string, object> datas)
         {
-            return NewWSSProtocol(XGTFEnetHeader.CreateXGTFEnetHeader(tag), type, datas);
+            return NewWSSProtocol(type, XGTFEnetHeader.CreateXGTFEnetHeader(tag), datas);
         }
 
-        public static XGTFEnetProtocol NewRSBProtocol(ushort tag, Type type, string name, ushort block_cnt)
+        public static XGTFEnetProtocol NewRSBProtocol(Type type, ushort tag, string name, ushort block_cnt)
         {
-            return NewRSBProtocol(XGTFEnetHeader.CreateXGTFEnetHeader(tag), type, name, block_cnt);
+            return NewRSBProtocol(type, XGTFEnetHeader.CreateXGTFEnetHeader(tag), name, block_cnt);
         }
 
-        public static XGTFEnetProtocol NewWSBProtocol(ushort tag, Type type, Dictionary<string, object> datas)
+        public static XGTFEnetProtocol NewWSBProtocol(Type type, ushort tag, Dictionary<string, object> datas)
         {
-            return NewWSBProtocol(XGTFEnetHeader.CreateXGTFEnetHeader(tag), type, datas);
+            return NewWSBProtocol(type, XGTFEnetHeader.CreateXGTFEnetHeader(tag), datas);
         }
 
         /// <summary>
@@ -100,7 +100,7 @@ namespace DY.NET.LSIS.XGT
         /// <param name="header">XGTFEnetHeader 객체</param>
         /// <param name="pvalues">PValue 리스트</param>
         /// <returns>XGTFEnetProtocol 객체</returns>
-        private static XGTFEnetProtocol NewRSSProtocol(XGTFEnetHeader header, Type type, List<string> datas)
+        private static XGTFEnetProtocol NewRSSProtocol(Type type, XGTFEnetHeader header, List<string> datas)
         {
             if (datas.Count == 0 || datas == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
@@ -121,7 +121,7 @@ namespace DY.NET.LSIS.XGT
         /// <param name="header">XGTFEnetHeader 객체</param>
         /// <param name="pvalues">PValue 리스트</param>
         /// <returns>XGTFEnetProtocol 객체</returns>
-        private static XGTFEnetProtocol NewWSSProtocol(XGTFEnetHeader header, Type type, Dictionary<string, object> datas)
+        private static XGTFEnetProtocol NewWSSProtocol(Type type, XGTFEnetHeader header, Dictionary<string, object> datas)
         {
             if (datas.Count == 0 || datas == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
@@ -144,7 +144,7 @@ namespace DY.NET.LSIS.XGT
         /// <param name="name">READ 시작점</param>
         /// <param name="block_cnt">읽을 개수 (최대 16개)</param>
         /// <returns>XGTFEnetProtocol 객체</returns>
-        private static XGTFEnetProtocol NewRSBProtocol(XGTFEnetHeader header, Type type, string name, ushort block_cnt)
+        private static XGTFEnetProtocol NewRSBProtocol(Type type, XGTFEnetHeader header, string name, ushort block_cnt)
         {
             string gname = name;
             if (!(type == typeof(Byte) || type == typeof(SByte))) //BYTE타입만 가능
@@ -171,7 +171,7 @@ namespace DY.NET.LSIS.XGT
         /// <param name="header">XGTFEnetHeader 객체</param>
         /// <param name="pvalues">PValue 리스트</param>
         /// <returns>XGTFEnetProtocol 객체</returns>
-        private static XGTFEnetProtocol NewWSBProtocol(XGTFEnetHeader header, Type type, Dictionary<string, object> datas)
+        private static XGTFEnetProtocol NewWSBProtocol(Type type, XGTFEnetHeader header, Dictionary<string, object> datas)
         {
             if (datas.Count == 0 || datas == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);

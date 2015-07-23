@@ -64,7 +64,7 @@ namespace DY.NET.LSIS.XGT
         /// <param name="localPort"> 국번 </param>
         /// <param name="datas"> 변수이름과 메모리 주소가 담긴 구조체의 리스트 최대 16개까지 사용 가능합니다 </param>
         /// <returns> RSS 모드의 XGTCnetExclusiveProtocol 프로토콜 </returns>
-        public static XGTCnetProtocol NewRSSProtocol(ushort localPort, Type type, List<string> datas)
+        public static XGTCnetProtocol NewRSSProtocol(Type type, ushort localPort, List<string> datas)
         {
             if (datas.Count == 0 || datas == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
@@ -86,7 +86,7 @@ namespace DY.NET.LSIS.XGT
         /// <param name="localPort"> 국번 </param>
         /// <param name="datas"> 변수이름과 메모리 주소가 담긴 구조체의 리스트 최대 16개까지 사용 가능합니다 </param>
         /// <returns> WSS 모드의 XGTCnetExclusiveProtocol 프로토콜 </returns>
-        public static XGTCnetProtocol NewWSSProtocol(ushort localPort, Type type, Dictionary<string, object> datas)
+        public static XGTCnetProtocol NewWSSProtocol(Type type, ushort localPort, Dictionary<string, object> datas)
         {
             if (datas.Count == 0 || datas == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
@@ -108,7 +108,7 @@ namespace DY.NET.LSIS.XGT
         /// <param name="glopa_name"> 변수이름 </param>
         /// <param name="block_cnt"> 읽을 메모리 번지의 개수 </param>
         /// <returns> RSB 모드의 XGTCnetExclusiveProtocol 프로토콜 </returns>
-        public static XGTCnetProtocol NewRSBProtocol(ushort localPort, Type type, string var_name, ushort block_cnt)
+        public static XGTCnetProtocol NewRSBProtocol(Type type, ushort localPort, string var_name, ushort block_cnt)
         {
             string name = var_name;
             if (type == typeof(Boolean)) //BIT 데이터는 연속 읽기를 할 수 없어요 ㅠ_ㅠ
@@ -135,7 +135,7 @@ namespace DY.NET.LSIS.XGT
         /// <param name="localPort"> 국번 </param>
         /// <param name="datas"> 변수이름과 메모리 주소가 담긴 구조체 </param>
         /// <returns> WSB 모드의 XGTCnetExclusiveProtocol 프로토콜 </returns>
-        public static XGTCnetProtocol NewWSBProtocol(ushort localPort, Type type, Dictionary<string, object> datas)
+        public static XGTCnetProtocol NewWSBProtocol(Type type, ushort localPort, Dictionary<string, object> datas)
         {
             if (datas.Count == 0 || datas == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);

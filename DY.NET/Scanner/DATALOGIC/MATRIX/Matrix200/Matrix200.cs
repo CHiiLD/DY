@@ -195,6 +195,7 @@ namespace DY.NET.DATALOGIC.MATRIX
             await SendAsync(CMD_VISISET_SETUP_OPEN, new byte[] { 0x03, 0x01, 0x17 });
         }
 
+#if false
         public async Task CaptureForSetupAsync()
         {
             await m_SerialPort.BaseStream.WriteAsync(CMD_VISISET_SETUP_CAPTURE, 0, CMD_VISISET_SETUP_CAPTURE.Length);
@@ -211,6 +212,7 @@ namespace DY.NET.DATALOGIC.MATRIX
                     break;
             } while (buf_size != 0);
         }
+#endif
 
         public async Task<string> SettingCodeForSetupAsync()
         {
@@ -254,6 +256,7 @@ namespace DY.NET.DATALOGIC.MATRIX
             return match.Success ? ProcessReply(reply) : null;
         }
 
+#if false
         public async Task CancelLearnCodeAsync()
         {
             await m_SerialPort.BaseStream.WriteAsync(CMD_VISISET_LEARN_CANCLE, 0, CMD_VISISET_LEARN_CANCLE.Length);
@@ -272,6 +275,7 @@ namespace DY.NET.DATALOGIC.MATRIX
                         break;
             } while (buf_size != 0);
         }
+#endif
 
         private Matrix200Code ProcessReply(string reply_s)
         {

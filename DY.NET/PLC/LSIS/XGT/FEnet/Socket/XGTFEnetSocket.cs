@@ -63,26 +63,26 @@ namespace DY.NET.LSIS.XGT
             NetworkStream stream = m_Client.GetStream();
             XGTFEnetProtocol reqt = protocol as XGTFEnetProtocol;
             if (reqt == null)
-                throw new ArgumentException("Protocol not match AProtocol type");
+                throw new ArgumentException("Protocol not match XGTFEnetProtocol type");
             await stream.WriteAsync(reqt.ASCIIProtocol, 0, reqt.ASCIIProtocol.Length);
             
             SendedProtocolSuccessfullyEvent(reqt);
             reqt.ProtocolRequestedEvent(this, reqt);
-            BufferIdx = 0;
+            BufIdx = 0;
             do
             {
-                int size = await stream.ReadAsync(Buffer_, BufferIdx, BUFFER_SIZE);
+                int size = await stream.ReadAsync(Buf, BufIdx, BUF_SIZE - BufIdx);
                 if (size == 0)
                 {
                     if (SignOffReceived != null)
                         SignOffReceived(this, EventArgs.Empty);
                     return null;
                 }
-                BufferIdx += size;
+                BufIdx += size;
             } while (!IsMatchInstructSize());
-            byte[] recv_data = new byte[BufferIdx];
-            Buffer.BlockCopy(Buffer_, 0, recv_data, 0, recv_data.Length);
-            BufferIdx = 0;
+            byte[] recv_data = new byte[BufIdx];
+            Buffer.BlockCopy(Buf, 0, recv_data, 0, recv_data.Length);
+            BufIdx = 0;
             XGTFEnetProtocol resp_p = ReportResponseProtocol(reqt, recv_data);
             return resp_p;
         }
@@ -122,10 +122,10 @@ namespace DY.NET.LSIS.XGT
         private bool IsMatchInstructSize()
         {
             ushort target = 0, sum = 0;
-            if (BufferIdx < XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE)
+            if (BufIdx < XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE)
                 return false;
-            target = CV2BR.ToValue(new byte[] { Buffer_[16], Buffer_[17] });
-            for (int i = XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE; i < BufferIdx; i++) //바이트의 개수
+            target = CV2BR.ToValue(new byte[] { Buf[16], Buf[17] });
+            for (int i = XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE; i < BufIdx; i++) //바이트의 개수
                 sum++;
             return target == sum;
         }
@@ -165,7 +165,7 @@ namespace DY.NET.LSIS.XGT
             if (!IsConnected())
             {
                 m_Client = new TcpClient(m_Host, m_Port);
-                m_Client.GetStream().BeginRead(Buffer_, BufferIdx, BUFFER_SIZE, OnRead, null);
+                m_Client.GetStream().BeginRead(Buf, BufIdx, BUF_SIZE, OnRead, null);
             }
             if (ConnectionStatusChanged != null)
                 ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(IsConnected()));
@@ -219,19 +219,19 @@ namespace DY.NET.LSIS.XGT
             }
             do
             {
-                BufferIdx += size;
+                BufIdx += size;
                 if (!IsMatchInstructSize())
                     break;
-                byte[] recv_data = new byte[BufferIdx];
-                Buffer.BlockCopy(Buffer_, 0, recv_data, 0, recv_data.Length);
-                BufferIdx = 0;
+                byte[] recv_data = new byte[BufIdx];
+                Buffer.BlockCopy(Buf, 0, recv_data, 0, recv_data.Length);
+                BufIdx = 0;
                 XGTFEnetProtocol reqt = SavePoint_ReqeustProtocol as XGTFEnetProtocol;
                 ReportResponseProtocol(reqt, recv_data);
                 Wait = false;
                 if (ProtocolStandByQueue.Count != 0)
                     SendNextProtocol();
             } while (false);
-            stream.BeginRead(Buffer_, BufferIdx, BUFFER_SIZE, OnRead, null);
+            stream.BeginRead(Buf, BufIdx, BUF_SIZE, OnRead, null);
         }
 
         private void OnSended(IAsyncResult ar)

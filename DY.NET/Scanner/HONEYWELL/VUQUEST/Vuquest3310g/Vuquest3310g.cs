@@ -167,7 +167,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
             m_BufferIdx = 0;
             do
             {
-                m_BufferIdx += await bs.ReadAsync(m_Buffer, m_BufferIdx, m_Buffer.Length);
+                m_BufferIdx += await bs.ReadAsync(m_Buffer, m_BufferIdx, m_Buffer.Length - m_BufferIdx);
             } while (m_Buffer.Last() != CR);
             byte[] ret = new byte[m_BufferIdx - 1];
             Array.Copy(m_Buffer, 0, ret, 0, ret.Length);
@@ -175,6 +175,14 @@ namespace DY.NET.HONEYWELL.VUQUEST
             await bs.WriteAsync(SPC_TRIGGER_DEACTIVATE, 0, SPC_TRIGGER_DEACTIVATE.Length);
             m_IsActivate = false;
             return ret;
+        }
+
+        public async Task DeactivateAsync()
+        {
+            if (!IsEnableSerial)
+                return;
+            await m_SerialPort.BaseStream.WriteAsync(SPC_TRIGGER_DEACTIVATE, 0, SPC_TRIGGER_DEACTIVATE.Length);
+            m_IsActivate = false;
         }
 
         /// <summary>
@@ -244,14 +252,8 @@ namespace DY.NET.HONEYWELL.VUQUEST
         public async Task<object> ScanAsync()
         {
             byte[] ret = null;
-            try
-            {
-                ret = await ActivateAsync();
-            }
-            finally
-            {
-                DeactivateScan();
-            }
+            ret = await ActivateAsync();
+            await DeactivateAsync();
             return ret;
         }
 

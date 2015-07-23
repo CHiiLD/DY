@@ -114,19 +114,19 @@ namespace DY.NET.LSIS.XGT
             //execute event
             SendedProtocolSuccessfullyEvent(reqt);
             reqt.ProtocolRequestedEvent(this, reqt);
-            BufferIdx = 0;
+            BufIdx = 0;
             bool loop;
             do
             {
-                int size = await stream.ReadAsync(Buffer_, BufferIdx, BUFFER_SIZE);
+                int size = await stream.ReadAsync(Buf, BufIdx, BUF_SIZE - BufIdx);
                 if (size == 0)
                     break;
-                BufferIdx += size;
-                loop = Buffer_[BufferIdx - 1 - (reqt.IsExistBCC() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte();
+                BufIdx += size;
+                loop = Buf[BufIdx - 1 - (reqt.IsExistBCC() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte();
             } while (!loop);
-            byte[] recv_data = new byte[BufferIdx];
-            Buffer.BlockCopy(Buffer_, 0, recv_data, 0, recv_data.Length);
-            BufferIdx = 0;
+            byte[] recv_data = new byte[BufIdx];
+            Buffer.BlockCopy(Buf, 0, recv_data, 0, recv_data.Length);
+            BufIdx = 0;
             XGTCnetProtocol resp = ReportResponseProtocol(reqt, recv_data);
             return resp;
         }
@@ -204,27 +204,22 @@ namespace DY.NET.LSIS.XGT
         /// <param name="e"> SerialDataReceivedEventArgs 이벤트 argument </param>
         private void OnDataRecieve(object sender, SerialDataReceivedEventArgs e)
         {
+            if (!IsConnected())
+                return;
+
             SerialPort sp = sender as SerialPort;
-            do
-            {
-                if (sp == null)
-                    break;
-                if (!sp.IsOpen)
-                    break;
-                BufferIdx += sp.Read(Buffer_, BufferIdx, Buffer_.Length);
-                XGTCnetProtocol reqt = SavePoint_ReqeustProtocol as XGTCnetProtocol;
-                if (XGTCnetCCType.ETX != (XGTCnetCCType)(Buffer_[BufferIdx - ((bool)reqt.IsExistBCC() ? 2 : 1)]))
-                    return;
-                byte[] recv_data = new byte[BufferIdx];
-                Buffer.BlockCopy(Buffer_, 0, recv_data, 0, recv_data.Length);
-                ReportResponseProtocol(reqt, recv_data);
-                SavePoint_ReqeustProtocol = null;
-                BufferIdx = 0;
-                Wait = false;
-                if (ProtocolStandByQueue.Count != 0)
-                    SendNextProtocol();
-            }
-            while (false);
+            BufIdx += sp.Read(Buf, BufIdx, Buf.Length);
+            XGTCnetProtocol reqt = SavePoint_ReqeustProtocol as XGTCnetProtocol;
+            if (XGTCnetCCType.ETX != (XGTCnetCCType)(Buf[BufIdx - ((bool)reqt.IsExistBCC() ? 2 : 1)]))
+                return;
+            byte[] recv_data = new byte[BufIdx];
+            Buffer.BlockCopy(Buf, 0, recv_data, 0, recv_data.Length);
+            ReportResponseProtocol(reqt, recv_data);
+            SavePoint_ReqeustProtocol = null;
+            BufIdx = 0;
+            Wait = false;
+            if (ProtocolStandByQueue.Count != 0)
+                SendNextProtocol();
         }
 
         private void SendNextProtocol()

@@ -57,9 +57,9 @@ namespace DY.NET
             ReceivedProtocolSuccessfully = null;
         }
 
-        public const int BUFFER_SIZE = 4096;
-        protected byte[] Buffer_ = new byte[BUFFER_SIZE];
-        protected int BufferIdx;
+        public const int BUF_SIZE = 4096;
+        protected byte[] Buf = new byte[BUF_SIZE];
+        protected int BufIdx;
         protected volatile bool Wait = false;
 
         /// <summary>
