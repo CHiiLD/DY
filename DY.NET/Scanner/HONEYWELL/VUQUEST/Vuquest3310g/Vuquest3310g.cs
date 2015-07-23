@@ -149,7 +149,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
             m_SerialPort.Write(SPC_TRIGGER_ACTIVATE, 0, SPC_TRIGGER_ACTIVATE.Length);
         }
 
-        private void DeactivateScan()
+        public void DeactivateScan()
         {
             if (!IsEnableSerial)
                 return;
@@ -243,23 +243,18 @@ namespace DY.NET.HONEYWELL.VUQUEST
 
         public async Task<object> ScanAsync()
         {
-            return await ScanAsync(TimeOut);
-        }
-
-        public async Task<object> ScanAsync(int timeout)
-        {
-            LOG.Trace("Vuquest3310g 비동기 스캔 시도, 타임아웃: " + timeout);
-            if (!(0 <= timeout && timeout <= VUQUEST3310G_TIMEOUT_MAX))
-                throw new ArgumentOutOfRangeException("timeout");
-            TimeOut = timeout;
             byte[] ret = null;
-            var task = ActivateAsync();
-            if (await Task.WhenAny(task, Task.Delay(TimeOut)) == task)
-                ret = await task;
-            else
+            try
+            {
+                ret = await ActivateAsync();
+            }
+            finally
+            {
                 DeactivateScan();
+            }
             return ret;
         }
+
         /// <summary>
         /// 시리얼 포트에 접속
         /// </summary>

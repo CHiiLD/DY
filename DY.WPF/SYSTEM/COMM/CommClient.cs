@@ -35,7 +35,7 @@ namespace DY.WPF.SYSTEM.COMM
 
         public event PropertyChangedEventHandler PropertyChanged;
 
-        public IConnect Client { get; private set; }
+        public IConnect Socket { get; private set; }
         public DYDevice Target { get { return m_Target; } set { m_Target = value; OnPropertyChanged("Target"); } }
         public DYDeviceProtocolType CommType { get { return m_CommType; } set { m_CommType = value; OnPropertyChanged("CommType"); } }
         public bool Usable
@@ -62,12 +62,12 @@ namespace DY.WPF.SYSTEM.COMM
         public string Summary { get { return m_Summary; } set { m_Summary = value; OnPropertyChanged("Summary"); } }
         public string Key { get { return m_Key; } set { m_Key = value; OnPropertyChanged("Key"); } }
 
-        public CommClient(IConnect client, DYDevice device, DYDeviceProtocolType comm_type)
+        public CommClient(IConnect socket, DYDevice device, DYDeviceProtocolType comm_type)
         {
-            Client = client;
+            Socket = socket;
             Target = device;
             m_CommType = comm_type;
-            Client.ConnectionStatusChanged += OnChangedConnectionStatus;
+            Socket.ConnectionStatusChanged += OnChangedConnectionStatus;
             m_CommStatusCheckTimer.Elapsed += OnElapsed;
             Key = Guid.NewGuid().ToString();
         }
@@ -86,7 +86,7 @@ namespace DY.WPF.SYSTEM.COMM
         public void Dispose()
         {
             m_CommStatusCheckTimer.Dispose();
-            Client.Dispose();
+            Socket.Dispose();
             GC.SuppressFinalize(this);
             LOG.Debug("CommClient 메모리 해제");
         }
@@ -112,7 +112,7 @@ namespace DY.WPF.SYSTEM.COMM
         /// <param name="args"></param>
         private void OnElapsed(object sender, ElapsedEventArgs args)
         {
-            ChangedCommStatus(Client.IsConnected());
+            ChangedCommStatus(Socket.IsConnected());
         }
 
         /// <summary>

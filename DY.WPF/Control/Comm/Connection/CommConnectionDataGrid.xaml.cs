@@ -120,9 +120,9 @@ namespace DY.WPF
             bool? isChecked = cb.IsChecked;
             bool isConnected;
             if (isChecked == true)
-                isConnected = await ConnectAsync(m_CurSelectedClient.Client);
+                isConnected = await ConnectAsync(m_CurSelectedClient.Socket);
             else
-                isConnected = Disconnect(m_CurSelectedClient.Client);
+                isConnected = Disconnect(m_CurSelectedClient.Socket);
 
             if (!isConnected)
                 cb.IsChecked = false;
@@ -168,7 +168,7 @@ namespace DY.WPF
                 var client = info.Item as CommClient;
                 NMI_Add.IsEnabled = false;
                 NMI_Remove.IsEnabled = true;
-                if (client.Client.IsConnected())
+                if (client.Socket.IsConnected())
                 {
                     NMI_Connect.IsEnabled = false;
                     NMI_Disconnect.IsEnabled = true;
@@ -207,7 +207,7 @@ namespace DY.WPF
         /// <param name="e"></param>
         private async void NMI_Connect_Click(object sender, RoutedEventArgs e)
         {
-            bool result = await ConnectAsync(m_CurSelectedClient.Client);
+            bool result = await ConnectAsync(m_CurSelectedClient.Socket);
             m_CurSelectedClient.Usable = result;
         }
 
@@ -218,7 +218,7 @@ namespace DY.WPF
         /// <param name="e"></param>
         private void NMI_Disconnect_Click(object sender, RoutedEventArgs e)
         {
-            bool result = Disconnect(m_CurSelectedClient.Client);
+            bool result = Disconnect(m_CurSelectedClient.Socket);
             m_CurSelectedClient.Usable = result;
         }
 
@@ -229,7 +229,7 @@ namespace DY.WPF
         /// <param name="e"></param>
         private void NMI_Remove_Click(object sender, RoutedEventArgs e)
         {
-            Disconnect(m_CurSelectedClient.Client);
+            Disconnect(m_CurSelectedClient.Socket);
             CommClientManagement.GetInstance().Clientele.Remove(m_CurSelectedClient);
         }
     }

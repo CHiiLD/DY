@@ -106,17 +106,17 @@ namespace DY.WPF.SYSTEM.COMM
         {
             foreach (var commClient in Clientele)
             {
-                IConnect client = commClient.Client;
-                IConnectAsync client_async = client as IConnectAsync;
+                IConnect socket = commClient.Socket;
+                IConnectAsync connect_async = socket as IConnectAsync;
                 bool isConnected = false;
-                if (!client.IsConnected())
+                if (!socket.IsConnected())
                 {
                     try
                     {
-                        if (client_async == null)
-                            isConnected = client.Connect();
+                        if (connect_async == null)
+                            isConnected = socket.Connect();
                         else
-                            isConnected = await client_async.ConnectAsync();
+                            isConnected = await connect_async.ConnectAsync();
                     }
                     catch (Exception ex)
                     {
