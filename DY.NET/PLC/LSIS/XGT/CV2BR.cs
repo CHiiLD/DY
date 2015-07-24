@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DY.NET.LSIS.XGT
 {
+    /// <summary>
+    /// FENET 전용, 프로토콜 데이터 변환 클래스
+    /// </summary>
     public static class CV2BR
     {
         public static ushort ToValue(byte[] bytes)

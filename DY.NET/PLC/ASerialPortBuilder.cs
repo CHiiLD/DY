@@ -2,6 +2,9 @@
 
 namespace DY.NET
 {
+    /// <summary>
+    /// 시리얼 빌더 클래스
+    /// </summary>
     public abstract class ASerialPortBuilder
     {
         protected string _PortName;

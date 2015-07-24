@@ -38,6 +38,9 @@ namespace DY.WPF
             }
         }
 
+        /// <summary>
+        /// 초기화
+        /// </summary>
         public CommIOMonitoring()
         {
             InitializeComponent();
@@ -51,10 +54,15 @@ namespace DY.WPF
             NBT_ResponseIntevalGraph.IsCheckedChanged += OnCheckedChangedGraphActivation;
         }
 
+        /// <summary>
+        /// PLC IO 편집 모드 온/오프 이벤트
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnCheckedChangedEditMode(object sender, EventArgs e)
         {
             var btn = sender as ToggleSwitch;
-            NDataGrid.IsEditMode = btn.IsChecked == true ? true : false;
+            NDataGrid.Editable = btn.IsChecked == true ? true : false;
         }
 
         private void OnCheckedChangedGraphActivation(object sender, EventArgs e)

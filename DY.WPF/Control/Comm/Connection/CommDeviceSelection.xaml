@@ -1,4 +1,5 @@
-﻿<UserControl
+﻿<!--DY.NET에서 제공하는 디바이스와 통신 연결 방법을 선택하는 컨트롤-->
+    <UserControl
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"

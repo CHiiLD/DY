@@ -1,8 +1,16 @@
 ﻿using System.Windows;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
+using System.Threading.Tasks;
+using System.Collections;
+using System.Collections.Generic;
+using System.Linq;
+using System;
+
 using PropertyTools.Wpf;
 using DY.WPF.SYSTEM.COMM;
+using DY.NET;
+using DY.NET.LSIS.XGT;
 
 namespace DY.WPF
 {
@@ -13,12 +21,14 @@ namespace DY.WPF
     {
         public ObservableCollection<CommIODataGridItem> Items { get; private set; }
         public CommClient Client { get; set; }
+        public int DelayTime { get; set; }
+        public int ResponseRatencyTime { get; set; }
 
         public bool m_IsEditMode;
         /// <summary>
         /// 편집 모드 유무
         /// </summary>
-        public bool IsEditMode
+        public bool Editable
         {
             get
             {
@@ -34,15 +44,36 @@ namespace DY.WPF
             }
         }
 
+        /// <summary>
+        /// IO 쓰기/읽기 작동중 여부
+        /// </summary>
+        public bool Operable
+        {
+            get;
+            set;
+        }
+
         public CommIOExcelDataGrid()
         {
             Items = new ObservableCollection<CommIODataGridItem>();
             InitializeComponent();
             NDataGrid.ItemsSource = Items;
-            IsEditMode = false;
+            Editable = false;
             //AddColumns();
             //여기는 원래 xaml에서 편집해야 맞는 거지만, 에러 아닌 에러가 자꾸 떠서 스트레스로 
             //cs에서 수동으로 생성해서 설정 
+        }
+
+        /// <summary>
+        /// IO Update by async
+        /// </summary>
+        /// <returns></returns>
+        private async Task Update()
+        {
+            await Task.Delay(DelayTime);
+            IList<ICommIOData> list = Items as IList<ICommIOData>;
+            Dictionary<string, DataType> addrs = XGTProtocolHelper.Optimize(list);
+            ILookup<DataType, string> lookCollection = addrs.ToLookup(ad => ad.Value, ad => ad.Key);
         }
 
         /// <summary>

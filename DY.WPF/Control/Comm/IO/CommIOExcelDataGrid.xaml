@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="DY.WPF.CommIOExcelDataGrid"
+﻿<!--IO 입출력 표기를 위한 엑셀 데이타그리드-->
+<UserControl x:Class="DY.WPF.CommIOExcelDataGrid"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 

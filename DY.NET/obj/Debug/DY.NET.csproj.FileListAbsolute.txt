@@ -28,11 +28,3 @@ C:\Users\CHILD\GitHub\DY\DY\DY.NET\obj\Debug\NET.dll
 C:\Users\CHILD\GitHub\DY\DY\DY.NET\obj\Debug\NET.pdb
 C:\GitHub\DY\DY\DY.NET\obj\Debug\DY.NET.csprojResolveAssemblyReference.cache
 C:\Users\CHILD\GitHub\DY\DY\DY.NET\obj\Debug\DY.NET.csprojResolveAssemblyReference.cache
-C:\Users\CHILD\GitHub\DY\DY.NET\bin\Debug\NET.dll
-C:\Users\CHILD\GitHub\DY\DY.NET\bin\Debug\NET.pdb
-C:\Users\CHILD\GitHub\DY\DY.NET\bin\Debug\NLog.dll
-C:\Users\CHILD\GitHub\DY\DY.NET\bin\Debug\NLog.pdb
-C:\Users\CHILD\GitHub\DY\DY.NET\bin\Debug\NLog.xml
-C:\Users\CHILD\GitHub\DY\DY.NET\obj\Debug\DY.NET.csprojResolveAssemblyReference.cache
-C:\Users\CHILD\GitHub\DY\DY.NET\obj\Debug\NET.dll
-C:\Users\CHILD\GitHub\DY\DY.NET\obj\Debug\NET.pdb

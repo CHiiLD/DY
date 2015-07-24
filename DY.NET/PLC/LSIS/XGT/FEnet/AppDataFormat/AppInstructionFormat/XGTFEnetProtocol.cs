@@ -5,6 +5,9 @@ using System.Linq;
 
 namespace DY.NET.LSIS.XGT
 {
+    /// <summary>
+    /// XGT FEnet 통신 프로토콜 클래스
+    /// </summary>
     public partial class XGTFEnetProtocol : AProtocol
     {
         protected const string ERROR_ENQ_IS_NULL_OR_EMPTY = "Enqdatas have problem (null or empty data)";

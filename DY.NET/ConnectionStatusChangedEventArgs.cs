@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DY.NET
 {
+    /// <summary>
+    /// IConnect.ConnectionStatusChanged 아규먼트
+    /// </summary>
     public class ConnectionStatusChangedEventArgs : EventArgs
     {
         public bool IsConnected { get; private set; }

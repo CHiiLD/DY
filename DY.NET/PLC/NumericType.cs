@@ -2,6 +2,9 @@
 
 namespace DY.NET
 {
+    /// <summary>
+    /// 정수의 값을 가진 객체인지 검사
+    /// </summary>
     public class NumericType
     {
         public const string ERROR_NOT_NEMERIC_TYPE = "DATA IS NOT NUMERIC TYPE";

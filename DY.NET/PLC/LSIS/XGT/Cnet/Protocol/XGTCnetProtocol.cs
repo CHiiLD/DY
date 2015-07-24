@@ -13,7 +13,7 @@ namespace DY.NET.LSIS.XGT
     /// <summary>
     /// XGT Cnet 통신을 위한 프로토콜 클래스
     /// </summary>
-    public class XGTCnetProtocol : AXGTCnetProtocol
+    public partial class XGTCnetProtocol : AXGTCnetProtocol
     {
         protected const string ERROR_ENQ_IS_NULL_OR_EMPTY = "Enqdatas have problem (null or empty data)";
         protected const string ERROR_READED_MEM_COUNT_LIMIT = "Enqdatas over limit of count (null or empty data)";

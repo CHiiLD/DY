@@ -9,6 +9,9 @@ using NLog.Config;
 
 namespace DY.NET
 {
+    /// <summary>
+    /// NLog 옵션 설정 클래스
+    /// </summary>
     public class NLogConfig
     {
         private static NLogConfig THIS;
@@ -41,6 +44,9 @@ namespace DY.NET
             LogManager.Configuration = config;
         }
 
+        /// <summary>
+        /// 프로그램 시작과 동시에 호출해야 한다
+        /// </summary>
         public static void Load()
         {
             if (THIS == null)

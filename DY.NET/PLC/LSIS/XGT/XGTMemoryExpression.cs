@@ -11,6 +11,9 @@ namespace DY.NET.LSIS.XGT
         WORD = 0x02
     }
 
+    /// <summary>
+    /// XGT 디바이스의 메모리 타입 정보 제공
+    /// </summary>
     public static class XGTMemoryExpression
     {
         /// <summary>
@@ -50,15 +53,5 @@ namespace DY.NET.LSIS.XGT
             { 'N', MemoryExpression.WORD },
             { 'Z', MemoryExpression.WORD },
         };
-
-        public static bool IsDecimal(this MemoryExpression me)
-        {
-            return (me & MemoryExpression.WORD) != 0;
-        }
-
-        public static bool IsHexDecimal(this MemoryExpression me)
-        {
-            return (me & MemoryExpression.WORD) == 0;
-        }
     }
 }

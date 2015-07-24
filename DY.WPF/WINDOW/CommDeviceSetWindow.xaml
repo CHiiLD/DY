@@ -1,4 +1,5 @@
-﻿<!--윈도우 만들 때 반드시 매트로 윈도우 상속하고 xaml 에서도 mah:MetroWindow로 선언해줘야함--> 
+﻿<!--통신 설정 윈도우-->
+<!--윈도우 만들 때 반드시 매트로 윈도우 상속하고 xaml 에서도 mah:MetroWindow로 선언해줘야함--> 
 <mah:MetroWindow 
         x:Class="DY.WPF.WINDOW.CommDeviceSetWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"

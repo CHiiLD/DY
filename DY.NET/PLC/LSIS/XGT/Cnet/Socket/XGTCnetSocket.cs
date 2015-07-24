@@ -16,7 +16,7 @@ using NLog;
 namespace DY.NET.LSIS.XGT
 {
     /// <summary>
-    /// XGTCnetExclusiveProtocol을 이용한 Serial 통신소켓 클래스
+    /// XGT Cnet 시리얼 클라이언트 통신 클래스
     /// </summary>
     public partial class XGTCnetSocket : ASocketCover, IPostAsync
     {

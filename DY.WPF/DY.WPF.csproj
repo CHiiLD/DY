@@ -86,7 +86,6 @@
       <DependentUpon>CommIOMonitoring.xaml</DependentUpon>
     </Compile>
     <Compile Include="Control\Comm\IO\ICommMonitoring.cs" />
-    <Compile Include="Enum\PLCVariableType.cs" />
     <Compile Include="Control\Comm\IO\CommIODataGridItem.cs" />
     <Compile Include="SYSTEM\COMM\ISummaryParameter.cs" />
     <Compile Include="ConstProperty\Font.cs" />

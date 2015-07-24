@@ -3,7 +3,7 @@
 namespace DY.NET.LSIS.XGT
 {
     /// <summary>
-    /// 그로파 변수를 위한 클래스
+    /// 그로파 변수 관련 클래스
     /// </summary> 
     public static class Glopa
     {
@@ -26,7 +26,7 @@ namespace DY.NET.LSIS.XGT
                 if (name[0] != '%')
                     break;
                 //디바이스 정보가 올바르지 않은 경우를 검사
-                if (!XGTServiceableDevice.CnetServiceableModeDictionary.ContainsKey(name[1]))
+                if (!XGTServiceableDevice.MemoryTerritorySize.ContainsKey(name[1]))
                     break;
                 //메모리 번지의 타입이 올바르지 않은 경우를 검사 
                 char type = name[2];

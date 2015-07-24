@@ -1,1 +1,2 @@
 C:\dev\github\DY\DY.WPF.SAMPLE\bin\Debug\DY.WPF.SAMPLE.exe.config
+C:\Users\CHILD\GitHub\DY\DY.WPF.SAMPLE\bin\Debug\DY.WPF.SAMPLE.exe

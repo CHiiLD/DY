@@ -5,6 +5,9 @@ using NLog;
 
 namespace DY.NET.LSIS.XGT
 {
+    /// <summary>
+    /// XGT FEnet 이더넷 클라이언트 소켓 클래스
+    /// </summary>
     public class XGTFEnetSocket : ASocketCover, IPostAsync, IConnectAsync
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();

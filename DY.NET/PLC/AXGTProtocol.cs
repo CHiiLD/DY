@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DY.NET
 {
+    /// <summary>
+    /// 추상 프로토콜 클래스
+    /// </summary>
     public abstract class AProtocol : IProtocol
     {
         protected byte[] ProtocolData;

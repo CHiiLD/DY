@@ -1,4 +1,5 @@
-﻿<UserControl x:Class="DY.WPF.ButtonsForBar"
+﻿<!--다이얼로그 하단 버튼 정의-->
+    <UserControl x:Class="DY.WPF.ButtonsForBar"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
