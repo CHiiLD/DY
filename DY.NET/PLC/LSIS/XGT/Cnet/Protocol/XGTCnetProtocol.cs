@@ -35,7 +35,7 @@ namespace DY.NET.LSIS.XGT
             BlocCnt = that.BlocCnt;
             DataCnt = that.DataCnt;
             RegiNum = that.RegiNum;
-            TargetType = that.TargetType;
+            TType = that.TType;
         }
 
         private XGTCnetProtocol()
@@ -64,7 +64,7 @@ namespace DY.NET.LSIS.XGT
         /// <param name="localPort"> 국번 </param>
         /// <param name="datas"> 변수이름과 메모리 주소가 담긴 구조체의 리스트 최대 16개까지 사용 가능합니다 </param>
         /// <returns> RSS 모드의 XGTCnetExclusiveProtocol 프로토콜 </returns>
-        public static XGTCnetProtocol NewRSSProtocol(Type type, ushort localPort, List<string> datas)
+        public static XGTCnetProtocol NewRSSProtocol(Type type, ushort localPort, Dictionary<string, object> datas)
         {
             if (datas.Count == 0 || datas == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
@@ -72,9 +72,8 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
 
             var instance = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCmdType.SS);
-            instance.TargetType = type;
-            foreach (var l in datas)
-                instance.DataStorageDictionary.Add(l, null);
+            instance.TType = type;
+            instance.DataStorageDictionary = new Dictionary<string, object>(datas);
             instance.BlocCnt = (ushort)instance.DataStorageDictionary.Count;
             return instance;
         }
@@ -94,7 +93,7 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
 
             var instance = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCmdType.SS);
-            instance.TargetType = type;
+            instance.TType = type;
             instance.DataStorageDictionary = new Dictionary<string, object>(datas);
             instance.BlocCnt = (ushort)instance.DataStorageDictionary.Count;
             return instance;
@@ -115,7 +114,7 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentException("Rsb communication not supported bit data type");
 
             var instance = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCmdType.SB);
-            instance.TargetType = type;
+            instance.TType = type;
             instance.DataCnt = block_cnt;
             for (int i = 0; i < block_cnt; i++)
             {
@@ -147,7 +146,7 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentException(ERROR_PROTOCOL_WSB_SIZE_MAX_240BYTE);
 
             var instance = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCmdType.SB);
-            instance.TargetType = type;
+            instance.TType = type;
             instance.DataStorageDictionary = new Dictionary<string, object>(datas);
             instance.DataCnt = (ushort)datas.Count;
             return instance;
@@ -164,7 +163,7 @@ namespace DY.NET.LSIS.XGT
             XGTCnetProtocol instance = new XGTCnetProtocol(received_data);
             instance.DataStorageDictionary = new Dictionary<string, object>(reqt.DataStorageDictionary);
             instance.MirrorProtocol = reqt;
-            instance.TargetType = reqt.TargetType;
+            instance.TType = reqt.TType;
             instance.Tag = reqt.Tag;
             instance.UserData = reqt.UserData;
             instance.Description = reqt.Description;
@@ -263,7 +262,7 @@ namespace DY.NET.LSIS.XGT
                 byte[] data_arr = new byte[sizeOfType * 2];
                 Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
                 data_idx += data_arr.Length;
-                DataStorageDictionary[list[i].Key] = CA2C.ToValue(data_arr, TargetType);
+                DataStorageDictionary[list[i].Key] = CA2C.ToValue(data_arr, TType);
             }
         }
 
@@ -278,12 +277,12 @@ namespace DY.NET.LSIS.XGT
             ushort data_len = (ushort)CA2C.ToValue(new byte[] { data[2], data[3] }, typeof(UInt16));// 데이터 개수 정보 쿼리
             int data_idx = 4;
             var list = DataStorageDictionary.ToList();
-            int data_type_size = TargetType.ToSize();
+            int data_type_size = TType.ToSize();
             for (int i = 0; i < data_len / data_type_size; i++)
             {
                 byte[] data_arr = new byte[data_type_size * 2];
                 Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
-                DataStorageDictionary[list[i].Key] = CA2C.ToValue(data_arr, TargetType);
+                DataStorageDictionary[list[i].Key] = CA2C.ToValue(data_arr, TType);
                 data_idx += data_arr.Length;
             }
         }

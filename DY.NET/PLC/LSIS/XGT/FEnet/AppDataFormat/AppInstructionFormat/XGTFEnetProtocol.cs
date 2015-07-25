@@ -38,7 +38,7 @@ namespace DY.NET.LSIS.XGT
             BlocCnt = that.BlocCnt;
             Error = that.Error;
             Command = that.Command;
-            TargetType = that.TargetType;
+            TType = that.TType;
         }
 
         /// <summary>
@@ -72,11 +72,11 @@ namespace DY.NET.LSIS.XGT
             instance.Tag = reqt.Tag;
             instance.UserData = reqt.UserData;
             instance.Description = reqt.Description;
-            instance.TargetType = reqt.TargetType;
+            instance.TType = reqt.TType;
             return instance;
         }
 
-        public static XGTFEnetProtocol NewRSSProtocol(Type type, ushort tag, List<string> datas)
+        public static XGTFEnetProtocol NewRSSProtocol(Type type, ushort tag, Dictionary<string, object> datas)
         {
             return NewRSSProtocol(type, XGTFEnetHeader.CreateXGTFEnetHeader(tag), datas);
         }
@@ -103,7 +103,7 @@ namespace DY.NET.LSIS.XGT
         /// <param name="header">XGTFEnetHeader 객체</param>
         /// <param name="pvalues">PValue 리스트</param>
         /// <returns>XGTFEnetProtocol 객체</returns>
-        private static XGTFEnetProtocol NewRSSProtocol(Type type, XGTFEnetHeader header, List<string> datas)
+        private static XGTFEnetProtocol NewRSSProtocol(Type type, XGTFEnetHeader header, Dictionary<string, object> datas)
         {
             if (datas.Count == 0 || datas == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
@@ -111,9 +111,8 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
 
             var instance = CreateRequestProtocol(header, XGTFEnetCommand.READ_REQT, (ushort)datas.Count);
-            instance.TargetType = type;
-            foreach (var l in datas)
-                instance.DataStorageDictionary.Add(l, null);
+            instance.TType = type;
+            instance.DataStorageDictionary = new Dictionary<string, object>(datas);
             instance.DataType = type.ToXGTFEnetDataType();
             return instance;
         }
@@ -132,7 +131,7 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
 
             var instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, (ushort)datas.Count);
-            instance.TargetType = type;
+            instance.TType = type;
             instance.DataStorageDictionary = new Dictionary<string, object>(datas);
             instance.DataType = type.ToXGTFEnetDataType();
             return instance;
@@ -155,7 +154,7 @@ namespace DY.NET.LSIS.XGT
             if (!PossibleRSBList.Contains(name[1]))
                 throw new ArgumentException("this device type can not service");
             var instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, 1);
-            instance.TargetType = type;
+            instance.TType = type;
             instance.DataType = XGTFEnetDataType.CONTINUATION;
             for (int i = 0; i < block_cnt; i++)
             {
@@ -183,7 +182,7 @@ namespace DY.NET.LSIS.XGT
             if (!PossibleRSBList.Contains(datas.First().Key[1]))
                 throw new ArgumentException("this device type can not service");
             var instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, 1);
-            instance.TargetType = type;
+            instance.TType = type;
             instance.DataStorageDictionary = new Dictionary<string, object>(datas);
             instance.DataType = XGTFEnetDataType.CONTINUATION;
             return instance;
@@ -213,7 +212,7 @@ namespace DY.NET.LSIS.XGT
             {
                 asc_data.AddRange(CV2BR.ToBytes(DataStorageDictionary.First().Key.Length, typeof(UInt16))); //변수 길이
                 asc_data.AddRange(CV2BR.ToBytes(DataStorageDictionary.First().Key)); //변수 이름
-                int byte_size = DataStorageDictionary.Count() * TargetType.ToSize();
+                int byte_size = DataStorageDictionary.Count() * TType.ToSize();
                 if (byte_size > PROTOCOL_SB_MAX_DATA_CNT)
                     throw new Exception(ERROR_PROTOCOL_SB_DATACNT_LIMIT);
                 asc_data.AddRange(CV2BR.ToBytes(byte_size, typeof(UInt16))); //읽을 개수
@@ -225,7 +224,7 @@ namespace DY.NET.LSIS.XGT
                 {
                     asc_data.AddRange(CV2BR.ToBytes(d.Key.Length, typeof(UInt16))); //변수 길이
                     asc_data.AddRange(CV2BR.ToBytes(d.Key)); //변수 이름
-                    asc_data.AddRange(CV2BR.ToBytes(TargetType.ToSize(), typeof(UInt16))); //변수 크기
+                    asc_data.AddRange(CV2BR.ToBytes(TType.ToSize(), typeof(UInt16))); //변수 크기
                      asc_data.AddRange(CV2BR.ToBytes(d.Value)); //변수 값
                 }
             }
@@ -280,19 +279,19 @@ namespace DY.NET.LSIS.XGT
                     data_idx += 2;
                     byte[] data_arr = new byte[sizeOfType];
                     Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
-                    DataStorageDictionary[list[i].Key] = CV2BR.ToValue(data_arr, TargetType);
+                    DataStorageDictionary[list[i].Key] = CV2BR.ToValue(data_arr, TType);
                     data_idx += data_arr.Length;
                 }
             }
             //RSB
             else if (Command == XGTFEnetCommand.READ_RESP && DataType == XGTFEnetDataType.CONTINUATION)
             {
-                int data_type_size = TargetType.ToSize();
+                int data_type_size = TType.ToSize();
                 for (int i = 0; i < BlocCnt / data_type_size; i++)
                 {
                     byte[] data_arr = new byte[data_type_size];
                     Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
-                    DataStorageDictionary[list[i].Key] = CV2BR.ToValue(data_arr, TargetType);
+                    DataStorageDictionary[list[i].Key] = CV2BR.ToValue(data_arr, TType);
                     data_idx += data_arr.Length;
                 }
             }

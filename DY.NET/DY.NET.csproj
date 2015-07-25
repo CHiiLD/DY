@@ -72,7 +72,7 @@
     <Compile Include="PLC\LSIS\XGT\CA2C.cs" />
     <Compile Include="PLC\ISocketCover.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Enum\XGTCnetProtocolError.cs" />
-    <Compile Include="PLC\AXGTProtocol.cs" />
+    <Compile Include="PLC\AProtocol.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Protocol\XGTCnetProtocol.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Protocol\AXGTCnetProtocol.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Socket\XGTCnetSocket.SerialPort.cs" />
