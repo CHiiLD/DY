@@ -46,14 +46,14 @@
             </Grid.RowDefinitions>
 
             <UniformGrid Rows="2" Columns="1" Margin="0,8">
-                <mah:ToggleSwitch x:Name="NBT_ExcelEditMode" Header="PLC IO edit mode"/>
-                <mah:ToggleSwitch x:Name="NBT_ResponseIntevalGraph" Header="PLC real-time graph activation"/>
+                <mah:ToggleSwitch x:Name="NBT_ExcelEditModeOnOff" Header="PLC IO edit mode"/>
+                <mah:ToggleSwitch x:Name="NBT_RespRatencyTOnOff" Header="PLC real-time graph activation"/>
             </UniformGrid>
 
             <oxy:PlotView x:Name="NPlotView"  Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="1"/>
             <local:CommIOExcelDataGrid x:Name="NDataGrid" Grid.Row="1" Grid.ColumnSpan="5"/>
             <UniformGrid Rows="3" Columns="1" Grid.Column="4"  Margin="0,8">
-                <mah:ToggleSwitch x:Name="NBT_Usable" Header="Communication Connection" />
+                <mah:ToggleSwitch x:Name="NBT_MonitoringOnOff" Header="IO Monitoring" />
                 <local:TextBoxWithBar x:Name="NTB_ResponseRatencyT" Title="Response ratency time" Text="0" />
                 <local:TextBoxWithBar x:Name="NTB_TransferInteval" Title="Transfer interval" Text="0" />
             </UniformGrid>

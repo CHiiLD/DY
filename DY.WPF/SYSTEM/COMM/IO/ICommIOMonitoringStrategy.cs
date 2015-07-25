@@ -7,13 +7,15 @@ using System.Threading.Tasks;
 using DY.NET;
 using NLog;
 
-namespace DY.WPF.SYSTEM.COMM
+using DY.WPF.SYSTEM.COMM;
+
+namespace DY.WPF.SYSTEM.IO
 {
     public abstract class ACommIOMonitoringStrategy
     {
         protected static Logger LOG = LogManager.GetCurrentClassLogger();
 
-        protected CommClient CClient;
+        public CommClient CClient { get; protected set; }
         protected List<IProtocol> Protocols = new List<IProtocol>();
         protected IList<ICommIOData> CommIODatas;
         private Task UpdateTask = null;
@@ -110,6 +112,7 @@ namespace DY.WPF.SYSTEM.COMM
                     if (await Task.WhenAny(task, Task.Delay(ResponseLatencyTime)) == task)
                         await Task.Delay(TransferInteval); //다음 루프까지 대기
                 }
+                m_Run = false;
                 LOG.Debug(CClient.Summary + " 업데이트 루프 종료");
             }));
             return thread;

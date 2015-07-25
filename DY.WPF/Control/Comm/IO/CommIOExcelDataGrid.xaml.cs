@@ -12,6 +12,7 @@ using DY.WPF.SYSTEM.COMM;
 using DY.NET;
 using DY.NET.LSIS.XGT;
 using NLog;
+using DY.WPF.SYSTEM.IO;
 
 namespace DY.WPF
 {

@@ -8,7 +8,9 @@ using DY.NET;
 using DY.NET.LSIS.XGT;
 using NLog;
 
-namespace DY.WPF.SYSTEM.COMM
+using DY.WPF.SYSTEM.COMM;
+
+namespace DY.WPF.SYSTEM.IO
 {
     public class XGTCommIOMonitoring : ACommIOMonitoringStrategy
     {
@@ -80,21 +82,22 @@ namespace DY.WPF.SYSTEM.COMM
         /// <returns></returns>
         public override async Task UpdateIOAsync(IList<ICommIOData> io_datas)
         {
-            if (!CClient.Socket.IsConnected())
-                return;
-            IPostAsync post = CClient.Socket as IPostAsync;
             foreach (var reqt in Protocols)
             {
-                IProtocol resp = await post.PostAsync(reqt);
-                if (resp == null)
-                    continue;
-                Dictionary<string, object> storage = resp.GetStorage();
-                if (storage == null || storage.Count == 0)
-                    continue;
-                await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                if (CClient.Socket.IsConnected())
                 {
-                    XGTProtocolHelper.Fill(storage, io_datas);
-                }), null);
+                    IPostAsync post = CClient.Socket as IPostAsync;
+                    IProtocol resp = await post.PostAsync(reqt);
+                    if (resp == null)
+                        continue;
+                    Dictionary<string, object> storage = resp.GetStorage();
+                    if (storage == null || storage.Count == 0)
+                        continue;
+                    await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
+                    {
+                        XGTProtocolHelper.Fill(storage, io_datas);
+                    }), null);
+                }
             }
         }
     }

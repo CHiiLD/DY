@@ -1,0 +1,144 @@
+07:53:35 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+07:53:35 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 업데이트 중단
+
+07:53:35 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+07:53:37 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+07:53:39 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+07:53:39 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 업데이트 중단
+
+07:53:39 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+07:53:40 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+07:53:42 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+07:53:42 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 업데이트 중단
+
+07:53:42 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+07:53:43 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+07:53:45 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+07:53:45 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 업데이트 중단
+
+07:53:45 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+07:53:48 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+07:53:51 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+07:53:51 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 업데이트 중단
+
+07:53:51 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+07:53:52 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+07:53:55 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+07:53:55 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 업데이트 중단
+
+07:53:55 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+07:53:57 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+07:54:07 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+07:54:07 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 업데이트 중단
+
+07:54:07 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+07:54:12 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+07:54:15 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+07:54:15 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 업데이트 중단
+
+07:54:15 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+07:54:17 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+07:54:21 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+07:54:21 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 업데이트 중단
+
+07:54:21 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+07:54:22 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+07:55:56 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 업데이트 루프 시작
+
+07:55:56 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 통신 접속 해제에 의한 업데이트 중단
+
+07:55:56 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 업데이트 루프 종료
+
+07:55:57 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 업데이트 루프 종료까지 대기 시작
+
+07:56:02 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 업데이트 루프 시작
+
+07:56:02 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 통신 접속 해제에 의한 업데이트 중단
+
+07:56:02 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 업데이트 루프 종료
+
+07:56:03 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 업데이트 루프 종료까지 대기 시작
+
+07:56:12 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 업데이트 루프 시작
+
+07:56:12 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 통신 접속 해제에 의한 업데이트 중단
+
+07:56:12 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 업데이트 루프 종료
+
+07:56:19 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 업데이트 루프 종료까지 대기 시작
+

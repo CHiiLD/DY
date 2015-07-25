@@ -19,6 +19,7 @@ using MahApps.Metro.Controls;
 using DY.WPF.SYSTEM.COMM;
 using NLog;
 using System.Collections;
+using DY.WPF.SYSTEM.IO;
 
 namespace DY.WPF
 {
@@ -43,31 +44,32 @@ namespace DY.WPF
         /// 탭 아이템 추가
         /// CommClient에서 코멘트가 없으면 요약(Summary)로 탭아이템 헤더가 결정된다
         /// </summary>
-        /// <param name="newItems"></param>
+        /// <param name="newItems">새로 추가된 CommClient 객체</param>
         private void AddTabItem(IList newItems)
         {
             TabControl tab_control = NTabControl;
-            ItemCollection item_src = tab_control.Items;
+            ItemCollection item_collection = tab_control.Items;
 
-            var new_item = newItems;
+            IList new_item = newItems;
             TabItem tab_item = new TabItem();
-            ControlsHelper.SetHeaderFontSize(tab_item, TABITEM_HEADER_FONTSIZE);
+            ControlsHelper.SetHeaderFontSize(tab_item, TABITEM_HEADER_FONTSIZE); //헤더 폰트 사이즈 설정
 
             foreach (var i in new_item)
             {
-                var client = i as CommClient;
-                LOG.Trace("통신 컨트롤 타워 탭 아이템 추가: " + client.Key);
-                switch (client.Target)
+                var cclient = i as CommClient;
+                LOG.Trace("통신 컨트롤 타워 탭 아이템 추가: " + cclient.Key);
+                switch (cclient.Target)
                 {
                     case DYDevice.DATALOGIC_MATRIX200:
                     case DYDevice.HONEYWELL_VUQUEST3310G:
                         break;
                     case DYDevice.LSIS_XGT:
-                        CommIOMonitoring commIO = new CommIOMonitoring() { CClient = client };
-                        commIO.Margin = new Thickness(TABCONTROL_MARGIN);
-                        tab_item.Content = commIO;
-                        tab_item.Header = String.IsNullOrEmpty(client.Comment) ? client.Summary : client.Comment;
-                        item_src.Add(tab_item);
+                        CommIOMonitoring comm_io_monitoring = new CommIOMonitoring(new XGTCommIOMonitoring(cclient));
+                        comm_io_monitoring.Margin = new Thickness(TABCONTROL_MARGIN);
+                        tab_item.Content = comm_io_monitoring;
+                        tab_item.SetBinding(TabItem.HeaderProperty, new Binding("Comment") { Source = cclient });
+                        tab_item.Header = String.IsNullOrEmpty(cclient.Comment) ? cclient.Summary : cclient.Comment;
+                        item_collection.Add(tab_item);
                         break;
                 }
             }

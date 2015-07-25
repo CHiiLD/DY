@@ -4,7 +4,7 @@
 library
 C#
 .cs
-C:\Users\CHILD\GitHub\DY\DY.WPF\obj\Debug\
+C:\dev\github\DY\DY.WPF\obj\Debug\
 DY.WPF
 none
 false
@@ -12,8 +12,8 @@ DEBUG;TRACE
 
 18-1700690073
 
-42-656422147
-191682387238
+42-768655391
+191177636887
 Control\Bar\ButtonsForBar.xaml;Control\Bar\TextBlockBar.xaml;Control\Bar\ComboBoxWithBar.xaml;Control\Bar\TextBoxWithBar.xaml;Control\Bar\TitleForBar.xaml;Control\Comm\Connection\CommConnectionManage.xaml;Control\Comm\Connection\CommConnectionDataGrid.xaml;Control\Comm\Connection\CommDeviceSelection.xaml;Control\Comm\Connection\CommEthernetConfig.xaml;Control\Comm\Connection\CommSerialConfig.xaml;Control\Comm\Connection\Ai\AICommCheck.xaml;Control\Comm\Connection\Ai\AICommCircle.xaml;Control\Comm\Connection\Ai\AICommCross.xaml;Control\Comm\IO\CommIOExcelDataGrid.xaml;Control\Comm\IO\CommIOMonitoring.xaml;STYLE\DialogWindowStyle.xaml;WINDOW\CommDeviceSetWindow.xaml;Control\Comm\CommControlTower.xaml;
 
 False
