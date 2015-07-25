@@ -12,13 +12,24 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Text.RegularExpressions;
 
+using DY.NET;
+
 namespace DY.WPF
 {
     /// <summary>
     /// TextBoxWithBar.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class TextBoxWithBar : UserControl
+    public partial class TextBoxWithBar : UserControl, IGetValue
     {
+        public int Tag { get; set; }
+        public string Description { get; set; }
+        public object UserData { get; set; }
+
+        public object GetValue()
+        {
+            return Text;
+        }
+
         public static readonly DependencyProperty TitleTextProperty =
             DependencyProperty.Register("Title", typeof(string), typeof(TextBoxWithBar), new PropertyMetadata("Sample text"));
         public string Title

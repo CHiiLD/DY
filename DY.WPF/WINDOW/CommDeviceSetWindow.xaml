@@ -1,5 +1,5 @@
 ﻿<!--통신 설정 윈도우-->
-<!--윈도우 만들 때 반드시 매트로 윈도우 상속하고 xaml 에서도 mah:MetroWindow로 선언해줘야함--> 
+<!--윈도우 만들 때 반드시 매트로 윈도우 상속하고 xaml 에서도 mah:MetroWindow로 선언해줘야함-->
 <mah:MetroWindow 
         x:Class="DY.WPF.WINDOW.CommDeviceSetWindow"
         xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
@@ -15,11 +15,14 @@
         <ResourceDictionary Source="pack://application:,,,/DY.WPF;component/STYLE/DialogWindowStyle.xaml" />
     </Window.Resources>
 
-    <DockPanel>
-        <StackPanel Orientation="Vertical" DockPanel.Dock="Top" >
-            <local:TitleForBar TitleText="Communication Setting" SubText="Please set device's communication options." Height="68" />
-            <local:CommDeviceSelection x:Name="NSetBox" Margin="10,0" />
-        </StackPanel>
-        <local:ButtonsForBar x:Name="NButton" DockPanel.Dock="Bottom" Height="34" VerticalAlignment="Bottom" Margin="0,0,0,10"/>
-    </DockPanel>
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="68"/>
+            <RowDefinition Height="1*"/>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <local:TitleForBar TitleText="Communication Setting" SubText="Please set device's communication options." Height="68" />
+        <local:CommDeviceSelection x:Name="NSetBox" Margin="10,1,10,0" Grid.Row="1" />
+        <local:ButtonsForBar x:Name="NButton" Height="34" VerticalAlignment="Bottom" Grid.Row="2" Margin="0,7,0,12"/>
+    </Grid>
 </mah:MetroWindow>

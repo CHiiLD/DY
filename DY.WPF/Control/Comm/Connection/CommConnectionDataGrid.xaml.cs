@@ -28,7 +28,7 @@ namespace DY.WPF
         /// <summary>
         /// 현재 선택된 셀 아이템 정보 
         /// </summary>
-        private CommClient m_CurSelectedClient;
+        private CommClient m_CurSelectedCClient;
 
         public ObservableCollection<CommClient> Items
         {
@@ -120,9 +120,9 @@ namespace DY.WPF
             bool? isChecked = cb.IsChecked;
             bool isConnected;
             if (isChecked == true)
-                isConnected = await ConnectAsync(m_CurSelectedClient.Socket);
+                isConnected = await ConnectAsync(m_CurSelectedCClient.Socket);
             else
-                isConnected = Disconnect(m_CurSelectedClient.Socket);
+                isConnected = Disconnect(m_CurSelectedCClient.Socket);
 
             if (!isConnected)
                 cb.IsChecked = false;
@@ -139,12 +139,12 @@ namespace DY.WPF
             IList<DataGridCellInfo> info = e.AddedCells;
             if (info.Count == 0)
             {
-                m_CurSelectedClient = null;
+                m_CurSelectedCClient = null;
             }
             else
             {
                 var client = info[0].Item as CommClient;
-                m_CurSelectedClient = client;
+                m_CurSelectedCClient = client;
             }
         }
 
@@ -178,7 +178,7 @@ namespace DY.WPF
                     NMI_Connect.IsEnabled = true;
                     NMI_Disconnect.IsEnabled = false;
                 }
-                m_CurSelectedClient = client;
+                m_CurSelectedCClient = client;
             }
             else //셀 클릭이 아닐 시
             {
@@ -207,8 +207,8 @@ namespace DY.WPF
         /// <param name="e"></param>
         private async void NMI_Connect_Click(object sender, RoutedEventArgs e)
         {
-            bool result = await ConnectAsync(m_CurSelectedClient.Socket);
-            m_CurSelectedClient.Usable = result;
+            bool result = await ConnectAsync(m_CurSelectedCClient.Socket);
+            m_CurSelectedCClient.Usable = result;
         }
 
         /// <summary>
@@ -218,8 +218,8 @@ namespace DY.WPF
         /// <param name="e"></param>
         private void NMI_Disconnect_Click(object sender, RoutedEventArgs e)
         {
-            bool result = Disconnect(m_CurSelectedClient.Socket);
-            m_CurSelectedClient.Usable = result;
+            bool result = Disconnect(m_CurSelectedCClient.Socket);
+            m_CurSelectedCClient.Usable = result;
         }
 
         /// <summary>
@@ -229,8 +229,8 @@ namespace DY.WPF
         /// <param name="e"></param>
         private void NMI_Remove_Click(object sender, RoutedEventArgs e)
         {
-            Disconnect(m_CurSelectedClient.Socket);
-            CommClientManagement.GetInstance().Clientele.Remove(m_CurSelectedClient);
+            Disconnect(m_CurSelectedCClient.Socket);
+            CommClientManagement.GetInstance().Clientele.Remove(m_CurSelectedCClient);
         }
     }
 }

@@ -4,14 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
+using DY.NET;
+
 namespace DY.WPF
 {
-    /// <summary>
-    /// 통신 종류
-    /// </summary>
-    public enum DYDeviceProtocolType
+    public interface IGetValue : ITag
     {
-        SERIAL = 1,
-        ETHERNET = 2,
+        object GetValue();
     }
 }

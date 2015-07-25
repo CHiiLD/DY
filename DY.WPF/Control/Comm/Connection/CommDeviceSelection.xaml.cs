@@ -12,6 +12,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 
 using DY.WPF.SYSTEM.COMM;
+using System.Collections.Generic;
 
 namespace DY.WPF
 {
@@ -20,6 +21,22 @@ namespace DY.WPF
     /// </summary>
     public partial class CommDeviceSelection : UserControl
     {
+        public Dictionary<string, object> ExtraData
+        {
+            get
+            {
+                var ret = new Dictionary<string, object>();
+                var children = NExtra.Children;
+                foreach(var child in children)
+                {
+                    IGetValue v = child as IGetValue;
+                    if(v != null)
+                        ret.Add(v.UserData as string, v.GetValue());
+                }
+                return ret;
+            }
+        }
+
         public CommDeviceSelection()
         {
             this.InitializeComponent();
@@ -28,17 +45,23 @@ namespace DY.WPF
             NType.NComboBox.SelectionChanged += OnSelectionChanged_Type;
         }
 
+        /// <summary>
+        /// 통신 디바이스를 설정하였을 때, 통신 타입을 연다
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnSelectionChanged_Device(object sender, SelectionChangedEventArgs e)
         {
             ComboBox cb = sender as ComboBox;
             DYDevice item = (DYDevice)cb.SelectedItem;
-            List<DYDeviceProtocolType> source = new List<DYDeviceProtocolType>();
+            List<DYDeviceCommType> source = new List<DYDeviceCommType>();
             NType.SelectedItem = null;
             NGrid.Children.Clear();
+            NExtra.Children.Clear();
             if (ServiceableDevice.Service.ContainsKey(item))
             {
-                DYDeviceProtocolType type = ServiceableDevice.Service[item];
-                DYDeviceProtocolType[] types = (DYDeviceProtocolType[])Enum.GetValues(typeof(DYDeviceProtocolType));
+                DYDeviceCommType type = ServiceableDevice.Service[item];
+                DYDeviceCommType[] types = (DYDeviceCommType[])Enum.GetValues(typeof(DYDeviceCommType));
                 foreach (var t in types)
                     if ((t & type) != 0)
                         source.Add(t);
@@ -46,20 +69,31 @@ namespace DY.WPF
             }
         }
 
+        /// <summary>
+        /// 통신 타입을 설정하였을 때, 통신 옵션을 연다
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void OnSelectionChanged_Type(object sender, SelectionChangedEventArgs e)
         {
             NGrid.Children.Clear();
+            NExtra.Children.Clear();
             ComboBox cb = sender as ComboBox;
             if (cb.SelectedItem == null)
                 return;
-            DYDeviceProtocolType item = (DYDeviceProtocolType)cb.SelectedItem;
+            DYDeviceCommType item = (DYDeviceCommType)cb.SelectedItem;
             switch (item)
             {
-                case DYDeviceProtocolType.ETHERNET:
+                case DYDeviceCommType.ETHERNET:
                     NGrid.Children.Add(new CommEthernetConfig());
                     break;
-                case DYDeviceProtocolType.SERIAL:
+                case DYDeviceCommType.SERIAL:
                     NGrid.Children.Add(new CommSerialConfig());
+                    TextBoxWithBar localbox = new TextBoxWithBar();
+                    localbox.UserData = CommClient.EXTRA_XGT_CNET_LOCALPORT;
+                    localbox.Title = "Local Port";
+                    localbox.Text = "00";
+                    NExtra.Children.Add(localbox);
                     break;
             }
         }

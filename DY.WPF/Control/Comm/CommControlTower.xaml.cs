@@ -63,7 +63,7 @@ namespace DY.WPF
                     case DYDevice.HONEYWELL_VUQUEST3310G:
                         break;
                     case DYDevice.LSIS_XGT:
-                        CommIOMonitoring commIO = new CommIOMonitoring() { Client = client };
+                        CommIOMonitoring commIO = new CommIOMonitoring() { CClient = client };
                         commIO.Margin = new Thickness(TABCONTROL_MARGIN);
                         tab_item.Content = commIO;
                         tab_item.Header = String.IsNullOrEmpty(client.Comment) ? client.Summary : client.Comment;
@@ -89,12 +89,12 @@ namespace DY.WPF
                 foreach (var s in item_src)
                 {
                     TabItem tab_item = s as TabItem;
-                    ICommMonitoring comm_moni = tab_item.Content as ICommMonitoring;
-                    if (comm_moni != null && client.Key == comm_moni.Client.Key)
+                    ICommTabControl comm_moni = tab_item.Content as ICommTabControl;
+                    if (comm_moni != null && client.Key == comm_moni.CClient.Key)
                     {
                         LOG.Trace("통신 컨트롤 타워 탭 아이템 삭제: " + client.Key);
                         item_src.Remove(tab_item);
-                        comm_moni.Client = null;
+                        comm_moni.CClient = null;
                         break;
                     }
                 }

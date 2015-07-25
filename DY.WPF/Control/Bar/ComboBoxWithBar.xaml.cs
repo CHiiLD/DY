@@ -13,13 +13,24 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using System.Collections;
 
+using DY.NET;
+
 namespace DY.WPF
 {
     /// <summary>
     /// TextBoxWithBar.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class ComboBoxWithBar : UserControl
+    public partial class ComboBoxWithBar : UserControl, IGetValue
     {
+        public int Tag { get; set; }
+        public string Description { get; set; }
+        public object UserData { get; set; }
+
+        public object GetValue()
+        {
+            return SelectedItem;
+        }
+
         public static readonly DependencyProperty TitleTextProperty =
                     DependencyProperty.Register("Title", typeof(object), typeof(ComboBoxWithBar), new PropertyMetadata("Sample text"));
         public object Title

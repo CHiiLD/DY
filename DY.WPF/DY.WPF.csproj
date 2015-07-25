@@ -52,6 +52,7 @@
     <Compile Include="Control\Bar\ButtonsForBar.xaml.cs">
       <DependentUpon>ButtonsForBar.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Control\Bar\IGetValue.cs" />
     <Compile Include="Control\Bar\TextBlockBar.xaml.cs">
       <DependentUpon>TextBlockBar.xaml</DependentUpon>
     </Compile>
@@ -85,12 +86,12 @@
     <Compile Include="Control\Comm\IO\CommIOMonitoring.xaml.cs">
       <DependentUpon>CommIOMonitoring.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\IO\ICommMonitoring.cs" />
+    <Compile Include="Control\Comm\IO\ICommTabControl.cs" />
     <Compile Include="Control\Comm\IO\CommIODataGridItem.cs" />
-    <Compile Include="SYSTEM\COMM\ISummaryParameter.cs" />
+    <Compile Include="SYSTEM\COMM\Client\ISummaryParameter.cs" />
     <Compile Include="ConstProperty\Font.cs" />
     <Compile Include="ConstProperty\WindowSize.cs" />
-    <Compile Include="Enum\DYDeviceProtocolType.cs" />
+    <Compile Include="Enum\DYDeviceCommType.cs" />
     <Compile Include="Enum\DYDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
@@ -106,9 +107,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ConstProperty\SerialPortOption.cs" />
-    <Compile Include="SYSTEM\COMM\ServiceableDevice.cs" />
-    <Compile Include="SYSTEM\COMM\CommEthernetParameter.cs" />
-    <Compile Include="SYSTEM\COMM\CommSerialParameter.cs" />
+    <Compile Include="SYSTEM\COMM\Client\ServiceableDevice.cs" />
+    <Compile Include="SYSTEM\COMM\Client\CommEthernetParameter.cs" />
+    <Compile Include="SYSTEM\COMM\Client\CommSerialParameter.cs" />
     <Compile Include="Control\Comm\Connection\Ai\AICommCheck.xaml.cs">
       <DependentUpon>AICommCheck.xaml</DependentUpon>
     </Compile>
@@ -119,8 +120,10 @@
     <Compile Include="Control\Comm\Connection\Ai\AICommCross.xaml.cs">
       <DependentUpon>AICommCross.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SYSTEM\COMM\CommClient.cs" />
-    <Compile Include="SYSTEM\COMM\CommClientManagement.cs" />
+    <Compile Include="SYSTEM\COMM\Client\CommClient.cs" />
+    <Compile Include="SYSTEM\COMM\Client\CommClientManagement.cs" />
+    <Compile Include="SYSTEM\COMM\IO\ICommIOMonitoringStrategy.cs" />
+    <Compile Include="SYSTEM\COMM\IO\XGTCommIOMonitoring.cs" />
     <Compile Include="SYSTEM\NotifyPropertyChanged.cs" />
     <Compile Include="WINDOW\CommDeviceSetWindow.xaml.cs">
       <DependentUpon>CommDeviceSetWindow.xaml</DependentUpon>

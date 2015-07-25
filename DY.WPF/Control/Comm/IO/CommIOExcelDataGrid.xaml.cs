@@ -23,10 +23,7 @@ namespace DY.WPF
         private static Logger LOG = LogManager.GetCurrentClassLogger();
 
         public ObservableCollection<CommIODataGridItem> Items { get; private set; }
-        public CommClient Client { get; set; }
-        public int DelayTime { get; set; }
-        public int ResponseRatencyTime { get; set; }
-        private List<IProtocol> m_RequestProtocols = null;
+        public CommClient CClient { get; set; }
 
         public bool m_IsEditMode;
         /// <summary>
@@ -47,16 +44,7 @@ namespace DY.WPF
                 m_IsEditMode = value;
             }
         }
-
-        /// <summary>
-        /// IO 쓰기/읽기 작동중 여부
-        /// </summary>
-        public bool Operable
-        {
-            get;
-            set;
-        }
-
+        
         /// <summary>
         /// 초기화
         /// </summary>
@@ -71,106 +59,6 @@ namespace DY.WPF
             //cs에서 수동으로 생성해서 설정 
         }
          
-        /// <summary>
-        /// IO Update by async
-        /// </summary>
-        /// <returns></returns>
-        private async Task UpdateIO()
-        {
-            if (m_RequestProtocols == null || m_RequestProtocols.Count == 0)
-                return;
-            if (!Client.Socket.IsConnected())
-                return;
-            IPostAsync post = Client.Socket as IPostAsync;
-            if (post == null)
-            {
-                LOG.Debug("클라이언트 소켓이 IPostAsync을 상속하지 않은 객체입니다.");
-                return;
-            }
-
-            foreach (var reqt in m_RequestProtocols)
-            {
-                IProtocol resp = await post.PostAsync(reqt);
-                if (resp == null)
-                    continue;
-                Dictionary<string, object> storage = resp.GetStorage();
-                if (storage == null || storage.Count == 0)
-                    continue;
-                IList<ICommIOData> items = Items as IList<ICommIOData>;
-                switch (Client.Target)
-                {
-                    case DYDevice.LSIS_XGT:
-                        XGTProtocolHelper.Fill(storage, items);
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
-            }
-        }
-
-        /// <summary>
-        /// ObservableCollection<CommIODataGridItem> 정보로 프로토콜들을 생성한다
-        /// </summary>
-        /// <returns></returns>
-        private List<IProtocol> CreateProtocols()
-        {
-            IList<ICommIOData> items = Items as IList<ICommIOData>;
-            Dictionary<string, DataType> addrs = XGTProtocolHelper.Optimize(items);
-            ILookup<DataType, string> lookCollection = addrs.ToLookup(ad => ad.Value, ad => ad.Key);
-            int cnt = 0;
-            Dictionary<string, object> datas = new Dictionary<string, object>();
-            List<IProtocol> protocols = new List<IProtocol>();
-
-            switch (Client.Target)
-            {
-                case DYDevice.LSIS_XGT:
-                    foreach (IGrouping<DataType, string> group in lookCollection)
-                    {
-                        foreach (string str in group)
-                        {
-                            if (cnt % 16 == 0 && cnt != 0)
-                            {
-                                protocols.Add(CreateXGTProtocol(group.Key, datas));
-                                cnt = 0;
-                                datas = new Dictionary<string, object>();
-                            }
-                            datas.Add(str, null);
-                            cnt++;
-                        }
-                        protocols.Add(CreateXGTProtocol(group.Key, datas));
-                        cnt = 0;
-                        datas = new Dictionary<string, object>();
-                    }
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-            return protocols;
-        }
-
-        /// <summary>
-        /// XGT Protocol을 생성한다
-        /// </summary>
-        /// <param name="type">데이터 타입</param>
-        /// <param name="datas">READ 목록</param>
-        /// <returns></returns>
-        private IProtocol CreateXGTProtocol(DataType type, Dictionary<string, object> datas)
-        {
-            IProtocol protocol;
-            switch (Client.CommType)
-            {
-                case DYDeviceProtocolType.SERIAL:
-                    protocol = XGTCnetProtocol.NewRSSProtocol(type.ToType(), 00, datas);
-                    break;
-                case DYDeviceProtocolType.ETHERNET:
-                    protocol = XGTFEnetProtocol.NewRSSProtocol(type.ToType(), 00, datas);
-                    break;
-                default:
-                    throw new NotImplementedException();
-            }
-            return protocol;
-        }
-
         /// <summary>
         /// 컬럼 추가
         /// </summary>

@@ -4,12 +4,14 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-using DY.WPF.SYSTEM.COMM;
-
 namespace DY.WPF
 {
-    interface ICommMonitoring
+    /// <summary>
+    /// 통신 종류
+    /// </summary>
+    public enum DYDeviceCommType
     {
-        CommClient Client { get; set; }
+        SERIAL = 1,
+        ETHERNET = 2,
     }
 }

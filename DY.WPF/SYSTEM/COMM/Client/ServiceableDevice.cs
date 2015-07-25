@@ -15,11 +15,11 @@ namespace DY.WPF.SYSTEM.COMM
     /// </summary>
     public static class ServiceableDevice
     {
-        public static readonly Dictionary<DYDevice, DYDeviceProtocolType> Service = new Dictionary<DYDevice, DYDeviceProtocolType>
+        public static readonly Dictionary<DYDevice, DYDeviceCommType> Service = new Dictionary<DYDevice, DYDeviceCommType>
         {
-            { DYDevice.LSIS_XGT,                  DYDeviceProtocolType.SERIAL | DYDeviceProtocolType.ETHERNET },
-            { DYDevice.HONEYWELL_VUQUEST3310G,    DYDeviceProtocolType.SERIAL },
-            { DYDevice.DATALOGIC_MATRIX200,       DYDeviceProtocolType.SERIAL },
+            { DYDevice.LSIS_XGT,                  DYDeviceCommType.SERIAL | DYDeviceCommType.ETHERNET },
+            { DYDevice.HONEYWELL_VUQUEST3310G,    DYDeviceCommType.SERIAL },
+            { DYDevice.DATALOGIC_MATRIX200,       DYDeviceCommType.SERIAL },
         };
 
         /// <summary>
@@ -29,14 +29,14 @@ namespace DY.WPF.SYSTEM.COMM
         /// <param name="comm_type"></param>
         /// <param name="summayPapameter"></param>
         /// <returns></returns>
-        public static IConnect CreateClient(DYDevice device, DYDeviceProtocolType comm_type, ISummaryParameter summayPapameter)
+        public static IConnect CreateClient(DYDevice device, DYDeviceCommType comm_type, ISummaryParameter summayPapameter)
         {
             IConnect ret = null;
             CommSerialParameter s = summayPapameter as CommSerialParameter;
             CommEthernetParameter e = summayPapameter as CommEthernetParameter;
-            if (comm_type == DYDeviceProtocolType.SERIAL && s == null)
+            if (comm_type == DYDeviceCommType.SERIAL && s == null)
                 throw new ArgumentException("device, comm_type mismatch error");
-            if (comm_type == DYDeviceProtocolType.ETHERNET && e == null)
+            if (comm_type == DYDeviceCommType.ETHERNET && e == null)
                 throw new ArgumentException("device, comm_type mismatch error");
 
             switch (device)
@@ -52,10 +52,10 @@ namespace DY.WPF.SYSTEM.COMM
                 case DYDevice.LSIS_XGT:
                     switch (comm_type)
                     {
-                        case DYDeviceProtocolType.ETHERNET:
+                        case DYDeviceCommType.ETHERNET:
                             ret = new XGTFEnetSocket(e.Host, e.Port);
                             break;
-                        case DYDeviceProtocolType.SERIAL:
+                        case DYDeviceCommType.SERIAL:
                             ret = (IConnect)new XGTCnetSocket.Builder(s.Com, s.Bandrate).DataBits(s.DataBit)
                         .Parity(s.Parity).StopBits(s.StopBit).Build();
                             break;

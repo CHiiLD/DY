@@ -18,27 +18,40 @@ namespace DY.WPF.SYSTEM.COMM
     /// </summary>
     public class CommClient : IDisposable, INotifyPropertyChanged
     {
+        public const string EXTRA_XGT_CNET_LOCALPORT = "LOCAL_PORT";
+
         #region PRIVATE VARIABLE
         private static Logger LOG = LogManager.GetCurrentClassLogger();
         private const int STATUS_CHECK_INTEVAL = 10000; //10초
 
         private Timer m_CommStatusCheckTimer = new Timer(STATUS_CHECK_INTEVAL);
         private DYDevice m_Target;
-        private DYDeviceProtocolType m_CommType;
-        private bool m_Usable;
+        private DYDeviceCommType m_CommType;
+        private bool? m_Usable;
         private string m_Comment;
         private Geometry m_ImageData = CommStateAi.ConnectFailure.Data;
         private Brush m_ImageColor = CommStateAi.ConnectFailure.Fill;
         private string m_Summary;
-        private string m_Key;
+        private int m_TransferInteval;
+        private int m_ResponseLatencyTime;
+
         #endregion
 
         public event PropertyChangedEventHandler PropertyChanged;
-
+        //___________________COMM_DATAGIRD______________________________________
+        /// <summary>
+        /// IConnect 객체
+        /// </summary>
         public IConnect Socket { get; private set; }
+        /// <summary>
+        /// 통신 디바이스 
+        /// </summary>
         public DYDevice Target { get { return m_Target; } set { m_Target = value; OnPropertyChanged("Target"); } }
-        public DYDeviceProtocolType CommType { get { return m_CommType; } set { m_CommType = value; OnPropertyChanged("CommType"); } }
-        public bool Usable
+        /// <summary>
+        /// 통신 타입
+        /// </summary>
+        public DYDeviceCommType CommType { get { return m_CommType; } set { m_CommType = value; OnPropertyChanged("CommType"); } }
+        public bool? Usable
         {
             get
             {
@@ -47,22 +60,59 @@ namespace DY.WPF.SYSTEM.COMM
             set
             {
                 m_Usable = value;
-                if (value)
+                if (value == true)
                     m_CommStatusCheckTimer.Start();
                 else
                     m_CommStatusCheckTimer.Stop();
                 OnPropertyChanged("Usable");
-                LOG.Trace("CommClient Ssable Property changed: " + value);
+                LOG.Trace("CommClient Usable Property changed: " + value);
             }
         }
-
+        /// <summary>
+        /// 유저 코멘트
+        /// </summary>
         public string Comment { get { return m_Comment; } set { m_Comment = value; OnPropertyChanged("Comment"); } }
+        /// <summary>
+        /// 연결 상태 이미지
+        /// </summary>
         public Geometry ImageData { get { return m_ImageData; } set { m_ImageData = value; OnPropertyChanged("ImageData"); } }
+        /// <summary>
+        /// 연결 상태 이미지 컬러
+        /// </summary>
         public Brush ImageColor { get { return m_ImageColor; } set { m_ImageColor = value; OnPropertyChanged("ImageColor"); } }
+        /// <summary>
+        /// 통신 옵션 요약
+        /// </summary>
         public string Summary { get { return m_Summary; } set { m_Summary = value; OnPropertyChanged("Summary"); } }
-        public string Key { get { return m_Key; } set { m_Key = value; OnPropertyChanged("Key"); } }
 
-        public CommClient(IConnect socket, DYDevice device, DYDeviceProtocolType comm_type)
+        //___________________EXTRA______________________________________________
+        /// <summary>
+        /// UUID
+        /// </summary>
+        public string Key { get; set; }
+        /// <summary>
+        /// 기타 설정 사항 
+        /// XGT: LOCAL PORT
+        /// </summary>
+        public Dictionary<string, object> ExtraData { get; set; }
+
+        //___________________IO_MONITORING______________________________________
+        /// <summary>
+        /// 프로토콜 통신 간격
+        /// </summary>
+        public int TransferInteval { get { return m_TransferInteval; } set { m_TransferInteval = value; OnPropertyChanged("TransferInteval"); } }
+        /// <summary>
+        /// 요청프로토콜 대기 시간
+        /// </summary>
+        public int ResponseLatencyTime { get { return m_ResponseLatencyTime; } set { m_ResponseLatencyTime = value; OnPropertyChanged("ResponseLatencyTime"); } }
+
+        /// <summary>
+        /// 생성자
+        /// </summary>
+        /// <param name="socket"></param>
+        /// <param name="device"></param>
+        /// <param name="comm_type"></param>
+        public CommClient(IConnect socket, DYDevice device, DYDeviceCommType comm_type)
         {
             Socket = socket;
             Target = device;
@@ -70,6 +120,9 @@ namespace DY.WPF.SYSTEM.COMM
             Socket.ConnectionStatusChanged += OnChangedConnectionStatus;
             m_CommStatusCheckTimer.Elapsed += OnElapsed;
             Key = Guid.NewGuid().ToString();
+
+            ResponseLatencyTime = 1000;
+            TransferInteval = 100;
         }
 
         ~CommClient()
@@ -88,7 +141,7 @@ namespace DY.WPF.SYSTEM.COMM
             m_CommStatusCheckTimer.Dispose();
             Socket.Dispose();
             GC.SuppressFinalize(this);
-            LOG.Debug("CommClient 메모리 해제");
+            LOG.Debug(Summary+ " CommClient 메모리 해제");
         }
 
         /// <summary>
