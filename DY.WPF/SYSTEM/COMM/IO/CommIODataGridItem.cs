@@ -14,6 +14,16 @@ namespace DY.WPF.SYSTEM.IO
     /// </summary>
     public class CommIODataGridItem : INotifyPropertyChanged, ICommIOData
     {
+#if false
+        public CommIODataGridItem(CommIODataGridItem that)
+        {
+            m_Type = that.m_Type;
+            m_Address = that.m_Address;
+            m_Input = that.m_Input;
+            m_Output = that.m_Output;
+            m_Comment = that.m_Comment;
+        }
+#endif
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)

@@ -11,31 +11,32 @@ namespace DY.NET.LSIS.XGT
     {
         public static readonly byte[] AllowDevice = { (byte)'D', (byte)'M' };
 
-        private static string Optimize(string mem_name, DataType type)
+        private static string Optimize(int line_cnt, string mem_name, DataType type)
         {
             string target = null;
             string type_str = "W";
             string addr = mem_name;
             int key_int;
-
+            string row_str = " (row " + line_cnt + ")";
             if (String.IsNullOrEmpty(addr))
-                throw new ArgumentException("Memory variable name is empty.");
+                throw new ArgumentException("Memory variable name is empty." + row_str);
             addr = addr.ToUpper();
+            addr.Replace(".", "");
 
             bool is_1byte_over = !(type == DataType.BIT || type == DataType.BOOL || type == DataType.BYTE || type == DataType.SBYTE);
             if (!XGTMemoryExpression.MemExpDictionary.ContainsKey(addr[0]))
-                throw new ArgumentException("Not supported [" + addr[0] + "] device.");
+                throw new ArgumentException("Not supported [" + addr[0] + "] device." + row_str);
 
             var allow_device = AllowDevice.Select(x => x == addr[0]);
             if (allow_device == null)
-                throw new ArgumentException("Not supported [" + addr[0] + "] device.");
+                throw new ArgumentException("Not supported [" + addr[0] + "] device." + row_str);
 
             MemoryExpression mem_exp = XGTMemoryExpression.MemExpDictionary[addr[0]];
             if (((mem_exp & MemoryExpression.BIT) != 0) && is_1byte_over)
                 throw new ArgumentException("Invalid memory variable string.");
 
-            if ((mem_exp & MemoryExpression.BIT) != 0 && (mem_exp & MemoryExpression.WORD) != 0)
-                addr.Replace(".", "");
+            if (!Int32.TryParse(addr.Substring(1, addr.Length - 1 - (is_1byte_over ? 0 : 1)), out key_int))
+                throw new ArgumentException("Invalid memory variable string." + row_str);
 
             switch (type)
             {
@@ -48,11 +49,11 @@ namespace DY.NET.LSIS.XGT
                 case DataType.SBYTE:
 
                     if (!(addr.Last() == '0' || addr.Last() == '8'))
-                        throw new ArgumentException("Invalid memory variable string.");
+                        throw new ArgumentException("Invalid memory variable string. the byte/sbyte addresses must end in 0 ~ F." + row_str);
                     if ((mem_exp & MemoryExpression.WORD) != 0)
                     {
                         if (!Int32.TryParse(addr.Substring(1, addr.Length - 1), out key_int))
-                            throw new ArgumentException("Invalid memory variable string.");
+                            throw new ArgumentException("Invalid memory variable string." + row_str);
                         int b = addr.Last() == '0' ? 0 : 1;
                         target = addr[0] + ((key_int * 2) + b).ToString();
                     }
@@ -73,11 +74,11 @@ namespace DY.NET.LSIS.XGT
                 case DataType.LWORD:
                 case DataType.LONG:
                     if (!Int32.TryParse(addr.Substring(1, addr.Length - 1), out key_int))
-                        throw new ArgumentException("Invalid memory variable string.");
+                        throw new ArgumentException("Invalid memory variable string." + row_str);
                     type_str = (type == DataType.DWORD || type == DataType.INT) ? "D" : "L";
                     int j = (type == DataType.DWORD || type == DataType.INT) ? 2 : 4;
                     if (key_int % j != 0)
-                        throw new ArgumentException("Address of the memory must be a multiple of " + j + ".");
+                        throw new ArgumentException("Address of the memory must be a multiple of " + j + "." + row_str);
                     target = addr[0] + (key_int / j).ToString();
                     break;
 
@@ -103,14 +104,14 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentNullException("items argument is null");
 
             Dictionary<string, DataType> ret = new Dictionary<string, DataType>();
+            int line_cnt = 1;
             foreach (var i in items)
             {
                 var type = i.GetDataType();
-                string target = Optimize(i.GetAddress(), i.GetDataType());
+                string target = Optimize(line_cnt++, i.GetAddress(), i.GetDataType());
                 if (!ret.ContainsKey(target))
                     ret.Add(target, ((type == DataType.BIT) || (type == DataType.BOOL)) ? DataType.WORD : type);
             }
-            
             return ret;
         }
 
@@ -126,11 +127,12 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentNullException("items argument is null");
             Dictionary<string, bool[]> forSaveMem = new Dictionary<string, bool[]>();
             int output;
+            int line_cnt = 1;
             foreach (var i in items)
             {
                 string addr = i.GetAddress();
                 DataType type = i.GetDataType();
-                string glopa_addr = Optimize(addr, type);
+                string glopa_addr = Optimize(line_cnt++, addr, type);
                 if (!recv_data.ContainsKey(glopa_addr))
                     continue;
                 object value = recv_data[glopa_addr];

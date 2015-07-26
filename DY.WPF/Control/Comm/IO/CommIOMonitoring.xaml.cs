@@ -14,6 +14,7 @@ using OxyPlot.Axes;
 using DY.WPF.SYSTEM.COMM;
 using DY.NET;
 using DY.WPF.SYSTEM.IO;
+using PropertyTools.Wpf;
 
 namespace DY.WPF
 {
@@ -23,15 +24,17 @@ namespace DY.WPF
     public partial class CommIOMonitoring : UserControl, ICommTabControl
     {
         private ACommIOMonitoringStrategy m_CommIOContext;
+        private CommClient m_CClient;
+
         public CommClient CClient
         {
             get
             {
-                return NDataGrid.CClient;
+                return m_CClient;
             }
             set
             {
-                NDataGrid.CClient = value;
+                m_CClient = value;
 
                 //xaml 컨트롤 바인딩
                 Binding resp_ratency_t = new Binding("ResponseLatencyTime") { Source = value };
@@ -39,7 +42,7 @@ namespace DY.WPF
 
                 Binding transfer_inteval = new Binding("TransferInteval") { Source = value };
                 this.NTB_TransferInteval.NTextBox.SetBinding(TextBox.TextProperty, transfer_inteval);
-
+#if false
                 //skt on/off 이벤트 캐치해서 IO모니터링 off
                 CClient.PropertyChanged += (object sender, PropertyChangedEventArgs e) =>
                 {
@@ -50,6 +53,7 @@ namespace DY.WPF
                             NBT_MonitoringOnOff.IsChecked = false;
                     }
                 };
+#endif
             }
         }
 
@@ -71,7 +75,6 @@ namespace DY.WPF
             //컨트롤 이벤트 설정
             NBT_ExcelEditModeOnOff.IsCheckedChanged += OnCheckChangedEditMode;
             NBT_RespRatencyTOnOff.IsCheckedChanged += OnCheckChangedGraphActivation;
-            NBT_MonitoringOnOff.IsCheckedChanged += OnCheckChangedMonitoring;
         }
 
         private async Task MonitoringStart()
@@ -93,13 +96,41 @@ namespace DY.WPF
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnCheckChangedEditMode(object sender, EventArgs e)
+        private async void OnCheckChangedEditMode(object sender, EventArgs e)
         {
+            IList<ICommIOData> items = NDataGrid.Items.Cast<ICommIOData>().ToList();
+            bool haveException = false;
+            string exception_msg = null;
             var toggle = sender as ToggleSwitch;
-            NDataGrid.Editable = toggle.IsChecked == true ? true : false;
-            NBT_MonitoringOnOff.IsChecked = !toggle.IsChecked;
+            bool check = toggle.IsChecked == true ? true : false;
+            
+            do
+            {
+                if (check) //편집모드에서 나갈 때 
+                    break;
+                NDataGrid.RemoveEmtpyCollectionItem();
+                if (items.Count == 0)
+                    break;
+                try
+                {
+                    m_CommIOContext.UpdateProtocols(items);
+                }
+                catch (Exception exception)
+                {
+                    haveException = true;
+                    exception_msg = exception.Message;
+                }
+                if (haveException)
+                {
+                    MetroWindow metro_win = Window.GetWindow(this) as MetroWindow; //Data preparation
+                    await metro_win.ShowMessageAsync("Notice", "Can't save the edited content.\n" + exception_msg);
+                    toggle.IsChecked = true;
+                    return;
+                }
+            } while(false);
+            NDataGrid.Editable = check;
         }
-
+#if false
         /// <summary>
         /// IO 입출력 모니터링 ON/OFF
         /// </summary>
@@ -135,6 +166,7 @@ namespace DY.WPF
                 await progress.CloseAsync();
             }
         }
+#endif
 
         private void OnCheckChangedGraphActivation(object sender, EventArgs e)
         {

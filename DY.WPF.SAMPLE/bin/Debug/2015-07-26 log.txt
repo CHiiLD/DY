@@ -142,3 +142,33 @@ Tcp 192.168.101.50:2004 업데이트 루프 종료
 07:56:19 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
 Tcp 192.168.101.50:2004 업데이트 루프 종료까지 대기 시작
 
+09:18:47 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+09:18:50 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+09:18:59 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+09:19:06 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 통신 접속 해제에 의한 업데이트 중단
+
+09:19:06 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+09:19:06 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 해제
+
+09:19:06 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 메모리 해제
+
+09:19:06 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+09:24:01 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+09:24:03 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
