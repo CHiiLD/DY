@@ -9,7 +9,7 @@
              x:Name="this"
              d:DesignHeight="768" d:DesignWidth="1024">
     <Grid Margin="0,4,0,0">
-        <TabControl x:Name="NTabControl" mah:TabControlHelper.IsUnderlined="True">
+        <TabControl x:Name="NTabControl" mah:TabControlHelper.IsUnderlined="True" SelectionChanged="NTabControl_SelectionChanged">
             <TabItem Header="Communication Settings" mah:ControlsHelper.HeaderFontSize="{Binding Path=TABITEM_HEADER_FONTSIZE, ElementName=this}" >
                 <Grid Margin="{Binding Path=TABCONTROL_MARGIN, ElementName=this}">
                     <Grid.ColumnDefinitions>

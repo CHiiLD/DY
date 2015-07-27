@@ -67,8 +67,9 @@ namespace DY.WPF
                         CommIOMonitoring comm_io_monitoring = new CommIOMonitoring(new XGTCommIOMonitoring(cclient));
                         comm_io_monitoring.Margin = new Thickness(TABCONTROL_MARGIN);
                         tab_item.Content = comm_io_monitoring;
-                        tab_item.SetBinding(TabItem.HeaderProperty, new Binding("Comment") { Source = cclient });
-                        tab_item.Header = String.IsNullOrEmpty(cclient.Comment) ? cclient.Summary : cclient.Comment;
+                        tab_item.SetBinding(HeaderedContentControl.HeaderProperty, new Binding("Comment") { Source = cclient });
+                        if (String.IsNullOrEmpty(cclient.Comment))
+                            cclient.Comment = cclient.Summary;
                         item_collection.Add(tab_item);
                         break;
                 }
@@ -91,7 +92,7 @@ namespace DY.WPF
                 foreach (var s in item_src)
                 {
                     TabItem tab_item = s as TabItem;
-                    ICommTabControl comm_moni = tab_item.Content as ICommTabControl;
+                    ICommControlTowerTabItem comm_moni = tab_item.Content as ICommControlTowerTabItem;
                     if (comm_moni != null && client.Key == comm_moni.CClient.Key)
                     {
                         LOG.Trace("통신 컨트롤 타워 탭 아이템 삭제: " + client.Key);
@@ -131,6 +132,41 @@ namespace DY.WPF
                 case NotifyCollectionChangedAction.Reset:
                     LOG.Trace("NotifyCollectionChangedAction.Reset");
                     break;
+            }
+        }
+
+        /// <summary>
+        /// Tab Item 선택 이벤트
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NTabControl_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            IList selected_items = e.AddedItems;
+            IList unselected_items = e.RemovedItems;
+
+            foreach (var i in selected_items)
+            {
+                var tab_item = i as TabItem;
+                if (tab_item == null)
+                    break;
+                var tab_item_context = tab_item.Content as ICommControlTowerTabItem;
+                if (tab_item_context == null)
+                    continue;
+                if (tab_item_context.Selected != null)
+                    tab_item_context.Selected(tab_item, EventArgs.Empty);
+            }
+
+            foreach (var i in unselected_items)
+            {
+                var tab_item = i as TabItem;
+                if (tab_item == null)
+                    break;
+                var tab_item_context = tab_item.Content as ICommControlTowerTabItem;
+                if (tab_item_context == null)
+                    continue;
+                if (tab_item_context.Unselected != null)
+                    tab_item_context.Unselected(tab_item, EventArgs.Empty);
             }
         }
     }

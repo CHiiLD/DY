@@ -47,6 +47,8 @@ namespace DY.WPF
                 if (value) //편집 모드 온 
                 {
                     ItemsBakcup = new ObservableCollection<CommIODataGridItem>(Items); //수정 모드일 때 현재 데이터 백업
+                    foreach (var i in Items)
+                        i.Output = null;
                 }
                 else       //편집 모드 오프
                 {

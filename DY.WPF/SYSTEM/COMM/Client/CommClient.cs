@@ -27,7 +27,7 @@ namespace DY.WPF.SYSTEM.COMM
         private Timer m_CommStatusCheckTimer = new Timer(STATUS_CHECK_INTEVAL);
         private DYDevice m_Target;
         private DYDeviceCommType m_CommType;
-        private bool? m_Usable;
+        private bool? m_Usable = false;
         private string m_Comment;
         private Geometry m_ImageData = CommStateAi.ConnectFailure.Data;
         private Brush m_ImageColor = CommStateAi.ConnectFailure.Fill;
@@ -65,7 +65,7 @@ namespace DY.WPF.SYSTEM.COMM
                 else
                     m_CommStatusCheckTimer.Stop();
                 OnPropertyChanged("Usable");
-                LOG.Trace("CommClient Usable Property changed: " + value);
+                //LOG.Trace("CommClient Usable Property changed: " + value);
             }
         }
         /// <summary>
@@ -120,7 +120,7 @@ namespace DY.WPF.SYSTEM.COMM
             Socket.ConnectionStatusChanged += OnChangedConnectionStatus;
             m_CommStatusCheckTimer.Elapsed += OnElapsed;
             Key = Guid.NewGuid().ToString();
-
+            
             ResponseLatencyTime = 1000;
             TransferInteval = 100;
         }

@@ -1,3 +1,1602 @@
 09:04:55 DY.WPF.CommConnectionDataGrid
 시도 결과: Connection failed.(time out)
 
+10:50:22 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+10:50:25 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+10:59:19 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+10:59:22 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+10:59:43 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+10:59:45 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+11:00:21 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 해제
+
+11:00:21 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 메모리 해제
+
+11:21:54 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+11:21:57 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+11:22:02 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 해제
+
+11:22:02 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 메모리 해제
+
+11:25:28 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+11:25:31 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+11:47:03 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+11:47:05 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+12:04:14 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+12:04:17 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+13:13:23 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+13:13:25 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+13:14:51 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+13:14:53 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+13:16:37 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+13:16:39 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+13:19:05 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+13:19:10 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+13:19:37 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 해제
+
+13:19:37 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 메모리 해제
+
+13:20:16 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+13:20:18 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+13:20:52 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 해제
+
+13:20:52 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 메모리 해제
+
+13:21:05 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+13:21:08 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+16:35:46 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+16:35:51 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+16:36:39 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+16:39:36 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+16:39:39 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+16:52:50 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+16:52:50 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 통신 접속 해제에 의한 업데이트 중단
+
+16:52:50 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+16:58:36 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+16:58:37 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+16:58:37 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:01:22 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:01:33 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:01:34 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:01:34 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:01:38 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:01:38 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:01:40 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:01:42 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:01:42 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:01:44 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:01:47 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:01:47 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:01:49 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:01:51 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:01:52 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:01:52 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:01:59 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:01:59 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:02:02 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:02:03 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:02:04 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:05:39 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:05:39 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:05:40 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:05:42 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+17:05:45 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:05:45 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:05:47 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:05:47 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:05:55 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:08:12 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+17:08:15 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:08:15 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:08:18 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:08:18 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:08:48 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:08:58 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:08:58 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:00 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:01 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:01 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:01 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:01 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:02 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:02 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:02 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:02 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:02 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:02 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:02 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:03 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:03 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:03 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:03 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:03 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:03 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:03 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:03 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:04 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:04 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:04 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:04 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:04 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:04 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:04 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:04 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:04 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:05 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:05 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:05 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:05 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:05 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:05 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:05 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:05 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:06 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:06 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:06 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:06 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:06 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:06 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:06 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:06 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:07 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:07 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:07 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:07 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:07 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:07 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:07 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:07 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:07 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:08 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:08 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:08 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:08 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:08 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:08 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:08 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:08 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:09 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:09 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:10 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:10 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:10 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:11 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:11 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:12 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:12 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:12 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:12 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:13 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:14 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:16 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:16 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:16 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:17 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:17 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:17 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:18 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:18 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:19 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:19 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:19 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:20 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:20 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:20 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:21 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:22 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:25 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:25 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:26 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:26 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:26 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:26 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:26 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:27 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:27 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:27 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:27 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:27 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:27 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:28 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:28 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:28 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:28 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:29 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:29 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:29 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:29 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:30 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:30 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:30 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:38 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:38 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:38 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:38 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:38 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:38 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:39 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:39 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:39 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:39 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:39 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:40 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:40 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:40 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:40 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:41 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:41 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:42 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:42 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:42 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:42 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:46 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:46 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:46 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:46 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:47 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:49 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:09:50 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:09:51 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:09:54 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:12:43 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:12:52 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:12:52 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:12:55 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+17:12:57 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:12:58 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:13:04 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:13:04 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:13:10 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:13:13 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:13:13 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:13:49 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:18:29 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:18:29 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:18:30 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:18:32 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+17:18:34 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:18:35 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:18:37 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:18:37 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:18:55 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:22:34 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+17:22:36 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:22:37 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:22:39 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:22:39 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:22:51 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:22:52 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:22:53 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:22:54 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:22:55 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:22:56 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:22:57 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:22:58 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:22:59 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:23:00 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:23:01 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:23:02 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:23:03 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:23:04 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:23:05 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:23:06 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:23:07 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:23:08 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:23:25 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+17:23:27 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:23:28 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:23:29 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료까지 대기 시작
+
+17:23:30 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 종료
+
+17:23:37 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+COM3 115200-8-N-1 업데이트 루프 시작
+
+17:23:38 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:23:39 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:23:40 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:23:41 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:23:42 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:23:43 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:23:44 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:23:45 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:23:46 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 5000
+
+17:23:51 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 5000
+
+17:23:56 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 5000
+
+17:24:01 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:02 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:03 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:04 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:05 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:06 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:07 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:08 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:09 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:10 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:11 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:12 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:13 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:14 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:15 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:16 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:17 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:18 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:19 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:20 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:21 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:22 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:23 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:24 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:25 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:26 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:27 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:28 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:29 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:30 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:31 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:32 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:33 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:34 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:35 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:36 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:24:37 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:25:44 DY.NET.LSIS.XGT.XGTFEnetSocket
+XGT-FEnet 이더넷 통신 비동기 접속
+
+17:25:46 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:25:47 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:25:48 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:25:48 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:25:52 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:35:19 DY.NET.LSIS.XGT.XGTFEnetSocket
+XGT-FEnet 이더넷 통신 비동기 접속
+
+17:35:21 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:35:22 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:35:23 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:35:23 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:35:28 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:35:29 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:35:29 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:35:35 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:35:51 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:35:52 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:35:52 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:36:01 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:36:02 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:36:04 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:36:21 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:36:21 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:36:46 DY.NET.LSIS.XGT.XGTFEnetSocket
+XGT-FEnet 이더넷 통신 비동기 접속
+
+17:36:49 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:36:49 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:36:52 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:36:52 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:37:01 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:37:04 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:38:14 DY.NET.LSIS.XGT.XGTFEnetSocket
+XGT-FEnet 이더넷 통신 비동기 접속
+
+17:38:17 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:38:18 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:38:20 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:38:20 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:38:25 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:38:51 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+IO 모니터링 타임 아웃. 응답대기시간: 1000
+
+17:41:38 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:41:39 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:41:54 DY.NET.LSIS.XGT.XGTFEnetSocket
+XGT-FEnet 이더넷 통신 비동기 접속
+
+17:41:57 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:41:57 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:41:58 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:41:58 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:42:06 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:42:45 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:45:53 DY.NET.LSIS.XGT.XGTFEnetSocket
+XGT-FEnet 이더넷 통신 비동기 접속
+
+17:45:56 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:45:56 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:45:58 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:45:58 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:46:03 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:46:18 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:46:18 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:46:37 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:46:55 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:46:56 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:47:01 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:47:40 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:47:41 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:47:41 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:47:54 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:47:55 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:49:22 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:49:32 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:49:32 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:49:35 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:50:07 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:50:07 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:50:22 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:50:22 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:50:23 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:50:23 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:50:41 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:50:41 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:50:49 DY.NET.LSIS.XGT.XGTFEnetSocket
+XGT-FEnet 이더넷 통신 비동기 접속
+
+17:50:52 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:50:52 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:50:59 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:50:59 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:51:02 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:51:10 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:51:10 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:52:44 DY.NET.LSIS.XGT.XGTFEnetSocket
+XGT-FEnet 이더넷 통신 비동기 접속
+
+17:52:47 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:52:47 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:52:49 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:52:49 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:53:28 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:53:36 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:53:36 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:53:37 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:53:37 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:53:38 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:53:41 DY.NET.LSIS.XGT.XGTFEnetSocket
+XGT-FEnet 이더넷 통신 비동기 접속
+
+17:53:44 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:53:44 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:53:45 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:53:45 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:53:47 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:54:47 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.(time out)
+
+17:54:48 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 업데이트 루프 시작
+
+17:54:48 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:54:49 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:54:50 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 업데이트 루프 종료까지 대기 시작
+
+17:54:50 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 업데이트 루프 종료
+
+17:54:56 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.(time out)
+
+17:55:14 DY.NET.LSIS.XGT.XGTFEnetSocket
+XGT-FEnet 이더넷 통신 비동기 접속
+
+17:55:17 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:55:17 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:55:19 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:55:19 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:55:21 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:55:23 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:55:23 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:55:39 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:55:39 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:55:40 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:55:41 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:55:42 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:55:43 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:55:44 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:55:44 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:55:45 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:55:48 DY.NET.LSIS.XGT.XGTFEnetSocket
+XGT-FEnet 이더넷 통신 해제 및 메모리 해제
+
+17:55:48 DY.WPF.SYSTEM.COMM.CommClient
+Tcp 192.168.101.50:2004 CommClient 메모리 해제
+
+17:55:48 DY.NET.LSIS.XGT.XGTFEnetSocket
+XGT-FEnet 이더넷 통신 비동기 접속
+
+17:55:50 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:55:51 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:55:52 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:55:52 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:55:53 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:56:00 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:56:00 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:56:26 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:56:26 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:27 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:28 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:29 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:56:29 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:56:30 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:56:30 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:31 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:32 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:56:32 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:56:35 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:56:35 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:36 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:36 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:56:37 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+17:56:37 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:56:37 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:38 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:39 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:40 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:41 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:42 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:43 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:44 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:45 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:46 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:47 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:48 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:49 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:50 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:51 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:52 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:53 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:54 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:55 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:56 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:56:57 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:58:09 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.(time out)
+
+17:58:09 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 업데이트 루프 시작
+
+17:58:09 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:58:10 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 업데이트 루프 종료까지 대기 시작
+
+17:58:10 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 업데이트 루프 종료
+
+17:58:17 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.(time out)
+
+17:58:17 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 업데이트 루프 시작
+
+17:58:17 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+17:58:18 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 업데이트 루프 종료까지 대기 시작
+
+17:58:18 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.101.50:2004 업데이트 루프 종료
+
+17:58:23 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.(time out)
+
+17:59:43 DY.NET.LSIS.XGT.XGTFEnetSocket
+XGT-FEnet 이더넷 통신 비동기 접속
+
+17:59:45 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:59:46 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+17:59:47 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+17:59:47 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+18:00:17 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+18:00:17 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+18:00:18 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+18:00:19 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+18:00:20 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+18:00:21 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+18:00:22 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+18:00:23 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+18:00:24 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+18:00:25 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+18:00:26 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+18:00:27 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+18:00:28 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 통신 접속 해제에 의한 접속 대기 .. 1초
+
+18:05:30 DY.NET.LSIS.XGT.XGTFEnetSocket
+XGT-FEnet 이더넷 통신 비동기 접속
+
+18:05:33 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+18:05:33 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+18:05:37 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료까지 대기 시작
+
+18:05:37 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+18:05:51 DY.WPF.SYSTEM.IO.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+

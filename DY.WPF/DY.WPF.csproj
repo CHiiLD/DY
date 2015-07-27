@@ -86,7 +86,7 @@
     <Compile Include="Control\Comm\IO\CommIOMonitoring.xaml.cs">
       <DependentUpon>CommIOMonitoring.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SYSTEM\COMM\Client\ICommTabControl.cs" />
+    <Compile Include="SYSTEM\COMM\Client\ICommControlTowerTabItem.cs" />
     <Compile Include="SYSTEM\COMM\IO\CommIODataGridItem.cs" />
     <Compile Include="SYSTEM\COMM\Client\ISummaryParameter.cs" />
     <Compile Include="ConstProperty\Font.cs" />

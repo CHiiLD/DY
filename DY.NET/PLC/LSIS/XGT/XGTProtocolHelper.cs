@@ -60,7 +60,7 @@ namespace DY.NET.LSIS.XGT
                 case DataType.SBYTE:
 
                     if (!(addr.Last() == '0' || addr.Last() == '8'))
-                        throw new ArgumentException("Invalid memory variable string. the byte/sbyte addresses must end in 0 ~ F." + row_str);
+                        throw new ArgumentException("Invalid memory variable string. the byte/sbyte addresses must end in 0 or 8" + row_str);
                     if ((mem_exp & MemoryExpression.WORD) != 0)
                     {
                         int b = addr.Last() == '0' ? 0 : 1;
@@ -132,8 +132,7 @@ namespace DY.NET.LSIS.XGT
         {
             if (recv_data == null || items == null)
                 throw new ArgumentNullException("items argument is null");
-            Dictionary<string, bool[]> forSaveMem = new Dictionary<string, bool[]>();
-            int output;
+            Dictionary<string, bool[]> bit_storagy = new Dictionary<string, bool[]>();
             int line_cnt = 1;
             foreach (var i in items)
             {
@@ -147,19 +146,17 @@ namespace DY.NET.LSIS.XGT
                 {
                     case DataType.BIT:
                     case DataType.BOOL:
-                        if (Int32.TryParse("0x" + addr.Last(), out output))
+                        int idx = Convert.ToInt32(addr.Last().ToString(), 16);
+                        if (bit_storagy.ContainsKey(addr))
                         {
-                            if (forSaveMem.ContainsKey(addr))
-                                i.SetValue(forSaveMem[addr][output]);
-                            else
-                            {
-                                bool[] bits = B2W.ToBits((ushort)value);
-                                i.SetValue(bits[output]);
-                                forSaveMem.Add(addr, bits);
-                            }
+                            i.SetValue(bit_storagy[addr][idx]);
                         }
                         else
-                            throw new IndexOutOfRangeException("Invalid address string.(address string must end with a 0-F)");
+                        {
+                            bool[] bits = B2W.ToBits((ushort)value);
+                            i.SetValue(bits[idx]);
+                            bit_storagy.Add(addr, bits);
+                        }
                         break;
                     case DataType.BYTE:
                     case DataType.SBYTE:

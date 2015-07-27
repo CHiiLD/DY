@@ -15,14 +15,17 @@ using DY.WPF.SYSTEM.COMM;
 using DY.NET;
 using DY.WPF.SYSTEM.IO;
 using PropertyTools.Wpf;
+using NLog;
 
 namespace DY.WPF
 {
     /// <summary>
     /// CommIOMonitoring.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class CommIOMonitoring : UserControl, ICommTabControl
+    public partial class CommIOMonitoring : UserControl, ICommControlTowerTabItem
     {
+        private static Logger LOG = LogManager.GetCurrentClassLogger();
+
         private ACommIOMonitoringStrategy m_CommIOContext;
         private CommClient m_CClient;
 
@@ -36,26 +39,16 @@ namespace DY.WPF
             {
                 m_CClient = value;
 
-                //xaml 컨트롤 바인딩
+                Binding activation = new Binding("Usable") { Source = value };
+                this.SetBinding(UserControl.IsEnabledProperty, activation);
                 Binding resp_ratency_t = new Binding("ResponseLatencyTime") { Source = value };
                 this.NTB_ResponseRatencyT.NTextBox.SetBinding(TextBox.TextProperty, resp_ratency_t);
-
                 Binding transfer_inteval = new Binding("TransferInteval") { Source = value };
                 this.NTB_TransferInteval.NTextBox.SetBinding(TextBox.TextProperty, transfer_inteval);
-#if false
-                //skt on/off 이벤트 캐치해서 IO모니터링 off
-                CClient.PropertyChanged += (object sender, PropertyChangedEventArgs e) =>
-                {
-                    if (e.PropertyName == "Usable")
-                    {
-                        var cc = sender as CommClient;
-                        if (cc.Usable == false && NBT_MonitoringOnOff.IsChecked == true)
-                            NBT_MonitoringOnOff.IsChecked = false;
-                    }
-                };
-#endif
             }
         }
+        public EventHandler<EventArgs> Selected { get; set; }
+        public EventHandler<EventArgs> Unselected { get; set; }
 
         /// <summary>
         /// 초기화
@@ -75,10 +68,37 @@ namespace DY.WPF
             //컨트롤 이벤트 설정
             NBT_ExcelEditModeOnOff.IsCheckedChanged += OnCheckChangedEditMode;
             NBT_RespRatencyTOnOff.IsCheckedChanged += OnCheckChangedGraphActivation;
+            Selected = OnSelectedAsync;
+            Unselected = OnUnselectedAsync;
         }
 
-        private async Task MonitoringStart()
+        /// <summary>
+        /// IO 모니터링을 시작한다
+        /// </summary>
+        /// <param name="sender">this, CommIOMonitoring 객체</param>
+        /// <param name="args"></param>
+        public async void OnSelectedAsync(object sender, EventArgs args)
         {
+            if (!NDataGrid.Editable) //편집 모드가 아닐 때 모니터링 시작 ..
+                await StartMonitoring();
+        }
+
+        /// <summary>
+        /// IO 모니터링을 중지한다
+        /// </summary>
+        /// <param name="sender">this, CommIOMonitoring 객체</param>
+        /// <param name="args"></param>
+        public async void OnUnselectedAsync(object sender, EventArgs args)
+        {
+            await StopMonitoring();
+        }
+
+        private async Task StartMonitoring()
+        {
+            if (NDataGrid.Items.Count == 0)
+                return;
+
+            LOG.Trace("모니터링 요청");
             IList<ICommIOData> items = NDataGrid.Items.Cast<ICommIOData>().ToList();
             if (items == null)
                 throw new InvalidCastException("Can't cast ObservableCollection<CommIODataGridItem> to IList<ICommIOData>");
@@ -86,9 +106,13 @@ namespace DY.WPF
             await m_CommIOContext.SetLoopAsync(true); //루프 작동 트리거 ON
         }
 
-        private async Task MonitoringStop()
+        private async Task StopMonitoring()
         {
+            if (NDataGrid.Items.Count == 0)
+                return;
+
             await m_CommIOContext.SetLoopAsync(false); //루프 작동 트리거 OFF
+            LOG.Trace("모니터링 종료");
         }
 
         /// <summary>
@@ -101,6 +125,7 @@ namespace DY.WPF
             bool haveException = false;
             string exception_msg = null;
             var toggle = sender as ToggleSwitch;
+            MetroWindow metro_win = Window.GetWindow(this) as MetroWindow; //Data preparation
             bool check = toggle.IsChecked == true ? true : false;
             do
             {
@@ -121,12 +146,16 @@ namespace DY.WPF
                 }
                 if (haveException)
                 {
-                    MetroWindow metro_win = Window.GetWindow(this) as MetroWindow; //Data preparation
                     await metro_win.ShowMessageAsync("Notice", "Can't save the edited content.\n" + exception_msg);
                     toggle.IsChecked = true;
                     return;
                 }
-            } while(false);
+            } while (false);
+
+            if (check)
+                await StopMonitoring();
+            else
+                await StartMonitoring();
             NDataGrid.Editable = check;
         }
 

@@ -46,7 +46,7 @@ namespace DY.WPF.SYSTEM.IO
 
         public void SetValue(object value)
         {
-            m_Input = value;
+            Output = value;
         }
 
         public string GetAddress()
