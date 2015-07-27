@@ -16,10 +16,10 @@ namespace DY.WPF.SYSTEM.COMM
     /// <summary>
     /// ClientComm, 통신을 전체 통제하는 클래스
     /// </summary>
-    public class CommClientManagement : IDisposable
+    public class CommClientDirector : IDisposable
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();
-        private static CommClientManagement THIS;
+        private static CommClientDirector THIS;
 
         private Timer m_TryConnectionTimer = new Timer();
 
@@ -37,7 +37,7 @@ namespace DY.WPF.SYSTEM.COMM
             private set;
         }
 
-        private CommClientManagement()
+        private CommClientDirector()
         {
             Clientele = new ObservableCollection<CommClient>();
             m_TryConnectionTimer.Elapsed += async (object sender, ElapsedEventArgs args) =>
@@ -69,7 +69,7 @@ namespace DY.WPF.SYSTEM.COMM
             UsableReconnectProperty.Source = false;
         }
 
-        ~CommClientManagement()
+        ~CommClientDirector()
         {
             Dispose();
         }
@@ -91,10 +91,10 @@ namespace DY.WPF.SYSTEM.COMM
         /// CommClientManagement 싱글톤 객체 포인터 반환
         /// </summary>
         /// <returns></returns>
-        public static CommClientManagement GetInstance()
+        public static CommClientDirector GetInstance()
         {
             if (THIS == null)
-                THIS = new CommClientManagement();
+                THIS = new CommClientDirector();
             return THIS;
         }
 

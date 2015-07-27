@@ -24,7 +24,7 @@ namespace DY.WPF
         public CommConnectionManage()
         {
             this.InitializeComponent();
-            CommClientManagement ccmm = CommClientManagement.GetInstance();
+            CommClientDirector ccmm = CommClientDirector.GetInstance();
             Binding reconnect_swtich_bind = new Binding("Source") { Source = ccmm.UsableReconnectProperty };
             this.NBT_ReconnectSwtich.SetBinding(ToggleSwitch.IsCheckedProperty, reconnect_swtich_bind);
 

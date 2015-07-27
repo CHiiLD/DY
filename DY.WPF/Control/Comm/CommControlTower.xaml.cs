@@ -35,7 +35,7 @@ namespace DY.WPF
 
         public CommControlTower()
         {
-            var client_mnt = CommClientManagement.GetInstance().Clientele;
+            var client_mnt = CommClientDirector.GetInstance().Clientele;
             client_mnt.CollectionChanged += OnCollectionChanged;
             InitializeComponent();
         }

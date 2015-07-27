@@ -92,7 +92,7 @@ namespace DY.WPF.WINDOW
                 CommClient client_comm = new CommClient(client, comm_device, comm_type);
                 client_comm.Summary = comm_option.GetParameterSummaryString();
                 client_comm.ExtraData = extra_data;
-                CommClientManagement.GetInstance().Clientele.Add(client_comm);
+                CommClientDirector.GetInstance().Clientele.Add(client_comm);
                 Close();
             } while (false);
         }

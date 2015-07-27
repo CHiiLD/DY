@@ -34,7 +34,7 @@ namespace DY.WPF
         {
             get
             {
-                return CommClientManagement.GetInstance().Clientele;
+                return CommClientDirector.GetInstance().Clientele;
             }
         }
 
@@ -67,7 +67,7 @@ namespace DY.WPF
             if (client.IsConnected())
                 return true;
 
-            int inteval = CommClientManagement.GetInstance().ResponseLatencyProperty.Source;
+            int inteval = CommClientDirector.GetInstance().ResponseLatencyProperty.Source;
             bool isConnected = false;
             string message = null;
             MetroWindow metro_win = Window.GetWindow(this) as MetroWindow;
@@ -230,7 +230,7 @@ namespace DY.WPF
         private void NMI_Remove_Click(object sender, RoutedEventArgs e)
         {
             Disconnect(m_CurSelectedCClient.Socket);
-            CommClientManagement.GetInstance().Clientele.Remove(m_CurSelectedCClient);
+            CommClientDirector.GetInstance().Clientele.Remove(m_CurSelectedCClient);
         }
     }
 }

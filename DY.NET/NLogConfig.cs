@@ -32,6 +32,7 @@ namespace DY.NET
             consoleTarget.Layout = @"${date:format=HH\:mm\:ss} ${logger} ${message}";
             fileTarget.FileName = "${basedir}/${date:format=yyyy-MM-dd} log.txt";
             fileTarget.Layout = @"${date:format=HH\:mm\:ss} ${logger}${newline}${message}${newline}";
+            fileTarget.Encoding = Encoding.UTF8;
 
             // Step 4. Define rules
             var rule1 = new LoggingRule("*", LogLevel.Trace, consoleTarget);

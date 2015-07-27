@@ -121,7 +121,7 @@
       <DependentUpon>AICommCross.xaml</DependentUpon>
     </Compile>
     <Compile Include="SYSTEM\COMM\Client\CommClient.cs" />
-    <Compile Include="SYSTEM\COMM\Client\CommClientManagement.cs" />
+    <Compile Include="SYSTEM\COMM\Client\CommClientDirector.cs" />
     <Compile Include="SYSTEM\COMM\IO\ICommIOMonitoringStrategy.cs" />
     <Compile Include="SYSTEM\COMM\IO\XGTCommIOMonitoring.cs" />
     <Compile Include="SYSTEM\NotifyPropertyChanged.cs" />

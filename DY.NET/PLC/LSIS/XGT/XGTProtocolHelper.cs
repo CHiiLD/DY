@@ -16,14 +16,15 @@ namespace DY.NET.LSIS.XGT
             string target = null;
             string type_str = "W";
             string addr = mem_name;
-            int key_int;
+            int demical_int;
             string row_str = " (row " + line_cnt + ")";
             if (String.IsNullOrEmpty(addr))
                 throw new ArgumentException("Memory variable name is empty." + row_str);
             addr = addr.ToUpper();
-            addr.Replace(".", "");
+            addr = addr.Replace(".", "");
 
-            bool is_1byte_over = !(type == DataType.BIT || type == DataType.BOOL || type == DataType.BYTE || type == DataType.SBYTE);
+            bool has_hex = !(type == DataType.BIT || type == DataType.BOOL || type == DataType.BYTE || type == DataType.SBYTE);
+
             if (!XGTMemoryExpression.MemExpDictionary.ContainsKey(addr[0]))
                 throw new ArgumentException("Not supported [" + addr[0] + "] device." + row_str);
 
@@ -31,12 +32,22 @@ namespace DY.NET.LSIS.XGT
             if (allow_device == null)
                 throw new ArgumentException("Not supported [" + addr[0] + "] device." + row_str);
 
+            int mem_size = XGTServiceableDevice.MemoryTerritorySize[addr[0]];
             MemoryExpression mem_exp = XGTMemoryExpression.MemExpDictionary[addr[0]];
-            if (((mem_exp & MemoryExpression.BIT) != 0) && is_1byte_over)
-                throw new ArgumentException("Invalid memory variable string.");
+            string demical_str = addr.Substring(1, addr.Length - 1 - (has_hex ? 0 : 1));
 
-            if (!Int32.TryParse(addr.Substring(1, addr.Length - 1 - (is_1byte_over ? 0 : 1)), out key_int))
-                throw new ArgumentException("Invalid memory variable string." + row_str);
+            //데이터 타입은 BIT나 BYTE를 선택했지만 정작 디바이스가 BIT, BYTE를 지원하지 않는 타입인가?
+            if (((mem_exp & MemoryExpression.BIT) == 0) && has_hex)
+                throw new ArgumentException("[TYPE1] Invalid memory variable string." + row_str);
+            //10진수의 자리수 범위가 올바른가?
+            if (!(1 <= demical_str.Length && demical_str.Length <= mem_size.ToString().Length))
+                throw new ArgumentException("[TYPE2] Invalid memory variable string." + row_str);
+            //10진수가 정수로 변환 가능한가? 
+            if (!Int32.TryParse(demical_str, out demical_int))
+                throw new ArgumentException("[TYPE3] Invalid memory variable string." + row_str);
+            //디바이스의 범위를 초과하지 않았나?
+            if (demical_int >= mem_size)
+                throw new ArgumentException("Invalid range memory(D: 00000~19999, M: 0000~2023)." + row_str);
 
             switch (type)
             {
@@ -52,10 +63,8 @@ namespace DY.NET.LSIS.XGT
                         throw new ArgumentException("Invalid memory variable string. the byte/sbyte addresses must end in 0 ~ F." + row_str);
                     if ((mem_exp & MemoryExpression.WORD) != 0)
                     {
-                        if (!Int32.TryParse(addr.Substring(1, addr.Length - 1), out key_int))
-                            throw new ArgumentException("Invalid memory variable string." + row_str);
                         int b = addr.Last() == '0' ? 0 : 1;
-                        target = addr[0] + ((key_int * 2) + b).ToString();
+                        target = addr[0] + ((demical_int * 2) + b).ToString();
                     }
                     else
                     {
@@ -73,13 +82,11 @@ namespace DY.NET.LSIS.XGT
                 case DataType.INT:
                 case DataType.LWORD:
                 case DataType.LONG:
-                    if (!Int32.TryParse(addr.Substring(1, addr.Length - 1), out key_int))
-                        throw new ArgumentException("Invalid memory variable string." + row_str);
                     type_str = (type == DataType.DWORD || type == DataType.INT) ? "D" : "L";
                     int j = (type == DataType.DWORD || type == DataType.INT) ? 2 : 4;
-                    if (key_int % j != 0)
+                    if (demical_int % j != 0)
                         throw new ArgumentException("Address of the memory must be a multiple of " + j + "." + row_str);
-                    target = addr[0] + (key_int / j).ToString();
+                    target = addr[0] + (demical_int / j).ToString();
                     break;
 
                 default:

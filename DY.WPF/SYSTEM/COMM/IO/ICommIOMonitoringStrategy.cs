@@ -6,7 +6,6 @@ using System.Threading.Tasks;
 
 using DY.NET;
 using NLog;
-
 using DY.WPF.SYSTEM.COMM;
 
 namespace DY.WPF.SYSTEM.IO

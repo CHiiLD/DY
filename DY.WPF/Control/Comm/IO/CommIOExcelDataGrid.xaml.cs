@@ -69,21 +69,20 @@ namespace DY.WPF
             //cs에서 수동으로 생성해서 설정 
         }
 
+        /// <summary>
+        /// 어드레스 칸이 공란인 아이템을 삭제
+        /// </summary>
         public void RemoveEmtpyCollectionItem()
         {
-#if false
-            var ItemsCpy = new Collection<CommIODataGridItem>(Items);
-
-            for (int i = 0; i < ItemsCpy.Count -1 ; i++)
+            //순환 삭제
+            for(int i = Items.Count - 1; i >= 0; i--)
             {
-                var item = ItemsCpy[i];
+                var item = Items[i];
                 if (item.Address != null)
                     item.Address.Trim();
                 if (string.IsNullOrEmpty(item.Address))
                     Items.RemoveAt(i);
             }
-#endif 
-            //순환 삭제 
         }
 
         /// <summary>

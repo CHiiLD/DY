@@ -98,17 +98,16 @@ namespace DY.WPF
         /// <param name="e"></param>
         private async void OnCheckChangedEditMode(object sender, EventArgs e)
         {
-            IList<ICommIOData> items = NDataGrid.Items.Cast<ICommIOData>().ToList();
             bool haveException = false;
             string exception_msg = null;
             var toggle = sender as ToggleSwitch;
             bool check = toggle.IsChecked == true ? true : false;
-            
             do
             {
                 if (check) //편집모드에서 나갈 때 
                     break;
                 NDataGrid.RemoveEmtpyCollectionItem();
+                IList<ICommIOData> items = NDataGrid.Items.Cast<ICommIOData>().ToList();
                 if (items.Count == 0)
                     break;
                 try
@@ -130,43 +129,6 @@ namespace DY.WPF
             } while(false);
             NDataGrid.Editable = check;
         }
-#if false
-        /// <summary>
-        /// IO 입출력 모니터링 ON/OFF
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private async void OnCheckChangedMonitoring(object sender, EventArgs e)
-        {
-            var toggle = sender as ToggleSwitch;
-            MetroWindow metro_win = Window.GetWindow(this) as MetroWindow; //Data preparation
-            if (toggle.IsChecked == true)
-            {
-                //통신이 연결되어 있지 아니한 상태 or 편집모드일 경우 
-                if (CClient.Usable != true)
-                {
-                    await metro_win.ShowMessageAsync("Notice", "Please connect the communication.");
-                    NBT_MonitoringOnOff.IsChecked = false;
-                    return;
-                }
-                if (NDataGrid.Editable)
-                {
-                    await metro_win.ShowMessageAsync("Notice", "The current edit mode.");
-                    NBT_MonitoringOnOff.IsChecked = false;
-                    return;
-                }
-                await MonitoringStart();
-            }
-            else
-            {
-                ProgressDialogController progress = await metro_win.ShowProgressAsync("Monitoring stop",
-                    "Please wait...", false, null);
-                await MonitoringStop();
-                await Task.Delay(1000);
-                await progress.CloseAsync();
-            }
-        }
-#endif
 
         private void OnCheckChangedGraphActivation(object sender, EventArgs e)
         {
