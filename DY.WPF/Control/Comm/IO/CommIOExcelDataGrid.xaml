@@ -9,7 +9,7 @@
              mc:Ignorable="d" 
              x:Name="this" >
     <Grid>
-        <pt:DataGrid x:Name="NDataGrid" >
+        <pt:DataGrid x:Name="NDataGrid">
             <pt:DataGrid.ColumnDefinitions>
                 <pt:ColumnDefinition x:Name="NCO_Type"  Header="Type" PropertyName="Type" Width="70"/>
                 <pt:ColumnDefinition x:Name="NCO_Address" Header="Address" PropertyName="Address" Width="100"/>

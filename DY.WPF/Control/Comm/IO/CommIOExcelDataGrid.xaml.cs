@@ -43,6 +43,7 @@ namespace DY.WPF
                 NCO_Address.IsReadOnly = !value;
                 NCO_Comment.IsReadOnly = !value;
                 NDataGrid.CanInsert = value; //셀 추가 가능 여부 설정
+                NDataGrid.AutoInsert = value;
 
                 if (value) //편집 모드 온 
                 {

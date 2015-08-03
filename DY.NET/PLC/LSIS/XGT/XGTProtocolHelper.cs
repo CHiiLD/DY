@@ -61,15 +61,9 @@ namespace DY.NET.LSIS.XGT
 
                     if (!(addr.Last() == '0' || addr.Last() == '8'))
                         throw new ArgumentException("Invalid memory variable string. the byte/sbyte addresses must end in 0 or 8" + row_str);
-                    if ((mem_exp & MemoryExpression.WORD) != 0)
-                    {
-                        int b = addr.Last() == '0' ? 0 : 1;
-                        target = addr[0] + ((demical_int * 2) + b).ToString();
-                    }
-                    else
-                    {
-                        target = addr;
-                    }
+
+                    int b = addr.Last() == '0' ? 0 : 1;
+                    target = addr[0] + ((demical_int * 2) + b).ToString();
                     type_str = "B";
                     break;
 

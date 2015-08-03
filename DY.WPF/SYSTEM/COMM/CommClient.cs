@@ -194,6 +194,7 @@ namespace DY.WPF.SYSTEM.COMM
                 {
                     ImageData = target_path.Data;
                     ImageColor = target_path.Fill;
+                    //Usable = isConnected;
                 }
             }), null);
         }

@@ -191,7 +191,7 @@ namespace DY.NET.LSIS.XGT
                 return;
             }
             Wait = true;
-            SavePoint_ReqeustProtocol = reqt_p;
+            ReqeustProtocolPointer = reqt_p;
             m_Client.GetStream().BeginWrite(reqt_data, 0, reqt_data.Length, OnSended, reqt_p);
         }
 
@@ -228,7 +228,7 @@ namespace DY.NET.LSIS.XGT
                 byte[] recv_data = new byte[BufIdx];
                 Buffer.BlockCopy(Buf, 0, recv_data, 0, recv_data.Length);
                 BufIdx = 0;
-                XGTFEnetProtocol reqt = SavePoint_ReqeustProtocol as XGTFEnetProtocol;
+                XGTFEnetProtocol reqt = ReqeustProtocolPointer as XGTFEnetProtocol;
                 ReportResponseProtocol(reqt, recv_data);
                 Wait = false;
                 if (ProtocolStandByQueue.Count != 0)

@@ -21,7 +21,7 @@ namespace DY.NET.LSIS.XGT
     public partial class XGTCnetSocket : ASocketCover, IPostAsync
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();
-
+        
         public class Builder : ASerialPortBuilder
         {
             public Builder(string name, int baud)
@@ -32,7 +32,7 @@ namespace DY.NET.LSIS.XGT
             public override object Build()
             {
                 var skt = new XGTCnetSocket() { m_SerialPort = new SerialPort(_PortName, _BaudRate, _Parity, _DataBits, _StopBits) };
-                //skt.m_SerialPort.DataReceived += skt.OnDataRecieve;
+                skt.m_SerialPort.DataReceived += skt.OnDataRecieve;
                 skt.m_SerialPort.ErrorReceived += skt.OnSerialErrorReceived;
                 skt.m_SerialPort.PinChanged += skt.OnSerialPinChanged;
                 return skt;
@@ -44,6 +44,8 @@ namespace DY.NET.LSIS.XGT
         private volatile SerialPort m_SerialPort;
         public event SerialErrorReceivedEventHandler ErrorReceived;
         public event SerialPinChangedEventHandler PinChanged;
+        public EventHandler<NetErrorReceivedEventArgs> NetErrorHappend { get; set; }
+
         #endregion
 
         #region METHOD
@@ -150,7 +152,7 @@ namespace DY.NET.LSIS.XGT
                 ProtocolStandByQueue.Enqueue(reqt_p);
                 return;
             }
-            SavePoint_ReqeustProtocol = reqt_p;
+            ReqeustProtocolPointer = reqt_p;
             m_SerialPort.DataReceived += OnDataRecieve;
             m_SerialPort.Write(reqt_bytes, 0, reqt_bytes.Length);
             SendedProtocolSuccessfullyEvent(reqt_p);
@@ -167,7 +169,7 @@ namespace DY.NET.LSIS.XGT
             {
                 ErrorReceived = null;
                 PinChanged = null;
-                SavePoint_ReqeustProtocol = null;
+                ReqeustProtocolPointer = null;
                 Close();
                 m_SerialPort.Dispose();
             }
@@ -209,13 +211,13 @@ namespace DY.NET.LSIS.XGT
 
             SerialPort sp = sender as SerialPort;
             BufIdx += sp.Read(Buf, BufIdx, Buf.Length);
-            XGTCnetProtocol reqt = SavePoint_ReqeustProtocol as XGTCnetProtocol;
+            XGTCnetProtocol reqt = ReqeustProtocolPointer as XGTCnetProtocol;
             if (XGTCnetCCType.ETX != (XGTCnetCCType)(Buf[BufIdx - ((bool)reqt.IsExistBCC() ? 2 : 1)]))
                 return;
             byte[] recv_data = new byte[BufIdx];
             Buffer.BlockCopy(Buf, 0, recv_data, 0, recv_data.Length);
             ReportResponseProtocol(reqt, recv_data);
-            SavePoint_ReqeustProtocol = null;
+            ReqeustProtocolPointer = null;
             BufIdx = 0;
             Wait = false;
             if (ProtocolStandByQueue.Count != 0)

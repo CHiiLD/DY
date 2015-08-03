@@ -100,8 +100,7 @@ namespace DY.WPF.SYSTEM.IO
                     }
                     catch (Exception exception)
                     {
-                        LOG.Debug(CClient.Summary + " PostAsync 예외처리 이하와 같음: ");
-                        LOG.Debug(exception.Message);
+                        LOG.Debug(CClient.Summary + " PostAsync 예외처리 이하와 같음: " + exception.Message);
                         resp = null;
                     }
 #endif

@@ -43,7 +43,9 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ConnectionStatusChangedEventArgs.cs" />
+    <Compile Include="NetErrorReceivedEventArgs.cs" />
     <Compile Include="IConnect.cs" />
+    <Compile Include="INetError.cs" />
     <Compile Include="NLogConfig.cs" />
     <Compile Include="PLC\DataType.cs" />
     <Compile Include="PLC\ICommIOData.cs" />

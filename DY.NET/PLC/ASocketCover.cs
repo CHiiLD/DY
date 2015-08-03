@@ -17,7 +17,7 @@ namespace DY.NET
         protected ASocketCover()
         {
 
-        } 
+        }
 
         public int Tag
         {
@@ -37,13 +37,30 @@ namespace DY.NET
             set;
         }
 
-        public EventHandler<ConnectionStatusChangedEventArgs> ConnectionStatusChanged { get; set; }
+        protected IProtocol ReqeustProtocolPointer;
+
+        private volatile bool m_IsOpend = false;
+        /// <summary>
+        /// 현재 연결 상태를 저장
+        /// </summary>
+        protected bool IsOpend
+        {
+            get
+            {
+                return m_IsOpend;
+            }
+            set
+            {
+                if (m_IsOpend != value && ConnectionStatusChanged != null)
+                    ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(value));
+                m_IsOpend = value;
+            }
+        }
 
         /// <summary>
         /// 스레드 세이프 프로토콜 전송 대기 큐
         /// </summary>
         protected ConcurrentQueue<IProtocol> ProtocolStandByQueue = new ConcurrentQueue<IProtocol>();
-        protected IProtocol SavePoint_ReqeustProtocol;
 
         public abstract bool Connect();
         public abstract void Close();
@@ -61,6 +78,11 @@ namespace DY.NET
         protected byte[] Buf = new byte[BUF_SIZE];
         protected int BufIdx;
         protected volatile bool Wait = false;
+
+        /// <summary>
+        /// Connect, Close 이벤트 발생 시 호출
+        /// </summary>
+        public EventHandler<ConnectionStatusChangedEventArgs> ConnectionStatusChanged { get; set; }
 
         /// <summary>
         /// 데이터를 성공적으로 전송하였을 때 호출되는 이벤트

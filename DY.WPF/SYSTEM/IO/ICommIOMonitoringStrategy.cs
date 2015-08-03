@@ -86,10 +86,7 @@ namespace DY.WPF.SYSTEM.IO
             else
             {
                 if (m_UpdateTask != null)
-                {
-                    //m_CancelTSource.Cancel();
                     await m_UpdateTask;
-                }
                 m_UpdateTask = null;
             }
         }
@@ -107,7 +104,7 @@ namespace DY.WPF.SYSTEM.IO
                     if (!CClient.Socket.IsConnected())
                     {
                         LOG.Debug(CClient.Summary + " 통신 접속 해제에 의한 접속 대기 .. 1초");
-                        await Task.Delay(1000); //다음 루프까지 대기
+                        await Task.Delay(ResponseLatencyTime); //다음 루프까지 대기
                         continue;
                     }
                     Task task = UpdateIOAsync(CommIODatas);
