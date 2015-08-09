@@ -7,7 +7,7 @@ using System.ComponentModel;
 
 using DY.NET;
 
-namespace DY.WPF.SYSTEM.IO
+namespace DY.WPF.SYSTEM.COMM
 {
     /// <summary>
     /// PLC IO 입출력을 위한 컬렉션 아이템

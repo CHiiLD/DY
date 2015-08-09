@@ -49,11 +49,11 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Control\Bar\ButtonsForBar.xaml.cs">
-      <DependentUpon>ButtonsForBar.xaml</DependentUpon>
+    <Compile Include="Control\Bar\OkCancelBtns.xaml.cs">
+      <DependentUpon>OkCancelBtns.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Bar\IGetValue.cs" />
-    <Compile Include="Control\Bar\TextBlockBar.xaml.cs">
+    <Compile Include="Control\Bar\Parts\IGetContext.cs" />
+    <Compile Include="Control\Bar\Parts\TextBlockBar.xaml.cs">
       <DependentUpon>TextBlockBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Control\Bar\ComboBoxWithBar.xaml.cs">
@@ -62,7 +62,7 @@
     <Compile Include="Control\Bar\TextBoxWithBar.xaml.cs">
       <DependentUpon>TextBoxWithBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Bar\TitleForBar.xaml.cs">
+    <Compile Include="Control\Bar\Parts\TitleForBar.xaml.cs">
       <DependentUpon>TitleForBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Control\Comm\Connection\CommConnectionManage.xaml.cs">
@@ -71,13 +71,13 @@
     <Compile Include="Control\Comm\Connection\CommConnectionDataGrid.xaml.cs">
       <DependentUpon>CommConnectionDataGrid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\Connection\CommDeviceSelection.xaml.cs">
+    <Compile Include="Control\Comm\Option\CommDeviceSelection.xaml.cs">
       <DependentUpon>CommDeviceSelection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\Connection\CommEthernetConfig.xaml.cs">
+    <Compile Include="Control\Comm\Option\CommEthernetConfig.xaml.cs">
       <DependentUpon>CommEthernetConfig.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\Connection\CommSerialConfig.xaml.cs">
+    <Compile Include="Control\Comm\Option\CommSerialConfig.xaml.cs">
       <DependentUpon>CommSerialConfig.xaml</DependentUpon>
     </Compile>
     <Compile Include="Control\Comm\IO\CommIOExcelDataGrid.xaml.cs">
@@ -86,9 +86,9 @@
     <Compile Include="Control\Comm\IO\CommIOMonitoring.xaml.cs">
       <DependentUpon>CommIOMonitoring.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SYSTEM\COMM\ICommControlTowerTabItem.cs" />
-    <Compile Include="SYSTEM\IO\CommIODataGridItem.cs" />
-    <Compile Include="SYSTEM\COMM\ISummaryParameter.cs" />
+    <Compile Include="SYSTEM\COMM\Interface\ICommControlTowerTabItem.cs" />
+    <Compile Include="SYSTEM\COMM\IO\CommIODataGridItem.cs" />
+    <Compile Include="SYSTEM\COMM\Interface\ISummaryParameter.cs" />
     <Compile Include="ConstProperty\Font.cs" />
     <Compile Include="ConstProperty\WindowSize.cs" />
     <Compile Include="Enum\DYDeviceCommType.cs" />
@@ -107,9 +107,9 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="ConstProperty\SerialPortOption.cs" />
-    <Compile Include="SYSTEM\COMM\ServiceableDevice.cs" />
-    <Compile Include="SYSTEM\COMM\CommEthernetParameter.cs" />
-    <Compile Include="SYSTEM\COMM\CommSerialParameter.cs" />
+    <Compile Include="SYSTEM\COMM\Creatation\ServiceableDevice.cs" />
+    <Compile Include="SYSTEM\COMM\Parameter\CommEthernetParameter.cs" />
+    <Compile Include="SYSTEM\COMM\Parameter\CommSerialParameter.cs" />
     <Compile Include="Control\Comm\Connection\Ai\AICommCheck.xaml.cs">
       <DependentUpon>AICommCheck.xaml</DependentUpon>
     </Compile>
@@ -120,10 +120,10 @@
     <Compile Include="Control\Comm\Connection\Ai\AICommCross.xaml.cs">
       <DependentUpon>AICommCross.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SYSTEM\COMM\CommClient.cs" />
-    <Compile Include="SYSTEM\COMM\CommClientDirector.cs" />
-    <Compile Include="SYSTEM\IO\ICommIOMonitoringStrategy.cs" />
-    <Compile Include="SYSTEM\IO\XGTCommIOMonitoring.cs" />
+    <Compile Include="SYSTEM\COMM\Client\CommClient.cs" />
+    <Compile Include="SYSTEM\COMM\Client\CommClientDirector.cs" />
+    <Compile Include="SYSTEM\COMM\IO\ACommIOMonitoringStrategy.cs" />
+    <Compile Include="SYSTEM\COMM\IO\XGTCommIOMonitoring.cs" />
     <Compile Include="SYSTEM\NotifyPropertyChanged.cs" />
     <Compile Include="WINDOW\CommDeviceSetWindow.xaml.cs">
       <DependentUpon>CommDeviceSetWindow.xaml</DependentUpon>
@@ -145,11 +145,11 @@
     <Resource Include="Resource\Font\나눔고딕ExtraBold.ttf" />
   </ItemGroup>
   <ItemGroup>
-    <Page Include="Control\Bar\ButtonsForBar.xaml">
+    <Page Include="Control\Bar\OkCancelBtns.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\Bar\TextBlockBar.xaml">
+    <Page Include="Control\Bar\Parts\TextBlockBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -161,7 +161,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Bar\TitleForBar.xaml">
+    <Page Include="Control\Bar\Parts\TitleForBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -173,15 +173,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\Connection\CommDeviceSelection.xaml">
+    <Page Include="Control\Comm\Option\CommDeviceSelection.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\Connection\CommEthernetConfig.xaml">
+    <Page Include="Control\Comm\Option\CommEthernetConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\Connection\CommSerialConfig.xaml">
+    <Page Include="Control\Comm\Option\CommSerialConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -248,6 +248,7 @@
       <Name>PropertyTools.Wpf_NET45</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

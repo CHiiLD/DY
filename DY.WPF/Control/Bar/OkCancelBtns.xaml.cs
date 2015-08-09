@@ -18,9 +18,9 @@ namespace DY.WPF
     /// <summary>
     /// ButtonsForBar.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class ButtonsForBar : UserControl
+    public partial class OkCancelBtns : UserControl
     {
-        public ButtonsForBar()
+        public OkCancelBtns()
         {
             InitializeComponent();
         }

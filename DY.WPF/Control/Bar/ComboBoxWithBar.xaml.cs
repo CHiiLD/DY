@@ -20,13 +20,13 @@ namespace DY.WPF
     /// <summary>
     /// TextBoxWithBar.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class ComboBoxWithBar : UserControl, IGetValue
+    public partial class ComboBoxWithBar : UserControl, IGetContext
     {
         public int Tag { get; set; }
         public string Description { get; set; }
         public object UserData { get; set; }
 
-        public object GetValue()
+        public object GetContext()
         {
             return SelectedItem;
         }

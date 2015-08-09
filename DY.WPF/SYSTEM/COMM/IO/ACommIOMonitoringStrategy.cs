@@ -9,7 +9,7 @@ using DY.NET;
 using NLog;
 using DY.WPF.SYSTEM.COMM;
 
-namespace DY.WPF.SYSTEM.IO
+namespace DY.WPF.SYSTEM.COMM
 {
     public abstract class ACommIOMonitoringStrategy
     {
@@ -101,16 +101,21 @@ namespace DY.WPF.SYSTEM.IO
                 LOG.Debug(CClient.Summary + " 업데이트 루프 시작");
                 while (m_Run)
                 {
+#if false
                     if (!CClient.Socket.IsConnected())
                     {
                         LOG.Debug(CClient.Summary + " 통신 접속 해제에 의한 접속 대기 .. 1초");
                         await Task.Delay(ResponseLatencyTime); //다음 루프까지 대기
                         continue;
                     }
-                    Task task = UpdateIOAsync(CommIODatas);
+#endif
+                    Task update_task = UpdateIOAsync(CommIODatas);
                     //응답대기시간안에 응답이 온다면
-                    if (await Task.WhenAny(task, Task.Delay(ResponseLatencyTime)) == task)
+                    if (await Task.WhenAny(update_task, Task.Delay(ResponseLatencyTime)) == update_task)
+                    {
+                        await update_task;
                         await Task.Delay(TransferInteval); //다음 루프까지 대기
+                    }
                     else
                         LOG.Debug("IO 모니터링 타임 아웃. 응답대기시간: " + ResponseLatencyTime);
                 }

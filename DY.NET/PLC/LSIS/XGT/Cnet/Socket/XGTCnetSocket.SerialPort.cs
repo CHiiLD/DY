@@ -8,6 +8,23 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public sealed partial class XGTCnetSocket
     {
+        public class Builder : ASerialPortBuilder
+        {
+            public Builder(string name, int baud)
+                : base(name, baud)
+            {
+            }
+
+            public override object Build()
+            {
+                var skt = new XGTCnetSocket() { m_SerialPort = new SerialPort(PortName, BaudRate, Parity_, DataBit, StopBit) };
+                skt.m_SerialPort.DataReceived += skt.OnDataRecieve;
+                skt.m_SerialPort.ErrorReceived += skt.OnSerialErrorReceived;
+                skt.m_SerialPort.PinChanged += skt.OnSerialPinChanged;
+                return skt;
+            }
+        }
+
         public string GetPortName()
         {
             if (m_SerialPort == null)

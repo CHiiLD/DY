@@ -12,6 +12,11 @@ namespace DY.NET
     public abstract class AProtocol : IProtocol
     {
         protected byte[] ProtocolData;
+        protected Dictionary<string, object> StorageDictionary = new Dictionary<string, object>();
+
+        /// <summary>
+        /// ASCII 데이터
+        /// </summary>
         public byte[] ASCIIProtocol
         {
             get
@@ -31,36 +36,14 @@ namespace DY.NET
         /// AProtocol 클래스가 요청클래스로 쓰인 경우 응답프로토콜 클래스를 담는다.
         /// </summary>
         public IProtocol MirrorProtocol { get; set; }
-        
-        protected AProtocol() { }
-
-        public AProtocol(AProtocol that)
-        {
-            this.Tag = that.Tag;
-            this.Description = that.Description;
-            this.UserData = that.UserData;
-
-            this.ProtocolReceived = that.ProtocolReceived;
-            this.ErrorReceived = that.ErrorReceived;
-            this.ProtocolRequested = that.ProtocolRequested;
-
-            this.MirrorProtocol = that.MirrorProtocol;
-            if (that.ProtocolData != null)
-                this.ProtocolData = (byte[])that.ProtocolData.Clone();
-        }
-
-        protected Dictionary<string, object> DataStorageDictionary = new Dictionary<string, object>();
-        public Dictionary<string, object> GetStorage()
-        {
-            return new Dictionary<string, object>(DataStorageDictionary);
-        }
-
         public Type TType { get; protected set; }
 
+#if false
         /// <summary>
         /// 통신 중 예외 또는 에러가 발생시 통지
         /// </summary>
         public event EventHandler<ProtocolReceivedEventArgs> ErrorReceived;
+#endif
         /// <summary>
         /// 프로토콜 요청을 성공적으로 전달되었을 시 통지
         /// </summary>
@@ -69,6 +52,32 @@ namespace DY.NET
         /// 요청된 프로토콜에 따른 응답 프로토콜을 성공적으로 받았을 시 통지
         /// </summary>
         public event EventHandler<ProtocolReceivedEventArgs> ProtocolReceived;
+        
+        protected AProtocol() 
+        { 
+        }
+        
+        public AProtocol(AProtocol that)
+        {
+            this.Tag = that.Tag;
+            this.Description = that.Description;
+            this.UserData = that.UserData;
+
+            this.ProtocolReceived = that.ProtocolReceived;
+#if false
+            this.ErrorReceived = that.ErrorReceived;
+#endif
+            this.ProtocolRequested = that.ProtocolRequested;
+
+            this.MirrorProtocol = that.MirrorProtocol;
+            if (that.ProtocolData != null)
+                this.ProtocolData = (byte[])that.ProtocolData.Clone();
+        }
+
+        public Dictionary<string, object> GetStorage()
+        {
+            return new Dictionary<string, object>(StorageDictionary);
+        }
 
         public void ProtocolReceivedEvent(object obj, IProtocol protocol)
         {
@@ -88,6 +97,7 @@ namespace DY.NET
             }
         }
 
+#if false
         public void ErrorReceivedEvent(object obj, IProtocol protocol)
         {
             if (ErrorReceived != null)
@@ -96,7 +106,7 @@ namespace DY.NET
                 ErrorReceived(obj, new ProtocolReceivedEventArgs(cold_pt));
             }
         }
-
+#endif
         public int Tag { get; set; }
         public string Description { get; set; }
         public object UserData { get; set; }

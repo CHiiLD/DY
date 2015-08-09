@@ -8,8 +8,8 @@ using DY.NET;
 
 namespace DY.WPF
 {
-    public interface IGetValue : ITag
+    public interface IGetContext : ITag
     {
-        object GetValue();
+        object GetContext();
     }
 }

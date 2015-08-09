@@ -19,7 +19,6 @@ using MahApps.Metro.Controls;
 using DY.WPF.SYSTEM.COMM;
 using NLog;
 using System.Collections;
-using DY.WPF.SYSTEM.IO;
 
 namespace DY.WPF
 {

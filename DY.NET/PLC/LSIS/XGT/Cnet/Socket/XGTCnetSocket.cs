@@ -21,31 +21,13 @@ namespace DY.NET.LSIS.XGT
     public partial class XGTCnetSocket : ASocketCover, IPostAsync
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();
-        
-        public class Builder : ASerialPortBuilder
-        {
-            public Builder(string name, int baud)
-                : base(name, baud)
-            {
-            }
-
-            public override object Build()
-            {
-                var skt = new XGTCnetSocket() { m_SerialPort = new SerialPort(_PortName, _BaudRate, _Parity, _DataBits, _StopBits) };
-                skt.m_SerialPort.DataReceived += skt.OnDataRecieve;
-                skt.m_SerialPort.ErrorReceived += skt.OnSerialErrorReceived;
-                skt.m_SerialPort.PinChanged += skt.OnSerialPinChanged;
-                return skt;
-            }
-        }
 
         #region VAR_PROPERTIES_EVENT
-        private const string ERROR_SERIAL_IS_NULL = "m_SerialPort is null.";
+        private const string ERROR_SERIAL_IS_NULL = "SerialPort is null.";
         private volatile SerialPort m_SerialPort;
+
         public event SerialErrorReceivedEventHandler ErrorReceived;
         public event SerialPinChangedEventHandler PinChanged;
-        public EventHandler<NetErrorReceivedEventArgs> NetErrorHappend { get; set; }
-
         #endregion
 
         #region METHOD
@@ -68,8 +50,7 @@ namespace DY.NET.LSIS.XGT
                 throw new NullReferenceException(ERROR_SERIAL_IS_NULL);
             if (!IsConnected())
                 m_SerialPort.Open();
-            if (ConnectionStatusChanged != null)
-                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(IsConnected()));
+            ConnectionStatusChangedEvent(IsConnected());
             LOG.Debug("XGT-Cnet 시리얼포트 통신 접속");
             return IsConnected();
         }
@@ -82,8 +63,7 @@ namespace DY.NET.LSIS.XGT
         {
             if (m_SerialPort != null)
                 m_SerialPort.Close();
-            if (ConnectionStatusChanged != null)
-                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(IsConnected()));
+            ConnectionStatusChangedEvent(IsConnected());
             LOG.Debug("XGT-Cnet 시리얼포트 통신 해제");
         }
 
@@ -129,8 +109,26 @@ namespace DY.NET.LSIS.XGT
             byte[] recv_data = new byte[BufIdx];
             Buffer.BlockCopy(Buf, 0, recv_data, 0, recv_data.Length);
             BufIdx = 0;
-            XGTCnetProtocol resp = ReportResponseProtocol(reqt, recv_data);
-            return resp;
+            return ReportResponseProtocol(reqt, recv_data);
+        }
+
+        /// <summary>
+        /// 메모리 반환
+        /// </summary>
+        public override void Dispose()
+        {
+            if (m_SerialPort != null)
+            {
+                Close();
+                m_SerialPort.Dispose();
+
+                m_SerialPort = null;
+                ErrorReceived = null;
+                PinChanged = null;
+            }
+            base.Dispose();
+            LOG.Debug("XGT-Cnet 시리얼포트 메모리 해제");
+            GC.SuppressFinalize(this);
         }
 
         /// <summary>
@@ -147,56 +145,18 @@ namespace DY.NET.LSIS.XGT
             if (reqt_p == null)
                 throw new ArgumentNullException("Argument is not XGTCnetProtocol<T>.");
             byte[] reqt_bytes = reqt_p.ASCIIProtocol;
-            if (Wait) //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
+            if (IsWait) //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
             {
                 ProtocolStandByQueue.Enqueue(reqt_p);
                 return;
             }
             ReqeustProtocolPointer = reqt_p;
             m_SerialPort.DataReceived += OnDataRecieve;
-            m_SerialPort.Write(reqt_bytes, 0, reqt_bytes.Length);
-            SendedProtocolSuccessfullyEvent(reqt_p);
-            reqt_p.ProtocolRequestedEvent(this, reqt_p);
-            Wait = true;
-        }
+            m_SerialPort.Write(reqt_bytes, 0, reqt_bytes.Length); //데이터 전송
 
-        /// <summary>
-        /// 메모리 반환
-        /// </summary>
-        public override void Dispose()
-        {
-            if (m_SerialPort != null)
-            {
-                ErrorReceived = null;
-                PinChanged = null;
-                ReqeustProtocolPointer = null;
-                Close();
-                m_SerialPort.Dispose();
-            }
-            base.Dispose();
-            LOG.Debug("XGT-Cnet 시리얼포트 메모리 해제");
-            GC.SuppressFinalize(this);
-        }
-
-        private XGTCnetProtocol ReportResponseProtocol(XGTCnetProtocol reqt, byte[] buf_temp)
-        {
-            XGTCnetProtocol resp = reqt.MirrorProtocol as XGTCnetProtocol; //응답 객체 생성 전에 재활용이 가능한지 검토
-            if (reqt.MirrorProtocol == null)
-            {
-                resp = XGTCnetProtocol.CreateResponseProtocol(buf_temp, reqt);
-                reqt.MirrorProtocol = resp;
-            }
-            else
-            {
-                resp.ASCIIProtocol = buf_temp;
-            }
-            resp.AnalysisProtocol();
-            ReceivedProtocolSuccessfullyEvent(resp);
-            if (resp.Error == XGTCnetProtocolError.OK)
-                reqt.ProtocolReceivedEvent(this, resp);
-            else
-                reqt.ErrorReceivedEvent(this, resp);
-            return resp;
+            SendedProtocolSuccessfullyEvent(reqt_p); //소켓측 데이터 전송 이벤트
+            reqt_p.ProtocolRequestedEvent(this, reqt_p); //프로토콜측 데이터 전송 이벤트
+            IsWait = true;
         }
 
         /// <summary>
@@ -208,7 +168,7 @@ namespace DY.NET.LSIS.XGT
         {
             if (!IsConnected())
                 return;
-
+            /**********버퍼에서 데이터 읽어들이기**********/
             SerialPort sp = sender as SerialPort;
             BufIdx += sp.Read(Buf, BufIdx, Buf.Length);
             XGTCnetProtocol reqt = ReqeustProtocolPointer as XGTCnetProtocol;
@@ -216,12 +176,28 @@ namespace DY.NET.LSIS.XGT
                 return;
             byte[] recv_data = new byte[BufIdx];
             Buffer.BlockCopy(Buf, 0, recv_data, 0, recv_data.Length);
+            /**********데이터 분석하여 응답 프로토콜 생성**********/
             ReportResponseProtocol(reqt, recv_data);
+            /**********초기화하고 다음 통신 준비**********/
             ReqeustProtocolPointer = null;
             BufIdx = 0;
-            Wait = false;
+            IsWait = false;
             if (ProtocolStandByQueue.Count != 0)
                 SendNextProtocol();
+        }
+
+        private XGTCnetProtocol ReportResponseProtocol(XGTCnetProtocol reqt, byte[] recv_data)
+        {
+            XGTCnetProtocol resp = reqt.MirrorProtocol as XGTCnetProtocol; //응답 객체 생성 전에 재활용이 가능한지 검토
+            if (reqt.MirrorProtocol == null)
+                reqt.MirrorProtocol = resp = XGTCnetProtocol.CreateResponseProtocol(recv_data, reqt);
+            else
+                resp.ASCIIProtocol = recv_data;
+            resp.AnalysisProtocol();
+
+            ReceivedProtocolSuccessfullyEvent(resp); //소켓측 응답 이벤트
+            reqt.ProtocolReceivedEvent(this, resp);  //프로토콜측 응답 이벤트
+            return resp;
         }
 
         private void SendNextProtocol()

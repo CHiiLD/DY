@@ -39,6 +39,7 @@ namespace DY.NET
 
         protected IProtocol ReqeustProtocolPointer;
 
+#if false
         private volatile bool m_IsOpend = false;
         /// <summary>
         /// 현재 연결 상태를 저장
@@ -56,6 +57,7 @@ namespace DY.NET
                 m_IsOpend = value;
             }
         }
+#endif
 
         /// <summary>
         /// 스레드 세이프 프로토콜 전송 대기 큐
@@ -72,12 +74,17 @@ namespace DY.NET
             ProtocolStandByQueue = null;
             SendedProtocolSuccessfully = null;
             ReceivedProtocolSuccessfully = null;
+            ReqeustProtocolPointer = null;
+            ConnectionStatusChanged = null;
+
+            Buf = null;
+            BufIdx = 0;
         }
 
         public const int BUF_SIZE = 4096;
         protected byte[] Buf = new byte[BUF_SIZE];
         protected int BufIdx;
-        protected volatile bool Wait = false;
+        protected volatile bool IsWait = false;
 
         /// <summary>
         /// Connect, Close 이벤트 발생 시 호출
@@ -110,6 +117,12 @@ namespace DY.NET
                 var cold_pt = System.Threading.Volatile.Read(ref iProtocol);
                 ReceivedProtocolSuccessfully(this, new ProtocolReceivedEventArgs(cold_pt));
             }
+        }
+
+        public void ConnectionStatusChangedEvent(bool isConnected)
+        {
+            if (ConnectionStatusChanged != null)
+                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(isConnected));
         }
     }
 }

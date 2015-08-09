@@ -4,10 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DY.NET
+using DY.NET;
+
+namespace DY.WPF
 {
-    public interface INetError
+    public interface IGetContent : ITag
     {
-        EventHandler<NetErrorReceivedEventArgs> NetErrorHappend { get; set; }
+        object GetContents();
     }
 }

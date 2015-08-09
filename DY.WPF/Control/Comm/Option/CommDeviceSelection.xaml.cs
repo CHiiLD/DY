@@ -27,9 +27,9 @@ namespace DY.WPF
                 var children = NExtra.Children;
                 foreach(var child in children)
                 {
-                    IGetValue v = child as IGetValue;
+                    IGetContext v = child as IGetContext;
                     if(v != null)
-                        ret.Add(v.UserData as string, v.GetValue());
+                        ret.Add(v.UserData as string, v.GetContext());
                 }
                 return ret;
             }
