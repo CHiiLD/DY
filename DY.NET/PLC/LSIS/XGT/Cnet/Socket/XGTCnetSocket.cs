@@ -90,8 +90,15 @@ namespace DY.NET.LSIS.XGT
         /// <returns></returns>
         public async Task<IProtocol> PostAsync(IProtocol protocol)
         {
-            if (!IsConnected())
+            if (m_SerialPort == null)
                 return null;
+
+            if (!IsConnected())
+            {
+                if (!Connect())
+                    return null;
+            }
+
             m_SerialPort.DataReceived -= OnDataRecieve;
             Stream stream = m_SerialPort.BaseStream;
             XGTCnetProtocol reqt = protocol as XGTCnetProtocol;
@@ -173,7 +180,10 @@ namespace DY.NET.LSIS.XGT
             if (m_SerialPort == null)
                 return;
             if (!IsConnected())
-                throw new Exception("Serial port is not opend");
+            {
+                if(Connect())
+                    throw new Exception("Serial port is not opend");
+            }
             AProtocol reqt_p = protocol as AProtocol;
             if (reqt_p == null)
                 throw new ArgumentNullException("Argument is not XGTCnetProtocol<T>.");

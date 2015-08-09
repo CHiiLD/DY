@@ -22,9 +22,7 @@ namespace DY.WPF.SYSTEM.COMM
 
         #region PRIVATE VARIABLE
         private static Logger LOG = LogManager.GetCurrentClassLogger();
-        private const int STATUS_CHECK_INTEVAL = 10000; //10초
 
-        private Timer m_CommStatusCheckTimer = new Timer(STATUS_CHECK_INTEVAL);
         private DYDevice m_Target;
         private DYDeviceCommType m_CommType;
         private bool? m_Usable = false;
@@ -60,10 +58,6 @@ namespace DY.WPF.SYSTEM.COMM
             set
             {
                 m_Usable = value;
-                if (value == true)
-                    m_CommStatusCheckTimer.Start();
-                else
-                    m_CommStatusCheckTimer.Stop();
                 OnPropertyChanged("Usable");
             }
         }
@@ -117,7 +111,6 @@ namespace DY.WPF.SYSTEM.COMM
             Target = device;
             m_CommType = comm_type;
             Socket.ConnectionStatusChanged += OnChangedConnectionStatus;
-            m_CommStatusCheckTimer.Elapsed += OnElapsed;
             Key = Guid.NewGuid().ToString();
             
             ResponseLatencyTime = 1000;
@@ -137,34 +130,9 @@ namespace DY.WPF.SYSTEM.COMM
 
         public void Dispose()
         {
-            m_CommStatusCheckTimer.Dispose();
             Socket.Dispose();
             GC.SuppressFinalize(this);
             LOG.Debug(Summary+ " CommClient 메모리 해제");
-        }
-
-        /// <summary>
-        /// UsableProperty-PropertyChanged 이벤트 정의
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        private void OnUsablePropertyChanged(object sender, PropertyChangedEventArgs args)
-        {
-            var notify = sender as NotifyPropertyChanged<bool>;
-            if (notify.Source)
-                m_CommStatusCheckTimer.Start();
-            else
-                m_CommStatusCheckTimer.Stop();
-        }
-
-        /// <summary>
-        /// 주기적으로 통신의 연결상태를 체크
-        /// </summary>
-        /// <param name="sender">Timer</param>
-        /// <param name="args"></param>
-        private void OnElapsed(object sender, ElapsedEventArgs args)
-        {
-            ChangedCommStatus(Socket.IsConnected());
         }
 
         /// <summary>
@@ -181,7 +149,7 @@ namespace DY.WPF.SYSTEM.COMM
         /// 통신 상태에 따라 프로퍼티를 변경
         /// </summary>
         /// <param name="isConnected">연결 상태</param>
-        private void ChangedCommStatus(bool isConnected)
+        public void ChangedCommStatus(bool isConnected)
         {
             if (Application.Current == null)
                 return;
@@ -193,7 +161,6 @@ namespace DY.WPF.SYSTEM.COMM
                 {
                     ImageData = target_path.Data;
                     ImageColor = target_path.Fill;
-                    //Usable = isConnected;
                 }
             }), null);
         }

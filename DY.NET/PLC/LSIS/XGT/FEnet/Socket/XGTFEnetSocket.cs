@@ -24,17 +24,12 @@ namespace DY.NET.LSIS.XGT
         private IAsyncResult m_ReadAsyncResult;
 
         /// <summary>
-        /// 서버로부터 연결 종료 신호를 받았을 때 이벤트 발생
-        /// </summary>
-        public EventHandler<EventArgs> SignOffReceived { get; set; }
-
-        /// <summary>
         /// new 생성 방지
         /// </summary>
         public XGTFEnetSocket(string host, XGTFEnetPort port)
         {
             m_Host = host;
-            m_Port = (int) port;
+            m_Port = (int)port;
         }
 
         public XGTFEnetSocket(string host, int port)
@@ -66,6 +61,8 @@ namespace DY.NET.LSIS.XGT
         /// <returns></returns>
         public async Task<IProtocol> PostAsync(IProtocol protocol)
         {
+            if (m_TcpClient == null)
+                return null;
             if (!IsConnected())
             {
                 if (!Connect())
@@ -84,20 +81,13 @@ namespace DY.NET.LSIS.XGT
             if (reqt == null)
                 throw new ArgumentException("Protocol not match XGTFEnetProtocol type");
             await SocketStream.WriteAsync(reqt.ASCIIProtocol, 0, reqt.ASCIIProtocol.Length);
-            
+
             SendedProtocolSuccessfullyEvent(reqt);
             reqt.ProtocolRequestedEvent(this, reqt);
             BufIdx = 0;
             do
             {
-                int size = await SocketStream.ReadAsync(Buf, BufIdx, BUF_SIZE - BufIdx);
-                if (size == 0)
-                {
-                    if (SignOffReceived != null)
-                        SignOffReceived(this, EventArgs.Empty);
-                    return null;
-                }
-                BufIdx += size;
+                BufIdx += await SocketStream.ReadAsync(Buf, BufIdx, BUF_SIZE - BufIdx);
             } while (!IsMatchInstructSize());
             byte[] recv_data = new byte[BufIdx];
             Buffer.BlockCopy(Buf, 0, recv_data, 0, recv_data.Length);
@@ -150,6 +140,7 @@ namespace DY.NET.LSIS.XGT
         {
             EndAsync();
             m_TcpClient.Close();
+            ConnectionStatusChangedEvent(IsConnected());
         }
 
         public override bool IsConnected()
@@ -205,7 +196,7 @@ namespace DY.NET.LSIS.XGT
             else
                 resp.ASCIIProtocol = recv_data;
             resp.AnalysisProtocol();
-            
+
             ReceivedProtocolSuccessfullyEvent(resp);
             reqt.ProtocolReceivedEvent(this, resp);
             return resp;
@@ -215,7 +206,6 @@ namespace DY.NET.LSIS.XGT
         {
             if (m_TcpClient == null)
                 return;
-
             if (!IsConnected())
             {
                 if (!Connect())
@@ -236,7 +226,7 @@ namespace DY.NET.LSIS.XGT
             }
             ReqPossible = false;
             ReqeustProtocolPointer = reqt;
-            
+
             if (m_ReadAsyncResult == null)
                 m_ReadAsyncResult = SocketStream.BeginRead(Buf, BufIdx, BUF_SIZE, OnRead, null); //비동기 읽기 시작
             /********** byte data write to buffer **********/
@@ -264,35 +254,20 @@ namespace DY.NET.LSIS.XGT
         /// <param name="ar"></param>
         private void OnRead(IAsyncResult ar)
         {
-            //throw new NotImplementedException();
             if (m_TcpClient == null || !IsConnected())
                 return;
-            int size;
+            int size = 0;
             try
             {
                 size = SocketStream.EndRead(ar);
             }
-            catch(System.IO.IOException io_exception)
+            catch (System.IO.IOException io_exception)
             {
                 m_ReadAsyncResult = null;
                 LOG.Debug(m_Host + ":" + m_Port + " 대기시간 초과로 서버에서 접속 해제");
+                ConnectionStatusChangedEvent(IsConnected());
                 return;
             }
-
-#if true
-            //test code
-            if (size <= 0) //서버측에서 연결을 끊음
-            {
-                if (SignOffReceived != null)
-                    SignOffReceived(this, EventArgs.Empty);
-                LOG.Debug("XGT-FEnet PLC에서 종료(또는 에러)신호를 보냄 EndRead(ar) return: " + size);
-                SocketStream.Flush();
-#if DEBUG
-                System.Diagnostics.Debug.Assert(false);
-#endif
-            }
-#endif
-
             BufIdx += size;
             do
             {
@@ -305,7 +280,7 @@ namespace DY.NET.LSIS.XGT
                 BufIdx = 0;
                 ReqPossible = true;
             } while (false);
-            
+
             m_ReadAsyncResult = SocketStream.BeginRead(Buf, BufIdx, BUF_SIZE, OnRead, null);
             if (ReqPossible)
             {

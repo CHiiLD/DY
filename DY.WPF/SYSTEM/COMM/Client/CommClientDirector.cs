@@ -21,12 +21,12 @@ namespace DY.WPF.SYSTEM.COMM
         private static Logger LOG = LogManager.GetCurrentClassLogger();
         private static CommClientDirector THIS;
 
-        private Timer m_TryConnectionTimer = new Timer();
+        private Timer m_ConnectionCheckTimer;
 
         /// 통신 설정과 관련된 프로퍼티들
-        public NotifyPropertyChanged<int> ResponseLatencyProperty { get; private set; }
-        public NotifyPropertyChanged<int> ReconnectIntevalProperty { get; private set; }
-        public NotifyPropertyChanged<bool> UsableReconnectProperty { get; private set; }
+        public NotifyPropertyChanged<int> ConnectionDelayTimeProperty { get; private set; }
+        public NotifyPropertyChanged<int> ConnectionCheckIntevalProperty { get; private set; }
+        public NotifyPropertyChanged<bool> ConnectionCheckableProperty { get; private set; }
 
         /// <summary>
         /// 클라이언트 소켓 사전 
@@ -37,36 +37,28 @@ namespace DY.WPF.SYSTEM.COMM
             private set;
         }
 
+
         private CommClientDirector()
         {
+            //collection
             Clientele = new ObservableCollection<CommClient>();
-            m_TryConnectionTimer.Elapsed += (object sender, ElapsedEventArgs args) =>
-            {
-                ConnectClientele();
-            };
 
-            ResponseLatencyProperty = new NotifyPropertyChanged<int>();
-            ReconnectIntevalProperty = new NotifyPropertyChanged<int>();
-            ReconnectIntevalProperty.PropertyChanged += (object sender, PropertyChangedEventArgs args) =>
-            {
-                var notifyProperty = sender as NotifyPropertyChanged<int>;
-                m_TryConnectionTimer.Interval = notifyProperty.Source;
-                LOG.Trace("재연결시도간격 :" + notifyProperty.Source);
-            };
+            //timer initialize
+            m_ConnectionCheckTimer = new Timer();
+            m_ConnectionCheckTimer.Elapsed += OnConnectionCheckTimerElapse;
 
-            UsableReconnectProperty = new NotifyPropertyChanged<bool>();
-            UsableReconnectProperty.PropertyChanged += (object sender, PropertyChangedEventArgs args) =>
-            {
-                var notifyProperty = sender as NotifyPropertyChanged<bool>;
-                if (notifyProperty.Source)
-                    m_TryConnectionTimer.Start();
-                else
-                    m_TryConnectionTimer.Stop();
-            };
+            //notify property initialize
+            ConnectionDelayTimeProperty = new NotifyPropertyChanged<int>();
 
-            ResponseLatencyProperty.Source = 1000;
-            ReconnectIntevalProperty.Source = 30000;
-            UsableReconnectProperty.Source = false;
+            ConnectionCheckIntevalProperty = new NotifyPropertyChanged<int>();
+            ConnectionCheckIntevalProperty.PropertyChanged += OnConnectionCheckIntevalPropertyChanged;
+
+            ConnectionCheckableProperty = new NotifyPropertyChanged<bool>();
+            ConnectionCheckableProperty.PropertyChanged += OnConnectionCheckablePropertyPropertyChanged;
+
+            ConnectionDelayTimeProperty.Source = 1000;
+            ConnectionCheckIntevalProperty.Source = 30000;
+            ConnectionCheckableProperty.Source = false;
         }
 
         ~CommClientDirector()
@@ -79,7 +71,7 @@ namespace DY.WPF.SYSTEM.COMM
         /// </summary>
         public void Dispose()
         {
-            m_TryConnectionTimer.Dispose();
+            m_ConnectionCheckTimer.Dispose();
             foreach (var c in Clientele)
                 c.Dispose();
             Clientele = null;
@@ -99,16 +91,47 @@ namespace DY.WPF.SYSTEM.COMM
         }
 
         /// <summary>
-        /// UsableReconnectProperty가 True일 때 일정 간격마다 통신 접속 시도
+        /// 클라이언트의 통신 연결의 타임아웃 시간이 변경된 경우 호출
         /// </summary>
-        /// <returns></returns>
-        private void ConnectClientele()
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void OnConnectionCheckIntevalPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            var notifyProperty = sender as NotifyPropertyChanged<int>;
+            m_ConnectionCheckTimer.Interval = notifyProperty.Source;
+            LOG.Trace("클라이언트 접속 상태 체크 타이머의 설정 시간: " + notifyProperty.Source);
+        }
+
+        /// <summary>
+        /// 클라이언트 통신 접속상태 체크 시스템의 on/off를 변경한 경우 호출 
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="args"></param>
+        private void OnConnectionCheckablePropertyPropertyChanged(object sender, PropertyChangedEventArgs args)
+        {
+            var notifyProperty = sender as NotifyPropertyChanged<bool>;
+            if (notifyProperty.Source)
+                m_ConnectionCheckTimer.Start();
+            else
+                m_ConnectionCheckTimer.Stop();
+            LOG.Trace("클라이언트 접속상태 체크 타이머 활성화 여부: " + notifyProperty.Source);
+        }
+
+        /// <summary>
+        /// 클라이언트 통신 접속상태 체크 타이머
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void OnConnectionCheckTimerElapse(object sender, ElapsedEventArgs e)
         {
             bool isConnected;
             IConnect socket;
-            foreach (var commClient in Clientele)
+            foreach (var ccclient in Clientele)
             {
-                socket = commClient.Socket;
+                if (ccclient.Usable != true)
+                    continue;
+
+                socket = ccclient.Socket;
                 isConnected = false;
                 if (!socket.IsConnected())
                 {
@@ -118,9 +141,9 @@ namespace DY.WPF.SYSTEM.COMM
                     }
                     catch (Exception ex)
                     {
-                        LOG.Error("접속 에러: " + ex.Message);
+                        LOG.Error("클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: " + ex.Message);
                     }
-                    commClient.Usable = isConnected;
+                    ccclient.ChangedCommStatus(isConnected);
                 }
             }
         }

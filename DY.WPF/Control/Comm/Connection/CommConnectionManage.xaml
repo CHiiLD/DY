@@ -11,16 +11,16 @@
 	x:Name="UserControl">
 
     <StackPanel>
-        <mah:ToggleSwitch x:Name="NBT_ReconnectSwtich" Header="Reconnect when non-response" Margin="10,0" />
+        <mah:ToggleSwitch x:Name="NBT_ConnectionCheckTimerSwtich" Header="Connection Check Timer" Margin="10,0" />
         <local:TextBoxWithBar 
-            x:Name="NTB_ReconnectInteval" 
+            x:Name="NTB_ConnectionCheckInteval" 
             Text="" 
             IsNumberOnly="True"
-            Title="Reconnect interval(ms)"/>
+            Title="Connection check inteval(ms)"/>
         <local:TextBoxWithBar 
-            x:Name="NTB_RespLatencyTime" 
+            x:Name="NTB_ConnectionDelayTime" 
             Text="" 
             IsNumberOnly="True"
-            Title="Respnse latency time(ms)"/>
+            Title="Connection latency time(ms)"/>
     </StackPanel>
 </UserControl>

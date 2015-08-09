@@ -67,7 +67,7 @@ namespace DY.WPF
             if (client.IsConnected())
                 return true;
 
-            int inteval = CommClientDirector.GetInstance().ResponseLatencyProperty.Source;
+            int inteval = CommClientDirector.GetInstance().ConnectionDelayTimeProperty.Source;
             bool isConnected = false;
             string message = null;
             MetroWindow metro_win = Window.GetWindow(this) as MetroWindow;

@@ -25,14 +25,14 @@ namespace DY.WPF
         {
             this.InitializeComponent();
             CommClientDirector ccmm = CommClientDirector.GetInstance();
-            Binding reconnect_swtich_bind = new Binding("Source") { Source = ccmm.UsableReconnectProperty };
-            this.NBT_ReconnectSwtich.SetBinding(ToggleSwitch.IsCheckedProperty, reconnect_swtich_bind);
+            Binding binding = new Binding("Source") { Source = ccmm.ConnectionCheckableProperty };
+            this.NBT_ConnectionCheckTimerSwtich.SetBinding(ToggleSwitch.IsCheckedProperty, binding);
 
-            Binding reconnect_inteval_bind = new Binding("Source") { Source = ccmm.ReconnectIntevalProperty };
-            this.NTB_ReconnectInteval.NTextBox.SetBinding(TextBox.TextProperty, reconnect_inteval_bind);
+            binding = new Binding("Source") { Source = ccmm.ConnectionCheckIntevalProperty };
+            this.NTB_ConnectionCheckInteval.NTextBox.SetBinding(TextBox.TextProperty, binding);
 
-            Binding resp_ratency_bind = new Binding("Source") { Source = ccmm.ResponseLatencyProperty };
-            this.NTB_RespLatencyTime.NTextBox.SetBinding(TextBox.TextProperty, resp_ratency_bind);
+            binding = new Binding("Source") { Source = ccmm.ConnectionDelayTimeProperty };
+            this.NTB_ConnectionDelayTime.NTextBox.SetBinding(TextBox.TextProperty, binding);
         }
     }
 }
