@@ -36,14 +36,15 @@ namespace DY.NET
         /// AProtocol 클래스가 요청클래스로 쓰인 경우 응답프로토콜 클래스를 담는다.
         /// </summary>
         public IProtocol MirrorProtocol { get; set; }
+
         public Type TType { get; protected set; }
 
-#if false
-        /// <summary>
-        /// 통신 중 예외 또는 에러가 발생시 통지
-        /// </summary>
-        public event EventHandler<ProtocolReceivedEventArgs> ErrorReceived;
-#endif
+        public int Tag { get; set; }
+
+        public object UserData { get; set; }
+
+        public string Description { get; set; }
+
         /// <summary>
         /// 프로토콜 요청을 성공적으로 전달되었을 시 통지
         /// </summary>
@@ -64,9 +65,6 @@ namespace DY.NET
             this.UserData = that.UserData;
 
             this.ProtocolReceived = that.ProtocolReceived;
-#if false
-            this.ErrorReceived = that.ErrorReceived;
-#endif
             this.ProtocolRequested = that.ProtocolRequested;
 
             this.MirrorProtocol = that.MirrorProtocol;
@@ -96,21 +94,6 @@ namespace DY.NET
                 ProtocolRequested(obj, new ProtocolReceivedEventArgs(cold_pt));
             }
         }
-
-#if false
-        public void ErrorReceivedEvent(object obj, IProtocol protocol)
-        {
-            if (ErrorReceived != null)
-            {
-                var cold_pt = System.Threading.Volatile.Read(ref protocol);
-                ErrorReceived(obj, new ProtocolReceivedEventArgs(cold_pt));
-            }
-        }
-#endif
-        public int Tag { get; set; }
-        public string Description { get; set; }
-        public object UserData { get; set; }
-
         public abstract void AssembleProtocol();
         public abstract void AnalysisProtocol();
         public abstract void Print();

@@ -51,7 +51,7 @@ namespace DY.WPF
         private bool Disconnect(IConnect client)
         {
             if (client.IsConnected())
-                client.Dispose();
+                client.Close();
             return client.IsConnected();
         }
 
@@ -72,21 +72,18 @@ namespace DY.WPF
             string message = null;
             MetroWindow metro_win = Window.GetWindow(this) as MetroWindow;
             string title = "Communication connection";
+            Task connect_task = null;
+
             ProgressDialogController progress = await metro_win.ShowProgressAsync(title,
                 "Please wait... until the connection is completed.", false, null);
-            var client_asycn = client as IConnectAsync;
-            Task task = null;
             await Task.Delay(1000);
             try
             {
-                if (client_asycn == null)
-                    task = Task.Factory.StartNew(() => { return client.Connect(); });
-                else
-                    task = client_asycn.ConnectAsync();
                 LOG.Trace("통신 접속 시도");
-                if (await Task.WhenAny(task, Task.Delay(inteval)) == task)
+                connect_task = Task.Factory.StartNew(() => { return client.Connect(); });
+                if (await Task.WhenAny(connect_task, Task.Delay(inteval)) == connect_task)
                 {
-                    isConnected = await (Task<bool>)task;
+                    isConnected = await (Task<bool>)connect_task;
                     if (isConnected)
                         message = "It was successfully connected."; //접속 성공
                     else
@@ -103,6 +100,7 @@ namespace DY.WPF
                 isConnected = false;
                 message = "Connection failed.(" + ex.Message + ")";
             }
+
             await progress.CloseAsync();
             await metro_win.ShowMessageAsync(title, message);
             LOG.Debug("시도 결과: " + message);

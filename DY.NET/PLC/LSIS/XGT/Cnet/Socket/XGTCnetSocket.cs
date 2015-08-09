@@ -11,6 +11,8 @@ using System;
 using System.IO;
 using System.IO.Ports;
 using System.Threading.Tasks;
+using System.Collections.Generic;
+using System.Diagnostics;
 using NLog;
 
 namespace DY.NET.LSIS.XGT
@@ -18,7 +20,7 @@ namespace DY.NET.LSIS.XGT
     /// <summary>
     /// XGT Cnet 시리얼 클라이언트 통신 클래스
     /// </summary>
-    public partial class XGTCnetSocket : ASocketCover, IPostAsync
+    public partial class XGTCnetSocket : ASocketCover, IPostAsync, IPingPong
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();
 
@@ -49,7 +51,10 @@ namespace DY.NET.LSIS.XGT
             if (m_SerialPort == null)
                 throw new NullReferenceException(ERROR_SERIAL_IS_NULL);
             if (!IsConnected())
+            {
                 m_SerialPort.Open();
+                SocketStream = m_SerialPort.BaseStream;
+            }
             ConnectionStatusChangedEvent(IsConnected());
             LOG.Debug("XGT-Cnet 시리얼포트 통신 접속");
             return IsConnected();
@@ -113,6 +118,34 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
+        /// 서버와 통신하여 통신 속도를 측정한다. 
+        /// </summary>
+        /// <param name="args">프로토콜 생성에 필요한 아규먼트</param>
+        /// <returns> 
+        /// -1: Disconnect 상태
+        /// -2: 타임아웃
+        /// -3: 프로토콜 통신 에러
+        /// 0>=: 요청 시 응답까지의 속도
+        /// </returns>
+        public async Task<long> PingAsync(object args)
+        {
+            ushort localport = (ushort)args;
+            if (!IsConnected())
+                return -1;
+            Dictionary<string, object> dic = new Dictionary<string, object>();
+            dic.Add("%DW0", null); //모든 XGT의 공통으로 가지고 있는 메모리
+            XGTCnetProtocol cnet_test_protocol = XGTCnetProtocol.NewRSSProtocol(typeof(ushort), localport, dic);
+            Stopwatch watch = Stopwatch.StartNew();
+            XGTCnetProtocol result_protocol = await PostAsync(cnet_test_protocol) as XGTCnetProtocol;
+            watch.Stop();
+            if (result_protocol == null)
+                return -2;
+            if (result_protocol.Error != XGTCnetProtocolError.OK)
+                return -3;
+            return watch.ElapsedMilliseconds;
+        }
+
+        /// <summary>
         /// 메모리 반환
         /// </summary>
         public override void Dispose()
@@ -145,7 +178,7 @@ namespace DY.NET.LSIS.XGT
             if (reqt_p == null)
                 throw new ArgumentNullException("Argument is not XGTCnetProtocol<T>.");
             byte[] reqt_bytes = reqt_p.ASCIIProtocol;
-            if (IsWait) //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
+            if (!ReqPossible) //만일 ack응답이 오지 않았다면 큐에 저장하고 대기
             {
                 ProtocolStandByQueue.Enqueue(reqt_p);
                 return;
@@ -156,7 +189,7 @@ namespace DY.NET.LSIS.XGT
 
             SendedProtocolSuccessfullyEvent(reqt_p); //소켓측 데이터 전송 이벤트
             reqt_p.ProtocolRequestedEvent(this, reqt_p); //프로토콜측 데이터 전송 이벤트
-            IsWait = true;
+            ReqPossible = false;
         }
 
         /// <summary>
@@ -181,7 +214,7 @@ namespace DY.NET.LSIS.XGT
             /**********초기화하고 다음 통신 준비**********/
             ReqeustProtocolPointer = null;
             BufIdx = 0;
-            IsWait = false;
+            ReqPossible = true;
             if (ProtocolStandByQueue.Count != 0)
                 SendNextProtocol();
         }

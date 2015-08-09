@@ -40,9 +40,9 @@ namespace DY.WPF.SYSTEM.COMM
         private CommClientDirector()
         {
             Clientele = new ObservableCollection<CommClient>();
-            m_TryConnectionTimer.Elapsed += async (object sender, ElapsedEventArgs args) =>
+            m_TryConnectionTimer.Elapsed += (object sender, ElapsedEventArgs args) =>
             {
-                await ConnectClientele();
+                ConnectClientele();
             };
 
             ResponseLatencyProperty = new NotifyPropertyChanged<int>();
@@ -102,7 +102,7 @@ namespace DY.WPF.SYSTEM.COMM
         /// UsableReconnectProperty가 True일 때 일정 간격마다 통신 접속 시도
         /// </summary>
         /// <returns></returns>
-        private async Task ConnectClientele()
+        private void ConnectClientele()
         {
             bool isConnected;
             IConnect socket;

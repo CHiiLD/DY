@@ -22,9 +22,6 @@ namespace DY.NET
         event EventHandler<ProtocolReceivedEventArgs> ProtocolRequested;
         event EventHandler<ProtocolReceivedEventArgs> ProtocolReceived;
 
-        void ProtocolReceivedEvent(object obj, IProtocol protocol);
-        void ProtocolRequestedEvent(object obj, IProtocol protocol);
-        
         Dictionary<string, object> GetStorage();
     }
 }

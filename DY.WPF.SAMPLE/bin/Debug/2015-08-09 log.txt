@@ -154,3 +154,12 @@ Tcp 192.168.10.150:2004 업데이트 루프 종료
 15:36:08 DY.WPF.SYSTEM.COMM.ACommIOMonitoringStrategy
 Tcp 192.168.10.150:2004 업데이트 루프 시작
 
+18:19:12 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+18:19:12 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 해제
+
+18:19:14 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.
+
