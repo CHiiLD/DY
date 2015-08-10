@@ -16,7 +16,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
     /// 허니웰 Vuquest3310g 바코드 리더기 통신 클래스
     /// 115200-N-8-1
     /// </summary>
-    public partial class Vuquest3310g : IScannerSerialCommAsync, ITag, IPingPong, ITimeout
+    public partial class Vuquest3310g : IScannerSerialCommAsync
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();
 
@@ -60,9 +60,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
         private volatile byte[] m_Buffer = new byte[4096];
         private volatile int m_BufferIdx;
         private volatile bool m_IsActivate = false;
-#if false
         private volatile System.Timers.Timer m_TimeoutTimer;
-#endif
         private volatile SerialPort m_SerialPort;
 
         /// <summary>
@@ -70,20 +68,15 @@ namespace DY.NET.HONEYWELL.VUQUEST
         /// </summary>
         public EventHandler<Vuquest3310gScanEventArgs> Scanned;
 
-        private int m_WriteTimeout = 500;
-        private int m_ReadTimeout = 500;
-
         public int WriteTimeout
         {
             get
             {
-                return m_WriteTimeout;
+                return m_SerialPort.WriteTimeout;
             }
             set
             {
-                m_WriteTimeout = value;
-                if (m_SerialPort != null)
-                    m_SerialPort.BaseStream.WriteTimeout = value;
+                m_SerialPort.WriteTimeout = value;
             }
         }
 
@@ -91,13 +84,13 @@ namespace DY.NET.HONEYWELL.VUQUEST
         {
             get
             {
-                return m_ReadTimeout;
+                return m_SerialPort.ReadTimeout;
             }
             set
             {
-                m_ReadTimeout = value;
-                if (m_SerialPort != null)
-                    m_SerialPort.BaseStream.ReadTimeout = value;
+                if (value > 0)
+                    m_TimeoutTimer.Interval = value;
+                m_SerialPort.ReadTimeout = value;
             }
         }
 
@@ -111,25 +104,17 @@ namespace DY.NET.HONEYWELL.VUQUEST
             }
         }
 
-#if false
-        /// <summary>
-        /// 타임아웃 시간(ms)
-        /// </summary>
-        public int TimeOut { get; set; }
-#endif
-
         public Vuquest3310g(SerialPort serialPort)
         {
             m_SerialPort = serialPort;
             m_SerialPort.ErrorReceived += OnSerialErrorReceived;
             m_SerialPort.PinChanged += OnSerialPinChanged;
             m_SerialPort.DataReceived += OnCodeReceived;
-#if false
-            TimeOut = 1000; //1초
+
+            Description = "Hoenywell Vuquest 3310g(" + m_SerialPort.PortName + ")";
 
             m_TimeoutTimer = new System.Timers.Timer();
             m_TimeoutTimer.Elapsed += OnElapsedTimer;
-#endif
         }
 
         ~Vuquest3310g()
@@ -146,6 +131,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
         {
             Close();
         }
+
         private void OnElapsedTimer(object sender, ElapsedEventArgs args)
         {
             var timer = sender as System.Timers.Timer;
@@ -164,14 +150,18 @@ namespace DY.NET.HONEYWELL.VUQUEST
         {
             if (!m_IsActivate)
                 return;
-#if false
-            if (m_TimeoutTimer.Enabled)
-                m_TimeoutTimer.Stop();
-#endif
+           
             SerialPort sp = sender as SerialPort;
-            m_BufferIdx += sp.Read(m_Buffer, m_BufferIdx, m_Buffer.Length);
+            if (sp.BytesToRead <= 0)
+                return;
+
+            m_BufferIdx += sp.Read(m_Buffer, m_BufferIdx, m_Buffer.Length - m_BufferIdx);
             if (m_Buffer[m_BufferIdx - 1] != CR)
                 return;
+
+            if (m_TimeoutTimer.Enabled)
+                m_TimeoutTimer.Stop();
+            
             var bytes = new byte[m_BufferIdx - 1]; //for remove CR byte
             Buffer.BlockCopy(m_Buffer, 0, bytes, 0, bytes.Length);
             m_IsActivate = false;
@@ -179,6 +169,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
             if (Scanned != null)
                 Scanned(this, new Vuquest3310gScanEventArgs(bytes));
         }
+
         public bool IsConnected()
         {
             return IsEnableSerial;
@@ -207,12 +198,12 @@ namespace DY.NET.HONEYWELL.VUQUEST
             List<byte> syn = new List<byte>();
             int size;
             syn.AddRange(PREFIX);
-            syn.AddRange(PSS_ADD_CR_SUFIX_ALL_SYMBOL);
+            syn.AddRange(UTI_SHOW_SOFTWARE_REVERSION);
             syn.Add(DOT);
             byte[] reqt_code = syn.ToArray();
             await bs.WriteAsync(reqt_code, 0, reqt_code.Length);
             Task read_task = bs.ReadAsync(m_Buffer, 0, m_Buffer.Length);
-            Task when_task = await Task.WhenAny(read_task, Task.Delay(m_ReadTimeout));
+            Task when_task = await Task.WhenAny(read_task, Task.Delay(ReadTimeout));
             if (when_task == read_task)
             {
                 size = await (Task<int>)read_task;
@@ -220,13 +211,13 @@ namespace DY.NET.HONEYWELL.VUQUEST
             else
             {
                 size = -2;
-                LOG.Trace(m_SerialPort.PortName + " PingPong (Read)Timeout: " + m_ReadTimeout + "ms");
+                LOG.Debug(Description + " PingPong (Read)Timeout: " + ReadTimeout + "ms");
             }
 
             if (size > 0)
             {
                 size = await m_SerialPort.BaseStream.ReadAsync(m_Buffer, 0, m_Buffer.Length);
-                LOG.Trace(m_SerialPort.PortName + " Software reversion: " + Encoding.ASCII.GetString(m_Buffer, 0, size));
+                LOG.Trace(Description + " Software reversion: " + Encoding.ASCII.GetString(m_Buffer, 0, size));
             }
             watch.Stop();
 
@@ -302,41 +293,17 @@ namespace DY.NET.HONEYWELL.VUQUEST
 
         public void Scan()
         {
-            if (m_IsActivate)
-                return;
-            ActivateScan();
-        }
-
-#if false
-        /// <summary>
-        /// 리더기의 스캔을 시작
-        /// </summary>
-        public void Scan()
-        {
-            Scan(TimeOut);
-        }
-
-        /// <summary>
-        /// 리더기의 스캔을 시작 
-        /// </summary>
-        /// <param name="timeout">타임아웃 시간을 지정</param>
-        public void Scan(int timeout)
-        {
+            double timeout = m_TimeoutTimer.Interval;
             LOG.Trace("Vuquest3310g 타이머 스캔 시도, 타임아웃: " + timeout);
             if (!(0 <= timeout && timeout <= VUQUEST3310G_TIMEOUT_MAX))
                 throw new ArgumentOutOfRangeException("timeout");
-#if false
-            TimeOut = timeout;
-#endif
+
             if (m_IsActivate)
                 return;
+            
             ActivateScan();
-#if false
-            m_TimeoutTimer.Interval = TimeOut;
             m_TimeoutTimer.Start();
-#endif
         }
-#endif
 
         public async Task<object> ScanAsync()
         {
@@ -368,10 +335,8 @@ namespace DY.NET.HONEYWELL.VUQUEST
         /// </summary>
         public void Close()
         {
-#if false
             if (m_TimeoutTimer.Enabled)
                 m_TimeoutTimer.Stop();
-#endif
             if (m_IsActivate)
                 DeactivateScan();
             if (IsEnableSerial)
@@ -388,9 +353,8 @@ namespace DY.NET.HONEYWELL.VUQUEST
         {
             Close();
             m_SerialPort.Dispose();
-#if false
+            m_SerialPort = null;
             m_TimeoutTimer.Dispose();
-#endif
             GC.SuppressFinalize(this);
             LOG.Debug("Vuquest3310g 접속종료 및 메모리 해제");
         }

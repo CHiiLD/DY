@@ -11,38 +11,29 @@ namespace DY.NET
     /// </summary>
     public abstract class AProtocol : IProtocol
     {
-        protected byte[] ProtocolData;
+        //데이터 박스
         protected Dictionary<string, object> StorageDictionary = new Dictionary<string, object>();
 
-        /// <summary>
-        /// ASCII 데이터
-        /// </summary>
+        protected byte[] ProtocolData;
+        // ASCII 데이터
         public byte[] ASCIIProtocol
         {
             get
             {
-                if (ProtocolData == null)
-                    AssembleProtocol();
+                if (ProtocolData == null) AssembleProtocol();
                 return ProtocolData;
             }
-            internal set
-            {
-                ProtocolData = value;
-            }
+            internal set { ProtocolData = value; }
         }
 
-        /// <summary>
-        /// AProtocol 클래스가 응답클래스로 쓰인 경우 요청프로토콜 클래스를 담고 
-        /// AProtocol 클래스가 요청클래스로 쓰인 경우 응답프로토콜 클래스를 담는다.
-        /// </summary>
+        // AProtocol 클래스가 응답클래스로 쓰인 경우 요청프로토콜 클래스를 담고 
+        // AProtocol 클래스가 요청클래스로 쓰인 경우 응답프로토콜 클래스를 담는다.
         public IProtocol MirrorProtocol { get; set; }
-
+        // 메모리 번지의 타입
         public Type TType { get; protected set; }
 
         public int Tag { get; set; }
-
         public object UserData { get; set; }
-
         public string Description { get; set; }
 
         /// <summary>
@@ -94,6 +85,8 @@ namespace DY.NET
                 ProtocolRequested(obj, new ProtocolReceivedEventArgs(cold_pt));
             }
         }
+
+      
         public abstract void AssembleProtocol();
         public abstract void AnalysisProtocol();
         public abstract void Print();

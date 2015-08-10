@@ -478,3 +478,1457 @@ Vuquest3310g 시리얼포트 통신 접속
 08:12:36 DY.WPF.CommConnectionDataGrid
 시도 결과: It was successfully connected.
 
+15:46:40 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:46:42 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:46:42 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:46:45 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:46:47 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:46:47 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+15:46:50 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:46:56 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:46:58 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:01 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:03 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:06 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:09 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:11 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:14 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:17 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:19 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:22 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:24 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:27 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:30 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:32 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:35 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:37 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:40 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:43 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:45 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:48 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:51 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:53 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:56 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:47:58 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:48:01 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:48:06 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:48:07 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:48:16 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:48:18 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:48:20 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:48:23 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:48:49 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:48:52 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+15:49:07 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:49:10 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:49:13 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:49:16 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:49:19 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:49:22 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:49:25 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:49:28 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:49:31 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:49:34 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+15:49:37 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+16:01:02 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+16:01:04 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+16:01:16 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+16:01:24 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+16:01:24 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+16:08:35 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+16:08:37 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+16:08:53 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 해제
+
+16:21:30 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+16:21:33 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+16:21:52 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 해제
+
+16:25:28 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+16:25:30 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+16:25:57 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 해제
+
+16:25:57 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:25:57 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:25:57 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:25:57 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:25:57 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:25:57 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:26:27 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+16:26:29 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+16:26:49 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 해제
+
+16:26:49 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:26:50 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:26:53 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:26:56 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:26:59 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:27:02 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:27:05 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:27:20 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+16:27:24 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+16:28:33 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 해제
+
+16:28:33 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:28:33 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:28:33 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:28:33 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:28:33 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:28:33 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:28:41 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 해제
+
+16:28:41 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 접속종료 및 메모리 해제
+
+16:28:41 DY.WPF.SYSTEM.COMM.CommClient
+COM7 115200-8-N-1 CommClient 메모리 해제
+
+16:28:44 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+16:28:45 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+16:28:47 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+16:29:29 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 해제
+
+16:29:32 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+16:29:33 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+16:29:35 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+16:30:27 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 해제
+
+16:30:29 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:30:32 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:30:35 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:30:38 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:30:41 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:30:44 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:32:56 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+16:32:58 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+16:42:09 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+16:42:11 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+16:42:23 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 해제
+
+16:42:26 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:42:29 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:42:32 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:42:35 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:42:38 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:42:41 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:42:41 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+16:42:43 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+16:42:44 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:42:45 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+16:42:47 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:42:50 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:42:53 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:42:56 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:42:59 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:43:02 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 'COM7' 포트가 없습니다.
+
+16:47:40 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+16:47:42 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+16:51:05 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+16:51:08 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+16:51:57 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 해제
+
+16:51:57 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:51:57 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:51:57 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:51:57 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:51:57 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:51:57 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:51:57 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:51:57 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:51:57 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:51:57 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+16:51:57 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+17:15:30 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+17:15:32 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:16:42 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+17:16:45 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:18:53 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+17:18:55 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:25:45 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+17:25:48 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:27:44 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+17:27:46 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+17:28:13 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 해제
+
+17:28:13 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+17:28:13 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+17:28:14 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+17:28:14 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+17:28:14 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+17:28:14 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+17:28:14 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+17:28:14 DY.WPF.SYSTEM.COMM.CommClientDirector
+클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: 스레드 종료 또는 응용 프로그램 요청 때문에 I/O 작업이 취소되었습니다.
+
+
+17:28:25 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+17:28:25 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+17:28:28 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+21:04:52 DY.NET.LSIS.XGT.XGTFEnetSocket
+XGT-FEnet 이더넷 통신 동기 접속
+
+21:04:54 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+21:05:15 DY.WPF.SYSTEM.COMM.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+21:05:15 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:15 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:15 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:15 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:15 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:15 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:16 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:16 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:16 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:16 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:16 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:16 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:16 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:16 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:16 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:17 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:17 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:17 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:17 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:17 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:17 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:17 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:17 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:17 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:18 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:18 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:18 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:18 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:18 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:18 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:18 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:18 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:19 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:19 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:19 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:19 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:19 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:19 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:19 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:19 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:19 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:20 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:20 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:20 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:20 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:20 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:20 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:20 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:20 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:20 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:21 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:21 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:21 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:21 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:21 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:21 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:21 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:21 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:22 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:22 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:22 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:22 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:22 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:22 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:22 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:22 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:22 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:23 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:23 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:23 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:23 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:23 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:23 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:23 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:23 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:23 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:24 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:24 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:24 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:24 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:24 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:24 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:24 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:24 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:25 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:25 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:25 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:25 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:25 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:25 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:25 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:25 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:25 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:26 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:26 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:26 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:26 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:26 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:26 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:26 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:26 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:26 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:27 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:27 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:27 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:27 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:27 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:27 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:27 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:27 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:28 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:28 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:28 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:28 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:28 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:28 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:28 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:28 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:28 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:29 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:29 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:29 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:29 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:29 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:29 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:29 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:29 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:29 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:30 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:30 DY.WPF.SYSTEM.COMM.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+21:05:34 DY.NET.LSIS.XGT.XGTFEnetSocket
+XGT-FEnet 이더넷 통신 동기 접속
+
+21:05:36 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+21:05:38 DY.WPF.SYSTEM.COMM.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+21:05:38 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:38 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:38 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:38 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:38 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:38 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:38 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:38 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:38 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:39 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:39 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:39 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:39 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:39 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:39 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:39 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:39 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:39 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:39 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:40 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:40 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:40 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:40 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:40 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:40 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:40 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:40 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:41 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:41 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:41 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:41 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:41 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:41 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:41 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:41 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:41 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:42 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:42 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:42 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:42 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:42 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:42 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:42 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:42 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:42 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:43 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:43 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:43 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:43 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:43 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:43 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:43 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:43 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:43 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:44 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:44 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:44 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:44 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:44 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:44 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:44 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:44 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:44 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:45 DY.WPF.SYSTEM.COMM.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+
+21:05:49 DY.NET.LSIS.XGT.XGTFEnetSocket
+XGT-FEnet 이더넷 통신 동기 접속
+
+21:05:52 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+21:05:54 DY.WPF.SYSTEM.COMM.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 시작
+
+21:05:54 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:54 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:54 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:55 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:55 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:55 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:55 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:55 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:55 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:55 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:55 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:55 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:56 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:56 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:56 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:56 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:56 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:56 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:56 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:56 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:56 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:57 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:57 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:57 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:57 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:57 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:57 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:57 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:57 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:57 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:58 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:58 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:58 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:58 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:58 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:58 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:58 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:58 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:58 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:59 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:59 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:59 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:59 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:59 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:59 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:59 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:59 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:05:59 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:00 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:00 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:00 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:00 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:00 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:00 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:00 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:00 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:00 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:01 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:01 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:01 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:01 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:01 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:01 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:01 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:01 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:01 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:02 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:02 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:02 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:02 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:02 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:02 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:02 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:02 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:03 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:03 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:03 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:03 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:03 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:03 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:03 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:03 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:03 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:04 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:04 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:04 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:04 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:04 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:04 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:04 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:04 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:04 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:05 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:05 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:05 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:05 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:05 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:05 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:05 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:05 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:05 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:06 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:06 DY.WPF.SYSTEM.COMM.XGTCommIOMonitoring
+Tcp 192.168.10.150:2004 PostAsync 예외처리 이하와 같음: 개체 참조가 개체의 인스턴스로 설정되지 않았습니다.
+
+21:06:06 DY.WPF.SYSTEM.COMM.ACommIOMonitoringStrategy
+Tcp 192.168.10.150:2004 업데이트 루프 종료
+

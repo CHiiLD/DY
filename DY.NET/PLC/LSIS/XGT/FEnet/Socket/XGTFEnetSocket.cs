@@ -1,8 +1,5 @@
 ﻿using System;
 using System.Net.Sockets;
-using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Diagnostics;
 using NLog;
 
 namespace DY.NET.LSIS.XGT
@@ -10,13 +7,9 @@ namespace DY.NET.LSIS.XGT
     /// <summary>
     /// XGT FEnet 이더넷 클라이언트 소켓 클래스
     /// </summary>
-    public class XGTFEnetSocket : ASocketCover, IPostAsync, IPingPong
-#if false
-        , IConnectAsync
-#endif
+    public sealed partial class XGTFEnetSocket : ASocketCover
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();
-
         private string m_Host;
         private int m_Port;
         private volatile TcpClient m_TcpClient;
@@ -24,7 +17,41 @@ namespace DY.NET.LSIS.XGT
         private IAsyncResult m_ReadAsyncResult;
 
         /// <summary>
-        /// new 생성 방지
+        /// PostAsync(WriteAsync), TcpClient.GetStream().WriteTimeou
+        /// 의 타임아웃 설정을 한다.
+        /// </summary>
+        public new int WriteTimeout
+        {
+            get
+            {
+                return m_TcpClient.GetStream().WriteTimeout;
+            }
+            set
+            {
+                m_TcpClient.GetStream().WriteTimeout = value;
+            }
+        }
+
+        /// <summary>
+        /// PostAsync(ReadAsync), TcpClient.GetStream().WriteTimeou, Timer's Inteval
+        /// 의 타임아웃 설정을 한다.
+        /// </summary>
+        public new int ReadTimeout
+        {
+            get
+            {
+                return m_TcpClient.GetStream().ReadTimeout;
+            }
+            set
+            {
+                if (value > 0)
+                    TimeoutTimer.Interval = value;
+                m_TcpClient.GetStream().ReadTimeout = value;
+            }
+        }
+
+        /// <summary>
+        /// 생성자
         /// </summary>
         public XGTFEnetSocket(string host, XGTFEnetPort port)
         {
@@ -32,97 +59,32 @@ namespace DY.NET.LSIS.XGT
             m_Port = (int)port;
         }
 
+        /// <summary>
+        /// 생성자
+        /// </summary>
+        /// <param name="host"></param>
+        /// <param name="port"></param>
         public XGTFEnetSocket(string host, int port)
         {
             m_Host = host;
             m_Port = port;
+            Description = "LSIS XGT FEnet(" + m_Host + ":" + m_Port + ")";
         }
 
+        /// <summary>
+        /// 소멸자
+        /// </summary>
         ~XGTFEnetSocket()
         {
             Dispose();
         }
 
-        private void EndAsync()
-        {
-            if (m_ReadAsyncResult != null)
-                SocketStream.EndRead(m_ReadAsyncResult);
-            if (m_WriteAsyncResult != null)
-                SocketStream.EndRead(m_WriteAsyncResult);
-
-            m_WriteAsyncResult = null;
-            m_ReadAsyncResult = null;
-        }
-
         /// <summary>
-        /// 비동기적으로 요청프로토콜을 보내고 응답 프로토콜을 받아 리턴.
+        /// 접속 시도
         /// </summary>
-        /// <param name="protocol"></param>
         /// <returns></returns>
-        public async Task<IProtocol> PostAsync(IProtocol protocol)
-        {
-            if (m_TcpClient == null)
-                return null;
-            if (!IsConnected())
-            {
-                if (!Connect())
-                {
-                    LOG.Debug(m_Host + ":" + m_Port + " 프로토콜을 보내기 위해 서버와 접속시도를 하였으나 실패");
-                    return null;
-                }
-            }
-
-            EndAsync();
-            IProtocol temp;
-            while (!ProtocolStandByQueue.IsEmpty)
-                ProtocolStandByQueue.TryDequeue(out temp);
-
-            XGTFEnetProtocol reqt = protocol as XGTFEnetProtocol;
-            if (reqt == null)
-                throw new ArgumentException("Protocol not match XGTFEnetProtocol type");
-            await SocketStream.WriteAsync(reqt.ASCIIProtocol, 0, reqt.ASCIIProtocol.Length);
-
-            SendedProtocolSuccessfullyEvent(reqt);
-            reqt.ProtocolRequestedEvent(this, reqt);
-            BufIdx = 0;
-            do
-            {
-                BufIdx += await SocketStream.ReadAsync(Buf, BufIdx, BUF_SIZE - BufIdx);
-            } while (!IsMatchInstructSize());
-            byte[] recv_data = new byte[BufIdx];
-            Buffer.BlockCopy(Buf, 0, recv_data, 0, recv_data.Length);
-            BufIdx = 0;
-            return ReportResponseProtocol(reqt, recv_data);
-        }
-
-        /// <summary>
-        /// 서버와 통신하여 통신 속도를 측정한다. 
-        /// </summary>
-        /// <param name="args">프로토콜 생성에 필요한 아규먼트</param>
-        /// <returns> 
-        /// -1: Disconnect 상태
-        /// -2: 타임아웃
-        /// -3: 프로토콜 통신 에러
-        /// 0>=: 요청 시 응답까지의 속도
-        /// </returns>
-        public async Task<long> PingAsync()
-        {
-            if (!IsConnected())
-                return -1;
-            Dictionary<string, object> dic = new Dictionary<string, object>();
-            dic.Add("%DW0", null); //모든 XGT의 공통으로 가지고 있는 메모리
-            XGTFEnetProtocol fenet_test_protocol = XGTFEnetProtocol.NewRSSProtocol(typeof(ushort), 00, dic);
-            Stopwatch watch = Stopwatch.StartNew();
-            XGTCnetProtocol result_protocol = await PostAsync(fenet_test_protocol) as XGTCnetProtocol;
-            watch.Stop();
-            if (result_protocol == null)
-                return -2;
-            return watch.ElapsedMilliseconds;
-        }
-
         public override bool Connect()
         {
-            //throw new NotImplementedException();
             //비동기 요청
             if (!IsConnected())
             {
@@ -130,10 +92,13 @@ namespace DY.NET.LSIS.XGT
                 SocketStream = m_TcpClient.GetStream();
             }
             ConnectionStatusChangedEvent(IsConnected());
-            LOG.Debug("XGT-FEnet 이더넷 통신 동기 접속");
+            LOG.Debug(Description + " 이더넷 통신 동기 접속");
             return IsConnected();
         }
 
+        /// <summary>
+        /// 접속 해제
+        /// </summary>
         public override void Close()
         {
             EndAsync();
@@ -141,6 +106,10 @@ namespace DY.NET.LSIS.XGT
             ConnectionStatusChangedEvent(IsConnected());
         }
 
+        /// <summary>
+        /// 접속 상태
+        /// </summary>
+        /// <returns></returns>
         public override bool IsConnected()
         {
             if (m_TcpClient == null)
@@ -150,6 +119,9 @@ namespace DY.NET.LSIS.XGT
             return m_TcpClient.Connected;
         }
 
+        /// <summary>
+        /// 메모리 해제 및 반환
+        /// </summary>
         public override void Dispose()
         {
             if (m_TcpClient != null)
@@ -168,7 +140,21 @@ namespace DY.NET.LSIS.XGT
 
             base.Dispose();
             GC.SuppressFinalize(this);
-            LOG.Debug("XGT-FEnet 이더넷 통신 해제 및 메모리 해제");
+            LOG.Debug(Description + " 이더넷 통신 해제 및 메모리 해제");
+        }
+
+        /// <summary>
+        ///  TcpClient 객체의 비동기 작업들을 종료한다.
+        /// </summary>
+        private void EndAsync()
+        {
+            if (m_ReadAsyncResult != null)
+                SocketStream.EndRead(m_ReadAsyncResult);
+            if (m_WriteAsyncResult != null)
+                SocketStream.EndRead(m_WriteAsyncResult);
+
+            m_WriteAsyncResult = null;
+            m_ReadAsyncResult = null;
         }
 
         /// <summary>
@@ -186,6 +172,12 @@ namespace DY.NET.LSIS.XGT
             return target == sum;
         }
 
+        /// <summary>
+        /// 요청 프로토콜과 ASCII 데이터로 응답 프로토콜을 생성하고 결과를 이벤트로 전달
+        /// </summary>
+        /// <param name="reqt">요청 프로토콜 객체</param>
+        /// <param name="recv_data">ASCII 데이터</param>
+        /// <returns></returns>
         private XGTFEnetProtocol ReportResponseProtocol(XGTFEnetProtocol reqt, byte[] recv_data)
         {
             XGTFEnetProtocol resp = reqt.MirrorProtocol as XGTFEnetProtocol; //응답 객체 생성 전에 재활용이 가능한지 검토
@@ -200,6 +192,10 @@ namespace DY.NET.LSIS.XGT
             return resp;
         }
 
+        /// <summary>
+        /// 프로토콜 전송
+        /// </summary>
+        /// <param name="protocol"></param>
         public override void Send(IProtocol protocol)
         {
             if (m_TcpClient == null)
@@ -208,7 +204,7 @@ namespace DY.NET.LSIS.XGT
             {
                 if (!Connect())
                 {
-                    LOG.Debug(m_Host + ":" + m_Port + " 프로토콜을 보내기 위해 서버와 접속시도를 하였으나 실패");
+                    LOG.Debug(Description + " 프로토콜을 보내기 위해 서버와 접속시도를 하였으나 실패");
                     return;
                 }
             }
@@ -225,20 +221,26 @@ namespace DY.NET.LSIS.XGT
             ReqPossible = false;
             ReqeustProtocolPointer = reqt;
 
-            if (m_ReadAsyncResult == null)
-                m_ReadAsyncResult = SocketStream.BeginRead(Buf, BufIdx, BUF_SIZE, OnRead, null); //비동기 읽기 시작
-            /********** byte data write to buffer **********/
-            m_WriteAsyncResult = SocketStream.BeginWrite(reqt_bytes, 0, reqt_bytes.Length, OnSended, null);
+            m_WriteAsyncResult = SocketStream.BeginWrite(reqt_bytes, 0, reqt_bytes.Length, OnSended, null); //비동기 쓰기 시작
         }
 
+        /// <summary>
+        /// TcpClient WriteBuffer에 데이터를 다 올렸을 때 호출되는 콜백함수
+        /// </summary>
+        /// <param name="ar"></param>
         private void OnSended(IAsyncResult ar)
         {
-            //throw new NotImplementedException();
             if (m_TcpClient == null || !IsConnected())
                 return;
-            /********** buffer data send to plc **********/
-            SocketStream.EndWrite(ar);
+
+            if (m_ReadAsyncResult == null)
+                m_ReadAsyncResult = SocketStream.BeginRead(Buf, BufIdx, BUF_SIZE, OnRead, null); //비동기 읽기 시작
+
+            SocketStream.EndWrite(ar); //비동기 쓰기 완료
             SocketStream.Flush();
+
+            if (ReadTimeout != -1)
+                TimeoutTimer.Start(); //타이머 측정 시작
 
             AProtocol reqt = ReqeustProtocolPointer as AProtocol;
             SendedProtocolSuccessfullyEvent(reqt);
@@ -255,43 +257,37 @@ namespace DY.NET.LSIS.XGT
             if (m_TcpClient == null || !IsConnected())
                 return;
             int size = 0;
-            try
-            {
-                size = SocketStream.EndRead(ar);
-            }
-            catch (System.IO.IOException io_exception)
-            {
-                m_ReadAsyncResult = null;
-                LOG.Debug(m_Host + ":" + m_Port + " 대기시간 초과로 서버에서 접속 해제");
-                ConnectionStatusChangedEvent(IsConnected());
-                return;
-            }
-            BufIdx += size;
             do
             {
+                try
+                {
+                    size = SocketStream.EndRead(ar); //비동기 읽기 완료
+                }
+                catch (System.IO.IOException io_exception)
+                {
+                    m_ReadAsyncResult = null;
+                    LOG.Debug(Description + " 대기시간 초과로 서버에서 접속 해제");
+                    ConnectionStatusChangedEvent(IsConnected());
+                    ReqPossible = true;
+                    break; //서버측에서 접속 종료하여 탈출
+                }
+                BufIdx += size;
                 if (!IsMatchInstructSize())
-                    break;
+                    break; //데이터가 끝까지 오지 않아 탈출
+                if (TimeoutTimer.Enabled)
+                    TimeoutTimer.Stop();
+                else
+                    break; //TIMEOUT으로 탈출
                 byte[] recv_data = new byte[BufIdx];
                 Buffer.BlockCopy(Buf, 0, recv_data, 0, recv_data.Length);
                 XGTFEnetProtocol reqt = ReqeustProtocolPointer as XGTFEnetProtocol;
-                ReportResponseProtocol(reqt, recv_data);
-                BufIdx = 0;
-                ReqPossible = true;
             } while (false);
-
-            m_ReadAsyncResult = SocketStream.BeginRead(Buf, BufIdx, BUF_SIZE, OnRead, null);
+            m_ReadAsyncResult = SocketStream.BeginRead(Buf, BufIdx, BUF_SIZE, OnRead, null); //비동기 읽기 시작
             if (ReqPossible)
             {
-                if (ProtocolStandByQueue.Count != 0)
-                    SendNextProtocol();
+                PrepareTransmission();
+                SendNextProtocol();
             }
-        }
-
-        private void SendNextProtocol()
-        {
-            IProtocol temp = null;
-            if (ProtocolStandByQueue.TryDequeue(out temp))
-                Send(temp);
         }
     }
 }

@@ -5,78 +5,39 @@
  */
 using System;
 using System.Collections.Concurrent;
-using System.Collections.Generic;
 using System.IO;
+using System.Threading.Tasks;
+using System.Timers;
+using NLog;
 
 namespace DY.NET
 {
     /// <summary>
     /// 추상 소켓 클래스
     /// </summary>
-    public abstract class ASocketCover : ISocketCover, ITimeout
+    public abstract class ASocketCover : ISocketCover
     {
-        public const int BUF_SIZE = 4096;
-        protected IProtocol ReqeustProtocolPointer;
+        private static Logger LOG = LogManager.GetCurrentClassLogger();
 
-        /// 스레드 세이프 프로토콜 전송 대기 큐
-        /// </summary>
-        protected ConcurrentQueue<IProtocol> ProtocolStandByQueue;
-        protected volatile bool ReqPossible;
+        public const int BUF_SIZE = 4096;
         protected byte[] Buf = new byte[BUF_SIZE];
         protected int BufIdx;
-        
-        /// <summary>
-        /// 소켓 스트림
-        /// </summary>
+        //요청 프로토콜 임시 저장 변수
+        protected IProtocol ReqeustProtocolPointer;
+        //스레드 세이프 프로토콜 전송 대기 큐
+        protected ConcurrentQueue<IProtocol> ProtocolStandByQueue;
+        //요청 프로토콜 대기 여부
+        protected volatile bool ReqPossible;
+        //소켓 스트림
         protected Stream SocketStream;
+        //타임아웃
+        public int WriteTimeout { get; set; }
+        public int ReadTimeout { get; set; }
+        protected Timer TimeoutTimer;
 
-        private int m_WriteTimeout = 500;
-        private int m_ReadTimeout = 500;
-
-        public int WriteTimeout
-        {
-            get
-            {
-                return m_WriteTimeout;
-            }
-            set
-            {
-                m_WriteTimeout = value;
-                if(SocketStream != null)
-                    SocketStream.WriteTimeout = value;
-            }
-        }
-        public int ReadTimeout
-        {
-            get
-            {
-                return m_ReadTimeout;
-            }
-            set
-            {
-                m_ReadTimeout = value;
-                if (SocketStream != null)
-                    SocketStream.ReadTimeout = value;
-            }
-        }
-
-        public int Tag
-        {
-            get;
-            set;
-        }
-
-        public string Description
-        {
-            get;
-            set;
-        }
-
-        public object UserData
-        {
-            get;
-            set;
-        }
+        public int Tag { get; set; }
+        public string Description { get; set; }
+        public object UserData { get; set; }
 
         /// <summary>
         /// Connect, Close 이벤트 발생 시 호출
@@ -97,12 +58,15 @@ namespace DY.NET
         {
             ProtocolStandByQueue = new ConcurrentQueue<IProtocol>();
             ReqPossible = true;
+            TimeoutTimer = new Timer();
+            TimeoutTimer.Elapsed += OnTimeoutElapsed;
         }
 
         public abstract bool Connect();
         public abstract void Close();
         public abstract void Send(IProtocol protocol);
         public abstract bool IsConnected();
+        public abstract Task<long> PingAsync();
 
         public virtual void Dispose()
         {
@@ -112,6 +76,10 @@ namespace DY.NET
             ReqeustProtocolPointer = null;
             ConnectionStatusChanged = null;
             SocketStream = null;
+
+            TimeoutTimer.Stop();
+            TimeoutTimer.Dispose();
+            TimeoutTimer = null;
 
             Buf = null;
             BufIdx = 0;
@@ -139,6 +107,34 @@ namespace DY.NET
         {
             if (ConnectionStatusChanged != null)
                 ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(isConnected));
+        }
+
+        /// <summary>
+        /// 시리얼 포트가 Write를 할 때 타이머를 작동시켜, OnDataRecieve가 호출 되기전 타임아웃이 된다면 타이머 호출
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        public void OnTimeoutElapsed(object sender, ElapsedEventArgs e)
+        {
+            var timer = sender as Timer;
+            timer.Stop();
+            LOG.Debug(Description + " Timeout: " + timer.Interval);
+            PrepareTransmission();
+            SendNextProtocol();
+        }
+
+        protected void PrepareTransmission()
+        {
+            ReqeustProtocolPointer = null;
+            BufIdx = 0;
+            ReqPossible = true;
+        }
+
+        protected void SendNextProtocol()
+        {
+            IProtocol temp = null;
+            if (ProtocolStandByQueue.TryDequeue(out temp))
+                Send(temp);
         }
     }
 }

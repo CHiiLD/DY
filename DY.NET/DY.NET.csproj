@@ -52,6 +52,7 @@
     <Compile Include="PLC\IConnectAsync.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Enum\XGTCentActionMode.cs" />
     <Compile Include="PLC\LSIS\XGT\Cnet\Protocol\XGTCnetProtocol.Device.cs" />
+    <Compile Include="PLC\LSIS\XGT\FEnet\Socket\XGTFEnetSocket.Async.cs" />
     <Compile Include="PLC\LSIS\XGT\XGTProtocolHelper.cs" />
     <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200Builder.cs" />
     <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200EventArgs.cs" />
@@ -117,6 +118,9 @@
       <Project>{a0bff0db-ed9a-4639-ae86-8e709a1efc66}</Project>
       <Name>NLog.netfx45</Name>
     </ProjectReference>
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PLC\LSIS\XGT\Cnet\Socket\XGTCnetSocket.Async.cs" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

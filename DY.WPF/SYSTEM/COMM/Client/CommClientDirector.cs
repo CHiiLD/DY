@@ -124,37 +124,41 @@ namespace DY.WPF.SYSTEM.COMM
         /// <param name="e"></param>
         private async void OnConnectionCheckTimerElapse(object sender, ElapsedEventArgs e)
         {
-            bool isConnected;
+            bool isConnected = false;
             IConnect socket;
+            DYDeviceCommType dctype;
             foreach (var ccclient in Clientele)
             {
                 if (ccclient.Usable != true)
                     continue;
-
                 socket = ccclient.Socket;
-                isConnected = false;
-                DYDeviceCommType dctype = ccclient.CommType;
-                bool connect_try = true;
-                if (dctype == DYDeviceCommType.SERIAL && socket.IsConnected())
+                dctype = ccclient.CommType;
+                try
                 {
-                    IPingPong pp = socket as IPingPong;
-                    long time = await pp.PingAsync();
-                    if (time < 0)
-                        connect_try = false;
-                }
-
-                if (connect_try)
-                {
-                    try
+                    //시리얼통신인 경우 단선인 경우 케이블에 연결은 되어 있어 실질로 통신은 안되지만 시리얼포트 객체는
+                    //오픈 상태로 되어 있는 경우가 있어, 이를 방지하기 위해 PingPong 신호를 보내 통신 상태 확인
+                    if (dctype == DYDeviceCommType.SERIAL && socket.IsConnected())
                     {
+                        IPingPong pingpong = socket as IPingPong;
+                        long elapse_t = await pingpong.PingAsync();
+                        isConnected = (elapse_t >= 0L);
+                        if (isConnected)
+                            LOG.Trace(socket.Description + " PingPong: " + elapse_t + "ms");
+                    }
+                    else
+                    {
+                        isConnected = socket.IsConnected();
+                    }
+                    if (!isConnected)
                         isConnected = socket.Connect();
-                    }
-                    catch (Exception ex)
-                    {
-                        LOG.Error("클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: " + ex.Message);
-                    }
-                    ccclient.ChangedCommStatus(isConnected);
                 }
+                catch (Exception ex)
+                {
+                    LOG.Error("클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: " + ex.Message);
+                    isConnected = false;
+                }
+                //통신 접속 여부의 결과로 AI(Connect/Disconnect) 업데이트
+                ccclient.ChangedCommStatus(isConnected);
             }
         }
     }

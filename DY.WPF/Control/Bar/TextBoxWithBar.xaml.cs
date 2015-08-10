@@ -21,7 +21,7 @@ namespace DY.WPF
     /// </summary>
     public partial class TextBoxWithBar : UserControl, IGetContext
     {
-        public int Tag { get; set; }
+        public new int Tag { get; set; }
         public string Description { get; set; }
         public object UserData { get; set; }
 

@@ -21,8 +21,9 @@ namespace DY.NET.LSIS.XGT
                 skt.m_SerialPort.DataReceived += skt.OnDataRecieve;
                 skt.m_SerialPort.ErrorReceived += skt.OnSerialErrorReceived;
                 skt.m_SerialPort.PinChanged += skt.OnSerialPinChanged;
+                skt.Description = "LSIS XGT Cnet(" + skt.GetPortName() + ")";
                 return skt;
-            }
+             }
         }
 
         public string GetPortName()
