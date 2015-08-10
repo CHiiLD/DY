@@ -13,7 +13,7 @@ namespace DY.NET
     /// <summary>
     /// 추상 소켓 클래스
     /// </summary>
-    public abstract class ASocketCover : ISocketCover
+    public abstract class ASocketCover : ISocketCover, ITimeout
     {
         public const int BUF_SIZE = 4096;
         protected IProtocol ReqeustProtocolPointer;
@@ -30,8 +30,8 @@ namespace DY.NET
         /// </summary>
         protected Stream SocketStream;
 
-        private int m_WriteTimeout;
-        private int m_ReadTimeout;
+        private int m_WriteTimeout = 500;
+        private int m_ReadTimeout = 500;
 
         public int WriteTimeout
         {

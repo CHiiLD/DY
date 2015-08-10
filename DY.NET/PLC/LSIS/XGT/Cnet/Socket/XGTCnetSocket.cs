@@ -134,21 +134,18 @@ namespace DY.NET.LSIS.XGT
         /// -3: 프로토콜 통신 에러
         /// 0>=: 요청 시 응답까지의 속도
         /// </returns>
-        public async Task<long> PingAsync(object args)
+        public async Task<long> PingAsync()
         {
-            ushort localport = (ushort)args;
             if (!IsConnected())
                 return -1;
             Dictionary<string, object> dic = new Dictionary<string, object>();
             dic.Add("%DW0", null); //모든 XGT의 공통으로 가지고 있는 메모리
-            XGTCnetProtocol cnet_test_protocol = XGTCnetProtocol.NewRSSProtocol(typeof(ushort), localport, dic);
+            XGTCnetProtocol cnet_test_protocol = XGTCnetProtocol.NewRSSProtocol(typeof(ushort), 00, dic);
             Stopwatch watch = Stopwatch.StartNew();
             XGTCnetProtocol result_protocol = await PostAsync(cnet_test_protocol) as XGTCnetProtocol;
             watch.Stop();
             if (result_protocol == null)
                 return -2;
-            if (result_protocol.Error != XGTCnetProtocolError.OK)
-                return -3;
             return watch.ElapsedMilliseconds;
         }
 

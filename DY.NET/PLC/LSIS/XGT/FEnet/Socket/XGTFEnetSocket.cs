@@ -105,7 +105,7 @@ namespace DY.NET.LSIS.XGT
         /// -3: 프로토콜 통신 에러
         /// 0>=: 요청 시 응답까지의 속도
         /// </returns>
-        public async Task<long> PingAsync(object args)
+        public async Task<long> PingAsync()
         {
             if (!IsConnected())
                 return -1;
@@ -117,8 +117,6 @@ namespace DY.NET.LSIS.XGT
             watch.Stop();
             if (result_protocol == null)
                 return -2;
-            if (result_protocol.Error != XGTCnetProtocolError.OK)
-                return -3;
             return watch.ElapsedMilliseconds;
         }
 

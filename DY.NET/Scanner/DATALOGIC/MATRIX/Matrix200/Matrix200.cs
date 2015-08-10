@@ -14,7 +14,7 @@ namespace DY.NET.DATALOGIC.MATRIX
     /// Matrix210과 함께 Matrix 시리즈와 호환이 될 것으로 예상 (테스트는 안해봄)
     /// 115200-N-8-1
     /// </summary>
-    public partial class Matrix200 : Matrix200Command, IScannerSerialCommAsync, ITag
+    public partial class Matrix200 : Matrix200Command, IScannerSerialCommAsync, ITag, IPingPong
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();
 
@@ -142,6 +142,11 @@ namespace DY.NET.DATALOGIC.MATRIX
             if (!IsEnableSerial)
                 return;
             m_SerialPort.Write(CMD_VISISET_DISCONNECT, 0, CMD_VISISET_DISCONNECT.Length);
+        }
+
+        public async Task<long> PingAsync()
+        {
+            throw new NotImplementedException();
         }
 
         public async Task<object> ScanAsync()

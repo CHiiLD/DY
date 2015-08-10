@@ -397,3 +397,84 @@ XGT-FEnet 이더넷 통신 동기 접속
 06:52:35 DY.WPF.CommConnectionDataGrid
 시도 결과: It was successfully connected.
 
+06:57:24 DY.NET.LSIS.XGT.XGTCnetSocket
+XGT-Cnet 시리얼포트 통신 접속
+
+06:57:27 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+07:28:46 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+07:28:47 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+07:28:51 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+07:42:40 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+07:42:41 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+07:42:43 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+07:44:57 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+07:45:01 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+07:45:14 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 해제
+
+07:45:16 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+07:45:17 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+07:54:51 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+07:54:53 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+08:03:13 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+08:03:15 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+08:04:07 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+08:04:09 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+08:06:02 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+08:06:04 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+08:08:11 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+08:08:13 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+08:10:48 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+08:10:50 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+08:12:03 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Vuquest3310g 시리얼포트 통신 접속
+
+08:12:36 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+

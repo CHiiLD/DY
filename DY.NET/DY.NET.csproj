@@ -44,7 +44,8 @@
   <ItemGroup>
     <Compile Include="ConnectionStatusChangedEventArgs.cs" />
     <Compile Include="IConnect.cs" />
-    <Compile Include="PLC\IPingPong.cs" />
+    <Compile Include="IPingPong.cs" />
+    <Compile Include="ITimeout.cs" />
     <Compile Include="NLogConfig.cs" />
     <Compile Include="PLC\DataType.cs" />
     <Compile Include="PLC\ICommIOData.cs" />

@@ -122,7 +122,7 @@ namespace DY.WPF.SYSTEM.COMM
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnConnectionCheckTimerElapse(object sender, ElapsedEventArgs e)
+        private async void OnConnectionCheckTimerElapse(object sender, ElapsedEventArgs e)
         {
             bool isConnected;
             IConnect socket;
@@ -133,7 +133,17 @@ namespace DY.WPF.SYSTEM.COMM
 
                 socket = ccclient.Socket;
                 isConnected = false;
-                if (!socket.IsConnected())
+                DYDeviceCommType dctype = ccclient.CommType;
+                bool connect_try = true;
+                if (dctype == DYDeviceCommType.SERIAL && socket.IsConnected())
+                {
+                    IPingPong pp = socket as IPingPong;
+                    long time = await pp.PingAsync();
+                    if (time < 0)
+                        connect_try = false;
+                }
+
+                if (connect_try)
                 {
                     try
                     {
