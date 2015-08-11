@@ -21,7 +21,7 @@ namespace DY.NET.LSIS.XGT
             dictionary.Add("%DW0", null);
             XGTFEnetProtocol cnet = XGTFEnetProtocol.NewRSSProtocol(typeof(ushort), 00, dictionary);
             Delivery delivery = await PostAsync(cnet);
-            return delivery.Error == DeliveryError.SUCCESS ? delivery.DelivaryTime.ElapsedMilliseconds : (long)delivery.Error;
+            return delivery.Error == DeliveryError.SUCCESS ? delivery.DelivaryTime.ElapsedMilliseconds : -1;
         }
     }
 }

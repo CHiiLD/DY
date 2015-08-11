@@ -52,9 +52,28 @@
 
             <oxy:PlotView x:Name="NPlotView"  Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="1"/>
             <local:CommIOExcelDataGrid x:Name="NDataGrid" Grid.Row="1" Grid.ColumnSpan="5"/>
-            <UniformGrid Rows="2" Columns="1" Grid.Column="4"  Margin="0,8">
-                <local:TextBoxWithBar x:Name="NTB_ResponseRatencyT" Title="Response ratency time" Text="0" />
-                <local:TextBoxWithBar x:Name="NTB_TransferInteval" Title="Transfer interval" Text="0" />
+            <UniformGrid Rows="3" Columns="1" Grid.Column="4"  Margin="0,8">
+                <local:NumericUpDownWithBar 
+                    x:Name="NNM_WriteTimeout"
+                    Value="100"
+                    Minimum="50"
+                    Maximum="500"
+                    StringFormat="{}{0:N0}ms"
+                    Title="Write timeout"/>
+                <local:NumericUpDownWithBar 
+                    x:Name="NNM_ReadTimeout" 
+                    Value="250"
+                    Minimum="50"
+                    Maximum="500"
+                    StringFormat="{}{0:N0}ms"
+                    Title="Read timeout"/>
+                <local:NumericUpDownWithBar 
+                    x:Name="NNM_UpdateInteval"
+                    Value="500"
+                    Minimum="100"
+                    Maximum="1000"
+                    StringFormat="{}{0:N0}ms"
+                    Title="Update interval"/>
             </UniformGrid>
         </Grid>
     </DockPanel>

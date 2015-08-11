@@ -38,12 +38,17 @@ namespace DY.WPF
             {
                 m_CClient = value;
 
-                Binding activation = new Binding("Usable") { Source = value };
+                Binding activation = new Binding("Usable") { Source = m_CClient };
                 this.SetBinding(UserControl.IsEnabledProperty, activation);
-                Binding resp_ratency_t = new Binding("ResponseLatencyTime") { Source = value };
-                this.NTB_ResponseRatencyT.NTextBox.SetBinding(TextBox.TextProperty, resp_ratency_t);
-                Binding transfer_inteval = new Binding("TransferInteval") { Source = value };
-                this.NTB_TransferInteval.NTextBox.SetBinding(TextBox.TextProperty, transfer_inteval);
+
+                Binding write_timeout = new Binding("WriteTimeout") { Source = m_CClient };
+                this.NNM_WriteTimeout.NNumeric.SetBinding(NumericUpDown.ValueProperty, write_timeout);
+
+                Binding read_timeout = new Binding("ReadTimeout") { Source = m_CClient };
+                this.NNM_ReadTimeout.NNumeric.SetBinding(NumericUpDown.ValueProperty, read_timeout);
+
+                Binding io_update_inteval = new Binding("IOUpdateInteval") { Source = m_CClient };
+                this.NNM_UpdateInteval.NNumeric.SetBinding(NumericUpDown.ValueProperty, io_update_inteval);
             }
         }
         public EventHandler<EventArgs> Selected { get; set; }
@@ -71,22 +76,12 @@ namespace DY.WPF
             Unselected = OnUnselectedAsync;
         }
 
-        /// <summary>
-        /// IO 모니터링을 시작한다
-        /// </summary>
-        /// <param name="sender">this, CommIOMonitoring 객체</param>
-        /// <param name="args"></param>
         public async void OnSelectedAsync(object sender, EventArgs args)
         {
             if (!NDataGrid.Editable) //편집 모드가 아닐 때 모니터링 시작 ..
                 await StartMonitoring();
         }
 
-        /// <summary>
-        /// IO 모니터링을 중지한다
-        /// </summary>
-        /// <param name="sender">this, CommIOMonitoring 객체</param>
-        /// <param name="args"></param>
         public async void OnUnselectedAsync(object sender, EventArgs args)
         {
             await StopMonitoring();
@@ -96,11 +91,8 @@ namespace DY.WPF
         {
             if (NDataGrid.Items.Count == 0)
                 return;
-
             LOG.Trace("모니터링 요청");
             IList<ICommIOData> items = NDataGrid.Items.Cast<ICommIOData>().ToList();
-            if (items == null)
-                throw new InvalidCastException("Can't cast ObservableCollection<CommIODataGridItem> to IList<ICommIOData>");
             m_CommIOContext.ReplaceICommIOData(items);
             await m_CommIOContext.SetLoopAsync(true); //루프 작동 트리거 ON
         }
@@ -109,13 +101,12 @@ namespace DY.WPF
         {
             if (NDataGrid.Items.Count == 0)
                 return;
-
             await m_CommIOContext.SetLoopAsync(false); //루프 작동 트리거 OFF
             LOG.Trace("모니터링 종료");
         }
 
         /// <summary>
-        /// PLC IO 편집 모드 온/오프 이벤트
+        /// PLC IO 편집 모드 온/오프 토글스위치버튼 이벤트
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>

@@ -24,15 +24,16 @@ namespace DY.WPF
         public CommConnectionManage()
         {
             this.InitializeComponent();
-            CommClientDirector ccmm = CommClientDirector.GetInstance();
-            Binding binding = new Binding("Source") { Source = ccmm.ConnectionCheckableProperty };
+            CommClientDirector ccd = CommClientDirector.GetInstance();
+
+            Binding binding = new Binding("Source") { Source = ccd.ConnectionCheckableProperty };
             this.NBT_ConnectionCheckTimerSwtich.SetBinding(ToggleSwitch.IsCheckedProperty, binding);
 
-            binding = new Binding("Source") { Source = ccmm.ConnectionCheckIntevalProperty };
-            this.NTB_ConnectionCheckInteval.NTextBox.SetBinding(TextBox.TextProperty, binding);
+            binding = new Binding("Source") { Source = ccd.ConnectionCheckIntevalProperty };
+            this.NTB_ConnectionCheckInteval.NNumeric.SetBinding(NumericUpDown.ValueProperty, binding);
 
-            binding = new Binding("Source") { Source = ccmm.ConnectionDelayTimeProperty };
-            this.NTB_ConnectionDelayTime.NTextBox.SetBinding(TextBox.TextProperty, binding);
+            binding = new Binding("Source") { Source = ccd.ConnectionDelayTimeProperty };
+            this.NTB_ConnectionDelayTime.NNumeric.SetBinding(NumericUpDown.ValueProperty, binding);
         }
     }
 }

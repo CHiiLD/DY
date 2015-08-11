@@ -21,8 +21,8 @@ namespace DY.WPF.SYSTEM.COMM
         private Task m_UpdateTask;
         private volatile bool m_Run;
 
-        public int TransferInteval { get { return CClient.TransferInteval; } }
-        public int ResponseLatencyTime { get { return CClient.ResponseLatencyTime; } }
+        public int TransferInteval { get { return CClient.IOUpdateInteval; } }
+        public int ResponseLatencyTime { get { return CClient.WriteTimeout; } }
         public bool IsUpdated { get { return m_Run; } }
 
         /// <summary>

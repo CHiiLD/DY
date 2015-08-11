@@ -18,7 +18,9 @@ namespace DY.WPF.SYSTEM.COMM
         {
             { DYDevice.LSIS_XGT,                  DYDeviceCommType.SERIAL | DYDeviceCommType.ETHERNET },
             { DYDevice.HONEYWELL_VUQUEST3310G,    DYDeviceCommType.SERIAL },
+#if false
             { DYDevice.DATALOGIC_MATRIX200,       DYDeviceCommType.SERIAL },
+#endif
         };
 
         /// <summary>

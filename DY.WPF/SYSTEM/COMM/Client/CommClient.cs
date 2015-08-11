@@ -1,10 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.ComponentModel;
-using System.Timers;
 using System.Windows.Shapes;
 using System.Windows;
 using DY.NET;
@@ -16,7 +12,7 @@ namespace DY.WPF.SYSTEM.COMM
     /// <summary>
     /// DY.NET 통신 객체 관리 클래스
     /// </summary>
-    public class CommClient : IDisposable, INotifyPropertyChanged
+    public class CommClient : IDisposable, INotifyPropertyChanged, ITimeout
     {
         public const string EXTRA_XGT_CNET_LOCALPORT = "LOCAL_PORT";
 
@@ -30,12 +26,9 @@ namespace DY.WPF.SYSTEM.COMM
         private Geometry m_ImageData = CommStateAi.ConnectFailure.Data;
         private Brush m_ImageColor = CommStateAi.ConnectFailure.Fill;
         private string m_Summary;
-        private int m_TransferInteval;
-        private int m_ResponseLatencyTime;
+        private int m_IOUpdateInteval;
 
         #endregion
-
-        public event PropertyChangedEventHandler PropertyChanged;
         //___________________COMM_DATAGIRD______________________________________
         /// <summary>
         /// IConnect 객체
@@ -61,6 +54,7 @@ namespace DY.WPF.SYSTEM.COMM
                 OnPropertyChanged("Usable");
             }
         }
+
         /// <summary>
         /// 유저 코멘트
         /// </summary>
@@ -93,11 +87,11 @@ namespace DY.WPF.SYSTEM.COMM
         /// <summary>
         /// 프로토콜 통신 간격
         /// </summary>
-        public int TransferInteval { get { return m_TransferInteval; } set { m_TransferInteval = value; OnPropertyChanged("TransferInteval"); } }
-        /// <summary>
-        /// 요청프로토콜 대기 시간
-        /// </summary>
-        public int ResponseLatencyTime { get { return m_ResponseLatencyTime; } set { m_ResponseLatencyTime = value; OnPropertyChanged("ResponseLatencyTime"); } }
+        public int IOUpdateInteval { get { return m_IOUpdateInteval; } set { m_IOUpdateInteval = value; OnPropertyChanged("IOUpdateInteval"); } }
+        public int WriteTimeout { get { return Socket.WriteTimeout; } set { Socket.WriteTimeout = value; OnPropertyChanged("WriteTimeout"); } }
+        public int ReadTimeout { get { return Socket.ReadTimeout; } set { Socket.ReadTimeout = value; OnPropertyChanged("ReadTimeout"); } }
+
+        public event PropertyChangedEventHandler PropertyChanged;
 
         /// <summary>
         /// 생성자
@@ -112,9 +106,6 @@ namespace DY.WPF.SYSTEM.COMM
             m_CommType = comm_type;
             Socket.ConnectionStatusChanged += OnChangedConnectionStatus;
             Key = Guid.NewGuid().ToString();
-            
-            ResponseLatencyTime = 1000;
-            TransferInteval = 100;
         }
 
         ~CommClient()
@@ -132,7 +123,7 @@ namespace DY.WPF.SYSTEM.COMM
         {
             Socket.Dispose();
             GC.SuppressFinalize(this);
-            LOG.Debug(Summary+ " CommClient 메모리 해제");
+            LOG.Debug(Summary + " CommClient 메모리 해제");
         }
 
         /// <summary>

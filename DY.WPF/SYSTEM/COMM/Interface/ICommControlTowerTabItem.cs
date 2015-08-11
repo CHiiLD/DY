@@ -5,7 +5,6 @@ namespace DY.WPF.SYSTEM.COMM
     public interface ICommControlTowerTabItem
     {
         CommClient CClient { get; set; }
-
         /// <summary>
         /// TabItem으로 선택될 때 
         /// </summary>

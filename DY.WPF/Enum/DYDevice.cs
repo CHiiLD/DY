@@ -13,6 +13,8 @@ namespace DY.WPF
     {
         LSIS_XGT,
         HONEYWELL_VUQUEST3310G,
+#if false
         DATALOGIC_MATRIX200
+#endif
     }
 }

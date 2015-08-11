@@ -24,20 +24,12 @@ namespace DY.WPF
     public partial class CommConnectionDataGrid : UserControl
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();
-
         /// <summary>
         /// 현재 선택된 셀 아이템 정보 
         /// </summary>
         private CommClient m_CurSelectedCClient;
-
-        public ObservableCollection<CommClient> Items
-        {
-            get
-            {
-                return CommClientDirector.GetInstance().Clientele;
-            }
-        }
-
+        public ObservableCollection<CommClient> Items { get { return CommClientDirector.GetInstance().Clientele; } }
+        
         public CommConnectionDataGrid()
         {
             this.InitializeComponent();
@@ -205,8 +197,7 @@ namespace DY.WPF
         /// <param name="e"></param>
         private async void NMI_Connect_Click(object sender, RoutedEventArgs e)
         {
-            bool result = await ConnectAsync(m_CurSelectedCClient.Socket);
-            m_CurSelectedCClient.Usable = result;
+            m_CurSelectedCClient.Usable = await ConnectAsync(m_CurSelectedCClient.Socket);
         }
 
         /// <summary>
@@ -216,8 +207,7 @@ namespace DY.WPF
         /// <param name="e"></param>
         private void NMI_Disconnect_Click(object sender, RoutedEventArgs e)
         {
-            bool result = Disconnect(m_CurSelectedCClient.Socket);
-            m_CurSelectedCClient.Usable = result;
+            m_CurSelectedCClient.Usable = Disconnect(m_CurSelectedCClient.Socket);
         }
 
         /// <summary>

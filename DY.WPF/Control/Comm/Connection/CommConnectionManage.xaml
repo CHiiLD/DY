@@ -12,7 +12,7 @@
 
     <StackPanel>
         <mah:ToggleSwitch x:Name="NBT_ConnectionCheckTimerSwtich" Header="Connection Check Timer" Margin="10,0" />
-        <local:TextBoxWithBar 
+        <!--<local:TextBoxWithBar 
             x:Name="NTB_ConnectionCheckInteval" 
             Text="" 
             IsNumberOnly="True"
@@ -21,6 +21,23 @@
             x:Name="NTB_ConnectionDelayTime" 
             Text="" 
             IsNumberOnly="True"
-            Title="Connection latency time(ms)"/>
+            Title="Connection latency time(ms)"/>-->
+
+        <local:NumericUpDownWithBar
+            x:Name="NTB_ConnectionCheckInteval" 
+            Value="10000"
+            Minimum="1000"
+            Maximum="60000"
+            StringFormat="{}{0:N0}ms"
+            Title="Connection check inteval"/>
+
+        <local:NumericUpDownWithBar
+            x:Name="NTB_ConnectionDelayTime" 
+            Value="500"
+            Minimum="100"
+            Maximum="1000"
+            StringFormat="{}{0:N0}ms"
+            Title="Connection delay time"/>
+
     </StackPanel>
 </UserControl>

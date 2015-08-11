@@ -56,9 +56,11 @@ namespace DY.WPF.SYSTEM.COMM
             ConnectionCheckableProperty = new NotifyPropertyChanged<bool>();
             ConnectionCheckableProperty.PropertyChanged += OnConnectionCheckablePropertyPropertyChanged;
 
+#if false
             ConnectionDelayTimeProperty.Source = 1000;
             ConnectionCheckIntevalProperty.Source = 30000;
             ConnectionCheckableProperty.Source = false;
+#endif
         }
 
         ~CommClientDirector()
@@ -149,15 +151,18 @@ namespace DY.WPF.SYSTEM.COMM
                     {
                         isConnected = socket.IsConnected();
                     }
+
                     if (!isConnected)
+                    {
+                        socket.Close();
                         isConnected = socket.Connect();
+                    }
                 }
                 catch (Exception ex)
                 {
                     LOG.Error("클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: " + ex.Message);
                     isConnected = false;
                 }
-                //통신 접속 여부의 결과로 AI(Connect/Disconnect) 업데이트
                 ccclient.ChangedCommStatus(isConnected);
             }
         }

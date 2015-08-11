@@ -1,0 +1,12 @@
+05:50:56 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 통신 접속 성공
+
+05:50:59 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+05:53:19 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 통신 접속 성공
+
+05:53:22 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+

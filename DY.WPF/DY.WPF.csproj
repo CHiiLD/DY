@@ -49,6 +49,9 @@
     <Reference Include="PresentationFramework" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Control\Bar\NumericUpDownWithBar.xaml.cs">
+      <DependentUpon>NumericUpDownWithBar.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Control\Bar\OkCancelBtns.xaml.cs">
       <DependentUpon>OkCancelBtns.xaml</DependentUpon>
     </Compile>
@@ -145,6 +148,10 @@
     <Resource Include="Resource\Font\나눔고딕ExtraBold.ttf" />
   </ItemGroup>
   <ItemGroup>
+    <Page Include="Control\Bar\NumericUpDownWithBar.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="Control\Bar\OkCancelBtns.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>

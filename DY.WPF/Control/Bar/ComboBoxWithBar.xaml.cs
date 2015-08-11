@@ -31,24 +31,36 @@ namespace DY.WPF
             return SelectedItem;
         }
 
-        public static readonly DependencyProperty TitleTextProperty =
-                    DependencyProperty.Register("Title", typeof(object), typeof(ComboBoxWithBar), new PropertyMetadata("Sample text"));
-        public object Title
+        public static readonly DependencyProperty TitleTextProperty = DependencyProperty.Register(
+            "Title",
+            typeof(string),
+            typeof(ComboBoxWithBar),
+            new PropertyMetadata("Sample text"));
+
+        public static readonly DependencyProperty ItemSourceProperty = DependencyProperty.Register(
+              "ItemSource",
+              typeof(IEnumerable),
+              typeof(ComboBoxWithBar),
+              new PropertyMetadata());
+
+        public static readonly DependencyProperty SelectedItemProperty = DependencyProperty.Register(
+            "SelectedItem",
+            typeof(object),
+            typeof(ComboBoxWithBar),
+            new PropertyMetadata());
+
+        public string Title
         {
-            get { return (object)GetValue(TitleTextProperty); }
+            get { return (string)GetValue(TitleTextProperty); }
             set { SetValue(TitleTextProperty, value); }
         }
 
-        public static readonly DependencyProperty ItemSourceProperty =
-              DependencyProperty.Register("ItemSource", typeof(IEnumerable), typeof(ComboBoxWithBar), new PropertyMetadata());
         public IEnumerable ItemSource
         {
             get { return (IEnumerable)GetValue(ItemSourceProperty); }
             set { SetValue(ItemSourceProperty, value); }
         }
 
-        public static readonly DependencyProperty SelectedItemProperty =
-              DependencyProperty.Register("SelectedItem", typeof(object), typeof(ComboBoxWithBar), new PropertyMetadata());
         public object SelectedItem
         {
             get { return (object)GetValue(SelectedItemProperty); }

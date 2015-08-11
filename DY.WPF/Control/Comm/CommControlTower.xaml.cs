@@ -59,7 +59,9 @@ namespace DY.WPF
                 LOG.Trace("통신 컨트롤 타워 탭 아이템 추가: " + cclient.Key);
                 switch (cclient.Target)
                 {
+#if false
                     case DYDevice.DATALOGIC_MATRIX200:
+#endif
                     case DYDevice.HONEYWELL_VUQUEST3310G:
                         break;
                     case DYDevice.LSIS_XGT:

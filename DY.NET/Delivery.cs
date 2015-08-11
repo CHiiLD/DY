@@ -15,6 +15,7 @@ namespace DY.NET
 
         public Delivery()
         {
+            Error = DeliveryError.SUCCESS;
             DelivaryTime = Stopwatch.StartNew();
         }
 

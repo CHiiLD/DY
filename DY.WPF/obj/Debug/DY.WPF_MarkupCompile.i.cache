@@ -10,11 +10,11 @@ none
 false
 DEBUG;TRACE
 
-18-228200470
+19393859626
 
-42-1260246501
+43-1102405359
 191177636887
-Control\Bar\OkCancelBtns.xaml;Control\Bar\Parts\TextBlockBar.xaml;Control\Bar\ComboBoxWithBar.xaml;Control\Bar\TextBoxWithBar.xaml;Control\Bar\Parts\TitleForBar.xaml;Control\Comm\Connection\CommConnectionManage.xaml;Control\Comm\Connection\CommConnectionDataGrid.xaml;Control\Comm\Option\CommDeviceSelection.xaml;Control\Comm\Option\CommEthernetConfig.xaml;Control\Comm\Option\CommSerialConfig.xaml;Control\Comm\Connection\Ai\AICommCheck.xaml;Control\Comm\Connection\Ai\AICommCircle.xaml;Control\Comm\Connection\Ai\AICommCross.xaml;Control\Comm\IO\CommIOExcelDataGrid.xaml;Control\Comm\IO\CommIOMonitoring.xaml;STYLE\DialogWindowStyle.xaml;WINDOW\CommDeviceSetWindow.xaml;Control\Comm\CommControlTower.xaml;
+Control\Bar\NumericUpDownWithBar.xaml;Control\Bar\OkCancelBtns.xaml;Control\Bar\Parts\TextBlockBar.xaml;Control\Bar\ComboBoxWithBar.xaml;Control\Bar\TextBoxWithBar.xaml;Control\Bar\Parts\TitleForBar.xaml;Control\Comm\Connection\CommConnectionManage.xaml;Control\Comm\Connection\CommConnectionDataGrid.xaml;Control\Comm\Option\CommDeviceSelection.xaml;Control\Comm\Option\CommEthernetConfig.xaml;Control\Comm\Option\CommSerialConfig.xaml;Control\Comm\Connection\Ai\AICommCheck.xaml;Control\Comm\Connection\Ai\AICommCircle.xaml;Control\Comm\Connection\Ai\AICommCross.xaml;Control\Comm\IO\CommIOExcelDataGrid.xaml;Control\Comm\IO\CommIOMonitoring.xaml;STYLE\DialogWindowStyle.xaml;WINDOW\CommDeviceSetWindow.xaml;Control\Comm\CommControlTower.xaml;
 
 False
 

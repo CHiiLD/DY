@@ -86,6 +86,7 @@ namespace DY.WPF.SYSTEM.COMM
             IProtocol response;
             IPostAsync post;
             string error_msg;
+
             foreach (var request in Protocols)
             {
                 error_msg = null;
@@ -103,6 +104,8 @@ namespace DY.WPF.SYSTEM.COMM
                             response = delivery.Package as IProtocol;
                             break;
                         case DeliveryError.DISCONNECT:
+                            CClient.ChangedCommStatus(false);
+                            throw new Exception(delivery_err.ToString());
                         case DeliveryError.WRITE_TIMEOUT:
                         case DeliveryError.READ_TIMEOUT:
                             throw new Exception(delivery_err.ToString());
