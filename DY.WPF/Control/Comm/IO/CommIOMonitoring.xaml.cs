@@ -101,7 +101,7 @@ namespace DY.WPF
             IList<ICommIOData> items = NDataGrid.Items.Cast<ICommIOData>().ToList();
             if (items == null)
                 throw new InvalidCastException("Can't cast ObservableCollection<CommIODataGridItem> to IList<ICommIOData>");
-            m_CommIOContext.UpdateProtocols(items);
+            m_CommIOContext.ReplaceICommIOData(items);
             await m_CommIOContext.SetLoopAsync(true); //루프 작동 트리거 ON
         }
 
@@ -136,7 +136,7 @@ namespace DY.WPF
                     break;
                 try
                 {
-                    m_CommIOContext.UpdateProtocols(items);
+                    m_CommIOContext.ReplaceICommIOData(items);
                 }
                 catch (Exception exception)
                 {

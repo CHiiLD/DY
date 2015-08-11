@@ -1,13 +1,7 @@
 ﻿using System;
 using System.IO.Ports;
-using System.Timers;
 using System.Threading.Tasks;
-using System.Collections.Generic;
-using System.Linq;
-using System.IO;
 using System.Threading;
-using System.Diagnostics;
-using System.Text;
 using NLog;
 
 namespace DY.NET.HONEYWELL.VUQUEST
@@ -26,6 +20,9 @@ namespace DY.NET.HONEYWELL.VUQUEST
         private const byte ENQ = 0x05;
         private const byte NAK = 0x15;
         private const byte DOT = (byte)'.';
+
+        public const string ERROR_WRITE_TIMEOUT = "WriteAsync timeout exception";
+        public const string ERROR_READ_TIMEOUT = "ReadAsync timeout exception";
 
         private static readonly byte[] SPC_TRIGGER_ACTIVATE = { SYN, (byte)'T', CR };
         private static readonly byte[] SPC_TRIGGER_DEACTIVATE = { SYN, (byte)'U', CR };
@@ -60,61 +57,17 @@ namespace DY.NET.HONEYWELL.VUQUEST
         private volatile byte[] m_Buffer = new byte[4096];
         private volatile int m_BufferIdx;
         private volatile bool m_IsActivate = false;
-        private volatile System.Timers.Timer m_TimeoutTimer;
         private volatile SerialPort m_SerialPort;
 
-        /// <summary>
-        /// 리더기가 바코드를 스캔하여 값을 읽어들일 때 발생
-        /// </summary>
-        public EventHandler<Vuquest3310gScanEventArgs> Scanned;
-
-        public int WriteTimeout
-        {
-            get
-            {
-                return m_SerialPort.WriteTimeout;
-            }
-            set
-            {
-                m_SerialPort.WriteTimeout = value;
-            }
-        }
-
-        public int ReadTimeout
-        {
-            get
-            {
-                return m_SerialPort.ReadTimeout;
-            }
-            set
-            {
-                if (value > 0)
-                    m_TimeoutTimer.Interval = value;
-                m_SerialPort.ReadTimeout = value;
-            }
-        }
-
-        public bool IsEnableSerial
-        {
-            get
-            {
-                if (m_SerialPort == null)
-                    return false;
-                return m_SerialPort.IsOpen;
-            }
-        }
+        public int WriteTimeout { get; set; }
+        public int ReadTimeout { get; set; }
 
         public Vuquest3310g(SerialPort serialPort)
         {
+            WriteTimeout = -1;
+            ReadTimeout = -1;
             m_SerialPort = serialPort;
-            m_SerialPort.ErrorReceived += OnSerialErrorReceived;
-            m_SerialPort.PinChanged += OnSerialPinChanged;
-            m_SerialPort.DataReceived += OnCodeReceived;
-
             Description = "Hoenywell Vuquest 3310g(" + m_SerialPort.PortName + ")";
-
-            m_TimeoutTimer = new System.Timers.Timer();
-            m_TimeoutTimer.Elapsed += OnElapsedTimer;
         }
 
         ~Vuquest3310g()
@@ -122,195 +75,59 @@ namespace DY.NET.HONEYWELL.VUQUEST
             Dispose();
         }
 
-        private void OnSerialErrorReceived(object sender, SerialErrorReceivedEventArgs e)
+        public async Task<int> WriteAsync(byte[] buffer, int offset, int count)
         {
-            Close();
+            var BaseStream = m_SerialPort.BaseStream;
+            var t_src = new CancellationTokenSource(WriteTimeout);
+            await BaseStream.WriteAsync(buffer, offset, count, t_src.Token);
+            if (t_src.IsCancellationRequested)
+                return (int)DeliveryError.WRITE_TIMEOUT;
+            else
+                return (int)DeliveryError.SUCCESS;
         }
 
-        private void OnSerialPinChanged(object sender, SerialPinChangedEventArgs e)
+        public async Task<int> ReadAsync(byte[] buffer, int offset, int count)
         {
-            Close();
-        }
-
-        private void OnElapsedTimer(object sender, ElapsedEventArgs args)
-        {
-            var timer = sender as System.Timers.Timer;
-            timer.Stop();
-            if (m_IsActivate)
-            {
-                DeactivateScan();
-                m_IsActivate = false;
-                m_BufferIdx = 0;
-                if (Scanned != null)
-                    Scanned(this, new Vuquest3310gScanEventArgs(null));
-            }
-        }
-
-        private void OnCodeReceived(object sender, SerialDataReceivedEventArgs args)
-        {
-            if (!m_IsActivate)
-                return;
-           
-            SerialPort sp = sender as SerialPort;
-            if (sp.BytesToRead <= 0)
-                return;
-
-            m_BufferIdx += sp.Read(m_Buffer, m_BufferIdx, m_Buffer.Length - m_BufferIdx);
-            if (m_Buffer[m_BufferIdx - 1] != CR)
-                return;
-
-            if (m_TimeoutTimer.Enabled)
-                m_TimeoutTimer.Stop();
-            
-            var bytes = new byte[m_BufferIdx - 1]; //for remove CR byte
-            Buffer.BlockCopy(m_Buffer, 0, bytes, 0, bytes.Length);
-            m_IsActivate = false;
-            m_BufferIdx = 0;
-            if (Scanned != null)
-                Scanned(this, new Vuquest3310gScanEventArgs(bytes));
+            var BaseStream = m_SerialPort.BaseStream;
+            var t_src = new CancellationTokenSource(ReadTimeout);
+            int byte_size = await BaseStream.ReadAsync(buffer, offset, count, t_src.Token);
+            if (t_src.IsCancellationRequested)
+                return (int)DeliveryError.READ_TIMEOUT;
+            else
+                return byte_size;
         }
 
         public bool IsConnected()
         {
-            return IsEnableSerial;
-        }
-
-        private void ActivateScan()
-        {
-            if (!IsEnableSerial)
-                return;
-            m_IsActivate = true;
-            m_SerialPort.Write(SPC_TRIGGER_ACTIVATE, 0, SPC_TRIGGER_ACTIVATE.Length);
-        }
-
-        public void DeactivateScan()
-        {
-            if (!IsEnableSerial)
-                return;
-            m_IsActivate = false;
-            m_SerialPort.Write(SPC_TRIGGER_DEACTIVATE, 0, SPC_TRIGGER_DEACTIVATE.Length);
-        }
-
-        public async Task<long> PingAsync()
-        {
-            Stopwatch watch = Stopwatch.StartNew();
-            Stream bs = m_SerialPort.BaseStream;
-            List<byte> syn = new List<byte>();
-            int size;
-            syn.AddRange(PREFIX);
-            syn.AddRange(UTI_SHOW_SOFTWARE_REVERSION);
-            syn.Add(DOT);
-            byte[] reqt_code = syn.ToArray();
-            await bs.WriteAsync(reqt_code, 0, reqt_code.Length);
-            Task read_task = bs.ReadAsync(m_Buffer, 0, m_Buffer.Length);
-            Task when_task = await Task.WhenAny(read_task, Task.Delay(ReadTimeout));
-            if (when_task == read_task)
-            {
-                size = await (Task<int>)read_task;
-            }
-            else
-            {
-                size = -2;
-                LOG.Debug(Description + " PingPong (Read)Timeout: " + ReadTimeout + "ms");
-            }
-
-            if (size > 0)
-            {
-                size = await m_SerialPort.BaseStream.ReadAsync(m_Buffer, 0, m_Buffer.Length);
-                LOG.Trace(Description + " Software reversion: " + Encoding.ASCII.GetString(m_Buffer, 0, size));
-            }
-            watch.Stop();
-
-            return size >= 0 ? watch.ElapsedMilliseconds : size;
-        }
-
-        private async Task<byte[]> ActivateAsync()
-        {
-            if (m_IsActivate)
-                return null;
-            m_IsActivate = true;
-            Stream bs = m_SerialPort.BaseStream;
-            await bs.WriteAsync(SPC_TRIGGER_ACTIVATE, 0, SPC_TRIGGER_ACTIVATE.Length);
-            m_BufferIdx = 0;
-            do
-            {
-                m_BufferIdx += await bs.ReadAsync(m_Buffer, m_BufferIdx, m_Buffer.Length - m_BufferIdx);
-            } while (m_Buffer.Last() != CR);
-            byte[] ret = new byte[m_BufferIdx - 1];
-            Array.Copy(m_Buffer, 0, ret, 0, ret.Length);
-
-            await bs.WriteAsync(SPC_TRIGGER_DEACTIVATE, 0, SPC_TRIGGER_DEACTIVATE.Length);
-            m_IsActivate = false;
-            return ret;
-        }
-
-        public async Task DeactivateAsync()
-        {
-            if (!IsEnableSerial)
-                return;
-            await m_SerialPort.BaseStream.WriteAsync(SPC_TRIGGER_DEACTIVATE, 0, SPC_TRIGGER_DEACTIVATE.Length);
-            m_IsActivate = false;
+            if (m_SerialPort == null)
+                throw new NullReferenceException("SerialPort is null.");
+            return m_SerialPort.IsOpen;
         }
 
         /// <summary>
-        /// 스캔에 필요한 리더기 파라미터를 설정한다. 
-        /// 스캔에 앞서 먼저 한번 호출해야한다.
+        /// 시리얼포트 객체의 자원을 소멸
         /// </summary>
-        /// <returns></returns>
-        public async Task PrepareAsync()
+        public void Dispose()
         {
-            if (!IsEnableSerial)
-                return;
-            List<byte> syn = new List<byte>();
-            List<byte> rep = new List<byte>();
-            byte[] reply;
-
-            Dictionary<byte[], string> CMDDIC = new Dictionary<byte[], string>();
-            CMDDIC.Add(PSS_ADD_CR_SUFIX_ALL_SYMBOL, "CR sufix setting error");
-            CMDDIC.Add(SPC_TRIGGER_READ_TIMEOUT_300000MS, "Timeout setting error");
-
-            foreach (var CMD in CMDDIC)
-            {
-                syn.Clear();
-                syn.AddRange(PREFIX);
-                syn.AddRange(CMD.Key);
-                syn.Add(DOT);
-
-                rep.Clear();
-                rep.AddRange(CMD.Key);
-                rep.Add(ACK);
-                rep.Add(DOT);
-
-                await m_SerialPort.BaseStream.WriteAsync(syn.ToArray(), 0, syn.Count);
-                int size = await m_SerialPort.BaseStream.ReadAsync(m_Buffer, 0, m_Buffer.Length);
-                reply = new byte[size];
-                Array.Copy(m_Buffer, reply, size);
-
-                if (!rep.SequenceEqual(reply))
-                    throw new Exception(CMD.Value);
-            }
+            Close();
+            m_SerialPort.Dispose();
+            m_SerialPort = null;
+            GC.SuppressFinalize(this);
+            LOG.Debug(Description + " 접속종료 및 메모리 해제");
         }
 
-        public void Scan()
+        /// <summary>
+        /// 리더기에 종료 신호를 보낸 뒤
+        /// 시리얼통신을 종료
+        /// </summary>
+        public async void Close()
         {
-            double timeout = m_TimeoutTimer.Interval;
-            LOG.Trace("Vuquest3310g 타이머 스캔 시도, 타임아웃: " + timeout);
-            if (!(0 <= timeout && timeout <= VUQUEST3310G_TIMEOUT_MAX))
-                throw new ArgumentOutOfRangeException("timeout");
-
             if (m_IsActivate)
-                return;
-            
-            ActivateScan();
-            m_TimeoutTimer.Start();
-        }
-
-        public async Task<object> ScanAsync()
-        {
-            byte[] ret = null;
-            ret = await ActivateAsync();
-            await DeactivateAsync();
-            return ret;
+                await DeactivateAsync();
+            m_SerialPort.Close();
+            if (ConnectionStatusChanged != null)
+                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(false));
+            LOG.Debug(Description + " 시리얼포트 통신 해제");
         }
 
         /// <summary>
@@ -325,38 +142,8 @@ namespace DY.NET.HONEYWELL.VUQUEST
                 m_SerialPort.Open();
             if (ConnectionStatusChanged != null)
                 ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_SerialPort.IsOpen));
-            LOG.Debug("Vuquest3310g 시리얼포트 통신 접속");
+            LOG.Debug(Description + " 시리얼포트 통신 접속");
             return m_SerialPort.IsOpen;
-        }
-
-        /// <summary>
-        /// 리더기에 종료 신호를 보낸 뒤
-        /// 시리얼통신을 종료
-        /// </summary>
-        public void Close()
-        {
-            if (m_TimeoutTimer.Enabled)
-                m_TimeoutTimer.Stop();
-            if (m_IsActivate)
-                DeactivateScan();
-            if (IsEnableSerial)
-                m_SerialPort.Close();
-            if (ConnectionStatusChanged != null)
-                ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_SerialPort.IsOpen));
-            LOG.Debug("Vuquest3310g 시리얼포트 통신 해제");
-        }
-
-        /// <summary>
-        /// 시리얼포트 객체의 자원을 소멸
-        /// </summary>
-        public void Dispose()
-        {
-            Close();
-            m_SerialPort.Dispose();
-            m_SerialPort = null;
-            m_TimeoutTimer.Dispose();
-            GC.SuppressFinalize(this);
-            LOG.Debug("Vuquest3310g 접속종료 및 메모리 해제");
         }
     }
 }

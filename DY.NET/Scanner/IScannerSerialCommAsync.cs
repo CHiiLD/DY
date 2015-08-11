@@ -5,7 +5,7 @@ namespace DY.NET
 {
     interface IScannerSerialCommAsync : IConnect
     {
-        Task<object> ScanAsync();
+        Task<Delivery> ScanAsync();
         Task PrepareAsync();
     }
 }

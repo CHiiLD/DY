@@ -8,7 +8,7 @@ namespace DY.NET
     public abstract class ASerialPortBuilder
     {
         protected string PortName;
-        protected int BaudRate = 9600;
+        protected int BaudRate;
         protected Parity Parity_ = System.IO.Ports.Parity.None;
         protected int DataBit = 8;
         protected StopBits StopBit = System.IO.Ports.StopBits.One;

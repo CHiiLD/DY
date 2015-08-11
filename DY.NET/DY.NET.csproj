@@ -45,8 +45,10 @@
     <Compile Include="ConnectionStatusChangedEventArgs.cs" />
     <Compile Include="IConnect.cs" />
     <Compile Include="IPingPong.cs" />
+    <Compile Include="IStream.cs" />
     <Compile Include="ITimeout.cs" />
     <Compile Include="NLogConfig.cs" />
+    <Compile Include="Delivery.cs" />
     <Compile Include="PLC\DataType.cs" />
     <Compile Include="PLC\ICommIOData.cs" />
     <Compile Include="PLC\IConnectAsync.cs" />
@@ -54,17 +56,12 @@
     <Compile Include="PLC\LSIS\XGT\Cnet\Protocol\XGTCnetProtocol.Device.cs" />
     <Compile Include="PLC\LSIS\XGT\FEnet\Socket\XGTFEnetSocket.Async.cs" />
     <Compile Include="PLC\LSIS\XGT\XGTProtocolHelper.cs" />
-    <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200Builder.cs" />
-    <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200EventArgs.cs" />
-    <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200Queue.cs" />
-    <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200Code.cs" />
-    <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200.cs" />
-    <Compile Include="Scanner\DATALOGIC\MATRIX\Matrix200\Matrix200Command.cs" />
-    <Compile Include="Scanner\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310gBuilder.cs" />
+    <Compile Include="DeliveryError.cs" />
+    <Compile Include="Scanner\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310g.Async.cs" />
+    <Compile Include="Scanner\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310g.Builder.cs" />
     <Compile Include="Scanner\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310g.cs" />
-    <Compile Include="Scanner\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310gScanEventArgs.cs" />
     <Compile Include="Scanner\IScannerSerialCommAsync.cs" />
-    <Compile Include="PLC\ASerialPortBuilder.cs" />
+    <Compile Include="ASerialPortBuilder.cs" />
     <Compile Include="PLC\IDebug.cs" />
     <Compile Include="PLC\IPostAsync.cs" />
     <Compile Include="PLC\LSIS\XGT\ByteArray2HexStr.cs" />
@@ -108,7 +105,6 @@
     <Compile Include="PLC\TypeExtension.cs" />
     <Compile Include="PLC\LSIS\XGT\XGTCommModuleType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="PLC\ProtocolReceivedEventArgs.cs" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="PLC\MITSUBISHI\MELSEC-Q\" />

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using DY.NET.DATALOGIC.MATRIX;
 using DY.NET.HONEYWELL.VUQUEST;
 using DY.NET.LSIS.XGT;
 using DY.NET;
@@ -41,19 +40,21 @@ namespace DY.WPF.SYSTEM.COMM
 
             switch (device)
             {
+#if false
                 case DYDevice.DATALOGIC_MATRIX200:
                     ret = new Matrix200.Builder(s.Com, s.Bandrate).DataBits(s.DataBit)
                         .Parity(s.Parity).StopBits(s.StopBit).Build();
                     break;
+#endif
                 case DYDevice.HONEYWELL_VUQUEST3310G:
-                    ret = new Vuquest3310g.Builder(s.Com, s.Bandrate).DataBits(s.DataBit)
+                    ret = (Vuquest3310g) new Vuquest3310g.Builder(s.Com, s.Bandrate).DataBits(s.DataBit)
                         .Parity(s.Parity).StopBits(s.StopBit).Build();
                     break;
                 case DYDevice.LSIS_XGT:
                     switch (comm_type)
                     {
                         case DYDeviceCommType.ETHERNET:
-                            ret = new XGTFEnetSocket(e.Host, e.Port);
+                            ret = new XGTFEnetSocket(e.Host, (XGTFEnetPort)e.Port);
                             break;
                         case DYDeviceCommType.SERIAL:
                             ret = (IConnect)new XGTCnetSocket.Builder(s.Com, s.Bandrate).DataBits(s.DataBit)

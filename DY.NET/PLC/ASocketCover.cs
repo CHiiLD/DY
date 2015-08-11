@@ -7,6 +7,7 @@ using System;
 using System.Collections.Concurrent;
 using System.IO;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Timers;
 using NLog;
 
@@ -18,123 +19,135 @@ namespace DY.NET
     public abstract class ASocketCover : ISocketCover
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();
-
-        public const int BUF_SIZE = 4096;
-        protected byte[] Buf = new byte[BUF_SIZE];
-        protected int BufIdx;
+        //BUFFER
+        public const int STREAM_BUFFER_SIZE = 4096;
+        protected byte[] StreamBuffer = new byte[STREAM_BUFFER_SIZE];
+        protected int StreamBufferIndex;
         //요청 프로토콜 임시 저장 변수
         protected IProtocol ReqeustProtocolPointer;
-        //스레드 세이프 프로토콜 전송 대기 큐
-        protected ConcurrentQueue<IProtocol> ProtocolStandByQueue;
-        //요청 프로토콜 대기 여부
-        protected volatile bool ReqPossible;
         //소켓 스트림
-        protected Stream SocketStream;
+        protected Stream BaseStream;
         //타임아웃
         public int WriteTimeout { get; set; }
         public int ReadTimeout { get; set; }
-        protected Timer TimeoutTimer;
-
+        //ITAG
         public int Tag { get; set; }
         public string Description { get; set; }
         public object UserData { get; set; }
-
         /// <summary>
         /// Connect, Close 이벤트 발생 시 호출
         /// </summary>
         public EventHandler<ConnectionStatusChangedEventArgs> ConnectionStatusChanged { get; set; }
 
+        /****************************************************************************************/
+        
         /// <summary>
-        /// 데이터를 성공적으로 전송하였을 때 호출되는 이벤트
+        /// 생성자 
         /// </summary>
-        public EventHandler<ProtocolReceivedEventArgs> SendedProtocolSuccessfully { get; set; }
-
-        /// <summary>
-        /// 데이터를 성공적으로 전송받았을 때 호출되는 이벤트
-        /// </summary>
-        public EventHandler<ProtocolReceivedEventArgs> ReceivedProtocolSuccessfully { get; set; }
-
         protected ASocketCover()
         {
-            ProtocolStandByQueue = new ConcurrentQueue<IProtocol>();
-            ReqPossible = true;
-            TimeoutTimer = new Timer();
-            TimeoutTimer.Elapsed += OnTimeoutElapsed;
+            WriteTimeout = -1;
+            ReadTimeout = -1;
+        }
+
+        public async Task<int> WriteAsync(byte[] buffer, int offset, int count)
+        {
+            var t_src = new CancellationTokenSource(WriteTimeout);
+            await BaseStream.WriteAsync(buffer, offset, count, t_src.Token);
+            if (t_src.IsCancellationRequested)
+                return (int)DeliveryError.WRITE_TIMEOUT;
+            else
+                return (int)DeliveryError.SUCCESS;
+        }
+
+        public async Task<int> ReadAsync(byte[] buffer, int offset, int count)
+        {
+            var t_src = new CancellationTokenSource(ReadTimeout);
+            int byte_size = await BaseStream.ReadAsync(buffer, offset, count, t_src.Token);
+            if (t_src.IsCancellationRequested)
+                return (int)DeliveryError.READ_TIMEOUT;
+            else
+                return byte_size;
         }
 
         public abstract bool Connect();
         public abstract void Close();
-        public abstract void Send(IProtocol protocol);
         public abstract bool IsConnected();
         public abstract Task<long> PingAsync();
 
+        protected abstract bool DoReadAgain();
+        protected abstract AProtocol ReportResponseProtocol(AProtocol request, byte[] recv_data);
+
+        /// <summary>
+        /// 비동기 통신으로 PLC와 통신하여 요청 메세지를 보내고 응답 메세지를 받는다
+        /// </summary>
+        /// <param name="request">XGTCnetProtocol 요청 프로토콜</param>
+        /// <returns>Delivery</returns>
+        public async Task<Delivery> PostAsync(IProtocol request)
+        {
+            Delivery delivery = new Delivery();
+
+            AProtocol reqt = request as AProtocol;
+            if (reqt == null)
+                throw new ArgumentException("Protocol not match XGTCnetProtocol type");
+
+            if (!IsConnected())
+            {
+                if (!Connect())
+                {
+                    delivery.Error = DeliveryError.DISCONNECT;
+                    return delivery.Packing();
+                }
+            }
+            // WRITE WORK //
+            CancellationTokenSource t_src = new CancellationTokenSource(WriteTimeout);
+            int write_ret = await WriteAsync(reqt.ASCIIProtocol, 0, reqt.ASCIIProtocol.Length);
+            if (write_ret < 0)
+            {
+                delivery.Error = (DeliveryError)write_ret;
+                return delivery.Packing();
+            }
+
+            // READ WORK //
+            StreamBufferIndex = 0;
+            int size;
+            do
+            {
+                size = await ReadAsync(StreamBuffer, StreamBufferIndex, STREAM_BUFFER_SIZE - StreamBufferIndex);
+                if (size < 0)
+                {
+                    delivery.Error = (DeliveryError)size;
+                    return delivery.Packing();
+                }
+                StreamBufferIndex += size;
+            } while (DoReadAgain());
+            byte[] recv_data = new byte[StreamBufferIndex];
+            Buffer.BlockCopy(StreamBuffer, 0, recv_data, 0, recv_data.Length);
+
+            delivery.Package = ReportResponseProtocol(reqt, recv_data);
+            return delivery.Packing();
+        }
+
+        /// <summary>
+        /// 메모리 해제
+        /// </summary>
         public virtual void Dispose()
         {
-            ProtocolStandByQueue = null;
-            SendedProtocolSuccessfully = null;
-            ReceivedProtocolSuccessfully = null;
             ReqeustProtocolPointer = null;
             ConnectionStatusChanged = null;
-            SocketStream = null;
-
-            TimeoutTimer.Stop();
-            TimeoutTimer.Dispose();
-            TimeoutTimer = null;
-
-            Buf = null;
-            BufIdx = 0;
+            BaseStream = null;
+            StreamBuffer = null;
+            UserData = null;
         }
 
-        public void SendedProtocolSuccessfullyEvent(IProtocol iProtocol)
-        {
-            if (SendedProtocolSuccessfully != null)
-            {
-                var cold_pt = System.Threading.Volatile.Read(ref iProtocol);
-                SendedProtocolSuccessfully(this, new ProtocolReceivedEventArgs(cold_pt));
-            }
-        }
-
-        public void ReceivedProtocolSuccessfullyEvent(IProtocol iProtocol)
-        {
-            if (ReceivedProtocolSuccessfully != null)
-            {
-                var cold_pt = System.Threading.Volatile.Read(ref iProtocol);
-                ReceivedProtocolSuccessfully(this, new ProtocolReceivedEventArgs(cold_pt));
-            }
-        }
-
+        /// <summary>
+        /// ConnectionStatusChanged 이벤트 호출
+        /// </summary>
+        /// <param name="isConnected">연결 상태</param>
         public void ConnectionStatusChangedEvent(bool isConnected)
         {
             if (ConnectionStatusChanged != null)
                 ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(isConnected));
-        }
-
-        /// <summary>
-        /// 시리얼 포트가 Write를 할 때 타이머를 작동시켜, OnDataRecieve가 호출 되기전 타임아웃이 된다면 타이머 호출
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        public void OnTimeoutElapsed(object sender, ElapsedEventArgs e)
-        {
-            var timer = sender as Timer;
-            timer.Stop();
-            LOG.Debug(Description + " Timeout: " + timer.Interval);
-            PrepareTransmission();
-            SendNextProtocol();
-        }
-
-        protected void PrepareTransmission()
-        {
-            ReqeustProtocolPointer = null;
-            BufIdx = 0;
-            ReqPossible = true;
-        }
-
-        protected void SendNextProtocol()
-        {
-            IProtocol temp = null;
-            if (ProtocolStandByQueue.TryDequeue(out temp))
-                Send(temp);
         }
     }
 }

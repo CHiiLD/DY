@@ -35,15 +35,6 @@ namespace DY.NET
         public int Tag { get; set; }
         public object UserData { get; set; }
         public string Description { get; set; }
-
-        /// <summary>
-        /// 프로토콜 요청을 성공적으로 전달되었을 시 통지
-        /// </summary>
-        public event EventHandler<ProtocolReceivedEventArgs> ProtocolRequested;
-        /// <summary>
-        /// 요청된 프로토콜에 따른 응답 프로토콜을 성공적으로 받았을 시 통지
-        /// </summary>
-        public event EventHandler<ProtocolReceivedEventArgs> ProtocolReceived;
         
         protected AProtocol() 
         { 
@@ -55,9 +46,6 @@ namespace DY.NET
             this.Description = that.Description;
             this.UserData = that.UserData;
 
-            this.ProtocolReceived = that.ProtocolReceived;
-            this.ProtocolRequested = that.ProtocolRequested;
-
             this.MirrorProtocol = that.MirrorProtocol;
             if (that.ProtocolData != null)
                 this.ProtocolData = (byte[])that.ProtocolData.Clone();
@@ -67,26 +55,7 @@ namespace DY.NET
         {
             return new Dictionary<string, object>(StorageDictionary);
         }
-
-        public void ProtocolReceivedEvent(object obj, IProtocol protocol)
-        {
-            if (ProtocolReceived != null)
-            {
-                var cold_pt = System.Threading.Volatile.Read(ref protocol);
-                ProtocolReceived(obj, new ProtocolReceivedEventArgs(cold_pt));
-            }
-        }
-
-        public void ProtocolRequestedEvent(object obj, IProtocol protocol)
-        {
-            if (ProtocolRequested != null)
-            {
-                var cold_pt = System.Threading.Volatile.Read(ref protocol);
-                ProtocolRequested(obj, new ProtocolReceivedEventArgs(cold_pt));
-            }
-        }
-
-      
+        
         public abstract void AssembleProtocol();
         public abstract void AnalysisProtocol();
         public abstract void Print();

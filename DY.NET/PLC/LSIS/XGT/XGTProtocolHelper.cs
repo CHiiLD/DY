@@ -143,12 +143,12 @@ namespace DY.NET.LSIS.XGT
                         int idx = Convert.ToInt32(addr.Last().ToString(), 16);
                         if (bit_storagy.ContainsKey(addr))
                         {
-                            i.SetValue(bit_storagy[addr][idx]);
+                            i.SetOutput(bit_storagy[addr][idx]);
                         }
                         else
                         {
                             bool[] bits = B2W.ToBits((ushort)value);
-                            i.SetValue(bits[idx]);
+                            i.SetOutput(bits[idx]);
                             bit_storagy.Add(addr, bits);
                         }
                         break;
@@ -160,7 +160,7 @@ namespace DY.NET.LSIS.XGT
                     case DataType.INT:
                     case DataType.LONG:
                     case DataType.LWORD:
-                        i.SetValue(value);
+                        i.SetOutput(value);
                         break;
                     default:
                         throw new NotImplementedException();

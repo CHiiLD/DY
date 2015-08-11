@@ -12,18 +12,8 @@ namespace DY.WPF.SYSTEM.COMM
     /// <summary>
     /// PLC IO 입출력을 위한 컬렉션 아이템
     /// </summary>
-    public class CommIODataGridItem : INotifyPropertyChanged, ICommIOData
+    public class CommIOExcelRowItem : INotifyPropertyChanged, ICommIOData
     {
-#if false
-        public CommIODataGridItem(CommIODataGridItem that)
-        {
-            m_Type = that.m_Type;
-            m_Address = that.m_Address;
-            m_Input = that.m_Input;
-            m_Output = that.m_Output;
-            m_Comment = that.m_Comment;
-        }
-#endif
         public event PropertyChangedEventHandler PropertyChanged;
 
         protected void OnPropertyChanged(string propertyName)
@@ -44,7 +34,7 @@ namespace DY.WPF.SYSTEM.COMM
         public object Output { get { return m_Output; } set { m_Output = value; OnPropertyChanged("Output"); } }
         public string Comment { get { return m_Comment; } set { m_Comment = value; OnPropertyChanged("Comment"); } }
 
-        public void SetValue(object value)
+        public void SetOutput(object value)
         {
             Output = value;
         }

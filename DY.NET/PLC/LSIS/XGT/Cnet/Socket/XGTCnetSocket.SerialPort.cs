@@ -17,48 +17,50 @@ namespace DY.NET.LSIS.XGT
 
             public override object Build()
             {
-                var skt = new XGTCnetSocket() { m_SerialPort = new SerialPort(PortName, BaudRate, Parity_, DataBit, StopBit) };
-                skt.m_SerialPort.DataReceived += skt.OnDataRecieve;
-                skt.m_SerialPort.ErrorReceived += skt.OnSerialErrorReceived;
-                skt.m_SerialPort.PinChanged += skt.OnSerialPinChanged;
-                skt.Description = "LSIS XGT Cnet(" + skt.GetPortName() + ")";
-                return skt;
-             }
+                var xgt_cnet_socket = new XGTCnetSocket()
+                {
+                    m_SerialPort = new SerialPort(PortName, BaudRate, Parity_, DataBit, StopBit),
+                    Description = "LSIS XGT Cnet(" + PortName + ")"
+                };
+                return xgt_cnet_socket;
+            }
         }
 
+#if false
         public string GetPortName()
         {
             if (m_SerialPort == null)
-                throw new NullReferenceException(ERROR_SERIAL_IS_NULL);
+                throw new NullReferenceException(ERROR_SERIALPORT_IS_NULL);
             return m_SerialPort.PortName;
         }
 
         public int GetBaudRate()
         {
             if (m_SerialPort == null)
-                throw new NullReferenceException(ERROR_SERIAL_IS_NULL);
+                throw new NullReferenceException(ERROR_SERIALPORT_IS_NULL);
             return m_SerialPort.BaudRate;
         }
 
         public Parity GetParity()
         {
             if (m_SerialPort == null)
-                throw new NullReferenceException(ERROR_SERIAL_IS_NULL);
+                throw new NullReferenceException(ERROR_SERIALPORT_IS_NULL);
             return m_SerialPort.Parity;
         }
 
         public int GetDataBits()
         {
             if (m_SerialPort == null)
-                throw new NullReferenceException(ERROR_SERIAL_IS_NULL);
+                throw new NullReferenceException(ERROR_SERIALPORT_IS_NULL);
             return m_SerialPort.DataBits;
         }
 
         public StopBits GetStopBits()
         {
             if (m_SerialPort == null)
-                throw new NullReferenceException(ERROR_SERIAL_IS_NULL);
+                throw new NullReferenceException(ERROR_SERIALPORT_IS_NULL);
             return m_SerialPort.StopBits;
         }
+#endif
     }
 }

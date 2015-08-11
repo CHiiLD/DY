@@ -15,13 +15,6 @@ namespace DY.NET
     /// </summary>
     public interface IProtocol : ITag, IDebug
     {
-#if false
-        event EventHandler<ProtocolReceivedEventArgs> ErrorReceived;
-          void ErrorReceivedEvent(object obj, IProtocol protocol);
-#endif
-        event EventHandler<ProtocolReceivedEventArgs> ProtocolRequested;
-        event EventHandler<ProtocolReceivedEventArgs> ProtocolReceived;
-
         Dictionary<string, object> GetStorage();
     }
 }

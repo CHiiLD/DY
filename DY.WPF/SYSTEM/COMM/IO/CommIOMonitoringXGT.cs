@@ -12,12 +12,12 @@ using DY.WPF.SYSTEM.COMM;
 
 namespace DY.WPF.SYSTEM.COMM
 {
-    public class XGTCommIOMonitoring : ACommIOMonitoringStrategy
+    public class CommIOMonitoringXGT : ACommIOMonitoringStrategy
     {
         protected new static Logger LOG = LogManager.GetCurrentClassLogger();
         public const int InvokeID = 00;
 
-        public XGTCommIOMonitoring(CommClient cclient)
+        public CommIOMonitoringXGT(CommClient cclient)
             : base(cclient)
         {
         }
@@ -26,9 +26,9 @@ namespace DY.WPF.SYSTEM.COMM
         /// ObservableCollection<CommIODataGridItem> 정보로 프로토콜들을 생성한다
         /// </summary>
         /// <returns></returns>
-        public override void UpdateProtocols(IList<ICommIOData> io_datas)
+        public override void ReplaceICommIOData(IList<ICommIOData> io_datas)
         {
-            CommIODatas = io_datas;
+            CommIOData = io_datas;
             Dictionary<string, DataType> addrs = XGTProtocolHelper.Optimize(io_datas);
             ILookup<DataType, string> lookCollection = addrs.ToLookup(ad => ad.Value, ad => ad.Key);
             int cnt = 0;
@@ -81,65 +81,74 @@ namespace DY.WPF.SYSTEM.COMM
         /// IO Update by async
         /// </summary>
         /// <returns></returns>
-        public override async Task UpdateIOAsync(IList<ICommIOData> io_datas)
+        public override async Task UpdateIOAsync()
         {
-            IProtocol resp = null;
-            IPostAsync post = null;
-            string error = null;
-            foreach (var reqt in Protocols)
+            IProtocol response;
+            IPostAsync post;
+            string error_msg;
+            foreach (var request in Protocols)
             {
-#if false
-                if (CClient.Socket.IsConnected())
-                {
-#endif
+                error_msg = null;
+                response = null;
                 post = CClient.Socket as IPostAsync;
 #if DEBUG
                 try
                 {
 #endif
-                    resp = await post.PostAsync(reqt);
+                    Delivery delivery = await post.PostAsync(request);
+                    DeliveryError delivery_err = delivery.Error;
+                    switch (delivery_err)
+                    {
+                        case DeliveryError.SUCCESS:
+                            response = delivery.Package as IProtocol;
+                            break;
+                        case DeliveryError.DISCONNECT:
+                        case DeliveryError.WRITE_TIMEOUT:
+                        case DeliveryError.READ_TIMEOUT:
+                            throw new Exception(delivery_err.ToString());
+                    }
 #if DEBUG
                 }
                 catch (Exception exception)
                 {
                     LOG.Debug(CClient.Summary + " PostAsync 예외처리 이하와 같음: " + exception.Message);
-                    resp = null;
+                    response = null;
                 }
 #endif
-                if (resp == null)
+                if (response == null)
                     continue;
 
+#if DEBUG
                 switch (CClient.CommType)
                 {
                     case DYDeviceCommType.SERIAL:
-                        var cnet = resp as XGTCnetProtocol;
-                        error = cnet.Error.ToString();
+                        var cnet = response as XGTCnetProtocol;
+                        error_msg = cnet.Error.ToString();
                         break;
                     case DYDeviceCommType.ETHERNET:
-                        var fenet = resp as XGTFEnetProtocol;
-                        error = fenet.Error.ToString();
+                        var fenet = response as XGTFEnetProtocol;
+                        error_msg = fenet.Error.ToString();
                         break;
                     default:
                         throw new NotImplementedException();
                 }
 
-                if (String.IsNullOrEmpty(error))
+                if (!String.IsNullOrEmpty(error_msg))
                 {
-                    LOG.Debug(CClient.Summary + " 프로토콜 에러 발생: " + error);
-                    error = null;
+                    LOG.Debug(CClient.Summary + " 프로토콜 에러 발생: " + error_msg);
                     continue;
                 }
 
-                Dictionary<string, object> storage = resp.GetStorage();
+                Dictionary<string, object> storage = response.GetStorage();
                 if (storage == null || storage.Count == 0)
-                    continue;
+                    System.Diagnostics.Debug.Assert(false);
+#endif
                 await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    XGTProtocolHelper.Fill(storage, io_datas);
+                    XGTProtocolHelper.Fill(storage, CommIOData);
                 }), null);
             }
 #if false
-            }
 #endif
         }
     }

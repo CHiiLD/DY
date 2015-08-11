@@ -11,7 +11,7 @@ namespace DY.NET
     /// </summary>
     public interface ICommIOData
     {
-        void SetValue(object value);
+        void SetOutput(object output);
         string GetAddress();
         DataType GetDataType();
     }

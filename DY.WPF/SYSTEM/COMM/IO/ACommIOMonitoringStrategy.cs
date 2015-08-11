@@ -1,13 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 using System.Threading;
 
 using DY.NET;
 using NLog;
-using DY.WPF.SYSTEM.COMM;
 
 namespace DY.WPF.SYSTEM.COMM
 {
@@ -16,48 +13,17 @@ namespace DY.WPF.SYSTEM.COMM
         protected static Logger LOG = LogManager.GetCurrentClassLogger();
 
         public CommClient CClient { get; protected set; }
-        protected List<IProtocol> Protocols { get; set; }// = new List<IProtocol>();
-        protected IList<ICommIOData> CommIODatas { get; set; }
-        private Task m_UpdateTask = null;
-        private volatile bool m_Run = false;
-        //private CancellationTokenSource m_CancelTSource = new CancellationTokenSource();
 
-        public int TransferInteval
-        {
-            get
-            {
-                return CClient.TransferInteval;
-            }
-        }
+        protected List<IProtocol> Protocols { get; set; }
+        protected IList<ICommIOData> CommIOData { get; set; }
 
-        public int ResponseLatencyTime
-        {
-            get
-            {
-                return CClient.ResponseLatencyTime;
-            }
-        }
+        private CancellationTokenSource m_TokenSource;
+        private Task m_UpdateTask;
+        private volatile bool m_Run;
 
-        public bool IsLooped
-        {
-            get
-            {
-                return m_Run;
-            }
-        }
-    
-        /// <summary>
-        /// ICommIOData 데이터들로 프로토콜 객체를 생성
-        /// </summary>
-        /// <param name="io_datas">데이터</param>
-        public abstract void UpdateProtocols(IList<ICommIOData> io_datas);
-
-        /// <summary>
-        /// 응답 프로토콜을 받아, ICommIOData 컬렉션을 UI쓰레드안에서 업데이트한다.
-        /// </summary>
-        /// <param name="io_datas">업데이트할 대상</param>
-        /// <returns></returns>
-        public abstract Task UpdateIOAsync(IList<ICommIOData> io_datas);
+        public int TransferInteval { get { return CClient.TransferInteval; } }
+        public int ResponseLatencyTime { get { return CClient.ResponseLatencyTime; } }
+        public bool IsUpdated { get { return m_Run; } }
 
         /// <summary>
         /// 생성자
@@ -69,22 +35,27 @@ namespace DY.WPF.SYSTEM.COMM
             Protocols = new List<IProtocol>();
         }
 
+        public abstract void ReplaceICommIOData(IList<ICommIOData> io_datas);
+        public abstract Task UpdateIOAsync();
+
         /// <summary>
-        /// 루프 온/오프
+        /// Update Thread Run/Stop
         /// </summary>
-        /// <param name="value">스위치</param>
+        /// <param name="isRun">스위치</param>
         /// <returns></returns>
-        public async Task SetLoopAsync(bool value)
+        public async Task SetLoopAsync(bool isRun)
         {
-            m_Run = value;
-            if (m_Run)
+            m_Run = isRun;
+            if (isRun)
             {
-                if (CommIODatas == null)
+                if (CommIOData == null)
                     throw new NullReferenceException("io_datas is null.");
-                m_UpdateTask = Update();
+                m_TokenSource = new CancellationTokenSource();
+                m_UpdateTask = Update(m_TokenSource.Token);
             }
             else
             {
+                m_TokenSource.Cancel();
                 if (m_UpdateTask != null)
                     await m_UpdateTask;
                 m_UpdateTask = null;
@@ -94,34 +65,15 @@ namespace DY.WPF.SYSTEM.COMM
         /// <summary>
         /// IO 데이터그리드 반복 업데이트
         /// </summary>
-        private Task Update()
+        private Task Update(CancellationToken token)
         {
             Task thread = Task.Factory.StartNew(new Action(async () =>
             {
                 LOG.Debug(CClient.Summary + " 업데이트 루프 시작");
-                while (m_Run)
-                {
-#if false
-                    if (!CClient.Socket.IsConnected())
-                    {
-                        LOG.Debug(CClient.Summary + " 통신 접속 해제에 의한 접속 대기 .. 1초");
-                        await Task.Delay(ResponseLatencyTime); //다음 루프까지 대기
-                        continue;
-                    }
-#endif
-                    Task update_task = UpdateIOAsync(CommIODatas);
-                    //응답대기시간안에 응답이 온다면
-                    if (await Task.WhenAny(update_task, Task.Delay(ResponseLatencyTime)) == update_task)
-                    {
-                        await update_task;
-                        await Task.Delay(TransferInteval); //다음 루프까지 대기
-                    }
-                    else
-                        LOG.Debug("IO 모니터링 타임 아웃. 응답대기시간: " + ResponseLatencyTime);
-                }
-                m_Run = false;
+                while (!token.IsCancellationRequested)
+                    await UpdateIOAsync();
                 LOG.Debug(CClient.Summary + " 업데이트 루프 종료");
-            }));
+            }), token);
             return thread;
         }
     }

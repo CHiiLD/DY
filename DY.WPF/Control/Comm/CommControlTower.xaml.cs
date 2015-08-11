@@ -63,7 +63,7 @@ namespace DY.WPF
                     case DYDevice.HONEYWELL_VUQUEST3310G:
                         break;
                     case DYDevice.LSIS_XGT:
-                        CommIOMonitoring comm_io_monitoring = new CommIOMonitoring(new XGTCommIOMonitoring(cclient));
+                        CommIOMonitoring comm_io_monitoring = new CommIOMonitoring(new CommIOMonitoringXGT(cclient));
                         comm_io_monitoring.Margin = new Thickness(TABCONTROL_MARGIN);
                         tab_item.Content = comm_io_monitoring;
                         tab_item.SetBinding(HeaderedContentControl.HeaderProperty, new Binding("Comment") { Source = cclient });

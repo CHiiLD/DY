@@ -22,8 +22,8 @@ namespace DY.WPF
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();
 
-        public ObservableCollection<CommIODataGridItem> Items { get; private set; }
-        public ObservableCollection<CommIODataGridItem> ItemsBakcup { get; private set; }
+        public ObservableCollection<CommIOExcelRowItem> Items { get; private set; }
+        public ObservableCollection<CommIOExcelRowItem> ItemsBakcup { get; private set; }
 
         public bool m_IsEditMode;
         /// <summary>
@@ -46,7 +46,7 @@ namespace DY.WPF
 
                 if (value) //편집 모드 온 
                 {
-                    ItemsBakcup = new ObservableCollection<CommIODataGridItem>(Items); //수정 모드일 때 현재 데이터 백업
+                    ItemsBakcup = new ObservableCollection<CommIOExcelRowItem>(Items); //수정 모드일 때 현재 데이터 백업
                     foreach (var i in Items)
                         i.Output = null;
                 }
@@ -63,7 +63,7 @@ namespace DY.WPF
         /// </summary>
         public CommIOExcelDataGrid()
         {
-            Items = new ObservableCollection<CommIODataGridItem>();
+            Items = new ObservableCollection<CommIOExcelRowItem>();
             InitializeComponent();
             NDataGrid.ItemsSource = Items;
             Editable = false;
