@@ -55,21 +55,18 @@
             <UniformGrid Rows="3" Columns="1" Grid.Column="4"  Margin="0,8">
                 <local:NumericUpDownWithBar 
                     x:Name="NNM_WriteTimeout"
-                    Value="100"
                     Minimum="50"
                     Maximum="500"
                     StringFormat="{}{0:N0}ms"
                     Title="Write timeout"/>
                 <local:NumericUpDownWithBar 
                     x:Name="NNM_ReadTimeout" 
-                    Value="250"
                     Minimum="50"
                     Maximum="500"
                     StringFormat="{}{0:N0}ms"
                     Title="Read timeout"/>
                 <local:NumericUpDownWithBar 
                     x:Name="NNM_UpdateInteval"
-                    Value="500"
                     Minimum="100"
                     Maximum="1000"
                     StringFormat="{}{0:N0}ms"

@@ -92,45 +92,44 @@ namespace DY.WPF.SYSTEM.COMM
                 error_msg = null;
                 response = null;
                 post = CClient.Socket as IPostAsync;
-#if DEBUG
+#if !DEBUG
                 try
                 {
 #endif
-                    Delivery delivery = await post.PostAsync(request);
-                    DeliveryError delivery_err = delivery.Error;
-                    switch (delivery_err)
-                    {
-                        case DeliveryError.SUCCESS:
-                            response = delivery.Package as IProtocol;
-                            break;
-                        case DeliveryError.DISCONNECT:
-                            CClient.ChangedCommStatus(false);
-                            throw new Exception(delivery_err.ToString());
-                        case DeliveryError.WRITE_TIMEOUT:
-                        case DeliveryError.READ_TIMEOUT:
-                            throw new Exception(delivery_err.ToString());
-                    }
-#if DEBUG
+                Delivery delivery = await post.PostAsync(request);
+                DeliveryError delivery_err = delivery.Error;
+                switch (delivery_err)
+                {
+                    case DeliveryError.SUCCESS:
+                        response = delivery.Package as IProtocol;
+                        break;
+                    case DeliveryError.DISCONNECT:
+                        CClient.ChangedCommStatus(false);
+                        throw new Exception(delivery_err.ToString());
+                    case DeliveryError.WRITE_TIMEOUT:
+                    case DeliveryError.READ_TIMEOUT:
+                        throw new Exception(delivery_err.ToString());
+                }
+#if !DEBUG
                 }
                 catch (Exception exception)
                 {
-                    LOG.Debug(CClient.Summary + " PostAsync 예외처리 이하와 같음: " + exception.Message);
+                    LOG.Debug(CClient.Summary + " UpdateIOAsync 예외처리 메세지는 이하와 같음: " + exception.Message);
                     response = null;
                 }
 #endif
                 if (response == null)
                     continue;
-
 #if DEBUG
                 switch (CClient.CommType)
                 {
                     case DYDeviceCommType.SERIAL:
                         var cnet = response as XGTCnetProtocol;
-                        error_msg = cnet.Error.ToString();
+                        error_msg = cnet.Error == XGTCnetProtocolError.OK ? null : cnet.Error.ToString();
                         break;
                     case DYDeviceCommType.ETHERNET:
                         var fenet = response as XGTFEnetProtocol;
-                        error_msg = fenet.Error.ToString();
+                        error_msg = fenet.Error == XGTFEnetProtocolError.OK ? null : fenet.Error.ToString();
                         break;
                     default:
                         throw new NotImplementedException();
@@ -151,8 +150,6 @@ namespace DY.WPF.SYSTEM.COMM
                     XGTProtocolHelper.Fill(storage, CommIOData);
                 }), null);
             }
-#if false
-#endif
         }
     }
 }

@@ -25,7 +25,6 @@
 
         <local:NumericUpDownWithBar
             x:Name="NTB_ConnectionCheckInteval" 
-            Value="10000"
             Minimum="1000"
             Maximum="60000"
             StringFormat="{}{0:N0}ms"
@@ -33,7 +32,6 @@
 
         <local:NumericUpDownWithBar
             x:Name="NTB_ConnectionDelayTime" 
-            Value="500"
             Minimum="100"
             Maximum="1000"
             StringFormat="{}{0:N0}ms"

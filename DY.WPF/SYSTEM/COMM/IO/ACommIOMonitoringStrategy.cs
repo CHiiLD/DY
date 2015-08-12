@@ -17,7 +17,7 @@ namespace DY.WPF.SYSTEM.COMM
         protected List<IProtocol> Protocols { get; set; }
         protected IList<ICommIOData> CommIOData { get; set; }
 
-        private CancellationTokenSource m_TokenSource;
+        private CancellationTokenSource m_UpdateTokenSource;
         private Task m_UpdateTask;
         private volatile bool m_Run;
 
@@ -50,12 +50,13 @@ namespace DY.WPF.SYSTEM.COMM
             {
                 if (CommIOData == null)
                     throw new NullReferenceException("io_datas is null.");
-                m_TokenSource = new CancellationTokenSource();
-                m_UpdateTask = Update(m_TokenSource.Token);
+                m_UpdateTokenSource = new CancellationTokenSource();
+                m_UpdateTask = Task.Factory.StartNew(new Action(Update), m_UpdateTokenSource.Token);
             }
             else
             {
-                m_TokenSource.Cancel();
+                if (m_UpdateTokenSource != null)
+                    m_UpdateTokenSource.Cancel();
                 if (m_UpdateTask != null)
                     await m_UpdateTask;
                 m_UpdateTask = null;
@@ -65,16 +66,17 @@ namespace DY.WPF.SYSTEM.COMM
         /// <summary>
         /// IO 데이터그리드 반복 업데이트
         /// </summary>
-        private Task Update(CancellationToken token)
+        private async void Update()
         {
-            Task thread = Task.Factory.StartNew(new Action(async () =>
+            LOG.Debug(CClient.Summary + " 업데이트 루프 시작");
+            while (!m_UpdateTokenSource.Token.IsCancellationRequested)
             {
-                LOG.Debug(CClient.Summary + " 업데이트 루프 시작");
-                while (!token.IsCancellationRequested)
-                    await UpdateIOAsync();
-                LOG.Debug(CClient.Summary + " 업데이트 루프 종료");
-            }), token);
-            return thread;
+                await UpdateIOAsync();
+                var DelayTokenSource = new CancellationTokenSource();
+                CancellationTokenSource.CreateLinkedTokenSource(DelayTokenSource.Token, m_UpdateTokenSource.Token);
+                await Task.Delay(CClient.IOUpdateInteval, DelayTokenSource.Token);
+            }
+            LOG.Debug(CClient.Summary + " 업데이트 루프 종료");
         }
     }
 }

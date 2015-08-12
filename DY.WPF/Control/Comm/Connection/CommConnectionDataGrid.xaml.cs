@@ -6,6 +6,7 @@ using System.Windows.Input;
 using System.Windows.Media;
 using System.Collections.ObjectModel;
 
+using System.Threading;
 using System.Threading.Tasks;
 using DY.NET;
 using DY.WPF.WINDOW;
@@ -64,27 +65,23 @@ namespace DY.WPF
             string message = null;
             MetroWindow metro_win = Window.GetWindow(this) as MetroWindow;
             string title = "Communication connection";
-            Task connect_task = null;
 
             ProgressDialogController progress = await metro_win.ShowProgressAsync(title,
                 "Please wait... until the connection is completed.", false, null);
             await Task.Delay(1000);
             try
             {
+                var token_source = new CancellationTokenSource(inteval);   
                 LOG.Trace("통신 접속 시도");
-                connect_task = Task.Factory.StartNew(() => { return client.Connect(); });
-                if (await Task.WhenAny(connect_task, Task.Delay(inteval)) == connect_task)
-                {
-                    isConnected = await (Task<bool>)connect_task;
-                    if (isConnected)
-                        message = "It was successfully connected."; //접속 성공
-                    else
-                        message = "Connection failed."; //접속 에러
-                }
-                else //타임 아웃
+                isConnected = await Task.Factory.StartNew(() => { return client.Connect(); }, token_source.Token);
+                if (token_source.IsCancellationRequested)
                 {
                     isConnected = false;
                     message = "Connection failed.(time out)";
+                }
+                else
+                {
+                    message = isConnected ? "It was successfully connected." : "Connection failed.";
                 }
             }
             catch (Exception ex)

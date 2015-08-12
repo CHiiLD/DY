@@ -23,10 +23,22 @@ namespace DY.NET
         public const int STREAM_BUFFER_SIZE = 4096;
         protected byte[] StreamBuffer = new byte[STREAM_BUFFER_SIZE];
         protected int StreamBufferIndex;
-        //요청 프로토콜 임시 저장 변수
-        protected IProtocol ReqeustProtocolPointer;
+        private Stream m_BaseStream;
+        private IAsyncResult m_ReadIAsyncResult;
         //소켓 스트림
-        protected Stream BaseStream;
+        protected Stream BaseStream
+        {
+            get
+            {
+                return m_BaseStream;
+            }
+            set
+            {
+                m_BaseStream = value;
+                m_ReadIAsyncResult = m_BaseStream.BeginRead(StreamBuffer, 0, STREAM_BUFFER_SIZE, OnRead, null);
+            }
+        }
+
         //타임아웃
         public int WriteTimeout { get; set; }
         public int ReadTimeout { get; set; }
@@ -40,7 +52,7 @@ namespace DY.NET
         public EventHandler<ConnectionStatusChangedEventArgs> ConnectionStatusChanged { get; set; }
 
         /****************************************************************************************/
-        
+
         /// <summary>
         /// 생성자 
         /// </summary>
@@ -63,11 +75,11 @@ namespace DY.NET
         public async Task<int> ReadAsync(byte[] buffer, int offset, int count)
         {
             var t_src = new CancellationTokenSource(ReadTimeout);
-            int byte_size = await BaseStream.ReadAsync(buffer, offset, count, t_src.Token);
+            int size = await BaseStream.ReadAsync(buffer, offset, count, t_src.Token);
             if (t_src.IsCancellationRequested)
                 return (int)DeliveryError.READ_TIMEOUT;
             else
-                return byte_size;
+                return size;
         }
 
         public abstract bool Connect();
@@ -75,9 +87,8 @@ namespace DY.NET
         public abstract bool IsConnected();
         public abstract Task<long> PingAsync();
 
-        protected abstract bool DoReadAgain();
+        protected abstract bool DoReadAgain(AProtocol request);
         protected abstract AProtocol ReportResponseProtocol(AProtocol request, byte[] recv_data);
-
         /// <summary>
         /// 비동기 통신으로 PLC와 통신하여 요청 메세지를 보내고 응답 메세지를 받는다
         /// </summary>
@@ -86,45 +97,45 @@ namespace DY.NET
         public async Task<Delivery> PostAsync(IProtocol request)
         {
             Delivery delivery = new Delivery();
-
-            AProtocol reqt = request as AProtocol;
-            if (reqt == null)
-                throw new ArgumentException("Protocol not match XGTCnetProtocol type");
-
+            AProtocol r = request as AProtocol;
+            int read_size = StreamBufferIndex = 0;
             if (!IsConnected())
             {
+                Close();
+                LOG.Trace(Description + " 재연결시도 ...");
                 if (!Connect())
                 {
                     delivery.Error = DeliveryError.DISCONNECT;
                     return delivery.Packing();
                 }
             }
-            // WRITE WORK //
-            CancellationTokenSource t_src = new CancellationTokenSource(WriteTimeout);
-            int write_ret = await WriteAsync(reqt.ASCIIProtocol, 0, reqt.ASCIIProtocol.Length);
-            if (write_ret < 0)
-            {
-                delivery.Error = (DeliveryError)write_ret;
-                return delivery.Packing();
-            }
-
-            // READ WORK //
-            StreamBufferIndex = 0;
-            int size;
             do
             {
-                size = await ReadAsync(StreamBuffer, StreamBufferIndex, STREAM_BUFFER_SIZE - StreamBufferIndex);
-                if (size < 0)
+                BaseStream.EndRead(m_ReadIAsyncResult);
+                int write_ret = await WriteAsync(r.ASCIIProtocol, 0, r.ASCIIProtocol.Length);
+                if (write_ret < 0)
                 {
-                    delivery.Error = (DeliveryError)size;
-                    return delivery.Packing();
+                    delivery.Error = (DeliveryError)write_ret;
+                    break;
                 }
-                StreamBufferIndex += size;
-            } while (DoReadAgain());
-            byte[] recv_data = new byte[StreamBufferIndex];
-            Buffer.BlockCopy(StreamBuffer, 0, recv_data, 0, recv_data.Length);
-
-            delivery.Package = ReportResponseProtocol(reqt, recv_data);
+                do
+                {
+                    read_size = await ReadAsync(StreamBuffer, StreamBufferIndex, STREAM_BUFFER_SIZE - StreamBufferIndex);
+                    if (read_size < 0)
+                    {
+                        delivery.Error = (DeliveryError)read_size;
+                        break;
+                    }
+                    StreamBufferIndex += read_size;
+                } while (DoReadAgain(r));
+                if (delivery.Error != DeliveryError.SUCCESS)
+                    break;
+                byte[] recv_data = new byte[StreamBufferIndex];
+                Buffer.BlockCopy(StreamBuffer, 0, recv_data, 0, recv_data.Length);
+                delivery.Package = ReportResponseProtocol(r, recv_data);
+                m_ReadIAsyncResult = m_BaseStream.BeginRead(StreamBuffer, 0, STREAM_BUFFER_SIZE, OnRead, null);
+            } while (false);
+            m_ReadIAsyncResult = m_BaseStream.BeginRead(StreamBuffer, 0, STREAM_BUFFER_SIZE, OnRead, null);
             return delivery.Packing();
         }
 
@@ -133,11 +144,25 @@ namespace DY.NET
         /// </summary>
         public virtual void Dispose()
         {
-            ReqeustProtocolPointer = null;
             ConnectionStatusChanged = null;
             BaseStream = null;
             StreamBuffer = null;
             UserData = null;
+        }
+
+        private void OnRead(IAsyncResult ar)
+        {
+            try
+            {
+                BaseStream.EndRead(ar);
+            }
+            catch (IOException io_exception)
+            {
+                LOG.Trace(Description + " 서버측에서 연결을 해제");
+                Close();
+                return;
+            }
+            m_ReadIAsyncResult = m_BaseStream.BeginRead(StreamBuffer, 0, STREAM_BUFFER_SIZE, OnRead, null);
         }
 
         /// <summary>

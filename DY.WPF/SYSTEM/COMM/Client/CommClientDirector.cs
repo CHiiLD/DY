@@ -21,6 +21,10 @@ namespace DY.WPF.SYSTEM.COMM
         private static Logger LOG = LogManager.GetCurrentClassLogger();
         private static CommClientDirector THIS;
 
+        public const int BASIC_INIT_CONNECT_DELAY_TIME = 200;
+        public const int BASIC_INIT_CONNECT_CHECK_INTEVAL = 10000;
+        public const bool BASIC_INIT_CONNECT_CHECKABLE = false;
+
         private Timer m_ConnectionCheckTimer;
 
         /// 통신 설정과 관련된 프로퍼티들
@@ -37,7 +41,6 @@ namespace DY.WPF.SYSTEM.COMM
             private set;
         }
 
-
         private CommClientDirector()
         {
             //collection
@@ -48,19 +51,14 @@ namespace DY.WPF.SYSTEM.COMM
             m_ConnectionCheckTimer.Elapsed += OnConnectionCheckTimerElapse;
 
             //notify property initialize
-            ConnectionDelayTimeProperty = new NotifyPropertyChanged<int>();
+            ConnectionDelayTimeProperty = new NotifyPropertyChanged<int>(BASIC_INIT_CONNECT_DELAY_TIME);
 
-            ConnectionCheckIntevalProperty = new NotifyPropertyChanged<int>();
+            ConnectionCheckIntevalProperty = new NotifyPropertyChanged<int>(BASIC_INIT_CONNECT_CHECK_INTEVAL);
             ConnectionCheckIntevalProperty.PropertyChanged += OnConnectionCheckIntevalPropertyChanged;
 
-            ConnectionCheckableProperty = new NotifyPropertyChanged<bool>();
+            ConnectionCheckableProperty = new NotifyPropertyChanged<bool>(BASIC_INIT_CONNECT_CHECKABLE);
             ConnectionCheckableProperty.PropertyChanged += OnConnectionCheckablePropertyPropertyChanged;
 
-#if false
-            ConnectionDelayTimeProperty.Source = 1000;
-            ConnectionCheckIntevalProperty.Source = 30000;
-            ConnectionCheckableProperty.Source = false;
-#endif
         }
 
         ~CommClientDirector()
@@ -154,7 +152,6 @@ namespace DY.WPF.SYSTEM.COMM
 
                     if (!isConnected)
                     {
-                        socket.Close();
                         isConnected = socket.Connect();
                     }
                 }

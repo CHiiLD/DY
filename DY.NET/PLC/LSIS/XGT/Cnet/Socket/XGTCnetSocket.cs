@@ -47,11 +47,8 @@ namespace DY.NET.LSIS.XGT
         {
             if (m_SerialPort == null)
                 throw new NullReferenceException(ERROR_SERIALPORT_IS_NULL);
-            if (!IsConnected())
-            {
-                m_SerialPort.Open();
-                BaseStream = m_SerialPort.BaseStream;
-            }
+            m_SerialPort.Open();
+            BaseStream = m_SerialPort.BaseStream;
             ConnectionStatusChangedEvent(true);
             LOG.Debug(Description + " 통신 접속 성공");
             return IsConnected();
@@ -103,9 +100,9 @@ namespace DY.NET.LSIS.XGT
             return resp;
         }
 
-        protected override bool DoReadAgain()
+        protected override bool DoReadAgain(AProtocol request)
         {
-            var cnet = ReqeustProtocolPointer as XGTCnetProtocol;
+            var cnet = request as XGTCnetProtocol;
             return !(StreamBuffer[StreamBufferIndex - 1 - (cnet.IsExistBCC() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte());
         }
     }

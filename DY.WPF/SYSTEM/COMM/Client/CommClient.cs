@@ -15,6 +15,10 @@ namespace DY.WPF.SYSTEM.COMM
     public class CommClient : IDisposable, INotifyPropertyChanged, ITimeout
     {
         public const string EXTRA_XGT_CNET_LOCALPORT = "LOCAL_PORT";
+        public const int BASIC_INIT_WRITE_TIMEOUT = 250;
+        public const int BASIC_INIT_READ_TIMEOUT = 250;
+        public const int BASIC_INIT_IO_UPDATE_INTEVAL = 1000;
+
 
         #region PRIVATE VARIABLE
         private static Logger LOG = LogManager.GetCurrentClassLogger();
@@ -106,6 +110,9 @@ namespace DY.WPF.SYSTEM.COMM
             m_CommType = comm_type;
             Socket.ConnectionStatusChanged += OnChangedConnectionStatus;
             Key = Guid.NewGuid().ToString();
+            IOUpdateInteval = BASIC_INIT_IO_UPDATE_INTEVAL;
+            WriteTimeout = BASIC_INIT_WRITE_TIMEOUT;
+            ReadTimeout = BASIC_INIT_READ_TIMEOUT;
         }
 
         ~CommClient()
