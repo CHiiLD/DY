@@ -84,19 +84,19 @@ namespace DY.WPF.SYSTEM.COMM
         public override async Task UpdateIOAsync()
         {
             IProtocol response;
-            IPostAsync post;
+            IPostAsync postbox;
             string error_msg;
 
             foreach (var request in Protocols)
             {
                 error_msg = null;
                 response = null;
-                post = CClient.Socket as IPostAsync;
-#if !DEBUG
+                postbox = CClient.Socket as IPostAsync;
+#if DEBUG
                 try
                 {
 #endif
-                Delivery delivery = await post.PostAsync(request);
+                Delivery delivery = await postbox.PostAsync(request);
                 DeliveryError delivery_err = delivery.Error;
                 switch (delivery_err)
                 {
@@ -110,11 +110,12 @@ namespace DY.WPF.SYSTEM.COMM
                     case DeliveryError.READ_TIMEOUT:
                         throw new Exception(delivery_err.ToString());
                 }
-#if !DEBUG
+#if DEBUG
                 }
                 catch (Exception exception)
                 {
-                    LOG.Debug(CClient.Summary + " UpdateIOAsync 예외처리 메세지는 이하와 같음: " + exception.Message);
+                    LOG.Debug(CClient.Summary + " UpdateIOAsync 예외처리 메세지는 이하와 같음: " + exception.Message
+                        + exception.StackTrace);
                     response = null;
                 }
 #endif

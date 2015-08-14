@@ -10,6 +10,7 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public sealed partial class XGTFEnetSocket : ASocketCover
     {
+        private readonly byte[] EMPTY_BYTE = new byte[1];
         private const string ERROR_TCPCLIENT_IS_NULL = "TcpClient instance is null.";
         private static Logger LOG = LogManager.GetCurrentClassLogger();
         private string m_Host;
@@ -44,7 +45,15 @@ namespace DY.NET.LSIS.XGT
                 return false;
             if (m_TcpClient.Client == null)
                 return false;
-            return m_TcpClient.Connected;
+            try
+            {
+                m_TcpClient.Client.Send(EMPTY_BYTE, 0, 0);
+            }
+            catch (Exception e)
+            {
+                return false;
+            }
+            return true;
         }
 
         /// <summary>
@@ -53,11 +62,8 @@ namespace DY.NET.LSIS.XGT
         /// <returns></returns>
         public override bool Connect()
         {
-            if (!IsConnected())
-            {
-                m_TcpClient = new TcpClient(m_Host, m_Port);
-                BaseStream = m_TcpClient.GetStream();
-            }
+            m_TcpClient = new TcpClient(m_Host, m_Port);
+            BaseStream = m_TcpClient.GetStream();
             ConnectionStatusChangedEvent(true);
             LOG.Debug(Description + " 이더넷 통신 동기 접속");
             return IsConnected();
@@ -83,12 +89,10 @@ namespace DY.NET.LSIS.XGT
             {
                 if (m_TcpClient != null)
                     m_TcpClient.Close();
-
                 m_TcpClient = null;
                 m_Host = null;
                 m_Port = -1;
             }
-
             base.Dispose();
             GC.SuppressFinalize(this);
             LOG.Debug(Description + " 이더넷 통신 해제 및 메모리 해제");
