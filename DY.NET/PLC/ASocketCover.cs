@@ -19,6 +19,7 @@ namespace DY.NET
     public abstract class ASocketCover : ISocketCover
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();
+        protected readonly byte[] EMPTY_BYTE = new byte[1];
         //BUFFER
         public const int STREAM_BUFFER_SIZE = 4096;
         protected byte[] StreamBuffer = new byte[STREAM_BUFFER_SIZE];
@@ -38,7 +39,12 @@ namespace DY.NET
         /// </summary>
         public EventHandler<ConnectionStatusChangedEventArgs> ConnectionStatusChanged { get; set; }
 
-        /****************************************************************************************/
+        public abstract bool Connect();
+        public abstract void Close();
+        public abstract bool IsConnected();
+        public abstract Task<long> PingAsync();
+        protected abstract bool DoReadAgain(AProtocol request);
+        protected abstract AProtocol CreateResponseProtocol(AProtocol request, byte[] recv_data);
 
         /// <summary>
         /// 생성자 
@@ -69,13 +75,33 @@ namespace DY.NET
                 return size;
         }
 
-        public abstract bool Connect();
-        public abstract void Close();
-        public abstract bool IsConnected();
-        public abstract Task<long> PingAsync();
 
-        protected abstract bool DoReadAgain(AProtocol request);
-        protected abstract AProtocol ReportResponseProtocol(AProtocol request, byte[] recv_data);
+        /// <summary>
+        /// 비동기 통신으로 PLC와 통신하여 요청 메세지를 보내고 응답 메세지를 받는다
+        /// </summary>
+        /// <param name="request">XGTCnetProtocol 요청 프로토콜</param>
+        /// <returns>Delivery</returns>
+        public async Task<Delivery> PostAsync(IProtocol request)
+        {
+            Delivery delivery = new Delivery();
+            AProtocol r = request as AProtocol;
+            int read_size = StreamBufferIndex = 0;
+            do
+            {
+                if (!ReconnectAsync(delivery)) //if socket has disconnection, reconnect server.
+                    break;
+                //write to stream with async
+                int write_ret = await WriteAsync(r.ASCIIProtocol, 0, r.ASCIIProtocol.Length);
+                if (write_ret < 0)
+                {
+                    delivery.Error = (DeliveryError)write_ret;
+                    break;
+                }
+                //read from stream with async
+                await WaitResponsePostAsync(delivery, r);
+            } while (false);
+            return delivery.Packing();
+        }
 
         private bool ReconnectAsync(Delivery delivery)
         {
@@ -111,37 +137,9 @@ namespace DY.NET
             {
                 byte[] recv_data = new byte[StreamBufferIndex];
                 Buffer.BlockCopy(StreamBuffer, 0, recv_data, 0, recv_data.Length);
-                delivery.Package = ReportResponseProtocol(r, recv_data);
+                delivery.Package = CreateResponseProtocol(r, recv_data);
             }
         }
-
-        /// <summary>
-        /// 비동기 통신으로 PLC와 통신하여 요청 메세지를 보내고 응답 메세지를 받는다
-        /// </summary>
-        /// <param name="request">XGTCnetProtocol 요청 프로토콜</param>
-        /// <returns>Delivery</returns>
-        public async Task<Delivery> PostAsync(IProtocol request)
-        {
-            Delivery delivery = new Delivery();
-            AProtocol r = request as AProtocol;
-            int read_size = StreamBufferIndex = 0;
-            do
-            {
-                if (!ReconnectAsync(delivery)) //if socket has disconnection, reconnect server.
-                    break;
-                //write to stream with async
-                int write_ret = await WriteAsync(r.ASCIIProtocol, 0, r.ASCIIProtocol.Length);
-                if (write_ret < 0)
-                {
-                    delivery.Error = (DeliveryError)write_ret;
-                    break;
-                }
-                //read from stream with async
-                await WaitResponsePostAsync(delivery, r);
-            } while (false);
-            return delivery.Packing();
-        }
-
         /// <summary>
         /// 메모리 해제
         /// </summary>

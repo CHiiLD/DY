@@ -147,7 +147,7 @@ namespace DY.NET.LSIS.XGT
                         }
                         else
                         {
-                            bool[] bits = B2W.ToBits((ushort)value);
+                            bool[] bits = B2W.ToBools((ushort)value);
                             i.SetOutput(bits[idx]);
                             bit_storagy.Add(addr, bits);
                         }

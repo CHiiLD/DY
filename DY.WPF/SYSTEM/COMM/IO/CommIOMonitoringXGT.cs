@@ -84,44 +84,40 @@ namespace DY.WPF.SYSTEM.COMM
         public override async Task UpdateIOAsync()
         {
             IProtocol response;
-            IPostAsync postbox;
+            IPostAsync mailBox;
             string error_msg;
 
             foreach (var request in Protocols)
             {
+                //init
                 error_msg = null;
                 response = null;
-                postbox = CClient.Socket as IPostAsync;
-#if DEBUG
+                mailBox = CClient.Socket as IPostAsync;
+                //post
                 try
                 {
-#endif
-                Delivery delivery = await postbox.PostAsync(request);
-                DeliveryError delivery_err = delivery.Error;
-                switch (delivery_err)
-                {
-                    case DeliveryError.SUCCESS:
-                        response = delivery.Package as IProtocol;
-                        break;
-                    case DeliveryError.DISCONNECT:
-                        CClient.ChangedCommStatus(false);
-                        throw new Exception(delivery_err.ToString());
-                    case DeliveryError.WRITE_TIMEOUT:
-                    case DeliveryError.READ_TIMEOUT:
-                        throw new Exception(delivery_err.ToString());
-                }
-#if DEBUG
+                    Delivery delivery = await mailBox.PostAsync(request);
+                    DeliveryError delivery_err = delivery.Error;
+                    switch (delivery_err)
+                    {
+                        case DeliveryError.SUCCESS:
+                            response = delivery.Package as IProtocol;
+                            break;
+                        case DeliveryError.DISCONNECT:
+                            CClient.ChangedCommStatus(false);
+                            throw new Exception(delivery_err.ToString());
+                        case DeliveryError.WRITE_TIMEOUT:
+                        case DeliveryError.READ_TIMEOUT:
+                            throw new Exception(delivery_err.ToString());
+                    }
                 }
                 catch (Exception exception)
                 {
                     LOG.Debug(CClient.Summary + " UpdateIOAsync 예외처리 메세지는 이하와 같음: " + exception.Message
                         + exception.StackTrace);
-                    response = null;
-                }
-#endif
-                if (response == null)
                     continue;
-#if DEBUG
+                }
+                //find error
                 switch (CClient.CommType)
                 {
                     case DYDeviceCommType.SERIAL:
@@ -135,17 +131,13 @@ namespace DY.WPF.SYSTEM.COMM
                     default:
                         throw new NotImplementedException();
                 }
-
                 if (!String.IsNullOrEmpty(error_msg))
                 {
                     LOG.Debug(CClient.Summary + " 프로토콜 에러 발생: " + error_msg);
                     continue;
                 }
-
+                //update excel
                 Dictionary<string, object> storage = response.GetStorage();
-                if (storage == null || storage.Count == 0)
-                    System.Diagnostics.Debug.Assert(false);
-#endif
                 await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
                 {
                     XGTProtocolHelper.Fill(storage, CommIOData);

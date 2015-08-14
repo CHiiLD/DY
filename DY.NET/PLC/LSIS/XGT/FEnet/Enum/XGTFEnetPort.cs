@@ -1,11 +1,11 @@
 ﻿namespace DY.NET.LSIS.XGT
 {
     /// <summary>
-    /// XGT PLC 이더넷 통신에서 사용하는 포트 숫자
+    /// XGT FEnet - 이더넷 통신에서 사용하는 포트 값
     /// </summary>
     public enum XGTFEnetPort : int
     {
-        TCP = 2004,
-        UDP = 2005
+        TCP = 2004,//사용함
+        UDP = 2005 //사용안함
     }
 }

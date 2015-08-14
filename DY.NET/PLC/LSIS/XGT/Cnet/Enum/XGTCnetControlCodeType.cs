@@ -1,11 +1,9 @@
-﻿/*
- * 작성자: CHILD	
- * 기능: Cnet 전용 통신에 사용되는 프레임의 컨트롤 코드의 타입 열거 클래스
- * 날짜: 2015-03-25
- */
-
-namespace DY.NET.LSIS.XGT
+﻿namespace DY.NET.LSIS.XGT
 {
+    /// <summary>
+    /// XGT Cnet - 프로토콜 프레임 헤더
+    /// 사용설명서_XGT_Cnet_국문_V2.8(7.2.3 직접변수 개별쓰기(W(w)SS))
+    /// </summary>
     public enum XGTCnetCCType : byte
     {
         ENQ = 0x05, //요청 시작 코드
@@ -17,6 +15,11 @@ namespace DY.NET.LSIS.XGT
 
     public static class XGTCnetCCTypeExtension
     {
+        /// <summary>
+        /// XGTCnetCCType 변수를 바이트로 변환한다.
+        /// </summary>
+        /// <param name="type"></param>
+        /// <returns></returns>
         public static byte ToByte(this XGTCnetCCType type)
         {
             return (byte)type;

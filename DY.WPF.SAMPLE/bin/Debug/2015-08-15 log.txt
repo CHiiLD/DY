@@ -1,0 +1,114 @@
+02:07:10 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 통신 접속 성공
+
+02:07:13 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+02:07:21 DY.WPF.SYSTEM.COMM.ACommIOMonitoringStrategy
+COM6 9600-8-N-1 업데이트 루프 시작
+
+02:10:32 DY.WPF.SYSTEM.COMM.ACommIOMonitoringStrategy
+COM6 9600-8-N-1 업데이트 루프 시작
+
+02:12:14 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 통신 접속 성공
+
+02:12:16 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+02:12:26 DY.WPF.SYSTEM.COMM.ACommIOMonitoringStrategy
+COM6 115200-8-N-1 업데이트 루프 시작
+
+02:12:52 DY.WPF.SYSTEM.COMM.ACommIOMonitoringStrategy
+COM6 115200-8-N-1 업데이트 루프 시작
+
+02:13:03 DY.WPF.SYSTEM.COMM.ACommIOMonitoringStrategy
+COM6 115200-8-N-1 업데이트 루프 시작
+
+02:13:06 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+COM6 115200-8-N-1 UpdateIOAsync 예외처리 메세지는 이하와 같음: 작업이 취소되었습니다.   위치: System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   위치: System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   위치: DY.NET.ASocketCover.<WriteAsync>d__0.MoveNext() 파일 c:\dev\github\DY\DY.NET\PLC\ASocketCover.cs:줄 60
+--- 예외가 throw된 이전 위치의 스택 추적 끝 ---
+   위치: System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   위치: System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   위치: System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   위치: DY.NET.ASocketCover.<PostAsync>d__9.MoveNext() 파일 c:\dev\github\DY\DY.NET\PLC\ASocketCover.cs:줄 93
+--- 예외가 throw된 이전 위치의 스택 추적 끝 ---
+   위치: System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   위치: System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   위치: System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   위치: DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT.<UpdateIOAsync>d__7.MoveNext() 파일 c:\dev\github\DY\DY.WPF\SYSTEM\COMM\IO\CommIOMonitoringXGT.cs:줄 99
+
+02:13:09 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+COM6 115200-8-N-1 UpdateIOAsync 예외처리 메세지는 이하와 같음: 작업이 취소되었습니다.   위치: System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   위치: System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   위치: DY.NET.ASocketCover.<WriteAsync>d__0.MoveNext() 파일 c:\dev\github\DY\DY.NET\PLC\ASocketCover.cs:줄 60
+--- 예외가 throw된 이전 위치의 스택 추적 끝 ---
+   위치: System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   위치: System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   위치: System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   위치: DY.NET.ASocketCover.<PostAsync>d__9.MoveNext() 파일 c:\dev\github\DY\DY.NET\PLC\ASocketCover.cs:줄 93
+--- 예외가 throw된 이전 위치의 스택 추적 끝 ---
+   위치: System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   위치: System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   위치: System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   위치: DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT.<UpdateIOAsync>d__7.MoveNext() 파일 c:\dev\github\DY\DY.WPF\SYSTEM\COMM\IO\CommIOMonitoringXGT.cs:줄 99
+
+02:13:14 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+COM6 115200-8-N-1 UpdateIOAsync 예외처리 메세지는 이하와 같음: 작업이 취소되었습니다.   위치: System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   위치: System.Runtime.CompilerServices.TaskAwaiter.GetResult()
+   위치: DY.NET.ASocketCover.<WriteAsync>d__0.MoveNext() 파일 c:\dev\github\DY\DY.NET\PLC\ASocketCover.cs:줄 60
+--- 예외가 throw된 이전 위치의 스택 추적 끝 ---
+   위치: System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   위치: System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   위치: System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   위치: DY.NET.ASocketCover.<PostAsync>d__9.MoveNext() 파일 c:\dev\github\DY\DY.NET\PLC\ASocketCover.cs:줄 93
+--- 예외가 throw된 이전 위치의 스택 추적 끝 ---
+   위치: System.Runtime.ExceptionServices.ExceptionDispatchInfo.Throw()
+   위치: System.Runtime.CompilerServices.TaskAwaiter.ThrowForNonSuccess(Task task)
+   위치: System.Runtime.CompilerServices.TaskAwaiter.HandleNonSuccessAndDebuggerNotification(Task task)
+   위치: System.Runtime.CompilerServices.TaskAwaiter`1.GetResult()
+   위치: DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT.<UpdateIOAsync>d__7.MoveNext() 파일 c:\dev\github\DY\DY.WPF\SYSTEM\COMM\IO\CommIOMonitoringXGT.cs:줄 99
+
+02:20:50 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 통신 접속 성공
+
+02:20:54 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+02:21:14 DY.WPF.SYSTEM.COMM.ACommIOMonitoringStrategy
+COM6 115200-8-N-1 업데이트 루프 시작
+
+02:21:36 DY.WPF.SYSTEM.COMM.ACommIOMonitoringStrategy
+COM6 115200-8-N-1 업데이트 루프 시작
+
+02:21:40 DY.WPF.SYSTEM.COMM.ACommIOMonitoringStrategy
+COM6 115200-8-N-1 업데이트 루프 시작
+
+02:22:17 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 통신 접속 해제
+
+02:22:19 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.
+
+02:22:25 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 통신 접속 해제
+
+02:22:28 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.
+
+02:22:37 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 통신 접속 해제
+
+02:22:39 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.(time out)
+

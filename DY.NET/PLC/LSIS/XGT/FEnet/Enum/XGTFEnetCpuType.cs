@@ -1,8 +1,10 @@
 ﻿namespace DY.NET.LSIS.XGT
 {
     /// <summary>
-    /// PLC INFO
+    /// XGT FEnet - 헤더 구조(Application Header Format) - PLC Info 
     /// LSIS XGT 시피유 종류
+    /// 
+    /// 사용설명서_XGT FEnet_국문_V2.0(8.1.2 프레임 구조)
     /// </summary>
     public enum XGTFEnetCpuType : byte
     {

@@ -1,7 +1,7 @@
 ﻿namespace DY.NET.LSIS.XGT
 {
     /// <summary>
-    /// XGT 시피유 종류
+    /// XGT 시피유 시리즈
     /// </summary>
     public enum XGKCpuType
     {

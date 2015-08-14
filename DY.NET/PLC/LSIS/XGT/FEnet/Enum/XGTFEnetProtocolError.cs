@@ -1,9 +1,11 @@
 ﻿namespace DY.NET.LSIS.XGT
 {
     /// <summary>
-    /// FEnet 에러코드(1 byte) 
+    /// FEnet 에러코드(2 byte) 
     /// 실제 프레임 상에서 값을 확인할 경우 16진수 워드 데이터를 표현할 때 바이트 스왑이 발생하여 
-    /// 상, 하 바이트가 바뀌어 표현됩니다 0x0054 -> 0x5400
+    /// 상, 하 바이트가 바뀌어 표현된다 0x0054 -> 0x5400
+    /// 
+    /// 사용설명서_XGT FEnet_국문_V2.0(10.4 통신 에러코드)
     /// </summary>
     public enum XGTFEnetProtocolError : ushort
     {
@@ -26,6 +28,6 @@
         //메뉴얼에 실려있지 않아 직접 문의해서 알아낸 에러들 
         DEVICE_TYPE = 0x0010,
         ADDRESS_FORMAT = 0x0011,
-        DATA_TYPE2 = 0x0012, 
+        DATA_TYPE2 = 0x0012,
     }
 }

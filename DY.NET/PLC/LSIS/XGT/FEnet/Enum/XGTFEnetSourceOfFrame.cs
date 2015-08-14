@@ -1,7 +1,7 @@
 ﻿namespace DY.NET.LSIS.XGT
 {
     /// <summary>
-    /// PC -> PLC 통신 / PLC -> PC 통신
+    /// XGT FEnet - 통신 흐름 
     /// </summary>
     public enum XGTFEnetSourceOfFrame : byte
     {
@@ -11,19 +11,24 @@
 
     public static class XGTFEnetSourceOfFrameExtension
     {
-        public static byte ToByte(this XGTFEnetSourceOfFrame sf)
+        /// <summary>
+        /// XGTFEnetSourceOfFrame 객체를 byte로 변환한다.
+        /// </summary>
+        /// <param name="srcOfFrame">XGTFEnetSourceOfFrame</param>
+        /// <returns>byte</returns>
+        public static byte ToByte(this XGTFEnetSourceOfFrame srcOfFrame)
         {
-            byte ret = 0;
-            switch (sf)
+            byte stream = 0;
+            switch (srcOfFrame)
             {
                 case XGTFEnetSourceOfFrame.PC2PLC:
-                    ret = (byte)XGTFEnetSourceOfFrame.PC2PLC;
+                    stream = (byte)XGTFEnetSourceOfFrame.PC2PLC;
                     break;
                 case XGTFEnetSourceOfFrame.PLC2PC:
-                    ret = (byte)XGTFEnetSourceOfFrame.PLC2PC;
+                    stream = (byte)XGTFEnetSourceOfFrame.PLC2PC;
                     break;
             }
-            return ret;
+            return stream;
         }
     }
 }

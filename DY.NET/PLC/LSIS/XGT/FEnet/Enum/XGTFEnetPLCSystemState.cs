@@ -1,7 +1,7 @@
 ﻿namespace DY.NET.LSIS.XGT
 {
     /// <summary>
-    /// 프레임 구조 -> 헤더 구조 -> PLC Info -> Bit (08-12) 
+    /// XGT FEnet - 헤더 구조(Application Header Format) - PLC Info - Bit (08-12) 
     /// 시스템 상태
     /// </summary>
     public enum XGTFEnetPLCSystemState

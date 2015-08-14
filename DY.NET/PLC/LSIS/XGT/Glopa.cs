@@ -11,8 +11,8 @@ namespace DY.NET.LSIS.XGT
         /// <summary>
         /// 매겨변수의 문자열이 그로파 타입의 변수이름인지 판별한다.
         /// </summary>
-        /// <param name="name"> 그로파 변수 이름 </param>
-        /// <returns> 그로파 변수의 포맷이 맞다면 true, 아니면 false </returns>
+        /// <param name="name">그로파 변수 이름</param>
+        /// <returns>그로파 변수의 포맷이 맞다면 true, 아니면 false</returns>
         public static bool IsGlopaType(string name)
         {
             bool ret = false;

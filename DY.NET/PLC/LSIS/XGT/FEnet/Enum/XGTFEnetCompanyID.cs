@@ -1,7 +1,8 @@
 ﻿namespace DY.NET.LSIS.XGT
 {
     /// <summary>
-    /// LSIS XGT 표기
+    /// XGT FEnet - 프레임 구조 'LSIS-XGT'
+    /// 사용설명서_XGT FEnet_국문_V2.0(8.1.2 프레임 구조)
     /// </summary>
     public enum XGTFEnetCompanyID
     {
@@ -11,23 +12,28 @@
 
     public static class XGTFEnetCompanyIDExtension
     {
+        /// <summary>
+        /// XGTFEnetCompanyID 변수에 해당하는 ASCII CODE를 반환한다.
+        /// </summary>
+        /// <param name="id">XGTFEnetCompanyID</param>
+        /// <returns>ASCII CODE</returns>
         public static byte[] ToBytes(this XGTFEnetCompanyID id)
         {
-            byte[] ret = new byte[8];
+            byte[] ascii_code = new byte[8];
             switch(id)
             {
                 case XGTFEnetCompanyID.LSIS_XGT:
-                    ret[0] = (byte)'L';
-                    ret[1] = (byte)'S';
-                    ret[2] = (byte)'I';
-                    ret[3] = (byte)'S';
-                    ret[4] = (byte)'-';
-                    ret[5] = (byte)'X';
-                    ret[6] = (byte)'G';
-                    ret[7] = (byte)'T';
+                    ascii_code[0] = (byte)'L';
+                    ascii_code[1] = (byte)'S';
+                    ascii_code[2] = (byte)'I';
+                    ascii_code[3] = (byte)'S';
+                    ascii_code[4] = (byte)'-';
+                    ascii_code[5] = (byte)'X';
+                    ascii_code[6] = (byte)'G';
+                    ascii_code[7] = (byte)'T';
                     break;
             }
-            return ret;
+            return ascii_code;
         }
     }
 }

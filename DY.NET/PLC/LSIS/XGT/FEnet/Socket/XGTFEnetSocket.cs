@@ -2,6 +2,8 @@
 using System.Net.Sockets;
 using NLog;
 using System.IO;
+using System.Threading.Tasks;
+using System.Collections.Generic;
 
 namespace DY.NET.LSIS.XGT
 {
@@ -10,11 +12,12 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public sealed partial class XGTFEnetSocket : ASocketCover
     {
-        private readonly byte[] EMPTY_BYTE = new byte[1];
-        private const string ERROR_TCPCLIENT_IS_NULL = "TcpClient instance is null.";
         private static Logger LOG = LogManager.GetCurrentClassLogger();
-        private string m_Host;
-        private int m_Port;
+
+        private const string ERROR_TCPCLIENT_IS_NULL = "TcpClient instance is null.";
+
+        private string m_Host; //IP
+        private int m_Port;    //포트
         private volatile TcpClient m_TcpClient;
 
         /// <summary>
@@ -36,9 +39,9 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
-        /// 접속 상태
+        /// 통신 가능 여부를 파악한다.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>통신 가능 여부</returns>
         public override bool IsConnected()
         {
             if (m_TcpClient == null)
@@ -57,9 +60,9 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
-        /// 접속 시도
+        /// TcpClient을 통해 서버와 접속 시도
         /// </summary>
-        /// <returns></returns>
+        /// <returns>접속 시도 결과</returns>
         public override bool Connect()
         {
             m_TcpClient = new TcpClient(m_Host, m_Port);
@@ -70,7 +73,7 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
-        /// 접속 해제
+        /// TcpClient 연결 해제
         /// </summary>
         public override void Close()
         {
@@ -99,9 +102,10 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
-        /// 헤더부분의 Length 부분과 실제 Instruct Size를 계산하여 일치하는지 계산 
+        /// 서버로부터 수신할 데이터가 더 있는지 검사한다.
         /// </summary>
-        /// <returns>일치할 시(프로토콜을 모두 전송 받았을 때)true, 아니면 false</returns>
+        /// <param name="request">요청 프로토콜</param>
+        /// <returns>수신할 데이터가 더 있다면 true, 아니면 false</returns>
         protected override bool DoReadAgain(AProtocol request)
         {
             ushort target = 0, sum = 0;
@@ -114,12 +118,12 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
-        /// 요청 프로토콜과 ASCII 데이터로 응답 프로토콜을 생성하고 결과를 이벤트로 전달
+        /// XGTFEnetProtocol 응답 프로토콜 생성
         /// </summary>
-        /// <param name="request">요청 프로토콜 객체</param>
+        /// <param name="request">요청 프로토콜</param>
         /// <param name="recv_data">ASCII 데이터</param>
         /// <returns></returns>
-        protected override AProtocol ReportResponseProtocol(AProtocol request, byte[] recv_data)
+        protected override AProtocol CreateResponseProtocol(AProtocol request, byte[] recv_data)
         {
             XGTFEnetProtocol resp = request.MirrorProtocol as XGTFEnetProtocol; //응답 객체 생성 전에 재활용이 가능한지 검토
             if (request.MirrorProtocol == null)
@@ -128,6 +132,22 @@ namespace DY.NET.LSIS.XGT
                 resp.ASCIIProtocol = recv_data;
             resp.AnalysisProtocol();
             return resp;
+        }
+
+        /// <summary>
+        /// 서버와 통신하여 통신 속도를 측정
+        /// </summary>
+        /// <returns> 
+        /// 0 >=: Milliseconds
+        /// 0 <: DeliveryError
+        /// </returns>
+        public override async Task<long> PingAsync()
+        {
+            Dictionary<string, object> dictionary = new Dictionary<string, object>();
+            dictionary.Add("%DW0", null);
+            XGTFEnetProtocol cnet = XGTFEnetProtocol.NewRSSProtocol(typeof(ushort), 00, dictionary);
+            Delivery delivery = await PostAsync(cnet);
+            return delivery.Error == DeliveryError.SUCCESS ? delivery.DelivaryTime.ElapsedMilliseconds : -1;
         }
     }
 }

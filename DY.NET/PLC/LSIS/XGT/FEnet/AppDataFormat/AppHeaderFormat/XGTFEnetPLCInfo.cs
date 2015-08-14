@@ -1,15 +1,19 @@
 ﻿namespace DY.NET.LSIS.XGT
 {
     /// <summary>
-    /// FEnet 헤더 구조 중 PLC Info의 데이터 구조체
+    /// XGT FEnet - 헤더 구조 중 PLC Info의 데이터 구조체
     /// </summary>
     public class XGTFEnetPLCInfo
     {
-        public XGTFEnetCpuType CpuType; //bit00-05 시피유 타입
-        public XGTFEnetClass Class; // 7bit
-        public XGTFEnetCpuState CpuState; //8bit 
-        public XGTFEnetPLCSystemState PLCState; //bit08-12 시스템 상태
-        
+        public XGTFEnetCpuType CpuType { get; private set; } //bit00-05 시피유 타입
+        public XGTFEnetClass Class { get; private set; } // 7bit
+        public XGTFEnetCpuState CpuState { get; private set; } //8bit 
+        public XGTFEnetPLCSystemState PLCState { get; private set; } //bit08-12 시스템 상태
+
+        /// <summary>
+        /// 복사생성자
+        /// </summary>
+        /// <param name="that">복사 타겟</param>
         public XGTFEnetPLCInfo(XGTFEnetPLCInfo that)
         {
             CpuType = that.CpuType;
@@ -19,7 +23,8 @@
         }
 
         /// <summary>
-        /// byte array로 초기화
+        /// 생성자
+        /// 응답 프로토콜
         /// </summary>
         /// <param name="data"></param>
         public XGTFEnetPLCInfo(byte[] data)
@@ -31,7 +36,8 @@
         }
 
         /// <summary>
-        /// 셋팅
+        /// 생성자
+        /// 요청 프로토콜 
         /// </summary>
         public XGTFEnetPLCInfo(XGTFEnetCpuType cpy_type, XGTFEnetClass clazz, XGTFEnetCpuState cpu_st, XGTFEnetPLCSystemState sys_st)
         {
@@ -42,14 +48,14 @@
         }
 
         /// <summary>
-        /// byte array로 변환
+        /// XGTFEnetPLCInfo 데이터를 byte[]로 변환한다.
         /// </summary>
-        /// <returns></returns>
+        /// <returns>2byte data</returns>
         public byte[] ToByteArray()
         {
             byte[] ret = new byte[2];
             ret[0] = (byte)((byte)CpuType | (byte)Class | (byte)CpuState);
-            ret[1] = (byte) PLCState;
+            ret[1] = (byte)PLCState;
             return ret;
         }
     }

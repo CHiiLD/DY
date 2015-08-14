@@ -1,7 +1,8 @@
 ﻿namespace DY.NET.LSIS.XGT
 {
     /// <summary>
-    /// 명령어 일람
+    /// XGT FEnet - 명령어
+    /// 사용설명서_XGT FEnet_국문_V2.0(8.1.3 명령어 일람)
     /// </summary>
     public enum XGTFEnetCommand : ushort
     {
@@ -13,6 +14,11 @@
 
     public static class XGTFEnetCommandExtension
     {
+        /// <summary>
+        /// XGTFEnetCommand 변수를 byte[]로 변환한다.
+        /// </summary>
+        /// <param name="cmd">XGTFEnetCommand</param>
+        /// <returns>2byte</returns>
         public static byte[] ToBytes(this XGTFEnetCommand cmd)
         {
             byte[] ret = new byte[2];

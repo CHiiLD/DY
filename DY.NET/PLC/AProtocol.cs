@@ -14,16 +14,16 @@ namespace DY.NET
         //데이터 박스
         protected Dictionary<string, object> StorageDictionary = new Dictionary<string, object>();
 
-        protected byte[] ProtocolData;
+        protected byte[] ASCIIData;
         // ASCII 데이터
         public byte[] ASCIIProtocol
         {
             get
             {
-                if (ProtocolData == null) AssembleProtocol();
-                return ProtocolData;
+                if (ASCIIData == null) AssembleProtocol();
+                return ASCIIData;
             }
-            internal set { ProtocolData = value; }
+            internal set { ASCIIData = value; }
         }
 
         // AProtocol 클래스가 응답클래스로 쓰인 경우 요청프로토콜 클래스를 담고 
@@ -45,10 +45,11 @@ namespace DY.NET
             this.Tag = that.Tag;
             this.Description = that.Description;
             this.UserData = that.UserData;
-
+            this.TType = that.TType;
             this.MirrorProtocol = that.MirrorProtocol;
-            if (that.ProtocolData != null)
-                this.ProtocolData = (byte[])that.ProtocolData.Clone();
+
+            if (that.ASCIIData != null)
+                this.ASCIIData = (byte[])that.ASCIIData.Clone();
         }
 
         public Dictionary<string, object> GetStorage()

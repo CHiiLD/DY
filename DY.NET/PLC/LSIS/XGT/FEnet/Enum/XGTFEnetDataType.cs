@@ -3,7 +3,7 @@ namespace DY.NET.LSIS.XGT
 {
     /// <summary>
     /// 데이터 타입
-    /// - 직접 변수를 읽거나 쓰고자 할 경우 명령어 타입으로 데이터 타입을 지정합니다.
+    /// 사용설명서_XGT FEnet_국문_V2.0(8.1.4 데이터 타입)
     /// </summary>
     public enum XGTFEnetDataType : ushort
     {
@@ -15,45 +15,51 @@ namespace DY.NET.LSIS.XGT
         CONTINUATION = 0x14 //연속
     }
 
-    /// <summary>
-    /// XGTFEnetDataType 변수를 byte array로 변환
-    /// </summary>
     public static class XGTFEnetDataTypeExtension
     {
+        /// <summary>
+        /// XGTFEnetDataType 변수를 byte[]로 반환한다.
+        /// </summary>
+        /// <param name="type">XGTFEnetDataType</param>
+        /// <returns>2byte</returns>
         public static byte[] ToBytes(this XGTFEnetDataType type)
         {
-            byte[] ret = new byte[2];
-            ret[0] = 0x00;
+            byte[] data_type = new byte[2];
+            data_type[0] = 0x00;
             switch (type)
             {
                 case XGTFEnetDataType.BIT:
-                    ret[1] = (byte)XGTFEnetDataType.BIT;
+                    data_type[1] = (byte)XGTFEnetDataType.BIT;
                     break;
                 case XGTFEnetDataType.BYTE:
-                    ret[1] = (byte)XGTFEnetDataType.BYTE;
+                    data_type[1] = (byte)XGTFEnetDataType.BYTE;
                     break;
                 case XGTFEnetDataType.WORD:
-                    ret[1] = (byte)XGTFEnetDataType.WORD;
+                    data_type[1] = (byte)XGTFEnetDataType.WORD;
                     break;
                 case XGTFEnetDataType.DWORD:
-                    ret[1] = (byte)XGTFEnetDataType.DWORD;
+                    data_type[1] = (byte)XGTFEnetDataType.DWORD;
                     break;
                 case XGTFEnetDataType.LWORD:
-                    ret[1] = (byte)XGTFEnetDataType.LWORD;
+                    data_type[1] = (byte)XGTFEnetDataType.LWORD;
                     break;
                 case XGTFEnetDataType.CONTINUATION:
                     break;
             }
-            return ret;
+            return data_type;
         }
     }
 
     /// <summary>
     /// Type 객체의 확장 클래스 
-    /// 해당 타입을 XGTFEnetDataType 열거형으로 변환
     /// </summary>
     public static class TypeExtension4XGTFEnetDataType
     {
+        /// <summary>
+        /// Type 객체를 XGTFEnetDataType로 변환한다.
+        /// </summary>
+        /// <param name="type">Type</param>
+        /// <returns>XGTFEnetDataType</returns>
         public static XGTFEnetDataType ToXGTFEnetDataType(this Type type)
         {
             XGTFEnetDataType data_type = XGTFEnetDataType.BIT;

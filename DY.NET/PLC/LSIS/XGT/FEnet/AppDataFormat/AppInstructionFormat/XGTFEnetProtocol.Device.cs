@@ -1,18 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 
 namespace DY.NET.LSIS.XGT
 {
-    /// <summary>
-    /// RSB, WSB 프로토콜에서 사용 가능한 디바이스 목록 관리
-    /// </summary>
-    /// <typeparam name="T"></typeparam>
     public partial class XGTFEnetProtocol
     {
-        public static readonly List<char> PossibleRSBList = new List<char>
+        /// <summary>
+        /// XGT FEnet 통신에서 RSB 통신을 할 때 사용할 수 있는 디바이스 목록
+        /// </summary>
+        public static readonly List<char> UsableRSBDeviceNameList = new List<char>
         {
             { 'P' }, 
             { 'M' }, 
@@ -25,7 +20,10 @@ namespace DY.NET.LSIS.XGT
             { 'R' }, 
         };
 
-        public static readonly List<char> PossibleWSBList = new List<char>
+        /// <summary>
+        /// XGT FEnet 통신에서 WSB 통신을 할 때 사용할 수 있는 디바이스 목록
+        /// </summary>
+        public static readonly List<char> UsableWSBDeviceNameList = new List<char>
         {
             { 'P' }, 
             { 'M' }, 

@@ -6,43 +6,53 @@ using System.Linq;
 namespace DY.NET.LSIS.XGT
 {
     /// <summary>
-    /// XGT FEnet 통신 프로토콜 클래스
+    /// XGT FEnet - 프로토콜 클래스
+    /// IProtocol <- AProtocol <- XGTFEnetProtocol
     /// </summary>
     public partial class XGTFEnetProtocol : AProtocol
     {
-        protected const string ERROR_ENQ_IS_NULL_OR_EMPTY = "Enqdatas have problem (null or empty data)";
-        protected const string ERROR_READED_MEM_COUNT_LIMIT = "Enqdatas over limit of count (null or empty data)";
+        private const string ERROR_ENQ_IS_NULL_OR_EMPTY = "Enqdatas have problem (null or empty data)";
+        private const string ERROR_READED_MEM_COUNT_LIMIT = "Enqdatas over limit of count (null or empty data)";
         private const string ERROR_PROTOCOL_SB_DATACNT_LIMIT = "Data count(asc bytes) limited 1400byte";
-        public const int PROTOCOL_SB_MAX_DATA_CNT = 1400;
-        private const int READED_MEM_MAX_COUNT = 16;
-        private const int INSTRUCTION_BASIC_FORMAT_SIZE = 10;
         private const ushort ERROR_STATE_CHECK_0 = 0X00FF;
         private const ushort ERROR_STATE_CHECK_1 = 0XFFFF;
 
+        public const int PROTOCOL_SB_MAX_DATA_CNT = 1400;
+        public const int READED_MEM_MAX_COUNT = 16;
+        public const int INSTRUCTION_BASIC_FORMAT_SIZE = 10;
+
         public XGTFEnetHeader Header { get; private set; } //헤더 
         public ushort BlocCnt { get; private set; } //블록수 
-        public XGTFEnetProtocolError Error { get; internal set; } //error code 1byte
-        public XGTFEnetCommand Command { get; private set; } // read write, reqt resp
-        public XGTFEnetDataType DataType { get; private set; } // data type 
+        public XGTFEnetProtocolError Error { get; internal set; } //에러코드 2byte
+        public XGTFEnetCommand Command { get; private set; } // 명령어
+        public XGTFEnetDataType DataType { get; private set; } // 데이터 타입
 
-        protected XGTFEnetProtocol()
+        /// <summary>
+        /// 생성자
+        /// </summary>
+        private XGTFEnetProtocol()
             : base()
         {
             Error = XGTFEnetProtocolError.OK;
         }
 
+        /// <summary>
+        /// 복사생성자
+        /// </summary>
+        /// <param name="that">복사 타겟</param>
         public XGTFEnetProtocol(XGTFEnetProtocol that)
             : base(that)
         {
-            Header = that.Header;
+            Header = new XGTFEnetHeader(that.Header);
             BlocCnt = that.BlocCnt;
             Error = that.Error;
             Command = that.Command;
-            TType = that.TType;
+            DataType = that.DataType;
         }
 
         /// <summary>
-        /// 요청 프로토콜 정적 생성 팩토리 메서드
+        /// 정적 생성 팩토리 메서드
+        /// 요청 프로토콜 
         /// </summary>
         /// <param name="header">해더 정보</param>
         /// <param name="cmd">XGTFEnetCommand 열거</param>
@@ -58,7 +68,8 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
-        /// 응답 프로토콜 정적 생성 팩토리 메서드
+        /// 정적 생성 팩토리 메서드
+        /// 응답 프로토콜 
         /// </summary>
         /// <param name="asc_data">바이트 배열 데이터</param>
         /// <param name="reqt">응답 프로토콜 객체</param>
@@ -68,7 +79,7 @@ namespace DY.NET.LSIS.XGT
             XGTFEnetProtocol instance = new XGTFEnetProtocol();
             instance.StorageDictionary = new Dictionary<string, object>(reqt.StorageDictionary);
             instance.MirrorProtocol = reqt;
-            instance.ProtocolData = asc_data;
+            instance.ASCIIData = asc_data;
             instance.Tag = reqt.Tag;
             instance.UserData = reqt.UserData;
             instance.Description = reqt.Description;
@@ -97,61 +108,63 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
+        /// 정적 생성 팩토리 메서드
         /// 직접 변수 개별 읽기 RSS
-        /// PLC에서 데이터 타입에 맞게 직접 변수이름을 지정하여 읽는 요청의 프로토콜 입니다
-        /// 한번에 16개의 독립된 디바이스 메모리를 읽을 수가 있습니다
-        /// <param name="header">XGTFEnetHeader 객체</param>
-        /// <param name="pvalues">PValue 리스트</param>
-        /// <returns>XGTFEnetProtocol 객체</returns>
-        private static XGTFEnetProtocol NewRSSProtocol(Type type, XGTFEnetHeader header, Dictionary<string, object> datas)
-        {
-            if (datas.Count == 0 || datas == null)
-                throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
-            if (datas.Count > READED_MEM_MAX_COUNT)
-                throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
-
-            var instance = CreateRequestProtocol(header, XGTFEnetCommand.READ_REQT, (ushort)datas.Count);
-            instance.TType = type;
-            instance.StorageDictionary = new Dictionary<string, object>(datas);
-            instance.DataType = type.ToXGTFEnetDataType();
-            return instance;
-        }
-
-        /// <summary>
-        /// 직접 변수 개별 쓰기 WSS
-        /// PLC 의 메모리 번지를 직접 지정하여 데이터 타입에 맞게 값을 쓰는 프로토콜입니다.
-        /// <param name="header">XGTFEnetHeader 객체</param>
-        /// <param name="pvalues">PValue 리스트</param>
-        /// <returns>XGTFEnetProtocol 객체</returns>
-        private static XGTFEnetProtocol NewWSSProtocol(Type type, XGTFEnetHeader header, Dictionary<string, object> datas)
-        {
-            if (datas.Count == 0 || datas == null)
-                throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
-            if (datas.Count > READED_MEM_MAX_COUNT)
-                throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
-
-            var instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, (ushort)datas.Count);
-            instance.TType = type;
-            instance.StorageDictionary = new Dictionary<string, object>(datas);
-            instance.DataType = type.ToXGTFEnetDataType();
-            return instance;
-        }
-
-        /// <summary>
-        /// 직접 변수 연속 읽기 RSB
-        /// PLC 에서 지정된 번지의 메모리에서 지정된 개수만큼 데이터를 일렬로 읽는 기능을 제공하는 프로토콜 입니다
-        /// 연속 읽기에는 바이트 타입 직접변수만 가능합니다
         /// </summary>
-        /// <param name="header">XGTFEnetHeader 객체</param>
-        /// <param name="name">READ 시작점</param>
-        /// <param name="block_cnt">읽을 개수 (최대 16개)</param>
-        /// <returns>XGTFEnetProtocol 객체</returns>
+        /// <param name="type">메모리 타입</param>
+        /// <param name="header">XGTFEnetHeader</param>
+        /// <param name="storage">변수이름과 메모리 주소가 담긴 Dictionary, 최대 16개까지 등록가능</param>
+        /// <returns>RSS-XGTFEnetProtocol 객체</returns>
+        private static XGTFEnetProtocol NewRSSProtocol(Type type, XGTFEnetHeader header, Dictionary<string, object> storage)
+        {
+            if (storage.Count == 0 || storage == null)
+                throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
+            if (storage.Count > READED_MEM_MAX_COUNT)
+                throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
+
+            var instance = CreateRequestProtocol(header, XGTFEnetCommand.READ_REQT, (ushort)storage.Count);
+            instance.TType = type;
+            instance.StorageDictionary = new Dictionary<string, object>(storage);
+            instance.DataType = type.ToXGTFEnetDataType();
+            return instance;
+        }
+
+        /// <summary>
+        /// 정적 생성 팩토리 메서드
+        /// 직접 변수 개별 쓰기 WSS
+        /// <param name="type">메모리 타입</param>
+        /// <param name="header">XGTFEnetHeader</param>
+        /// <param name="storage">변수이름과 메모리 주소가 담긴 Dictionary, 최대 16개까지 등록가능</param>
+        /// <returns>WSS-XGTFEnetProtocol 객체</returns>
+        private static XGTFEnetProtocol NewWSSProtocol(Type type, XGTFEnetHeader header, Dictionary<string, object> storage)
+        {
+            if (storage.Count == 0 || storage == null)
+                throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
+            if (storage.Count > READED_MEM_MAX_COUNT)
+                throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
+
+            var instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, (ushort)storage.Count);
+            instance.TType = type;
+            instance.StorageDictionary = new Dictionary<string, object>(storage);
+            instance.DataType = type.ToXGTFEnetDataType();
+            return instance;
+        }
+
+        /// <summary>
+        /// 정적 생성 팩토리 메서드
+        /// 직접 변수 연속 읽기 RSB
+        /// </summary>
+        /// <param name="type">메모리 타입</param>
+        /// <param name="header">XGTFEnetHeader</param>
+        /// <param name="name">읽어들일 시작 메모리 주소</param>
+        /// <param name="block_cnt">읽을 개수(최대 16개)</param>
+        /// <returns>RSB-XGTFEnetProtocol 객체</returns>
         private static XGTFEnetProtocol NewRSBProtocol(Type type, XGTFEnetHeader header, string name, ushort block_cnt)
         {
             string gname = name;
             if (!(type == typeof(Byte) || type == typeof(SByte))) //BYTE타입만 가능
                 throw new ArgumentException("Rsb communication only supported byte data type");
-            if (!PossibleRSBList.Contains(name[1]))
+            if (!UsableRSBDeviceNameList.Contains(name[1]))
                 throw new ArgumentException("this device type can not service");
             var instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, 1);
             instance.TType = type;
@@ -168,28 +181,29 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
+        /// 정적 생성 팩토리 메서드
         /// 직접 변수 연속 쓰기 WSB
-        /// PLC 의 메모리에서 지정된 번지로부터 지정된 길이만큼 데이터를 일렬로 쓰는 기능의 프로토콜 입니다
+        /// <param name="type">메모리 타입</param>
         /// <param name="header">XGTFEnetHeader 객체</param>
-        /// <param name="pvalues">PValue 리스트</param>
-        /// <returns>XGTFEnetProtocol 객체</returns>
-        private static XGTFEnetProtocol NewWSBProtocol(Type type, XGTFEnetHeader header, Dictionary<string, object> datas)
+        /// <param name="storage">변수이름과 메모리 주소가 담긴 Dictionary, 최대 16개까지 등록가능</param>
+        /// <returns>RSB-XGTFEnetProtocol 객체</returns>
+        private static XGTFEnetProtocol NewWSBProtocol(Type type, XGTFEnetHeader header, Dictionary<string, object> storage)
         {
-            if (datas.Count == 0 || datas == null)
+            if (storage.Count == 0 || storage == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
             if (!(type == typeof(Byte) || type == typeof(SByte))) //BYTE타입만 가능
                 throw new ArgumentException("Rsb communication only supported byte data type");
-            if (!PossibleRSBList.Contains(datas.First().Key[1]))
+            if (!UsableRSBDeviceNameList.Contains(storage.First().Key[1]))
                 throw new ArgumentException("this device type can not service");
             var instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, 1);
             instance.TType = type;
-            instance.StorageDictionary = new Dictionary<string, object>(datas);
+            instance.StorageDictionary = new Dictionary<string, object>(storage);
             instance.DataType = XGTFEnetDataType.CONTINUATION;
             return instance;
         }
 
         /// <summary>
-        /// 맴머 변수의 정보를 토대로 원시 프로토콜 데이터를 계산합니다.
+        /// 요청 프로토콜 - 프로토콜 프레임 정보로 스트림 버퍼에 쓸 ASCII 데이터를 구축한다.
         /// </summary>
         public override void AssembleProtocol()
         {
@@ -225,7 +239,7 @@ namespace DY.NET.LSIS.XGT
                     asc_data.AddRange(CV2BR.ToBytes(d.Key.Length, typeof(UInt16))); //변수 길이
                     asc_data.AddRange(CV2BR.ToBytes(d.Key)); //변수 이름
                     asc_data.AddRange(CV2BR.ToBytes(TType.ToSize(), typeof(UInt16))); //변수 크기
-                     asc_data.AddRange(CV2BR.ToBytes(d.Value)); //변수 값
+                    asc_data.AddRange(CV2BR.ToBytes(d.Value)); //변수 값
                 }
             }
             //WSB
@@ -245,30 +259,30 @@ namespace DY.NET.LSIS.XGT
                     throw new Exception(ERROR_PROTOCOL_SB_DATACNT_LIMIT);
             }
             var header_byte_data = Header.GetBytes(asc_data.Count());
-            ProtocolData = new byte[header_byte_data.Length + asc_data.Count()];
-            Buffer.BlockCopy(header_byte_data, 0, ProtocolData, 0, header_byte_data.Length);
-            Buffer.BlockCopy(asc_data.ToArray(), 0, ProtocolData, header_byte_data.Length, asc_data.Count);
+            ASCIIData = new byte[header_byte_data.Length + asc_data.Count()];
+            Buffer.BlockCopy(header_byte_data, 0, ASCIIData, 0, header_byte_data.Length);
+            Buffer.BlockCopy(asc_data.ToArray(), 0, ASCIIData, header_byte_data.Length, asc_data.Count);
         }
 
         /// <summary>
-        /// 받은 원시 프로토콜 데이터를 바탕으로 프로토콜 구조와 데이터를 파악합니다.
+        /// 응답 프로토콜 - ASCII 데이터를 분석하여 프로토콜 프레임 정보를 파악한다.
         /// </summary>
         public override void AnalysisProtocol()
         {
-            Header = XGTFEnetHeader.CreateXGTFEnetHeader(ProtocolData);
-            Command = (XGTFEnetCommand)CV2BR.ToValue(new byte[] { ProtocolData[20], ProtocolData[21] }, typeof(UInt16));
-            DataType = (XGTFEnetDataType)CV2BR.ToValue(new byte[] { ProtocolData[22], ProtocolData[23] }, typeof(UInt16));
-            ushort err_state = (ushort)CV2BR.ToValue(new byte[] { ProtocolData[26], ProtocolData[27] }, typeof(UInt16)); //에러 상태
-            ushort bloc_errcode = (ushort)CV2BR.ToValue(new byte[] { ProtocolData[28], ProtocolData[29] }, typeof(UInt16)); //에러코드 or 블록 수 
+            Header = XGTFEnetHeader.CreateXGTFEnetHeader(ASCIIData);
+            Command = (XGTFEnetCommand)CV2BR.ToValue(new byte[] { ASCIIData[20], ASCIIData[21] }, typeof(UInt16));
+            DataType = (XGTFEnetDataType)CV2BR.ToValue(new byte[] { ASCIIData[22], ASCIIData[23] }, typeof(UInt16));
+            ushort err_state = (ushort)CV2BR.ToValue(new byte[] { ASCIIData[26], ASCIIData[27] }, typeof(UInt16)); //에러 상태
+            ushort bloc_errcode = (ushort)CV2BR.ToValue(new byte[] { ASCIIData[28], ASCIIData[29] }, typeof(UInt16)); //에러코드 or 블록 수 
             if (err_state == ERROR_STATE_CHECK_0 || err_state == ERROR_STATE_CHECK_1)
             {
                 Error = (XGTFEnetProtocolError)bloc_errcode;
                 return;
             }
             BlocCnt = bloc_errcode;
-            byte[] data = new byte[ProtocolData.Length - XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE - INSTRUCTION_BASIC_FORMAT_SIZE];
+            byte[] data = new byte[ASCIIData.Length - XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE - INSTRUCTION_BASIC_FORMAT_SIZE];
             int data_idx = 0;
-            Buffer.BlockCopy(ProtocolData, XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE + INSTRUCTION_BASIC_FORMAT_SIZE, data, 0, data.Length);
+            Buffer.BlockCopy(ASCIIData, XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE + INSTRUCTION_BASIC_FORMAT_SIZE, data, 0, data.Length);
             //RSS
             var list = StorageDictionary.ToList();
             if (Command == XGTFEnetCommand.READ_RESP && DataType != XGTFEnetDataType.CONTINUATION)
@@ -297,10 +311,13 @@ namespace DY.NET.LSIS.XGT
             }
         }
 
+        /// <summary>
+        /// 디버깅용 프로토콜 프레임 정보 출력
+        /// </summary>
         public override void Print()
         {
             Console.WriteLine("XGT FEnet 프로토콜 정보");
-            Console.WriteLine("ASC 코드: " + ByteArray2HexStr.Change(ProtocolData));
+            Console.WriteLine("ASC 코드: " + Bytes2HexStr.Change(ASCIIData));
             Console.WriteLine("명령: " + Command.ToString());
             Console.WriteLine("데이터 타입: " + DataType.ToString());
 

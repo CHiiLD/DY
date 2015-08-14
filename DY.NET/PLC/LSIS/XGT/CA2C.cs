@@ -1,24 +1,18 @@
-﻿/*
- * 작성자: CHILD	
- * 설명: ASC2 데이터를 Type형 변수로, Type형 변수를 ASC2데이터로 서로 변환하는 클래스
- * 날짜: 2015-03-31
- */
-
-using System;
+﻿using System;
 using System.Text;
 
 namespace DY.NET.LSIS.XGT
 {
     /// <summary>
-    /// CNET 전용, 바이트 타입에 따른 문자 배열 데이터 <-> 문자열데이터, 정수형 데이터로의 변환 클래스입니다.
+    /// XGT CNET 전용, byte[] 데이터 <-> 정수, 문자열 데이터 ; 변환 클래스
     /// </summary>
     public static class CA2C
     {
         /// <summary>
-        /// 정수형이나 문자열 데이터를 바이트 크기에 맞추어 문자 배열로 변환합니다.
+        /// 정수, 문자열 데이터를 바이트 크기에 맞추어 byte[]로 변환한다.
         /// </summary>
-        /// <param name="value"> 정수형, 문자열 데이터 </param>
-        /// <param name="type"> 정수형, 문자열 타입 정보 </param>
+        /// <param name="value">정수, 문자열 데이터</param>
+        /// <param name="type">타겟 타입</param>
         /// <returns></returns>
         public static byte[] ToASC(object value, Type type)
         {
@@ -50,9 +44,9 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
-        /// 정수형이나 문자열 데이터를 자료형의 바이트 크기에 맞추어 문자 배열로 변환합니다.
+        /// 정수, 문자열 데이터를 바이트 크기에 맞추어 byte[]로 변환한다.
         /// </summary>
-        /// <param name="value"> 정수형, 문자열 데이터 </param>
+        /// <param name="value">정수, 문자열 데이터</param>
         /// <returns></returns>
         public static byte[] ToASC(object value)
         {
@@ -60,11 +54,11 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
-        /// 문자 배열 데이터를 타입에 맞게 변환합니다.
+        /// byte[] 데이터를 정수 또는 문자열로 변환한다.
         /// </summary>
-        /// <param name="bytes"> 문자 배열 </param>
-        /// <param name="type"> 정수형, 문자열 타입 정보 </param>
-        /// <returns></returns>
+        /// <param name="bytes">byte[]데이터</param>
+        /// <param name="type">타겟 타입</param>
+        /// <returns>정수 또는 문자열</returns>
         public static object ToValue(byte[] bytes, Type type)
         {
             object target = null;
