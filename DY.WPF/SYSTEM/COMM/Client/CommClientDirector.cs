@@ -59,6 +59,7 @@ namespace DY.WPF.SYSTEM.COMM
             ConnectionCheckableProperty = new NotifyPropertyChanged<bool>(BASIC_INIT_CONNECT_CHECKABLE);
             ConnectionCheckableProperty.PropertyChanged += OnConnectionCheckablePropertyPropertyChanged;
 
+            ShotDownDirector.GetInstance().AddIDisposable(this);
         }
 
         ~CommClientDirector()
@@ -71,12 +72,13 @@ namespace DY.WPF.SYSTEM.COMM
         /// </summary>
         public void Dispose()
         {
-            m_ConnectionCheckTimer.Dispose();
+            m_ConnectionCheckTimer.Stop();
+            m_ConnectionCheckTimer.Close();
             foreach (var c in Clientele)
                 c.Dispose();
             Clientele = null;
             GC.SuppressFinalize(this);
-            LOG.Debug("CommClientManagement 메모리 해제");
+            LOG.Debug("CommClientDirector 메모리 해제");
         }
 
         /// <summary>
@@ -122,11 +124,11 @@ namespace DY.WPF.SYSTEM.COMM
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void OnConnectionCheckTimerElapse(object sender, ElapsedEventArgs e)
+        private void OnConnectionCheckTimerElapse(object sender, ElapsedEventArgs e)
         {
             bool isConnected = false;
             IConnect socket;
-            DYDeviceCommType dctype;
+            DyNetCommType dctype;
             foreach (var ccclient in Clientele)
             {
                 if (ccclient.Usable != true)
@@ -135,25 +137,8 @@ namespace DY.WPF.SYSTEM.COMM
                 dctype = ccclient.CommType;
                 try
                 {
-                    //시리얼통신인 경우 단선인 경우 케이블에 연결은 되어 있어 실질로 통신은 안되지만 시리얼포트 객체는
-                    //오픈 상태로 되어 있는 경우가 있어, 이를 방지하기 위해 PingPong 신호를 보내 통신 상태 확인
-                    if (dctype == DYDeviceCommType.SERIAL && socket.IsConnected())
-                    {
-                        IPingPong pingpong = socket as IPingPong;
-                        long elapse_t = await pingpong.PingAsync();
-                        isConnected = (elapse_t >= 0L);
-                        if (isConnected)
-                            LOG.Trace(socket.Description + " PingPong: " + elapse_t + "ms");
-                    }
-                    else
-                    {
-                        isConnected = socket.IsConnected();
-                    }
-
-                    if (!isConnected)
-                    {
-                        isConnected = socket.Connect();
-                    }
+                    if (!socket.IsConnected())
+                        socket.Connect();
                 }
                 catch (Exception ex)
                 {

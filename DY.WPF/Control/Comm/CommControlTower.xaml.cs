@@ -19,6 +19,7 @@ using MahApps.Metro.Controls;
 using DY.WPF.SYSTEM.COMM;
 using NLog;
 using System.Collections;
+using DY.WPF.SYSTEM;
 
 namespace DY.WPF
 {
@@ -47,31 +48,34 @@ namespace DY.WPF
         private void AddTabItem(IList newItems)
         {
             TabControl tab_control = NTabControl;
-            ItemCollection item_collection = tab_control.Items;
+            ItemCollection tabItemCollection = tab_control.Items;
 
             IList new_item = newItems;
             TabItem tab_item = new TabItem();
             ControlsHelper.SetHeaderFontSize(tab_item, TABITEM_HEADER_FONTSIZE); //헤더 폰트 사이즈 설정
-
+            ICommControlTowerTabItem towerTabItem;
             foreach (var i in new_item)
             {
-                var cclient = i as CommClient;
-                LOG.Trace("통신 컨트롤 타워 탭 아이템 추가: " + cclient.Key);
-                switch (cclient.Target)
+                var commClient = i as CommClient;
+                LOG.Trace("통신 컨트롤 타워 탭 아이템 추가: " + commClient.Key);
+                switch (commClient.Target)
                 {
 #if false
                     case DYDevice.DATALOGIC_MATRIX200:
 #endif
-                    case DYDevice.HONEYWELL_VUQUEST3310G:
+                    case DyNetDevice.HONEYWELL_VUQUEST3310G:
                         break;
-                    case DYDevice.LSIS_XGT:
-                        CommIOMonitoring comm_io_monitoring = new CommIOMonitoring(new CommIOMonitoringXGT(cclient));
-                        comm_io_monitoring.Margin = new Thickness(TABCONTROL_MARGIN);
-                        tab_item.Content = comm_io_monitoring;
-                        tab_item.SetBinding(HeaderedContentControl.HeaderProperty, new Binding("Comment") { Source = cclient });
-                        if (String.IsNullOrEmpty(cclient.Comment))
-                            cclient.Comment = cclient.Summary;
-                        item_collection.Add(tab_item);
+                    case DyNetDevice.LSIS_XGT:
+                        towerTabItem = new CommIOMonitoring(new CommIOMonitoringXGT(commClient))
+                        {
+                            Margin = new Thickness(TABCONTROL_MARGIN)
+                        };
+                        tab_item.Content = towerTabItem;
+                        tab_item.SetBinding(HeaderedContentControl.HeaderProperty, new Binding("Comment") { Source = commClient });
+                        if (String.IsNullOrEmpty(commClient.Comment))
+                            commClient.Comment = commClient.Summary;
+                        tabItemCollection.Add(tab_item);
+                        ShotDownDirector.GetInstance().AddIDisposable(towerTabItem);
                         break;
                 }
             }
@@ -85,7 +89,7 @@ namespace DY.WPF
         {
             TabControl tab_control = NTabControl;
             ItemCollection item_src = tab_control.Items;
-
+            ICommControlTowerTabItem towerTabItem;
             var old_item = oldItem;
             foreach (var i in old_item)
             {
@@ -93,12 +97,13 @@ namespace DY.WPF
                 foreach (var s in item_src)
                 {
                     TabItem tab_item = s as TabItem;
-                    ICommControlTowerTabItem comm_moni = tab_item.Content as ICommControlTowerTabItem;
-                    if (comm_moni != null && client.Key == comm_moni.CClient.Key)
+                    towerTabItem = tab_item.Content as ICommControlTowerTabItem;
+                    if (towerTabItem != null && client.Key == towerTabItem.CClient.Key)
                     {
                         LOG.Trace("통신 컨트롤 타워 탭 아이템 삭제: " + client.Key);
                         item_src.Remove(tab_item);
-                        comm_moni.CClient = null;
+                        towerTabItem.CClient = null;
+                        ShotDownDirector.GetInstance().RemoveIDisposable(towerTabItem);
                         break;
                     }
                 }

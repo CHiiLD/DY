@@ -8,7 +8,7 @@
              mc:Ignorable="d" 
              x:Name="this" >
     
-    <StackPanel Margin="0,3">
+    <StackPanel >
         <local:TextBlockBar x:Name="NTitle" 
                             Height="22" 
                             Text="{Binding Path=Title, ElementName=this, Mode=TwoWay}"/>

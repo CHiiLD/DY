@@ -25,7 +25,7 @@ namespace DY.WPF
         public ObservableCollection<CommIOExcelRowItem> Items { get; private set; }
         public ObservableCollection<CommIOExcelRowItem> ItemsBakcup { get; private set; }
 
-        public bool m_IsEditMode;
+        public bool m_Editable;
         /// <summary>
         /// 편집 모드 유무
         /// </summary>
@@ -33,11 +33,11 @@ namespace DY.WPF
         {
             get
             {
-                return m_IsEditMode;
+                return m_Editable;
             }
             set
             {
-                m_IsEditMode = value;
+                m_Editable = value;
                 NCO_Type.IsReadOnly = !value;
                 NCO_Address.IsReadOnly = !value;
                 NCO_Comment.IsReadOnly = !value;

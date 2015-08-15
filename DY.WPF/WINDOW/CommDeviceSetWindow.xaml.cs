@@ -30,16 +30,16 @@ namespace DY.WPF.WINDOW
             ComboBox cb = sender as ComboBox;
             if (cb.SelectedItem == null)
                 return;
-            DYDeviceCommType type = (DYDeviceCommType)cb.SelectedItem;
-            DYDevice device = (DYDevice)NSetBox.NDevice.SelectedItem;
+            DyNetCommType type = (DyNetCommType)cb.SelectedItem;
+            DyNetDevice device = (DyNetDevice)NSetBox.NDevice.SelectedItem;
 
             switch (type)
             {
-                case DYDeviceCommType.ETHERNET:
+                case DyNetCommType.ETHERNET:
                     break;
-                case DYDeviceCommType.SERIAL:
+                case DyNetCommType.SERIAL:
                     //국번 옵션 추가
-                    if(DYDevice.LSIS_XGT == device)
+                    if(DyNetDevice.LSIS_XGT == device)
                     {
                         TextBoxWithBar localbox = new TextBoxWithBar();
                         localbox.UserData = CommClient.EXTRA_XGT_CNET_LOCALPORT;
@@ -66,8 +66,8 @@ namespace DY.WPF.WINDOW
                     await this.ShowMessageAsync("Error", "Please select Communication Device, Type");
                     break;
                 }
-                DYDevice comm_device = (DYDevice)device_add.NDevice.SelectedItem;
-                DYDeviceCommType comm_type = (DYDeviceCommType)device_add.NType.SelectedItem;
+                DyNetDevice comm_device = (DyNetDevice)device_add.NDevice.SelectedItem;
+                DyNetCommType comm_type = (DyNetCommType)device_add.NType.SelectedItem;
                 ISummaryParameter comm_option = null;
                 var comm_config = device_add.NGrid.Children[0];
                 //시리얼
@@ -101,7 +101,7 @@ namespace DY.WPF.WINDOW
                 }
                 //엑스트라 검사
                 Dictionary<string, object> extra_data = device_add.ExtraData;
-                if (comm_device == DYDevice.LSIS_XGT && comm_type == DYDeviceCommType.SERIAL)
+                if (comm_device == DyNetDevice.LSIS_XGT && comm_type == DyNetCommType.SERIAL)
                 {
                     if (extra_data.Count == 0)
                     {

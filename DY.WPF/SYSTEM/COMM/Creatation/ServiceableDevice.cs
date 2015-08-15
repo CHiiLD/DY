@@ -14,10 +14,10 @@ namespace DY.WPF.SYSTEM.COMM
     /// </summary>
     public static class ServiceableDevice
     {
-        public static readonly Dictionary<DYDevice, DYDeviceCommType> Service = new Dictionary<DYDevice, DYDeviceCommType>
+        public static readonly Dictionary<DyNetDevice, DyNetCommType> Service = new Dictionary<DyNetDevice, DyNetCommType>
         {
-            { DYDevice.LSIS_XGT,                  DYDeviceCommType.SERIAL | DYDeviceCommType.ETHERNET },
-            { DYDevice.HONEYWELL_VUQUEST3310G,    DYDeviceCommType.SERIAL },
+            { DyNetDevice.LSIS_XGT,                  DyNetCommType.SERIAL | DyNetCommType.ETHERNET },
+            { DyNetDevice.HONEYWELL_VUQUEST3310G,    DyNetCommType.SERIAL },
 #if false
             { DYDevice.DATALOGIC_MATRIX200,       DYDeviceCommType.SERIAL },
 #endif
@@ -28,16 +28,16 @@ namespace DY.WPF.SYSTEM.COMM
         /// </summary>
         /// <param name="device"></param>
         /// <param name="comm_type"></param>
-        /// <param name="summayPapameter"></param>
+        /// <param name="summayParameter"></param>
         /// <returns></returns>
-        public static IConnect CreateClient(DYDevice device, DYDeviceCommType comm_type, ISummaryParameter summayPapameter)
+        public static IConnect CreateClient(DyNetDevice device, DyNetCommType comm_type, ISummaryParameter summayParameter)
         {
             IConnect ret = null;
-            CommSerialParameter s = summayPapameter as CommSerialParameter;
-            CommEthernetParameter e = summayPapameter as CommEthernetParameter;
-            if (comm_type == DYDeviceCommType.SERIAL && s == null)
+            CommSerialParameter s = summayParameter as CommSerialParameter;
+            CommEthernetParameter e = summayParameter as CommEthernetParameter;
+            if (comm_type == DyNetCommType.SERIAL && s == null)
                 throw new ArgumentException("device, comm_type mismatch error");
-            if (comm_type == DYDeviceCommType.ETHERNET && e == null)
+            if (comm_type == DyNetCommType.ETHERNET && e == null)
                 throw new ArgumentException("device, comm_type mismatch error");
 
             switch (device)
@@ -48,17 +48,17 @@ namespace DY.WPF.SYSTEM.COMM
                         .Parity(s.Parity).StopBits(s.StopBit).Build();
                     break;
 #endif
-                case DYDevice.HONEYWELL_VUQUEST3310G:
+                case DyNetDevice.HONEYWELL_VUQUEST3310G:
                     ret = (Vuquest3310g) new Vuquest3310g.Builder(s.Com, s.Bandrate).DataBits(s.DataBit)
                         .Parity(s.Parity).StopBits(s.StopBit).Build();
                     break;
-                case DYDevice.LSIS_XGT:
+                case DyNetDevice.LSIS_XGT:
                     switch (comm_type)
                     {
-                        case DYDeviceCommType.ETHERNET:
+                        case DyNetCommType.ETHERNET:
                             ret = new XGTFEnetSocket(e.Host, (XGTFEnetPort)e.Port);
                             break;
-                        case DYDeviceCommType.SERIAL:
+                        case DyNetCommType.SERIAL:
                             ret = (IConnect)new XGTCnetSocket.Builder(s.Com, s.Bandrate).DataBits(s.DataBit)
                         .Parity(s.Parity).StopBits(s.StopBit).Build();
                             break;

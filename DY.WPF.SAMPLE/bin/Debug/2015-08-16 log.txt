@@ -1,0 +1,141 @@
+00:09:06 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM4) 통신 접속 해제
+
+00:09:09 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.(time out)
+
+00:09:12 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM4) 통신 접속 해제
+
+00:09:14 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.
+
+00:09:23 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 통신 접속 해제
+
+00:09:25 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.
+
+00:18:18 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.(time out)
+
+00:18:25 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.(time out)
+
+00:18:30 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.(time out)
+
+00:18:35 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.(time out)
+
+00:21:14 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.(time out)
+
+00:21:25 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.(time out)
+
+00:27:26 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.(time out)
+
+00:27:45 DY.WPF.CommConnectionDataGrid
+통신 접속 에러: 연결된 구성원으로부터 응답이 없어 연결하지 못했거나, 호스트로부터 응답이 없어 연결이 끊어졌습니다 192.168.10.150:2004
+
+00:30:20 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.(time out)
+
+00:30:36 DY.WPF.CommConnectionDataGrid
+통신 접속 에러: 연결된 구성원으로부터 응답이 없어 연결하지 못했거나, 호스트로부터 응답이 없어 연결이 끊어졌습니다 123.123.123.123:1234
+
+00:30:37 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.(time out)
+
+00:34:06 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.(time out)
+
+00:34:23 DY.WPF.CommConnectionDataGrid
+통신 접속 에러: 연결된 구성원으로부터 응답이 없어 연결하지 못했거나, 호스트로부터 응답이 없어 연결이 끊어졌습니다 192.123.123.123:1234
+
+04:16:25 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientManagement 메모리 해제
+
+04:16:47 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM4) 통신 접속 해제
+
+04:16:47 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM4) 메모리 해제
+
+04:16:47 DY.WPF.SYSTEM.COMM.CommClient
+COM4 115200-8-N-1 CommClient 메모리 해제
+
+04:16:47 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientManagement 메모리 해제
+
+04:17:02 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM4) 통신 접속 해제
+
+04:17:02 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM4) 메모리 해제
+
+04:17:02 DY.WPF.SYSTEM.COMM.CommClient
+COM4 115200-8-N-1 CommClient 메모리 해제
+
+04:17:02 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientManagement 메모리 해제
+
+04:18:03 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM4) 통신 접속 해제
+
+04:18:03 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM4) 메모리 해제
+
+04:18:03 DY.WPF.SYSTEM.COMM.CommClient
+COM4 115200-8-N-1 CommClient 메모리 해제
+
+04:18:03 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 통신 접속 해제
+
+04:18:03 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 메모리 해제
+
+04:18:03 DY.WPF.SYSTEM.COMM.CommClient
+COM6 115200-8-N-1 CommClient 메모리 해제
+
+04:18:03 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+04:22:12 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM4) 통신 접속 해제
+
+04:22:12 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM4) 메모리 해제
+
+04:22:12 DY.WPF.SYSTEM.COMM.CommClient
+COM4 115200-8-N-1 CommClient 메모리 해제
+
+04:22:12 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+04:31:54 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM4) 통신 접속 해제
+
+04:31:54 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM4) 메모리 해제
+
+04:31:54 DY.WPF.SYSTEM.COMM.CommClient
+COM4 115200-8-N-1 CommClient 메모리 해제
+
+04:31:54 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+04:53:09 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM4) 통신 접속 해제
+
+04:53:09 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM4) 메모리 해제
+
+04:53:09 DY.WPF.SYSTEM.COMM.CommClient
+COM4 115200-8-N-1 CommClient 메모리 해제
+
+04:53:09 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+

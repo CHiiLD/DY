@@ -2,7 +2,7 @@
 
 namespace DY.WPF.SYSTEM.COMM
 {
-    public interface ICommControlTowerTabItem
+    public interface ICommControlTowerTabItem : IDisposable
     {
         CommClient CClient { get; set; }
         /// <summary>

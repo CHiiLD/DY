@@ -15,6 +15,9 @@ namespace DY.WPF.SAMPLE
     /// </summary>
     public partial class App : Application
     {
-       
+        private void Application_Exit(object sender, ExitEventArgs e)
+        {
+            ShotDownDirector.GetInstance().Dispose();
+        }
     }
 }

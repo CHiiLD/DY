@@ -94,8 +94,8 @@
     <Compile Include="SYSTEM\COMM\Interface\ISummaryParameter.cs" />
     <Compile Include="ConstProperty\Font.cs" />
     <Compile Include="ConstProperty\WindowSize.cs" />
-    <Compile Include="Enum\DYDeviceCommType.cs" />
-    <Compile Include="Enum\DYDevice.cs" />
+    <Compile Include="Enum\DyNetCommType.cs" />
+    <Compile Include="Enum\DyNetDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -128,6 +128,7 @@
     <Compile Include="SYSTEM\COMM\IO\ACommIOMonitoringStrategy.cs" />
     <Compile Include="SYSTEM\COMM\IO\CommIOMonitoringXGT.cs" />
     <Compile Include="SYSTEM\NotifyPropertyChanged.cs" />
+    <Compile Include="SYSTEM\ShotDownDirector.cs" />
     <Compile Include="WINDOW\CommDeviceSetWindow.xaml.cs">
       <DependentUpon>CommDeviceSetWindow.xaml</DependentUpon>
     </Compile>

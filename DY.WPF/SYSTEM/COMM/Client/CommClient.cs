@@ -31,8 +31,8 @@ namespace DY.WPF.SYSTEM.COMM
         #region PRIVATE VARIABLE
         private static Logger LOG = LogManager.GetCurrentClassLogger();
 
-        private DYDevice m_Target;
-        private DYDeviceCommType m_CommType;
+        private DyNetDevice m_Target;
+        private DyNetCommType m_CommType;
         private bool? m_Usable = false;
         private string m_Comment;
         private Geometry m_ImageData = CommStateAi.ConnectFailure.Data;
@@ -49,11 +49,11 @@ namespace DY.WPF.SYSTEM.COMM
         /// <summary>
         /// 통신 디바이스 
         /// </summary>
-        public DYDevice Target { get { return m_Target; } set { m_Target = value; OnPropertyChanged("Target"); } }
+        public DyNetDevice Target { get { return m_Target; } set { m_Target = value; OnPropertyChanged("Target"); } }
         /// <summary>
         /// 통신 타입
         /// </summary>
-        public DYDeviceCommType CommType { get { return m_CommType; } set { m_CommType = value; OnPropertyChanged("CommType"); } }
+        public DyNetCommType CommType { get { return m_CommType; } set { m_CommType = value; OnPropertyChanged("CommType"); } }
         public bool? Usable
         {
             get
@@ -111,7 +111,7 @@ namespace DY.WPF.SYSTEM.COMM
         /// <param name="socket"></param>
         /// <param name="device"></param>
         /// <param name="comm_type"></param>
-        public CommClient(IConnect socket, DYDevice device, DYDeviceCommType comm_type)
+        public CommClient(IConnect socket, DyNetDevice device, DyNetCommType comm_type)
         {
             Socket = socket;
             Target = device;

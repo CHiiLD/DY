@@ -12,28 +12,7 @@
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
     <DockPanel>
-        <Menu x:Name="NMenu" DockPanel.Dock="Top">
-            <MenuItem Header="Data">
-                <MenuItem Header="Save"/>
-                <MenuItem Header="Save as csv file"/>
-                <MenuItem Header="Load as csv file"/>
-                <MenuItem Header="Clipboard csv"/>
-            </MenuItem>
-
-            <MenuItem Header="Edit">
-                <MenuItem Header="Select All"/>
-                <MenuItem Header="Cut"/>
-                <MenuItem Header="Copy"/>
-                <MenuItem Header="Paste"/>
-                <MenuItem Header="Delete"/>
-                <MenuItem Header="Edit text"/>
-                <MenuItem Header="Open combo box"/>
-            </MenuItem>
-
-            <!--<MenuItem Header="Graph">
-            </MenuItem>-->
-        </Menu>
-        <Grid DockPanel.Dock="Bottom">
+        <Grid DockPanel.Dock="Top" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="230"/>
                 <ColumnDefinition Width="10"/>
@@ -42,18 +21,17 @@
                 <ColumnDefinition Width="230"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
-            <UniformGrid Rows="2" Columns="1" Margin="0,8">
-                <mah:ToggleSwitch x:Name="NBT_EditModeOnOff" Header="PLC IO edit mode"/>
-                <mah:ToggleSwitch x:Name="NBT_SpeedMonitorOnOff" Header="PLC real-time graph activation"/>
+            <UniformGrid Rows="3" Columns="1" >
+                <mah:ToggleSwitch x:Name="NBT_EditModeOnOff" Header="IO edit mode"/>
+                <mah:ToggleSwitch x:Name="NBT_SpeedMonitorOnOff" Header="IO real-time trace activation"/>
             </UniformGrid>
 
-            <oxy:PlotView x:Name="NPlotView"  Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="1"/>
-            <local:CommIOExcelDataGrid x:Name="NDataGrid" Grid.Row="1" Grid.ColumnSpan="5"/>
-            <UniformGrid Rows="3" Columns="1" Grid.Column="4"  Margin="0,8">
+            <oxy:PlotView x:Name="NPlotView" Grid.Column="2" Grid.ColumnSpan="1" Margin="0,0,0,-10" Panel.ZIndex="1"/>
+
+            <UniformGrid Rows="3" Columns="1" Grid.Column="4" >
                 <local:NumericUpDownWithBar 
                     x:Name="NNM_WriteTimeout"
                     Minimum="{Binding Source={x:Static localsys:CommClient.WriteTimeoutMinimum}}"
@@ -74,5 +52,34 @@
                     Title="Update interval"/>
             </UniformGrid>
         </Grid>
+
+        <DockPanel DockPanel.Dock="Bottom" >
+            <Menu x:Name="NMenu" DockPanel.Dock="Top">
+                <MenuItem Header="Data">
+                    <MenuItem Header="Save"/>
+                    <MenuItem Header="Save as csv file"/>
+                    <MenuItem Header="Load as csv file"/>
+                    <MenuItem Header="Clipboard csv"/>
+                </MenuItem>
+
+                <MenuItem Header="Edit">
+                    <MenuItem Header="Select All"/>
+                    <MenuItem Header="Cut"/>
+                    <MenuItem Header="Copy"/>
+                    <MenuItem Header="Paste"/>
+                    <MenuItem Header="Delete"/>
+                    <MenuItem Header="Edit text"/>
+                    <MenuItem Header="Open combo box"/>
+                </MenuItem>
+            </Menu>
+            <Grid >
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="1*"/>
+                    <ColumnDefinition Width="1*"/>
+                </Grid.ColumnDefinitions>
+                <local:CommIOExcelDataGrid x:Name="NDataGridA" Grid.Column="0"/>
+                <local:CommIOExcelDataGrid x:Name="NDataGridB" Grid.Column="1"/>
+            </Grid>
+        </DockPanel>
     </DockPanel>
 </UserControl>

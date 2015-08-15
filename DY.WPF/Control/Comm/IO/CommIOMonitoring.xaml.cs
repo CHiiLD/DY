@@ -50,6 +50,18 @@ namespace DY.WPF
         private object m_DeliveryAccess = new object();
         private Delivery m_CurDelivery;
 
+        private bool EditMode
+        {
+            get
+            {
+                return NDataGridA.Editable;
+            }
+            set
+            {
+                NDataGridA.Editable = NDataGridB.Editable = value;
+            }
+        }
+
         public CommClient CClient
         {
             get
@@ -76,7 +88,6 @@ namespace DY.WPF
         public EventHandler<EventArgs> Selected { get; set; }
         public EventHandler<EventArgs> Unselected { get; set; }
 
-
         /// <summary>
         /// 초기화
         /// </summary>
@@ -86,7 +97,7 @@ namespace DY.WPF
             m_CommIOContext = aCommIOMonitoringStrategy;
             m_CommIOContext.DeliveryArrived += OnDeliveryArrived;
             CClient = aCommIOMonitoringStrategy.CClient;
-
+            // MajorGridlineStyle="Solid" MinorGridlineStyle="Dot"
             //그래프 객체 초기화
             m_PlotTimer = new DispatcherTimer(
                 new TimeSpan(CommClient.UpdateIntevalMinimum * 10000),
@@ -94,26 +105,35 @@ namespace DY.WPF
                 OnPlotTimerTick,
                 Dispatcher);
             PlotModel plot_model = new PlotModel();
-            plot_model.Axes.Add(new DateTimeAxis
+            plot_model.Axes.Add(new DateTimeAxis //X축
             {
                 StringFormat = "mm:ss",
                 Position = AxisPosition.Bottom,
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineStyle= LineStyle.Dot,
+                TickStyle = TickStyle.Inside,
             });
-            plot_model.Axes.Add(new LinearAxis
+            plot_model.Axes.Add(new LinearAxis //Y축
             {
                 Position = AxisPosition.Left,
+                MajorGridlineStyle = LineStyle.Solid,
+                MinorGridlineStyle = LineStyle.Dot,
+                TickStyle = TickStyle.Inside,
+                StartPosition = 1,
+                EndPosition = 0,
+                Title = "Millisecond"
             });
             plot_model.Series.Add(new LineSeries
             {
                 ItemsSource = m_PlotItems = new Collection<DateValue>(),
                 DataFieldX = "Date",
                 DataFieldY = "Value",
-                StrokeThickness = 2,
-                MarkerSize = 3,
-                MarkerStroke = OxyColors.Blue,
-                MarkerFill = OxyColors.Blue,
-                MarkerType = MarkerType.Circle,
-                Color = OxyColors.Blue
+                //StrokeThickness = 2,
+                //MarkerSize = 3,
+                //MarkerStroke = OxyColors.Blue,
+                //MarkerFill = OxyColors.Blue,
+                //Color = OxyColors.Blue,
+                //MarkerType = MarkerType.Circle,
             });
             m_PlotModel = NPlotView.Model = plot_model;
 
@@ -123,9 +143,21 @@ namespace DY.WPF
             Unselected = OnUnselectedAsync;
         }
 
+        ~CommIOMonitoring()
+        {
+            Dispose();
+        }
+
+        public void Dispose()
+        {
+            if (m_PlotTimer != null)
+                m_PlotTimer.Stop();
+            GC.SuppressFinalize(this);
+        }
+
         public async void OnSelectedAsync(object sender, EventArgs args)
         {
-            if (!NDataGrid.Editable) //편집 모드가 아닐 때 모니터링 시작 ..
+            if (!EditMode) //편집 모드가 아닐 때 모니터링 시작 ..
                 await StartMonitoring();
         }
 
@@ -136,22 +168,31 @@ namespace DY.WPF
 
         private async Task StartMonitoring()
         {
-            if (NDataGrid.Items.Count == 0)
+            if (NDataGridA.Items.Count + NDataGridB.Items.Count == 0)
                 return;
             LOG.Trace("모니터링 요청");
-            IList<ICommIOData> items = NDataGrid.Items.Cast<ICommIOData>().ToList();
-            m_CommIOContext.ReplaceICommIOData(items);
+            UpdateNewIODataList();
             await m_CommIOContext.SetRunAsync(true); //루프 작동 트리거 ON
             m_PlotTimer.Start();
         }
 
         private async Task StopMonitoring()
         {
-            if (NDataGrid.Items.Count == 0)
+            if (NDataGridA.Items.Count == 0)
                 return;
             m_PlotTimer.Stop();
             await m_CommIOContext.SetRunAsync(false); //루프 작동 트리거 OFF
             LOG.Trace("모니터링 종료");
+        }
+
+        private void UpdateNewIODataList()
+        {
+            NDataGridA.RemoveEmtpyCollectionItem();
+            NDataGridB.RemoveEmtpyCollectionItem();
+            List<ICommIOData> itemsA = NDataGridA.Items.Cast<ICommIOData>().ToList();
+            List<ICommIOData> itemsB = NDataGridB.Items.Cast<ICommIOData>().ToList();
+            itemsA.AddRange(itemsB);
+            m_CommIOContext.ReplaceICommIOData(itemsA);
         }
 
         /// <summary>
@@ -165,18 +206,16 @@ namespace DY.WPF
             string exception_msg = null;
             var toggle = sender as ToggleSwitch;
             MetroWindow metro_win = Window.GetWindow(this) as MetroWindow; //Data preparation
-            bool check = toggle.IsChecked == true ? true : false;
+            bool isChecked = toggle.IsChecked == true ? true : false;
             do
             {
-                if (check) //편집모드에서 나갈 때 
+                if (isChecked) //편집모드에서 나갈 때 
                     break;
-                NDataGrid.RemoveEmtpyCollectionItem();
-                IList<ICommIOData> items = NDataGrid.Items.Cast<ICommIOData>().ToList();
-                if (items.Count == 0)
+                if (NDataGridA.Items.Count + NDataGridB.Items.Count == 0)
                     break;
                 try
                 {
-                    m_CommIOContext.ReplaceICommIOData(items);
+                    UpdateNewIODataList();
                 }
                 catch (Exception exception)
                 {
@@ -190,12 +229,11 @@ namespace DY.WPF
                     return;
                 }
             } while (false);
-
-            if (check)
+            EditMode = isChecked;
+            if (isChecked)
                 await StopMonitoring();
             else
                 await StartMonitoring();
-            NDataGrid.Editable = check;
         }
 
         private void OnPlotTimerTick(object sender, EventArgs args)

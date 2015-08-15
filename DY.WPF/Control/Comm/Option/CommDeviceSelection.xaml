@@ -9,15 +9,11 @@
 	x:Class="DY.WPF.CommDeviceSelection"
 	x:Name="UserControl">
     <ScrollViewer>
-        <StackPanel>
-            <!--<local:TitleForBar 
-            TitleText="Communication settings"
-            SubText="Please input device info for communication."
-            Height="75" Width="320"/>-->
-            <local:ComboBoxWithBar x:Name="NDevice" Title="Device" />
-            <local:ComboBoxWithBar x:Name="NType" Title="Type"/>
-            <Grid x:Name="NGrid"/>
-            <Grid x:Name="NExtra"/>
+        <StackPanel Margin="0,0,10,0">
+            <local:ComboBoxWithBar x:Name="NDevice" Title="Device" Margin="0" />
+            <local:ComboBoxWithBar x:Name="NType" Title="Type" Margin="0,6,0,0"/>
+            <Grid x:Name="NGrid" Margin="0,6,0,0"/>
+            <Grid x:Name="NExtra" Margin="0,6,0,0"/>
         </StackPanel>
     </ScrollViewer>
 </UserControl>

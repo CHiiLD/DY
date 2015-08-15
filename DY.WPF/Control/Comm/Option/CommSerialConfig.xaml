@@ -1,5 +1,5 @@
 ﻿<!--시리얼 통신 설정 컨트롤-->
-    <UserControl
+<UserControl
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
@@ -33,10 +33,10 @@
         <local:ComboBoxWithBar x:Name="NStopBit" ItemSource="{Binding Source={StaticResource StopBitsEnum}}" Title="Stop bit" />-->
 
         <local:ComboBoxWithBar x:Name="NCom" Title="Com port" />
-        <local:ComboBoxWithBar x:Name="NBaud" Title="Band rate" />
-        <local:ComboBoxWithBar x:Name="NParity" Title="Parity" />
-        <local:ComboBoxWithBar x:Name="NDataBit" Title="Data bit" />
-        <local:ComboBoxWithBar x:Name="NStopBit" Title="Stop bit" />
+        <local:ComboBoxWithBar x:Name="NBaud" Title="Band rate" Margin="0,6,0,0" />
+        <local:ComboBoxWithBar x:Name="NParity" Title="Parity"  Margin="0,6,0,0" />
+        <local:ComboBoxWithBar x:Name="NDataBit" Title="Data bit"  Margin="0,6,0,0" />
+        <local:ComboBoxWithBar x:Name="NStopBit" Title="Stop bit"  Margin="0,6,0,0" />
     </StackPanel>
 
 </UserControl>

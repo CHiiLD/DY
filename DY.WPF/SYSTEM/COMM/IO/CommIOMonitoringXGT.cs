@@ -64,11 +64,11 @@ namespace DY.WPF.SYSTEM.COMM
             IProtocol protocol;
             switch (CClient.CommType)
             {
-                case DYDeviceCommType.SERIAL:
+                case DyNetCommType.SERIAL:
                     ushort localPort = (ushort)(CClient.ExtraData[CommClient.EXTRA_XGT_CNET_LOCALPORT]);
                     protocol = XGTCnetProtocol.NewRSSProtocol(type.ToType(), localPort, datas);
                     break;
-                case DYDeviceCommType.ETHERNET:
+                case DyNetCommType.ETHERNET:
                     protocol = XGTFEnetProtocol.NewRSSProtocol(type.ToType(), InvokeID, datas);
                     break;
                 default:
@@ -115,11 +115,11 @@ namespace DY.WPF.SYSTEM.COMM
             string error_msg = null;
             switch (CClient.CommType)
             {
-                case DYDeviceCommType.SERIAL:
+                case DyNetCommType.SERIAL:
                     var cnet = response as XGTCnetProtocol;
                     error_msg = cnet.Error == XGTCnetProtocolError.OK ? null : cnet.Error.ToString();
                     break;
-                case DYDeviceCommType.ETHERNET:
+                case DyNetCommType.ETHERNET:
                     var fenet = response as XGTFEnetProtocol;
                     error_msg = fenet.Error == XGTFEnetProtocolError.OK ? null : fenet.Error.ToString();
                     break;

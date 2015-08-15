@@ -30,7 +30,7 @@ namespace DY.WPF
         /// </summary>
         private CommClient m_CurSelectedCClient;
         public ObservableCollection<CommClient> Items { get { return CommClientDirector.GetInstance().Clientele; } }
-        
+
         public CommConnectionDataGrid()
         {
             this.InitializeComponent();
@@ -48,48 +48,52 @@ namespace DY.WPF
             return client.IsConnected();
         }
 
+        private bool TryConnection(IConnect client)
+        {
+            bool isSuccess = false;
+            try
+            {
+                isSuccess = client.Connect();
+            }
+            catch (Exception e)
+            {
+                LOG.Debug("통신 접속 에러: " + e.Message);
+                isSuccess = false;
+            }
+            return isSuccess;
+        }
+
         /// <summary>
         /// 디바이스와 통신 접속을 시도한다. 
         /// </summary>
-        /// <param name="client"></param>
+        /// <param name="c"></param>
         /// <returns></returns>
-        private async Task<bool> ConnectAsync(IConnect client)
+        private async Task<bool> ConnectAsync(IConnect c)
         {
-            if (client == null)
+            if (c == null)
                 throw new ArgumentNullException("client");
-            if (client.IsConnected())
+            if (c.IsConnected())
                 return true;
-
             int inteval = CommClientDirector.GetInstance().ConnectionDelayTimeProperty.Source;
             bool isConnected = false;
             string message = null;
             MetroWindow metro_win = Window.GetWindow(this) as MetroWindow;
             string title = "Communication connection";
-
             ProgressDialogController progress = await metro_win.ShowProgressAsync(title,
                 "Please wait... until the connection is completed.", false, null);
             await Task.Delay(1000);
-            try
+            LOG.Trace("통신 접속 시도");
+            Task connect_task = Task.Factory.StartNew(() => { return TryConnection(c); });
+            if (await Task.WhenAny(connect_task, Task.Delay(inteval)) == connect_task)
             {
-                var token_source = new CancellationTokenSource(inteval);   
-                LOG.Trace("통신 접속 시도");
-                isConnected = await Task.Factory.StartNew(() => { return client.Connect(); }, token_source.Token);
-                if (token_source.IsCancellationRequested)
-                {
-                    isConnected = false;
-                    message = "Connection failed.(time out)";
-                }
-                else
-                {
-                    message = isConnected ? "It was successfully connected." : "Connection failed.";
-                }
+                isConnected = await (Task<bool>)connect_task;
+                message = isConnected ? "It was successfully connected." : "Connection failed.";
             }
-            catch (Exception ex)
+            else
             {
                 isConnected = false;
-                message = "Connection failed.(" + ex.Message + ")";
+                message = "Connection failed.(time out)";
             }
-
             await progress.CloseAsync();
             await metro_win.ShowMessageAsync(title, message);
             LOG.Debug("시도 결과: " + message);

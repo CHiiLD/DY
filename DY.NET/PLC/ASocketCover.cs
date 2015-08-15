@@ -24,7 +24,6 @@ namespace DY.NET
         public const int STREAM_BUFFER_SIZE = 4096;
         protected byte[] StreamBuffer = new byte[STREAM_BUFFER_SIZE];
         protected int StreamBufferIndex;
-        private IAsyncResult m_ReadIAsyncResult;
         //소켓 스트림
         protected Stream BaseStream { get; set; }
         //타임아웃
