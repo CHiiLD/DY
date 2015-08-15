@@ -7,6 +7,7 @@
              xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:oxy="clr-namespace:OxyPlot.Wpf;assembly=OxyPlot.Wpf"
              xmlns:local="clr-namespace:DY.WPF"
+             xmlns:localsys="clr-namespace:DY.WPF.SYSTEM.COMM"
              x:Name="this"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
@@ -46,8 +47,8 @@
             </Grid.RowDefinitions>
 
             <UniformGrid Rows="2" Columns="1" Margin="0,8">
-                <mah:ToggleSwitch x:Name="NBT_ExcelEditModeOnOff" Header="PLC IO edit mode"/>
-                <mah:ToggleSwitch x:Name="NBT_RespRatencyTOnOff" Header="PLC real-time graph activation"/>
+                <mah:ToggleSwitch x:Name="NBT_EditModeOnOff" Header="PLC IO edit mode"/>
+                <mah:ToggleSwitch x:Name="NBT_SpeedMonitorOnOff" Header="PLC real-time graph activation"/>
             </UniformGrid>
 
             <oxy:PlotView x:Name="NPlotView"  Grid.Row="0" Grid.Column="2" Grid.ColumnSpan="1"/>
@@ -55,20 +56,20 @@
             <UniformGrid Rows="3" Columns="1" Grid.Column="4"  Margin="0,8">
                 <local:NumericUpDownWithBar 
                     x:Name="NNM_WriteTimeout"
-                    Minimum="50"
-                    Maximum="500"
+                    Minimum="{Binding Source={x:Static localsys:CommClient.WriteTimeoutMinimum}}"
+                    Maximum="{Binding Source={x:Static localsys:CommClient.WriteTimeoutMaximum}}"
                     StringFormat="{}{0:N0}ms"
                     Title="Write timeout"/>
                 <local:NumericUpDownWithBar 
                     x:Name="NNM_ReadTimeout" 
-                    Minimum="50"
-                    Maximum="500"
+                    Minimum="{Binding Source={x:Static localsys:CommClient.ReadTimeoutMinimum}}"
+                    Maximum="{Binding Source={x:Static localsys:CommClient.ReadTimeoutMaximum}}"
                     StringFormat="{}{0:N0}ms"
                     Title="Read timeout"/>
                 <local:NumericUpDownWithBar 
                     x:Name="NNM_UpdateInteval"
-                    Minimum="100"
-                    Maximum="1000"
+                    Minimum="{Binding Source={x:Static localsys:CommClient.UpdateIntevalMinimum}}"
+                    Maximum="{Binding Source={x:Static localsys:CommClient.UpdateIntevalMaximum}}"
                     StringFormat="{}{0:N0}ms"
                     Title="Update interval"/>
             </UniformGrid>

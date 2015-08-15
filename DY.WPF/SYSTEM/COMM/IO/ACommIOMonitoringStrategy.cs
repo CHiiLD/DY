@@ -14,16 +14,18 @@ namespace DY.WPF.SYSTEM.COMM
 
         public CommClient CClient { get; protected set; }
 
-        protected List<IProtocol> Protocols { get; set; }
-        protected IList<ICommIOData> CommIOData { get; set; }
-
         private CancellationTokenSource m_UpdateTokenSource;
         private Task m_UpdateTask;
         private volatile bool m_Run;
-
+        
+        protected List<IProtocol> Protocols { get; set; }
+        protected IList<ICommIOData> CommIOData { get; set; }
+        
         public int TransferInteval { get { return CClient.IOUpdateInteval; } }
         public int ResponseLatencyTime { get { return CClient.WriteTimeout; } }
         public bool IsUpdated { get { return m_Run; } }
+
+        public EventHandler<DeliveryArrivalEventArgs> DeliveryArrived;
 
         /// <summary>
         /// 생성자
@@ -43,7 +45,7 @@ namespace DY.WPF.SYSTEM.COMM
         /// </summary>
         /// <param name="isRun">스위치</param>
         /// <returns></returns>
-        public async Task SetLoopAsync(bool isRun)
+        public async Task SetRunAsync(bool isRun)
         {
             m_Run = isRun;
             if (isRun)

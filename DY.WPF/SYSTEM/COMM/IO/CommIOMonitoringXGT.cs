@@ -77,65 +77,79 @@ namespace DY.WPF.SYSTEM.COMM
             return protocol;
         }
 
+        private async Task<IProtocol> Post(IPostAsync mailBox, IProtocol request)
+        {
+            IProtocol response = null;
+            Delivery delivery = null;
+            try
+            {
+                delivery = await mailBox.PostAsync(request);
+                DeliveryError delivery_err = delivery.Error;
+                switch (delivery_err)
+                {
+                    case DeliveryError.SUCCESS:
+                        response = delivery.Package as IProtocol;
+                        break;
+                    case DeliveryError.DISCONNECT:
+                        CClient.ChangedCommStatus(false);
+                        throw new Exception(delivery_err.ToString());
+                    case DeliveryError.WRITE_TIMEOUT:
+                    case DeliveryError.READ_TIMEOUT:
+                        throw new Exception(delivery_err.ToString());
+                }
+            }
+            catch (Exception exception)
+            {
+                LOG.Debug(CClient.Summary + " UpdateIOAsync 예외처리 메세지는 이하와 같음: "
+                    + exception.Message
+                    + exception.StackTrace);
+                response = null;
+            }
+            if (delivery.Error != DeliveryError.DISCONNECT && DeliveryArrived != null)
+                DeliveryArrived(this, new DeliveryArrivalEventArgs(delivery));
+            return response;
+        }
+
+        private bool HasError(IProtocol response)
+        {
+            string error_msg = null;
+            switch (CClient.CommType)
+            {
+                case DYDeviceCommType.SERIAL:
+                    var cnet = response as XGTCnetProtocol;
+                    error_msg = cnet.Error == XGTCnetProtocolError.OK ? null : cnet.Error.ToString();
+                    break;
+                case DYDeviceCommType.ETHERNET:
+                    var fenet = response as XGTFEnetProtocol;
+                    error_msg = fenet.Error == XGTFEnetProtocolError.OK ? null : fenet.Error.ToString();
+                    break;
+            }
+            if (!String.IsNullOrEmpty(error_msg))
+            {
+                LOG.Debug(CClient.Summary + " 프로토콜 에러 발생: " + error_msg);
+                return true;
+            }
+            return false;
+        }
+
         /// <summary>
         /// IO Update by async
         /// </summary>
         /// <returns></returns>
         public override async Task UpdateIOAsync()
         {
+            IPostAsync mailBox = CClient.Socket as IPostAsync;
             IProtocol response;
-            IPostAsync mailBox;
-            string error_msg;
-
             foreach (var request in Protocols)
             {
                 //init
-                error_msg = null;
                 response = null;
-                mailBox = CClient.Socket as IPostAsync;
                 //post
-                try
-                {
-                    Delivery delivery = await mailBox.PostAsync(request);
-                    DeliveryError delivery_err = delivery.Error;
-                    switch (delivery_err)
-                    {
-                        case DeliveryError.SUCCESS:
-                            response = delivery.Package as IProtocol;
-                            break;
-                        case DeliveryError.DISCONNECT:
-                            CClient.ChangedCommStatus(false);
-                            throw new Exception(delivery_err.ToString());
-                        case DeliveryError.WRITE_TIMEOUT:
-                        case DeliveryError.READ_TIMEOUT:
-                            throw new Exception(delivery_err.ToString());
-                    }
-                }
-                catch (Exception exception)
-                {
-                    LOG.Debug(CClient.Summary + " UpdateIOAsync 예외처리 메세지는 이하와 같음: " + exception.Message
-                        + exception.StackTrace);
+                if (await Post(mailBox, request) == null)
                     continue;
-                }
                 //find error
-                switch (CClient.CommType)
-                {
-                    case DYDeviceCommType.SERIAL:
-                        var cnet = response as XGTCnetProtocol;
-                        error_msg = cnet.Error == XGTCnetProtocolError.OK ? null : cnet.Error.ToString();
-                        break;
-                    case DYDeviceCommType.ETHERNET:
-                        var fenet = response as XGTFEnetProtocol;
-                        error_msg = fenet.Error == XGTFEnetProtocolError.OK ? null : fenet.Error.ToString();
-                        break;
-                    default:
-                        throw new NotImplementedException();
-                }
-                if (!String.IsNullOrEmpty(error_msg))
-                {
-                    LOG.Debug(CClient.Summary + " 프로토콜 에러 발생: " + error_msg);
+                if (HasError(response))
                     continue;
-                }
                 //update excel
                 Dictionary<string, object> storage = response.GetStorage();
                 await Application.Current.Dispatcher.BeginInvoke(new Action(() =>

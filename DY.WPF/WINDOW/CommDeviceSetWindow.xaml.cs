@@ -7,6 +7,7 @@ using MahApps.Metro.Controls;
 using DY.NET;
 using DY.WPF.SYSTEM.COMM;
 using System.Net.Sockets;
+using System.Windows.Controls;
 
 namespace DY.WPF.WINDOW
 {
@@ -21,6 +22,33 @@ namespace DY.WPF.WINDOW
             MetroDialogOptions.ColorScheme = MetroDialogColorScheme.Accented;
             NButton.NCancel.Click += (object sender, RoutedEventArgs e) => { Close(); };
             NButton.NOk.Click += AddNewClient;
+            NSetBox.CommTypeComboBoxChanged += OnCommTypeComboBoxChanged;
+        }
+
+        private void OnCommTypeComboBoxChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ComboBox cb = sender as ComboBox;
+            if (cb.SelectedItem == null)
+                return;
+            DYDeviceCommType type = (DYDeviceCommType)cb.SelectedItem;
+            DYDevice device = (DYDevice)NSetBox.NDevice.SelectedItem;
+
+            switch (type)
+            {
+                case DYDeviceCommType.ETHERNET:
+                    break;
+                case DYDeviceCommType.SERIAL:
+                    //국번 옵션 추가
+                    if(DYDevice.LSIS_XGT == device)
+                    {
+                        TextBoxWithBar localbox = new TextBoxWithBar();
+                        localbox.UserData = CommClient.EXTRA_XGT_CNET_LOCALPORT;
+                        localbox.Title = "Local Port";
+                        localbox.Text = "00";
+                        NSetBox.NExtra.Children.Add(localbox);
+                    }
+                    break;
+            }
         }
 
         /// <summary>
@@ -38,8 +66,8 @@ namespace DY.WPF.WINDOW
                     await this.ShowMessageAsync("Error", "Please select Communication Device, Type");
                     break;
                 }
-                var comm_device = (DYDevice)device_add.NDevice.SelectedItem;
-                var comm_type = (DYDeviceCommType)device_add.NType.SelectedItem;
+                DYDevice comm_device = (DYDevice)device_add.NDevice.SelectedItem;
+                DYDeviceCommType comm_type = (DYDeviceCommType)device_add.NType.SelectedItem;
                 ISummaryParameter comm_option = null;
                 var comm_config = device_add.NGrid.Children[0];
                 //시리얼

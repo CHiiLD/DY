@@ -19,16 +19,18 @@ namespace DY.WPF
     /// </summary>
     public partial class CommDeviceSelection : UserControl
     {
+        public EventHandler<SelectionChangedEventArgs> CommTypeComboBoxChanged { get; set; }
+
         public Dictionary<string, object> ExtraData
         {
             get
             {
                 var ret = new Dictionary<string, object>();
                 var children = NExtra.Children;
-                foreach(var child in children)
+                foreach (var child in children)
                 {
                     IGetContext v = child as IGetContext;
-                    if(v != null)
+                    if (v != null)
                         ret.Add(v.UserData as string, v.GetContext());
                 }
                 return ret;
@@ -87,13 +89,10 @@ namespace DY.WPF
                     break;
                 case DYDeviceCommType.SERIAL:
                     NGrid.Children.Add(new CommSerialConfig());
-                    TextBoxWithBar localbox = new TextBoxWithBar();
-                    localbox.UserData = CommClient.EXTRA_XGT_CNET_LOCALPORT;
-                    localbox.Title = "Local Port";
-                    localbox.Text = "00";
-                    NExtra.Children.Add(localbox);
                     break;
             }
+            if (CommTypeComboBoxChanged != null)
+                CommTypeComboBoxChanged(sender, e);
         }
     }
 }
