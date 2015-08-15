@@ -44,9 +44,6 @@ namespace DY.WPF
         private ACommIOMonitoringStrategy m_CommIOContext;
         private CommClient m_CClient;
 
-#if false
-        private Timer m_PlotTimer;
-#endif
         private DispatcherTimer m_PlotTimer;
         private PlotModel m_PlotModel;
         private Collection<DateValue> m_PlotItems { get; set; }
@@ -94,29 +91,29 @@ namespace DY.WPF
             m_PlotTimer = new DispatcherTimer(
                 new TimeSpan(CommClient.UpdateIntevalMinimum * 10000),
                 DispatcherPriority.Normal,
-                null,
-                Window.GetWindow(this).Dispatcher);
-#if false
-            m_PlotTimer = new Timer(CommClient.UpdateIntevalMinimum);
-#endif
+                OnPlotTimerTick,
+                Dispatcher);
             PlotModel plot_model = new PlotModel();
-            DateTimeAxis dateTimeAxis = new DateTimeAxis
+            plot_model.Axes.Add(new DateTimeAxis
             {
-                StringFormat = "mm:ss.ff",
+                StringFormat = "mm:ss",
                 Position = AxisPosition.Bottom,
-                Minimum = 0,
-                Maximum = CommClient.ReadTimeoutMaximum + CommClient.WriteTimeoutMaximum
-            };
-            plot_model.Axes.Add(dateTimeAxis);
+            });
+            plot_model.Axes.Add(new LinearAxis
+            {
+                Position = AxisPosition.Left,
+            });
             plot_model.Series.Add(new LineSeries
             {
-                StrokeThickness = 1,
-                MarkerSize = 3,
-                ItemsSource = m_PlotItems,
+                ItemsSource = m_PlotItems = new Collection<DateValue>(),
                 DataFieldX = "Date",
                 DataFieldY = "Value",
-                MarkerStroke = OxyColors.ForestGreen,
-                MarkerType = MarkerType.Plus
+                StrokeThickness = 2,
+                MarkerSize = 3,
+                MarkerStroke = OxyColors.Blue,
+                MarkerFill = OxyColors.Blue,
+                MarkerType = MarkerType.Circle,
+                Color = OxyColors.Blue
             });
             m_PlotModel = NPlotView.Model = plot_model;
 
@@ -201,19 +198,23 @@ namespace DY.WPF
             NDataGrid.Editable = check;
         }
 
-        private void OnWinTimerElapsed(object sender, EventArgs args)
+        private void OnPlotTimerTick(object sender, EventArgs args)
         {
             if (NBT_SpeedMonitorOnOff.IsChecked != true)
                 return;
-
             long ms = 0;
             DeliveryError error = DeliveryError.DISCONNECT;
             lock (m_DeliveryAccess)
             {
-                if (m_CurDelivery != null)
+                if (m_CurDelivery == null)
+                {
+                    return;
+                }
+                else
                 {
                     ms = m_CurDelivery.DelivaryTime.ElapsedMilliseconds;
                     error = m_CurDelivery.Error;
+                    m_CurDelivery = null;
                 }
             }
             switch (error)
@@ -233,40 +234,6 @@ namespace DY.WPF
             m_PlotModel.InvalidatePlot(true);
         }
 
-#if false
-        private void OnPlotTimerElapsed(object sender, ElapsedEventArgs args)
-        {
-            if (NBT_SpeedMonitorOnOff.IsChecked != true)
-                return;
-
-            long ms = 0;
-            DeliveryError error = DeliveryError.DISCONNECT;
-            lock (m_DeliveryAccess)
-            {
-                if (m_CurDelivery != null)
-                {
-                    ms = m_CurDelivery.DelivaryTime.ElapsedMilliseconds;
-                    error = m_CurDelivery.Error;
-                }
-            }
-            switch (error)
-            {
-                case DeliveryError.DISCONNECT:
-                    ms = 0;
-                    break;
-                case DeliveryError.WRITE_TIMEOUT:
-                case DeliveryError.READ_TIMEOUT:
-                    ms = CClient.WriteTimeout + CClient.ReadTimeout;
-                    break;
-            }
-            lock (m_PlotModel.SyncRoot)
-            {
-                UpdatePlotModel(args.SignalTime, ms);
-            }
-            m_PlotModel.InvalidatePlot(true);
-        }
-#endif
-
         private void UpdatePlotModel(DateTime signal_time, long milliseconds)
         {
             m_PlotItems.Add(new DateValue()
@@ -274,7 +241,7 @@ namespace DY.WPF
                 Date = signal_time,
                 Value = milliseconds
             });
-            if (m_PlotItems.Count >= 200)
+            if (m_PlotItems.Count >= 40)
                 m_PlotItems.RemoveAt(0);
         }
 

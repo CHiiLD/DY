@@ -142,10 +142,9 @@ namespace DY.WPF.SYSTEM.COMM
             IProtocol response;
             foreach (var request in Protocols)
             {
-                //init
-                response = null;
                 //post
-                if (await Post(mailBox, request) == null)
+                response = await Post(mailBox, request);
+                if (response == null)
                     continue;
                 //find error
                 if (HasError(response))
