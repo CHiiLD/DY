@@ -166,3 +166,27 @@ COM4 115200-8-N-1 CommClient 메모리 해제
 17:22:41 DY.WPF.SYSTEM.COMM.CommClientDirector
 CommClientDirector 메모리 해제
 
+19:11:32 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+19:11:34 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+19:11:51 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속 해제
+
+19:11:51 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+19:13:29 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 해제 및 메모리 해제
+
+19:13:29 DY.WPF.SYSTEM.COMM.CommClient
+Tcp 192.168.10.150:2004 CommClient 메모리 해제
+
+19:13:29 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+20:16:19 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+

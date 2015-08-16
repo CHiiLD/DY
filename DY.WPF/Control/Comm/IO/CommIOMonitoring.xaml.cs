@@ -46,10 +46,9 @@ namespace DY.WPF
 
         private DispatcherTimer m_PlotTimer;
         private PlotModel m_PlotModel;
-        private Collection<DateValue> m_PlotItems { get; set; }
-        private object m_DeliveryAccess = new object();
         private Delivery m_CurDelivery;
 
+        private Collection<DateValue> m_PlotItems { get; set; }
         private bool EditMode
         {
             get
@@ -99,9 +98,9 @@ namespace DY.WPF
             CClient = aCommIOMonitoringStrategy.CClient;
             // MajorGridlineStyle="Solid" MinorGridlineStyle="Dot"
             //그래프 객체 초기화
-            m_PlotTimer = new DispatcherTimer(new TimeSpan(CommClient.UpdateIntevalMinimum * 10000), 
+            m_PlotTimer = new DispatcherTimer(new TimeSpan(CommClient.UpdateIntevalMinimum * 10000),
                 DispatcherPriority.Normal,
-                OnPlotTimerTick, 
+                OnPlotTimerTick,
                 Dispatcher) { IsEnabled = false };
             PlotModel plot_model = new PlotModel();
             plot_model.Axes.Add(new DateTimeAxis //X축
@@ -109,7 +108,7 @@ namespace DY.WPF
                 StringFormat = "mm:ss",
                 Position = AxisPosition.Bottom,
                 MajorGridlineStyle = LineStyle.Solid,
-                MinorGridlineStyle= LineStyle.Dot,
+                MinorGridlineStyle = LineStyle.Dot,
                 TickStyle = TickStyle.Inside,
             });
             plot_model.Axes.Add(new LinearAxis //Y축
@@ -132,7 +131,7 @@ namespace DY.WPF
                 //MarkerStroke = OxyColors.Blue,
                 //MarkerFill = OxyColors.Blue,
                 //Color = OxyColors.Blue,
-                //MarkerType = MarkerType.Circle,
+                MarkerType = MarkerType.Star,
             });
             m_PlotModel = NPlotView.Model = plot_model;
 
@@ -170,7 +169,7 @@ namespace DY.WPF
                 return;
             LOG.Trace("모니터링 요청");
             UpdateNewIODataList();
-            m_CommIOContext.SetRunAsync(true); //루프 작동 트리거 ON
+            m_CommIOContext.Activated = true; //루프 작동 트리거 ON
             m_PlotTimer.Start();
         }
 
@@ -179,7 +178,7 @@ namespace DY.WPF
             if (NDataGridA.Items.Count == 0)
                 return;
             m_PlotTimer.Stop();
-            m_CommIOContext.SetRunAsync(false); //루프 작동 트리거 OFF
+            m_CommIOContext.Activated = false; //루프 작동 트리거 OFF
             LOG.Trace("모니터링 종료");
         }
 
@@ -238,21 +237,11 @@ namespace DY.WPF
         {
             if (NBT_SpeedMonitorOnOff.IsChecked != true)
                 return;
-            long ms = 0;
-            DeliveryError error = DeliveryError.DISCONNECT;
-            lock (m_DeliveryAccess)
-            {
-                if (m_CurDelivery == null)
-                {
-                    return;
-                }
-                else
-                {
-                    ms = m_CurDelivery.DelivaryTime.ElapsedMilliseconds;
-                    error = m_CurDelivery.Error;
-                    m_CurDelivery = null;
-                }
-            }
+            if (m_CurDelivery == null)
+                return;
+            long ms = m_CurDelivery.DelivaryTime.ElapsedMilliseconds;
+            DeliveryError error = m_CurDelivery.Error;
+            m_CurDelivery = null;
             switch (error)
             {
                 case DeliveryError.DISCONNECT:
@@ -283,10 +272,7 @@ namespace DY.WPF
 
         private void OnDeliveryArrived(object sender, DeliveryArrivalEventArgs args)
         {
-            lock (m_DeliveryAccess)
-            {
-                m_CurDelivery = args.Delivery;
-            }
+            m_CurDelivery = args.Delivery;
         }
     }
 }

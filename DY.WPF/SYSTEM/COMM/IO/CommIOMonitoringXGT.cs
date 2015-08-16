@@ -34,23 +34,23 @@ namespace DY.WPF.SYSTEM.COMM
             ILookup<DataType, string> lookCollection = addrs.ToLookup(ad => ad.Value, ad => ad.Key);
             int cnt = 0;
             Protocols.Clear();
-            Dictionary<string, object> datas = new Dictionary<string, object>();
+            Dictionary<string, object> read_storage = new Dictionary<string, object>();
             foreach (IGrouping<DataType, string> group in lookCollection)
             {
                 foreach (string str in group)
                 {
                     if (cnt % 16 == 0 && cnt != 0)
                     {
-                        Protocols.Add(CreateProtocol(group.Key, datas));
+                        Protocols.Add(CreateReadProtocol(group.Key, read_storage));
                         cnt = 0;
-                        datas = new Dictionary<string, object>();
+                        read_storage = new Dictionary<string, object>();
                     }
-                    datas.Add(str, null);
+                    read_storage.Add(str, null);
                     cnt++;
                 }
-                Protocols.Add(CreateProtocol(group.Key, datas));
+                Protocols.Add(CreateReadProtocol(group.Key, read_storage));
                 cnt = 0;
-                datas = new Dictionary<string, object>();
+                read_storage = new Dictionary<string, object>();
             }
         }
 
@@ -60,7 +60,7 @@ namespace DY.WPF.SYSTEM.COMM
         /// <param name="type">데이터 타입</param>
         /// <param name="datas">READ 목록</param>
         /// <returns></returns>
-        private IProtocol CreateProtocol(DataType type, Dictionary<string, object> datas)
+        private IProtocol CreateReadProtocol(DataType type, Dictionary<string, object> datas)
         {
             IProtocol protocol;
             switch (CClient.CommType)

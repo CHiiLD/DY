@@ -18,16 +18,37 @@ namespace DY.WPF.SYSTEM.COMM
 
         private CancellationTokenSource m_UpdateTokenSource;
         private DispatcherTimer m_IOTimer;
-        private bool m_Run;
-
+        private bool m_Activated;
         protected List<IProtocol> Protocols { get; set; }
         protected IList<ICommIOData> CommIOData { get; set; }
-
-        public int TransferInteval { get { return CClient.IOUpdateInteval; } }
-        public int ResponseLatencyTime { get { return CClient.WriteTimeout; } }
-        public bool IsUpdated { get { return m_Run; } }
+        public bool Activated 
+        { 
+            get 
+            { 
+                return m_Activated; 
+            }
+            set
+            {
+                m_Activated = value;
+                if(value)
+                {
+                    if (CommIOData == null)
+                        throw new NullReferenceException("io_datas is null.");
+                    m_UpdateTokenSource = new CancellationTokenSource();
+                    m_IOTimer.Start();
+                }
+                else
+                {
+                    if (m_UpdateTokenSource != null)
+                        m_UpdateTokenSource.Cancel();
+                }
+            }
+        }
 
         public EventHandler<DeliveryArrivalEventArgs> DeliveryArrived;
+
+        public abstract void ReplaceICommIOData(IList<ICommIOData> io_datas);
+        public abstract Task UpdateIOAsync(CancellationToken token);
 
         /// <summary>
         /// 생성자
@@ -45,9 +66,7 @@ namespace DY.WPF.SYSTEM.COMM
             m_IOTimer.Stop();
         }
 
-        public abstract void ReplaceICommIOData(IList<ICommIOData> io_datas);
-        public abstract Task UpdateIOAsync(CancellationToken token);
-
+#if false
         /// <summary>
         /// Update Thread Run/Stop
         /// </summary>
@@ -55,7 +74,7 @@ namespace DY.WPF.SYSTEM.COMM
         /// <returns></returns>
         public void SetRunAsync(bool isRun)
         {
-            m_Run = isRun;
+            m_Activated = isRun;
             if (isRun)
             {
                 if (CommIOData == null)
@@ -69,6 +88,7 @@ namespace DY.WPF.SYSTEM.COMM
                     m_UpdateTokenSource.Cancel();
             }
         }
+#endif
 
         /// <summary>
         /// IO 데이터그리드 반복 업데이트
