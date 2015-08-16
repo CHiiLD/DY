@@ -23,7 +23,6 @@ namespace DY.WPF
         private static Logger LOG = LogManager.GetCurrentClassLogger();
 
         public ObservableCollection<CommIOExcelRowItem> Items { get; private set; }
-        public ObservableCollection<CommIOExcelRowItem> ItemsBakcup { get; private set; }
 
         public bool m_Editable;
         /// <summary>
@@ -47,14 +46,12 @@ namespace DY.WPF
 
                 if (value) //편집 모드 온 
                 {
-                    ItemsBakcup = new ObservableCollection<CommIOExcelRowItem>(Items); //수정 모드일 때 현재 데이터 백업
                     foreach (var i in Items)
                         i.Output = null;
                 }
                 else       //편집 모드 오프
                 {
                     NDataGrid.EndTextEdit(true); //셀 텍스트박스 포커스 로스
-                    ItemsBakcup = null;
                 }
             }
         }
@@ -75,7 +72,7 @@ namespace DY.WPF
         /// <summary>
         /// 어드레스 칸이 공란인 아이템을 삭제
         /// </summary>
-        public void RemoveEmtpyCollectionItem()
+        public void RemoveEmtpyAddressCell()
         {
             //순환 삭제
             for(int i = Items.Count - 1; i >= 0; i--)

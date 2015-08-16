@@ -54,10 +54,10 @@ namespace DY.NET.HONEYWELL.VUQUEST
 
         public const int VUQUEST3310G_TIMEOUT_MAX = 300000;
 
-        private volatile byte[] m_Buffer = new byte[4096];
-        private volatile int m_BufferIdx;
-        private volatile bool m_IsActivate = false;
-        private volatile SerialPort m_SerialPort;
+        private byte[] m_Buffer = new byte[4096];
+        private int m_BufferIdx;
+        private bool m_IsActivate = false;
+        private SerialPort m_SerialPort;
 
         public int WriteTimeout { get; set; }
         public int ReadTimeout { get; set; }

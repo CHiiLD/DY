@@ -10,6 +10,7 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using NLog;
 using System.Windows;
+using System.Windows.Threading;
 
 namespace DY.WPF.SYSTEM.COMM
 {
@@ -25,7 +26,7 @@ namespace DY.WPF.SYSTEM.COMM
         public const int BASIC_INIT_CONNECT_CHECK_INTEVAL = 10000;
         public const bool BASIC_INIT_CONNECT_CHECKABLE = false;
 
-        private Timer m_ConnectionCheckTimer;
+        private DispatcherTimer m_ConnectionCheckTimer;
 
         /// 통신 설정과 관련된 프로퍼티들
         public NotifyPropertyChanged<int> ConnectionDelayTimeProperty { get; private set; }
@@ -46,9 +47,11 @@ namespace DY.WPF.SYSTEM.COMM
             //collection
             Clientele = new ObservableCollection<CommClient>();
 
-            //timer initialize
-            m_ConnectionCheckTimer = new Timer();
-            m_ConnectionCheckTimer.Elapsed += OnConnectionCheckTimerElapse;
+            m_ConnectionCheckTimer = new DispatcherTimer(
+                new TimeSpan(BASIC_INIT_CONNECT_CHECK_INTEVAL * 10000), 
+                DispatcherPriority.Normal,
+                OnConnectionCheckTick, 
+                Application.Current.Dispatcher) { IsEnabled = false };
 
             //notify property initialize
             ConnectionDelayTimeProperty = new NotifyPropertyChanged<int>(BASIC_INIT_CONNECT_DELAY_TIME);
@@ -73,7 +76,6 @@ namespace DY.WPF.SYSTEM.COMM
         public void Dispose()
         {
             m_ConnectionCheckTimer.Stop();
-            m_ConnectionCheckTimer.Close();
             foreach (var c in Clientele)
                 c.Dispose();
             Clientele = null;
@@ -99,8 +101,8 @@ namespace DY.WPF.SYSTEM.COMM
         /// <param name="args"></param>
         private void OnConnectionCheckIntevalPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            var notifyProperty = sender as NotifyPropertyChanged<int>;
-            m_ConnectionCheckTimer.Interval = notifyProperty.Source;
+            NotifyPropertyChanged<int> notifyProperty = sender as NotifyPropertyChanged<int>;
+            m_ConnectionCheckTimer.Interval = new TimeSpan(notifyProperty.Source * 10000);
             LOG.Trace("클라이언트 접속 상태 체크 타이머의 설정 시간: " + notifyProperty.Source);
         }
 
@@ -124,28 +126,28 @@ namespace DY.WPF.SYSTEM.COMM
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void OnConnectionCheckTimerElapse(object sender, ElapsedEventArgs e)
+        private void OnConnectionCheckTick(object sender, EventArgs e)
         {
             bool isConnected = false;
-            IConnect socket;
-            DyNetCommType dctype;
-            foreach (var ccclient in Clientele)
+            IConnect iConnect;
+            DyNetCommType commType;
+            foreach (var commClient in Clientele)
             {
-                if (ccclient.Usable != true)
+                if (commClient.Usable != true)
                     continue;
-                socket = ccclient.Socket;
-                dctype = ccclient.CommType;
+                iConnect = commClient.Socket;
+                commType = commClient.CommType;
                 try
                 {
-                    if (!socket.IsConnected())
-                        socket.Connect();
+                    if (!iConnect.IsConnected())
+                        iConnect.Connect();
                 }
                 catch (Exception ex)
                 {
                     LOG.Error("클라이언트 접속상태 체크 타이머 작동 중, 접속시도에러: " + ex.Message);
                     isConnected = false;
                 }
-                ccclient.ChangedCommStatus(isConnected);
+                commClient.ChangedCommStatus(isConnected);
             }
         }
     }

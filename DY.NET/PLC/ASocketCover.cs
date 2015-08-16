@@ -4,11 +4,9 @@
  * 날짜: 2015-03-25
  */
 using System;
-using System.Collections.Concurrent;
 using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
-using System.Timers;
 using NLog;
 
 namespace DY.NET
@@ -87,35 +85,31 @@ namespace DY.NET
             int read_size = StreamBufferIndex = 0;
             do
             {
-                if (!ReconnectAsync(delivery)) //if socket has disconnection, reconnect server.
-                    break;
-                //write to stream with async
+                if (!IsConnected())
+                    if (!TryReconnect(delivery))
+                        break;
                 int write_ret = await WriteAsync(r.ASCIIProtocol, 0, r.ASCIIProtocol.Length);
                 if (write_ret < 0)
                 {
                     delivery.Error = (DeliveryError)write_ret;
                     break;
                 }
-                //read from stream with async
                 await WaitResponsePostAsync(delivery, r);
             } while (false);
             return delivery.Packing();
         }
 
-        private bool ReconnectAsync(Delivery delivery)
+        private bool TryReconnect(Delivery delivery)
         {
-            if (!IsConnected())
+            Close();
+            LOG.Trace(Description + " 재연결시도 중...");
+            if (!Connect())
             {
-                Close();
-                LOG.Trace(Description + " 재연결시도 중...");
-                if (!Connect())
-                {
-                    LOG.Trace(Description + " 재연결시도 실패");
-                    delivery.Error = DeliveryError.DISCONNECT;
-                    return false;
-                }
-                LOG.Trace(Description + " 재연결시도 성공");
+                LOG.Trace(Description + " 재연결시도 실패");
+                delivery.Error = DeliveryError.DISCONNECT;
+                return false;
             }
+            LOG.Trace(Description + " 재연결시도 성공");
             return true;
         }
 

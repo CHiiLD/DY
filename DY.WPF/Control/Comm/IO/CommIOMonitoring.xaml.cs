@@ -99,11 +99,10 @@ namespace DY.WPF
             CClient = aCommIOMonitoringStrategy.CClient;
             // MajorGridlineStyle="Solid" MinorGridlineStyle="Dot"
             //그래프 객체 초기화
-            m_PlotTimer = new DispatcherTimer(
-                new TimeSpan(CommClient.UpdateIntevalMinimum * 10000),
+            m_PlotTimer = new DispatcherTimer(new TimeSpan(CommClient.UpdateIntevalMinimum * 10000), 
                 DispatcherPriority.Normal,
-                OnPlotTimerTick,
-                Dispatcher);
+                OnPlotTimerTick, 
+                Dispatcher) { IsEnabled = false };
             PlotModel plot_model = new PlotModel();
             plot_model.Axes.Add(new DateTimeAxis //X축
             {
@@ -150,45 +149,44 @@ namespace DY.WPF
 
         public void Dispose()
         {
-            if (m_PlotTimer != null)
-                m_PlotTimer.Stop();
+            StopMonitoring();
             GC.SuppressFinalize(this);
         }
 
-        public async void OnSelectedAsync(object sender, EventArgs args)
+        public void OnSelectedAsync(object sender, EventArgs args)
         {
             if (!EditMode) //편집 모드가 아닐 때 모니터링 시작 ..
-                await StartMonitoring();
+                StartMonitoring();
         }
 
-        public async void OnUnselectedAsync(object sender, EventArgs args)
+        public void OnUnselectedAsync(object sender, EventArgs args)
         {
-            await StopMonitoring();
+            StopMonitoring();
         }
 
-        private async Task StartMonitoring()
+        private void StartMonitoring()
         {
             if (NDataGridA.Items.Count + NDataGridB.Items.Count == 0)
                 return;
             LOG.Trace("모니터링 요청");
             UpdateNewIODataList();
-            await m_CommIOContext.SetRunAsync(true); //루프 작동 트리거 ON
+            m_CommIOContext.SetRunAsync(true); //루프 작동 트리거 ON
             m_PlotTimer.Start();
         }
 
-        private async Task StopMonitoring()
+        private void StopMonitoring()
         {
             if (NDataGridA.Items.Count == 0)
                 return;
             m_PlotTimer.Stop();
-            await m_CommIOContext.SetRunAsync(false); //루프 작동 트리거 OFF
+            m_CommIOContext.SetRunAsync(false); //루프 작동 트리거 OFF
             LOG.Trace("모니터링 종료");
         }
 
         private void UpdateNewIODataList()
         {
-            NDataGridA.RemoveEmtpyCollectionItem();
-            NDataGridB.RemoveEmtpyCollectionItem();
+            NDataGridA.RemoveEmtpyAddressCell();
+            NDataGridB.RemoveEmtpyAddressCell();
             List<ICommIOData> itemsA = NDataGridA.Items.Cast<ICommIOData>().ToList();
             List<ICommIOData> itemsB = NDataGridB.Items.Cast<ICommIOData>().ToList();
             itemsA.AddRange(itemsB);
@@ -231,9 +229,9 @@ namespace DY.WPF
             } while (false);
             EditMode = isChecked;
             if (isChecked)
-                await StopMonitoring();
+                StopMonitoring();
             else
-                await StartMonitoring();
+                StartMonitoring();
         }
 
         private void OnPlotTimerTick(object sender, EventArgs args)

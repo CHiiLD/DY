@@ -18,7 +18,7 @@ namespace DY.NET.LSIS.XGT
 
         private string m_Host; //IP
         private int m_Port;    //포트
-        private volatile TcpClient m_TcpClient;
+        private TcpClient m_TcpClient;
 
         /// <summary>
         /// 생성자

@@ -139,3 +139,30 @@ COM4 115200-8-N-1 CommClient 메모리 해제
 04:53:09 DY.WPF.SYSTEM.COMM.CommClientDirector
 CommClientDirector 메모리 해제
 
+17:17:05 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+17:19:56 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM4) 통신 접속 해제
+
+17:19:56 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM4) 메모리 해제
+
+17:19:56 DY.WPF.SYSTEM.COMM.CommClient
+COM4 115200-8-N-1 CommClient 메모리 해제
+
+17:19:56 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+17:22:41 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM4) 통신 접속 해제
+
+17:22:41 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM4) 메모리 해제
+
+17:22:41 DY.WPF.SYSTEM.COMM.CommClient
+COM4 115200-8-N-1 CommClient 메모리 해제
+
+17:22:41 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+

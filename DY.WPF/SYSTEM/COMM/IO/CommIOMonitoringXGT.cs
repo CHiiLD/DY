@@ -3,6 +3,7 @@ using System.Windows;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using System.Threading;
 
 using DY.NET;
 using DY.NET.LSIS.XGT;
@@ -136,25 +137,22 @@ namespace DY.WPF.SYSTEM.COMM
         /// IO Update by async
         /// </summary>
         /// <returns></returns>
-        public override async Task UpdateIOAsync()
+        public override async Task UpdateIOAsync(CancellationToken token)
         {
             IPostAsync mailBox = CClient.Socket as IPostAsync;
-            IProtocol response;
             foreach (var request in Protocols)
             {
+                if (token.IsCancellationRequested)
+                    break;
                 //post
-                response = await Post(mailBox, request);
+                IProtocol response = await Post(mailBox, request);
                 if (response == null)
                     continue;
                 //find error
                 if (HasError(response))
                     continue;
                 //update excel
-                Dictionary<string, object> storage = response.GetStorage();
-                await Application.Current.Dispatcher.BeginInvoke(new Action(() =>
-                {
-                    XGTProtocolHelper.Fill(storage, CommIOData);
-                }), null);
+                XGTProtocolHelper.Fill(response.GetStorage(), CommIOData);
             }
         }
     }
