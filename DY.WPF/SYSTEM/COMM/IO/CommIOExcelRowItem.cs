@@ -12,7 +12,7 @@ namespace DY.WPF.SYSTEM.COMM
     /// <summary>
     /// PLC IO 입출력을 위한 컬렉션 아이템
     /// </summary>
-    public class CommIOExcelRowItem : INotifyPropertyChanged, ICommIOData
+    public class CommIOExcelRowItem : ICommIOData
     {
         public event PropertyChangedEventHandler PropertyChanged;
 

@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using System.Threading;
+using System.ComponentModel;
 
 using DY.NET;
 using DY.NET.LSIS.XGT;
@@ -30,6 +31,11 @@ namespace DY.WPF.SYSTEM.COMM
         public override void ReplaceICommIOData(IList<ICommIOData> io_datas)
         {
             CommIOData = io_datas;
+            foreach (var io in CommIOData)
+            {
+                io.PropertyChanged -= OnInputPropertyChanged;
+                io.PropertyChanged += OnInputPropertyChanged;
+            }
             Dictionary<string, DataType> addrs = XGTProtocolHelper.Optimize(io_datas);
             ILookup<DataType, string> lookCollection = addrs.ToLookup(ad => ad.Value, ad => ad.Key);
             int cnt = 0;
@@ -55,6 +61,29 @@ namespace DY.WPF.SYSTEM.COMM
         }
 
         /// <summary>
+        /// IO Update by async
+        /// </summary>
+        /// <returns></returns>
+        public override async Task UpdateIOAsync(CancellationToken token)
+        {
+            IPostAsync mailBox = CClient.Socket as IPostAsync;
+            foreach (var request in Protocols)
+            {
+                if (token.IsCancellationRequested)
+                    break;
+                //post
+                IProtocol response = await Post(mailBox, request);
+                if (response == null)
+                    continue;
+                //find error
+                if (HasError(response))
+                    continue;
+                //update excel only read
+                XGTProtocolHelper.Fill(response.GetStorage(), CommIOData);
+            }
+        }
+
+        /// <summary>
         /// XGT Protocol을 생성한다
         /// </summary>
         /// <param name="type">데이터 타입</param>
@@ -62,18 +91,15 @@ namespace DY.WPF.SYSTEM.COMM
         /// <returns></returns>
         private IProtocol CreateReadProtocol(DataType type, Dictionary<string, object> datas)
         {
-            IProtocol protocol;
-            switch (CClient.CommType)
+            IProtocol protocol = null;
+            if (CClient.Socket is XGTCnetSocket)
             {
-                case DyNetCommType.SERIAL:
-                    ushort localPort = (ushort)(CClient.ExtraData[CommClient.EXTRA_XGT_CNET_LOCALPORT]);
-                    protocol = XGTCnetProtocol.NewRSSProtocol(type.ToType(), localPort, datas);
-                    break;
-                case DyNetCommType.ETHERNET:
-                    protocol = XGTFEnetProtocol.NewRSSProtocol(type.ToType(), InvokeID, datas);
-                    break;
-                default:
-                    throw new NotImplementedException();
+                ushort localPort = (ushort)(CClient.ExtraData[CommClient.EXTRA_XGT_CNET_LOCALPORT]);
+                protocol = XGTCnetProtocol.NewRSSProtocol(type.ToType(), localPort, datas);
+            }
+            else if (CClient.Socket is XGTFEnetSocket)
+            {
+                protocol = XGTFEnetProtocol.NewRSSProtocol(type.ToType(), InvokeID, datas);
             }
             return protocol;
         }
@@ -106,7 +132,7 @@ namespace DY.WPF.SYSTEM.COMM
                     + exception.StackTrace);
                 response = null;
             }
-            if (delivery.Error != DeliveryError.DISCONNECT && DeliveryArrived != null)
+            if (DeliveryArrived != null)
                 DeliveryArrived(this, new DeliveryArrivalEventArgs(delivery));
             return response;
         }
@@ -133,27 +159,43 @@ namespace DY.WPF.SYSTEM.COMM
             return false;
         }
 
-        /// <summary>
-        /// IO Update by async
-        /// </summary>
-        /// <returns></returns>
-        public override async Task UpdateIOAsync(CancellationToken token)
+        protected override async void OnInputPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            IPostAsync mailBox = CClient.Socket as IPostAsync;
-            foreach (var request in Protocols)
+            ICommIOData io_data = sender as ICommIOData;
+            if (io_data.Input == null || args.PropertyName != "Input" || !Activated)
+                return;
+            object value = io_data.Type.ToValue(io_data.Input as string);
+            if (value == null)
+                return;
+            string glopa = XGTProtocolHelper.ToGlopa(io_data.Type, io_data.Address);
+            Dictionary<string, object> storage = new Dictionary<string, object>() { { glopa, value } };
+            IProtocol request = null;
+            IProtocol response = null;
+            object error = null;
+            if (CClient.Socket is XGTCnetSocket)
             {
-                if (token.IsCancellationRequested)
-                    break;
-                //post
-                IProtocol response = await Post(mailBox, request);
-                if (response == null)
-                    continue;
-                //find error
-                if (HasError(response))
-                    continue;
-                //update excel
-                XGTProtocolHelper.Fill(response.GetStorage(), CommIOData);
+                ushort localPort = (ushort)(CClient.ExtraData[CommClient.EXTRA_XGT_CNET_LOCALPORT]);
+                request = XGTCnetProtocol.NewWSSProtocol(io_data.Type.ToType(), localPort, storage);
+                XGTCnetProtocol cnet = await Post(CClient.Socket as IPostAsync, request) as XGTCnetProtocol;
+                if (cnet.Error != XGTCnetProtocolError.OK)
+                    error = cnet.Error;
+                response = cnet;
             }
+            else if (CClient.Socket is XGTFEnetSocket)
+            {
+                request = XGTFEnetProtocol.NewWSSProtocol(io_data.Type.ToType(), InvokeID, storage);
+                XGTFEnetProtocol fenet = await Post(CClient.Socket as IPostAsync, request) as XGTFEnetProtocol;
+                if (fenet.Error != XGTFEnetProtocolError.OK)
+                    error = fenet.Error;
+                response = fenet;
+            }
+            if(error != null)
+            {
+                LOG.Debug(CClient.Socket.Description + "WSS 프로토콜 에러 발생, 프로토콜 정보는 이하와 같음");
+                request.Print();
+                response.Print();
+            }
+            io_data.Input = null;
         }
     }
 }

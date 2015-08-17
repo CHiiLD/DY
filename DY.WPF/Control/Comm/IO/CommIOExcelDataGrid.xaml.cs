@@ -40,6 +40,7 @@ namespace DY.WPF
                 NCO_Type.IsReadOnly = !value;
                 NCO_Address.IsReadOnly = !value;
                 NCO_Comment.IsReadOnly = !value;
+                NCO_Write.IsReadOnly = value;
                 NDataGrid.CanInsert = value; //셀 추가 가능 여부 설정
                 NDataGrid.AutoInsert = value;
                 NDataGrid.EasyInsert = value;
@@ -47,7 +48,10 @@ namespace DY.WPF
                 if (value) //편집 모드 온 
                 {
                     foreach (var i in Items)
+                    {
                         i.Output = null;
+                        i.Input = null;
+                    }
                 }
                 else       //편집 모드 오프
                 {

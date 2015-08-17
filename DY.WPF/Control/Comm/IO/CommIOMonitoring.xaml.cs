@@ -36,7 +36,7 @@ namespace DY.WPF
         public class DateValue
         {
             public DateTime Date { get; set; }
-            public long Value { get; set; }
+            public double Value { get; set; }
         }
 
         private static Logger LOG = LogManager.GetCurrentClassLogger();
@@ -46,9 +46,9 @@ namespace DY.WPF
 
         private DispatcherTimer m_PlotTimer;
         private PlotModel m_PlotModel;
-        private Delivery m_CurDelivery;
-
         private Collection<DateValue> m_PlotItems { get; set; }
+        private List<Delivery> m_Deliveries = new List<Delivery>();
+
         private bool EditMode
         {
             get
@@ -96,7 +96,22 @@ namespace DY.WPF
             m_CommIOContext = aCommIOMonitoringStrategy;
             m_CommIOContext.DeliveryArrived += OnDeliveryArrived;
             CClient = aCommIOMonitoringStrategy.CClient;
-            // MajorGridlineStyle="Solid" MinorGridlineStyle="Dot"
+
+            InitPlotModel();
+
+            //컨트롤 이벤트 설정
+            NBT_EditModeOnOff.IsCheckedChanged += OnCheckChangedEditMode;
+            Selected = OnSelectedAsync;
+            Unselected = OnUnselectedAsync;
+        }
+
+        ~CommIOMonitoring()
+        {
+            Dispose();
+        }
+
+        private void InitPlotModel()
+        {
             //그래프 객체 초기화
             m_PlotTimer = new DispatcherTimer(new TimeSpan(CommClient.UpdateIntevalMinimum * 10000),
                 DispatcherPriority.Normal,
@@ -127,23 +142,13 @@ namespace DY.WPF
                 DataFieldX = "Date",
                 DataFieldY = "Value",
                 //StrokeThickness = 2,
-                //MarkerSize = 3,
+                MarkerSize = 3,
                 //MarkerStroke = OxyColors.Blue,
                 //MarkerFill = OxyColors.Blue,
-                //Color = OxyColors.Blue,
+                Color = OxyColors.Green,
                 MarkerType = MarkerType.Star,
             });
             m_PlotModel = NPlotView.Model = plot_model;
-
-            //컨트롤 이벤트 설정
-            NBT_EditModeOnOff.IsCheckedChanged += OnCheckChangedEditMode;
-            Selected = OnSelectedAsync;
-            Unselected = OnUnselectedAsync;
-        }
-
-        ~CommIOMonitoring()
-        {
-            Dispose();
         }
 
         public void Dispose()
@@ -237,13 +242,21 @@ namespace DY.WPF
         {
             if (NBT_SpeedMonitorOnOff.IsChecked != true)
                 return;
-            if (m_CurDelivery == null)
+            if (m_Deliveries.Count == 0)
                 return;
-            long ms = m_CurDelivery.DelivaryTime.ElapsedMilliseconds;
-            DeliveryError error = m_CurDelivery.Error;
-            m_CurDelivery = null;
-            switch (error)
+            double ms = 0;
+            m_Deliveries.Sort((d1, d2) =>
             {
+                if (d1.Error > d2.Error) return 1;
+                else if (d1.Error < d2.Error) return -1;
+                else return 0;
+            });
+
+            switch (m_Deliveries.Last().Error)
+            {
+                case DeliveryError.SUCCESS:
+                    ms = m_Deliveries.Average(delivery => delivery.DelivaryTime.ElapsedMilliseconds);
+                    break;
                 case DeliveryError.DISCONNECT:
                     ms = 0;
                     break;
@@ -257,9 +270,10 @@ namespace DY.WPF
                 UpdatePlotModel(DateTime.Now, ms);
             }
             m_PlotModel.InvalidatePlot(true);
+            m_Deliveries.Clear();
         }
 
-        private void UpdatePlotModel(DateTime signal_time, long milliseconds)
+        private void UpdatePlotModel(DateTime signal_time, double milliseconds)
         {
             m_PlotItems.Add(new DateValue()
             {
@@ -272,7 +286,7 @@ namespace DY.WPF
 
         private void OnDeliveryArrived(object sender, DeliveryArrivalEventArgs args)
         {
-            m_CurDelivery = args.Delivery;
+            m_Deliveries.Add(args.Delivery);
         }
     }
 }

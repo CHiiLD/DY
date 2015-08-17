@@ -4,8 +4,8 @@ namespace DY.NET
     public enum DeliveryError : int
     {
         SUCCESS = 0,
-        DISCONNECT = -1,
-        WRITE_TIMEOUT = -2,
-        READ_TIMEOUT = -3,
+        WRITE_TIMEOUT = -1,
+        READ_TIMEOUT = -2,
+        DISCONNECT = -3,
     }
 }

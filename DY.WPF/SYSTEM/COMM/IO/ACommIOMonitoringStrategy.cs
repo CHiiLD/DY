@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.Windows.Threading;
 using System.Windows;
+using System.ComponentModel;
 
 using DY.NET;
 using NLog;
@@ -21,7 +22,7 @@ namespace DY.WPF.SYSTEM.COMM
         private bool m_Activated;
         protected List<IProtocol> Protocols { get; set; }
         protected IList<ICommIOData> CommIOData { get; set; }
-        public bool Activated 
+        public bool Activated
         { 
             get 
             { 
@@ -49,6 +50,7 @@ namespace DY.WPF.SYSTEM.COMM
 
         public abstract void ReplaceICommIOData(IList<ICommIOData> io_datas);
         public abstract Task UpdateIOAsync(CancellationToken token);
+        protected abstract void OnInputPropertyChanged(object sender, PropertyChangedEventArgs args);
 
         /// <summary>
         /// 생성자

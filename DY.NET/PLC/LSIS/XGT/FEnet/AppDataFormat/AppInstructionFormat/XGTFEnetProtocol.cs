@@ -322,11 +322,7 @@ namespace DY.NET.LSIS.XGT
             Console.WriteLine("데이터 타입: " + DataType.ToString());
 
             Console.WriteLine(string.Format("블록 수: {0}", BlocCnt));
-            if (Error != XGTFEnetProtocolError.OK)
-            {
-                Console.WriteLine(string.Format("Error: " + Error.ToString()));
-                return;
-            }
+            Console.WriteLine(string.Format("에러: " + Error.ToString()));
             int i = 0;
             if (Command == XGTFEnetCommand.READ_REQT || Command == XGTFEnetCommand.READ_RESP)
             {

@@ -1,0 +1,102 @@
+01:54:46 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+01:54:49 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+01:54:56 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:54:57 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:54:58 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:54:59 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:55:00 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:55:01 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:55:02 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:55:03 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:55:04 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:55:05 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:55:06 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:55:07 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:55:08 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:55:09 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:55:10 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:55:11 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:55:12 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:55:13 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:55:14 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:55:15 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+01:55:16 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 프로토콜 에러 발생: DATA_TYPE2
+
+02:01:04 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+02:01:06 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+02:02:37 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속 해제
+
+02:02:37 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+02:04:48 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+02:04:51 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+02:07:41 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+02:07:44 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+02:10:17 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속 해제
+
+02:10:17 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+02:11:36 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+Tcp 192.168.10.150:2004 UpdateIOAsync 예외처리 메세지는 이하와 같음: READ_TIMEOUT   위치: DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT.<Post>d__b.MoveNext() 파일 c:\Users\CHILD\GitHub\DY\DY.WPF\SYSTEM\COMM\IO\CommIOMonitoringXGT.cs:줄 125
+

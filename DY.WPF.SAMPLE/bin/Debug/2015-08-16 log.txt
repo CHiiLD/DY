@@ -190,3 +190,45 @@ CommClientDirector 메모리 해제
 20:16:19 DY.WPF.SYSTEM.COMM.CommClientDirector
 CommClientDirector 메모리 해제
 
+21:24:06 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+21:24:09 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+21:25:20 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 해제 및 메모리 해제
+
+21:25:20 DY.WPF.SYSTEM.COMM.CommClient
+Tcp 192.168.10.150:2004 CommClient 메모리 해제
+
+21:25:20 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+21:30:14 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+21:30:17 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+21:33:15 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+21:33:18 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+21:38:00 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 해제 및 메모리 해제
+
+21:38:00 DY.WPF.SYSTEM.COMM.CommClient
+Tcp 192.168.10.150:2004 CommClient 메모리 해제
+
+21:38:00 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+21:38:42 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+21:38:45 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+

@@ -48,9 +48,9 @@ namespace DY.WPF.SYSTEM.COMM
             Clientele = new ObservableCollection<CommClient>();
 
             m_ConnectionCheckTimer = new DispatcherTimer(
-                new TimeSpan(BASIC_INIT_CONNECT_CHECK_INTEVAL * 10000), 
+                new TimeSpan(BASIC_INIT_CONNECT_CHECK_INTEVAL * 10000),
                 DispatcherPriority.Normal,
-                OnConnectionCheckTick, 
+                OnConnectionCheckTick,
                 Application.Current.Dispatcher) { IsEnabled = false };
 
             //notify property initialize
@@ -140,7 +140,7 @@ namespace DY.WPF.SYSTEM.COMM
                 try
                 {
                     if (!iConnect.IsConnected())
-                        iConnect.Connect();
+                        isConnected = iConnect.Connect();
                 }
                 catch (Exception ex)
                 {
