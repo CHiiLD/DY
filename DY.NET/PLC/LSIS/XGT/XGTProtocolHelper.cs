@@ -9,20 +9,23 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public static class XGTProtocolHelper
     {
-        public static readonly byte[] AllowDevice = { (byte)'D', (byte)'M' };
+        public static readonly byte[] ServiceableDeviceTerritory = { (byte)'D', (byte)'M' };
 
-        public static string ToGlopa(this DataType data_type, string mem_name)
+        /// <summary>
+        /// 메모리의 10진수 표기값 부분만을 Int32 정수로 반환한다.
+        /// %MX1234F의 변수라면 10진수인 1234 만을 정수로 변환하여 반환
+        /// </summary>
+        /// <param name="data_type"></param>
+        /// <param name="prog_var"></param>
+        /// <returns></returns>
+        private static int GetDecimalInteger(DataType data_type, string prog_var)
         {
-            if (String.IsNullOrEmpty(mem_name))
-                throw new ArgumentException("Memory variable name is empty.");
-            string result = null;
-            string type_char;
-            string addr = mem_name.ToUpper().Replace(".", "");
+            prog_var = prog_var.ToUpper().Replace(".", "");
             int demical_int;
             bool has_hex = !(data_type == DataType.BIT || data_type == DataType.BOOL || data_type == DataType.BYTE || data_type == DataType.SBYTE);
-            int mem_size = XGTServiceableDevice.MemoryTerritorySize[addr[0]];
-            MemoryExpression mem_exp = XGTMemoryExpression.MemExpDictionary[addr[0]];
-            string demical_str = addr.Substring(1, addr.Length - 1 - (has_hex ? 0 : 1));
+            int mem_size = XGTServiceableDevice.MemoryTerritorySize[prog_var[0]];
+            MemoryExpression mem_exp = XGTMemoryExpression.MemExpDictionary[prog_var[0]];
+            string demical_str = prog_var.Substring(1, prog_var.Length - 1 - (has_hex ? 0 : 1));
 
             //데이터 타입은 BIT나 BYTE를 선택했지만 정작 디바이스가 BIT, BYTE를 지원하지 않는 타입인가?
             if (((mem_exp & MemoryExpression.BIT) == 0) && has_hex)
@@ -36,6 +39,41 @@ namespace DY.NET.LSIS.XGT
             //디바이스의 범위를 초과하지 않았나?
             if (demical_int >= mem_size)
                 throw new ArgumentException("Invalid range memory(D: 00000~19999, M: 0000~2023).");
+            return demical_int;
+        }
+
+        /// <summary>
+        /// 글로파변수의 디바이스가 XGT에서 사용가능한 디바이스영역 인지를 질의한다.
+        /// 현재 M과 D영역만 사용가능하다.
+        /// </summary>
+        /// <param name="data_type"></param>
+        /// <param name="glopa_var"></param>
+        /// <returns></returns>
+        public static bool IsServiceableDeviceTerritory(DataType data_type, string glopa_var)
+        {
+            if (!XGTMemoryExpression.MemExpDictionary.ContainsKey(glopa_var[1]))
+                return false;
+            IEnumerable<byte> allow_device = from a in ServiceableDeviceTerritory where a == (byte)glopa_var[1] select a;
+            if (allow_device == null || allow_device.Count() == 0)
+                return false;
+            return true;
+        }
+
+        /// <summary>
+        /// 프로그램 변수를 글로파 변수로 변환하여 반환한다.
+        /// M0000 => %MW0000
+        /// </summary>
+        /// <param name="data_type"></param>
+        /// <param name="mem_name"></param>
+        /// <returns></returns>
+        public static string ToGlopa(this DataType data_type, string mem_name)
+        {
+            if (String.IsNullOrEmpty(mem_name))
+                throw new ArgumentException("Memory variable name is empty.");
+            string result = null;
+            string type_char = null;
+            string addr = mem_name.ToUpper().Replace(".", "");
+            int demical_int = GetDecimalInteger(data_type, addr);
 
             switch (data_type)
             {
@@ -74,89 +112,6 @@ namespace DY.NET.LSIS.XGT
             return result;
         }
 
-#if false
-        private static string Optimize(int line_cnt, string mem_name, DataType type)
-        {
-            string target = null;
-            string type_str = "W";
-            string addr = mem_name;
-            int demical_int;
-            string row_str = " (row " + line_cnt + ")";
-            if (String.IsNullOrEmpty(addr))
-                throw new ArgumentException("Memory variable name is empty." + row_str);
-            addr = addr.ToUpper();
-            addr = addr.Replace(".", "");
-
-            bool has_hex = !(type == DataType.BIT || type == DataType.BOOL || type == DataType.BYTE || type == DataType.SBYTE);
-
-            if (!XGTMemoryExpression.MemExpDictionary.ContainsKey(addr[0]))
-                throw new ArgumentException("Not supported [" + addr[0] + "] device." + row_str);
-
-            var allow_device = AllowDevice.Select(x => x == addr[0]);
-            if (allow_device == null)
-                throw new ArgumentException("Not supported [" + addr[0] + "] device." + row_str);
-
-            int mem_size = XGTServiceableDevice.MemoryTerritorySize[addr[0]];
-            MemoryExpression mem_exp = XGTMemoryExpression.MemExpDictionary[addr[0]];
-            string demical_str = addr.Substring(1, addr.Length - 1 - (has_hex ? 0 : 1));
-
-            //데이터 타입은 BIT나 BYTE를 선택했지만 정작 디바이스가 BIT, BYTE를 지원하지 않는 타입인가?
-            if (((mem_exp & MemoryExpression.BIT) == 0) && has_hex)
-                throw new ArgumentException("[TYPE1] Invalid memory variable string." + row_str);
-            //10진수의 자리수 범위가 올바른가?
-            if (!(1 <= demical_str.Length && demical_str.Length <= mem_size.ToString().Length))
-                throw new ArgumentException("[TYPE2] Invalid memory variable string." + row_str);
-            //10진수가 정수로 변환 가능한가? 
-            if (!Int32.TryParse(demical_str, out demical_int))
-                throw new ArgumentException("[TYPE3] Invalid memory variable string." + row_str);
-            //디바이스의 범위를 초과하지 않았나?
-            if (demical_int >= mem_size)
-                throw new ArgumentException("Invalid range memory(D: 00000~19999, M: 0000~2023)." + row_str);
-
-            switch (type)
-            {
-                case DataType.BIT:
-                case DataType.BOOL:
-                    target = addr.Substring(0, addr.Length - 1);
-                    break;
-
-                case DataType.BYTE:
-                case DataType.SBYTE:
-
-                    if (!(addr.Last() == '0' || addr.Last() == '8'))
-                        throw new ArgumentException("Invalid memory variable string. the byte/sbyte addresses must end in 0 or 8" + row_str);
-
-                    int b = addr.Last() == '0' ? 0 : 1;
-                    target = addr[0] + ((demical_int * 2) + b).ToString();
-                    type_str = "B";
-                    break;
-
-                case DataType.SHORT:
-                case DataType.WORD:
-                    target = addr;
-                    break;
-
-                case DataType.DWORD:
-                case DataType.INT:
-                case DataType.LWORD:
-                case DataType.LONG:
-                    type_str = (type == DataType.DWORD || type == DataType.INT) ? "D" : "L";
-                    int j = (type == DataType.DWORD || type == DataType.INT) ? 2 : 4;
-                    if (demical_int % j != 0)
-                        throw new ArgumentException("Address of the memory must be a multiple of " + j + "." + row_str);
-                    target = addr[0] + (demical_int / j).ToString();
-                    break;
-
-                default:
-                    throw new NotImplementedException();
-            }
-
-            target = target.Insert(0, "%");
-            target = target.Insert(2, type_str);
-            return target;
-        }
-#endif
-
         /// <summary>
         /// PLC IO READ할 변수들 중 BIT데이터는 WORD메모리 번지 수로 부르도록 변경한 뒤에 겹치는 WORD 메모리번지수를 
         /// 하나로 호출함으로써 최적화를 유도한다. 
@@ -169,7 +124,7 @@ namespace DY.NET.LSIS.XGT
             if (items == null)
                 throw new ArgumentNullException("items argument is null");
 
-            Dictionary<string, DataType> ret = new Dictionary<string, DataType>();
+            Dictionary<string, DataType> storage = new Dictionary<string, DataType>();
             int line_cnt = 0;
             foreach (var i in items)
             {
@@ -178,22 +133,20 @@ namespace DY.NET.LSIS.XGT
                 try
                 {
                     string glopa_var = type.ToGlopa(i.Address);
-                    if (!XGTMemoryExpression.MemExpDictionary.ContainsKey(glopa_var[1]))
+                    if (IsServiceableDeviceTerritory(type, glopa_var))
                         throw new ArgumentException("Not supported [" + glopa_var[1] + "] device.");
-                    IEnumerable<byte> allow_device = from a in AllowDevice where a == (byte)glopa_var[1] select a;
-                    if (allow_device == null || allow_device.Count() == 0)
-                        throw new ArgumentException("Not supported [" + glopa_var[1] + "] device.");
+
                     if (type == DataType.BOOL || type == DataType.BIT)
                         glopa_var = glopa_var.Substring(0, glopa_var.Length - 1).Remove(2, 1).Insert(2, "W");
-                    if (!ret.ContainsKey(glopa_var))
-                        ret.Add(glopa_var, ((type == DataType.BIT) || (type == DataType.BOOL)) ? DataType.WORD : type);
+                    if (!storage.ContainsKey(glopa_var))
+                        storage.Add(glopa_var, ((type == DataType.BIT) || (type == DataType.BOOL)) ? DataType.WORD : type);
                 }
                 catch (Exception exception)
                 {
                     throw new Exception(exception.Message + "(row" + line_cnt + ")");
                 }
             }
-            return ret;
+            return storage;
         }
 
         /// <summary>
@@ -211,13 +164,13 @@ namespace DY.NET.LSIS.XGT
             {
                 string addr = i.Address;
                 DataType type = i.Type;
-                string glopa_addr = type.ToGlopa(addr);
+                string glopa_var = type.ToGlopa(addr);
                 if (type == DataType.BOOL || type == DataType.BIT)
-                    glopa_addr = glopa_addr.Substring(0, glopa_addr.Length - 1).Remove(2, 1).Insert(2, "W");
-
-                if (!recv_data.ContainsKey(glopa_addr))
+                    glopa_var = glopa_var.Substring(0, glopa_var.Length - 1).Remove(2, 1).Insert(2, "W");
+                if (!recv_data.ContainsKey(glopa_var))
                     continue;
-                object value = recv_data[glopa_addr];
+
+                object value = recv_data[glopa_var];
                 switch (type)
                 {
                     case DataType.BIT:

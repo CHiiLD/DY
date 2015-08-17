@@ -37,29 +37,9 @@ namespace DY.WPF
             set
             {
                 m_Editable = value;
-                NCO_Type.IsReadOnly = !value;
-                NCO_Address.IsReadOnly = !value;
-                NCO_Comment.IsReadOnly = !value;
-                NCO_Write.IsReadOnly = value;
-                NDataGrid.CanInsert = value; //셀 추가 가능 여부 설정
-                NDataGrid.AutoInsert = value;
-                NDataGrid.EasyInsert = value;
-
-                if (value) //편집 모드 온 
-                {
-                    foreach (var i in Items)
-                    {
-                        i.Output = null;
-                        i.Input = null;
-                    }
-                }
-                else       //편집 모드 오프
-                {
-                    NDataGrid.EndTextEdit(true); //셀 텍스트박스 포커스 로스
-                }
+                SetProeperties(value);
             }
         }
-
         /// <summary>
         /// 초기화
         /// </summary>
@@ -73,19 +53,27 @@ namespace DY.WPF
             //cs에서 수동으로 생성해서 설정 
         }
 
-        /// <summary>
-        /// 어드레스 칸이 공란인 아이템을 삭제
-        /// </summary>
-        public void RemoveEmtpyAddressCell()
+        private void SetProeperties(bool editable)
         {
-            //순환 삭제
-            for(int i = Items.Count - 1; i >= 0; i--)
+            NCO_Type.IsReadOnly = !editable;
+            NCO_Address.IsReadOnly = !editable;
+            NCO_Comment.IsReadOnly = !editable;
+            NCO_Write.IsReadOnly = editable;
+            NDataGrid.CanInsert = editable; //셀 추가 가능 여부 설정
+            NDataGrid.AutoInsert = editable;
+            NDataGrid.EasyInsert = editable;
+
+            if (editable)
             {
-                var item = Items[i];
-                if (item.Address != null)
-                    item.Address.Trim();
-                if (string.IsNullOrEmpty(item.Address))
-                    Items.RemoveAt(i);
+                foreach (var i in Items)
+                {
+                    i.Output = null;
+                    i.Input = null;
+                }
+            }
+            else
+            {
+                NDataGrid.EndTextEdit(true); //셀 텍스트박스 포커스 로스
             }
         }
 
@@ -124,6 +112,22 @@ namespace DY.WPF
             item.PropertyName = "Comment";
             item.Width = new GridLength(1, GridUnitType.Star);
             columns.Add(item);
+        }
+
+        /// <summary>
+        /// 어드레스 칸이 공란인 아이템을 삭제
+        /// </summary>
+        public void RemoveEmtpyAddressCell()
+        {
+            //순환 삭제
+            for (int i = Items.Count - 1; i >= 0; i--)
+            {
+                var item = Items[i];
+                if (item.Address != null)
+                    item.Address.Trim();
+                if (string.IsNullOrEmpty(item.Address))
+                    Items.RemoveAt(i);
+            }
         }
     }
 }

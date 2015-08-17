@@ -68,30 +68,6 @@ namespace DY.WPF.SYSTEM.COMM
             m_IOTimer.Stop();
         }
 
-#if false
-        /// <summary>
-        /// Update Thread Run/Stop
-        /// </summary>
-        /// <param name="isRun">스위치</param>
-        /// <returns></returns>
-        public void SetRunAsync(bool isRun)
-        {
-            m_Activated = isRun;
-            if (isRun)
-            {
-                if (CommIOData == null)
-                    throw new NullReferenceException("io_datas is null.");
-                m_UpdateTokenSource = new CancellationTokenSource();
-                m_IOTimer.Start();
-            }
-            else
-            {
-                if (m_UpdateTokenSource != null)
-                    m_UpdateTokenSource.Cancel();
-            }
-        }
-#endif
-
         /// <summary>
         /// IO 데이터그리드 반복 업데이트
         /// </summary>

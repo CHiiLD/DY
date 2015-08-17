@@ -21,7 +21,6 @@ namespace DY.WPF
     /// <summary>
     /// CommDataGrid.xaml에 대한 상호 작용 논리
     /// </summary>
-
     public partial class CommConnectionDataGrid : UserControl
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();

@@ -70,20 +70,10 @@ namespace DY.WPF
             set
             {
                 m_CClient = value;
-
-                Binding activation = new Binding("Usable") { Source = m_CClient };
-                this.SetBinding(UserControl.IsEnabledProperty, activation);
-
-                Binding write_timeout = new Binding("WriteTimeout") { Source = m_CClient };
-                this.NNM_WriteTimeout.NNumeric.SetBinding(NumericUpDown.ValueProperty, write_timeout);
-
-                Binding read_timeout = new Binding("ReadTimeout") { Source = m_CClient };
-                this.NNM_ReadTimeout.NNumeric.SetBinding(NumericUpDown.ValueProperty, read_timeout);
-
-                Binding io_update_inteval = new Binding("IOUpdateInteval") { Source = m_CClient };
-                this.NNM_UpdateInteval.NNumeric.SetBinding(NumericUpDown.ValueProperty, io_update_inteval);
+                SetBinding();
             }
         }
+
         public EventHandler<EventArgs> Selected { get; set; }
         public EventHandler<EventArgs> Unselected { get; set; }
 
@@ -206,7 +196,7 @@ namespace DY.WPF
         {
             bool haveException = false;
             string exception_msg = null;
-            var toggle = sender as ToggleSwitch;
+            ToggleSwitch toggle = sender as ToggleSwitch;
             MetroWindow metro_win = Window.GetWindow(this) as MetroWindow; //Data preparation
             bool isChecked = toggle.IsChecked == true ? true : false;
             do
@@ -287,6 +277,21 @@ namespace DY.WPF
         private void OnDeliveryArrived(object sender, DeliveryArrivalEventArgs args)
         {
             m_Deliveries.Add(args.Delivery);
+        }
+
+        private void SetBinding()
+        {
+            Binding activation = new Binding("Usable") { Source = m_CClient };
+            this.SetBinding(UserControl.IsEnabledProperty, activation);
+
+            Binding write_timeout = new Binding("WriteTimeout") { Source = m_CClient };
+            this.NNM_WriteTimeout.NNumeric.SetBinding(NumericUpDown.ValueProperty, write_timeout);
+
+            Binding read_timeout = new Binding("ReadTimeout") { Source = m_CClient };
+            this.NNM_ReadTimeout.NNumeric.SetBinding(NumericUpDown.ValueProperty, read_timeout);
+
+            Binding io_update_inteval = new Binding("IOUpdateInteval") { Source = m_CClient };
+            this.NNM_UpdateInteval.NNumeric.SetBinding(NumericUpDown.ValueProperty, io_update_inteval);
         }
     }
 }
