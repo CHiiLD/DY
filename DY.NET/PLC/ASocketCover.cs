@@ -7,6 +7,7 @@ using System;
 using System.IO;
 using System.Threading.Tasks;
 using System.Threading;
+using Nito.AsyncEx;
 using NLog;
 
 namespace DY.NET
@@ -72,6 +73,7 @@ namespace DY.NET
                 return size;
         }
 
+        private readonly AsyncLock m_AsyncLock = new AsyncLock();
 
         /// <summary>
         /// 비동기 통신으로 PLC와 통신하여 요청 메세지를 보내고 응답 메세지를 받는다
@@ -81,21 +83,30 @@ namespace DY.NET
         public async Task<Delivery> PostAsync(IProtocol request)
         {
             Delivery delivery = new Delivery();
-            AProtocol r = request as AProtocol;
-            int read_size = StreamBufferIndex = 0;
-            do
+
+            // AsyncLock can be locked asynchronously
+            using (await m_AsyncLock.LockAsync())
             {
-                if (!IsConnected())
-                    if (!TryReconnect(delivery))
-                        break;
-                int write_ret = await WriteAsync(r.ASCIIProtocol, 0, r.ASCIIProtocol.Length);
-                if (write_ret < 0)
+                LOG.Debug("LOCK -------------------");
+                AProtocol r = request as AProtocol;
+                StreamBufferIndex = 0;
+                do
                 {
-                    delivery.Error = (DeliveryError)write_ret;
-                    break;
-                }
-                await WaitResponsePostAsync(delivery, r);
-            } while (false);
+                    if (!IsConnected())
+                    {
+                        if (!TryReconnect(delivery))
+                            break;
+                    }
+                    int write_ret = await WriteAsync(r.ASCIIProtocol, 0, r.ASCIIProtocol.Length);
+                    if (write_ret < 0)
+                    {
+                        delivery.Error = (DeliveryError)write_ret;
+                        break;
+                    }
+                    await WaitResponsePostAsync(delivery, r);
+                } while (false);
+                LOG.Debug("UNLOCK =============");
+            }
             return delivery.Packing();
         }
 

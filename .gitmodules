@@ -28,3 +28,6 @@
 [submodule "submodule/PropertyTools"]
 	path = submodule/PropertyTools
 	url = https://github.com/CHiiLD/PropertyTools.git
+[submodule "submodule/AsyncEx"]
+	path = submodule/AsyncEx
+	url = https://github.com/CHiiLD/AsyncEx.git

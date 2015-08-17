@@ -41,6 +41,10 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertyTools_PCL", "submod
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PropertyTools.Wpf_NET45", "submodule\PropertyTools\Source\PropertyTools.Wpf\PropertyTools.Wpf_NET45.csproj", "{7168F82F-288A-42C4-9EB1-FBBE5112F211}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nito.AsyncEx (NET45, Win8, WP8, WPA81)", "submodule\AsyncEx\Source\Nito.AsyncEx (NET45, Win8, WP8, WPA81)\Nito.AsyncEx (NET45, Win8, WP8, WPA81).csproj", "{FCF85B9C-F6B3-4AFE-83D0-83C2CAA76D24}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Nito.AsyncEx.Enlightenment (NET4, Win8, SL5, WP8, WPA81)", "submodule\AsyncEx\Source\Enlightenment\Nito.AsyncEx.Enlightenment (NET4, Win8, SL5, WP8, WPA81)\Nito.AsyncEx.Enlightenment (NET4, Win8, SL5, WP8, WPA81).csproj", "{40CE2F27-B155-4D4E-8B07-A65B79B7DBEA}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -109,6 +113,18 @@ Global
 		{7168F82F-288A-42C4-9EB1-FBBE5112F211}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{7168F82F-288A-42C4-9EB1-FBBE5112F211}.Release|Any CPU.Build.0 = Release|Any CPU
 		{7168F82F-288A-42C4-9EB1-FBBE5112F211}.Release|x86.ActiveCfg = Release|Any CPU
+		{FCF85B9C-F6B3-4AFE-83D0-83C2CAA76D24}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FCF85B9C-F6B3-4AFE-83D0-83C2CAA76D24}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FCF85B9C-F6B3-4AFE-83D0-83C2CAA76D24}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{FCF85B9C-F6B3-4AFE-83D0-83C2CAA76D24}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FCF85B9C-F6B3-4AFE-83D0-83C2CAA76D24}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FCF85B9C-F6B3-4AFE-83D0-83C2CAA76D24}.Release|x86.ActiveCfg = Release|Any CPU
+		{40CE2F27-B155-4D4E-8B07-A65B79B7DBEA}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{40CE2F27-B155-4D4E-8B07-A65B79B7DBEA}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{40CE2F27-B155-4D4E-8B07-A65B79B7DBEA}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{40CE2F27-B155-4D4E-8B07-A65B79B7DBEA}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{40CE2F27-B155-4D4E-8B07-A65B79B7DBEA}.Release|Any CPU.Build.0 = Release|Any CPU
+		{40CE2F27-B155-4D4E-8B07-A65B79B7DBEA}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -121,5 +137,7 @@ Global
 		{5B1710D2-5DC8-4754-91B2-19165DE49B3D} = {F63BFB9C-7F5C-417E-82E2-7A448A11DCAC}
 		{C365CBC8-FB8C-439D-87A4-FAFBB25852EA} = {F63BFB9C-7F5C-417E-82E2-7A448A11DCAC}
 		{7168F82F-288A-42C4-9EB1-FBBE5112F211} = {F63BFB9C-7F5C-417E-82E2-7A448A11DCAC}
+		{FCF85B9C-F6B3-4AFE-83D0-83C2CAA76D24} = {F63BFB9C-7F5C-417E-82E2-7A448A11DCAC}
+		{40CE2F27-B155-4D4E-8B07-A65B79B7DBEA} = {F63BFB9C-7F5C-417E-82E2-7A448A11DCAC}
 	EndGlobalSection
 EndGlobal

@@ -132,7 +132,7 @@ namespace DY.WPF.SYSTEM.COMM
                     + exception.StackTrace);
                 response = null;
             }
-            if (DeliveryArrived != null)
+            if (DeliveryArrived != null && delivery != null)
                 DeliveryArrived(this, new DeliveryArrivalEventArgs(delivery));
             return response;
         }

@@ -133,7 +133,7 @@ namespace DY.NET.LSIS.XGT
                 try
                 {
                     string glopa_var = type.ToGlopa(i.Address);
-                    if (IsServiceableDeviceTerritory(type, glopa_var))
+                    if (!IsServiceableDeviceTerritory(type, glopa_var))
                         throw new ArgumentException("Not supported [" + glopa_var[1] + "] device.");
 
                     if (type == DataType.BOOL || type == DataType.BIT)
