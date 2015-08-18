@@ -74,56 +74,56 @@ namespace DY.NET
                 case DataType.BYTE: ret = typeof(Byte);
                     {
                         byte out_v;
-                        if (Byte.TryParse(string.Format("{0}", value), out out_v))
+                        if (Byte.TryParse(string.Format("{0}", str), out out_v))
                             value = out_v;
                     }
                     break;
                 case DataType.WORD:
                     {
                         ushort out_v;
-                        if (UInt16.TryParse(string.Format("{0}", value), out out_v))
+                        if (UInt16.TryParse(string.Format("{0}", str), out out_v))
                             value = out_v;
                     }
                     break;
                 case DataType.DWORD:
                     {
                         uint out_v;
-                        if (UInt32.TryParse(string.Format("{0}", value), out out_v))
+                        if (UInt32.TryParse(string.Format("{0}", str), out out_v))
                             value = out_v;
                     }
                     break;
                 case DataType.LWORD:
                     {
                         ulong out_v;
-                        if (UInt64.TryParse(string.Format("{0}", value), out out_v))
+                        if (UInt64.TryParse(string.Format("{0}", str), out out_v))
                             value = out_v;
                     }
                     break;
                 case DataType.SBYTE:
                     {
                         sbyte out_v;
-                        if (SByte.TryParse(string.Format("{0}", value), out out_v))
+                        if (SByte.TryParse(string.Format("{0}", str), out out_v))
                             value = out_v;
                     }
                     break;
                 case DataType.SHORT:
                     {
                         short out_v;
-                        if (Int16.TryParse(string.Format("{0}", value), out out_v))
+                        if (Int16.TryParse(string.Format("{0}", str), out out_v))
                             value = out_v;
                     }
                     break;
                 case DataType.INT:
                     {
                         int out_v;
-                        if (Int32.TryParse(string.Format("{0}", value), out out_v))
+                        if (Int32.TryParse(string.Format("{0}", str), out out_v))
                             value = out_v;
                     }
                     break;
                 case DataType.LONG:
                     {
                         long out_v;
-                        if (Int64.TryParse(string.Format("{0}", value), out out_v))
+                        if (Int64.TryParse(string.Format("{0}", str), out out_v))
                             value = out_v;
                     }
                     break;

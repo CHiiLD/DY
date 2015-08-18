@@ -87,26 +87,6 @@ namespace DY.NET.LSIS.XGT
             return instance;
         }
 
-        public static XGTFEnetProtocol NewRSSProtocol(Type type, ushort tag, Dictionary<string, object> datas)
-        {
-            return NewRSSProtocol(type, XGTFEnetHeader.CreateXGTFEnetHeader(tag), datas);
-        }
-
-        public static XGTFEnetProtocol NewWSSProtocol(Type type, ushort tag, Dictionary<string, object> datas)
-        {
-            return NewWSSProtocol(type, XGTFEnetHeader.CreateXGTFEnetHeader(tag), datas);
-        }
-
-        public static XGTFEnetProtocol NewRSBProtocol(Type type, ushort tag, string name, ushort block_cnt)
-        {
-            return NewRSBProtocol(type, XGTFEnetHeader.CreateXGTFEnetHeader(tag), name, block_cnt);
-        }
-
-        public static XGTFEnetProtocol NewWSBProtocol(Type type, ushort tag, Dictionary<string, object> datas)
-        {
-            return NewWSBProtocol(type, XGTFEnetHeader.CreateXGTFEnetHeader(tag), datas);
-        }
-
         /// <summary>
         /// 정적 생성 팩토리 메서드
         /// 직접 변수 개별 읽기 RSS
@@ -115,14 +95,14 @@ namespace DY.NET.LSIS.XGT
         /// <param name="header">XGTFEnetHeader</param>
         /// <param name="storage">변수이름과 메모리 주소가 담긴 Dictionary, 최대 16개까지 등록가능</param>
         /// <returns>RSS-XGTFEnetProtocol 객체</returns>
-        private static XGTFEnetProtocol NewRSSProtocol(Type type, XGTFEnetHeader header, Dictionary<string, object> storage)
+        public static XGTFEnetProtocol NewRSSProtocol(Type type, ushort tag, Dictionary<string, object> storage)
         {
             if (storage.Count == 0 || storage == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
             if (storage.Count > READED_MEM_MAX_COUNT)
                 throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
-
-            var instance = CreateRequestProtocol(header, XGTFEnetCommand.READ_REQT, (ushort)storage.Count);
+            XGTFEnetHeader header = XGTFEnetHeader.CreateXGTFEnetHeader(tag);
+            XGTFEnetProtocol instance = CreateRequestProtocol(header, XGTFEnetCommand.READ_REQT, (ushort)storage.Count);
             instance.TType = type;
             instance.StorageDictionary = new Dictionary<string, object>(storage);
             instance.DataType = type.ToXGTFEnetDataType();
@@ -136,14 +116,32 @@ namespace DY.NET.LSIS.XGT
         /// <param name="header">XGTFEnetHeader</param>
         /// <param name="storage">변수이름과 메모리 주소가 담긴 Dictionary, 최대 16개까지 등록가능</param>
         /// <returns>WSS-XGTFEnetProtocol 객체</returns>
-        private static XGTFEnetProtocol NewWSSProtocol(Type type, XGTFEnetHeader header, Dictionary<string, object> storage)
+        public static XGTFEnetProtocol NewWSSProtocol(Type type, ushort tag, Dictionary<string, object> storage)
         {
             if (storage.Count == 0 || storage == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
             if (storage.Count > READED_MEM_MAX_COUNT)
                 throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
-
-            var instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, (ushort)storage.Count);
+            if (type == typeof(bool))
+            {
+                //변수 이름 표현에 있어서 비트 영역을 접근하고자 할 때에는 메모리 디바이스의 데이터 타입 단위 순서로 
+                //표현하여야 한다. M172의 C번째 비트를 쓰기 위해서는 M이 워드 디바이스임으로 아래와 같이 비트 타입으로 산출해내는 과정이 필요
+                //172 * 16 + 12 = 2764 -> %MX2764
+                Dictionary<string, object> newStorage = new Dictionary<string, object>();
+                foreach(var p in storage)
+                {
+                    string dec_str = p.Key.Substring(3, p.Key.Length - 4);
+                    string hex_str = p.Key.Last().ToString();
+                    int dec_int =  Convert.ToInt32(dec_str);
+                    int hex_int = Convert.ToInt32(hex_str, 16);
+                    int mem_int = (dec_int * 16) + hex_int;
+                    string key = p.Key.Substring(0, 3) + mem_int.ToString();
+                    newStorage.Add(key, p.Value);
+                    storage = newStorage;
+                }
+            }
+            XGTFEnetHeader header = XGTFEnetHeader.CreateXGTFEnetHeader(tag);
+            XGTFEnetProtocol instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, (ushort)storage.Count);
             instance.TType = type;
             instance.StorageDictionary = new Dictionary<string, object>(storage);
             instance.DataType = type.ToXGTFEnetDataType();
@@ -159,14 +157,15 @@ namespace DY.NET.LSIS.XGT
         /// <param name="name">읽어들일 시작 메모리 주소</param>
         /// <param name="block_cnt">읽을 개수(최대 16개)</param>
         /// <returns>RSB-XGTFEnetProtocol 객체</returns>
-        private static XGTFEnetProtocol NewRSBProtocol(Type type, XGTFEnetHeader header, string name, ushort block_cnt)
+        public static XGTFEnetProtocol NewRSBProtocol(Type type, ushort tag, string name, ushort block_cnt)
         {
             string gname = name;
             if (!(type == typeof(Byte) || type == typeof(SByte))) //BYTE타입만 가능
                 throw new ArgumentException("Rsb communication only supported byte data type");
             if (!UsableRSBDeviceNameList.Contains(name[1]))
                 throw new ArgumentException("this device type can not service");
-            var instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, 1);
+            XGTFEnetHeader header = XGTFEnetHeader.CreateXGTFEnetHeader(tag);
+            XGTFEnetProtocol instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, 1);
             instance.TType = type;
             instance.DataType = XGTFEnetDataType.CONTINUATION;
             for (int i = 0; i < block_cnt; i++)
@@ -187,7 +186,7 @@ namespace DY.NET.LSIS.XGT
         /// <param name="header">XGTFEnetHeader 객체</param>
         /// <param name="storage">변수이름과 메모리 주소가 담긴 Dictionary, 최대 16개까지 등록가능</param>
         /// <returns>RSB-XGTFEnetProtocol 객체</returns>
-        private static XGTFEnetProtocol NewWSBProtocol(Type type, XGTFEnetHeader header, Dictionary<string, object> storage)
+        public static XGTFEnetProtocol NewWSBProtocol(Type type, ushort tag, Dictionary<string, object> storage)
         {
             if (storage.Count == 0 || storage == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
@@ -195,7 +194,8 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentException("Rsb communication only supported byte data type");
             if (!UsableRSBDeviceNameList.Contains(storage.First().Key[1]))
                 throw new ArgumentException("this device type can not service");
-            var instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, 1);
+            XGTFEnetHeader header = XGTFEnetHeader.CreateXGTFEnetHeader(tag);
+            XGTFEnetProtocol instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, 1);
             instance.TType = type;
             instance.StorageDictionary = new Dictionary<string, object>(storage);
             instance.DataType = XGTFEnetDataType.CONTINUATION;

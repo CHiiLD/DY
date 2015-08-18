@@ -61,6 +61,7 @@ namespace DY.NET.LSIS.XGT
             if (m_SerialPort == null)
                 throw new NullReferenceException(ERROR_SERIALPORT_IS_NULL);
             m_SerialPort.Open(); //접속 시도
+            BaseStream = m_SerialPort.BaseStream;
             //RS232(USB 컨버트)케이블과 물리적으로 연결되지 않아도 연결이 되는 경우가 있음을 대비하여, 
             //Zero신호를 보내 연결됨을 확인한다.
             if (!IsConnected())
@@ -68,7 +69,6 @@ namespace DY.NET.LSIS.XGT
                 Close();
                 return false;
             }
-            BaseStream = m_SerialPort.BaseStream;
             ConnectionStatusChangedEvent(true);
             LOG.Debug(Description + " 통신 접속 성공");
             return IsConnected();

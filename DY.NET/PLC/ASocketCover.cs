@@ -18,6 +18,8 @@ namespace DY.NET
     public abstract class ASocketCover : ISocketCover
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();
+        private readonly AsyncLock m_AsyncLock = new AsyncLock();
+
         protected readonly byte[] EMPTY_BYTE = new byte[1];
         //BUFFER
         public const int STREAM_BUFFER_SIZE = 4096;
@@ -32,6 +34,7 @@ namespace DY.NET
         public int Tag { get; set; }
         public string Description { get; set; }
         public object UserData { get; set; }
+        
         /// <summary>
         /// Connect, Close 이벤트 발생 시 호출
         /// </summary>
@@ -73,8 +76,6 @@ namespace DY.NET
                 return size;
         }
 
-        private readonly AsyncLock m_AsyncLock = new AsyncLock();
-
         /// <summary>
         /// 비동기 통신으로 PLC와 통신하여 요청 메세지를 보내고 응답 메세지를 받는다
         /// </summary>
@@ -87,7 +88,6 @@ namespace DY.NET
             // AsyncLock can be locked asynchronously
             using (await m_AsyncLock.LockAsync())
             {
-                LOG.Debug("LOCK -------------------");
                 AProtocol r = request as AProtocol;
                 StreamBufferIndex = 0;
                 do
@@ -105,7 +105,6 @@ namespace DY.NET
                     }
                     await WaitResponsePostAsync(delivery, r);
                 } while (false);
-                LOG.Debug("UNLOCK =============");
             }
             return delivery.Packing();
         }

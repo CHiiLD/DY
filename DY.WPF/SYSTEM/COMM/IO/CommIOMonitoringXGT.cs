@@ -168,6 +168,7 @@ namespace DY.WPF.SYSTEM.COMM
             if (value == null)
                 return;
             string glopa = XGTProtocolHelper.ToGlopa(io_data.Type, io_data.Address);
+            LOG.Debug(glopa + " -> "+ value);
             Dictionary<string, object> storage = new Dictionary<string, object>() { { glopa, value } };
             IProtocol request = null;
             IProtocol response = null;

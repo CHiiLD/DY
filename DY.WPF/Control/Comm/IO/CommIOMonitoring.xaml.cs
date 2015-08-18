@@ -133,8 +133,8 @@ namespace DY.WPF
                 DataFieldY = "Value",
                 //StrokeThickness = 2,
                 MarkerSize = 3,
-                //MarkerStroke = OxyColors.Blue,
-                //MarkerFill = OxyColors.Blue,
+                MarkerStroke = OxyColors.Green,
+                MarkerFill = OxyColors.Green,
                 Color = OxyColors.Green,
                 MarkerType = MarkerType.Star,
             });
