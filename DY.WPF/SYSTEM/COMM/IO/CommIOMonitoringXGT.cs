@@ -127,7 +127,7 @@ namespace DY.WPF.SYSTEM.COMM
             }
             catch (Exception exception)
             {
-                LOG.Debug(CClient.Summary + " UpdateIOAsync 예외처리 메세지는 이하와 같음: "
+                LOG.Trace(CClient.Summary + " UpdateIOAsync 예외처리 메세지는 이하와 같음: "
                     + exception.Message
                     + exception.StackTrace);
                 response = null;
@@ -168,7 +168,6 @@ namespace DY.WPF.SYSTEM.COMM
             if (value == null)
                 return;
             string glopa = XGTProtocolHelper.ToGlopa(io_data.Type, io_data.Address);
-            LOG.Debug(glopa + " -> "+ value);
             Dictionary<string, object> tickets = new Dictionary<string, object>() { { glopa, value } };
             IProtocol request = null;
             IProtocol response = null;

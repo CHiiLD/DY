@@ -95,7 +95,7 @@ namespace DY.WPF
             }
             await progress.CloseAsync();
             await metro_win.ShowMessageAsync(title, message);
-            LOG.Debug("시도 결과: " + message);
+            LOG.Trace("시도 결과: " + message);
             return isConnected;
         }
 
