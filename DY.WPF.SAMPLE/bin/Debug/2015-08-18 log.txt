@@ -11939,3 +11939,63 @@ Tcp 192.168.10.150:2004 CommClient 메모리 해제
 14:31:35 DY.WPF.SYSTEM.COMM.CommClientDirector
 CommClientDirector 메모리 해제
 
+20:52:15 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+20:52:17 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+20:52:54 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+20:52:57 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+20:53:25 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 해제
+
+20:53:26 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+20:53:27 DY.WPF.CommConnectionDataGrid
+통신 접속 에러: 포트가 이미 열려 있습니다.
+
+20:53:29 DY.WPF.CommConnectionDataGrid
+시도 결과: Connection failed.
+
+20:53:39 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 해제
+
+20:53:41 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+20:53:44 DY.WPF.CommConnectionDataGrid
+시도 결과: It was successfully connected.
+
+20:54:26 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+20:54:44 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 해제
+
+20:54:46 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 해제
+
+20:54:46 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 메모리 해제
+
+20:54:46 DY.WPF.SYSTEM.COMM.CommClient
+COM3 9600-8-N-1 CommClient 메모리 해제
+
+20:54:46 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 해제 및 메모리 해제
+
+20:54:46 DY.WPF.SYSTEM.COMM.CommClient
+Tcp 192.168.10.150:2004 CommClient 메모리 해제
+
+20:54:46 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+20:55:19 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+

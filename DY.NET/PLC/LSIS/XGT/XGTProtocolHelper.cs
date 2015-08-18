@@ -124,7 +124,7 @@ namespace DY.NET.LSIS.XGT
             if (items == null)
                 throw new ArgumentNullException("items argument is null");
 
-            Dictionary<string, DataType> storage = new Dictionary<string, DataType>();
+            Dictionary<string, DataType> tickets = new Dictionary<string, DataType>();
             int line_cnt = 0;
             foreach (var i in items)
             {
@@ -138,15 +138,15 @@ namespace DY.NET.LSIS.XGT
 
                     if (type == DataType.BOOL || type == DataType.BIT)
                         glopa_var = glopa_var.Substring(0, glopa_var.Length - 1).Remove(2, 1).Insert(2, "W");
-                    if (!storage.ContainsKey(glopa_var))
-                        storage.Add(glopa_var, ((type == DataType.BIT) || (type == DataType.BOOL)) ? DataType.WORD : type);
+                    if (!tickets.ContainsKey(glopa_var))
+                        tickets.Add(glopa_var, ((type == DataType.BIT) || (type == DataType.BOOL)) ? DataType.WORD : type);
                 }
                 catch (Exception exception)
                 {
                     throw new Exception(exception.Message + "(row" + line_cnt + ")");
                 }
             }
-            return storage;
+            return tickets;
         }
 
         /// <summary>

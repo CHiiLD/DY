@@ -77,7 +77,7 @@ namespace DY.NET.LSIS.XGT
         public static XGTFEnetProtocol CreateResponseProtocol(byte[] asc_data, XGTFEnetProtocol reqt)
         {
             XGTFEnetProtocol instance = new XGTFEnetProtocol();
-            instance.StorageDictionary = new Dictionary<string, object>(reqt.StorageDictionary);
+            instance.Tickets = new Dictionary<string, object>(reqt.Tickets);
             instance.MirrorProtocol = reqt;
             instance.ASCIIData = asc_data;
             instance.Tag = reqt.Tag;
@@ -93,18 +93,18 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         /// <param name="type">메모리 타입</param>
         /// <param name="header">XGTFEnetHeader</param>
-        /// <param name="storage">변수이름과 메모리 주소가 담긴 Dictionary, 최대 16개까지 등록가능</param>
+        /// <param name="tickets">변수이름과 메모리 주소가 담긴 Dictionary, 최대 16개까지 등록가능</param>
         /// <returns>RSS-XGTFEnetProtocol 객체</returns>
-        public static XGTFEnetProtocol NewRSSProtocol(Type type, ushort tag, Dictionary<string, object> storage)
+        public static XGTFEnetProtocol NewRSSProtocol(Type type, ushort tag, Dictionary<string, object> tickets)
         {
-            if (storage.Count == 0 || storage == null)
+            if (tickets.Count == 0 || tickets == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
-            if (storage.Count > READED_MEM_MAX_COUNT)
+            if (tickets.Count > READED_MEM_MAX_COUNT)
                 throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
             XGTFEnetHeader header = XGTFEnetHeader.CreateXGTFEnetHeader(tag);
-            XGTFEnetProtocol instance = CreateRequestProtocol(header, XGTFEnetCommand.READ_REQT, (ushort)storage.Count);
+            XGTFEnetProtocol instance = CreateRequestProtocol(header, XGTFEnetCommand.READ_REQT, (ushort)tickets.Count);
             instance.TType = type;
-            instance.StorageDictionary = new Dictionary<string, object>(storage);
+            instance.Tickets = new Dictionary<string, object>(tickets);
             instance.DataType = type.ToXGTFEnetDataType();
             return instance;
         }
@@ -114,21 +114,21 @@ namespace DY.NET.LSIS.XGT
         /// 직접 변수 개별 쓰기 WSS
         /// <param name="type">메모리 타입</param>
         /// <param name="header">XGTFEnetHeader</param>
-        /// <param name="storage">변수이름과 메모리 주소가 담긴 Dictionary, 최대 16개까지 등록가능</param>
+        /// <param name="tickets">변수이름과 메모리 주소가 담긴 Dictionary, 최대 16개까지 등록가능</param>
         /// <returns>WSS-XGTFEnetProtocol 객체</returns>
-        public static XGTFEnetProtocol NewWSSProtocol(Type type, ushort tag, Dictionary<string, object> storage)
+        public static XGTFEnetProtocol NewWSSProtocol(Type type, ushort tag, Dictionary<string, object> tickets)
         {
-            if (storage.Count == 0 || storage == null)
+            if (tickets.Count == 0 || tickets == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
-            if (storage.Count > READED_MEM_MAX_COUNT)
+            if (tickets.Count > READED_MEM_MAX_COUNT)
                 throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
             if (type == typeof(bool))
             {
                 //변수 이름 표현에 있어서 비트 영역을 접근하고자 할 때에는 메모리 디바이스의 데이터 타입 단위 순서로 
                 //표현하여야 한다. M172의 C번째 비트를 쓰기 위해서는 M이 워드 디바이스임으로 아래와 같이 비트 타입으로 산출해내는 과정이 필요
                 //172 * 16 + 12 = 2764 -> %MX2764
-                Dictionary<string, object> newStorage = new Dictionary<string, object>();
-                foreach(var p in storage)
+                Dictionary<string, object> newtickets = new Dictionary<string, object>();
+                foreach(var p in tickets)
                 {
                     string dec_str = p.Key.Substring(3, p.Key.Length - 4);
                     string hex_str = p.Key.Last().ToString();
@@ -136,14 +136,14 @@ namespace DY.NET.LSIS.XGT
                     int hex_int = Convert.ToInt32(hex_str, 16);
                     int mem_int = (dec_int * 16) + hex_int;
                     string key = p.Key.Substring(0, 3) + mem_int.ToString();
-                    newStorage.Add(key, p.Value);
-                    storage = newStorage;
+                    newtickets.Add(key, p.Value);
+                    tickets = newtickets;
                 }
             }
             XGTFEnetHeader header = XGTFEnetHeader.CreateXGTFEnetHeader(tag);
-            XGTFEnetProtocol instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, (ushort)storage.Count);
+            XGTFEnetProtocol instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, (ushort)tickets.Count);
             instance.TType = type;
-            instance.StorageDictionary = new Dictionary<string, object>(storage);
+            instance.Tickets = new Dictionary<string, object>(tickets);
             instance.DataType = type.ToXGTFEnetDataType();
             return instance;
         }
@@ -174,7 +174,7 @@ namespace DY.NET.LSIS.XGT
                 string str_num = gname.Substring(3, gname.Length - 3);
                 int mem_num;
                 if (Int32.TryParse(str_num, out mem_num))
-                    instance.StorageDictionary.Add(str_header + (mem_num + i).ToString(), null);
+                    instance.Tickets.Add(str_header + (mem_num + i).ToString(), null);
             }
             return instance;
         }
@@ -184,20 +184,20 @@ namespace DY.NET.LSIS.XGT
         /// 직접 변수 연속 쓰기 WSB
         /// <param name="type">메모리 타입</param>
         /// <param name="header">XGTFEnetHeader 객체</param>
-        /// <param name="storage">변수이름과 메모리 주소가 담긴 Dictionary, 최대 16개까지 등록가능</param>
+        /// <param name="tickets">변수이름과 메모리 주소가 담긴 Dictionary, 최대 16개까지 등록가능</param>
         /// <returns>RSB-XGTFEnetProtocol 객체</returns>
-        public static XGTFEnetProtocol NewWSBProtocol(Type type, ushort tag, Dictionary<string, object> storage)
+        public static XGTFEnetProtocol NewWSBProtocol(Type type, ushort tag, Dictionary<string, object> tickets)
         {
-            if (storage.Count == 0 || storage == null)
+            if (tickets.Count == 0 || tickets == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
             if (!(type == typeof(Byte) || type == typeof(SByte))) //BYTE타입만 가능
                 throw new ArgumentException("Rsb communication only supported byte data type");
-            if (!UsableRSBDeviceNameList.Contains(storage.First().Key[1]))
+            if (!UsableRSBDeviceNameList.Contains(tickets.First().Key[1]))
                 throw new ArgumentException("this device type can not service");
             XGTFEnetHeader header = XGTFEnetHeader.CreateXGTFEnetHeader(tag);
             XGTFEnetProtocol instance = CreateRequestProtocol(header, XGTFEnetCommand.WRITE_REQT, 1);
             instance.TType = type;
-            instance.StorageDictionary = new Dictionary<string, object>(storage);
+            instance.Tickets = new Dictionary<string, object>(tickets);
             instance.DataType = XGTFEnetDataType.CONTINUATION;
             return instance;
         }
@@ -215,7 +215,7 @@ namespace DY.NET.LSIS.XGT
             //RSS
             if (Command == XGTFEnetCommand.READ_REQT && DataType != XGTFEnetDataType.CONTINUATION)
             {
-                foreach (var d in StorageDictionary)
+                foreach (var d in Tickets)
                 {
                     asc_data.AddRange(CV2BR.ToBytes(d.Key.Length, typeof(UInt16))); //변수 길이
                     asc_data.AddRange(CV2BR.ToBytes(d.Key)); //변수 이름
@@ -224,9 +224,9 @@ namespace DY.NET.LSIS.XGT
             //RSB
             else if (Command == XGTFEnetCommand.READ_REQT && DataType == XGTFEnetDataType.CONTINUATION)
             {
-                asc_data.AddRange(CV2BR.ToBytes(StorageDictionary.First().Key.Length, typeof(UInt16))); //변수 길이
-                asc_data.AddRange(CV2BR.ToBytes(StorageDictionary.First().Key)); //변수 이름
-                int byte_size = StorageDictionary.Count() * TType.ToSize();
+                asc_data.AddRange(CV2BR.ToBytes(Tickets.First().Key.Length, typeof(UInt16))); //변수 길이
+                asc_data.AddRange(CV2BR.ToBytes(Tickets.First().Key)); //변수 이름
+                int byte_size = Tickets.Count() * TType.ToSize();
                 if (byte_size > PROTOCOL_SB_MAX_DATA_CNT)
                     throw new Exception(ERROR_PROTOCOL_SB_DATACNT_LIMIT);
                 asc_data.AddRange(CV2BR.ToBytes(byte_size, typeof(UInt16))); //읽을 개수
@@ -234,7 +234,7 @@ namespace DY.NET.LSIS.XGT
             //WSS
             else if (Command == XGTFEnetCommand.WRITE_REQT && DataType != XGTFEnetDataType.CONTINUATION)
             {
-                foreach (var d in StorageDictionary)
+                foreach (var d in Tickets)
                 {
                     asc_data.AddRange(CV2BR.ToBytes(d.Key.Length, typeof(UInt16))); //변수 길이
                     asc_data.AddRange(CV2BR.ToBytes(d.Key)); //변수 이름
@@ -245,11 +245,11 @@ namespace DY.NET.LSIS.XGT
             //WSB
             else if (Command == XGTFEnetCommand.READ_REQT && DataType == XGTFEnetDataType.CONTINUATION)
             {
-                asc_data.AddRange(CV2BR.ToBytes(StorageDictionary.First().Key.Length, typeof(UInt16))); //변수 길이
-                asc_data.AddRange(CV2BR.ToBytes(StorageDictionary.First().Key)); //변수 이름
-                asc_data.AddRange(CV2BR.ToBytes(StorageDictionary.Count(), typeof(UInt16))); //쓸 데이터 개수
+                asc_data.AddRange(CV2BR.ToBytes(Tickets.First().Key.Length, typeof(UInt16))); //변수 길이
+                asc_data.AddRange(CV2BR.ToBytes(Tickets.First().Key)); //변수 이름
+                asc_data.AddRange(CV2BR.ToBytes(Tickets.Count(), typeof(UInt16))); //쓸 데이터 개수
                 int sum = 0;
-                foreach (var d in StorageDictionary)
+                foreach (var d in Tickets)
                 {
                     var bytes = CV2BR.ToBytes(d.Value);
                     sum += bytes.Length;
@@ -284,7 +284,7 @@ namespace DY.NET.LSIS.XGT
             int data_idx = 0;
             Buffer.BlockCopy(ASCIIData, XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE + INSTRUCTION_BASIC_FORMAT_SIZE, data, 0, data.Length);
             //RSS
-            var list = StorageDictionary.ToList();
+            var list = Tickets.ToList();
             if (Command == XGTFEnetCommand.READ_RESP && DataType != XGTFEnetDataType.CONTINUATION)
             {
                 for (int i = 0; i < BlocCnt; i++)
@@ -293,7 +293,7 @@ namespace DY.NET.LSIS.XGT
                     data_idx += 2;
                     byte[] data_arr = new byte[sizeOfType];
                     Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
-                    StorageDictionary[list[i].Key] = CV2BR.ToValue(data_arr, TType);
+                    Tickets[list[i].Key] = CV2BR.ToValue(data_arr, TType);
                     data_idx += data_arr.Length;
                 }
             }
@@ -305,7 +305,7 @@ namespace DY.NET.LSIS.XGT
                 {
                     byte[] data_arr = new byte[data_type_size];
                     Buffer.BlockCopy(data, data_idx, data_arr, 0, data_arr.Length);
-                    StorageDictionary[list[i].Key] = CV2BR.ToValue(data_arr, TType);
+                    Tickets[list[i].Key] = CV2BR.ToValue(data_arr, TType);
                     data_idx += data_arr.Length;
                 }
             }
@@ -326,7 +326,7 @@ namespace DY.NET.LSIS.XGT
             int i = 0;
             if (Command == XGTFEnetCommand.READ_REQT || Command == XGTFEnetCommand.READ_RESP)
             {
-                foreach (var d in StorageDictionary)
+                foreach (var d in Tickets)
                 {
                     Console.Write(string.Format("[{0}] name: {1}", ++i, d.Key));
                     Console.WriteLine(string.Format(" value: {0}", d.Value));

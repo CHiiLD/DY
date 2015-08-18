@@ -84,7 +84,6 @@ namespace DY.NET
         public async Task<Delivery> PostAsync(IProtocol request)
         {
             Delivery delivery = new Delivery();
-
             // AsyncLock can be locked asynchronously
             using (await m_AsyncLock.LockAsync())
             {

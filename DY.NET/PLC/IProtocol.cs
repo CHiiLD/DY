@@ -15,6 +15,6 @@ namespace DY.NET
     /// </summary>
     public interface IProtocol : ITag, IDebug
     {
-        Dictionary<string, object> GetStorage();
+        Dictionary<string, object> DrawTickets();
     }
 }

@@ -12,7 +12,7 @@ namespace DY.NET
     public abstract class AProtocol : IProtocol
     {
         //데이터 박스
-        protected Dictionary<string, object> StorageDictionary = new Dictionary<string, object>();
+        protected Dictionary<string, object> Tickets = new Dictionary<string, object>();
 
         protected byte[] ASCIIData;
         // ASCII 데이터
@@ -52,9 +52,9 @@ namespace DY.NET
                 this.ASCIIData = (byte[])that.ASCIIData.Clone();
         }
 
-        public Dictionary<string, object> GetStorage()
+        public Dictionary<string, object> DrawTickets()
         {
-            return new Dictionary<string, object>(StorageDictionary);
+            return new Dictionary<string, object>(Tickets);
         }
         
         public abstract void AssembleProtocol();

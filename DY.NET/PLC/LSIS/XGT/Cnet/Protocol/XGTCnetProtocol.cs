@@ -62,19 +62,19 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         /// <param name="type">메모리 타입</param>
         /// <param name="localPort">국번</param>
-        /// <param name="storage">변수이름과 메모리 주소가 담긴 Dictionary, 최대 16개까지 등록가능</param>
+        /// <param name="tickets">변수이름과 메모리 주소가 담긴 Dictionary, 최대 16개까지 등록가능</param>
         /// <returns>RSS-XGTCnetProtocol 객체</returns>
-        public static XGTCnetProtocol NewRSSProtocol(Type type, ushort localPort, Dictionary<string, object> storage)
+        public static XGTCnetProtocol NewRSSProtocol(Type type, ushort localPort, Dictionary<string, object> tickets)
         {
-            if (storage.Count == 0 || storage == null)
+            if (tickets.Count == 0 || tickets == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
-            if (storage.Count > READED_MEM_MAX_COUNT)
+            if (tickets.Count > READED_MEM_MAX_COUNT)
                 throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
 
             var instance = CreateRequestProtocol(localPort, XGTCnetCommand.R, XGTCnetCmdType.SS);
             instance.TType = type;
-            instance.StorageDictionary = new Dictionary<string, object>(storage);
-            instance.BlocCnt = (ushort)instance.StorageDictionary.Count;
+            instance.Tickets = new Dictionary<string, object>(tickets);
+            instance.BlocCnt = (ushort)instance.Tickets.Count;
             return instance;
         }
 
@@ -84,19 +84,19 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         /// <param name="type">메모리 타입</param>
         /// <param name="localPort">국번</param>
-        /// <param name="storage">변수이름과 메모리 주소가 담긴 Dictionary, 최대 16개까지 등록가능</param>
+        /// <param name="tickets">변수이름과 메모리 주소가 담긴 Dictionary, 최대 16개까지 등록가능</param>
         /// <returns>WSS-XGTCnetProtocol 객체</returns>
-        public static XGTCnetProtocol NewWSSProtocol(Type type, ushort localPort, Dictionary<string, object> storage)
+        public static XGTCnetProtocol NewWSSProtocol(Type type, ushort localPort, Dictionary<string, object> tickets)
         {
-            if (storage.Count == 0 || storage == null)
+            if (tickets.Count == 0 || tickets == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
-            if (storage.Count > READED_MEM_MAX_COUNT)
+            if (tickets.Count > READED_MEM_MAX_COUNT)
                 throw new ArgumentException(ERROR_READED_MEM_COUNT_LIMIT);
 
             var instance = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCmdType.SS);
             instance.TType = type;
-            instance.StorageDictionary = new Dictionary<string, object>(storage);
-            instance.BlocCnt = (ushort)instance.StorageDictionary.Count;
+            instance.Tickets = new Dictionary<string, object>(tickets);
+            instance.BlocCnt = (ushort)instance.Tickets.Count;
             return instance;
         }
 
@@ -124,7 +124,7 @@ namespace DY.NET.LSIS.XGT
                 string str_num = name.Substring(3, name.Length - 3);
                 int mem_num;
                 if (Int32.TryParse(str_num, out mem_num))
-                    instance.StorageDictionary.Add(str_header + (mem_num + i).ToString(), type);
+                    instance.Tickets.Add(str_header + (mem_num + i).ToString(), type);
             }
             return instance;
         }
@@ -135,23 +135,23 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         /// <param name="type">메모리 타입</param>
         /// <param name="localPort">국번</param>
-        /// <param name="storage">변수이름과 메모리 주소가 담긴 구조체</param>
+        /// <param name="tickets">변수이름과 메모리 주소가 담긴 구조체</param>
         /// <returns>WSB-XGTCnetProtocol 객체</returns>
-        public static XGTCnetProtocol NewWSBProtocol(Type type, ushort localPort, Dictionary<string, object> storage)
+        public static XGTCnetProtocol NewWSBProtocol(Type type, ushort localPort, Dictionary<string, object> tickets)
         {
-            if (storage.Count == 0 || storage == null)
+            if (tickets.Count == 0 || tickets == null)
                 throw new ArgumentException(ERROR_ENQ_IS_NULL_OR_EMPTY);
 
             int size_sum = 0;
-            foreach (var d in storage)
+            foreach (var d in tickets)
                 size_sum += type.ToSize() * 2;
             if (size_sum > PROTOCOL_WSB_SIZE_MAX_240BYTE)
                 throw new ArgumentException(ERROR_PROTOCOL_WSB_SIZE_MAX_240BYTE);
 
             var instance = CreateRequestProtocol(localPort, XGTCnetCommand.W, XGTCnetCmdType.SB);
             instance.TType = type;
-            instance.StorageDictionary = new Dictionary<string, object>(storage);
-            instance.DataCnt = (ushort)storage.Count;
+            instance.Tickets = new Dictionary<string, object>(tickets);
+            instance.DataCnt = (ushort)tickets.Count;
             return instance;
         }
 
@@ -165,7 +165,7 @@ namespace DY.NET.LSIS.XGT
         public static XGTCnetProtocol CreateResponseProtocol(byte[] received_data, XGTCnetProtocol request)
         {
             XGTCnetProtocol instance = new XGTCnetProtocol(received_data);
-            instance.StorageDictionary = new Dictionary<string, object>(request.StorageDictionary);
+            instance.Tickets = new Dictionary<string, object>(request.Tickets);
             instance.MirrorProtocol = request;
             instance.TType = request.TType;
             instance.Tag = request.Tag;
@@ -195,8 +195,8 @@ namespace DY.NET.LSIS.XGT
 
         private void AddRSSProtocol(List<byte> ASCII)
         {
-            ASCII.AddRange(CA2C.ToASC(StorageDictionary.Count, typeof(UInt16)));// 블록 수
-            foreach (var d in StorageDictionary)
+            ASCII.AddRange(CA2C.ToASC(Tickets.Count, typeof(UInt16)));// 블록 수
+            foreach (var d in Tickets)
             {
                 ASCII.AddRange(CA2C.ToASC(d.Key.Length, typeof(UInt16)));// 변수 이름 길이
                 ASCII.AddRange(CA2C.ToASC(d.Key));                       // 변수 이름 정보 
@@ -205,8 +205,8 @@ namespace DY.NET.LSIS.XGT
 
         private void AddWSSProtocol(List<byte> ASCII)
         {
-            ASCII.AddRange(CA2C.ToASC(StorageDictionary.Count, typeof(UInt16)));               // 블록 수
-            foreach (var d in StorageDictionary)
+            ASCII.AddRange(CA2C.ToASC(Tickets.Count, typeof(UInt16)));               // 블록 수
+            foreach (var d in Tickets)
             {
                 ASCII.AddRange(CA2C.ToASC(d.Key.Length, typeof(UInt16)));// 변수 이름 길이
                 ASCII.AddRange(CA2C.ToASC(d.Key));                       // 변수 이름 정보 
@@ -217,17 +217,17 @@ namespace DY.NET.LSIS.XGT
         // not support bit data
         private void AddRSBProtocol(List<byte> ASCII)
         {
-            ASCII.AddRange(CA2C.ToASC(StorageDictionary.First().Key.Length, typeof(UInt16)));
-            ASCII.AddRange(CA2C.ToASC(StorageDictionary.First().Key));
-            ASCII.AddRange(CA2C.ToASC(StorageDictionary));
+            ASCII.AddRange(CA2C.ToASC(Tickets.First().Key.Length, typeof(UInt16)));
+            ASCII.AddRange(CA2C.ToASC(Tickets.First().Key));
+            ASCII.AddRange(CA2C.ToASC(Tickets));
         }
 
         private void AddWSBProtocol(List<byte> ASCII)
         {
-            ASCII.AddRange(CA2C.ToASC(StorageDictionary.First().Key.Length, typeof(UInt16)));
-            ASCII.AddRange(CA2C.ToASC(StorageDictionary.First().Key));
+            ASCII.AddRange(CA2C.ToASC(Tickets.First().Key.Length, typeof(UInt16)));
+            ASCII.AddRange(CA2C.ToASC(Tickets.First().Key));
             ASCII.AddRange(CA2C.ToASC(DataCnt));
-            foreach (var d in StorageDictionary)
+            foreach (var d in Tickets)
                 ASCII.AddRange(CA2C.ToASC(d.Value));
         }
 
@@ -266,7 +266,7 @@ namespace DY.NET.LSIS.XGT
             byte[] instruct_data = GetInstructData();
             BlocCnt = (ushort)CA2C.ToValue(new byte[] { instruct_data[0], instruct_data[1] }, typeof(UInt16));
             int idx = 2;
-            var dic = StorageDictionary.ToList();
+            var dic = Tickets.ToList();
             for (int i = 0; i < BlocCnt; i++)
             {
                 ushort size = (ushort)CA2C.ToValue(new byte[] { instruct_data[idx + 0], instruct_data[idx + 1] }, typeof(UInt16));
@@ -274,7 +274,7 @@ namespace DY.NET.LSIS.XGT
                 byte[] value = new byte[size * 2];
                 Buffer.BlockCopy(instruct_data, idx, value, 0, value.Length);
                 idx += value.Length;
-                StorageDictionary[dic[i].Key] = CA2C.ToValue(value, TType);
+                Tickets[dic[i].Key] = CA2C.ToValue(value, TType);
             }
         }
 
@@ -288,13 +288,13 @@ namespace DY.NET.LSIS.XGT
             byte[] instruct_data = GetInstructData();
             ushort data_len = (ushort)CA2C.ToValue(new byte[] { instruct_data[2], instruct_data[3] }, typeof(UInt16));// 데이터 개수 정보 쿼리
             int idx = 4;
-            var dic = StorageDictionary.ToList();
+            var dic = Tickets.ToList();
             int type_size = TType.ToSize();
             for (int i = 0; i < data_len / type_size; i++)
             {
                 byte[] value = new byte[type_size * 2];
                 Buffer.BlockCopy(instruct_data, idx, value, 0, value.Length);
-                StorageDictionary[dic[i].Key] = CA2C.ToValue(value, TType);
+                Tickets[dic[i].Key] = CA2C.ToValue(value, TType);
                 idx += value.Length;
             }
         }
@@ -346,7 +346,7 @@ namespace DY.NET.LSIS.XGT
             {
                 case XGTCnetCCType.ENQ:
                 case XGTCnetCCType.ACK:
-                    foreach (var d in StorageDictionary)
+                    foreach (var d in Tickets)
                     {
                         Console.Write(string.Format("[{0}] name: {1}", ++cnt, d.Key));
                         Console.WriteLine(string.Format(" value: {0}", d.Value));

@@ -40,23 +40,23 @@ namespace DY.WPF.SYSTEM.COMM
             ILookup<DataType, string> lookCollection = addrs.ToLookup(ad => ad.Value, ad => ad.Key);
             int cnt = 0;
             Protocols.Clear();
-            Dictionary<string, object> read_storage = new Dictionary<string, object>();
+            Dictionary<string, object> read_tickets = new Dictionary<string, object>();
             foreach (IGrouping<DataType, string> group in lookCollection)
             {
                 foreach (string str in group)
                 {
                     if (cnt % 16 == 0 && cnt != 0)
                     {
-                        Protocols.Add(CreateReadProtocol(group.Key, read_storage));
+                        Protocols.Add(CreateReadProtocol(group.Key, read_tickets));
                         cnt = 0;
-                        read_storage = new Dictionary<string, object>();
+                        read_tickets = new Dictionary<string, object>();
                     }
-                    read_storage.Add(str, null);
+                    read_tickets.Add(str, null);
                     cnt++;
                 }
-                Protocols.Add(CreateReadProtocol(group.Key, read_storage));
+                Protocols.Add(CreateReadProtocol(group.Key, read_tickets));
                 cnt = 0;
-                read_storage = new Dictionary<string, object>();
+                read_tickets = new Dictionary<string, object>();
             }
         }
 
@@ -79,7 +79,7 @@ namespace DY.WPF.SYSTEM.COMM
                 if (HasError(response))
                     continue;
                 //update excel only read
-                XGTProtocolHelper.Fill(response.GetStorage(), CommIOData);
+                XGTProtocolHelper.Fill(response.DrawTickets(), CommIOData);
             }
         }
 
@@ -169,14 +169,14 @@ namespace DY.WPF.SYSTEM.COMM
                 return;
             string glopa = XGTProtocolHelper.ToGlopa(io_data.Type, io_data.Address);
             LOG.Debug(glopa + " -> "+ value);
-            Dictionary<string, object> storage = new Dictionary<string, object>() { { glopa, value } };
+            Dictionary<string, object> tickets = new Dictionary<string, object>() { { glopa, value } };
             IProtocol request = null;
             IProtocol response = null;
             object error = null;
             if (CClient.Socket is XGTCnetSocket)
             {
                 ushort localPort = (ushort)(CClient.ExtraData[CommClient.EXTRA_XGT_CNET_LOCALPORT]);
-                request = XGTCnetProtocol.NewWSSProtocol(io_data.Type.ToType(), localPort, storage);
+                request = XGTCnetProtocol.NewWSSProtocol(io_data.Type.ToType(), localPort, tickets);
                 XGTCnetProtocol cnet = await Post(CClient.Socket as IPostAsync, request) as XGTCnetProtocol;
                 if (cnet.Error != XGTCnetProtocolError.OK)
                     error = cnet.Error;
@@ -184,7 +184,7 @@ namespace DY.WPF.SYSTEM.COMM
             }
             else if (CClient.Socket is XGTFEnetSocket)
             {
-                request = XGTFEnetProtocol.NewWSSProtocol(io_data.Type.ToType(), InvokeID, storage);
+                request = XGTFEnetProtocol.NewWSSProtocol(io_data.Type.ToType(), InvokeID, tickets);
                 XGTFEnetProtocol fenet = await Post(CClient.Socket as IPostAsync, request) as XGTFEnetProtocol;
                 if (fenet.Error != XGTFEnetProtocolError.OK)
                     error = fenet.Error;
