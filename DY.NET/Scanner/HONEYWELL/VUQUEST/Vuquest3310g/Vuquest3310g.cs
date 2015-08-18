@@ -75,7 +75,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
             Dispose();
         }
 
-        public async Task<int> WriteAsync(byte[] buffer, int offset, int count)
+        private async Task<int> WriteAsync(byte[] buffer, int offset, int count)
         {
             var BaseStream = m_SerialPort.BaseStream;
             var t_src = new CancellationTokenSource(WriteTimeout);
@@ -86,7 +86,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
                 return (int)DeliveryError.SUCCESS;
         }
 
-        public async Task<int> ReadAsync(byte[] buffer, int offset, int count)
+        private async Task<int> ReadAsync(byte[] buffer, int offset, int count)
         {
             var BaseStream = m_SerialPort.BaseStream;
             var t_src = new CancellationTokenSource(ReadTimeout);

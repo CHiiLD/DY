@@ -19,5 +19,28 @@ namespace DY.NET
             DelivaryTime.Stop();
             return this;
         }
+
+        public Delivery Packing(DeliveryError error)
+        {
+            Error = error;
+            DelivaryTime.Stop();
+            return this;
+        }
+
+        public Delivery Packing(object package)
+        {
+            Error = DeliveryError.SUCCESS;
+            Package = package;
+            DelivaryTime.Stop();
+            return this;
+        }
+
+        public Delivery Packing(object package, DeliveryError error)
+        {
+            Error = error;
+            Package = package;
+            DelivaryTime.Stop();
+            return this;
+        }
     }
 }

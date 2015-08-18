@@ -1,0 +1,66 @@
+08:27:43 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+08:31:50 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+08:32:28 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속 해제
+
+08:32:28 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+08:34:40 DY.WPF.SYSTEM.COMM.CommIOMonitoringXGT
+LSIS XGT Cnet(COM3)WSS 프로토콜 에러 발생, 프로토콜 정보는 이하와 같음
+
+08:34:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+XGT Cnet 프로토콜 정보
+
+08:34:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+ASC 코드: 05 30 30 57 53 53 30 31 30 38 25 4D 58 30 30 30 30 39 30 31 04
+
+08:34:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+국번: 0
+
+08:34:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+헤더: ENQ
+
+08:34:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+명령: W
+
+08:34:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+명령타입: SS
+
+08:34:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+테일: EOT
+
+08:34:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+BCC: 0
+
+08:34:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+XGT Cnet 프로토콜 정보
+
+08:34:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+ASC 코드: 15 30 30 52 53 53 33 34 31 32 03
+
+08:34:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+국번: 0
+
+08:34:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+헤더: NAK
+
+08:34:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+명령: R
+
+08:34:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+명령타입: SS
+
+08:34:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+에러: NO_NEED_FRAME
+
+08:34:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+테일: EXT
+
+08:34:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+BCC: 0
+

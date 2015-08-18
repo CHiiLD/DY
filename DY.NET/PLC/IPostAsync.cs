@@ -1,4 +1,5 @@
 ﻿using System.Threading.Tasks;
+using System.Threading;
 
 namespace DY.NET
 {
@@ -8,5 +9,6 @@ namespace DY.NET
     public interface IPostAsync : ITimeout
     {
         Task<Delivery> PostAsync(IProtocol request);
+        Task<Delivery> PostAsync(IProtocol request, CancellationTokenSource token);
     }
 }

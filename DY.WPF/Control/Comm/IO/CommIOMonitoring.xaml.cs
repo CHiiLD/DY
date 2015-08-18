@@ -140,7 +140,6 @@ namespace DY.WPF
             });
             m_PlotModel = NPlotView.Model = plot_model;
         }
-
         public void Dispose()
         {
             StopMonitoring();
@@ -165,6 +164,7 @@ namespace DY.WPF
             LOG.Trace("모니터링 요청");
             UpdateNewIODataList();
             m_CommIOContext.Activated = true; //루프 작동 트리거 ON
+            m_PlotModel.Axes.Clear();
             m_PlotTimer.Start();
         }
 
@@ -227,7 +227,6 @@ namespace DY.WPF
             else
                 StartMonitoring();
         }
-
         private void OnPlotTimerTick(object sender, EventArgs args)
         {
             if (NBT_SpeedMonitorOnOff.IsChecked != true)

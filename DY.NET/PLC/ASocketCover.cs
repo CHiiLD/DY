@@ -22,9 +22,9 @@ namespace DY.NET
 
         protected readonly byte[] EMPTY_BYTE = new byte[1];
         //BUFFER
-        public const int STREAM_BUFFER_SIZE = 4096;
-        protected byte[] StreamBuffer = new byte[STREAM_BUFFER_SIZE];
-        protected int StreamBufferIndex;
+        public const int BUFFER_SIZE = 4096;
+        protected byte[] BaseBuffer = new byte[BUFFER_SIZE];
+        protected int BufferIndex;
         //소켓 스트림
         protected Stream BaseStream { get; set; }
         //타임아웃
@@ -34,7 +34,6 @@ namespace DY.NET
         public int Tag { get; set; }
         public string Description { get; set; }
         public object UserData { get; set; }
-        
         /// <summary>
         /// Connect, Close 이벤트 발생 시 호출
         /// </summary>
@@ -43,7 +42,6 @@ namespace DY.NET
         public abstract bool Connect();
         public abstract void Close();
         public abstract bool IsConnected();
-        public abstract Task<long> PingAsync();
         protected abstract bool DoReadAgain(AProtocol request);
         protected abstract AProtocol CreateResponseProtocol(AProtocol request, byte[] recv_data);
 
@@ -56,26 +54,6 @@ namespace DY.NET
             ReadTimeout = -1;
         }
 
-        public async Task<int> WriteAsync(byte[] buffer, int offset, int count)
-        {
-            var t_src = new CancellationTokenSource(WriteTimeout);
-            await BaseStream.WriteAsync(buffer, offset, count, t_src.Token);
-            if (t_src.IsCancellationRequested)
-                return (int)DeliveryError.WRITE_TIMEOUT;
-            else
-                return (int)DeliveryError.SUCCESS;
-        }
-
-        public async Task<int> ReadAsync(byte[] buffer, int offset, int count)
-        {
-            var t_src = new CancellationTokenSource(ReadTimeout);
-            int size = await BaseStream.ReadAsync(buffer, offset, count, t_src.Token);
-            if (t_src.IsCancellationRequested)
-                return (int)DeliveryError.READ_TIMEOUT;
-            else
-                return size;
-        }
-
         /// <summary>
         /// 비동기 통신으로 PLC와 통신하여 요청 메세지를 보내고 응답 메세지를 받는다
         /// </summary>
@@ -83,65 +61,56 @@ namespace DY.NET
         /// <returns>Delivery</returns>
         public async Task<Delivery> PostAsync(IProtocol request)
         {
+            Delivery delivery = await PostAsync(request, null);
+            return delivery;
+        }
+
+        /// <summary>
+        /// 비동기 통신으로 PLC와 통신하여 요청 메세지를 보내고 응답 메세지를 받는다
+        /// </summary>
+        /// <param name="request">XGTCnetProtocol 요청 프로토콜</param>
+        /// <returns>Delivery</returns>
+        public async Task<Delivery> PostAsync(IProtocol request, CancellationTokenSource token)
+        {
             Delivery delivery = new Delivery();
-            // AsyncLock can be locked asynchronously
             using (await m_AsyncLock.LockAsync())
             {
-                AProtocol r = request as AProtocol;
-                StreamBufferIndex = 0;
+                await BaseStream.FlushAsync();
+                BufferIndex = 0;
+                AProtocol p = request as AProtocol;
+                if (!IsConnected()) //CONNECT
+                {
+                    Close();
+                    if (!Connect())
+                        return delivery.Packing(DeliveryError.DISCONNECT);
+                }
+                //WRITE
+                var token_source = new CancellationTokenSource(WriteTimeout);
+                if (token != null)
+                    CancellationTokenSource.CreateLinkedTokenSource(token_source.Token, token.Token);
+                await BaseStream.WriteAsync(p.ASCIIProtocol, 0, p.ASCIIProtocol.Length);
+                if (token_source.IsCancellationRequested)
+                    return delivery.Packing(DeliveryError.WRITE_TIMEOUT);
+                //READ
                 do
                 {
-                    if (!IsConnected())
-                    {
-                        if (!TryReconnect(delivery))
-                            break;
-                    }
-                    int write_ret = await WriteAsync(r.ASCIIProtocol, 0, r.ASCIIProtocol.Length);
-                    if (write_ret < 0)
-                    {
-                        delivery.Error = (DeliveryError)write_ret;
-                        break;
-                    }
-                    await WaitResponsePostAsync(delivery, r);
-                } while (false);
+                    token_source = new CancellationTokenSource(ReadTimeout);
+                    if (token != null)
+                        CancellationTokenSource.CreateLinkedTokenSource(token_source.Token, token.Token);
+                    int read_size = await BaseStream.ReadAsync(BaseBuffer, BufferIndex, BUFFER_SIZE - BufferIndex, token_source.Token);
+                    if (token_source.IsCancellationRequested)
+                        return delivery.Packing(DeliveryError.READ_TIMEOUT);
+                    if (read_size <= 0)
+                        System.Diagnostics.Debug.Assert(false);
+                    BufferIndex += read_size;
+                } while (DoReadAgain(p));
+                byte[] recv_data = new byte[BufferIndex];
+                Buffer.BlockCopy(BaseBuffer, 0, recv_data, 0, recv_data.Length);
+                delivery.Package = CreateResponseProtocol(p, recv_data);
             }
-            return delivery.Packing();
+            return delivery.Packing(DeliveryError.SUCCESS);
         }
 
-        private bool TryReconnect(Delivery delivery)
-        {
-            Close();
-            LOG.Trace(Description + " 재연결시도 중...");
-            if (!Connect())
-            {
-                LOG.Trace(Description + " 재연결시도 실패");
-                delivery.Error = DeliveryError.DISCONNECT;
-                return false;
-            }
-            LOG.Trace(Description + " 재연결시도 성공");
-            return true;
-        }
-
-        private async Task WaitResponsePostAsync(Delivery delivery, AProtocol r)
-        {
-            int read_size = 0;
-            do
-            {
-                read_size = await ReadAsync(StreamBuffer, StreamBufferIndex, STREAM_BUFFER_SIZE - StreamBufferIndex);
-                if (read_size < 0)
-                {
-                    delivery.Error = (DeliveryError)read_size;
-                    break;
-                }
-                StreamBufferIndex += read_size;
-            } while (DoReadAgain(r));
-            if (delivery.Error == DeliveryError.SUCCESS)
-            {
-                byte[] recv_data = new byte[StreamBufferIndex];
-                Buffer.BlockCopy(StreamBuffer, 0, recv_data, 0, recv_data.Length);
-                delivery.Package = CreateResponseProtocol(r, recv_data);
-            }
-        }
         /// <summary>
         /// 메모리 해제
         /// </summary>
@@ -149,7 +118,7 @@ namespace DY.NET
         {
             ConnectionStatusChanged = null;
             BaseStream = null;
-            StreamBuffer = null;
+            BaseBuffer = null;
             UserData = null;
         }
 

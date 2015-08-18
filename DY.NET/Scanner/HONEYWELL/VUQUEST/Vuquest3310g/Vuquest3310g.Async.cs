@@ -76,27 +76,6 @@ namespace DY.NET.HONEYWELL.VUQUEST
             return delivery.Packing();
         }
 
-        public async Task<long> PingAsync()
-        {
-            Delivery delivery = new Delivery();
-
-            List<byte> syn = new List<byte>();
-            syn.AddRange(PREFIX);
-            syn.AddRange(UTI_SHOW_SOFTWARE_REVERSION);
-            syn.Add(DOT);
-            byte[] reqt_code = syn.ToArray();
-
-            int write_ret = await WriteAsync(reqt_code, 0, reqt_code.Length);
-            if (write_ret < 0)
-                throw new TimeoutException(ERROR_WRITE_TIMEOUT);
-
-            int size = await ReadAsync(m_Buffer, m_BufferIdx, m_Buffer.Length - m_BufferIdx);
-            if (size < 0)
-                throw new TimeoutException(ERROR_READ_TIMEOUT);
-
-            return delivery.Packing().DelivaryTime.ElapsedMilliseconds;
-        }
-
         public async Task<byte[]> ActivateAsync()
         {
             if (m_IsActivate)

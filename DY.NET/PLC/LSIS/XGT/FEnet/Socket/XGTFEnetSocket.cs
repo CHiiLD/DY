@@ -109,10 +109,10 @@ namespace DY.NET.LSIS.XGT
         protected override bool DoReadAgain(AProtocol request)
         {
             ushort target = 0, sum = 0;
-            if (StreamBufferIndex < XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE)
+            if (BufferIndex < XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE)
                 return false;
-            target = CV2BR.ToValue(new byte[] { StreamBuffer[16], StreamBuffer[17] });
-            for (int i = XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE; i < StreamBufferIndex; i++) //바이트의 개수
+            target = CV2BR.ToValue(new byte[] { BaseBuffer[16], BaseBuffer[17] });
+            for (int i = XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE; i < BufferIndex; i++) //바이트의 개수
                 sum++;
             return target != sum;
         }
@@ -132,22 +132,6 @@ namespace DY.NET.LSIS.XGT
                 resp.ASCIIProtocol = recv_data;
             resp.AnalysisProtocol();
             return resp;
-        }
-
-        /// <summary>
-        /// 서버와 통신하여 통신 속도를 측정
-        /// </summary>
-        /// <returns> 
-        /// 0 >=: Milliseconds
-        /// 0 <: DeliveryError
-        /// </returns>
-        public override async Task<long> PingAsync()
-        {
-            Dictionary<string, object> dictionary = new Dictionary<string, object>();
-            dictionary.Add("%DW0", null);
-            XGTFEnetProtocol cnet = XGTFEnetProtocol.NewRSSProtocol(typeof(ushort), 00, dictionary);
-            Delivery delivery = await PostAsync(cnet);
-            return delivery.Error == DeliveryError.SUCCESS ? delivery.DelivaryTime.ElapsedMilliseconds : -1;
         }
     }
 }
