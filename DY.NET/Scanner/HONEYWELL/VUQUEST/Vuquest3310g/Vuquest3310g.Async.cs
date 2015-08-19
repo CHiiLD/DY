@@ -11,6 +11,8 @@ namespace DY.NET.HONEYWELL.VUQUEST
     public partial class Vuquest3310g
     {
         private readonly AsyncLock m_AsyncLock = new AsyncLock();
+        private bool m_IsPrepared = false;
+
         /// <summary>
         /// 스캔에 필요한 리더기 파라미터를 설정한다. 
         /// 스캔에 앞서 먼저 한번 호출해야한다.
@@ -58,11 +60,18 @@ namespace DY.NET.HONEYWELL.VUQUEST
                         throw new Exception(CMD.Value);
                 }
             }
+            m_IsPrepared = true;
             return delivery.Packing();
         }
 
         public async Task<Delivery> ScanAsync()
         {
+            if (!m_IsPrepared)
+            {
+                Delivery deli_pre = await PrepareAsync();
+                if (DeliveryError.SUCCESS != deli_pre.Error) ;
+                return deli_pre;
+            }
             Delivery delivery = new Delivery();
             byte[] code = null;
             using (await m_AsyncLock.LockAsync())
@@ -77,19 +86,26 @@ namespace DY.NET.HONEYWELL.VUQUEST
                         delivery.Error = DeliveryError.WRITE_TIMEOUT;
                     else if (timeout_exception.Message == ERROR_READ_TIMEOUT)
                         delivery.Error = DeliveryError.READ_TIMEOUT;
-#if DEBUG
-                    Debug.Assert(false);
-#endif
+                }
+                catch(Exception exception)
+                {
+                    LOG.Debug(Description + " Scan 중 예외발생: " + exception.Message + "\n" +exception.StackTrace);
                 }
                 if(delivery.Error != DeliveryError.SUCCESS)
                     await DeactivateAsync();
+                delivery.Package = code;
             }
-            delivery.Package = code;
             return delivery.Packing();
         }
 
-        public async Task<Delivery> GetScannerInfoAsync()
+        public async Task<Delivery> GetInfoAsync()
         {
+            if (!m_IsPrepared)
+            {
+                Delivery deli_pre = await PrepareAsync();
+                if (DeliveryError.SUCCESS != deli_pre.Error) ;
+                return deli_pre;
+            }
             Delivery delivery = new Delivery();
             List<byte> syn = new List<byte>();
             syn.AddRange(PREFIX);
@@ -108,7 +124,9 @@ namespace DY.NET.HONEYWELL.VUQUEST
                         return delivery.Packing(DeliveryError.READ_TIMEOUT);
                     m_BufferIdx += size;
                 } while (m_Buffer[m_BufferIdx - 1] != CR);
-                delivery.Package = Encoding.ASCII.GetString(m_Buffer, 0, m_BufferIdx);
+                byte[] buffer = new byte[m_BufferIdx - 2];
+                Array.Copy(m_Buffer, 0, buffer, 0, buffer.Length - 1);
+                delivery.Package = buffer;
             }
             return delivery.Packing();
         }
@@ -130,8 +148,8 @@ namespace DY.NET.HONEYWELL.VUQUEST
                     throw new TimeoutException(ERROR_READ_TIMEOUT);
                 m_BufferIdx += size;
             } while (m_Buffer[m_BufferIdx - 1] != CR);
-            byte[] buffer = new byte[m_BufferIdx - 1];
-            Array.Copy(m_Buffer, 0, buffer, 0, buffer.Length);
+            byte[] buffer = new byte[m_BufferIdx - 2];
+            Array.Copy(m_Buffer, 0, buffer, 0, buffer.Length - 1);
 
             return buffer;
         }

@@ -3,10 +3,9 @@ using System.Threading.Tasks;
 
 namespace DY.NET
 {
-    interface IScannerSerialCommAsync : IConnect
+    public interface IScannerSerialCommAsync : IConnect
     {
         Task<Delivery> ScanAsync();
-        Task<Delivery> GetScannerInfoAsync();
-        Task<Delivery> PrepareAsync();
+        Task<Delivery> GetInfoAsync();
     }
 }

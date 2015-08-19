@@ -20,6 +20,7 @@ namespace DY.WPF.SYSTEM.COMM
         private CancellationTokenSource m_UpdateTokenSource;
         private DispatcherTimer m_IOTimer;
         private bool m_Activated;
+        public EventHandler<DeliveryArrivalEventArgs> DeliveryArrived;
         protected List<IProtocol> Protocols { get; set; }
         protected IList<ICommIOData> CommIOData { get; set; }
         public bool Activated
@@ -45,9 +46,6 @@ namespace DY.WPF.SYSTEM.COMM
                 }
             }
         }
-
-        public EventHandler<DeliveryArrivalEventArgs> DeliveryArrived;  
-
         public abstract void ReplaceICommIOData(IList<ICommIOData> io_datas);
         public abstract Task UpdateIOAsync(CancellationTokenSource cts);
         protected abstract void OnInputPropertyChanged(object sender, PropertyChangedEventArgs args);

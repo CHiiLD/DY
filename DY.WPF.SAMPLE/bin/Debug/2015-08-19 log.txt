@@ -1,0 +1,21 @@
+23:26:56 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 통신 접속 성공
+
+23:27:04 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 통신 접속 해제
+
+23:27:06 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 통신 접속 성공
+
+23:27:10 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 통신 접속 해제
+
+23:27:10 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 메모리 해제
+
+23:27:10 DY.WPF.SYSTEM.COMM.CommClient
+COM6 115200-8-N-1 CommClient 메모리 해제
+
+23:27:10 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+

@@ -10,10 +10,51 @@
              x:Name="this"
              d:DesignHeight="768" d:DesignWidth="1024">
     <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition/>
+            <RowDefinition Height="3*"/>
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="230"/>
-            <ColumnDefinition Width="1*"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="389*"/>
         </Grid.ColumnDefinitions>
 
+        <StackPanel Grid.Column="0" Grid.RowSpan="2">
+
+            <GroupBox Header="Tiemout" >
+                <StackPanel>
+                    <local:NumericUpDownWithBar 
+        			x:Name="NNM_WriteTimeout"
+        			Minimum="{Binding Source={x:Static localsys:CommClient.WriteTimeoutMinimum}}"
+        			Maximum="{Binding Source={x:Static localsys:CommClient.WriteTimeoutMaximum}}"
+        			StringFormat="{}{0:N0}ms"
+        			Title="Write timeout" Margin="0,0,0,6" />
+                    <local:NumericUpDownWithBar 
+        			x:Name="NNM_ReadTimeout" 
+        			Minimum="{Binding Source={x:Static localsys:CommClient.ReadTimeoutMinimum}}"
+        			Maximum="{Binding Source={x:Static localsys:CommClient.ReadTimeoutMaximum}}"
+        			StringFormat="{}{0:N0}ms"
+        			Title="Read timeout" />
+                </StackPanel>
+            </GroupBox>
+
+            <GroupBox Header="Action" >
+                <StackPanel>
+                    <Button x:Name="NBT_Scan" Content="Scan trigger test" Style="{DynamicResource SquareButtonStyle}" Click="NBT_Scan_Click" Height="50" Margin="0,0,0,6" FontSize="14" />
+                    <Button x:Name="NBT_Info" Content="scanner information output" Style="{DynamicResource SquareButtonStyle}" Click="NBT_Info_Click" Height="50" FontSize="14" />
+                </StackPanel>
+            </GroupBox>
+        </StackPanel>
+
+        <ListView x:Name="NLog" Grid.Column="2" 
+                  Grid.RowSpan="2">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Time" Width="100" DisplayMemberBinding="{Binding Time, StringFormat='{}{0:hh\\:mm\\:ss}'}"/>
+                    <GridViewColumn Header="Log" DisplayMemberBinding="{Binding Log}"/>
+                </GridView>
+            </ListView.View>
+        </ListView>
     </Grid>
 </UserControl>

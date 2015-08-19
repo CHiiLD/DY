@@ -49,11 +49,10 @@ namespace DY.WPF
         {
             TabControl tab_control = NTabControl;
             ItemCollection tabItemCollection = tab_control.Items;
-
             IList new_item = newItems;
             TabItem tab_item = new TabItem();
             ControlsHelper.SetHeaderFontSize(tab_item, TABITEM_HEADER_FONTSIZE); //헤더 폰트 사이즈 설정
-            ICommControlTowerTabItem towerTabItem;
+            ICommControlTowerTabItem towerTabItem = null;
             foreach (var i in new_item)
             {
                 var commClient = i as CommClient;
@@ -64,20 +63,18 @@ namespace DY.WPF
                     case DYDevice.DATALOGIC_MATRIX200:
 #endif
                     case DyNetDevice.HONEYWELL_VUQUEST3310G:
+                        towerTabItem = new CommScanTester(commClient) { Margin = new Thickness(TABCONTROL_MARGIN) };
                         break;
                     case DyNetDevice.LSIS_XGT:
-                        towerTabItem = new CommIOMonitoring(new CommIOMonitoringXGT(commClient))
-                        {
-                            Margin = new Thickness(TABCONTROL_MARGIN)
-                        };
-                        tab_item.Content = towerTabItem;
-                        tab_item.SetBinding(HeaderedContentControl.HeaderProperty, new Binding("Comment") { Source = commClient });
-                        if (String.IsNullOrEmpty(commClient.Comment))
-                            commClient.Comment = commClient.Summary;
-                        tabItemCollection.Add(tab_item);
-                        ShotDownDirector.GetInstance().AddIDisposable(towerTabItem);
+                        towerTabItem = new CommIOMonitoring(new CommIOMonitoringXGT(commClient)) { Margin = new Thickness(TABCONTROL_MARGIN) };
                         break;
                 }
+                ShotDownDirector.GetInstance().AddIDisposable(towerTabItem);
+                tab_item.Content = towerTabItem;
+                tab_item.SetBinding(HeaderedContentControl.HeaderProperty, new Binding("Comment") { Source = commClient });
+                if (String.IsNullOrEmpty(commClient.Comment))
+                    commClient.Comment = commClient.Summary;
+                tabItemCollection.Add(tab_item);
             }
         }
 
