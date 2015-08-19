@@ -83,11 +83,14 @@
     <Compile Include="Control\Comm\Option\CommSerialConfig.xaml.cs">
       <DependentUpon>CommSerialConfig.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\IO\CommIOExcelDataGrid.xaml.cs">
+    <Compile Include="Control\Comm\PLC\CommIOExcelDataGrid.xaml.cs">
       <DependentUpon>CommIOExcelDataGrid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\IO\CommIOMonitoring.xaml.cs">
+    <Compile Include="Control\Comm\PLC\CommIOMonitoring.xaml.cs">
       <DependentUpon>CommIOMonitoring.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="Control\Comm\Scanner\CommScannerTester.xaml.cs">
+      <DependentUpon>CommScannerTester.xaml</DependentUpon>
     </Compile>
     <Compile Include="SYSTEM\COMM\Interface\ICommControlTowerTabItem.cs" />
     <Compile Include="SYSTEM\COMM\IO\CommIOExcelRowItem.cs" />
@@ -205,11 +208,15 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\IO\CommIOExcelDataGrid.xaml">
+    <Page Include="Control\Comm\PLC\CommIOExcelDataGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\IO\CommIOMonitoring.xaml">
+    <Page Include="Control\Comm\PLC\CommIOMonitoring.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\Comm\Scanner\CommScannerTester.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
