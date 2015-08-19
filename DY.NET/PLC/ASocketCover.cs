@@ -61,17 +61,6 @@ namespace DY.NET
         /// <returns>Delivery</returns>
         public async Task<Delivery> PostAsync(IProtocol request)
         {
-            Delivery delivery = await PostAsync(request, null);
-            return delivery;
-        }
-
-        /// <summary>
-        /// 비동기 통신으로 PLC와 통신하여 요청 메세지를 보내고 응답 메세지를 받는다
-        /// </summary>
-        /// <param name="request">XGTCnetProtocol 요청 프로토콜</param>
-        /// <returns>Delivery</returns>
-        public async Task<Delivery> PostAsync(IProtocol request, CancellationTokenSource cts)
-        {
             Delivery delivery = new Delivery();
             using (await m_AsyncLock.LockAsync())
             {
@@ -88,8 +77,6 @@ namespace DY.NET
                 CancellationTokenSource read_cts = new CancellationTokenSource(ReadTimeout);
                 //WRITE
                 CancellationToken write_ct = write_cts.Token;
-                if (cts != null)
-                    CancellationTokenSource.CreateLinkedTokenSource(write_ct, cts.Token);
                 await BaseStream.WriteAsync(p.ASCIIProtocol, 0, p.ASCIIProtocol.Length, write_ct);
                 if (write_cts.IsCancellationRequested)
                     return delivery.Packing(DeliveryError.WRITE_TIMEOUT);
@@ -97,8 +84,6 @@ namespace DY.NET
                 do
                 {
                     CancellationToken read_ct = read_cts.Token;
-                    if (cts != null)
-                        CancellationTokenSource.CreateLinkedTokenSource(read_ct, cts.Token);
                     int read_size = await BaseStream.ReadAsync(BaseBuffer, BufferIndex, BUFFER_SIZE - BufferIndex, read_ct);
                     if (read_cts.IsCancellationRequested)
                         return delivery.Packing(DeliveryError.READ_TIMEOUT);

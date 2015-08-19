@@ -46,7 +46,7 @@ namespace DY.WPF.SYSTEM.COMM
             }
         }
 
-        public EventHandler<DeliveryArrivalEventArgs> DeliveryArrived;
+        public EventHandler<DeliveryArrivalEventArgs> DeliveryArrived;  
 
         public abstract void ReplaceICommIOData(IList<ICommIOData> io_datas);
         public abstract Task UpdateIOAsync(CancellationTokenSource cts);
@@ -65,7 +65,6 @@ namespace DY.WPF.SYSTEM.COMM
                 DispatcherPriority.Normal,
                 UpdateIOTick, 
                 Application.Current.Dispatcher) { IsEnabled = false };
-            m_IOTimer.Stop();
         }
 
         /// <summary>

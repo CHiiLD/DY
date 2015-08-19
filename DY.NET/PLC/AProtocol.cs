@@ -23,7 +23,14 @@ namespace DY.NET
                 if (ASCIIData == null) AssembleProtocol();
                 return ASCIIData;
             }
-            internal set { ASCIIData = value; }
+            internal set 
+            {
+                ASCIIData = value;
+                Dictionary<string, object> tickets = new Dictionary<string, object>();
+                foreach (var t in Tickets)
+                    tickets.Add(t.Key, null);
+                Tickets = tickets;
+            }
         }
 
         // AProtocol 클래스가 응답클래스로 쓰인 경우 요청프로토콜 클래스를 담고 

@@ -135,6 +135,8 @@ namespace DY.NET.LSIS.XGT
             Buffer.BlockCopy(ASCIIData, 0, head, 0, head.Length);
             //헤더 info
             Header = (XGTCnetCCType)head[0];
+            if (!(Header == XGTCnetCCType.ACK || Header == XGTCnetCCType.ENQ || Header == XGTCnetCCType.NAK))
+                throw new Exception("Invalid ASCIIData[0] (ACK, ENQ, NAK)");
             //국번 info
             LocalPort = (ushort)CA2C.ToValue(new byte[] { head[1], head[2] }, typeof(ushort));
             //주명령어 info
@@ -158,6 +160,8 @@ namespace DY.NET.LSIS.XGT
             if (isBCC_Exist)
                 BCC = ASCIIData.Last();
             Tail = (XGTCnetCCType)ASCIIData[ASCIIData.Length - 1 - (isBCC_Exist ? 1 : 0)];
+            if (!(Tail == XGTCnetCCType.EOT || Tail == XGTCnetCCType.ETX))
+                throw new Exception("Invalid ASCIIData.Last() (EOT, EXT)");
         }
 
         /// <summary>
