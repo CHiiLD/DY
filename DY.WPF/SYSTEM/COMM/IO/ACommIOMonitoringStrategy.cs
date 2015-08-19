@@ -49,7 +49,7 @@ namespace DY.WPF.SYSTEM.COMM
         public EventHandler<DeliveryArrivalEventArgs> DeliveryArrived;
 
         public abstract void ReplaceICommIOData(IList<ICommIOData> io_datas);
-        public abstract Task UpdateIOAsync(CancellationToken token);
+        public abstract Task UpdateIOAsync(CancellationTokenSource cts);
         protected abstract void OnInputPropertyChanged(object sender, PropertyChangedEventArgs args);
 
         /// <summary>
@@ -75,11 +75,12 @@ namespace DY.WPF.SYSTEM.COMM
         {
             m_IOTimer.Stop();
 
-            CancellationTokenSource DelayTokenSource = new CancellationTokenSource();
-            CancellationTokenSource.CreateLinkedTokenSource(DelayTokenSource.Token, m_UpdateTokenSource.Token);
+            var DelayToken = new CancellationTokenSource().Token;
+            var UpdateToken = m_UpdateTokenSource.Token;
+            CancellationTokenSource.CreateLinkedTokenSource(DelayToken, UpdateToken);
 
-            await UpdateIOAsync(m_UpdateTokenSource.Token);
-            await Task.Delay(CClient.IOUpdateInteval, DelayTokenSource.Token);
+            await UpdateIOAsync(m_UpdateTokenSource);
+            await Task.Delay(CClient.IOUpdateInteval, DelayToken);
 
             if (!m_UpdateTokenSource.IsCancellationRequested)
                 m_IOTimer.Start();

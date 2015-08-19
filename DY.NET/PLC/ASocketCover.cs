@@ -70,7 +70,7 @@ namespace DY.NET
         /// </summary>
         /// <param name="request">XGTCnetProtocol 요청 프로토콜</param>
         /// <returns>Delivery</returns>
-        public async Task<Delivery> PostAsync(IProtocol request, CancellationTokenSource token)
+        public async Task<Delivery> PostAsync(IProtocol request, CancellationTokenSource cts)
         {
             Delivery delivery = new Delivery();
             using (await m_AsyncLock.LockAsync())
@@ -84,21 +84,23 @@ namespace DY.NET
                     if (!Connect())
                         return delivery.Packing(DeliveryError.DISCONNECT);
                 }
+                CancellationTokenSource write_cts = new CancellationTokenSource(WriteTimeout);
+                CancellationTokenSource read_cts = new CancellationTokenSource(ReadTimeout);
                 //WRITE
-                var token_source = new CancellationTokenSource(WriteTimeout);
-                if (token != null)
-                    CancellationTokenSource.CreateLinkedTokenSource(token_source.Token, token.Token);
-                await BaseStream.WriteAsync(p.ASCIIProtocol, 0, p.ASCIIProtocol.Length);
-                if (token_source.IsCancellationRequested)
+                CancellationToken write_ct = write_cts.Token;
+                if (cts != null)
+                    CancellationTokenSource.CreateLinkedTokenSource(write_ct, cts.Token);
+                await BaseStream.WriteAsync(p.ASCIIProtocol, 0, p.ASCIIProtocol.Length, write_ct);
+                if (write_cts.IsCancellationRequested)
                     return delivery.Packing(DeliveryError.WRITE_TIMEOUT);
                 //READ
                 do
                 {
-                    token_source = new CancellationTokenSource(ReadTimeout);
-                    if (token != null)
-                        CancellationTokenSource.CreateLinkedTokenSource(token_source.Token, token.Token);
-                    int read_size = await BaseStream.ReadAsync(BaseBuffer, BufferIndex, BUFFER_SIZE - BufferIndex, token_source.Token);
-                    if (token_source.IsCancellationRequested)
+                    CancellationToken read_ct = read_cts.Token;
+                    if (cts != null)
+                        CancellationTokenSource.CreateLinkedTokenSource(read_ct, cts.Token);
+                    int read_size = await BaseStream.ReadAsync(BaseBuffer, BufferIndex, BUFFER_SIZE - BufferIndex, read_ct);
+                    if (read_cts.IsCancellationRequested)
                         return delivery.Packing(DeliveryError.READ_TIMEOUT);
                     if (read_size <= 0)
                         System.Diagnostics.Debug.Assert(false);

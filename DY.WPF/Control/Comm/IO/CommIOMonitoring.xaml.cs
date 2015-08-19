@@ -164,7 +164,7 @@ namespace DY.WPF
             LOG.Trace("모니터링 요청");
             UpdateNewIODataList();
             m_CommIOContext.Activated = true; //루프 작동 트리거 ON
-            m_PlotModel.Axes.Clear();
+            m_PlotItems.Clear();
             m_PlotTimer.Start();
         }
 

@@ -64,15 +64,15 @@ namespace DY.WPF.SYSTEM.COMM
         /// IO Update by async
         /// </summary>
         /// <returns></returns>
-        public override async Task UpdateIOAsync(CancellationToken token)
+        public override async Task UpdateIOAsync(CancellationTokenSource cts)
         {
             IPostAsync mailBox = CClient.Socket as IPostAsync;
             foreach (var request in Protocols)
             {
-                if (token.IsCancellationRequested)
+                if (cts.IsCancellationRequested)
                     break;
                 //post
-                IProtocol response = await Post(mailBox, request);
+                IProtocol response = await Post(mailBox, request, cts);
                 if (response == null)
                     continue;
                 //find error
@@ -104,13 +104,13 @@ namespace DY.WPF.SYSTEM.COMM
             return protocol;
         }
 
-        private async Task<IProtocol> Post(IPostAsync mailBox, IProtocol request)
+        private async Task<IProtocol> Post(IPostAsync mailBox, IProtocol request, CancellationTokenSource cts)
         {
             IProtocol response = null;
             Delivery delivery = null;
             try
             {
-                delivery = await mailBox.PostAsync(request);
+                delivery = await mailBox.PostAsync(request, cts);
                 DeliveryError delivery_err = delivery.Error;
                 switch (delivery_err)
                 {
@@ -176,7 +176,7 @@ namespace DY.WPF.SYSTEM.COMM
             {
                 ushort localPort = (ushort)(CClient.ExtraData[CommClient.EXTRA_XGT_CNET_LOCALPORT]);
                 request = XGTCnetProtocol.NewWSSProtocol(io_data.Type.ToType(), localPort, tickets);
-                XGTCnetProtocol cnet = await Post(CClient.Socket as IPostAsync, request) as XGTCnetProtocol;
+                XGTCnetProtocol cnet = await Post(CClient.Socket as IPostAsync, request, null) as XGTCnetProtocol;
                 if (cnet.Error != XGTCnetProtocolError.OK)
                     error = cnet.Error;
                 response = cnet;
@@ -184,7 +184,7 @@ namespace DY.WPF.SYSTEM.COMM
             else if (CClient.Socket is XGTFEnetSocket)
             {
                 request = XGTFEnetProtocol.NewWSSProtocol(io_data.Type.ToType(), InvokeID, tickets);
-                XGTFEnetProtocol fenet = await Post(CClient.Socket as IPostAsync, request) as XGTFEnetProtocol;
+                XGTFEnetProtocol fenet = await Post(CClient.Socket as IPostAsync, request, null) as XGTFEnetProtocol;
                 if (fenet.Error != XGTFEnetProtocolError.OK)
                     error = fenet.Error;
                 response = fenet;
