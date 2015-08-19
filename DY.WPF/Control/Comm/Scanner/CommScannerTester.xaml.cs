@@ -48,6 +48,9 @@ namespace DY.WPF
             InitializeComponent();
             CClient = cclient;
             Unselected += (object sender, EventArgs args) => { NLog.Items.Clear(); };
+
+            m_CClient.ReadTimeout = CommClient.ScanTimeoutInit;
+            m_CClient.WriteTimeout = CommClient.ScanTimeoutInit;
         }
 
         private void PushNewLog(IScannerSerialCommAsync scanner, Delivery delivery)
@@ -97,14 +100,12 @@ namespace DY.WPF
 
         private void SetBinding()
         {
-            Binding activation = new Binding("Usable") { Source = m_CClient };
-            this.SetBinding(UserControl.IsEnabledProperty, activation);
-
-            Binding write_timeout = new Binding("WriteTimeout") { Source = m_CClient };
-            this.NNM_WriteTimeout.NNumeric.SetBinding(NumericUpDown.ValueProperty, write_timeout);
-
-            Binding read_timeout = new Binding("ReadTimeout") { Source = m_CClient };
-            this.NNM_ReadTimeout.NNumeric.SetBinding(NumericUpDown.ValueProperty, read_timeout);
+            this.SetBinding(UserControl.IsEnabledProperty, 
+                new Binding("Usable") { Source = m_CClient, Mode = BindingMode.TwoWay });
+            NNM_WriteTimeout.NNumeric.SetBinding(NumericUpDown.ValueProperty, 
+                new Binding("WriteTimeout") { Source = m_CClient, Mode = BindingMode.TwoWay });
+            NNM_ReadTimeout.NNumeric.SetBinding(NumericUpDown.ValueProperty, 
+                new Binding("ReadTimeout") { Source = m_CClient, Mode = BindingMode.TwoWay });
         }
 
         public void Dispose()

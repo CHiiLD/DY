@@ -75,27 +75,6 @@ namespace DY.NET.HONEYWELL.VUQUEST
             Dispose();
         }
 
-        private async Task<int> WriteAsync(byte[] buffer, int offset, int count)
-        {
-            var BaseStream = m_SerialPort.BaseStream;
-            var t_src = new CancellationTokenSource(WriteTimeout);
-            await BaseStream.WriteAsync(buffer, offset, count, t_src.Token);
-            if (t_src.IsCancellationRequested)
-                return (int)DeliveryError.WRITE_TIMEOUT;
-            else
-                return (int)DeliveryError.SUCCESS;
-        }
-
-        private async Task<int> ReadAsync(byte[] buffer, int offset, int count)
-        {
-            var BaseStream = m_SerialPort.BaseStream;
-            var t_src = new CancellationTokenSource(ReadTimeout);
-            int byte_size = await BaseStream.ReadAsync(buffer, offset, count, t_src.Token);
-            if (t_src.IsCancellationRequested)
-                return (int)DeliveryError.READ_TIMEOUT;
-            else
-                return byte_size;
-        }
 
         public bool IsConnected()
         {

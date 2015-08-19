@@ -26,14 +26,12 @@
                 <StackPanel>
                     <local:NumericUpDownWithBar 
         			x:Name="NNM_WriteTimeout"
-        			Minimum="{Binding Source={x:Static localsys:CommClient.WriteTimeoutMinimum}}"
-        			Maximum="{Binding Source={x:Static localsys:CommClient.WriteTimeoutMaximum}}"
+        			Minimum="{Binding Source={x:Static localsys:CommClient.ScanTimeoutMinimum}}"
         			StringFormat="{}{0:N0}ms"
         			Title="Write timeout" Margin="0,0,0,6" />
                     <local:NumericUpDownWithBar 
         			x:Name="NNM_ReadTimeout" 
-        			Minimum="{Binding Source={x:Static localsys:CommClient.ReadTimeoutMinimum}}"
-        			Maximum="{Binding Source={x:Static localsys:CommClient.ReadTimeoutMaximum}}"
+        			Minimum="{Binding Source={x:Static localsys:CommClient.ScanTimeoutMinimum}}"
         			StringFormat="{}{0:N0}ms"
         			Title="Read timeout" />
                 </StackPanel>

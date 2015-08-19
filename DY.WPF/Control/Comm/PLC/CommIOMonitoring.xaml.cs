@@ -93,6 +93,10 @@ namespace DY.WPF
             NBT_EditModeOnOff.IsCheckedChanged += OnCheckChangedEditMode;
             Selected = OnSelectedAsync;
             Unselected = OnUnselectedAsync;
+
+            m_CClient.ReadTimeout = CommClient.IOTimeoutInit;
+            m_CClient.WriteTimeout = CommClient.IOTimeoutInit;
+            m_CClient.IOUpdateInteval = CommClient.IOUpdateIntevalInit;
         }
 
         ~CommIOMonitoring()
@@ -103,7 +107,7 @@ namespace DY.WPF
         private void InitPlotModel()
         {
             //그래프 객체 초기화
-            m_PlotTimer = new DispatcherTimer(new TimeSpan(CommClient.UpdateIntevalMinimum * 10000),
+            m_PlotTimer = new DispatcherTimer(new TimeSpan(CommClient.IOUpdateIntevalMinimum * 10000),
                 DispatcherPriority.Normal,
                 OnPlotTimerTick,
                 Dispatcher) { IsEnabled = false };
@@ -280,17 +284,14 @@ namespace DY.WPF
 
         private void SetBinding()
         {
-            Binding activation = new Binding("Usable") { Source = m_CClient };
-            this.SetBinding(UserControl.IsEnabledProperty, activation);
-
-            Binding write_timeout = new Binding("WriteTimeout") { Source = m_CClient };
-            this.NNM_WriteTimeout.NNumeric.SetBinding(NumericUpDown.ValueProperty, write_timeout);
-
-            Binding read_timeout = new Binding("ReadTimeout") { Source = m_CClient };
-            this.NNM_ReadTimeout.NNumeric.SetBinding(NumericUpDown.ValueProperty, read_timeout);
-
-            Binding io_update_inteval = new Binding("IOUpdateInteval") { Source = m_CClient };
-            this.NNM_UpdateInteval.NNumeric.SetBinding(NumericUpDown.ValueProperty, io_update_inteval);
+            this.SetBinding(UserControl.IsEnabledProperty, 
+                new Binding("Usable") { Source = m_CClient, Mode = BindingMode.TwoWay });
+            NNM_WriteTimeout.NNumeric.SetBinding(NumericUpDown.ValueProperty, 
+                new Binding("WriteTimeout") { Source = m_CClient, Mode = BindingMode.TwoWay });
+            NNM_ReadTimeout.NNumeric.SetBinding(NumericUpDown.ValueProperty, 
+                new Binding("ReadTimeout") { Source = m_CClient, Mode = BindingMode.TwoWay });
+            NNM_UpdateInteval.NNumeric.SetBinding(NumericUpDown.ValueProperty, 
+                new Binding("IOUpdateInteval") { Source = m_CClient, Mode = BindingMode.TwoWay });
         }
     }
 }

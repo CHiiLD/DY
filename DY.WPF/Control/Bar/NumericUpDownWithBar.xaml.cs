@@ -30,8 +30,7 @@ namespace DY.WPF
         public static readonly DependencyProperty ValueProperty = DependencyProperty.Register(
             "Value",
             typeof(double?),
-            typeof(NumericUpDownWithBar),
-            new PropertyMetadata());
+            typeof(NumericUpDownWithBar));
 
         public static readonly DependencyProperty MinimumProperty = DependencyProperty.Register(
             "Minimum",

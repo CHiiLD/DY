@@ -16,17 +16,16 @@ namespace DY.WPF.SYSTEM.COMM
     {
         public const string EXTRA_XGT_CNET_LOCALPORT = "LOCAL_PORT";
 
-        public static int UpdateIntevalMinimum { get { return 100; } }
-        public static int UpdateIntevalMaximum { get { return 1000; } }
-        public static int UpdateIntevalInit { get { return 1000; } }
+        public static int IOUpdateIntevalMinimum { get { return 100; } }
+        public static int IOUpdateIntevalMaximum { get { return 1000; } }
+        public static int IOUpdateIntevalInit { get { return 1000; } }
 
-        public static int ReadTimeoutMinimum { get { return 50; } }
-        public static int ReadTimeoutMaximum { get { return 500; } }
-        public static int ReadTimeoutInit { get { return 250; } }
+        public static int IOTimeoutMinimum { get { return 50; } }
+        public static int IOTimeoutMaximum { get { return 500; } }
+        public static int IOTimeoutInit { get { return 250; } }
 
-        public static int WriteTimeoutMinimum { get { return 50; } }
-        public static int WriteTimeoutMaximum { get { return 500; } }
-        public static int WriteTimeoutInit { get { return 250; } }
+        public static int ScanTimeoutMinimum { get { return 50; } }
+        public static int ScanTimeoutInit { get { return 5000; } }
 
         #region PRIVATE VARIABLE
         private static Logger LOG = LogManager.GetCurrentClassLogger();
@@ -118,9 +117,7 @@ namespace DY.WPF.SYSTEM.COMM
             m_CommType = comm_type;
             Socket.ConnectionStatusChanged += OnChangedConnectionStatus;
             Key = Guid.NewGuid().ToString();
-            IOUpdateInteval = UpdateIntevalInit;
-            WriteTimeout = ReadTimeoutInit;
-            ReadTimeout = WriteTimeoutInit;
+            
         }
 
         ~CommClient()

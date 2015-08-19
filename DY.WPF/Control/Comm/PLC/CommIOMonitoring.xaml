@@ -34,22 +34,22 @@
             <UniformGrid Rows="3" Columns="1" Grid.Column="4" >
                 <local:NumericUpDownWithBar 
                     x:Name="NNM_WriteTimeout"
-                    Minimum="{Binding Source={x:Static localsys:CommClient.WriteTimeoutMinimum}}"
-                    Maximum="{Binding Source={x:Static localsys:CommClient.WriteTimeoutMaximum}}"
+                    Minimum="{Binding Source={x:Static localsys:CommClient.IOTimeoutMinimum}}"
+                    Maximum="{Binding Source={x:Static localsys:CommClient.IOTimeoutMaximum}}"
                     StringFormat="{}{0:N0}ms"
                     Title="Write timeout"/>
                 <local:NumericUpDownWithBar 
                     x:Name="NNM_ReadTimeout" 
-                    Minimum="{Binding Source={x:Static localsys:CommClient.ReadTimeoutMinimum}}"
-                    Maximum="{Binding Source={x:Static localsys:CommClient.ReadTimeoutMaximum}}"
+                    Minimum="{Binding Source={x:Static localsys:CommClient.IOTimeoutMinimum}}"
+                    Maximum="{Binding Source={x:Static localsys:CommClient.IOTimeoutMaximum}}"
                     StringFormat="{}{0:N0}ms"
                     Title="Read timeout"/>
                 <local:NumericUpDownWithBar 
                     x:Name="NNM_UpdateInteval"
-                    Minimum="{Binding Source={x:Static localsys:CommClient.UpdateIntevalMinimum}}"
-                    Maximum="{Binding Source={x:Static localsys:CommClient.UpdateIntevalMaximum}}"
+                    Minimum="{Binding Source={x:Static localsys:CommClient.IOUpdateIntevalMinimum}}"
+                    Maximum="{Binding Source={x:Static localsys:CommClient.IOUpdateIntevalMaximum}}"
                     StringFormat="{}{0:N0}ms"
-                    Title="Update interval"/>
+                    Title="Update interval" Height="61" VerticalAlignment="Bottom"/>
             </UniformGrid>
         </Grid>
 
