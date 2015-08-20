@@ -56,7 +56,6 @@ namespace DY.NET.HONEYWELL.VUQUEST
 
         private byte[] m_Buffer = new byte[4096];
         private int m_BufferIdx;
-        private bool m_IsActivate = false;
         private SerialPort m_SerialPort;
 
         public int WriteTimeout { get; set; }
@@ -99,10 +98,8 @@ namespace DY.NET.HONEYWELL.VUQUEST
         /// 리더기에 종료 신호를 보낸 뒤
         /// 시리얼통신을 종료
         /// </summary>
-        public async void Close()
+        public void Close()
         {
-            if (m_IsActivate)
-                await DeactivateAsync();
             m_SerialPort.Close();
             if (ConnectionStatusChanged != null)
                 ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(false));

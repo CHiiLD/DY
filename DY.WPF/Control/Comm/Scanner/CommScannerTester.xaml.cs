@@ -59,7 +59,8 @@ namespace DY.WPF
             switch (delivery.Error)
             {
                 case DeliveryError.SUCCESS:
-                    log = Encoding.ASCII.GetString(delivery.Package as byte[]);
+                    if (delivery.Package != null)
+                        log = Encoding.ASCII.GetString(delivery.Package as byte[]);
                     break;
                 case DeliveryError.DISCONNECT:
                     log = scanner.Description + ": Disconnected";
@@ -83,7 +84,8 @@ namespace DY.WPF
                 return;
             }
             Delivery delivery = await scanner.ScanAsync();
-            PushNewLog(scanner, delivery);
+            if (delivery != null)
+                PushNewLog(scanner, delivery);
         }
 
         private async void NBT_Info_Click(object sender, RoutedEventArgs e)
@@ -95,7 +97,8 @@ namespace DY.WPF
                 return;
             }
             Delivery delivery = await scanner.GetInfoAsync();
-            PushNewLog(scanner, delivery);
+            if (delivery != null)
+                PushNewLog(scanner, delivery);
         }
 
         private void SetBinding()
