@@ -22,10 +22,6 @@ namespace DY.WPF.SYSTEM.COMM
         private static Logger LOG = LogManager.GetCurrentClassLogger();
         private static CommClientDirector THIS;
 
-        public const int BASIC_INIT_CONNECT_DELAY_TIME = 200;
-        public const int BASIC_INIT_CONNECT_CHECK_INTEVAL = 10000;
-        public const bool BASIC_INIT_CONNECT_CHECKABLE = false;
-
         private DispatcherTimer m_ConnectionCheckTimer;
 
         /// 통신 설정과 관련된 프로퍼티들
@@ -48,18 +44,14 @@ namespace DY.WPF.SYSTEM.COMM
             Clientele = new ObservableCollection<CommClient>();
 
             m_ConnectionCheckTimer = new DispatcherTimer(
-                new TimeSpan(BASIC_INIT_CONNECT_CHECK_INTEVAL * 10000),
                 DispatcherPriority.Normal,
-                OnConnectionCheckTick,
                 Application.Current.Dispatcher) { IsEnabled = false };
-
+            m_ConnectionCheckTimer.Tick += OnConnectionCheckTick;
             //notify property initialize
-            ConnectionDelayTimeProperty = new NotifyPropertyChanged<int>(BASIC_INIT_CONNECT_DELAY_TIME);
+            ConnectionDelayTimeProperty = new NotifyPropertyChanged<int>(200);
+            ConnectionCheckIntevalProperty = new NotifyPropertyChanged<int>(10000);
 
-            ConnectionCheckIntevalProperty = new NotifyPropertyChanged<int>(BASIC_INIT_CONNECT_CHECK_INTEVAL);
-            ConnectionCheckIntevalProperty.PropertyChanged += OnConnectionCheckIntevalPropertyChanged;
-
-            ConnectionCheckableProperty = new NotifyPropertyChanged<bool>(BASIC_INIT_CONNECT_CHECKABLE);
+            ConnectionCheckableProperty = new NotifyPropertyChanged<bool>(false);
             ConnectionCheckableProperty.PropertyChanged += OnConnectionCheckablePropertyPropertyChanged;
 
             ShotDownDirector.GetInstance().AddIDisposable(this);
@@ -95,30 +87,21 @@ namespace DY.WPF.SYSTEM.COMM
         }
 
         /// <summary>
-        /// 클라이언트의 통신 연결의 타임아웃 시간이 변경된 경우 호출
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="args"></param>
-        private void OnConnectionCheckIntevalPropertyChanged(object sender, PropertyChangedEventArgs args)
-        {
-            NotifyPropertyChanged<int> notifyProperty = sender as NotifyPropertyChanged<int>;
-            m_ConnectionCheckTimer.Interval = new TimeSpan(notifyProperty.Source * 10000);
-            LOG.Trace("클라이언트 접속 상태 체크 타이머의 설정 시간: " + notifyProperty.Source);
-        }
-
-        /// <summary>
         /// 클라이언트 통신 접속상태 체크 시스템의 on/off를 변경한 경우 호출 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="args"></param>
         private void OnConnectionCheckablePropertyPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            var notifyProperty = sender as NotifyPropertyChanged<bool>;
-            if (notifyProperty.Source)
+            m_ConnectionCheckTimer.Interval = new TimeSpan(ConnectionCheckIntevalProperty.Source * 10000);
+            LOG.Trace("클라이언트 접속 상태 체크 타이머의 설정 시간: " + ConnectionCheckIntevalProperty.Source);
+
+            var ConnectionCheckableProperty = sender as NotifyPropertyChanged<bool>;
+            if (ConnectionCheckableProperty.Source)
                 m_ConnectionCheckTimer.Start();
             else
                 m_ConnectionCheckTimer.Stop();
-            LOG.Trace("클라이언트 접속상태 체크 타이머 활성화 여부: " + notifyProperty.Source);
+            LOG.Trace("클라이언트 접속상태 체크 타이머 활성화 여부: " + ConnectionCheckableProperty.Source);
         }
 
         /// <summary>

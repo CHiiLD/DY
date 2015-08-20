@@ -30,6 +30,13 @@ namespace DY.NET
         //타임아웃
         public int WriteTimeout { get; set; }
         public int ReadTimeout { get; set; }
+
+        public int WriteTimeoutMaximum { get; set; }
+        public int WriteTimeoutMinimum { get; set; }
+
+        public int ReadTimeoutMaximum { get; set; }
+        public int ReadTimeoutMinimum { get; set; }
+
         //ITAG
         public int Tag { get; set; }
         public string Description { get; set; }
@@ -50,8 +57,14 @@ namespace DY.NET
         /// </summary>
         protected ASocketCover()
         {
-            WriteTimeout = -1;
-            ReadTimeout = -1;
+            WriteTimeout = 250;
+            ReadTimeout = 250;
+
+            WriteTimeoutMaximum = 500;
+            ReadTimeoutMaximum = 500;
+
+            WriteTimeoutMinimum = 0;
+            ReadTimeoutMinimum = 0;
         }
 
         /// <summary>

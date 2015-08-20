@@ -3,6 +3,7 @@ using System.IO.Ports;
 using System.Threading.Tasks;
 using System.Threading;
 using NLog;
+using Nito.AsyncEx;
 
 namespace DY.NET.HONEYWELL.VUQUEST
 {
@@ -32,7 +33,10 @@ namespace DY.NET.HONEYWELL.VUQUEST
         public string Description { get; set; }
         public object UserData { get; set; }
         public EventHandler<ConnectionStatusChangedEventArgs> ConnectionStatusChanged { get; set; }
-
+        
+        private readonly AsyncLock m_AsyncLock = new AsyncLock();
+        private bool m_IsPrepared = false;
+        
         /// <summary>
         /// read time out ( 0 - 300000ms) TRGSTO#### 으로 전송해야함
         /// </summary>
@@ -55,16 +59,28 @@ namespace DY.NET.HONEYWELL.VUQUEST
         public const int VUQUEST3310G_TIMEOUT_MAX = 300000;
 
         private byte[] m_Buffer = new byte[4096];
-        private int m_BufferIdx;
         private SerialPort m_SerialPort;
+
+        public int WriteTimeoutMaximum { get; set; }
+        public int WriteTimeoutMinimum { get; set; }
+
+        public int ReadTimeoutMaximum { get; set; }
+        public int ReadTimeoutMinimum { get; set; }
 
         public int WriteTimeout { get; set; }
         public int ReadTimeout { get; set; }
 
         public Vuquest3310g(SerialPort serialPort)
         {
-            WriteTimeout = -1;
-            ReadTimeout = -1;
+            WriteTimeout = 100;
+            ReadTimeout = 1000;
+
+            WriteTimeoutMaximum = 500;
+            ReadTimeoutMaximum = VUQUEST3310G_TIMEOUT_MAX;
+
+            WriteTimeoutMinimum = 0;
+            ReadTimeoutMinimum = 0;
+
             m_SerialPort = serialPort;
             Description = "Hoenywell Vuquest 3310g(" + m_SerialPort.PortName + ")";
         }

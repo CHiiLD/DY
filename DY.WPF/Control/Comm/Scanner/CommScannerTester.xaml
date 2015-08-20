@@ -26,12 +26,10 @@
                 <StackPanel>
                     <local:NumericUpDownWithBar 
         			x:Name="NNM_WriteTimeout"
-        			Minimum="{Binding Source={x:Static localsys:CommClient.ScanTimeoutMinimum}}"
         			StringFormat="{}{0:N0}ms"
         			Title="Write timeout" Margin="0,0,0,6" />
                     <local:NumericUpDownWithBar 
         			x:Name="NNM_ReadTimeout" 
-        			Minimum="{Binding Source={x:Static localsys:CommClient.ScanTimeoutMinimum}}"
         			StringFormat="{}{0:N0}ms"
         			Title="Read timeout" />
                 </StackPanel>
@@ -47,10 +45,18 @@
 
         <ListView x:Name="NLog" Grid.Column="2" 
                   Grid.RowSpan="2">
+            <!--Width 자동 조절--> 
+            <ListView.ItemContainerStyle>
+                <Style TargetType="ListViewItem">
+                    <Setter Property="HorizontalContentAlignment"
+                Value="Stretch" />
+                </Style>
+            </ListView.ItemContainerStyle>
+            
             <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Time" Width="100" DisplayMemberBinding="{Binding Time, StringFormat='{}{0:hh\\:mm\\:ss}'}"/>
-                    <GridViewColumn Header="Log" DisplayMemberBinding="{Binding Log}"/>
+                <GridView x:Name="NLogView">
+                    <GridViewColumn x:Name="NTimeHeader" Header="Time" DisplayMemberBinding="{Binding Time, StringFormat='{}{0:hh\\:mm\\:ss}'}"/>
+                    <GridViewColumn x:Name="NLogHeader" Header="Log" DisplayMemberBinding="{Binding Log}"/>
                 </GridView>
             </ListView.View>
         </ListView>

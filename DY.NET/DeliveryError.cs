@@ -6,8 +6,6 @@ namespace DY.NET
         SUCCESS = 0,
         WRITE_TIMEOUT = -1,
         READ_TIMEOUT = -2,
-        DISCONNECT = -3,
-        NOT_PREPARE = -4,
-        NONE = -5
+        DISCONNECT = -3
     }
 }

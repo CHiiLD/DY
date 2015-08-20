@@ -28,8 +28,8 @@ namespace DY.WPF
         }
 
         private CommClient m_CClient;
-        public CommClient CClient 
-        { 
+        public CommClient CClient
+        {
             get
             {
                 return m_CClient;
@@ -48,9 +48,6 @@ namespace DY.WPF
             InitializeComponent();
             CClient = cclient;
             Unselected += (object sender, EventArgs args) => { NLog.Items.Clear(); };
-
-            m_CClient.ReadTimeout = CommClient.ScanTimeoutInit;
-            m_CClient.WriteTimeout = CommClient.ScanTimeoutInit;
         }
 
         private void PushNewLog(IScannerSerialCommAsync scanner, Delivery delivery)
@@ -103,12 +100,23 @@ namespace DY.WPF
 
         private void SetBinding()
         {
-            this.SetBinding(UserControl.IsEnabledProperty, 
+            this.SetBinding(UserControl.IsEnabledProperty,
                 new Binding("Usable") { Source = m_CClient, Mode = BindingMode.TwoWay });
-            NNM_WriteTimeout.NNumeric.SetBinding(NumericUpDown.ValueProperty, 
-                new Binding("WriteTimeout") { Source = m_CClient, Mode = BindingMode.TwoWay });
-            NNM_ReadTimeout.NNumeric.SetBinding(NumericUpDown.ValueProperty, 
-                new Binding("ReadTimeout") { Source = m_CClient, Mode = BindingMode.TwoWay });
+
+            NNM_WriteTimeout.SetBinding(NumericUpDownWithBar.ValueProperty,
+                new Binding("WriteTimeout") { Source = m_CClient.Socket, Mode = BindingMode.TwoWay });
+            NNM_ReadTimeout.SetBinding(NumericUpDownWithBar.ValueProperty,
+                new Binding("ReadTimeout") { Source = m_CClient.Socket, Mode = BindingMode.TwoWay });
+
+            NNM_WriteTimeout.SetBinding(NumericUpDownWithBar.MaximumProperty,
+                new Binding("WriteTimeoutMaximum") { Source = m_CClient.Socket, Mode = BindingMode.TwoWay });
+            NNM_ReadTimeout.SetBinding(NumericUpDownWithBar.MaximumProperty,
+                new Binding("ReadTimeoutMaximum") { Source = m_CClient.Socket, Mode = BindingMode.TwoWay });
+
+            NNM_WriteTimeout.SetBinding(NumericUpDownWithBar.MinimumProperty,
+                new Binding("WriteTimeoutMinimum") { Source = m_CClient.Socket, Mode = BindingMode.TwoWay });
+            NNM_ReadTimeout.SetBinding(NumericUpDownWithBar.MinimumProperty,
+                new Binding("ReadTimeoutMinimum") { Source = m_CClient.Socket, Mode = BindingMode.TwoWay });
         }
 
         public void Dispose()

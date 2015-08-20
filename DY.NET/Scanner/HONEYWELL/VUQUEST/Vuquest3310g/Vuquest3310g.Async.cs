@@ -11,70 +11,15 @@ namespace DY.NET.HONEYWELL.VUQUEST
 {
     public partial class Vuquest3310g
     {
-        private readonly AsyncLock m_AsyncLock = new AsyncLock();
-        private bool m_IsPrepared = false;
-        /// <summary>
-        /// 스캔에 필요한 리더기 파라미터를 설정한다. 
-        /// 스캔에 앞서 먼저 한번 호출해야한다.
-        /// </summary>
-        /// <returns></returns>
-        public async Task<DeliveryError> PrepareAsync()
-        {
-            if (m_IsPrepared)
-                return DeliveryError.SUCCESS;
-
-            Delivery delivery = new Delivery();
-            if (!IsConnected())
-                return DeliveryError.DISCONNECT;
-            List<byte> syn = new List<byte>();
-            List<byte> rep = new List<byte>();
-            byte[] reply;
-
-            Dictionary<byte[], string> CMDDIC = new Dictionary<byte[], string>();
-            CMDDIC.Add(PSS_ADD_CR_SUFIX_ALL_SYMBOL, "CR sufix setting error");
-            CMDDIC.Add(SPC_TRIGGER_READ_TIMEOUT_300000MS, "Timeout setting error");
-
-            using (await m_AsyncLock.LockAsync())
-            {
-                foreach (var CMD in CMDDIC)
-                {
-                    syn.Clear();
-                    syn.AddRange(PREFIX);
-                    syn.AddRange(CMD.Key);
-                    syn.Add(DOT);
-
-                    rep.Clear();
-                    rep.AddRange(CMD.Key);
-                    rep.Add(ACK);
-                    rep.Add(DOT);
-
-                    if (!await WriteAsync(syn.ToArray(), 0, syn.Count))
-                        return DeliveryError.WRITE_TIMEOUT;
-
-                    int size = await ReadAsync(m_Buffer, 0, m_Buffer.Length);
-                    if (size < 0)
-                        return DeliveryError.READ_TIMEOUT;
-
-                    reply = new byte[size];
-                    Array.Copy(m_Buffer, reply, size);
-
-                    if (!rep.SequenceEqual(reply))
-                        throw new Exception(CMD.Value);
-                }
-            }
-            m_IsPrepared = true;
-            return DeliveryError.SUCCESS;
-        }
-
         public async Task<Delivery> ScanAsync()
         {
             Delivery delivery = new Delivery();
-            delivery.Error = await PrepareAsync();
-            if (DeliveryError.SUCCESS != delivery.Error)
-                return delivery.Packing();
-
             using (await m_AsyncLock.LockAsync())
             {
+                delivery.Error = await PrepareAsync();
+                if (delivery.Error != DeliveryError.SUCCESS)
+                    return delivery.Packing();
+
                 byte[] code = null;
                 try
                 {
@@ -95,37 +40,103 @@ namespace DY.NET.HONEYWELL.VUQUEST
                     await DeactivateAsync();
                 delivery.Package = code;
             }
-            return delivery.Packing(DeliveryError.SUCCESS);
+            return delivery.Packing();
         }
 
         public async Task<Delivery> GetInfoAsync()
         {
             Delivery delivery = new Delivery();
-            if (DeliveryError.SUCCESS != await PrepareAsync())
-                return null;
-            List<byte> syn = new List<byte>();
-            syn.AddRange(PREFIX);
-            syn.AddRange(UTI_SHOW_SOFTWARE_REVERSION);
-            syn.Add(DOT);
             using (await m_AsyncLock.LockAsync())
             {
-                m_BufferIdx = 0;
-                if (!await WriteAsync(syn.ToArray(), 0, syn.Count))
-                    return delivery.Packing(DeliveryError.WRITE_TIMEOUT);
-                do
-                {
-                    int size = await ReadAsync(m_Buffer, m_BufferIdx, m_Buffer.Length - m_BufferIdx);
-                    if (size < 0)
-                        return delivery.Packing(DeliveryError.READ_TIMEOUT);
-                    m_BufferIdx += size;
-                } while (m_Buffer[m_BufferIdx - 1] != (byte)0x2E);
-                byte[] buffer = new byte[m_BufferIdx - 1];
-                Array.Copy(m_Buffer, 0, buffer, 0, buffer.Length);
-                delivery.Package = buffer;
+                delivery.Error = await PrepareAsync();
+                if (delivery.Error != DeliveryError.SUCCESS)
+                    return delivery.Packing();
+
+                var delivery2 = await SendCommendCodeAsync(UTI_SHOW_SOFTWARE_REVERSION);
+                if (delivery2.Error != DeliveryError.SUCCESS)
+                    return delivery.Packing(delivery2.Error);
+                else
+                    delivery.Package = delivery2.Package;
             }
-            return delivery.Packing(DeliveryError.SUCCESS);
+            return delivery.Packing();
         }
 
+        private async Task<Delivery> SendCommendCodeAsync(byte[] cmd)
+        {
+            byte[] req_code = GetRequestCommandCode(cmd);
+            byte[] res_code = GetResponseCommandCode(cmd);
+            Delivery delivery = new Delivery();
+            if (!await WriteAsync(req_code, 0, req_code.Length))
+                return delivery.Packing(DeliveryError.WRITE_TIMEOUT);
+            int idx = 0;
+            while (true)
+            {
+                int size = await ReadAsync(m_Buffer, idx, m_Buffer.Length - idx);
+                if (size < 0)
+                    return delivery.Packing(DeliveryError.READ_TIMEOUT);
+                idx += size;
+                if (idx >= res_code.Length)
+                {
+                    byte[] reply = new byte[res_code.Length];
+                    Array.Copy(m_Buffer, idx - reply.Length, reply, 0, reply.Length);
+                    if (reply.SequenceEqual(res_code))
+                    {
+                        if(idx - reply.Length > 0)
+                        {
+                            byte[] data = new byte[idx - reply.Length];
+                            Array.Copy(m_Buffer, 0, data, 0, data.Length);
+                            delivery.Package = data;
+                        }
+                        break;
+                    }
+                }
+            }
+            return delivery.Packing();
+        }
+
+        private byte[] GetRequestCommandCode(byte[] cmd)
+        {
+            List<byte> code = new List<byte>();
+            code.AddRange(PREFIX);
+            code.AddRange(cmd);
+            code.Add(DOT);
+            return code.ToArray();
+        }
+
+        private byte[] GetResponseCommandCode(byte[] cmd)
+        {
+            List<byte> code = new List<byte>();
+            code.AddRange(cmd);
+            code.Add(ACK);
+            code.Add(DOT);
+            return code.ToArray();
+        }
+        /// <summary>
+        /// 스캔에 필요한 리더기 파라미터를 설정한다. 
+        /// 스캔에 앞서 먼저 한번 호출해야한다.
+        /// </summary>
+        /// <returns></returns>
+        private async Task<DeliveryError> PrepareAsync()
+        {
+            if (m_IsPrepared)
+                return DeliveryError.SUCCESS;
+            if (!IsConnected())
+                return DeliveryError.DISCONNECT;
+            Dictionary<byte[], string> commends = new Dictionary<byte[], string>();
+            commends.Add(PSS_ADD_CR_SUFIX_ALL_SYMBOL, "CR sufix setting error");
+            commends.Add(SPC_TRIGGER_READ_TIMEOUT_300000MS, "Timeout setting error");
+            foreach (var cmd in commends)
+            {
+                DeliveryError error = (await SendCommendCodeAsync(cmd.Key)).Error;
+                if (error != DeliveryError.SUCCESS)
+                {
+                    LOG.Debug(Description + ": " + cmd.Value);
+                    return error;
+                }
+            }
+            m_IsPrepared = true;
+            return DeliveryError.SUCCESS;
+        }
         private async Task<bool> WriteAsync(byte[] buffer, int offset, int count)
         {
             var stream = m_SerialPort.BaseStream;
@@ -159,15 +170,15 @@ namespace DY.NET.HONEYWELL.VUQUEST
         {
             if (!await WriteAsync(SPC_TRIGGER_ACTIVATE, 0, SPC_TRIGGER_ACTIVATE.Length))
                 throw new TimeoutException(ERROR_WRITE_TIMEOUT);
-            m_BufferIdx = 0;
+            int idx = 0;
             do
             {
-                int size = await ReadAsync(m_Buffer, m_BufferIdx, m_Buffer.Length - m_BufferIdx);
+                int size = await ReadAsync(m_Buffer, idx, m_Buffer.Length - idx);
                 if (size < 0)
                     throw new TimeoutException(ERROR_READ_TIMEOUT);
-                m_BufferIdx += size;
-            } while (m_Buffer[m_BufferIdx - 1] != CR);
-            byte[] buffer = new byte[m_BufferIdx - 1];
+                idx += size;
+            } while (m_Buffer[idx - 1] != CR);
+            byte[] buffer = new byte[idx - 1];
             Array.Copy(m_Buffer, 0, buffer, 0, buffer.Length);
             return buffer;
         }

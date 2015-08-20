@@ -1,15 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-using System.Windows;
-using System.Windows.Controls;
+﻿using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 using DY.WPF.SYSTEM.COMM;
 using MahApps.Metro.Controls;
@@ -23,17 +13,17 @@ namespace DY.WPF
     {
         public CommConnectionManage()
         {
-            this.InitializeComponent();
-            CommClientDirector ccd = CommClientDirector.GetInstance();
+            InitializeComponent();
+            CommClientDirector director = CommClientDirector.GetInstance();
 
-            Binding binding = new Binding("Source") { Source = ccd.ConnectionCheckableProperty };
-            this.NBT_ConnectionCheckTimerSwtich.SetBinding(ToggleSwitch.IsCheckedProperty, binding);
+            NBT_ConnectionCheckTimerSwtich.SetBinding(ToggleSwitch.IsCheckedProperty,
+                new Binding("Source") { Source = director.ConnectionCheckableProperty, Mode=BindingMode.TwoWay });
 
-            binding = new Binding("Source") { Source = ccd.ConnectionCheckIntevalProperty };
-            this.NTB_ConnectionCheckInteval.NNumeric.SetBinding(NumericUpDown.ValueProperty, binding);
+            NTB_ConnectionCheckInteval.SetBinding(NumericUpDownWithBar.ValueProperty,
+                new Binding("Source") { Source = director.ConnectionCheckIntevalProperty, Mode = BindingMode.TwoWay });
 
-            binding = new Binding("Source") { Source = ccd.ConnectionDelayTimeProperty };
-            this.NTB_ConnectionDelayTime.NNumeric.SetBinding(NumericUpDown.ValueProperty, binding);
+            NTB_ConnectionDelayTime.SetBinding(NumericUpDownWithBar.ValueProperty,
+                new Binding("Source") { Source = director.ConnectionDelayTimeProperty, Mode = BindingMode.TwoWay });
         }
     }
 }

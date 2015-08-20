@@ -12,20 +12,9 @@ namespace DY.WPF.SYSTEM.COMM
     /// <summary>
     /// DY.NET 통신 객체 관리 클래스
     /// </summary>
-    public class CommClient : IDisposable, INotifyPropertyChanged, ITimeout
+    public class CommClient : IDisposable, INotifyPropertyChanged
     {
         public const string EXTRA_XGT_CNET_LOCALPORT = "LOCAL_PORT";
-
-        public static int IOUpdateIntevalMinimum { get { return 100; } }
-        public static int IOUpdateIntevalMaximum { get { return 1000; } }
-        public static int IOUpdateIntevalInit { get { return 1000; } }
-
-        public static int IOTimeoutMinimum { get { return 50; } }
-        public static int IOTimeoutMaximum { get { return 500; } }
-        public static int IOTimeoutInit { get { return 250; } }
-
-        public static int ScanTimeoutMinimum { get { return 50; } }
-        public static int ScanTimeoutInit { get { return 5000; } }
 
         #region PRIVATE VARIABLE
         private static Logger LOG = LogManager.GetCurrentClassLogger();
@@ -41,18 +30,31 @@ namespace DY.WPF.SYSTEM.COMM
 
         #endregion
         //___________________COMM_DATAGIRD______________________________________
-        /// <summary>
-        /// IConnect 객체
-        /// </summary>
         public IConnect Socket { get; private set; }
-        /// <summary>
-        /// 통신 디바이스 
-        /// </summary>
-        public DyNetDevice Target { get { return m_Target; } set { m_Target = value; OnPropertyChanged("Target"); } }
-        /// <summary>
-        /// 통신 타입
-        /// </summary>
-        public DyNetCommType CommType { get { return m_CommType; } set { m_CommType = value; OnPropertyChanged("CommType"); } }
+
+        public DyNetDevice Target
+        {
+            get
+            {
+                return m_Target;
+            }
+            set
+            {
+                m_Target = value;
+                OnPropertyChanged("Target");
+            }
+        }
+        public DyNetCommType CommType
+        {
+            get
+            {
+                return m_CommType;
+            }
+            set
+            {
+                m_CommType = value; OnPropertyChanged("CommType");
+            }
+        }
         public bool? Usable
         {
             get
@@ -65,24 +67,50 @@ namespace DY.WPF.SYSTEM.COMM
                 OnPropertyChanged("Usable");
             }
         }
-
-        /// <summary>
-        /// 유저 코멘트
-        /// </summary>
-        public string Comment { get { return m_Comment; } set { m_Comment = value; OnPropertyChanged("Comment"); } }
-        /// <summary>
-        /// 연결 상태 이미지
-        /// </summary>
-        public Geometry ImageData { get { return m_ImageData; } set { m_ImageData = value; OnPropertyChanged("ImageData"); } }
-        /// <summary>
-        /// 연결 상태 이미지 컬러
-        /// </summary>
-        public Brush ImageColor { get { return m_ImageColor; } set { m_ImageColor = value; OnPropertyChanged("ImageColor"); } }
-        /// <summary>
-        /// 통신 옵션 요약
-        /// </summary>
-        public string Summary { get { return m_Summary; } set { m_Summary = value; OnPropertyChanged("Summary"); } }
-
+        public string Comment
+        {
+            get
+            {
+                return m_Comment;
+            }
+            set
+            {
+                m_Comment = value; OnPropertyChanged("Comment");
+            }
+        }
+        public Geometry ImageData
+        {
+            get
+            {
+                return m_ImageData;
+            }
+            set
+            {
+                m_ImageData = value; OnPropertyChanged("ImageData");
+            }
+        }
+        public Brush ImageColor
+        {
+            get
+            {
+                return m_ImageColor;
+            }
+            set
+            {
+                m_ImageColor = value; OnPropertyChanged("ImageColor");
+            }
+        }
+        public string Summary
+        {
+            get
+            {
+                return m_Summary;
+            }
+            set
+            {
+                m_Summary = value; OnPropertyChanged("Summary");
+            }
+        }
         //___________________EXTRA______________________________________________
         /// <summary>
         /// UUID
@@ -98,9 +126,18 @@ namespace DY.WPF.SYSTEM.COMM
         /// <summary>
         /// 프로토콜 통신 간격
         /// </summary>
-        public int IOUpdateInteval { get { return m_IOUpdateInteval; } set { m_IOUpdateInteval = value; OnPropertyChanged("IOUpdateInteval"); } }
-        public int WriteTimeout { get { return Socket.WriteTimeout; } set { Socket.WriteTimeout = value; OnPropertyChanged("WriteTimeout"); } }
-        public int ReadTimeout { get { return Socket.ReadTimeout; } set { Socket.ReadTimeout = value; OnPropertyChanged("ReadTimeout"); } }
+        public int IOUpdateInteval
+        {
+            get
+            {
+                return m_IOUpdateInteval;
+            }
+            set
+            {
+                m_IOUpdateInteval = value;
+                OnPropertyChanged("IOUpdateInteval");
+            }
+        }
 
         public event PropertyChangedEventHandler PropertyChanged;
 
@@ -117,7 +154,8 @@ namespace DY.WPF.SYSTEM.COMM
             m_CommType = comm_type;
             Socket.ConnectionStatusChanged += OnChangedConnectionStatus;
             Key = Guid.NewGuid().ToString();
-            
+            IOUpdateInteval = 200;
+
         }
 
         ~CommClient()
