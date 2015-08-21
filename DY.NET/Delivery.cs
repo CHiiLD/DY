@@ -27,14 +27,6 @@ namespace DY.NET
             return this;
         }
 
-        public Delivery Packing(object package)
-        {
-            Error = DeliveryError.SUCCESS;
-            Package = package;
-            DelivaryTime.Stop();
-            return this;
-        }
-
         public Delivery Packing(object package, DeliveryError error)
         {
             Error = error;

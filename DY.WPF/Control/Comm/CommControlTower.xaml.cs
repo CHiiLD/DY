@@ -99,7 +99,6 @@ namespace DY.WPF
                     {
                         LOG.Trace("통신 컨트롤 타워 탭 아이템 삭제: " + client.Key);
                         item_src.Remove(tab_item);
-                        towerTabItem.CClient = null;
                         ShotDownDirector.GetInstance().RemoveIDisposable(towerTabItem);
                         break;
                     }

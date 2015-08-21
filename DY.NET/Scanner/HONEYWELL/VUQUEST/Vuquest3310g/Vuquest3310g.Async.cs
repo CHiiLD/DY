@@ -11,34 +11,45 @@ namespace DY.NET.HONEYWELL.VUQUEST
 {
     public partial class Vuquest3310g
     {
+        private class DeliveryWithoutStopwatch
+        {
+            public object Package { get; set; }
+            public DeliveryError Error { get; set; }
+
+            public DeliveryWithoutStopwatch()
+            {
+                Error = DeliveryError.SUCCESS;
+            }
+
+            public DeliveryWithoutStopwatch Packing(DeliveryError error)
+            {
+                Error = error;
+                return this;
+            }
+
+            public DeliveryWithoutStopwatch Packing()
+            {
+                return this;
+            }
+        }
+
         public async Task<Delivery> ScanAsync()
         {
             Delivery delivery = new Delivery();
             using (await m_AsyncLock.LockAsync())
             {
-                delivery.Error = await PrepareAsync();
+                delivery.Error = await AddPrefixCRAsync();
                 if (delivery.Error != DeliveryError.SUCCESS)
                     return delivery.Packing();
 
-                byte[] code = null;
-                try
-                {
-                    code = await ActivateAsync();
-                }
-                catch (TimeoutException timeout_exception)
-                {
-                    if (timeout_exception.Message == ERROR_WRITE_TIMEOUT)
-                        delivery.Error = DeliveryError.WRITE_TIMEOUT;
-                    else if (timeout_exception.Message == ERROR_READ_TIMEOUT)
-                        delivery.Error = DeliveryError.READ_TIMEOUT;
-                }
-                catch (Exception exception)
-                {
-                    LOG.Debug(Description + " Scan 중 예외발생: " + exception.Message + "\n" + exception.StackTrace);
-                }
+                delivery.Error = await SetScanReadTimeout(ReadTimeout);
                 if (delivery.Error != DeliveryError.SUCCESS)
-                    await DeactivateAsync();
-                delivery.Package = code;
+                    return delivery.Packing();
+
+                DeliveryWithoutStopwatch deliww = await ActivateAsync();
+                if (deliww.Error != DeliveryError.SUCCESS)
+                    return delivery.Packing(deliww.Error);
+                delivery.Package = deliww.Package;
             }
             return delivery.Packing();
         }
@@ -48,24 +59,19 @@ namespace DY.NET.HONEYWELL.VUQUEST
             Delivery delivery = new Delivery();
             using (await m_AsyncLock.LockAsync())
             {
-                delivery.Error = await PrepareAsync();
-                if (delivery.Error != DeliveryError.SUCCESS)
-                    return delivery.Packing();
-
-                var delivery2 = await SendCommendCodeAsync(UTI_SHOW_SOFTWARE_REVERSION);
-                if (delivery2.Error != DeliveryError.SUCCESS)
-                    return delivery.Packing(delivery2.Error);
-                else
-                    delivery.Package = delivery2.Package;
+                DeliveryWithoutStopwatch deliww = await SendCommendCodeAsync(UTI_SHOW_SOFTWARE_REVERSION);
+                if (deliww.Error != DeliveryError.SUCCESS)
+                    return delivery.Packing(deliww.Error);
+                delivery.Package = deliww.Package;
             }
             return delivery.Packing();
         }
 
-        private async Task<Delivery> SendCommendCodeAsync(byte[] cmd)
+        private async Task<DeliveryWithoutStopwatch> SendCommendCodeAsync(byte[] cmd)
         {
             byte[] req_code = GetRequestCommandCode(cmd);
             byte[] res_code = GetResponseCommandCode(cmd);
-            Delivery delivery = new Delivery();
+            DeliveryWithoutStopwatch delivery = new DeliveryWithoutStopwatch();
             if (!await WriteAsync(req_code, 0, req_code.Length))
                 return delivery.Packing(DeliveryError.WRITE_TIMEOUT);
             int idx = 0;
@@ -81,7 +87,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
                     Array.Copy(m_Buffer, idx - reply.Length, reply, 0, reply.Length);
                     if (reply.SequenceEqual(res_code))
                     {
-                        if(idx - reply.Length > 0)
+                        if (idx - reply.Length > 0)
                         {
                             byte[] data = new byte[idx - reply.Length];
                             Array.Copy(m_Buffer, 0, data, 0, data.Length);
@@ -111,32 +117,51 @@ namespace DY.NET.HONEYWELL.VUQUEST
             code.Add(DOT);
             return code.ToArray();
         }
+
         /// <summary>
         /// 스캔에 필요한 리더기 파라미터를 설정한다. 
         /// 스캔에 앞서 먼저 한번 호출해야한다.
         /// </summary>
         /// <returns></returns>
-        private async Task<DeliveryError> PrepareAsync()
+        private async Task<DeliveryError> AddPrefixCRAsync()
         {
             if (m_IsPrepared)
                 return DeliveryError.SUCCESS;
             if (!IsConnected())
                 return DeliveryError.DISCONNECT;
-            Dictionary<byte[], string> commends = new Dictionary<byte[], string>();
-            commends.Add(PSS_ADD_CR_SUFIX_ALL_SYMBOL, "CR sufix setting error");
-            commends.Add(SPC_TRIGGER_READ_TIMEOUT_300000MS, "Timeout setting error");
-            foreach (var cmd in commends)
+            DeliveryError error = (await SendCommendCodeAsync(PSS_ADD_CR_SUFIX_ALL_SYMBOL)).Error;
+            if (error != DeliveryError.SUCCESS)
             {
-                DeliveryError error = (await SendCommendCodeAsync(cmd.Key)).Error;
-                if (error != DeliveryError.SUCCESS)
-                {
-                    LOG.Debug(Description + ": " + cmd.Value);
-                    return error;
-                }
+                LOG.Debug(Description + ": " + "CR sufix setting error");
+                return error;
             }
             m_IsPrepared = true;
             return DeliveryError.SUCCESS;
         }
+
+        private async Task<DeliveryError> SetScanReadTimeout(int timeout)
+        {
+            if (!m_IsTimeoutChanged)
+                return DeliveryError.SUCCESS;
+            if (!IsConnected())
+                return DeliveryError.DISCONNECT;
+
+            string timeout_str = timeout.ToString();
+            List<byte> list = new List<byte>();
+            list.AddRange(SPC_TRIGGER_READ_TIMEOUT_N);
+            foreach (char i in timeout_str)
+                list.Add((byte)i);
+
+            DeliveryError error = (await SendCommendCodeAsync(list.ToArray())).Error;
+            if (error != DeliveryError.SUCCESS)
+            {
+                LOG.Debug(Description + ": " + "Barcode read timeout setting error");
+                return error;
+            }
+            m_IsTimeoutChanged = false;
+            return DeliveryError.SUCCESS;
+        }
+
         private async Task<bool> WriteAsync(byte[] buffer, int offset, int count)
         {
             var stream = m_SerialPort.BaseStream;
@@ -166,27 +191,42 @@ namespace DY.NET.HONEYWELL.VUQUEST
             return size;
         }
 
-        private async Task<byte[]> ActivateAsync()
+        private async Task<DeliveryWithoutStopwatch> ActivateAsync()
         {
+            DeliveryWithoutStopwatch delivery = new DeliveryWithoutStopwatch();
             if (!await WriteAsync(SPC_TRIGGER_ACTIVATE, 0, SPC_TRIGGER_ACTIVATE.Length))
-                throw new TimeoutException(ERROR_WRITE_TIMEOUT);
+                return delivery.Packing(DeliveryError.WRITE_TIMEOUT);
             int idx = 0;
             do
             {
                 int size = await ReadAsync(m_Buffer, idx, m_Buffer.Length - idx);
                 if (size < 0)
-                    throw new TimeoutException(ERROR_READ_TIMEOUT);
+                {
+                    await SendCommendCodeAsync(UTI_SHOW_SOFTWARE_REVERSION);
+                    return delivery.Packing(DeliveryError.READ_TIMEOUT);
+                }
                 idx += size;
             } while (m_Buffer[idx - 1] != CR);
             byte[] buffer = new byte[idx - 1];
             Array.Copy(m_Buffer, 0, buffer, 0, buffer.Length);
-            return buffer;
+            delivery.Package = buffer;
+            return delivery.Packing(DeliveryError.SUCCESS);
         }
 
-        private async Task DeactivateAsync()
+#if false
+        private async Task<DeliveryWithoutStopwatch> DeactivateAsync()
         {
+            DeliveryWithoutStopwatch delivery = new DeliveryWithoutStopwatch();
             if (!await WriteAsync(SPC_TRIGGER_DEACTIVATE, 0, SPC_TRIGGER_DEACTIVATE.Length))
-                throw new TimeoutException(ERROR_WRITE_TIMEOUT);
+            {
+                LOG.Error(Description + ": 스캐너 스캔 비활성화 요청 중 스트림 버퍼 쓰기 에러가 발생");
+                return delivery.Packing(DeliveryError.WRITE_TIMEOUT);
+            }
+            else
+            {
+                return delivery.Packing(DeliveryError.SUCCESS);
+            }
         }
+#endif
     }
 }

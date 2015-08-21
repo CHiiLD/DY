@@ -60,26 +60,107 @@ namespace DY.NET.HONEYWELL.VUQUEST
 
         private byte[] m_Buffer = new byte[4096];
         private SerialPort m_SerialPort;
+        private bool m_IsTimeoutChanged = false;
 
-        public int WriteTimeoutMaximum { get; set; }
-        public int WriteTimeoutMinimum { get; set; }
+        private int m_ReadTimeout;
+        private int m_ReadTimeoutMaximum;
+        private int m_ReadTimeoutMinimum;
 
-        public int ReadTimeoutMaximum { get; set; }
-        public int ReadTimeoutMinimum { get; set; }
+        private int m_WriteTimeout;
+        private int m_WriteTimeoutMaximum;
+        private int m_WriteTimeoutMinimum;
 
-        public int WriteTimeout { get; set; }
-        public int ReadTimeout { get; set; }
+        public int ReadTimeoutMaximum 
+        {
+            get
+            {
+                return m_ReadTimeoutMaximum;
+            }
+            set
+            {
+                if (0 <= value && value <= VUQUEST3310G_TIMEOUT_MAX && value >= ReadTimeoutMinimum)
+                    m_ReadTimeoutMaximum = value; 
+            }
+        }
+        
+        public int ReadTimeoutMinimum 
+        { 
+            get
+            {
+                return m_ReadTimeoutMinimum;
+            }
+            set
+            {
+                if (0 <= value && value <= ReadTimeoutMaximum)
+                    m_ReadTimeoutMinimum = value;
+            }
+        }
+
+        public int WriteTimeoutMaximum
+        {
+            get
+            {
+                return m_WriteTimeoutMaximum;
+            }
+            set
+            {
+                if (0 <= value && ReadTimeoutMinimum <= value)
+                    m_WriteTimeoutMaximum = value;
+            }
+        }
+
+        public int WriteTimeoutMinimum
+        {
+            get
+            {
+                return m_WriteTimeoutMinimum;
+            }
+            set
+            {
+                if (0 <= value && value <= WriteTimeoutMaximum)
+                    m_WriteTimeoutMinimum = value;
+            }
+        }
+
+        public int WriteTimeout 
+        { 
+            get
+            {
+                return m_WriteTimeout;
+            }
+            set
+            {
+                if (WriteTimeoutMinimum <= value && value <= WriteTimeoutMaximum)
+                    m_WriteTimeout = value;
+            }
+        }
+
+        public int ReadTimeout 
+        {
+            get
+            {
+                return m_ReadTimeout;
+            }
+            set
+            {
+                if (ReadTimeoutMinimum <= value && value <= ReadTimeoutMaximum)
+                {
+                    m_ReadTimeout = value;
+                    m_IsTimeoutChanged = true;
+                }
+            }
+        }
 
         public Vuquest3310g(SerialPort serialPort)
         {
-            WriteTimeout = 100;
-            ReadTimeout = 1000;
-
             WriteTimeoutMaximum = 500;
             ReadTimeoutMaximum = VUQUEST3310G_TIMEOUT_MAX;
 
             WriteTimeoutMinimum = 0;
             ReadTimeoutMinimum = 0;
+            
+            WriteTimeout = 100;
+            ReadTimeout = 1000;
 
             m_SerialPort = serialPort;
             Description = "Hoenywell Vuquest 3310g(" + m_SerialPort.PortName + ")";

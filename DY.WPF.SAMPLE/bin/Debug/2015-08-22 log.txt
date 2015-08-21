@@ -1,0 +1,108 @@
+03:24:55 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 접속
+
+03:27:20 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 접속
+
+03:47:49 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 접속
+
+03:49:51 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5): Barcode read timeout setting error
+
+03:50:02 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5): Barcode read timeout setting error
+
+03:50:07 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5): Barcode read timeout setting error
+
+03:50:13 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5): Barcode read timeout setting error
+
+03:50:20 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5): Barcode read timeout setting error
+
+03:50:25 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5): Barcode read timeout setting error
+
+03:54:08 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 접속
+
+03:56:25 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 접속
+
+03:57:08 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 해제
+
+03:57:08 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 접속종료 및 메모리 해제
+
+03:57:08 DY.WPF.SYSTEM.COMM.CommClient
+COM5 115200-8-N-1 CommClient 메모리 해제
+
+03:57:08 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+04:00:57 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM5) 통신 접속 성공
+
+04:01:08 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM5) 통신 접속 해제
+
+04:01:17 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 접속
+
+04:03:09 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 해제
+
+04:03:09 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 접속종료 및 메모리 해제
+
+04:03:09 DY.WPF.SYSTEM.COMM.CommClient
+COM5 115200-8-N-1 CommClient 메모리 해제
+
+04:03:09 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+04:05:36 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 접속
+
+04:07:11 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 접속
+
+04:08:57 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 접속
+
+04:15:18 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 접속
+
+04:15:49 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 해제
+
+04:15:49 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 접속종료 및 메모리 해제
+
+04:15:49 DY.WPF.SYSTEM.COMM.CommClient
+COM5 115200-8-N-1 CommClient 메모리 해제
+
+04:15:49 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+04:19:00 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 접속
+
+04:21:36 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 접속
+
+04:22:06 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 해제
+
+04:22:06 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 접속종료 및 메모리 해제
+
+04:22:06 DY.WPF.SYSTEM.COMM.CommClient
+COM5 115200-8-N-1 CommClient 메모리 해제
+
+04:22:06 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
