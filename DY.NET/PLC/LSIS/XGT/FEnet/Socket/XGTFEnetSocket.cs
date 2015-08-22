@@ -106,13 +106,13 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         /// <param name="request">요청 프로토콜</param>
         /// <returns>수신할 데이터가 더 있다면 true, 아니면 false</returns>
-        protected override bool DoReadAgain(AProtocol request)
+        protected override bool DoReadAgain(AProtocol request, int idx)
         {
             ushort target = 0, sum = 0;
-            if (BufferIndex < XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE)
+            if (idx < XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE)
                 return false;
             target = CV2BR.ToValue(new byte[] { BaseBuffer[16], BaseBuffer[17] });
-            for (int i = XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE; i < BufferIndex; i++) //바이트의 개수
+            for (int i = XGTFEnetHeader.APPLICATION_HEARDER_FORMAT_SIZE; i < idx; i++) //바이트의 개수
                 sum++;
             return target != sum;
         }

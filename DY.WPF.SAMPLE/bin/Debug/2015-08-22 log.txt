@@ -106,3 +106,48 @@ COM5 115200-8-N-1 CommClient 메모리 해제
 04:22:06 DY.WPF.SYSTEM.COMM.CommClientDirector
 CommClientDirector 메모리 해제
 
+10:08:12 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 접속
+
+10:44:32 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 통신 접속 해제
+
+10:44:32 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 메모리 해제
+
+10:44:32 DY.WPF.SYSTEM.COMM.CommClient
+COM6 115200-8-N-1 CommClient 메모리 해제
+
+10:44:32 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+10:46:17 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+10:48:33 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 통신 접속 성공
+
+10:48:41 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 통신 접속 해제
+
+10:48:41 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM6) 메모리 해제
+
+10:48:41 DY.WPF.SYSTEM.COMM.CommClient
+COM6 115200-8-N-1 CommClient 메모리 해제
+
+10:48:41 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+19:43:31 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+19:44:19 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+19:45:16 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+19:47:18 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+

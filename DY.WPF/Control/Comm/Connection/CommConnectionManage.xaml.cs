@@ -22,8 +22,8 @@ namespace DY.WPF
             NTB_ConnectionCheckInteval.SetBinding(NumericUpDownWithBar.ValueProperty,
                 new Binding("Source") { Source = director.ConnectionCheckIntevalProperty, Mode = BindingMode.TwoWay });
 
-            NTB_ConnectionDelayTime.SetBinding(NumericUpDownWithBar.ValueProperty,
-                new Binding("Source") { Source = director.ConnectionDelayTimeProperty, Mode = BindingMode.TwoWay });
+            NTB_ConnectionTimeout.SetBinding(NumericUpDownWithBar.ValueProperty,
+                new Binding("Source") { Source = director.ConnectionTimeoutProperty, Mode = BindingMode.TwoWay });
         }
     }
 }

@@ -25,7 +25,7 @@ namespace DY.WPF.SYSTEM.COMM
         private DispatcherTimer m_ConnectionCheckTimer;
 
         /// 통신 설정과 관련된 프로퍼티들
-        public NotifyPropertyChanged<int> ConnectionDelayTimeProperty { get; private set; }
+        public NotifyPropertyChanged<int> ConnectionTimeoutProperty { get; private set; }
         public NotifyPropertyChanged<int> ConnectionCheckIntevalProperty { get; private set; }
         public NotifyPropertyChanged<bool> ConnectionCheckableProperty { get; private set; }
 
@@ -42,18 +42,18 @@ namespace DY.WPF.SYSTEM.COMM
         {
             //collection
             Clientele = new ObservableCollection<CommClient>();
-
-            m_ConnectionCheckTimer = new DispatcherTimer(
-                DispatcherPriority.Normal,
-                Application.Current.Dispatcher) { IsEnabled = false };
-            m_ConnectionCheckTimer.Tick += OnConnectionCheckTick;
             //notify property initialize
-            ConnectionDelayTimeProperty = new NotifyPropertyChanged<int>(200);
+            ConnectionTimeoutProperty = new NotifyPropertyChanged<int>(200);
             ConnectionCheckIntevalProperty = new NotifyPropertyChanged<int>(10000);
             ConnectionCheckIntevalProperty.PropertyChanged += OnConnectionCheckIntevalPropertyChanged;
-
             ConnectionCheckableProperty = new NotifyPropertyChanged<bool>(false);
             ConnectionCheckableProperty.PropertyChanged += OnConnectionCheckablePropertyPropertyChanged;
+
+            m_ConnectionCheckTimer = new DispatcherTimer(
+                new TimeSpan(10000 * ConnectionCheckIntevalProperty.Source),
+                DispatcherPriority.Normal,
+                OnConnectionCheckTick,
+                Application.Current.Dispatcher) { IsEnabled = false };
 
             ShotDownDirector.GetInstance().AddIDisposable(this);
         }

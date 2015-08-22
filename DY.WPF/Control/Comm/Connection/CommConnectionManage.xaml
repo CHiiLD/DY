@@ -20,10 +20,10 @@
             Title="Connection check inteval" Margin="0,2,0,0"/>
 
         <local:NumericUpDownWithBar
-            x:Name="NTB_ConnectionDelayTime" 
+            x:Name="NTB_ConnectionTimeout" 
             Minimum="100"
             Maximum="1000"
             StringFormat="{}{0:N0}ms"
-            Title="Connection delay time" Margin="0,6,0,0"/>
+            Title="Connection timeout" Margin="0,6,0,0"/>
     </StackPanel>
 </UserControl>

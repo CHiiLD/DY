@@ -93,6 +93,15 @@ namespace DY.WPF
             NBT_EditModeOnOff.IsCheckedChanged += OnCheckChangedEditMode;
             Selected = OnSelectedAsync;
             Unselected = OnUnselectedAsync;
+
+            NNM_UpdateInteval.NNumeric.ValueChanged += (object sender, RoutedPropertyChangedEventArgs<double?> e) =>
+            {
+                if(e.NewValue == null)
+                    return;
+                int int_value = (int)e.NewValue;
+                m_PlotTimer.Interval = new TimeSpan(int_value * 10000);
+                LOG.Trace("업데이트 간격 변경: " + int_value + "ms");
+            };
         }
 
         ~CommIOMonitoring()
@@ -103,8 +112,9 @@ namespace DY.WPF
         private void InitPlotModel()
         {
             //그래프 객체 초기화
-            m_PlotTimer = new DispatcherTimer(DispatcherPriority.Normal, Dispatcher) { IsEnabled = false };
-            m_PlotTimer.Tick += OnPlotTimerTick;
+            m_PlotTimer = new DispatcherTimer(new TimeSpan(10000 * CClient.IOUpdateInteval),
+            DispatcherPriority.Normal, OnPlotTimerTick, Dispatcher) { IsEnabled = false };
+
             PlotModel plot_model = new PlotModel();
             plot_model.Axes.Add(new DateTimeAxis //X축
             {
@@ -225,6 +235,7 @@ namespace DY.WPF
             else
                 StartMonitoring();
         }
+
         private void OnPlotTimerTick(object sender, EventArgs args)
         {
             if (NBT_SpeedMonitorOnOff.IsChecked != true)

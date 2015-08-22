@@ -124,10 +124,10 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         /// <param name="request">요청 프로토콜</param>
         /// <returns>수신할 데이터가 더 있다면 true, 아니면 false</returns>
-        protected override bool DoReadAgain(AProtocol request)
+        protected override bool DoReadAgain(AProtocol request, int idx)
         {
             var cnet = request as XGTCnetProtocol;
-            return !(BaseBuffer[BufferIndex - 1 - (cnet.HasBCC() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte());
+            return !(BaseBuffer[idx - 1 - (cnet.HasBCC() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte());
         }
 
     }

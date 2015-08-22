@@ -11,7 +11,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
     /// 허니웰 Vuquest3310g 바코드 리더기 통신 클래스
     /// 115200-N-8-1
     /// </summary>
-    public partial class Vuquest3310g : IScannerSerialCommAsync
+    public partial class Vuquest3310g : IScannerAsync
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();
 

@@ -155,7 +155,6 @@ namespace DY.WPF.SYSTEM.COMM
             Socket.ConnectionStatusChanged += OnChangedConnectionStatus;
             Key = Guid.NewGuid().ToString();
             IOUpdateInteval = 200;
-
         }
 
         ~CommClient()

@@ -50,7 +50,7 @@ namespace DY.WPF
             Unselected += (object sender, EventArgs args) => { NLog.Items.Clear(); };
         }
 
-        private void PushNewLog(IScannerSerialCommAsync scanner, Delivery delivery)
+        private void PushNewLog(IScannerAsync scanner, Delivery delivery)
         {
             string log = null;
             switch (delivery.Error)
@@ -74,7 +74,7 @@ namespace DY.WPF
 
         private async void NBT_Scan_Click(object sender, RoutedEventArgs e)
         {
-            IScannerSerialCommAsync scanner = CClient.Socket as IScannerSerialCommAsync;
+            IScannerAsync scanner = CClient.Socket as IScannerAsync;
             if (!scanner.IsConnected())
             {
                 NLog.Items.Add(new LogItem(scanner.Description + ": Disconnected"));
@@ -87,7 +87,7 @@ namespace DY.WPF
 
         private async void NBT_Info_Click(object sender, RoutedEventArgs e)
         {
-            IScannerSerialCommAsync scanner = CClient.Socket as IScannerSerialCommAsync;
+            IScannerAsync scanner = CClient.Socket as IScannerAsync;
             if (!scanner.IsConnected())
             {
                 NLog.Items.Add(new LogItem(scanner.Description + ": Disconnected"));

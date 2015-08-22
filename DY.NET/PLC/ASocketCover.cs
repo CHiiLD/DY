@@ -127,7 +127,7 @@ namespace DY.NET
         public abstract bool Connect();
         public abstract void Close();
         public abstract bool IsConnected();
-        protected abstract bool DoReadAgain(AProtocol request);
+        protected abstract bool DoReadAgain(AProtocol request, int idx);
         protected abstract AProtocol CreateResponseProtocol(AProtocol request, byte[] recv_data);
 
         /// <summary>
@@ -145,6 +145,65 @@ namespace DY.NET
             ReadTimeout = 250;
         }
 
+        private bool IsPassibleCommunication()
+        {
+            bool isConnected = true;
+            if (!IsConnected()) //CONNECT
+            {
+                Close();
+                if (!Connect())
+                    isConnected = false;
+            }
+            return isConnected;
+        }
+
+        private async Task<bool> WritePorotocol(AProtocol p)
+        {
+            bool isWrote = true;
+            CancellationTokenSource cts = new CancellationTokenSource();
+
+            Task write_task = BaseStream.WriteAsync(p.ASCIIProtocol, 0, p.ASCIIProtocol.Length, cts.Token);
+            if (await Task.WhenAny(write_task, Task.Delay(WriteTimeout, cts.Token)) != write_task)
+                isWrote = false;
+            else
+                await write_task;
+            
+            if (!cts.IsCancellationRequested)
+                cts.Cancel();
+
+            return isWrote;
+        }
+
+        private async Task<byte[]> ReadProtocol(AProtocol p)
+        {
+            int idx = 0;
+            byte[] buffer = null;
+            CancellationTokenSource cts = new CancellationTokenSource();
+            do
+            {
+                Task read_task = BaseStream.ReadAsync(BaseBuffer, idx, BUFFER_SIZE - idx, cts.Token);
+                if (await Task.WhenAny(read_task, Task.Delay(ReadTimeout, cts.Token)) != read_task)
+                {
+                    idx = 0;
+                    break;
+                }
+                int read_size = await (Task<int>)read_task;
+                if (read_size <= 0)
+                    System.Diagnostics.Debug.Assert(false);
+                idx += read_size;
+            } while (DoReadAgain(p, idx));
+
+            if (!cts.IsCancellationRequested)
+                cts.Cancel();
+
+            if(idx != 0)
+            {
+                buffer = new byte[idx];
+                Buffer.BlockCopy(BaseBuffer, 0, buffer, 0, buffer.Length);
+            }
+            return buffer;
+        }
+
         /// <summary>
         /// 비동기 통신으로 PLC와 통신하여 요청 메세지를 보내고 응답 메세지를 받는다
         /// </summary>
@@ -153,33 +212,17 @@ namespace DY.NET
         public async Task<Delivery> PostAsync(IProtocol request)
         {
             Delivery delivery = new Delivery();
+            if (!IsPassibleCommunication())
+                return delivery.Packing(DeliveryError.DISCONNECT);
             using (await m_AsyncLock.LockAsync())
             {
                 AProtocol p = request as AProtocol;
-                if (!IsConnected()) //CONNECT
-                {
-                    Close();
-                    if (!Connect())
-                        return delivery.Packing(DeliveryError.DISCONNECT);
-                }
-                CancellationTokenSource wcts = new CancellationTokenSource(WriteTimeout);
-                await BaseStream.WriteAsync(p.ASCIIProtocol, 0, p.ASCIIProtocol.Length, wcts.Token);
-                if (wcts.IsCancellationRequested)
-                    return delivery.Packing(DeliveryError.WRITE_TIMEOUT);
+                if (!await WritePorotocol(p))
+                    delivery.Error = DeliveryError.WRITE_TIMEOUT;
 
-                int idx = 0;
-                CancellationTokenSource rcts = new CancellationTokenSource(ReadTimeout);
-                do
-                {
-                    int read_size = await BaseStream.ReadAsync(BaseBuffer, idx, BUFFER_SIZE - idx, rcts.Token);
-                    if (rcts.IsCancellationRequested)
-                        return delivery.Packing(DeliveryError.READ_TIMEOUT);
-                    if (read_size <= 0)
-                        System.Diagnostics.Debug.Assert(false);
-                    idx += read_size;
-                } while (DoReadAgain(p));
-                byte[] recv_data = new byte[idx];
-                Buffer.BlockCopy(BaseBuffer, 0, recv_data, 0, recv_data.Length);
+                byte[] recv_data = await ReadProtocol(p);
+                if (recv_data == null)
+                    delivery.Error = DeliveryError.READ_TIMEOUT;
                 delivery.Package = CreateResponseProtocol(p, recv_data);
             }
             return delivery.Packing(DeliveryError.SUCCESS);
