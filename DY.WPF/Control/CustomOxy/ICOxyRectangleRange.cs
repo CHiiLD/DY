@@ -8,9 +8,9 @@ namespace DY.WPF
 {
     public interface ICOxyRectangleRange
     {
-        double RectMinimunX { get; set; }
-        double RectMinimunY { get; set; }
         double RectMaximunX { get; set; }
         double RectMaximunY { get; set; }
+        double RectMinimunX { get; set; }
+        double RectMinimunY { get; set; }
     }
 }

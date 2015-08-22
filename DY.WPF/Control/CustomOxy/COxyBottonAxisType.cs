@@ -1,6 +1,6 @@
 ﻿namespace DY.WPF
 {
-    public enum COxyBottonAxesType
+    public enum COxyBottonAxisType
     {
         LINEAR_AXIS,
         TIMESPAN_AXIS

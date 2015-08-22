@@ -7,7 +7,6 @@
     {
         double PlotMaximumX { get; set; }
         double PlotMaximumY { get; set; }
-
         double PlotMinimumX { get; set; }
         double PlotMinimumY { get; set; }
     }

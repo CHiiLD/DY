@@ -30,37 +30,41 @@
                          UpperValue="80"
                          TickPlacement="BottomRight" 
                          TickFrequency="2"
-                         MinRangeWidth="0"
+                         MinRangeWidth="0" 
+                         UpperValueChanged="NRangeX_UpperValueChanged" 
+                         LowerValueChanged="NRangeX_LowerValueChanged"
+                         AutoToolTipPlacement="TopLeft"
+                         AutoToolTipPrecision="2"
                          />
         <mah:RangeSlider x:Name="NRangeY" Grid.Column="4" Grid.Row="2" Orientation="Vertical" 
                          LowerValue="20"
                          UpperValue="80"
                          TickPlacement="TopLeft"
                          TickFrequency="4"
-                         MinRangeWidth="0"
+                         MinRangeWidth="0" 
+                         LowerValueChanged="NRangeY_LowerValueChanged" 
+                         UpperValueChanged="NRangeY_UpperValueChanged" 
+                         AutoToolTipPlacement="BottomRight"
+                         AutoToolTipPrecision="2"
                          />
 
         <oxy:Plot x:Name="NPlot" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="3" >
             <oxy:Plot.Axes>
-                <oxy:LinearAxis Position="Bottom" 
-                                Minimum="0" Maximum="100" 
+                <oxy:LinearAxis x:Name="NLinearAxisY" Position="Left" 
                                 MajorGridlineStyle="Solid" MinorGridlineStyle="Dot"
+                                Maximum="{Binding Path=PlotMaximumY, ElementName=this, Mode=TwoWay}"
+                                Minimum="{Binding Path=PlotMinimumY, ElementName=this, Mode=TwoWay}"
                                 />
-
-                <oxy:TimeSpanAxis Position="None" 
-                                  StringFormat="hh:mm:ss" 
-                                  />
-
-                <oxy:LinearAxis Position="Left" 
-                                Minimum="0" Maximum="100" 
-                                MajorGridlineStyle="Solid" MinorGridlineStyle="Dot"/>
             </oxy:Plot.Axes>
 
             <oxy:Plot.Annotations>
                 <oxy:RectangleAnnotation x:Name="NRectangle"
                                          Fill="#40004684"
                                          Text="Ok Territory Rantangle"
-                                         MinimumX="20" MinimumY="20" MaximumX="80" MaximumY="80"/>
+                                         MaximumX="{Binding Path=RectMaximunX, ElementName=this, Mode=TwoWay}" 
+                                         MaximumY="{Binding Path=RectMaximunY, ElementName=this, Mode=TwoWay}" 
+                                         MinimumX="{Binding Path=RectMinimunX, ElementName=this, Mode=TwoWay}" 
+                                         MinimumY="{Binding Path=RectMinimunY, ElementName=this, Mode=TwoWay}" />
             </oxy:Plot.Annotations>
         </oxy:Plot>
     </Grid>
