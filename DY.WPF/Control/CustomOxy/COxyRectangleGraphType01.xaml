@@ -26,26 +26,26 @@
         </Grid.RowDefinitions>
 
         <mah:RangeSlider x:Name="NRangeX" Grid.Column="2" Grid.Row="0" Grid.ColumnSpan="1" 
-                         LowerValue="20"
-                         UpperValue="80"
                          TickPlacement="BottomRight" 
                          TickFrequency="2"
                          MinRangeWidth="0" 
-                         UpperValueChanged="NRangeX_UpperValueChanged" 
-                         LowerValueChanged="NRangeX_LowerValueChanged"
                          AutoToolTipPlacement="TopLeft"
-                         AutoToolTipPrecision="2"
+                         AutoToolTipPrecision="0"
+                         Maximum="{Binding Path=PlotMaximumX, ElementName=this, Mode=TwoWay}"
+                         Minimum="{Binding Path=PlotMinimumX, ElementName=this, Mode=TwoWay}"
+                         UpperValue="{Binding Path=RectMaximunX, ElementName=this, Mode=TwoWay}"
+                         LowerValue="{Binding Path=RectMinimunX, ElementName=this, Mode=TwoWay}"
                          />
         <mah:RangeSlider x:Name="NRangeY" Grid.Column="4" Grid.Row="2" Orientation="Vertical" 
-                         LowerValue="20"
-                         UpperValue="80"
                          TickPlacement="TopLeft"
                          TickFrequency="4"
                          MinRangeWidth="0" 
-                         LowerValueChanged="NRangeY_LowerValueChanged" 
-                         UpperValueChanged="NRangeY_UpperValueChanged" 
                          AutoToolTipPlacement="BottomRight"
-                         AutoToolTipPrecision="2"
+                         AutoToolTipPrecision="0"
+                         Maximum="{Binding Path=PlotMaximumY, ElementName=this, Mode=TwoWay}"
+                         Minimum="{Binding Path=PlotMinimumY, ElementName=this, Mode=TwoWay}"
+                         UpperValue="{Binding Path=RectMaximunY, ElementName=this, Mode=TwoWay}"
+                         LowerValue="{Binding Path=RectMinimunY, ElementName=this, Mode=TwoWay}"
                          />
 
         <oxy:Plot x:Name="NPlot" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="3" >
@@ -60,11 +60,11 @@
             <oxy:Plot.Annotations>
                 <oxy:RectangleAnnotation x:Name="NRectangle"
                                          Fill="#40004684"
-                                         Text="Ok Territory Rantangle"
                                          MaximumX="{Binding Path=RectMaximunX, ElementName=this, Mode=TwoWay}" 
                                          MaximumY="{Binding Path=RectMaximunY, ElementName=this, Mode=TwoWay}" 
                                          MinimumX="{Binding Path=RectMinimunX, ElementName=this, Mode=TwoWay}" 
-                                         MinimumY="{Binding Path=RectMinimunY, ElementName=this, Mode=TwoWay}" />
+                                         MinimumY="{Binding Path=RectMinimunY, ElementName=this, Mode=TwoWay}" 
+                                         Layer="BelowSeries" />
             </oxy:Plot.Annotations>
         </oxy:Plot>
     </Grid>

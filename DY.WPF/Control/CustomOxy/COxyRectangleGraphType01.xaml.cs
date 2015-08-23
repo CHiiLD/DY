@@ -159,7 +159,7 @@ namespace DY.WPF
             }
         }
 
-        public RangeSlider SliderX
+        public RangeSlider RangeSliderX
         {
             get
             {
@@ -167,7 +167,7 @@ namespace DY.WPF
             }
         }
 
-        public RangeSlider SliderY
+        public RangeSlider RangeSliderY
         {
             get
             {
@@ -189,13 +189,6 @@ namespace DY.WPF
             AddBottonAxis(COxyBottonAxisType.LINEAR_AXIS);
         }
 
-        public COxyRectangleGraphType01(COxyBottonAxisType bottonAxesType)
-        {
-            InitializeComponent();
-            BottonAxisType = bottonAxesType;
-            AddBottonAxis(bottonAxesType);
-        }
-
         /// <summary>
         /// BottonAxisType 타입에 맞추어 LineSeries을 생성하여 반환한다.
         /// </summary>
@@ -208,17 +201,17 @@ namespace DY.WPF
                 case COxyBottonAxisType.LINEAR_AXIS:
                     series = new LineSeries()
                     {
-                        ItemsSource = new Collection<COxyDateValue>(),
-                        DataFieldX = "Date",
-                        DataFieldY = "Value"
+                        ItemsSource = new Collection<DataPoint>(),
+                        DataFieldX = "X",
+                        DataFieldY = "Y"
                     };
                     break;
                 case COxyBottonAxisType.TIMESPAN_AXIS:
                     series = new LineSeries()
                     {
-                        ItemsSource = new Collection<DataPoint>(),
-                        DataFieldX = "X",
-                        DataFieldY = "Y"
+                        ItemsSource = new Collection<COxyTimeValue>(),
+                        DataFieldX = "Time",
+                        DataFieldY = "Value"
                     };
                     break;
             }
@@ -235,6 +228,12 @@ namespace DY.WPF
                 Series.Add(series);
         }
 
+        public void RemoveSeries(Series series)
+        {
+            if (series != null)
+                Series.Remove(series);
+        }
+
         /// <summary>
         /// Plot에 그려진 LineSeries를 삭제한다.
         /// </summary>
@@ -242,6 +241,31 @@ namespace DY.WPF
         {
             foreach(var s in Series)
                 s.Items.Clear();
+        }
+
+        public Collection<DataPoint> GetOutOfRange(Collection<DataPoint> items)
+        {
+            Collection<DataPoint> col = new Collection<DataPoint>();
+            foreach (var i in items)
+            {
+                if (RectMinimunX <= i.X && i.X <= RectMaximunX && RectMinimunY <= i.Y && i.Y <= RectMaximunY)
+                    continue;
+                col.Add(i);
+            }
+            return col;
+        }
+
+        public Collection<COxyTimeValue> GetOutOfRange(Collection<COxyTimeValue> items)
+        {
+            Collection<COxyTimeValue> col = new Collection<COxyTimeValue>();
+            foreach (var i in items)
+            {
+                double second = i.Time.TotalSeconds;
+                if (RectMinimunX <= second && second <= RectMaximunX && RectMinimunY <= i.Value && i.Value <= RectMaximunY)
+                    continue;
+                col.Add(i);
+            }
+            return col;
         }
 
         private void RemoveBottonAxis()
@@ -286,26 +310,6 @@ namespace DY.WPF
             axis.SetBinding(Axis.MinimumProperty, new Binding("PlotMinimumX") { Source = this, Mode = BindingMode.TwoWay });
             AxisBotton = axis;
             NPlot.Axes.Add(axis);
-        }
-
-        private void NRangeX_UpperValueChanged(object sender, RangeParameterChangedEventArgs e)
-        {
-            RectMinimunX = e.NewValue;
-        }
-
-        private void NRangeX_LowerValueChanged(object sender, RangeParameterChangedEventArgs e)
-        {
-            RectMaximunX = e.NewValue;
-        }
-
-        private void NRangeY_UpperValueChanged(object sender, RangeParameterChangedEventArgs e)
-        {
-            RectMaximunY = e.NewValue;
-        }
-
-        private void NRangeY_LowerValueChanged(object sender, RangeParameterChangedEventArgs e)
-        {
-            RectMinimunY = e.NewValue;
         }
     }
 }

@@ -13,7 +13,7 @@
     <Grid>
         <mah:MetroAnimatedSingleRowTabControl >
             <TabItem Header="Monitor" >
-                <dywpf:COxyRectangleGraphType01 Width="640" Height="320"></dywpf:COxyRectangleGraphType01>
+                <dywpf:COxyRectangleGraphType01 x:Name="NGraph" Width="640" Height="320"></dywpf:COxyRectangleGraphType01>
             </TabItem>
             <TabItem Header="Configuration" >
                 <dywpf:CommControlTower></dywpf:CommControlTower>

@@ -1,17 +1,18 @@
 ﻿using System;
+using OxyPlot;
 
 namespace DY.WPF
 {
-    public struct COxyDateValue
+    public struct COxyTimeValue : ICodeGenerating
     {
-        private DateTime m_Date;
+        private TimeSpan m_Time;
         private double m_Value;
 
-        public DateTime Date
+        public TimeSpan Time
         {
             get
             {
-                return m_Date;
+                return m_Time;
             }
         }
 
@@ -23,16 +24,15 @@ namespace DY.WPF
             }
         }
 
-        public COxyDateValue(DateTime date, double value)
+        public COxyTimeValue(TimeSpan time, double value)
         {
-            this.m_Date = date;
+            this.m_Time = time;
             this.m_Value = value;
         }
 
-        public COxyDateValue(double value)
+        public string ToCode()
         {
-            this.m_Date = DateTime.Now;
-            this.m_Value = value;
+            return string.Format("{0},{1}", Time.ToString(), Value);
         }
     }
 }

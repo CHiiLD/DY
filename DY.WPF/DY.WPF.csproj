@@ -93,7 +93,7 @@
       <DependentUpon>CommScannerTester.xaml</DependentUpon>
     </Compile>
     <Compile Include="Control\CustomOxy\COxyBottonAxisType.cs" />
-    <Compile Include="Control\CustomOxy\COxyDateValue.cs" />
+    <Compile Include="Control\CustomOxy\COxyTimeValue.cs" />
     <Compile Include="Control\CustomOxy\COxyRectangleGraphType01.xaml.cs">
       <DependentUpon>COxyRectangleGraphType01.xaml</DependentUpon>
     </Compile>
