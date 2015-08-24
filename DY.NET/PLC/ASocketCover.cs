@@ -138,8 +138,8 @@ namespace DY.NET
             WriteTimeoutMaximum = 500;
             ReadTimeoutMaximum = 500;
 
-            WriteTimeoutMinimum = 0;
-            ReadTimeoutMinimum = 0;
+            WriteTimeoutMinimum = 50;
+            ReadTimeoutMinimum = 50;
 
             WriteTimeout = 250;
             ReadTimeout = 250;
@@ -218,11 +218,16 @@ namespace DY.NET
             {
                 AProtocol p = request as AProtocol;
                 if (!await WritePorotocol(p))
+                {
                     delivery.Error = DeliveryError.WRITE_TIMEOUT;
-
+                    return delivery.Packing();
+                }
                 byte[] recv_data = await ReadProtocol(p);
                 if (recv_data == null)
+                {
                     delivery.Error = DeliveryError.READ_TIMEOUT;
+                    return delivery.Packing();
+                }
                 delivery.Package = CreateResponseProtocol(p, recv_data);
             }
             return delivery.Packing(DeliveryError.SUCCESS);
