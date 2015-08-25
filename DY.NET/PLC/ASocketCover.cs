@@ -212,23 +212,22 @@ namespace DY.NET
         public async Task<Delivery> PostAsync(IProtocol request)
         {
             Delivery delivery = new Delivery();
-            if (!IsPassibleCommunication())
-                return delivery.Packing(DeliveryError.DISCONNECT);
             using (await m_AsyncLock.LockAsync())
             {
+                Console.Write("IN--------------");
+                await BaseStream.FlushAsync();
+                Array.Clear(BaseBuffer, 0, BUFFER_SIZE);
+                if (!IsPassibleCommunication())
+                    return delivery.Packing(DeliveryError.DISCONNECT);
                 AProtocol p = request as AProtocol;
                 if (!await WritePorotocol(p))
-                {
-                    delivery.Error = DeliveryError.WRITE_TIMEOUT;
-                    return delivery.Packing();
-                }
+                    return delivery.Packing(DeliveryError.WRITE_TIMEOUT);
                 byte[] recv_data = await ReadProtocol(p);
                 if (recv_data == null)
-                {
-                    delivery.Error = DeliveryError.READ_TIMEOUT;
-                    return delivery.Packing();
-                }
+                    return delivery.Packing(DeliveryError.READ_TIMEOUT);
                 delivery.Package = CreateResponseProtocol(p, recv_data);
+                await BaseStream.FlushAsync();
+                Console.WriteLine("--------------OUT");
             }
             return delivery.Packing(DeliveryError.SUCCESS);
         }

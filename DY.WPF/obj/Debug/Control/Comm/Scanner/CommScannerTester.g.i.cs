@@ -12,8 +12,6 @@
 using DY.WPF;
 using DY.WPF.SYSTEM.COMM;
 using MahApps.Metro.Controls;
-using OxyPlot.Wpf;
-using PropertyTools.Wpf;
 using System;
 using System.Diagnostics;
 using System.Windows;

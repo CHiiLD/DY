@@ -66,13 +66,16 @@ namespace DY.WPF.SYSTEM.COMM
         /// <returns></returns>
         public override async Task UpdateIOAsync(CancellationTokenSource cts)
         {
-            IPostAsync mailBox = CClient.Socket as IPostAsync;
-            foreach (var request in Protocols)
+            ASocketCover mailBox = CClient.Socket as ASocketCover;
+            foreach (IProtocol request in Protocols)
             {
                 if (cts.IsCancellationRequested)
                     break;
+#if DEBUG
+                Console.Write("RSS");
+#endif
                 //post
-                IProtocol response = await Post(mailBox, request);
+                AProtocol response = await Post(mailBox, (AProtocol)request);
                 if (response == null)
                     continue;
                 //find error
@@ -89,9 +92,9 @@ namespace DY.WPF.SYSTEM.COMM
         /// <param name="type">데이터 타입</param>
         /// <param name="datas">READ 목록</param>
         /// <returns></returns>
-        private IProtocol CreateReadProtocol(DataType type, Dictionary<string, object> datas)
+        private AProtocol CreateReadProtocol(DataType type, Dictionary<string, object> datas)
         {
-            IProtocol protocol = null;
+            AProtocol protocol = null;
             if (CClient.Socket is XGTCnetSocket)
             {
                 ushort localPort = (ushort)(CClient.ExtraData[CommClient.EXTRA_XGT_CNET_LOCALPORT]);
@@ -104,32 +107,31 @@ namespace DY.WPF.SYSTEM.COMM
             return protocol;
         }
 
-        private async Task<IProtocol> Post(IPostAsync mailBox, IProtocol request)
+        private async Task<AProtocol> Post(ASocketCover mailBox, AProtocol request)
         {
-            IProtocol response = null;
+            AProtocol response = null;
             Delivery delivery = null;
             try
             {
+                DateTime date = DateTime.Now;
                 delivery = await mailBox.PostAsync(request);
-                DeliveryError delivery_err = delivery.Error;
-                switch (delivery_err)
+                response = delivery.Package as AProtocol;
+                if (delivery.Error == DeliveryError.DISCONNECT)
                 {
-                    case DeliveryError.SUCCESS:
-                        response = delivery.Package as IProtocol;
-                        break;
-                    case DeliveryError.DISCONNECT:
-                        CClient.ChangedCommStatus(false);
-                        throw new Exception(delivery_err.ToString());
-                    case DeliveryError.WRITE_TIMEOUT:
-                    case DeliveryError.READ_TIMEOUT:
-                        throw new Exception(delivery_err.ToString());
+                    CClient.ChangedCommStatus(false);
+                    throw new Exception(delivery.Error.ToString());
+                }
+                else if (delivery.Error == DeliveryError.WRITE_TIMEOUT || delivery.Error == DeliveryError.READ_TIMEOUT)
+                {
+                    throw new Exception(delivery.Error.ToString());
                 }
             }
             catch (Exception exception)
             {
-                LOG.Trace(CClient.Summary + " UpdateIOAsync 예외처리 메세지는 이하와 같음: "
-                    + exception.Message
-                    + exception.StackTrace);
+                LOG.Trace(CClient.Summary + " UpdateIOAsync 예외처리 메세지는 이하와 같음: " + exception.Message + "\n" + exception.StackTrace);
+                request.Print();
+                if (response != null)
+                    response.Print();
                 response = null;
             }
             if (DeliveryArrived != null && delivery != null)
@@ -137,7 +139,7 @@ namespace DY.WPF.SYSTEM.COMM
             return response;
         }
 
-        private bool HasError(IProtocol response)
+        private bool HasError(AProtocol response)
         {
             string error_msg = null;
             switch (CClient.CommType)
@@ -154,6 +156,8 @@ namespace DY.WPF.SYSTEM.COMM
             if (!String.IsNullOrEmpty(error_msg))
             {
                 LOG.Debug(CClient.Summary + " 프로토콜 에러 발생: " + error_msg);
+                response.MirrorProtocol.Print();
+                response.Print();
                 return true;
             }
             return false;
@@ -169,14 +173,17 @@ namespace DY.WPF.SYSTEM.COMM
                 return;
             string glopa = XGTProtocolHelper.ToGlopa(io_data.Type, io_data.Address);
             Dictionary<string, object> tickets = new Dictionary<string, object>() { { glopa, value } };
-            IProtocol request = null;
-            IProtocol response = null;
+            AProtocol request = null;
+            AProtocol response = null;
             object error = null;
             if (CClient.Socket is XGTCnetSocket)
             {
                 ushort localPort = (ushort)(CClient.ExtraData[CommClient.EXTRA_XGT_CNET_LOCALPORT]);
                 request = XGTCnetProtocol.NewWSSProtocol(io_data.Type.ToType(), localPort, tickets);
-                XGTCnetProtocol cnet = await Post(CClient.Socket as IPostAsync, request) as XGTCnetProtocol;
+#if DEBUG
+                Console.Write("WSS");
+#endif
+                XGTCnetProtocol cnet = await Post(CClient.Socket as ASocketCover, request) as XGTCnetProtocol;
                 if (cnet == null)
                     return;
                 if (cnet.Error != XGTCnetProtocolError.OK)
@@ -186,14 +193,14 @@ namespace DY.WPF.SYSTEM.COMM
             else if (CClient.Socket is XGTFEnetSocket)
             {
                 request = XGTFEnetProtocol.NewWSSProtocol(io_data.Type.ToType(), InvokeID, tickets);
-                XGTFEnetProtocol fenet = await Post(CClient.Socket as IPostAsync, request) as XGTFEnetProtocol;
+                XGTFEnetProtocol fenet = await Post(CClient.Socket as ASocketCover, request) as XGTFEnetProtocol;
                 if (fenet == null)
                     return;
                 if (fenet.Error != XGTFEnetProtocolError.OK)
                     error = fenet.Error;
                 response = fenet;
             }
-            if(error != null)
+            if (error != null)
             {
                 LOG.Debug(CClient.Socket.Description + "WSS 프로토콜 에러 발생, 프로토콜 정보는 이하와 같음");
                 request.Print();

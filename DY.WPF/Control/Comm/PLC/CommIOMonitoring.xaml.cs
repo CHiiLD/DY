@@ -148,6 +148,7 @@ namespace DY.WPF
             });
             m_PlotModel = NPlotView.Model = plot_model;
         }
+
         public void Dispose()
         {
             StopMonitoring();

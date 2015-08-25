@@ -272,6 +272,7 @@ namespace DY.NET.LSIS.XGT
             Header = XGTFEnetHeader.CreateXGTFEnetHeader(ASCIIData);
             Command = (XGTFEnetCommand)CV2BR.ToValue(new byte[] { ASCIIData[20], ASCIIData[21] }, typeof(UInt16));
             DataType = (XGTFEnetDataType)CV2BR.ToValue(new byte[] { ASCIIData[22], ASCIIData[23] }, typeof(UInt16));
+            Error = XGTFEnetProtocolError.OK;
             ushort err_state = (ushort)CV2BR.ToValue(new byte[] { ASCIIData[26], ASCIIData[27] }, typeof(UInt16)); //에러 상태
             ushort bloc_errcode = (ushort)CV2BR.ToValue(new byte[] { ASCIIData[28], ASCIIData[29] }, typeof(UInt16)); //에러코드 or 블록 수 
             if (err_state == ERROR_STATE_CHECK_0 || err_state == ERROR_STATE_CHECK_1)

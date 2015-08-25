@@ -32,7 +32,6 @@ namespace DY.NET.LSIS.XGT
         protected const string ERROR_PROTOCOL_ASC_SIZE_MAX_256BYTE = "Protocoldata data's length over protocol_asc_size_limit(256byte)";
         protected const string ERROR_PROTOCOL_WSB_SIZE_MAX_240BYTE = "Data count(asc bytes) limited 240byte";
 
-        public const int XY_PROTOCOL_HEAD_SIZE = 4;
         public const int RW_PROTOCOL_HEAD_SIZE = 6;
         public const int PROTOCOL_ASC_SIZE_MAX_256BYTE = 256;
         public const int PROTOCOL_MIN_MAIN_DATA_SIZE = 2;
@@ -93,10 +92,9 @@ namespace DY.NET.LSIS.XGT
         protected void AddProtocolHead(List<byte> ASCII)
         {
             ASCII.Add(Header.ToByte());
-            ASCII.AddRange(CA2C.ToASC(LocalPort));
+            ASCII.AddRange(CA2C.Data2ASCII(LocalPort));
             ASCII.Add(Command.ToByte());
-            if (Command == XGTCnetCommand.r || Command == XGTCnetCommand.w || Command == XGTCnetCommand.R || Command == XGTCnetCommand.W)
-                ASCII.AddRange(CommandType.ToBytes());
+            ASCII.AddRange(CommandType.ToBytes());
         }
 
         /// <summary>
@@ -111,8 +109,7 @@ namespace DY.NET.LSIS.XGT
         {
             ASCII.Add(Tail.ToByte());
             var cmd = Command;
-            if (cmd == XGTCnetCommand.r || cmd == XGTCnetCommand.w || 
-                cmd == XGTCnetCommand.x || cmd == XGTCnetCommand.y)
+            if (cmd == XGTCnetCommand.r || cmd == XGTCnetCommand.w)
             {
                 ushort sum = 0;
                 foreach (byte b in ASCII)
@@ -138,17 +135,11 @@ namespace DY.NET.LSIS.XGT
             if (!(Header == XGTCnetCCType.ACK || Header == XGTCnetCCType.ENQ || Header == XGTCnetCCType.NAK))
                 throw new Exception("Invalid ASCIIData[0] (ACK, ENQ, NAK)");
             //국번 info
-            LocalPort = (ushort)CA2C.ToValue(new byte[] { head[1], head[2] }, typeof(ushort));
+            LocalPort = CA2C.ToUInt16Value(new byte[] { head[1], head[2] });
             //주명령어 info
             Command = (XGTCnetCommand)head[3]; 
             //명령어 info
-            if (Command == XGTCnetCommand.r || Command == XGTCnetCommand.w 
-                || Command == XGTCnetCommand.R || Command == XGTCnetCommand.W)
-                CommandType = XGTCnetCommandTypeExtensions.ToCmdType(new byte[] { head[4], head[5] });
-            else
-                // XY 응답 프로토콜은 SS, SB의 구분을 알려주는 값을 주지 않습니다.
-                // 따라서 요청프로토콜을 사용하여 SS, SB의 여부를 가져옵니다. (뭔가 좀 이상한 LS산전 프로토콜)
-                CommandType = ((AXGTCnetProtocol)MirrorProtocol).CommandType;
+            CommandType = XGTCnetCommandTypeExtensions.ToCmdType(new byte[] { head[4], head[5] });
         }
 
         /// <summary>
@@ -170,15 +161,11 @@ namespace DY.NET.LSIS.XGT
         /// <returns>구조화된 데이터</returns>
         protected byte[] GetInstructData()
         {
-            int head_size = (
-                Command == XGTCnetCommand.r || Command == XGTCnetCommand.R 
-                || Command == XGTCnetCommand.w || Command == XGTCnetCommand.W) 
-                ? RW_PROTOCOL_HEAD_SIZE : XY_PROTOCOL_HEAD_SIZE;
-            int ascii_data_cnt = ASCIIData.Length - head_size - (HasBCC() ? 2 : 1);
+            int ascii_data_cnt = ASCIIData.Length - RW_PROTOCOL_HEAD_SIZE - (HasBCC() ? 2 : 1);
             if (!(PROTOCOL_MIN_MAIN_DATA_SIZE <= ascii_data_cnt))
                 throw new Exception("Impossibie byte asc sturected data count");
             byte[] instruct_ascii_data = new byte[ascii_data_cnt];
-            Buffer.BlockCopy(ASCIIData, head_size, instruct_ascii_data, 0, ascii_data_cnt);
+            Buffer.BlockCopy(ASCIIData, RW_PROTOCOL_HEAD_SIZE, instruct_ascii_data, 0, ascii_data_cnt);
             return instruct_ascii_data;
         }
 
@@ -188,6 +175,7 @@ namespace DY.NET.LSIS.XGT
         /// <returns>에러 여부</returns>
         protected bool CatchErrorCode()
         {
+            Error = XGTCnetProtocolError.OK;
             bool hasErr = false;
             if (this.Header == XGTCnetCCType.NAK)
             {
@@ -197,7 +185,7 @@ namespace DY.NET.LSIS.XGT
                     byte[] swap = new byte[4];
                     Buffer.BlockCopy(instruct_data, 0, swap, 2, 2);
                     Buffer.BlockCopy(instruct_data, 2, swap, 0, 2);
-                    this.Error = (XGTCnetProtocolError)CA2C.ToValue(swap, typeof(uint));
+                    Error = (XGTCnetProtocolError)CA2C.ToValue(swap, typeof(XGTCnetProtocolError));
                 }
                 hasErr = true;
             }
@@ -226,11 +214,7 @@ namespace DY.NET.LSIS.XGT
         {
             if (ASCIIData == null)
                 throw new NullReferenceException("Protocoldata is null.");
-            if (Command == XGTCnetCommand.r || Command == XGTCnetCommand.w || 
-                Command == XGTCnetCommand.x || Command == XGTCnetCommand.y)
-                return true;
-            else
-                return false;
+            return Command == XGTCnetCommand.r || Command == XGTCnetCommand.w;
         }
         #endregion
 

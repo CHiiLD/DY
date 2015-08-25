@@ -9,7 +9,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using DY.WPF;
 using System;
 using System.Diagnostics;
 using System.Windows;

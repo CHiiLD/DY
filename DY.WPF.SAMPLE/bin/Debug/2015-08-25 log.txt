@@ -1,0 +1,21 @@
+21:05:55 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+21:09:18 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+21:10:04 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+21:11:02 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+21:14:01 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+23:39:41 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+23:44:40 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+

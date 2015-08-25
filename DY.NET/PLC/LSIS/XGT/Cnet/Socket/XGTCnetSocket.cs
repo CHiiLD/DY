@@ -129,6 +129,5 @@ namespace DY.NET.LSIS.XGT
             var cnet = request as XGTCnetProtocol;
             return !(BaseBuffer[idx - 1 - (cnet.HasBCC() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte());
         }
-
     }
 }

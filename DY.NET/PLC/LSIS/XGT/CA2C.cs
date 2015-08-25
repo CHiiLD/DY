@@ -9,13 +9,46 @@ namespace DY.NET.LSIS.XGT
     public static class CA2C
     {
         /// <summary>
-        /// 정수, 문자열 데이터를 바이트 크기에 맞추어 byte[]로 변환한다.
+        /// ushort 정수를 
         /// </summary>
-        /// <param name="value">정수, 문자열 데이터</param>
-        /// <param name="type">타겟 타입</param>
+        /// <param name="value"></param>
         /// <returns></returns>
-        public static byte[] ToASC(object value, Type type)
+        public static byte[] Data2ASCII(ushort value)
         {
+            byte[] target = null;
+            string hex_str = string.Format("{0:X2}", value);
+            target = new byte[hex_str.Length];
+            for (int i = 0; i < hex_str.Length; i++)
+                target[i] = (byte)hex_str[i];
+            return target;
+        }
+
+        public static byte[] Data2ASCII(int value)
+        {
+#if DEBUG
+            if (value > ushort.MaxValue)
+                System.Diagnostics.Debug.Assert(false);
+#endif
+            byte[] target = null;
+            string hex_str = string.Format("{0:X2}", value);
+            target = new byte[hex_str.Length];
+            for (int i = 0; i < hex_str.Length; i++)
+                target[i] = (byte)hex_str[i];
+            return target;
+        }
+
+        public static byte[] String2ASCII(string value)
+        {
+            byte[] target = null;
+            target = new byte[value.Length];
+            for (int i = 0; i < value.Length; i++)
+                target[i] = (byte)value[i];
+            return target;
+        }
+
+        public static byte[] Value2ASCII(object value, Type type)
+        {
+            //0x1234 -> 0x31, 32, 33, 34
             byte[] target = null;
             string hex_str = string.Empty;
             if (type == typeof(Boolean))
@@ -23,19 +56,16 @@ namespace DY.NET.LSIS.XGT
             else if (type == typeof(Byte) || type == typeof(SByte))
                 hex_str = string.Format("{0:X2}", value);
             else if (type == typeof(Int16) || type == typeof(UInt16))
-                hex_str = string.Format("{0:X2}", value);
-            else if (type == typeof(Int32) || type == typeof(UInt32))
                 hex_str = string.Format("{0:X4}", value);
-            else if (type == typeof(Int64) || type == typeof(UInt64))
+            else if (type == typeof(Int32) || type == typeof(UInt32))
                 hex_str = string.Format("{0:X8}", value);
-            else if (type == typeof(string))
-                hex_str = (string)value;
+            else if (type == typeof(Int64) || type == typeof(UInt64))
+                hex_str = string.Format("{0:X16}", value);
 #if DEBUG
             else
 
                 System.Diagnostics.Debug.Assert(false);
 #endif
-
             target = new byte[hex_str.Length];
             for (int i = 0; i < hex_str.Length; i++)
                 target[i] = (byte)hex_str[i];
@@ -44,21 +74,25 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
-        /// 정수, 문자열 데이터를 바이트 크기에 맞추어 byte[]로 변환한다.
+        /// 정수를 표현하는 byte[]를 10진수 ushort로 변환한다.
+        /// 0x32 0x30 -> 20 
         /// </summary>
-        /// <param name="value">정수, 문자열 데이터</param>
+        /// <param name="bytes">반드시 배열의 길이는 2이어야 한다.</param>
         /// <returns></returns>
-        public static byte[] ToASC(object value)
+        public static ushort ToUInt16Value(byte[] bytes)
         {
-            return ToASC(value, value.GetType());
+#if DEBUG
+            if (bytes.Length != 2)
+                System.Diagnostics.Debug.Assert(false);
+#endif
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in bytes)
+                sb.Append(Convert.ToChar(b));
+            string hex_str = sb.ToString();
+            ushort target = Convert.ToUInt16(hex_str, 16);
+            return target;
         }
 
-        /// <summary>
-        /// byte[] 데이터를 정수 또는 문자열로 변환한다.
-        /// </summary>
-        /// <param name="bytes">byte[]데이터</param>
-        /// <param name="type">타겟 타입</param>
-        /// <returns>정수 또는 문자열</returns>
         public static object ToValue(byte[] bytes, Type type)
         {
             object target = null;

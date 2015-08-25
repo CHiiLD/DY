@@ -195,40 +195,40 @@ namespace DY.NET.LSIS.XGT
 
         private void AddRSSProtocol(List<byte> ASCII)
         {
-            ASCII.AddRange(CA2C.ToASC(Tickets.Count, typeof(UInt16)));// 블록 수
+            ASCII.AddRange(CA2C.Data2ASCII(Tickets.Count));// 블록 수
             foreach (var d in Tickets)
             {
-                ASCII.AddRange(CA2C.ToASC(d.Key.Length, typeof(UInt16)));// 변수 이름 길이
-                ASCII.AddRange(CA2C.ToASC(d.Key));                       // 변수 이름 정보 
+                ASCII.AddRange(CA2C.Data2ASCII(d.Key.Length));// 변수 이름 길이
+                ASCII.AddRange(CA2C.String2ASCII(d.Key));                       // 변수 이름 정보 
             }
         }
 
         private void AddWSSProtocol(List<byte> ASCII)
         {
-            ASCII.AddRange(CA2C.ToASC(Tickets.Count, typeof(UInt16)));               // 블록 수
+            ASCII.AddRange(CA2C.Data2ASCII(Tickets.Count));               // 블록 수
             foreach (var d in Tickets)
             {
-                ASCII.AddRange(CA2C.ToASC(d.Key.Length, typeof(UInt16)));// 변수 이름 길이
-                ASCII.AddRange(CA2C.ToASC(d.Key));                       // 변수 이름 정보 
-                ASCII.AddRange(CA2C.ToASC(d.Value));              // WRITE될 값 
+                ASCII.AddRange(CA2C.Data2ASCII(d.Key.Length));// 변수 이름 길이
+                ASCII.AddRange(CA2C.String2ASCII(d.Key));                       // 변수 이름 정보 
+                ASCII.AddRange(CA2C.Value2ASCII(d.Value, TType));              // WRITE될 값 
             }
         }
 
         // not support bit data
         private void AddRSBProtocol(List<byte> ASCII)
         {
-            ASCII.AddRange(CA2C.ToASC(Tickets.First().Key.Length, typeof(UInt16)));
-            ASCII.AddRange(CA2C.ToASC(Tickets.First().Key));
-            ASCII.AddRange(CA2C.ToASC(Tickets));
+            ASCII.AddRange(CA2C.Data2ASCII(Tickets.First().Key.Length));
+            ASCII.AddRange(CA2C.String2ASCII(Tickets.First().Key));
+            ASCII.AddRange(CA2C.Data2ASCII(Tickets.Count));
         }
 
         private void AddWSBProtocol(List<byte> ASCII)
         {
-            ASCII.AddRange(CA2C.ToASC(Tickets.First().Key.Length, typeof(UInt16)));
-            ASCII.AddRange(CA2C.ToASC(Tickets.First().Key));
-            ASCII.AddRange(CA2C.ToASC(DataCnt));
+            ASCII.AddRange(CA2C.Data2ASCII(Tickets.First().Key.Length));
+            ASCII.AddRange(CA2C.String2ASCII(Tickets.First().Key));
+            ASCII.AddRange(CA2C.Data2ASCII(DataCnt));
             foreach (var d in Tickets)
-                ASCII.AddRange(CA2C.ToASC(d.Value));
+                ASCII.AddRange(CA2C.Value2ASCII(d.Value, TType));
         }
 
         protected override void AttachProtocolFrame(List<byte> ASCII)
@@ -240,20 +240,12 @@ namespace DY.NET.LSIS.XGT
                         AddRSSProtocol(ASCII);
                     else if (Command == XGTCnetCommand.W || Command == XGTCnetCommand.w)
                         AddWSSProtocol(ASCII);
-                    else if (Command == XGTCnetCommand.X || Command == XGTCnetCommand.x)
-                        throw new NotImplementedException();
-                    else if (Command == XGTCnetCommand.Y || Command == XGTCnetCommand.y)
-                        throw new NotImplementedException();
                     break;
                 case XGTCnetCmdType.SB:
                     if (Command == XGTCnetCommand.R || Command == XGTCnetCommand.r)
                         AddRSBProtocol(ASCII);
                     else if (Command == XGTCnetCommand.W || Command == XGTCnetCommand.w)
                         AddWSBProtocol(ASCII);
-                    else if (Command == XGTCnetCommand.X || Command == XGTCnetCommand.x)
-                        throw new NotImplementedException();
-                    else if (Command == XGTCnetCommand.Y || Command == XGTCnetCommand.y)
-                        throw new NotImplementedException();
                     break;
             }
         }
@@ -264,17 +256,26 @@ namespace DY.NET.LSIS.XGT
         private void QueryRSSProtocol()
         {
             byte[] instruct_data = GetInstructData();
-            BlocCnt = (ushort)CA2C.ToValue(new byte[] { instruct_data[0], instruct_data[1] }, typeof(UInt16));
+            BlocCnt = CA2C.ToUInt16Value(new byte[] { instruct_data[0], instruct_data[1] });
             int idx = 2;
             var dic = Tickets.ToList();
+#if DEBUG
+            if (BlocCnt != Tickets.Count())
+                System.Diagnostics.Debug.Assert(false);
+#endif
             for (int i = 0; i < BlocCnt; i++)
             {
-                ushort size = (ushort)CA2C.ToValue(new byte[] { instruct_data[idx + 0], instruct_data[idx + 1] }, typeof(UInt16));
+                ushort size = CA2C.ToUInt16Value(new byte[] { instruct_data[idx + 0], instruct_data[idx + 1] });
                 idx += 2;
                 byte[] value = new byte[size * 2];
                 Buffer.BlockCopy(instruct_data, idx, value, 0, value.Length);
                 idx += value.Length;
-                Tickets[dic[i].Key] = CA2C.ToValue(value, TType);
+                if (Tickets.ContainsKey(dic[i].Key))
+                    Tickets[dic[i].Key] = CA2C.ToValue(value, TType);
+#if DEBUG
+                else
+                    System.Diagnostics.Debug.Assert(false);
+#endif
             }
         }
 
@@ -286,15 +287,20 @@ namespace DY.NET.LSIS.XGT
         private void QueryRSBProtocol()
         {
             byte[] instruct_data = GetInstructData();
-            ushort data_len = (ushort)CA2C.ToValue(new byte[] { instruct_data[2], instruct_data[3] }, typeof(UInt16));// 데이터 개수 정보 쿼리
+            ushort data_len = CA2C.ToUInt16Value(new byte[] { instruct_data[2], instruct_data[3] });// 데이터 개수 정보 쿼리
             int idx = 4;
             var dic = Tickets.ToList();
             int type_size = TType.ToSize();
+#if DEBUG
+            if (data_len / type_size != Tickets.Count())
+                System.Diagnostics.Debug.Assert(false);
+#endif
             for (int i = 0; i < data_len / type_size; i++)
             {
                 byte[] value = new byte[type_size * 2];
                 Buffer.BlockCopy(instruct_data, idx, value, 0, value.Length);
-                Tickets[dic[i].Key] = CA2C.ToValue(value, TType);
+                if (Tickets.ContainsKey(dic[i].Key))
+                    Tickets[dic[i].Key] = CA2C.ToValue(value, TType);
                 idx += value.Length;
             }
         }
@@ -314,20 +320,12 @@ namespace DY.NET.LSIS.XGT
                         QueryRSSProtocol();
                     else if (Command == XGTCnetCommand.W || Command == XGTCnetCommand.w)
                         QueryWSSProtocol();
-                    else if (Command == XGTCnetCommand.X || Command == XGTCnetCommand.x)
-                        throw new NotImplementedException();
-                    else if (Command == XGTCnetCommand.Y || Command == XGTCnetCommand.y)
-                        throw new NotImplementedException();
                     break;
                 case XGTCnetCmdType.SB:
                     if (Command == XGTCnetCommand.R || Command == XGTCnetCommand.r)
                         QueryRSBProtocol();
                     else if (Command == XGTCnetCommand.W || Command == XGTCnetCommand.w)
                         QueryWSBProtocol();
-                    else if (Command == XGTCnetCommand.X || Command == XGTCnetCommand.x)
-                        throw new NotImplementedException();
-                    else if (Command == XGTCnetCommand.Y || Command == XGTCnetCommand.y)
-                        throw new NotImplementedException();
                     break;
             }
         }

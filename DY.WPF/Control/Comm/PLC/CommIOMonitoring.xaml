@@ -42,6 +42,8 @@
                     Title="Read timeout"/>
                 <local:NumericUpDownWithBar 
                     x:Name="NNM_UpdateInteval"
+                    Maximum="10000"
+                    Minimum="100"
                     StringFormat="{}{0:N0}ms"
                     Title="Update interval" Height="61" VerticalAlignment="Bottom"/>
             </UniformGrid>

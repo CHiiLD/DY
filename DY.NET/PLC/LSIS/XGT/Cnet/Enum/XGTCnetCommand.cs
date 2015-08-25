@@ -17,11 +17,11 @@
         /// <summary>
         /// 모니터링변수등록(사용안함)
         /// </summary>
-        X = 0x58,
+        ///X = 0x58,
         /// <summary>
         /// 모니터 실행(사용안함)
         /// </summary>
-        Y = 0x59,
+        ///Y = 0x59,
 
         /// <summary>
         /// 읽기(사용안함)
@@ -34,11 +34,11 @@
         /// <summary>
         /// 모니터링변수등록(사용안함)
         /// </summary>
-        x = 0x78,
+        ///x = 0x78,
         /// <summary>
         /// 모니터 실행(사용안함)
         /// </summary>
-        y = 0x79,
+        ///y = 0x79,
     }
 
     public static class XGTCnetCommandExtension
