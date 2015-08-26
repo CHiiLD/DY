@@ -30,14 +30,10 @@ namespace DY.NET
         private int m_WriteTimeoutMinimum;
 
         protected readonly byte[] EMPTY_BYTE = new byte[1];
-        //BUFFER
         public const int BUFFER_SIZE = 4096;
         protected byte[] BaseBuffer = new byte[BUFFER_SIZE];
-        //protected int BufferIndex;
-        //소켓 스트림
         protected Stream BaseStream { get; set; }
         
-        //ITAG
         public int Tag { get; set; }
         public string Description { get; set; }
         public object UserData { get; set; }
