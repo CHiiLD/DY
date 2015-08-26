@@ -71,9 +71,6 @@ namespace DY.WPF.SYSTEM.COMM
             {
                 if (cts.IsCancellationRequested)
                     break;
-#if DEBUG
-                Console.Write("RSS");
-#endif
                 //post
                 AProtocol response = await Post(mailBox, (AProtocol)request);
                 if (response == null)
@@ -180,9 +177,6 @@ namespace DY.WPF.SYSTEM.COMM
             {
                 ushort localPort = (ushort)(CClient.ExtraData[CommClient.EXTRA_XGT_CNET_LOCALPORT]);
                 request = XGTCnetProtocol.NewWSSProtocol(io_data.Type.ToType(), localPort, tickets);
-#if DEBUG
-                Console.Write("WSS");
-#endif
                 XGTCnetProtocol cnet = await Post(CClient.Socket as ASocketCover, request) as XGTCnetProtocol;
                 if (cnet == null)
                     return;

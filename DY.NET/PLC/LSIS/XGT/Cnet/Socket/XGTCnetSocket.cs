@@ -114,7 +114,7 @@ namespace DY.NET.LSIS.XGT
             if (request.MirrorProtocol == null)
                 request.MirrorProtocol = resp = XGTCnetProtocol.CreateResponseProtocol(recv_data, request as XGTCnetProtocol);
             else
-                resp.ASCIIProtocol = recv_data;
+                resp.ASCII = recv_data;
             resp.AnalysisProtocol();
             return resp;
         }
@@ -128,6 +128,11 @@ namespace DY.NET.LSIS.XGT
         {
             var cnet = request as XGTCnetProtocol;
             return !(BaseBuffer[idx - 1 - (cnet.HasBCC() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte());
+        }
+
+        protected override void DiscardInBuffer()
+        {
+            m_SerialPort.DiscardInBuffer();
         }
     }
 }

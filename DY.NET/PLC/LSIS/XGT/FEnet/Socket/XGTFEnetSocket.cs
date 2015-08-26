@@ -129,9 +129,13 @@ namespace DY.NET.LSIS.XGT
             if (request.MirrorProtocol == null)
                 request.MirrorProtocol = resp = XGTFEnetProtocol.CreateResponseProtocol(recv_data, request as XGTFEnetProtocol);
             else
-                resp.ASCIIProtocol = recv_data;
+                resp.ASCII = recv_data;
             resp.AnalysisProtocol();
             return resp;
+        }
+
+        protected override void DiscardInBuffer()
+        {
         }
     }
 }

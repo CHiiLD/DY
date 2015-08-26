@@ -129,6 +129,7 @@ namespace DY.NET
         public abstract bool IsConnected();
         protected abstract bool DoReadAgain(AProtocol request, int idx);
         protected abstract AProtocol CreateResponseProtocol(AProtocol request, byte[] recv_data);
+        protected abstract void DiscardInBuffer();
 
         /// <summary>
         /// 생성자 
@@ -149,7 +150,7 @@ namespace DY.NET
         {
             bool isConnected = true;
             if (!IsConnected()) //CONNECT
-            {
+           { 
                 Close();
                 if (!Connect())
                     isConnected = false;
@@ -162,15 +163,17 @@ namespace DY.NET
             bool isWrote = true;
             CancellationTokenSource cts = new CancellationTokenSource();
 
-            Task write_task = BaseStream.WriteAsync(p.ASCIIProtocol, 0, p.ASCIIProtocol.Length, cts.Token);
+            Task write_task = BaseStream.WriteAsync(p.ASCII, 0, p.ASCII.Length, cts.Token);
             if (await Task.WhenAny(write_task, Task.Delay(WriteTimeout, cts.Token)) != write_task)
                 isWrote = false;
             else
                 await write_task;
-            
+
             if (!cts.IsCancellationRequested)
                 cts.Cancel();
 
+            await BaseStream.FlushAsync();
+            
             return isWrote;
         }
 
@@ -179,8 +182,11 @@ namespace DY.NET
             int idx = 0;
             byte[] buffer = null;
             CancellationTokenSource cts = new CancellationTokenSource();
+            DiscardInBuffer();
             do
             {
+                if (cts.IsCancellationRequested)
+                    break;
                 Task read_task = BaseStream.ReadAsync(BaseBuffer, idx, BUFFER_SIZE - idx, cts.Token);
                 if (await Task.WhenAny(read_task, Task.Delay(ReadTimeout, cts.Token)) != read_task)
                 {
@@ -193,6 +199,10 @@ namespace DY.NET
                 idx += read_size;
             } while (DoReadAgain(p, idx));
 
+#if false
+            int size = BaseStream.ReadByte();
+            Console.Write("남은 size: " + size);
+#endif
             if (!cts.IsCancellationRequested)
                 cts.Cancel();
 
@@ -214,22 +224,30 @@ namespace DY.NET
             Delivery delivery = new Delivery();
             using (await m_AsyncLock.LockAsync())
             {
-                Console.Write("IN--------------");
-                await BaseStream.FlushAsync();
-                Array.Clear(BaseBuffer, 0, BUFFER_SIZE);
-                if (!IsPassibleCommunication())
-                    return delivery.Packing(DeliveryError.DISCONNECT);
-                AProtocol p = request as AProtocol;
-                if (!await WritePorotocol(p))
-                    return delivery.Packing(DeliveryError.WRITE_TIMEOUT);
-                byte[] recv_data = await ReadProtocol(p);
-                if (recv_data == null)
-                    return delivery.Packing(DeliveryError.READ_TIMEOUT);
-                delivery.Package = CreateResponseProtocol(p, recv_data);
-                await BaseStream.FlushAsync();
-                Console.WriteLine("--------------OUT");
+                do
+                {
+                    Array.Clear(BaseBuffer, 0, BUFFER_SIZE);
+                    if (!IsPassibleCommunication())
+                    {
+                        delivery.Error = DeliveryError.DISCONNECT;
+                        break;
+                    }
+                    AProtocol p = request as AProtocol;
+                    if (!await WritePorotocol(p))
+                    {
+                        delivery.Error = DeliveryError.WRITE_TIMEOUT;
+                        break;
+                    }
+                    byte[] recv_data = await ReadProtocol(p);
+                    if (recv_data == null)
+                    {
+                        delivery.Error = DeliveryError.READ_TIMEOUT;
+                        break;
+                    }
+                    delivery.Package = CreateResponseProtocol(p, recv_data);
+                } while (false);
             }
-            return delivery.Packing(DeliveryError.SUCCESS);
+            return delivery.Packing();
         }
 
         /// <summary>

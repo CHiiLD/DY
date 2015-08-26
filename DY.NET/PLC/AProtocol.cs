@@ -14,22 +14,18 @@ namespace DY.NET
         //데이터 박스
         protected Dictionary<string, object> Tickets = new Dictionary<string, object>();
 
-        protected byte[] ASCIIData;
         // ASCII 데이터
-        public byte[] ASCIIProtocol
+        protected byte[] ASCIIData;
+        public byte[] ASCII
         {
             get
             {
                 if (ASCIIData == null) AssembleProtocol();
                 return ASCIIData;
             }
-            internal set 
+            set 
             {
                 ASCIIData = value;
-                Dictionary<string, object> tickets = new Dictionary<string, object>();
-                foreach (var t in Tickets)
-                    tickets.Add(t.Key, null);
-                Tickets = tickets;
             }
         }
 

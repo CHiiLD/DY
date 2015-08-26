@@ -16,5 +16,6 @@ namespace DY.NET
     public interface IProtocol : ITag, IDebug
     {
         Dictionary<string, object> DrawTickets();
+        byte[] ASCII { get; set; }
     }
 }

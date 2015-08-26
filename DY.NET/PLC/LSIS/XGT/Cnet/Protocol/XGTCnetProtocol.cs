@@ -36,9 +36,9 @@ namespace DY.NET.LSIS.XGT
         /// <summary>
         /// 응답 프로토콜 생성자
         /// </summary>
-        /// <param name="ASCII"></param>
-        private XGTCnetProtocol(byte[] ASCII)
-            : base(ASCII)
+        /// <param name="ascii"></param>
+        private XGTCnetProtocol(byte[] ascii)
+            : base(ascii)
         {
         }
 
@@ -159,7 +159,7 @@ namespace DY.NET.LSIS.XGT
         /// 정적 팩토리 메서드
         /// 응답 프로토콜 생성
         /// </summary>
-        /// <param name="received_data">PLC에서 받은 ASCII데이터</param>
+        /// <param name="received_data">PLC에서 받은 ascii데이터</param>
         /// <param name="request">요청 프로토콜</param>
         /// <returns>응답 프로토콜</returns>
         public static XGTCnetProtocol CreateResponseProtocol(byte[] received_data, XGTCnetProtocol request)
@@ -193,59 +193,59 @@ namespace DY.NET.LSIS.XGT
 
         #region FOR REQUEST PROTOCOL TYPE
 
-        private void AddRSSProtocol(List<byte> ASCII)
+        private void AddRSSProtocol(List<byte> ascii)
         {
-            ASCII.AddRange(CA2C.Data2ASCII(Tickets.Count));// 블록 수
+            ascii.AddRange(CA2C.Data2ASCII(Tickets.Count));// 블록 수
             foreach (var d in Tickets)
             {
-                ASCII.AddRange(CA2C.Data2ASCII(d.Key.Length));// 변수 이름 길이
-                ASCII.AddRange(CA2C.String2ASCII(d.Key));                       // 변수 이름 정보 
+                ascii.AddRange(CA2C.Data2ASCII(d.Key.Length));// 변수 이름 길이
+                ascii.AddRange(CA2C.String2ASCII(d.Key));                       // 변수 이름 정보 
             }
         }
 
-        private void AddWSSProtocol(List<byte> ASCII)
+        private void AddWSSProtocol(List<byte> ascii)
         {
-            ASCII.AddRange(CA2C.Data2ASCII(Tickets.Count));               // 블록 수
+            ascii.AddRange(CA2C.Data2ASCII(Tickets.Count));               // 블록 수
             foreach (var d in Tickets)
             {
-                ASCII.AddRange(CA2C.Data2ASCII(d.Key.Length));// 변수 이름 길이
-                ASCII.AddRange(CA2C.String2ASCII(d.Key));                       // 변수 이름 정보 
-                ASCII.AddRange(CA2C.Value2ASCII(d.Value, TType));              // WRITE될 값 
+                ascii.AddRange(CA2C.Data2ASCII(d.Key.Length));// 변수 이름 길이
+                ascii.AddRange(CA2C.String2ASCII(d.Key));                       // 변수 이름 정보 
+                ascii.AddRange(CA2C.Value2ASCII(d.Value, TType));              // WRITE될 값 
             }
         }
 
         // not support bit data
-        private void AddRSBProtocol(List<byte> ASCII)
+        private void AddRSBProtocol(List<byte> ascii)
         {
-            ASCII.AddRange(CA2C.Data2ASCII(Tickets.First().Key.Length));
-            ASCII.AddRange(CA2C.String2ASCII(Tickets.First().Key));
-            ASCII.AddRange(CA2C.Data2ASCII(Tickets.Count));
+            ascii.AddRange(CA2C.Data2ASCII(Tickets.First().Key.Length));
+            ascii.AddRange(CA2C.String2ASCII(Tickets.First().Key));
+            ascii.AddRange(CA2C.Data2ASCII(Tickets.Count));
         }
 
-        private void AddWSBProtocol(List<byte> ASCII)
+        private void AddWSBProtocol(List<byte> ascii)
         {
-            ASCII.AddRange(CA2C.Data2ASCII(Tickets.First().Key.Length));
-            ASCII.AddRange(CA2C.String2ASCII(Tickets.First().Key));
-            ASCII.AddRange(CA2C.Data2ASCII(DataCnt));
+            ascii.AddRange(CA2C.Data2ASCII(Tickets.First().Key.Length));
+            ascii.AddRange(CA2C.String2ASCII(Tickets.First().Key));
+            ascii.AddRange(CA2C.Data2ASCII(DataCnt));
             foreach (var d in Tickets)
-                ASCII.AddRange(CA2C.Value2ASCII(d.Value, TType));
+                ascii.AddRange(CA2C.Value2ASCII(d.Value, TType));
         }
 
-        protected override void AttachProtocolFrame(List<byte> ASCII)
+        protected override void AttachProtocolFrame(List<byte> ascii)
         {
             switch (CommandType)
             {
                 case XGTCnetCmdType.SS:
                     if (Command == XGTCnetCommand.R || Command == XGTCnetCommand.r)
-                        AddRSSProtocol(ASCII);
+                        AddRSSProtocol(ascii);
                     else if (Command == XGTCnetCommand.W || Command == XGTCnetCommand.w)
-                        AddWSSProtocol(ASCII);
+                        AddWSSProtocol(ascii);
                     break;
                 case XGTCnetCmdType.SB:
                     if (Command == XGTCnetCommand.R || Command == XGTCnetCommand.r)
-                        AddRSBProtocol(ASCII);
+                        AddRSBProtocol(ascii);
                     else if (Command == XGTCnetCommand.W || Command == XGTCnetCommand.w)
-                        AddWSBProtocol(ASCII);
+                        AddWSBProtocol(ascii);
                     break;
             }
         }

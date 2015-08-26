@@ -63,12 +63,12 @@ namespace DY.NET.LSIS.XGT
         /// <summary>
         /// 응답 프로토콜 생성자
         /// </summary>
-        /// <param name="ASCII"></param>
-        protected AXGTCnetProtocol(byte[] ASCII)
+        /// <param name="ascii"></param>
+        protected AXGTCnetProtocol(byte[] ascii)
             : base()
         {
-            if (ASCII != null)
-                ASCIIData = ASCII;
+            if (ascii != null)
+                ASCIIData = ascii;
         }
 
         /// <summary>
@@ -88,13 +88,13 @@ namespace DY.NET.LSIS.XGT
         /// <summary>
         /// 요청 프로토콜 - 헤더 정보를 추가
         /// </summary>
-        /// <param name="ASCII">버퍼</param>
-        protected void AddProtocolHead(List<byte> ASCII)
+        /// <param name="ascii">버퍼</param>
+        protected void AddProtocolHead(List<byte> ascii)
         {
-            ASCII.Add(Header.ToByte());
-            ASCII.AddRange(CA2C.Data2ASCII(LocalPort));
-            ASCII.Add(Command.ToByte());
-            ASCII.AddRange(CommandType.ToBytes());
+            ascii.Add(Header.ToByte());
+            ascii.AddRange(CA2C.Data2ASCII(LocalPort));
+            ascii.Add(Command.ToByte());
+            ascii.AddRange(CommandType.ToBytes());
         }
 
         /// <summary>
@@ -104,24 +104,24 @@ namespace DY.NET.LSIS.XGT
         /// 
         /// 사용설명서XGT_Cnet_국문_V2.8(7.2.3 직접변수 개별쓰기(W(w)SS), 7-7)
         /// </summary>
-        /// <param name="ASCII">byte List</param>
-        protected void AddProtocolTail(List<byte> ASCII)
+        /// <param name="ascii">byte List</param>
+        protected void AddProtocolTail(List<byte> ascii)
         {
-            ASCII.Add(Tail.ToByte());
+            ascii.Add(Tail.ToByte());
             var cmd = Command;
             if (cmd == XGTCnetCommand.r || cmd == XGTCnetCommand.w)
             {
                 ushort sum = 0;
-                foreach (byte b in ASCII)
+                foreach (byte b in ascii)
                     sum += b;
                 sum = (ushort)((ushort)0xFF & sum);
                 BCC = (byte)sum;
-                ASCII.Add(BCC);
+                ascii.Add(BCC);
             }
         }
 
         /// <summary>
-        /// 응답 프로토콜 - ASCII데이터에서 헤더, 국번, 주명령어, 명령어 데이터를 가져온다.
+        /// 응답 프로토콜 - ascii데이터에서 헤더, 국번, 주명령어, 명령어 데이터를 가져온다.
         /// </summary>
         protected void CatchProtocolHead()
         {
@@ -143,7 +143,7 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
-        /// 응답 프로토콜 - ASCII데이터에서 테일과 프레임체크(BC)값을 가져온다.
+        /// 응답 프로토콜 - ascii데이터에서 테일과 프레임체크(BC)값을 가져온다.
         /// </summary>
         protected void CatchProtocolTail()
         {
@@ -156,7 +156,7 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
-        /// 응답 프로토콜 - ASCII 데이터에서 구조화된 데이터만 계산하여 반환한다.
+        /// 응답 프로토콜 - ascii 데이터에서 구조화된 데이터만 계산하여 반환한다.
         /// </summary>
         /// <returns>구조화된 데이터</returns>
         protected byte[] GetInstructData()
@@ -170,7 +170,7 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
-        /// 응답 프로토콜 - NAK 응답 시 ASCII데이터에서 에러 코드를 가져온다.
+        /// 응답 프로토콜 - NAK 응답 시 ascii데이터에서 에러 코드를 가져온다.
         /// </summary>
         /// <returns>에러 여부</returns>
         protected bool CatchErrorCode()
@@ -196,7 +196,7 @@ namespace DY.NET.LSIS.XGT
 
         #region INTERNAL
         /// <summary>
-        /// 응답 프로토콜 - ASCII 데이터에서 ETX(테일) 포함 여부를 파악한다.
+        /// 응답 프로토콜 - ascii 데이터에서 ETX(테일) 포함 여부를 파악한다.
         /// </summary>
         /// <returns>EXT 포함 여부</returns>
         internal bool HasEXT()
@@ -221,7 +221,7 @@ namespace DY.NET.LSIS.XGT
         #region PUBLIC
 
         /// <summary>
-        /// 응답 프로토콜 - ASCII 데이터를 분석하여 프로토콜 프레임 정보를 파악한다.
+        /// 응답 프로토콜 - ascii 데이터를 분석하여 프로토콜 프레임 정보를 파악한다.
         /// </summary>
         public override void AnalysisProtocol()
         {
@@ -236,15 +236,15 @@ namespace DY.NET.LSIS.XGT
         }
 
         /// <summary>
-        /// 요청 프로토콜 - 프로토콜 프레임 정보로 스트림 버퍼에 쓸 ASCII 데이터를 구축한다.
+        /// 요청 프로토콜 - 프로토콜 프레임 정보로 스트림 버퍼에 쓸 ascii 데이터를 구축한다.
         /// </summary>
         public override void AssembleProtocol()
         {
-            List<byte> ASCII = new List<byte>();
-            AddProtocolHead(ASCII);
-            AttachProtocolFrame(ASCII);
-            AddProtocolTail(ASCII);
-            ASCIIData = ASCII.ToArray();
+            List<byte> ascii = new List<byte>();
+            AddProtocolHead(ascii);
+            AttachProtocolFrame(ascii);
+            AddProtocolTail(ascii);
+            ASCIIData = ascii.ToArray();
             if (ASCIIData.Length > PROTOCOL_ASC_SIZE_MAX_256BYTE)
                 throw new Exception(ERROR_PROTOCOL_ASC_SIZE_MAX_256BYTE);
         }
@@ -272,7 +272,7 @@ namespace DY.NET.LSIS.XGT
 
         #region ABSTRACT METHOD
         protected abstract void PrintInstructPart();
-        protected abstract void AttachProtocolFrame(List<byte> ASCII);
+        protected abstract void AttachProtocolFrame(List<byte> ascii);
         protected abstract void DetachProtocolFrame();
         #endregion
     }
