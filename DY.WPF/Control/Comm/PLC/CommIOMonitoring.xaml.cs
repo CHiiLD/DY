@@ -49,7 +49,7 @@ namespace DY.WPF
         private Collection<DateValue> m_PlotItems { get; set; }
         private List<Delivery> m_Deliveries = new List<Delivery>();
 
-        private bool EditMode
+        private bool Editable
         {
             get
             {
@@ -90,7 +90,7 @@ namespace DY.WPF
             InitPlotModel();
 
             //컨트롤 이벤트 설정
-            NBT_EditModeOnOff.IsCheckedChanged += OnCheckChangedEditMode;
+            NBT_LockOnOff.IsCheckedChanged += OnCheckChangedEditMode;
             Selected = OnSelectedAsync;
             Unselected = OnUnselectedAsync;
 
@@ -157,7 +157,7 @@ namespace DY.WPF
 
         public void OnSelectedAsync(object sender, EventArgs args)
         {
-            if (!EditMode) //편집 모드가 아닐 때 모니터링 시작 ..
+            if (!Editable) //편집 모드가 아닐 때 모니터링 시작 ..
                 StartMonitoring();
         }
 
@@ -207,10 +207,10 @@ namespace DY.WPF
             string exception_msg = null;
             ToggleSwitch toggle = sender as ToggleSwitch;
             MetroWindow metro_win = Window.GetWindow(this) as MetroWindow; //Data preparation
-            bool isChecked = toggle.IsChecked == true ? true : false;
+            bool isLock = toggle.IsChecked == true ? true : false;
             do
             {
-                if (isChecked) //편집모드에서 나갈 때 
+                if (!isLock) //편집모드에서 나갈 때 
                     break;
                 if (NDataGridA.Items.Count + NDataGridB.Items.Count == 0)
                     break;
@@ -230,8 +230,8 @@ namespace DY.WPF
                     return;
                 }
             } while (false);
-            EditMode = isChecked;
-            if (isChecked)
+            Editable = !isLock;
+            if (Editable)
                 StopMonitoring();
             else
                 StartMonitoring();

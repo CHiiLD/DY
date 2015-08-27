@@ -9,8 +9,6 @@
 // </auto-generated>
 //------------------------------------------------------------------------------
 
-using DY.WPF;
-using MahApps.Metro.Controls;
 using System;
 using System.Diagnostics;
 using System.Windows;

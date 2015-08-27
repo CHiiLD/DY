@@ -15,24 +15,24 @@
         <Grid DockPanel.Dock="Top" VerticalAlignment="Top">
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="230"/>
-                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="270*"/>
-                <ColumnDefinition Width="10"/>
+                <ColumnDefinition Width="5"/>
                 <ColumnDefinition Width="230"/>
             </Grid.ColumnDefinitions>
             <Grid.RowDefinitions>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
 
-            <UniformGrid Rows="3" Columns="1" >
+            <StackPanel >
                 <local:TitleForBar x:Name="NSignBoard" />
-                <mah:ToggleSwitch x:Name="NBT_EditModeOnOff" Header="DataGrid Lock"/>
-                <mah:ToggleSwitch x:Name="NBT_SpeedMonitorOnOff" Header="IO real-time trace activation"/>
-            </UniformGrid>
+                <mah:ToggleSwitch x:Name="NBT_LockOnOff" Header="DataGrid Lock" IsChecked="True" Margin="4,0,0,0" />
+                <mah:ToggleSwitch x:Name="NBT_SpeedMonitorOnOff" Header="Real-time plotting" IsChecked="True" Margin="4,0,0,0" />
+            </StackPanel>
 
-            <oxy:PlotView x:Name="NPlotView" Grid.Column="2" Grid.ColumnSpan="1" Margin="0,0,0,-10" Panel.ZIndex="1"/>
+            <oxy:PlotView x:Name="NPlotView" Grid.Column="2" Grid.ColumnSpan="1"/>
 
-            <UniformGrid Rows="3" Columns="1" Grid.Column="4" >
+            <UniformGrid Rows="3" Grid.Column="4" >
                 <local:NumericUpDownWithBar 
                     x:Name="NNM_WriteTimeout"
                     StringFormat="{}{0:N0}ms"
@@ -42,11 +42,11 @@
                     StringFormat="{}{0:N0}ms"
                     Title="Read timeout"/>
                 <local:NumericUpDownWithBar 
-                    x:Name="NNM_UpdateInteval"
-                    Maximum="10000"
-                    Minimum="100"
-                    StringFormat="{}{0:N0}ms"
-                    Title="Update interval" Height="61" VerticalAlignment="Bottom"/>
+                	x:Name="NNM_UpdateInteval"
+                	Maximum="10000"
+                	Minimum="100"
+                	StringFormat="{}{0:N0}ms"
+                	Title="Update interval"/>
             </UniformGrid>
         </Grid>
 
