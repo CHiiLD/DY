@@ -11,8 +11,7 @@
              d:DesignHeight="768" d:DesignWidth="1024">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
-            <RowDefinition Height="3*"/>
+            <RowDefinition Height="1*"/>
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="230"/>
@@ -21,6 +20,8 @@
         </Grid.ColumnDefinitions>
 
         <StackPanel Grid.Column="0" Grid.RowSpan="2">
+
+            <local:TitleForBar x:Name="NSignBoard" Margin="0,0,0,10" Height="60" />
 
             <GroupBox Header="Tiemout" >
                 <StackPanel>
@@ -43,9 +44,8 @@
             </GroupBox>
         </StackPanel>
 
-        <ListView x:Name="NLog" Grid.Column="2" 
-                  Grid.RowSpan="2">
-            <!--Width 자동 조절--> 
+        <ListView x:Name="NLog" Grid.Column="2" Grid.RowSpan="2" >
+            
             <ListView.ItemContainerStyle>
                 <Style TargetType="ListViewItem">
                     <Setter Property="HorizontalContentAlignment"
@@ -56,7 +56,8 @@
             <ListView.View>
                 <GridView x:Name="NLogView">
                     <GridViewColumn x:Name="NTimeHeader" Header="Time" DisplayMemberBinding="{Binding Time, StringFormat='{}{0:hh\\:mm\\:ss}'}"/>
-                    <GridViewColumn x:Name="NLogHeader" Header="Log" DisplayMemberBinding="{Binding Log}"/>
+                    <GridViewColumn x:Name="NSpeedHeader" Header="PingPong" DisplayMemberBinding="{Binding Milliseconds, StringFormat='{}{0}ms'}"/>
+                    <GridViewColumn x:Name="NLogHeader" Header="Log" DisplayMemberBinding="{Binding Log}" Width="500"/>
                 </GridView>
             </ListView.View>
         </ListView>

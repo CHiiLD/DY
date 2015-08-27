@@ -25,7 +25,8 @@
             </Grid.RowDefinitions>
 
             <UniformGrid Rows="3" Columns="1" >
-                <mah:ToggleSwitch x:Name="NBT_EditModeOnOff" Header="IO edit mode"/>
+                <local:TitleForBar x:Name="NSignBoard" />
+                <mah:ToggleSwitch x:Name="NBT_EditModeOnOff" Header="DataGrid Lock"/>
                 <mah:ToggleSwitch x:Name="NBT_SpeedMonitorOnOff" Header="IO real-time trace activation"/>
             </UniformGrid>
 
@@ -77,5 +78,6 @@
                 <local:CommIOExcelDataGrid x:Name="NDataGridB" Grid.Column="1"/>
             </Grid>
         </DockPanel>
+        
     </DockPanel>
 </UserControl>

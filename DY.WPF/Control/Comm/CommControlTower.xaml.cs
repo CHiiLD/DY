@@ -62,11 +62,17 @@ namespace DY.WPF
 #if false
                     case DYDevice.DATALOGIC_MATRIX200:
 #endif
-                    case DyNetDevice.HONEYWELL_VUQUEST3310G:
-                        towerTabItem = new CommScanTester(commClient) { Margin = new Thickness(TABCONTROL_MARGIN) };
+                    case DyNetDevice.HONEYWELL_VUQUEST3310G: //Margin = new Thickness(TABCONTROL_MARGIN) 
+                        var commScan = new CommScanTester(commClient);
+                        commScan.NSignBoard.TitleText = "Vuquest 3310g";
+                        commScan.NSignBoard.SubText = commClient.Summary;
+                        towerTabItem = commScan;
                         break;
                     case DyNetDevice.LSIS_XGT:
-                        towerTabItem = new CommIOMonitoring(new CommIOMonitoringXGT(commClient)) { Margin = new Thickness(TABCONTROL_MARGIN) };
+                        var commIO = new CommIOMonitoring(new CommIOMonitoringXGT(commClient));
+                        commIO.NSignBoard.TitleText = "LSIS XGT Series";
+                        commIO.NSignBoard.SubText = commClient.Summary;
+                        towerTabItem = commIO;
                         break;
                 }
                 ShotDownDirector.GetInstance().AddIDisposable(towerTabItem);

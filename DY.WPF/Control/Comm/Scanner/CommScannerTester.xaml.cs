@@ -3,6 +3,8 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Text;
+using System.Collections.Generic;
+using System.ComponentModel;
 
 using DY.NET;
 using DY.WPF.SYSTEM.COMM;
@@ -19,11 +21,13 @@ namespace DY.WPF
         {
             public DateTime Time { get; set; }
             public string Log { get; set; }
-
-            public LogItem(string log)
+            public long? Milliseconds { get; set; }
+        
+            public LogItem(string log, long? millisecond)
             {
                 Time = DateTime.Now;
                 Log = log;
+                Milliseconds = millisecond;
             }
         }
 
@@ -42,11 +46,13 @@ namespace DY.WPF
         }
         public EventHandler<EventArgs> Selected { get; set; }
         public EventHandler<EventArgs> Unselected { get; set; }
+        public List<LogItem> Items { get; set; }
 
         public CommScanTester(CommClient cclient)
         {
             InitializeComponent();
             CClient = cclient;
+            Items = new List<LogItem>();
             Unselected += (object sender, EventArgs args) => { NLog.Items.Clear(); };
         }
 
@@ -69,7 +75,7 @@ namespace DY.WPF
                     log = scanner.Description + ": Write timeout";
                     break;
             }
-            NLog.Items.Add(new LogItem(log));
+            NLog.Items.Add(new LogItem(log, delivery.DelivaryTime.ElapsedMilliseconds));
         }
 
         private async void NBT_Scan_Click(object sender, RoutedEventArgs e)
@@ -77,7 +83,7 @@ namespace DY.WPF
             IScannerAsync scanner = CClient.Socket as IScannerAsync;
             if (!scanner.IsConnected())
             {
-                NLog.Items.Add(new LogItem(scanner.Description + ": Disconnected"));
+                NLog.Items.Add(new LogItem(scanner.Description + ": Disconnected", null));
                 return;
             }
             Delivery delivery = await scanner.ScanAsync();
@@ -90,7 +96,7 @@ namespace DY.WPF
             IScannerAsync scanner = CClient.Socket as IScannerAsync;
             if (!scanner.IsConnected())
             {
-                NLog.Items.Add(new LogItem(scanner.Description + ": Disconnected"));
+                NLog.Items.Add(new LogItem(scanner.Description + ": Disconnected", null));
                 return;
             }
             Delivery delivery = await scanner.GetInfoAsync();
