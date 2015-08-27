@@ -112,6 +112,11 @@ namespace DY.WPF
         private void PushLog(string log)
         {
             NLog.Items.Add(log);
+            //NLog.ScrollIntoView(NLog.Items[NLog.Items.Count - 1]);
+            //Dispatcher.BeginInvoke(new Action(() => 
+            //{
+            //    NLog.ScrollIntoView(NLog.Items[NLog.Items.Count - 1]);
+            //}), null);
         }
 
         private void InitPlotModel()
@@ -322,6 +327,11 @@ namespace DY.WPF
 
             NNM_UpdateInteval.SetBinding(NumericUpDownWithBar.ValueProperty, 
                 new Binding("IOUpdateInteval") { Source = m_CClient, Mode = BindingMode.TwoWay });
+        }
+
+        private void NLog_TextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
+        {
+            
         }
     }
 }

@@ -89,7 +89,7 @@
                 </GroupBox>
             </StackPanel>
             
-            <ListView x:Name="NLog" DockPanel.Dock="Bottom" Margin="1,0,0,1" >
+            <ListView x:Name="NLog" DockPanel.Dock="Bottom" Margin="1,0,0,1" BorderThickness="0" >
                 <ListView.View>
                     <GridView>
                         <GridViewColumn Header="Log" Width="230"/>
