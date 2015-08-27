@@ -57,7 +57,7 @@
                 <GridView x:Name="NLogView">
                     <GridViewColumn x:Name="NTimeHeader" Header="Time" DisplayMemberBinding="{Binding Time, StringFormat='{}{0:hh\\:mm\\:ss}'}"/>
                     <GridViewColumn x:Name="NSpeedHeader" Header="PingPong" DisplayMemberBinding="{Binding Milliseconds, StringFormat='{}{0}ms'}"/>
-                    <GridViewColumn x:Name="NLogHeader" Header="Log" DisplayMemberBinding="{Binding Log}" Width="500"/>
+                    <GridViewColumn x:Name="NLogHeader" Header="Log" DisplayMemberBinding="{Binding Log}" Width="1000"/>
                 </GridView>
             </ListView.View>
         </ListView>

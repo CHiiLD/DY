@@ -109,6 +109,11 @@ namespace DY.WPF
             Dispose();
         }
 
+        private void PushLog(string log)
+        {
+            NLog.Items.Add(log);
+        }
+
         private void InitPlotModel()
         {
             //그래프 객체 초기화
@@ -171,6 +176,7 @@ namespace DY.WPF
             if (NDataGridA.Items.Count + NDataGridB.Items.Count == 0)
                 return;
             LOG.Trace("모니터링 요청");
+            PushLog("Start monitoring.");
             UpdateNewIODataList();
             m_CommIOContext.Activated = true; //루프 작동 트리거 ON
             m_PlotItems.Clear();
@@ -182,6 +188,7 @@ namespace DY.WPF
             if (NDataGridA.Items.Count == 0)
                 return;
             m_PlotTimer.Stop();
+            PushLog("Exit monitoring.");
             m_CommIOContext.Activated = false; //루프 작동 트리거 OFF
             LOG.Trace("모니터링 종료");
         }
@@ -254,14 +261,19 @@ namespace DY.WPF
             switch (m_Deliveries.Last().Error)
             {
                 case DeliveryError.SUCCESS:
-                    ms = m_Deliveries.Average(delivery => delivery.DelivaryTime.ElapsedMilliseconds);
+                    ms = m_Deliveries.Max(delivery => delivery.DelivaryTime.ElapsedMilliseconds);
                     break;
                 case DeliveryError.DISCONNECT:
                     ms = 0;
+                    PushLog("Not connected to the server.");
                     break;
                 case DeliveryError.WRITE_TIMEOUT:
+                    ms = CClient.Socket.WriteTimeout + CClient.Socket.ReadTimeout;
+                    PushLog("Write timeout error has occurred.");
+                    break;
                 case DeliveryError.READ_TIMEOUT:
                     ms = CClient.Socket.WriteTimeout + CClient.Socket.ReadTimeout;
+                    PushLog("Read timeout error has occurred.");
                     break;
             }
             lock (m_PlotModel.SyncRoot)
@@ -279,7 +291,7 @@ namespace DY.WPF
                 Date = signal_time,
                 Value = milliseconds
             });
-            if (m_PlotItems.Count >= 40)
+            if (m_PlotItems.Count >= 100)
                 m_PlotItems.RemoveAt(0);
         }
 

@@ -11,11 +11,11 @@
     <Grid>
         <pt:DataGrid x:Name="NDataGrid">
             <pt:DataGrid.ColumnDefinitions>
-                <pt:ColumnDefinition x:Name="NCO_Type"  Header="Type" PropertyName="Type" Width="70"/>
-                <pt:ColumnDefinition x:Name="NCO_Address" Header="Address" PropertyName="Address" Width="100"/>
-                <pt:ColumnDefinition x:Name="NCO_Reade" Header="Read" IsReadOnly="True" PropertyName="Output" Width="100"/>
-                <pt:ColumnDefinition x:Name="NCO_Write" Header="Write" PropertyName="Input" Width="100"/>
-                <pt:ColumnDefinition x:Name="NCO_Comment" Header="Comment" PropertyName="Comment" Width="1*"/>
+                <pt:ColumnDefinition x:Name="NCO_Type"  Header="Type" PropertyName="Type" Width="10*"/>
+                <pt:ColumnDefinition x:Name="NCO_Address" Header="Address" PropertyName="Address" Width="10*"/>
+                <pt:ColumnDefinition x:Name="NCO_Reade" Header="Read" IsReadOnly="True" PropertyName="Output" Width="10*"/>
+                <pt:ColumnDefinition x:Name="NCO_Write" Header="Write" PropertyName="Input" Width="10*"/>
+                <pt:ColumnDefinition x:Name="NCO_Comment" Header="Comment" PropertyName="Comment" Width="15*"/>
             </pt:DataGrid.ColumnDefinitions>
         </pt:DataGrid>
     </Grid>

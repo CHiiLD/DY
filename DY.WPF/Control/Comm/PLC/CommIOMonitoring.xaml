@@ -11,73 +11,91 @@
              x:Name="this"
              mc:Ignorable="d" 
              d:DesignHeight="768" d:DesignWidth="1024">
-    <DockPanel>
-        <Grid DockPanel.Dock="Top" VerticalAlignment="Top">
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="230"/>
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="270*"/>
-                <ColumnDefinition Width="5"/>
-                <ColumnDefinition Width="230"/>
-            </Grid.ColumnDefinitions>
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="230"/>
+            <ColumnDefinition Width="10"/>
+            <ColumnDefinition Width="1*"/>
+        </Grid.ColumnDefinitions>
+        <Grid Grid.Column="2" >
             <Grid.RowDefinitions>
+                <RowDefinition Height="200"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
+            <oxy:PlotView x:Name="NPlotView" />
+            <DockPanel Grid.Row="1" >
+                <Menu x:Name="NMenu" DockPanel.Dock="Top">
+                    <MenuItem Header="Data">
+                        <MenuItem Header="Save"/>
+                        <MenuItem Header="Save as csv file"/>
+                        <MenuItem Header="Load as csv file"/>
+                        <MenuItem Header="Clipboard csv"/>
+                    </MenuItem>
 
-            <StackPanel >
-                <local:TitleForBar x:Name="NSignBoard" />
-                <mah:ToggleSwitch x:Name="NBT_LockOnOff" Header="DataGrid Lock" IsChecked="True" Margin="4,0,0,0" />
-                <mah:ToggleSwitch x:Name="NBT_SpeedMonitorOnOff" Header="Real-time plotting" IsChecked="True" Margin="4,0,0,0" />
-            </StackPanel>
-
-            <oxy:PlotView x:Name="NPlotView" Grid.Column="2" Grid.ColumnSpan="1"/>
-
-            <UniformGrid Rows="3" Grid.Column="4" >
-                <local:NumericUpDownWithBar 
-                    x:Name="NNM_WriteTimeout"
-                    StringFormat="{}{0:N0}ms"
-                    Title="Write timeout"/>
-                <local:NumericUpDownWithBar 
-                    x:Name="NNM_ReadTimeout" 
-                    StringFormat="{}{0:N0}ms"
-                    Title="Read timeout"/>
-                <local:NumericUpDownWithBar 
-                	x:Name="NNM_UpdateInteval"
-                	Maximum="10000"
-                	Minimum="100"
-                	StringFormat="{}{0:N0}ms"
-                	Title="Update interval"/>
-            </UniformGrid>
+                    <MenuItem Header="Edit">
+                        <MenuItem Header="Select All"/>
+                        <MenuItem Header="Cut"/>
+                        <MenuItem Header="Copy"/>
+                        <MenuItem Header="Paste"/>
+                        <MenuItem Header="Delete"/>
+                        <MenuItem Header="Edit text"/>
+                        <MenuItem Header="Open combo box"/>
+                    </MenuItem>
+                </Menu>
+                <Grid >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*"/>
+                        <ColumnDefinition Width="1*"/>
+                    </Grid.ColumnDefinitions>
+                    <local:CommIOExcelDataGrid x:Name="NDataGridA" Grid.Column="0"/>
+                    <local:CommIOExcelDataGrid x:Name="NDataGridB" Grid.Column="1"/>
+                </Grid>
+            </DockPanel>
         </Grid>
+        <DockPanel>
+            <StackPanel Width="230" DockPanel.Dock="Top" Margin="0,0,0,4">
+                <local:TitleForBar x:Name="NSignBoard" Margin="0,0,0,10" />
+                <GroupBox Header="Tiemout" >
+                    <StackPanel>
+                        <local:NumericUpDownWithBar 
+        					x:Name="NNM_WriteTimeout"
+        					StringFormat="{}{0:N0}ms"
+        					Title="Write timeout" Margin="0,0,0,6" />
+                        <local:NumericUpDownWithBar 
+        					x:Name="NNM_ReadTimeout" 
+        					StringFormat="{}{0:N0}ms"
+        					Title="Read timeout" />
+                    </StackPanel>
+                </GroupBox>
 
-        <DockPanel DockPanel.Dock="Bottom" >
-            <Menu x:Name="NMenu" DockPanel.Dock="Top">
-                <MenuItem Header="Data">
-                    <MenuItem Header="Save"/>
-                    <MenuItem Header="Save as csv file"/>
-                    <MenuItem Header="Load as csv file"/>
-                    <MenuItem Header="Clipboard csv"/>
-                </MenuItem>
+                <GroupBox Header="Datagrid" >
+                    <StackPanel Orientation="Vertical">
+                        <mah:ToggleSwitch x:Name="NBT_LockOnOff" Header="DataGrid Lock" IsChecked="True" />
+                        <!--<mah:ToggleSwitch x:Name="NBT_LeftActivation" Header="Left activation" IsChecked="True"/>
+                    <mah:ToggleSwitch x:Name="NBT_RightActivation" Header="Right activation" IsChecked="True"/>-->
+                    </StackPanel>
+                </GroupBox>
 
-                <MenuItem Header="Edit">
-                    <MenuItem Header="Select All"/>
-                    <MenuItem Header="Cut"/>
-                    <MenuItem Header="Copy"/>
-                    <MenuItem Header="Paste"/>
-                    <MenuItem Header="Delete"/>
-                    <MenuItem Header="Edit text"/>
-                    <MenuItem Header="Open combo box"/>
-                </MenuItem>
-            </Menu>
-            <Grid >
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="1*"/>
-                    <ColumnDefinition Width="1*"/>
-                </Grid.ColumnDefinitions>
-                <local:CommIOExcelDataGrid x:Name="NDataGridA" Grid.Column="0"/>
-                <local:CommIOExcelDataGrid x:Name="NDataGridB" Grid.Column="1"/>
-            </Grid>
+                <GroupBox Header="Plotting" >
+                    <StackPanel Orientation="Vertical">
+                        <local:NumericUpDownWithBar
+        					x:Name="NNM_UpdateInteval"
+        					Maximum="10000"
+        					Minimum="100"
+        					StringFormat="{}{0:N0}ms"
+        					Title="Real-time update interval" Margin="0,0,0,4"/>
+                        <mah:ToggleSwitch x:Name="NBT_SpeedMonitorOnOff" Header="Real-time Plotting" IsChecked="True" Margin="4,0,0,0" />
+                    </StackPanel>
+                </GroupBox>
+            </StackPanel>
+            
+            <ListView x:Name="NLog" DockPanel.Dock="Bottom" Margin="1,0,0,1" >
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Log" Width="230"/>
+                    </GridView>
+                </ListView.View>
+            </ListView>
         </DockPanel>
-        
-    </DockPanel>
+    </Grid>
 </UserControl>

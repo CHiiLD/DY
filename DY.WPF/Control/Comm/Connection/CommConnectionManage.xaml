@@ -11,19 +11,26 @@
 	x:Name="UserControl">
 
     <StackPanel>
-        <mah:ToggleSwitch x:Name="NBT_ConnectionCheckTimerSwtich" Header="Connection Check Timer" Margin="10,0" />
-        <local:NumericUpDownWithBar
-            x:Name="NTB_ConnectionCheckInteval" 
-            Minimum="1000"
-            Maximum="60000"
-            StringFormat="{}{0:N0}ms"
-            Title="Connection check inteval" Margin="0,2,0,0"/>
+        <GroupBox Header="Timeout">
+            <local:NumericUpDownWithBar
+                x:Name="NTB_ConnectionTimeout" 
+                Minimum="100"
+                Maximum="1000"
+                StringFormat="{}{0:N0}ms"
+                Title="Connection timeout"/>
+        </GroupBox>
+        
+        <GroupBox Header="Auto Connecttion Timer">
+            <StackPanel>
+                <local:NumericUpDownWithBar
+                    x:Name="NTB_ConnectionCheckInteval" 
+                    Minimum="1000"
+                    Maximum="60000"
+                    StringFormat="{}{0:N0}ms"
+                    Title="Check inteval" Margin="0,0,0,4"/>
 
-        <local:NumericUpDownWithBar
-            x:Name="NTB_ConnectionTimeout" 
-            Minimum="100"
-            Maximum="1000"
-            StringFormat="{}{0:N0}ms"
-            Title="Connection timeout" Margin="0,6,0,0"/>
+                <mah:ToggleSwitch x:Name="NBT_ConnectionCheckTimerSwtich" Header="Check Timer"/>
+            </StackPanel>
+        </GroupBox>
     </StackPanel>
 </UserControl>
