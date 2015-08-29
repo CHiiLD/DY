@@ -23,6 +23,6 @@
         </Grid.RowDefinitions>
         <local:TitleForBar TitleText="Communication Setting" SubText="Please set device's communication options." Height="68" />
         <local:CommDeviceSelection x:Name="NSetBox" Margin="10,1,10,0" Grid.Row="1" />
-        <local:OkCancelBtns x:Name="NButton" Height="34" VerticalAlignment="Bottom" Grid.Row="2" Margin="0,7,0,12"/>
+        <local:OkCancelButton x:Name="NButton" Height="34" VerticalAlignment="Bottom" Grid.Row="2" Margin="0,7,0,12"/>
     </Grid>
 </mah:MetroWindow>

@@ -36,6 +36,8 @@
   <ItemGroup>
     <Reference Include="System" />
     <Reference Include="System.Data" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml" />
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="System.Core" />
@@ -52,8 +54,8 @@
     <Compile Include="Control\Bar\NumericUpDownWithBar.xaml.cs">
       <DependentUpon>NumericUpDownWithBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Bar\OkCancelBtns.xaml.cs">
-      <DependentUpon>OkCancelBtns.xaml</DependentUpon>
+    <Compile Include="Control\Bar\OkCancelButton.xaml.cs">
+      <DependentUpon>OkCancelButton.xaml</DependentUpon>
     </Compile>
     <Compile Include="Control\Bar\Parts\IGetContext.cs" />
     <Compile Include="Control\Bar\Parts\TextBlockBar.xaml.cs">
@@ -99,6 +101,9 @@
     </Compile>
     <Compile Include="Control\CustomOxy\ICOxyRectangleRange.cs" />
     <Compile Include="Control\CustomOxy\ICOxyPlotRange.cs" />
+    <Compile Include="Control\Theme\AppStyleFlyout.xaml.cs">
+      <DependentUpon>AppStyleFlyout.xaml</DependentUpon>
+    </Compile>
     <Compile Include="SYSTEM\COMM\Interface\ICommControlTowerTabItem.cs" />
     <Compile Include="SYSTEM\COMM\IO\CommIOExcelRowItem.cs" />
     <Compile Include="SYSTEM\COMM\Interface\ISummaryParameter.cs" />
@@ -163,7 +168,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\Bar\OkCancelBtns.xaml">
+    <Page Include="Control\Bar\OkCancelButton.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -228,6 +233,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="Control\CustomOxy\COxyRectangleGraphType01.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="Control\Theme\AppStyleFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

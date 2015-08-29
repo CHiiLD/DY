@@ -9,8 +9,8 @@
     Width="{Binding Source={x:Static dywpf:WindowSize.Width}}"
     Height="{Binding Source={x:Static dywpf:WindowSize.Height}}"
     Title="MainWindow">
-    
     <Grid>
+        <dywpf:AppStyleFlyout></dywpf:AppStyleFlyout>
         <mah:MetroAnimatedSingleRowTabControl >
             <TabItem Header="Monitor" >
                 <dywpf:COxyRectangleGraphType01 x:Name="NGraph" Width="640" Height="320"></dywpf:COxyRectangleGraphType01>

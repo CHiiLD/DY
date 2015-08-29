@@ -64,14 +64,14 @@ namespace DY.WPF
 #endif
                     case DyNetDevice.HONEYWELL_VUQUEST3310G: //Margin = new Thickness(TABCONTROL_MARGIN) 
                         var commScan = new CommScanTester(commClient);
-                        commScan.NSignBoard.TitleText = "Vuquest 3310g";
-                        commScan.NSignBoard.SubText = commClient.Summary;
+                        //commScan.NSignBoard.TitleText = "Vuquest 3310g";
+                        //commScan.NSignBoard.SubText = commClient.Summary;
                         towerTabItem = commScan;
                         break;
                     case DyNetDevice.LSIS_XGT:
                         var commIO = new CommIOMonitoring(new CommIOMonitoringXGT(commClient));
-                        commIO.NSignBoard.TitleText = "LSIS XGT Series";
-                        commIO.NSignBoard.SubText = commClient.Summary;
+                        //commIO.NSignBoard.TitleText = "LSIS XGT Series";
+                        //commIO.NSignBoard.SubText = commClient.Summary;
                         towerTabItem = commIO;
                         break;
                 }

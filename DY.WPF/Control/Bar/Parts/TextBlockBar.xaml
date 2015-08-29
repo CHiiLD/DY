@@ -8,11 +8,13 @@
     x:Name="this"
 	x:Class="DY.WPF.TextBlockBar">
 
-    <Border x:Name="NBolder" Height="22" CornerRadius="7" Background="{DynamicResource {x:Static SystemColors.HighlightBrushKey}}"  >
+    <Border x:Name="NBolder" 
+            Height="22" 
+            CornerRadius="7" Background="{DynamicResource HighlightBrush}">
         <TextBlock x:Name="NTextBlock" 
                        Text="{Binding Path=Text, Mode=TwoWay, ElementName=this}"
                        HorizontalAlignment ="Center"
                        FontSize="14"
-                       Foreground="{DynamicResource {x:Static SystemColors.HighlightTextBrushKey}}"/>
+                       Foreground="#FFF7F7F7"/>
     </Border>
 </UserControl>

@@ -48,15 +48,20 @@ namespace DY.NET.LSIS.XGT
                 return false;
             if (m_TcpClient.Client == null)
                 return false;
-            try
+            bool isConnected = true;
+            using (Locker.Lock())
             {
-                m_TcpClient.Client.Send(EMPTY_BYTE, 0, 0);
+                try
+                {
+                    m_TcpClient.Client.Send(EMPTY_BYTE, 0, 0);
+                    isConnected = true;
+                }
+                catch (Exception e)
+                {
+                    isConnected = false;
+                }
             }
-            catch (Exception e)
-            {
-                return false;
-            }
-            return true;
+            return isConnected;
         }
 
         /// <summary>
@@ -65,8 +70,11 @@ namespace DY.NET.LSIS.XGT
         /// <returns>접속 시도 결과</returns>
         public override bool Connect()
         {
-            m_TcpClient = new TcpClient(m_Host, m_Port);
-            BaseStream = m_TcpClient.GetStream();
+            using (Locker.Lock())
+            {
+                m_TcpClient = new TcpClient(m_Host, m_Port);
+                BaseStream = m_TcpClient.GetStream();
+            }
             ConnectionStatusChangedEvent(true);
             LOG.Debug(Description + " 이더넷 통신 동기 접속");
             return IsConnected();
@@ -78,7 +86,12 @@ namespace DY.NET.LSIS.XGT
         public override void Close()
         {
             if (m_TcpClient != null)
-                m_TcpClient.Close();
+            {
+                using (Locker.Lock())
+                {
+                    m_TcpClient.Close();
+                }
+            }
             ConnectionStatusChangedEvent(false);
             LOG.Debug(Description + " 이더넷 통신 동기 접속 해제");
         }

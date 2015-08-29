@@ -15,6 +15,7 @@ using System.Windows.Shapes;
 using System.Collections.ObjectModel;
 
 using MahApps.Metro.Controls;
+using MahApps.Metro;
 using OxyPlot;
 using OxyPlot.Wpf;
 using NLog;
@@ -151,12 +152,12 @@ namespace DY.WPF
             }
         }
 
-        public Annotation Annotation
+        public RectangleAnnotation Annotation
         {
             get
             {
                 return NRectangle;
-            }
+            } 
         }
 
         public RangeSlider RangeSliderX
@@ -224,8 +225,25 @@ namespace DY.WPF
         /// <param name="series"></param>
         public void AddSeries(Series series)
         {
-            if (series != null)
-                Series.Add(series);
+            if (series == null)
+                return;
+            IEnumerable<Accent> accents = ThemeManager.Accents;
+            Accent cur_accent = ThemeManager.DetectAppStyle().Item2;
+            foreach (Accent i in accents)
+            {
+                if (i.Name == cur_accent.Name)
+                    continue;
+                foreach (Series s in Series)
+                {
+                    Color series_color = s.Color;
+                    Color accent_color = (Color)i.Resources["HighlightColor"];
+                    if (series_color.Equals(accent_color))
+                        continue;
+                    series.Color = accent_color;
+                    break;
+                }
+            }
+            Series.Add(series);
         }
 
         public void RemoveSeries(Series series)
@@ -239,7 +257,7 @@ namespace DY.WPF
         /// </summary>
         public void ClearPlot()
         {
-            foreach(var s in Series)
+            foreach (var s in Series)
                 s.Items.Clear();
         }
 
@@ -290,22 +308,18 @@ namespace DY.WPF
             switch (type)
             {
                 case COxyBottonAxisType.LINEAR_AXIS:
-                    axis = new LinearAxis()
-                    {
-                        Position = OxyPlot.Axes.AxisPosition.Bottom,
-                        MajorGridlineStyle = LineStyle.Solid,
-                        MinorGridlineStyle = LineStyle.Dot
-                    };
+                    axis = new LinearAxis();
                     break;
                 case COxyBottonAxisType.TIMESPAN_AXIS:
-                    axis = new TimeSpanAxis()
-                    {
-                        Position = OxyPlot.Axes.AxisPosition.Bottom,
-                        MajorGridlineStyle = LineStyle.Solid,
-                        MinorGridlineStyle = LineStyle.Dot
-                    };
+                    axis = new TimeSpanAxis();
                     break;
             }
+            axis.MajorGridlineStyle = LineStyle.Solid;
+            axis.MinorGridlineStyle = LineStyle.Dot;
+            axis.Position = OxyPlot.Axes.AxisPosition.Bottom;
+            axis.SetResourceReference(Axis.TicklineColorProperty, "BlackColor");
+            axis.SetResourceReference(Axis.MajorGridlineColorProperty, "Gray7");
+            axis.SetResourceReference(Axis.MinorGridlineColorProperty, "Gray7");
             axis.SetBinding(Axis.MaximumProperty, new Binding("PlotMaximumX") { Source = this, Mode = BindingMode.TwoWay });
             axis.SetBinding(Axis.MinimumProperty, new Binding("PlotMinimumX") { Source = this, Mode = BindingMode.TwoWay });
             AxisBotton = axis;

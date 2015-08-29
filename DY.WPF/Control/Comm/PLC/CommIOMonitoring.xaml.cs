@@ -11,12 +11,12 @@ using System.ComponentModel;
 using System.Collections.ObjectModel;
 using System.Diagnostics;
 
+using MahApps.Metro;
 using MahApps.Metro.Controls;
 using MahApps.Metro.Controls.Dialogs;
 
 using OxyPlot;
-using OxyPlot.Axes;
-using OxyPlot.Series;
+using OxyPlot.Wpf;
 
 using DY.WPF.SYSTEM.COMM;
 using DY.NET;
@@ -45,9 +45,16 @@ namespace DY.WPF
         private CommClient m_CClient;
 
         private DispatcherTimer m_PlotTimer;
-        private PlotModel m_PlotModel;
         private Collection<DateValue> m_PlotItems { get; set; }
         private List<Delivery> m_Deliveries = new List<Delivery>();
+
+        private Plot Plot
+        {
+            get
+            {
+                return NPlot;
+            }
+        }
 
         private bool Editable
         {
@@ -96,7 +103,7 @@ namespace DY.WPF
 
             NNM_UpdateInteval.NNumeric.ValueChanged += (object sender, RoutedPropertyChangedEventArgs<double?> e) =>
             {
-                if(e.NewValue == null)
+                if (e.NewValue == null)
                     return;
                 int int_value = (int)e.NewValue;
                 m_PlotTimer.Interval = new TimeSpan(int_value * 10000);
@@ -112,11 +119,6 @@ namespace DY.WPF
         private void PushLog(string log)
         {
             NLog.Items.Add(log);
-            //NLog.ScrollIntoView(NLog.Items[NLog.Items.Count - 1]);
-            //Dispatcher.BeginInvoke(new Action(() => 
-            //{
-            //    NLog.ScrollIntoView(NLog.Items[NLog.Items.Count - 1]);
-            //}), null);
         }
 
         private void InitPlotModel()
@@ -124,39 +126,17 @@ namespace DY.WPF
             //그래프 객체 초기화
             m_PlotTimer = new DispatcherTimer(new TimeSpan(10000 * CClient.IOUpdateInteval),
             DispatcherPriority.Normal, OnPlotTimerTick, Dispatcher) { IsEnabled = false };
-
-            PlotModel plot_model = new PlotModel();
-            plot_model.Axes.Add(new DateTimeAxis //X축
-            {
-                StringFormat = "mm:ss",
-                Position = AxisPosition.Bottom,
-                MajorGridlineStyle = LineStyle.Solid,
-                MinorGridlineStyle = LineStyle.Dot,
-                TickStyle = TickStyle.Inside,
-            });
-            plot_model.Axes.Add(new LinearAxis //Y축
-            {
-                Position = AxisPosition.Left,
-                MajorGridlineStyle = LineStyle.Solid,
-                MinorGridlineStyle = LineStyle.Dot,
-                TickStyle = TickStyle.Inside,
-                StartPosition = 1,
-                EndPosition = 0,
-                Title = "Millisecond"
-            });
-            plot_model.Series.Add(new LineSeries
+            var lineSeries = new LineSeries()
             {
                 ItemsSource = m_PlotItems = new Collection<DateValue>(),
                 DataFieldX = "Date",
                 DataFieldY = "Value",
-                //StrokeThickness = 2,
                 MarkerSize = 3,
-                MarkerStroke = OxyColors.Green,
-                MarkerFill = OxyColors.Green,
-                Color = OxyColors.Green,
-                MarkerType = MarkerType.Star,
-            });
-            m_PlotModel = NPlotView.Model = plot_model;
+                MarkerType = MarkerType.Circle,
+            };
+            lineSeries.SetResourceReference(LineSeries.MarkerStrokeProperty, "HighlightColor");
+            lineSeries.SetResourceReference(LineSeries.MarkerFillProperty, "HighlightColor");
+            lineSeries.SetResourceReference(LineSeries.ColorProperty, "AccentColor");
         }
 
         public void Dispose()
@@ -281,11 +261,8 @@ namespace DY.WPF
                     PushLog("Read timeout error has occurred.");
                     break;
             }
-            lock (m_PlotModel.SyncRoot)
-            {
-                UpdatePlotModel(DateTime.Now, ms);
-            }
-            m_PlotModel.InvalidatePlot(true);
+            UpdatePlotModel(DateTime.Now, ms);
+            Plot.InvalidatePlot(true);
             m_Deliveries.Clear();
         }
 
@@ -307,7 +284,7 @@ namespace DY.WPF
 
         private void SetBinding()
         {
-            this.SetBinding(UserControl.IsEnabledProperty, 
+            this.SetBinding(UserControl.IsEnabledProperty,
                 new Binding("Usable") { Source = m_CClient, Mode = BindingMode.TwoWay });
 
             NNM_WriteTimeout.SetBinding(NumericUpDownWithBar.ValueProperty,
@@ -325,13 +302,13 @@ namespace DY.WPF
             NNM_ReadTimeout.SetBinding(NumericUpDownWithBar.MinimumProperty,
                 new Binding("ReadTimeoutMinimum") { Source = m_CClient.Socket, Mode = BindingMode.TwoWay });
 
-            NNM_UpdateInteval.SetBinding(NumericUpDownWithBar.ValueProperty, 
+            NNM_UpdateInteval.SetBinding(NumericUpDownWithBar.ValueProperty,
                 new Binding("IOUpdateInteval") { Source = m_CClient, Mode = BindingMode.TwoWay });
         }
 
         private void NLog_TextInput(object sender, System.Windows.Input.TextCompositionEventArgs e)
         {
-            
+
         }
     }
 }

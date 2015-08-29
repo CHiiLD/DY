@@ -48,12 +48,20 @@
                          LowerValue="{Binding Path=RectMinimunY, ElementName=this, Mode=TwoWay}"
                          />
 
-        <oxy:Plot x:Name="NPlot" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="3" >
+        <oxy:Plot x:Name="NPlot" Grid.Column="1" Grid.Row="1" Grid.ColumnSpan="3" Grid.RowSpan="3" 
+                  TextColor="{DynamicResource BlackColor}" 
+                  Background="{DynamicResource WindowBackgroundBrush}"
+                  Foreground="{DynamicResource WindowBackgroundBrush}"
+                  PlotAreaBorderColor="{DynamicResource BlackColor}"
+                  >
             <oxy:Plot.Axes>
                 <oxy:LinearAxis x:Name="NLinearAxisY" Position="Left" 
                                 MajorGridlineStyle="Solid" MinorGridlineStyle="Dot"
                                 Maximum="{Binding Path=PlotMaximumY, ElementName=this, Mode=TwoWay}"
                                 Minimum="{Binding Path=PlotMinimumY, ElementName=this, Mode=TwoWay}"
+                                TicklineColor="{DynamicResource BlackColor}"
+                                MajorGridlineColor="{DynamicResource Gray7}"
+                                MinorGridlineColor="{DynamicResource Gray7}"
                                 />
             </oxy:Plot.Axes>
 

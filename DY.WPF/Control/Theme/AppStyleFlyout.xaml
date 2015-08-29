@@ -1,0 +1,21 @@
+﻿<UserControl x:Class="DY.WPF.AppStyleFlyout"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             mc:Ignorable="d" 
+             xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
+             xmlns:local="clr-namespace:DY.WPF">
+    <Grid>
+        <mah:Flyout Width="200" Header="Theme" Position="Right" Theme="Adapt" IsOpen="True">
+            <StackPanel>
+                <GroupBox Header="Theme Color">
+                    <ListBox x:Name="NThemeBox" />
+                </GroupBox>
+                <GroupBox Header="Theme Accent">
+                    <ListBox x:Name="NAccentBox" />
+                </GroupBox>
+            </StackPanel>
+        </mah:Flyout>
+    </Grid>
+</UserControl>

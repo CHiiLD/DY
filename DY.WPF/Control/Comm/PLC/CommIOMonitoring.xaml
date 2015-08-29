@@ -22,7 +22,40 @@
                 <RowDefinition Height="200"/>
                 <RowDefinition Height="1*"/>
             </Grid.RowDefinitions>
-            <oxy:PlotView x:Name="NPlotView" />
+            <!--<oxy:PlotView x:Name="NPlotView" 
+                                            TextColor="{DynamicResource BlackColor}" 
+                  Background="{DynamicResource WindowBackgroundBrush}"
+                  Foreground="{DynamicResource WindowBackgroundBrush}"
+                  PlotAreaBorderColor="{DynamicResource BlackColor}"
+                          />-->
+
+            <oxy:Plot x:Name="NPlot" 
+                  TextColor="{DynamicResource BlackColor}" 
+                  Background="{DynamicResource WindowBackgroundBrush}"
+                  Foreground="{DynamicResource WindowBackgroundBrush}"
+                  PlotAreaBorderColor="{DynamicResource BlackColor}"
+                  >
+                <oxy:Plot.Axes>
+                    <oxy:LinearAxis x:Name="NAxisY" Position="Left" 
+                                MajorGridlineStyle="Solid" MinorGridlineStyle="Dot"
+                                Maximum="{Binding Path=PlotMaximumY, ElementName=this, Mode=TwoWay}"
+                                Minimum="{Binding Path=PlotMinimumY, ElementName=this, Mode=TwoWay}"
+                                TicklineColor="{DynamicResource BlackColor}"
+                                MajorGridlineColor="{DynamicResource Gray7}"
+                                MinorGridlineColor="{DynamicResource Gray7}"
+                                />
+                    <oxy:DateTimeAxis x:Name="NAxisX" Position="Bottom" 
+                                MajorGridlineStyle="Solid" MinorGridlineStyle="Dot"
+                                StringFormat="mm:ss"
+                                Maximum="{Binding Path=PlotMaximumY, ElementName=this, Mode=TwoWay}"
+                                Minimum="{Binding Path=PlotMinimumY, ElementName=this, Mode=TwoWay}"
+                                TicklineColor="{DynamicResource BlackColor}"
+                                MajorGridlineColor="{DynamicResource Gray7}"
+                                MinorGridlineColor="{DynamicResource Gray7}"
+                                />
+                </oxy:Plot.Axes>
+            </oxy:Plot>
+
             <DockPanel Grid.Row="1" >
                 <Menu x:Name="NMenu" DockPanel.Dock="Top">
                     <MenuItem Header="Data">
@@ -54,7 +87,7 @@
         </Grid>
         <DockPanel>
             <StackPanel Width="230" DockPanel.Dock="Top" Margin="0,0,0,4">
-                <local:TitleForBar x:Name="NSignBoard" Margin="0,0,0,10" />
+                <!--<local:TitleForBar x:Name="NSignBoard" Margin="0,0,0,10" />-->
                 <GroupBox Header="Tiemout" >
                     <StackPanel>
                         <local:NumericUpDownWithBar 

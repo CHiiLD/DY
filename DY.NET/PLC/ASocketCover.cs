@@ -19,7 +19,7 @@ namespace DY.NET
     public abstract class ASocketCover : ISocketCover
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();
-        private readonly AsyncLock m_AsyncLock = new AsyncLock();
+        protected readonly AsyncLock Locker = new AsyncLock();
 
         private int m_ReadTimeout;
         private int m_ReadTimeoutMaximum;
@@ -195,10 +195,6 @@ namespace DY.NET
                 idx += read_size;
             } while (DoReadAgain(p, idx));
 
-#if false
-            int size = BaseStream.ReadByte();
-            Console.Write("남은 size: " + size);
-#endif
             if (!cts.IsCancellationRequested)
                 cts.Cancel();
 
@@ -218,16 +214,14 @@ namespace DY.NET
         public async Task<Delivery> PostAsync(IProtocol request)
         {
             Delivery delivery = new Delivery();
-            using (await m_AsyncLock.LockAsync())
+            if (!IsPassibleCommunication())
+                return delivery.Packing(DeliveryError.DISCONNECT);
+
+            using (await Locker.LockAsync())
             {
                 do
                 {
                     Array.Clear(BaseBuffer, 0, BUFFER_SIZE);
-                    if (!IsPassibleCommunication())
-                    {
-                        delivery.Error = DeliveryError.DISCONNECT;
-                        break;
-                    }
                     AProtocol p = request as AProtocol;
                     if (!await WritePorotocol(p))
                     {
