@@ -145,3 +145,93 @@ CommClientDirector 메모리 해제
 18:18:58 DY.NET.LSIS.XGT.XGTCnetSocket
 LSIS XGT Cnet(COM3) 통신 접속 성공
 
+18:23:25 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+18:23:42 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 해제
+
+18:23:42 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 메모리 해제
+
+18:23:42 DY.WPF.SYSTEM.COMM.CommClient
+COM3 115200-8-N-1 CommClient 메모리 해제
+
+18:23:42 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+18:24:38 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+18:25:05 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 해제
+
+18:25:05 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 메모리 해제
+
+18:25:05 DY.WPF.SYSTEM.COMM.CommClient
+COM3 115200-8-N-1 CommClient 메모리 해제
+
+18:25:05 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+18:26:14 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+18:26:38 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 해제
+
+18:26:38 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 메모리 해제
+
+18:26:38 DY.WPF.SYSTEM.COMM.CommClient
+COM3 115200-8-N-1 CommClient 메모리 해제
+
+18:26:38 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+18:45:52 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 해제
+
+18:45:52 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 메모리 해제
+
+18:45:52 DY.WPF.SYSTEM.COMM.CommClient
+COM3 115200-8-N-1 CommClient 메모리 해제
+
+18:45:52 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+18:53:54 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+18:54:05 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속 해제
+
+18:54:05 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+18:54:10 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+18:54:12 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속 해제
+
+18:54:12 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 동기 접속
+
+18:54:58 DY.NET.LSIS.XGT.XGTFEnetSocket
+LSIS XGT FEnet(192.168.10.150:2004) 이더넷 통신 해제 및 메모리 해제
+
+18:54:58 DY.WPF.SYSTEM.COMM.CommClient
+Tcp 192.168.10.150:2004 CommClient 메모리 해제
+
+18:54:58 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+18:56:18 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+18:57:25 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+

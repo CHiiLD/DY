@@ -131,7 +131,7 @@ namespace DY.WPF
                 ItemsSource = m_PlotItems = new Collection<DateValue>(),
                 DataFieldX = "Date",
                 DataFieldY = "Value",
-                MarkerSize = 3,
+                MarkerSize = 2,
                 MarkerType = MarkerType.Circle,
             };
             lineSeries.SetResourceReference(LineSeries.MarkerStrokeProperty, "HighlightColor");

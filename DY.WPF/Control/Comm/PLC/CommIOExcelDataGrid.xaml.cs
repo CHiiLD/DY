@@ -49,8 +49,6 @@ namespace DY.WPF
             InitializeComponent();
             NDataGrid.ItemsSource = Items;
             Editable = false;
-            //여기는 원래 xaml에서 편집해야 맞는 거지만, 에러 아닌 에러가 자꾸 떠서 스트레스로 
-            //cs에서 수동으로 생성해서 설정 
         }
 
         private void SetProeperties(bool editable)

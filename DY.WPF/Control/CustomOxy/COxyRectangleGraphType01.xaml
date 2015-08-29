@@ -67,7 +67,7 @@
 
             <oxy:Plot.Annotations>
                 <oxy:RectangleAnnotation x:Name="NRectangle"
-                                         Fill="#40004684"
+                                         Fill="{DynamicResource AccentColor4}"
                                          MaximumX="{Binding Path=RectMaximunX, ElementName=this, Mode=TwoWay}" 
                                          MaximumY="{Binding Path=RectMaximunY, ElementName=this, Mode=TwoWay}" 
                                          MinimumX="{Binding Path=RectMinimunX, ElementName=this, Mode=TwoWay}" 
