@@ -103,3 +103,45 @@ CommClientDirector 메모리 해제
 17:15:01 DY.WPF.SYSTEM.COMM.CommClientDirector
 CommClientDirector 메모리 해제
 
+17:58:53 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+18:00:30 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 해제
+
+18:00:30 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 메모리 해제
+
+18:00:30 DY.WPF.SYSTEM.COMM.CommClient
+COM3 9600-8-N-1 CommClient 메모리 해제
+
+18:00:30 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+18:07:26 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+18:14:49 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+18:16:08 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+18:18:06 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+
+18:18:28 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 해제
+
+18:18:28 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 메모리 해제
+
+18:18:28 DY.WPF.SYSTEM.COMM.CommClient
+COM3 9600-8-N-1 CommClient 메모리 해제
+
+18:18:28 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+18:18:58 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM3) 통신 접속 성공
+

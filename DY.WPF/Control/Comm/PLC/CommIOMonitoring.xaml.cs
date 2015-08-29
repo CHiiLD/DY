@@ -126,7 +126,7 @@ namespace DY.WPF
             //그래프 객체 초기화
             m_PlotTimer = new DispatcherTimer(new TimeSpan(10000 * CClient.IOUpdateInteval),
             DispatcherPriority.Normal, OnPlotTimerTick, Dispatcher) { IsEnabled = false };
-            var lineSeries = new LineSeries()
+            LineSeries lineSeries = new LineSeries()
             {
                 ItemsSource = m_PlotItems = new Collection<DateValue>(),
                 DataFieldX = "Date",
@@ -137,6 +137,7 @@ namespace DY.WPF
             lineSeries.SetResourceReference(LineSeries.MarkerStrokeProperty, "HighlightColor");
             lineSeries.SetResourceReference(LineSeries.MarkerFillProperty, "HighlightColor");
             lineSeries.SetResourceReference(LineSeries.ColorProperty, "AccentColor");
+            Plot.Series.Add(lineSeries);
         }
 
         public void Dispose()
@@ -262,7 +263,6 @@ namespace DY.WPF
                     break;
             }
             UpdatePlotModel(DateTime.Now, ms);
-            Plot.InvalidatePlot(true);
             m_Deliveries.Clear();
         }
 
@@ -275,6 +275,10 @@ namespace DY.WPF
             });
             if (m_PlotItems.Count >= 100)
                 m_PlotItems.RemoveAt(0);
+            //lock (Plot.ActualModel.SyncRoot)
+            //{
+            Plot.InvalidatePlot(true);
+            //}
         }
 
         private void OnDeliveryArrived(object sender, DeliveryArrivalEventArgs args)
