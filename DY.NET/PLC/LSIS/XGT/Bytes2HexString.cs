@@ -2,7 +2,7 @@
 
 namespace DY.NET.LSIS.XGT
 {
-    public class Bytes2HexStr
+    public class Bytes2HexString
     {
         /// <summary>
         /// ASCII 데이터를 1byte 씩 HEX값으로 계산하여 문자열을 만들어 반환한다.

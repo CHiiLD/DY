@@ -13,9 +13,7 @@ namespace DY.NET.LSIS.XGT
     public partial class XGTCnetSocket : ASocketCover
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();
-
-        private const string ERROR_SERIALPORT_IS_NULL = "SerialPort instance is null.";
-
+        private const string ERROR_SERIALPORT_IS_NULL = "SerialPort is null.";
         private SerialPort m_SerialPort;
 
         /// <summary>
@@ -80,7 +78,7 @@ namespace DY.NET.LSIS.XGT
                 throw new NullReferenceException(ERROR_SERIALPORT_IS_NULL);
             using (Locker.Lock())
             {
-                m_SerialPort.Close(); 
+                m_SerialPort.Close();
             }
             ConnectionStatusChangedEvent(false);
             LOG.Debug(Description + " 통신 접속 해제");

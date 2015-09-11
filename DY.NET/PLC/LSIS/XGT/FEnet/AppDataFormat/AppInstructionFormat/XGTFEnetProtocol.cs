@@ -318,7 +318,7 @@ namespace DY.NET.LSIS.XGT
         public override void Print()
         {
             Console.WriteLine("XGT FEnet 프로토콜 정보");
-            Console.WriteLine("ASC 코드: " + Bytes2HexStr.Change(ASCIIData));
+            Console.WriteLine("ASC 코드: " + Bytes2HexString.Change(ASCIIData));
             Console.WriteLine("명령: " + Command.ToString());
             Console.WriteLine("데이터 타입: " + DataType.ToString());
 

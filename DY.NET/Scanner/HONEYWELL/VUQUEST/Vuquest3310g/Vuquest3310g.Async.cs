@@ -11,42 +11,50 @@ namespace DY.NET.HONEYWELL.VUQUEST
 {
     public partial class Vuquest3310g
     {
-        private class DeliveryWithoutStopwatch
+        /// <summary>
+        /// 해외의 유명 택배 배달회사이름.
+        /// Delivery의 Stopwatch에 의한 성능저하를 피하기 위해 Stopwatch기능만 제거한 DHL inner class를 사용한다.
+        /// </summary>
+        private class DHL
         {
             public object Package { get; set; }
             public DeliveryError Error { get; set; }
 
-            public DeliveryWithoutStopwatch()
+            public DHL()
             {
                 Error = DeliveryError.SUCCESS;
             }
 
-            public DeliveryWithoutStopwatch Packing(DeliveryError error)
+            public DHL Packing(DeliveryError error)
             {
                 Error = error;
                 return this;
             }
 
-            public DeliveryWithoutStopwatch Packing()
+            public DHL Packing()
             {
                 return this;
             }
         }
 
+        /// <summary>
+        /// 바코드 스캔을 시도한다.
+        /// </summary>
+        /// <returns>Delivery 객체</returns>
         public async Task<Delivery> ScanAsync()
         {
             Delivery delivery = new Delivery();
-            using (await m_AsyncLock.LockAsync())
+            using (await Locker.LockAsync())
             {
-                delivery.Error = await AddPrefixCRAsync();
+                delivery.Error = await AddPrefixCRAsync(); //CR 설정
                 if (delivery.Error != DeliveryError.SUCCESS)
                     return delivery.Packing();
 
-                delivery.Error = await SetScanReadTimeout(ReadTimeout);
+                delivery.Error = await SetScanReadTimeout(ReadTimeout); //Reading Timeout 설정
                 if (delivery.Error != DeliveryError.SUCCESS)
                     return delivery.Packing();
 
-                DeliveryWithoutStopwatch deliww = await ActivateAsync();
+                DHL deliww = await ActivateAsync(); //스캔 시작
                 if (deliww.Error != DeliveryError.SUCCESS)
                     return delivery.Packing(deliww.Error);
                 delivery.Package = deliww.Package;
@@ -54,32 +62,41 @@ namespace DY.NET.HONEYWELL.VUQUEST
             return delivery.Packing();
         }
 
+        /// <summary>
+        /// 스캐너의 정보(스펙)를 가져온다.
+        /// </summary>
+        /// <returns>Delivery 객체</returns>
         public async Task<Delivery> GetInfoAsync()
         {
             Delivery delivery = new Delivery();
-            using (await m_AsyncLock.LockAsync())
+            using (await Locker.LockAsync())
             {
-                DeliveryWithoutStopwatch deliww = await SendCommendCodeAsync(UTI_SHOW_SOFTWARE_REVERSION);
-                if (deliww.Error != DeliveryError.SUCCESS)
-                    return delivery.Packing(deliww.Error);
-                delivery.Package = deliww.Package;
+                DHL dhl = await SendCommendCodeAsync(UTI_SHOW_SOFTWARE_REVERSION);
+                if (dhl.Error != DeliveryError.SUCCESS)
+                    return delivery.Packing(dhl.Error);
+                delivery.Package = dhl.Package;
             }
             return delivery.Packing();
         }
 
-        private async Task<DeliveryWithoutStopwatch> SendCommendCodeAsync(byte[] cmd)
+        /// <summary>
+        /// 스캐너에 명령어를 보내고 그 적용된 결과를 받는다.
+        /// </summary>
+        /// <param name="cmd">명령어</param>
+        /// <returns>DeliveryWithoutStopwatch 객체</returns>
+        private async Task<DHL> SendCommendCodeAsync(byte[] cmd)
         {
             byte[] req_code = GetRequestCommandCode(cmd);
             byte[] res_code = GetResponseCommandCode(cmd);
-            DeliveryWithoutStopwatch delivery = new DeliveryWithoutStopwatch();
+            DHL dhl = new DHL();
             if (!await WriteAsync(req_code, 0, req_code.Length))
-                return delivery.Packing(DeliveryError.WRITE_TIMEOUT);
+                return dhl.Packing(DeliveryError.WRITE_TIMEOUT);
             int idx = 0;
             while (true)
             {
                 int size = await ReadAsync(m_Buffer, idx, m_Buffer.Length - idx);
                 if (size < 0)
-                    return delivery.Packing(DeliveryError.READ_TIMEOUT);
+                    return dhl.Packing(DeliveryError.READ_TIMEOUT);
                 idx += size;
                 if (idx >= res_code.Length)
                 {
@@ -91,15 +108,20 @@ namespace DY.NET.HONEYWELL.VUQUEST
                         {
                             byte[] data = new byte[idx - reply.Length];
                             Array.Copy(m_Buffer, 0, data, 0, data.Length);
-                            delivery.Package = data;
+                            dhl.Package = data;
                         }
                         break;
                     }
                 }
             }
-            return delivery.Packing();
+            return dhl.Packing();
         }
 
+        /// <summary>
+        /// 스캐너에 보낼 명령어를 반환한다.
+        /// </summary>
+        /// <param name="cmd">명령어</param>
+        /// <returns>요청 명령어 코드</returns>
         private byte[] GetRequestCommandCode(byte[] cmd)
         {
             List<byte> code = new List<byte>();
@@ -109,6 +131,11 @@ namespace DY.NET.HONEYWELL.VUQUEST
             return code.ToArray();
         }
 
+        /// <summary>
+        /// 스캐너로부터 받을(받을 예정인) 응답 명령어 코드를 반환한다.
+        /// </summary>
+        /// <param name="cmd">명령어</param>
+        /// <returns>응답 명령어 코드</returns>
         private byte[] GetResponseCommandCode(byte[] cmd)
         {
             List<byte> code = new List<byte>();
@@ -139,6 +166,12 @@ namespace DY.NET.HONEYWELL.VUQUEST
             return DeliveryError.SUCCESS;
         }
 
+        /// <summary>
+        /// 스캐너의 스캔 타임아웃을 설정한다. 
+        /// 최대 30초까지 설정할 수 있다.
+        /// </summary>
+        /// <param name="timeout">타임아웃</param>
+        /// <returns>타임아웃 적용 성공 여부</returns>
         private async Task<DeliveryError> SetScanReadTimeout(int timeout)
         {
             if (!m_IsTimeoutChanged)
@@ -162,6 +195,13 @@ namespace DY.NET.HONEYWELL.VUQUEST
             return DeliveryError.SUCCESS;
         }
 
+        /// <summary>
+        /// 스캐너에 버퍼를 채워 보낸다.
+        /// </summary>
+        /// <param name="buffer">버퍼</param>
+        /// <param name="offset">오프셋</param>
+        /// <param name="count">개수</param>
+        /// <returns>성공 여부</returns>
         private async Task<bool> WriteAsync(byte[] buffer, int offset, int count)
         {
             var stream = m_SerialPort.BaseStream;
@@ -178,6 +218,13 @@ namespace DY.NET.HONEYWELL.VUQUEST
             return ok;
         }
 
+        /// <summary>
+        /// 스캐너의 응답을 받는다.
+        /// </summary>
+        /// <param name="buffer">버퍼</param>
+        /// <param name="offset">오프셋</param>
+        /// <param name="count">개수</param>
+        /// <returns>읽은 바이트의 개수</returns>
         private async Task<int> ReadAsync(byte[] buffer, int offset, int count)
         {
             var stream = m_SerialPort.BaseStream;
@@ -191,11 +238,15 @@ namespace DY.NET.HONEYWELL.VUQUEST
             return size;
         }
 
-        private async Task<DeliveryWithoutStopwatch> ActivateAsync()
+        /// <summary>
+        /// 스캐너의 읽기 모드를 활성화하고 읽어들인 코드를 반환한다.
+        /// </summary>
+        /// <returns>DeliveryWithoutStopwatch 객체</returns>
+        private async Task<DHL> ActivateAsync()
         {
-            DeliveryWithoutStopwatch delivery = new DeliveryWithoutStopwatch();
+            DHL dhl = new DHL();
             if (!await WriteAsync(SPC_TRIGGER_ACTIVATE, 0, SPC_TRIGGER_ACTIVATE.Length))
-                return delivery.Packing(DeliveryError.WRITE_TIMEOUT);
+                return dhl.Packing(DeliveryError.WRITE_TIMEOUT);
             int idx = 0;
             do
             {
@@ -203,30 +254,14 @@ namespace DY.NET.HONEYWELL.VUQUEST
                 if (size < 0)
                 {
                     await SendCommendCodeAsync(UTI_SHOW_SOFTWARE_REVERSION);
-                    return delivery.Packing(DeliveryError.READ_TIMEOUT);
+                    return dhl.Packing(DeliveryError.READ_TIMEOUT);
                 }
                 idx += size;
             } while (m_Buffer[idx - 1] != CR);
             byte[] buffer = new byte[idx - 1];
             Array.Copy(m_Buffer, 0, buffer, 0, buffer.Length);
-            delivery.Package = buffer;
-            return delivery.Packing(DeliveryError.SUCCESS);
+            dhl.Package = buffer;
+            return dhl.Packing(DeliveryError.SUCCESS);
         }
-
-#if false
-        private async Task<DeliveryWithoutStopwatch> DeactivateAsync()
-        {
-            DeliveryWithoutStopwatch delivery = new DeliveryWithoutStopwatch();
-            if (!await WriteAsync(SPC_TRIGGER_DEACTIVATE, 0, SPC_TRIGGER_DEACTIVATE.Length))
-            {
-                LOG.Error(Description + ": 스캐너 스캔 비활성화 요청 중 스트림 버퍼 쓰기 에러가 발생");
-                return delivery.Packing(DeliveryError.WRITE_TIMEOUT);
-            }
-            else
-            {
-                return delivery.Packing(DeliveryError.SUCCESS);
-            }
-        }
-#endif
     }
 }

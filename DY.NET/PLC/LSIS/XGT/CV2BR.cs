@@ -18,7 +18,7 @@ namespace DY.NET.LSIS.XGT
 
         public static object ToValue(byte[] bytes, Type type)
         {
-            var r_bytes = bytes.Reverse().ToArray();
+            byte[] r_bytes = bytes.Reverse().ToArray();
             if (BitConverter.IsLittleEndian)
                 Array.Reverse(r_bytes);
             object target = null;

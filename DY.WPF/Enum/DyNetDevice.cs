@@ -5,7 +5,7 @@
     /// </summary>
     public enum DyNetDevice
     {
-        LSIS_XGT,
+        LSIS_XGT = 1,
         HONEYWELL_VUQUEST3310G,
 #if false
         DATALOGIC_MATRIX200

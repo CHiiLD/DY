@@ -101,14 +101,10 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         public override void Dispose()
         {
-            if (m_TcpClient != null)
-            {
-                if (m_TcpClient != null)
-                    m_TcpClient.Close();
-                m_TcpClient = null;
-                m_Host = null;
-                m_Port = -1;
-            }
+            Close();
+            m_TcpClient = null;
+            m_Host = null;
+            m_Port = 0;
             base.Dispose();
             GC.SuppressFinalize(this);
             LOG.Debug(Description + " 이더넷 통신 해제 및 메모리 해제");

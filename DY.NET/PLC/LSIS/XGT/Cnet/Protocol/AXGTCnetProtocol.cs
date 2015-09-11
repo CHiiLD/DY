@@ -260,7 +260,7 @@ namespace DY.NET.LSIS.XGT
         public override void Print()
         {
             LOG.Debug("XGT Cnet 프로토콜 정보");
-            LOG.Debug("ASC 코드: " + Bytes2HexStr.Change(ASCIIData));
+            LOG.Debug("ASC 코드: " + Bytes2HexString.Change(ASCIIData));
             LOG.Debug("국번: {0}", LocalPort);
             LOG.Debug(string.Format("헤더: {0}", Header == XGTCnetCCType.ENQ ? "ENQ" : Header == XGTCnetCCType.ACK ? "ACK" : "NAK"));
             LOG.Debug(string.Format("명령: {0}", (char)Command));

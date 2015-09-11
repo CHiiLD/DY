@@ -5,7 +5,7 @@
     /// </summary>
     public enum XGKCpuType
     {
-        XGK_CPUE,
+        XGK_CPUE = 1,
         XGK_CPUS,
         XGK_CPUA,
         XGK_CPUH

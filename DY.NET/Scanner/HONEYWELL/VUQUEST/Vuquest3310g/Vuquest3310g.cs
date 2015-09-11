@@ -34,7 +34,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
         public object UserData { get; set; }
         public EventHandler<ConnectionStatusChangedEventArgs> ConnectionStatusChanged { get; set; }
         
-        private readonly AsyncLock m_AsyncLock = new AsyncLock();
+        private readonly AsyncLock Locker = new AsyncLock();
         private bool m_IsPrepared = false;
         
         /// <summary>
@@ -151,6 +151,10 @@ namespace DY.NET.HONEYWELL.VUQUEST
             }
         }
 
+        /// <summary>
+        /// 생성자
+        /// </summary>
+        /// <param name="serialPort"></param>
         public Vuquest3310g(SerialPort serialPort)
         {
             WriteTimeoutMaximum = 500;
@@ -166,11 +170,13 @@ namespace DY.NET.HONEYWELL.VUQUEST
             Description = "Hoenywell Vuquest 3310g(" + m_SerialPort.PortName + ")";
         }
 
+        /// <summary>
+        /// 소멸자
+        /// </summary>
         ~Vuquest3310g()
         {
             Dispose();
         }
-
 
         public bool IsConnected()
         {
@@ -197,7 +203,10 @@ namespace DY.NET.HONEYWELL.VUQUEST
         /// </summary>
         public void Close()
         {
-            m_SerialPort.Close();
+            using (Locker.Lock())
+            {
+                m_SerialPort.Close();
+            }
             if (ConnectionStatusChanged != null)
                 ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(false));
             LOG.Debug(Description + " 시리얼포트 통신 해제");
@@ -211,8 +220,11 @@ namespace DY.NET.HONEYWELL.VUQUEST
         {
             if (m_SerialPort == null)
                 return false;
-            if (!m_SerialPort.IsOpen)
-                m_SerialPort.Open();
+            using (Locker.Lock())
+            {
+                if (!m_SerialPort.IsOpen)
+                    m_SerialPort.Open();
+            }
             if (ConnectionStatusChanged != null)
                 ConnectionStatusChanged(this, new ConnectionStatusChangedEventArgs(m_SerialPort.IsOpen));
             LOG.Debug(Description + " 시리얼포트 통신 접속");

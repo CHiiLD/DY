@@ -61,7 +61,7 @@
     <Compile Include="Common\Inheritance\ASerialPortBuilder.cs" />
     <Compile Include="Common\Inheritance\IDebug.cs" />
     <Compile Include="Common\Inheritance\IPostAsync.cs" />
-    <Compile Include="PLC\LSIS\XGT\Bytes2HexStr.cs" />
+    <Compile Include="PLC\LSIS\XGT\Bytes2HexString.cs" />
     <Compile Include="PLC\ASocketCover.cs" />
     <Compile Include="PLC\IProtocol.cs" />
     <Compile Include="Common\Inheritance\ITag.cs" />
@@ -94,12 +94,10 @@
     <Compile Include="PLC\LSIS\XGT\FEnet\Enum\XGTFEnetProtocolError.cs" />
     <Compile Include="PLC\LSIS\XGT\FEnet\Enum\XGTFEnetSourceOfFrame.cs" />
     <Compile Include="PLC\LSIS\XGT\FEnet\Socket\XGTFEnetSocket.cs" />
-    <Compile Include="PLC\LSIS\XGT\Glopa.cs" />
     <Compile Include="PLC\LSIS\XGT\XGKCpuType.cs" />
     <Compile Include="PLC\LSIS\XGT\XGTMemoryExpression.cs" />
     <Compile Include="PLC\LSIS\XGT\XGTServiceableDevice.cs" />
     <Compile Include="PLC\TypeExtension.cs" />
-    <Compile Include="PLC\LSIS\XGT\XGTCommModuleType.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
