@@ -142,6 +142,7 @@
     <Compile Include="SYSTEM\COMM\Client\CommClientDirector.cs" />
     <Compile Include="SYSTEM\COMM\IO\ACommIOMonitoringStrategy.cs" />
     <Compile Include="SYSTEM\COMM\IO\CommIOMonitoringXGT.cs" />
+    <Compile Include="SYSTEM\Json.cs" />
     <Compile Include="SYSTEM\NotifyPropertyChanged.cs" />
     <Compile Include="SYSTEM\ShotDownDirector.cs" />
     <Compile Include="WINDOW\CommDeviceSetWindow.xaml.cs">
@@ -154,6 +155,7 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
+    <None Include="ClassDiagram.cd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
@@ -283,7 +285,6 @@
       <Name>PropertyTools.Wpf_NET45</Name>
     </ProjectReference>
   </ItemGroup>
-  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

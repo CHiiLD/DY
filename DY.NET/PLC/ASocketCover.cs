@@ -123,7 +123,7 @@ namespace DY.NET
         public abstract bool Connect();
         public abstract void Close();
         public abstract bool IsConnected();
-        protected abstract bool DoReadAgain(AProtocol request, int idx);
+        protected abstract bool IsArrived(AProtocol request, int idx);
         protected abstract AProtocol CreateResponseProtocol(AProtocol request, byte[] recv_data);
         protected abstract void DiscardInBuffer();
 
@@ -193,7 +193,7 @@ namespace DY.NET
                 if (read_size <= 0)
                     System.Diagnostics.Debug.Assert(false);
                 idx += read_size;
-            } while (DoReadAgain(p, idx));
+            } while (!IsArrived(p, idx));
 
             if (!cts.IsCancellationRequested)
                 cts.Cancel();

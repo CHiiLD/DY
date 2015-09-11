@@ -235,3 +235,6 @@ CommClientDirector 메모리 해제
 18:57:25 DY.WPF.SYSTEM.COMM.CommClientDirector
 CommClientDirector 메모리 해제
 
+19:00:54 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+

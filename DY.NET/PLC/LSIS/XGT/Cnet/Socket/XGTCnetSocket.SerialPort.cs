@@ -21,6 +21,6 @@ namespace DY.NET.LSIS.XGT
                 };
                 return xgt_cnet_socket;
             }
-        }
+        }   
     }
 }

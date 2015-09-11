@@ -1,5 +1,4 @@
-﻿
-namespace DY.NET
+﻿namespace DY.NET
 {
     public enum DeliveryError : int
     {

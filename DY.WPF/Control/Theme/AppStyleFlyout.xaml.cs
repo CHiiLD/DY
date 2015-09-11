@@ -16,6 +16,7 @@ using System.Windows.Shapes;
 using MahApps.Metro.Controls;
 using MahApps.Metro;
 
+using DY.WPF.SYSTEM;
 
 namespace DY.WPF
 {
@@ -27,10 +28,35 @@ namespace DY.WPF
         public AppStyleFlyout()
         {
             InitializeComponent();
+            LoadAppStyle();
             PushListBoxItems();
             SelectCurrnetAppStyle();
             NThemeBox.SelectionChanged += OnThemeSelectChanged;
             NAccentBox.SelectionChanged += OnAccentSelectChanged;
+        }
+
+        private void LoadAppStyle()
+        {
+            Dictionary<string, string> dictionary = Json<Dictionary<string, string>>.Read("./theme_config.json");
+            if (dictionary == null)
+                return;
+            if (dictionary.ContainsKey("Accent") && dictionary.ContainsKey("AppTheme"))
+            {
+                string accent = dictionary["Accent"];
+                string theme = dictionary["AppTheme"];
+                ThemeManager.ChangeAppStyle(Application.Current, ThemeManager.GetAccent(accent), ThemeManager.GetAppTheme(theme));
+            }
+        }
+        
+        private void SaveAppStyle()
+        {
+            Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle();
+            string theme = appStyle.Item1.Name;
+            string accent = appStyle.Item2.Name;
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            dictionary.Add("AppTheme", theme);
+            dictionary.Add("Accent", accent);
+            Json<Dictionary<string, string>>.Write("./theme_config.json", dictionary);
         }
 
         private void OnThemeSelectChanged(object sender, SelectionChangedEventArgs e)
@@ -40,6 +66,7 @@ namespace DY.WPF
                 return;
             string name = GetColorName(item);
             ThemeManager.ChangeAppTheme(Application.Current, name);
+            SaveAppStyle();
         }
 
         private void OnAccentSelectChanged(object sender, SelectionChangedEventArgs e)
@@ -51,6 +78,7 @@ namespace DY.WPF
             Accent accent = ThemeManager.GetAccent(name);
             Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(Application.Current);
             ThemeManager.ChangeAppStyle(Application.Current, accent, appStyle.Item1);
+            SaveAppStyle();
         }
 
         private string GetColorName(ListBoxItem item)

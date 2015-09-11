@@ -13,12 +13,7 @@ namespace DY.NET.LSIS.XGT
         protected const string ERROR_ENQ_IS_NULL_OR_EMPTY = "Enqdatas have problem (null or empty data)";
         protected const string ERROR_READED_MEM_COUNT_LIMIT = "Enqdatas over limit of count (null or empty data)";
         protected const string ERROR_MONITER_INVALID_REGISTER_NUMBER = "Register_number have to register to 0 from 31";
-
         protected const int READED_MEM_MAX_COUNT = 16;
-
-        public ushort BlocCnt { private set; get; }   //블록 수 - 2byte
-        public ushort DataCnt { private set; get; }   //데이터 개수 - 2byte (읽거나 쓸 데이터의 개수 (BYTE = 데이터 타입 * 개수) 최대 240byte word는 120byte 가 한계)
-        public ushort RegiNum { private set; get; }   //등록 번호 - 2byte
 
         #region CONSTRUCTOR
         /// <summary>
@@ -28,9 +23,6 @@ namespace DY.NET.LSIS.XGT
         public XGTCnetProtocol(XGTCnetProtocol that)
             : base(that)
         {
-            BlocCnt = that.BlocCnt;
-            DataCnt = that.DataCnt;
-            RegiNum = that.RegiNum;
         }
 
         /// <summary>
@@ -337,7 +329,6 @@ namespace DY.NET.LSIS.XGT
         protected override void PrintInstructPart()
         {
             Console.WriteLine(string.Format("블록 수: {0}", BlocCnt));
-            Console.WriteLine(string.Format("등록 번호: {0}", RegiNum));
             Console.WriteLine(string.Format("데이터 개수: {0}", DataCnt));
             int cnt = 0;
             switch (Header)

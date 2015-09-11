@@ -1,0 +1,455 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ClassDiagram MajorVersion="1" MinorVersion="1">
+  <Class Name="DY.NET.ConnectionStatusChangedEventArgs" Collapsed="true">
+    <Position X="17.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\ConnectionStatusChangedEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.Delivery" Collapsed="true">
+    <Position X="12.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAQAAQAAQIAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Delivery\Delivery.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.DeliveryArrivalEventArgs" Collapsed="true">
+    <Position X="14.25" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>Common\Delivery\DeliveryArrivalEventArgs.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.ASerialPortBuilder" Collapsed="true">
+    <Position X="10.75" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AIAIAAAAAAAAAAAAAAAAAAhAAgAAgAAAAAAEAAAUAAA=</HashCode>
+      <FileName>Common\Inheritance\ASerialPortBuilder.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.NLogConfig" Collapsed="true">
+    <Position X="17.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAAA=</HashCode>
+      <FileName>Common\NLogConfig.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.AProtocol" Collapsed="true">
+    <Position X="4.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAgEgAAAAAAgAAAAAAAEABAAAAAAAKAAMAAA=</HashCode>
+      <FileName>PLC\AProtocol.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DY.NET.ASocketCover" Collapsed="true">
+    <Position X="7.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACACCgAiAiggQCBQAASEAIAAiAQSAAAAAEAAAICYQgI=</HashCode>
+      <FileName>PLC\ASocketCover.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" />
+  </Class>
+  <Class Name="DY.NET.DataTypeExtension" Collapsed="true">
+    <Position X="10.75" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAgAAAAAAAAEAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\DataType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.NumericType" Collapsed="true">
+    <Position X="19.5" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AEAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAg=</HashCode>
+      <FileName>PLC\NumericType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.TypeExtension" Collapsed="true">
+    <Position X="10.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\TypeExtension.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.B2W" Collapsed="true">
+    <Position X="12.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAABAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\B2W.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.Bytes2HexStr" Collapsed="true">
+    <Position X="14.25" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\Bytes2HexStr.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.CA2C" Collapsed="true">
+    <Position X="16" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>CAAAAAAAAAAIAAiAAAAAAAAIAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\CA2C.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.XGTCnetCommandExtension" Collapsed="true">
+    <Position X="17.75" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\Cnet\Enum\XGTCnetCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.XGTCnetCommandTypeExtensions" Collapsed="true">
+    <Position X="19.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAEAAAAAAAAAAgAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\Cnet\Enum\XGTCnetCommandType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.XGTCnetCCTypeExtension" Collapsed="true">
+    <Position X="16" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\Cnet\Enum\XGTCnetControlCodeType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.AXGTCnetProtocol" Collapsed="true">
+    <Position X="3" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAAAYIiiAgYCICAAABCACBIAgBAgCQAACAAAEIAE=</HashCode>
+      <FileName>PLC\LSIS\XGT\Cnet\Protocol\AXGTCnetProtocol.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.XGTCnetProtocol" Collapsed="true">
+    <Position X="3" Y="10.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAgEAACAAAAAKAAAUgAAAAGAABAAAwCCCQJAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\Cnet\Protocol\XGTCnetProtocol.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.XGTCnetSocket" Collapsed="true">
+    <Position X="6" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACAAggAAAigAAABAAAAAAIAAAAQAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\Cnet\Socket\XGTCnetSocket.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.CV2BR" Collapsed="true">
+    <Position X="19.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\CV2BR.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.XGTFEnetHeader" Collapsed="true">
+    <Position X="16" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>ACKACEAUQAKAICAhAAAAAAAIAABCQgBAQAAAAAAAAUA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\AppDataFormat\AppHeaderFormat\XGTFEnetHeader.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.XGTFEnetPLCInfo" Collapsed="true">
+    <Position X="17.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAABAAAAIIAAAAAAAAAACAAAAAAAAAgAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\AppDataFormat\AppHeaderFormat\XGTFEnetPLCInfo.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.XGTFEnetProtocol" Collapsed="true">
+    <Position X="5.25" Y="8.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>BAAAAgEAAgIAAQAAEAAApAAAAGAEXAAAAAACABAEAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\AppDataFormat\AppInstructionFormat\XGTFEnetProtocol.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.XGTFEnetCommandExtension" Collapsed="true">
+    <Position X="10.75" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\Enum\XGTFEnetCommand.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.XGTFEnetCompanyIDExtension" Collapsed="true">
+    <Position X="12.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\Enum\XGTFEnetCompanyID.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.XGTFEnetDataTypeExtension" Collapsed="true">
+    <Position X="14.25" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\Enum\XGTFEnetDataType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.TypeExtension4XGTFEnetDataType" Collapsed="true">
+    <Position X="12.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\Enum\XGTFEnetDataType.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.XGTFEnetSourceOfFrameExtension" Collapsed="true">
+    <Position X="19.5" Y="3.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAQAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\Enum\XGTFEnetSourceOfFrame.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.XGTFEnetSocket" Collapsed="true">
+    <Position X="8.25" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AKAAAhAAACgAAABAAAAAEIAQAAQAAAAAAAAAAACAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\Socket\XGTFEnetSocket.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.Glopa" Collapsed="true">
+    <Position X="16" Y="1.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAgAAAAAAAAAAAIAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\Glopa.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.XGTMemoryExpression" Collapsed="true">
+    <Position X="10.75" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\XGTMemoryExpression.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.XGTProtocolHelper" Collapsed="true">
+    <Position X="12.5" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAABAAAAAAAAAEAAAAACAAAAAAAAAAgAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\XGTProtocolHelper.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.LSIS.XGT.XGTServiceableDevice" Collapsed="true">
+    <Position X="14.25" Y="4.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\XGTServiceableDevice.cs</FileName>
+    </TypeIdentifier>
+  </Class>
+  <Class Name="DY.NET.HONEYWELL.VUQUEST.Vuquest3310g" Collapsed="true" BaseTypeListCollapsed="true">
+    <Position X="14.25" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAmSAYCCigoYChYAACMAICEiEK0IAAAAAQAAICYAyI=</HashCode>
+      <FileName>Scanner\HONEYWELL\VUQUEST\Vuquest3310g\Vuquest3310g.Async.cs</FileName>
+    </TypeIdentifier>
+    <Lollipop Position="0.2" Collapsed="true" />
+  </Class>
+  <Interface Name="DY.NET.IConnect" Collapsed="true">
+    <Position X="0.5" Y="3.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAABAAAAAAIAAAAAAAAAAAAAAAACQAAA=</HashCode>
+      <FileName>Common\Inheritance\IConnect.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DY.NET.IDebug" Collapsed="true">
+    <Position X="3.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAA=</HashCode>
+      <FileName>Common\Inheritance\IDebug.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DY.NET.IPostAsync" Collapsed="true">
+    <Position X="3.5" Y="6" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Inheritance\IPostAsync.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DY.NET.IScannerAsync" Collapsed="true">
+    <Position X="0.5" Y="5.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAEAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>Common\Inheritance\IScannerAsync.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DY.NET.ITag" Collapsed="true">
+    <Position X="0.5" Y="0.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAA=</HashCode>
+      <FileName>Common\Inheritance\ITag.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DY.NET.ITimeout" Collapsed="true">
+    <Position X="3.5" Y="2.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAACCAAAAAAAQAAAAAAAAAAAAAAQAAAAAAAAAIAAAgA=</HashCode>
+      <FileName>Common\Inheritance\ITimeout.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DY.NET.ICommIOData" Collapsed="true">
+    <Position X="10.75" Y="5.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAEAAAAAAAAAAAIAAAAEAAAAAACAQAAAAAAAAA=</HashCode>
+      <FileName>PLC\ICommIOData.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DY.NET.IProtocol" Collapsed="true">
+    <Position X="0.5" Y="1.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAEAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\IProtocol.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Interface Name="DY.NET.ISocketCover" Collapsed="true">
+    <Position X="0.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\ISocketCover.cs</FileName>
+    </TypeIdentifier>
+  </Interface>
+  <Enum Name="DY.NET.DeliveryError" Collapsed="true">
+    <Position X="12.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAACAAAAAAQAAAAAAAgAAAAAAAAAAAAQAAAAAAAA=</HashCode>
+      <FileName>Common\Delivery\DeliveryError.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.DataType" Collapsed="true">
+    <Position X="10.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACEgAAQAAAAAAAAAAAAAAIAAAAJAAAAAAEAIAAAACA=</HashCode>
+      <FileName>PLC\DataType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.XGTCentActionMode" Collapsed="true">
+    <Position X="17.75" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AQAAAAAAAAAAAgAAAAAAAAAAAAAAAAAAAAAAAAAACAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\Cnet\Enum\XGTCentActionMode.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.XGTCnetCommand" Collapsed="true">
+    <Position X="12.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgBAAAIAQA=</HashCode>
+      <FileName>PLC\LSIS\XGT\Cnet\Enum\XGTCnetCommand.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.XGTCnetCmdType" Collapsed="true">
+    <Position X="10.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>EAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAIAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\Cnet\Enum\XGTCnetCommandType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.XGTCnetCCType" Collapsed="true">
+    <Position X="19.5" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAgAAAIABAAAAABAAAAAAAAAgAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\Cnet\Enum\XGTCnetControlCodeType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.XGTCnetProtocolError" Collapsed="true">
+    <Position X="14.25" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAgCACAAAAAAAAAAAFAkACAACBAAAAAABABAAIIAEA=</HashCode>
+      <FileName>PLC\LSIS\XGT\Cnet\Enum\XGTCnetProtocolError.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.XGTFEnetClass" Collapsed="true">
+    <Position X="17.75" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAABAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\Enum\XGTFEnetClass.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.XGTFEnetCommand" Collapsed="true">
+    <Position X="19.5" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAiAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAAABA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\Enum\XGTFEnetCommand.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.XGTFEnetCompanyID" Collapsed="true">
+    <Position X="10.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAQAEAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\Enum\XGTFEnetCompanyID.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.XGTFEnetCpuInfo" Collapsed="true">
+    <Position X="12.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAIAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\Enum\XGTFEnetCpuInfo.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.XGTFEnetCpuState" Collapsed="true">
+    <Position X="14.25" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAIAAAAAAAAAAAAAAQAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\Enum\XGTFEnetCpuState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.XGTFEnetCpuType" Collapsed="true">
+    <Position X="16" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAAgAAAAAQAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\Enum\XGTFEnetCpuType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.XGTFEnetDataType" Collapsed="true">
+    <Position X="17.75" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACEgAAAAAAAAAIAAAAAAAAAAAAAAAAAAAEAAAAAACA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\Enum\XGTFEnetDataType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.XGTFEnetPLCSystemState" Collapsed="true">
+    <Position X="19.5" Y="8.25" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>IAAAAAAAoAAAAAAAAAAAAAAAAACAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\Enum\XGTFEnetPLCSystemState.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.XGTFEnetPort" Collapsed="true">
+    <Position X="10.75" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAACAIAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\Enum\XGTFEnetPort.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.XGTFEnetProtocolError" Collapsed="true">
+    <Position X="12.5" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAABCAQAACAAIACAAAhAAAAAICAAAACAAABBAAAAABA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\Enum\XGTFEnetProtocolError.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.XGTFEnetSourceOfFrame" Collapsed="true">
+    <Position X="14.25" Y="9" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AACAAAAAABAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\FEnet\Enum\XGTFEnetSourceOfFrame.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.XGKCpuType" Collapsed="true">
+    <Position X="16" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAgAAAAAQAAAAAAAAAAAACAAAAAAAAAACAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\XGKCpuType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.XGTCommModuleType" Collapsed="true">
+    <Position X="16" Y="7.5" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAQAAAAAAAAAAAAAAAAAAAAAAAAAAgAAAAAAAAAAAAA=</HashCode>
+      <FileName>PLC\LSIS\XGT\XGTCommModuleType.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Enum Name="DY.NET.LSIS.XGT.MemoryExpression" Collapsed="true">
+    <Position X="14.25" Y="6.75" Width="1.5" />
+    <TypeIdentifier>
+      <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAAAAACA=</HashCode>
+      <FileName>PLC\LSIS\XGT\XGTMemoryExpression.cs</FileName>
+    </TypeIdentifier>
+  </Enum>
+  <Font Name="맑은 고딕" Size="9" />
+</ClassDiagram>

@@ -48,13 +48,11 @@ namespace DY.WPF.SYSTEM.COMM
             ConnectionCheckIntevalProperty.PropertyChanged += OnConnectionCheckIntevalPropertyChanged;
             ConnectionCheckableProperty = new NotifyPropertyChanged<bool>(false);
             ConnectionCheckableProperty.PropertyChanged += OnConnectionCheckablePropertyPropertyChanged;
-
             m_ConnectionCheckTimer = new DispatcherTimer(
                 new TimeSpan(10000 * ConnectionCheckIntevalProperty.Source),
                 DispatcherPriority.Normal,
                 OnConnectionCheckTick,
                 Application.Current.Dispatcher) { IsEnabled = false };
-
             ShotDownDirector.GetInstance().AddIDisposable(this);
         }
 
@@ -63,11 +61,22 @@ namespace DY.WPF.SYSTEM.COMM
             Dispose();
         }
 
+        private void SaveConfig()
+        {
+            
+        }
+
+        private void LoadConfig()
+        {
+            
+        }
+
         /// <summary>
         /// Clientele 객체 메모리 해제
         /// </summary>
         public void Dispose()
         {
+            Json<CommClientDirector>.Write("./client_director_config.json", this);
             m_ConnectionCheckTimer.Stop();
             foreach (var c in Clientele)
                 c.Dispose();
@@ -83,7 +92,11 @@ namespace DY.WPF.SYSTEM.COMM
         public static CommClientDirector GetInstance()
         {
             if (THIS == null)
-                THIS = new CommClientDirector();
+            {
+                THIS = Json<CommClientDirector>.Read("./client_director_config.json");
+                if (THIS == null)
+                    THIS = new CommClientDirector();
+            }
             return THIS;
         }
 

@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 
 namespace DY.NET
 {
@@ -17,9 +12,5 @@ namespace DY.NET
         object Input { get; set; }
         object Output { get; set; }
         string Comment { get; set; }
-
-        //void SetOutput(object output);
-        //string GetAddress();
-        //DataType GetDataType();
     }
 }

@@ -1,0 +1,12 @@
+﻿{
+  "ConnectionTimeoutProperty": {
+    "Source": 200
+  },
+  "ConnectionCheckIntevalProperty": {
+    "Source": 9999
+  },
+  "ConnectionCheckableProperty": {
+    "Source": true
+  },
+  "Clientele": []
+}

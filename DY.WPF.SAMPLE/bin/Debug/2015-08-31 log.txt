@@ -1,0 +1,156 @@
+18:44:42 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+18:48:11 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+18:48:34 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+18:48:42 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+18:51:20 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+18:51:29 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+18:51:37 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+18:51:47 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+18:51:58 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+18:54:35 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+19:05:29 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+19:10:08 DY.NET.LSIS.XGT.XGTCnetSocket
+LSIS XGT Cnet(COM5) 통신 접속 성공
+
+19:10:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+XGT Cnet 프로토콜 정보
+
+19:10:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+ASC 코드: 05 30 30 52 53 53 30 31 30 37 25 4D 57 30 30 30 30 04
+
+19:10:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+국번: 0
+
+19:10:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+헤더: ENQ
+
+19:10:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+명령: R
+
+19:10:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+명령타입: SS
+
+19:10:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+테일: EOT
+
+19:10:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+BCC: 0
+
+19:10:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+XGT Cnet 프로토콜 정보
+
+19:10:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+ASC 코드: 05 30 30 52 53 53 30 31 30 37 25 4D 57 30 30 30 30 04
+
+19:10:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+국번: 0
+
+19:10:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+헤더: ENQ
+
+19:10:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+명령: R
+
+19:10:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+명령타입: SS
+
+19:10:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+테일: EOT
+
+19:10:40 DY.NET.LSIS.XGT.AXGTCnetProtocol
+BCC: 0
+
+19:10:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+XGT Cnet 프로토콜 정보
+
+19:10:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+ASC 코드: 05 30 30 52 53 53 30 31 30 37 25 4D 57 30 30 30 30 04
+
+19:10:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+국번: 0
+
+19:10:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+헤더: ENQ
+
+19:10:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+명령: R
+
+19:10:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+명령타입: SS
+
+19:10:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+테일: EOT
+
+19:10:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+BCC: 0
+
+19:10:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+XGT Cnet 프로토콜 정보
+
+19:10:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+ASC 코드: 05 30 30 52 53 53 30 31 30 37 25 4D 57 30 30 30 30 04
+
+19:10:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+국번: 0
+
+19:10:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+헤더: ENQ
+
+19:10:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+명령: R
+
+19:10:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+명령타입: SS
+
+19:10:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+테일: EOT
+
+19:10:41 DY.NET.LSIS.XGT.AXGTCnetProtocol
+BCC: 0
+
+19:10:42 DY.NET.LSIS.XGT.AXGTCnetProtocol
+XGT Cnet 프로토콜 정보
+
+19:10:42 DY.NET.LSIS.XGT.AXGTCnetProtocol
+ASC 코드: 05 30 30 52 53 53 30 31 30 37 25 4D 57 30 30 30 30 04
+
+19:10:42 DY.NET.LSIS.XGT.AXGTCnetProtocol
+국번: 0
+
+19:10:42 DY.NET.LSIS.XGT.AXGTCnetProtocol
+헤더: ENQ
+
+19:10:42 DY.NET.LSIS.XGT.AXGTCnetProtocol
+명령: R
+
+19:10:42 DY.NET.LSIS.XGT.AXGTCnetProtocol
+명령타입: SS
+
+19:10:42 DY.NET.LSIS.XGT.AXGTCnetProtocol
+테일: EOT
+
+19:10:42 DY.NET.LSIS.XGT.AXGTCnetProtocol
+BCC: 0
+
