@@ -23,19 +23,30 @@ namespace DY.WPF
     /// <summary>
     /// ThemeFlyout.xaml에 대한 상호 작용 논리
     /// </summary>
-    public partial class AppStyleFlyout : UserControl
+    public partial class AppStyleFlyout : UserControl, IJson
     {
         public AppStyleFlyout()
         {
             InitializeComponent();
-            LoadAppStyle();
+            LoadByJson();
             PushListBoxItems();
             SelectCurrnetAppStyle();
             NThemeBox.SelectionChanged += OnThemeSelectChanged;
             NAccentBox.SelectionChanged += OnAccentSelectChanged;
         }
 
-        private void LoadAppStyle()
+        public void SaveToJson()
+        {
+            Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle();
+            string theme = appStyle.Item1.Name;
+            string accent = appStyle.Item2.Name;
+            Dictionary<string, string> dictionary = new Dictionary<string, string>();
+            dictionary.Add("AppTheme", theme);
+            dictionary.Add("Accent", accent);
+            Json<Dictionary<string, string>>.Write("./theme_config.json", dictionary);
+        }
+
+        public void LoadByJson()
         {
             Dictionary<string, string> dictionary = Json<Dictionary<string, string>>.Read("./theme_config.json");
             if (dictionary == null)
@@ -47,17 +58,6 @@ namespace DY.WPF
                 ThemeManager.ChangeAppStyle(Application.Current, ThemeManager.GetAccent(accent), ThemeManager.GetAppTheme(theme));
             }
         }
-        
-        private void SaveAppStyle()
-        {
-            Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle();
-            string theme = appStyle.Item1.Name;
-            string accent = appStyle.Item2.Name;
-            Dictionary<string, string> dictionary = new Dictionary<string, string>();
-            dictionary.Add("AppTheme", theme);
-            dictionary.Add("Accent", accent);
-            Json<Dictionary<string, string>>.Write("./theme_config.json", dictionary);
-        }
 
         private void OnThemeSelectChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -66,7 +66,7 @@ namespace DY.WPF
                 return;
             string name = GetColorName(item);
             ThemeManager.ChangeAppTheme(Application.Current, name);
-            SaveAppStyle();
+            SaveToJson();
         }
 
         private void OnAccentSelectChanged(object sender, SelectionChangedEventArgs e)
@@ -78,7 +78,7 @@ namespace DY.WPF
             Accent accent = ThemeManager.GetAccent(name);
             Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(Application.Current);
             ThemeManager.ChangeAppStyle(Application.Current, accent, appStyle.Item1);
-            SaveAppStyle();
+            SaveToJson();
         }
 
         private string GetColorName(ListBoxItem item)

@@ -11,14 +11,14 @@
     <Position X="10" Y="4.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAIAAAAAAAAABAAAAAABAAAAAAAAAEAAA=</HashCode>
-      <FileName>ConstProperty\SerialPortOption.cs</FileName>
+      <FileName>Property\SerialPortOption.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DY.WPF.WindowSize" Collapsed="true">
     <Position X="11.75" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAABAAAAAAAAAAAAEAAAAQAAAAAAAAAAABAAAA=</HashCode>
-      <FileName>ConstProperty\WindowSize.cs</FileName>
+      <FileName>Property\WindowSize.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DY.WPF.ComboBoxWithBar" Collapsed="true" BaseTypeListCollapsed="true">
@@ -47,14 +47,14 @@
     <Position X="6.5" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAEAAACAAAAAA=</HashCode>
-      <FileName>Control\Bar\Parts\TextBlockBar.xaml.cs</FileName>
+      <FileName>Control\Bar\Part\TextBlockBar.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DY.WPF.TitleForBar" Collapsed="true">
     <Position X="10" Y="5.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAIAACAACAAEAAAAAAAAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Control\Bar\Parts\TitleForBar.xaml.cs</FileName>
+      <FileName>Control\Bar\Part\TitleForBar.xaml.cs</FileName>
     </TypeIdentifier>
   </Class>
   <Class Name="DY.WPF.TextBoxWithBar" Collapsed="true" BaseTypeListCollapsed="true">
@@ -145,7 +145,7 @@
   <Class Name="DY.WPF.CommIOMonitoring" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="10" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAoAAAAAAiwJAUACAAAALAAAgAAAAAAAAARGAEgAQAI=</HashCode>
+      <HashCode>AAoAAAAAAiwJAUAAAAAALAAAgAAAAAAAAARGAEgAQAI=</HashCode>
       <FileName>Control\Comm\PLC\CommIOMonitoring.xaml.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -169,9 +169,10 @@
   <Class Name="DY.WPF.AppStyleFlyout" Collapsed="true">
     <Position X="8.25" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AAAAABAAAQEAAAAgAIAAAAIAAAAAAAAAAAAEAAAAAAA=</HashCode>
+      <HashCode>AAAAAAAAAQAAAAAgAIAAEQIAAAAAAAAAAAAEAAAAAAA=</HashCode>
       <FileName>Control\Theme\AppStyleFlyout.xaml.cs</FileName>
     </TypeIdentifier>
+    <Lollipop Position="0.2" />
   </Class>
   <Class Name="DY.WPF.Properties.Resources" Collapsed="true">
     <Position X="8.25" Y="4.5" Width="1.5" />
@@ -188,7 +189,7 @@
   <Class Name="DY.WPF.SYSTEM.COMM.CommClient" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="11.75" Y="0.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>ImCAEAAEECgABIQCYAAAAKAIgAAAAQAAKAAAgAQAAAA=</HashCode>
+      <HashCode>YmCAEAAEECgABIAAMEAAAKAIgAAAAQAAKAAAgAQAAAA=</HashCode>
       <FileName>SYSTEM\COMM\Client\CommClient.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -218,7 +219,7 @@
   <Class Name="DY.WPF.SYSTEM.COMM.CommIOExcelRowItem" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="8.25" Y="2.5" Width="1.5" />
     <TypeIdentifier>
-      <HashCode>AgIAIgAEAAAAAAAAIAAIAAAAkAAAAEASAQAAAAAAAAA=</HashCode>
+      <HashCode>AgAAIAAEAAAAAAAAIAAIAAAAkAAAAEASAQAAAAAAAAA=</HashCode>
       <FileName>SYSTEM\COMM\IO\CommIOExcelRowItem.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
@@ -238,11 +239,11 @@
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
-  <Class Name="DY.WPF.SYSTEM.COMM.CommSerialParameter" Collapsed="true" BaseTypeListCollapsed="true">
+  <Class Name="DY.WPF.SYSTEM.COMM.CommSerialPortParameter" Collapsed="true" BaseTypeListCollapsed="true">
     <Position X="4.75" Y="3.5" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAQAAAABAAABAAgEAAAAAAAAAAAAQAAA=</HashCode>
-      <FileName>SYSTEM\COMM\Parameter\CommSerialParameter.cs</FileName>
+      <FileName>SYSTEM\COMM\Parameter\CommSerialPortParameter.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Class>
@@ -280,7 +281,7 @@
     <Position X="3" Y="6.75" Width="1.5" />
     <TypeIdentifier>
       <HashCode>ABAAEAAAAAAAAAAAAAAAAAAAAAQAAAAAAAAgAAAAAQA=</HashCode>
-      <FileName>Control\CustomOxy\COxyTimeValue.cs</FileName>
+      <FileName>Control\CustomOxy\Part\COxyTimeValue.cs</FileName>
     </TypeIdentifier>
     <Lollipop Position="0.2" Collapsed="true" />
   </Struct>
@@ -288,21 +289,21 @@
     <Position X="8.25" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAACAAAAAAAAA=</HashCode>
-      <FileName>Control\Bar\Parts\IGetContext.cs</FileName>
+      <FileName>Control\Bar\Part\IGetContext.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="DY.WPF.ICOxyPlotRange" Collapsed="true">
     <Position X="4.75" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAABAAAAAAAAAAAAAEAAAAAAAAAAA=</HashCode>
-      <FileName>Control\CustomOxy\ICOxyPlotRange.cs</FileName>
+      <FileName>Control\CustomOxy\Part\ICOxyPlotRange.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="DY.WPF.ICOxyRectangleRange" Collapsed="true">
     <Position X="6.5" Y="8" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAEAAAAAAAAAQAAAAAAAAA=</HashCode>
-      <FileName>Control\CustomOxy\ICOxyRectangleRange.cs</FileName>
+      <FileName>Control\CustomOxy\Part\ICOxyRectangleRange.cs</FileName>
     </TypeIdentifier>
   </Interface>
   <Interface Name="DY.WPF.SYSTEM.COMM.ICommControlTowerTabItem" Collapsed="true">
@@ -323,21 +324,21 @@
     <Position X="3" Y="9" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAAgQAAAAAAA=</HashCode>
-      <FileName>Control\CustomOxy\COxyBottonAxisType.cs</FileName>
+      <FileName>Control\CustomOxy\Part\COxyBottonAxisType.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="DY.WPF.DyNetCommType" Collapsed="true">
+  <Enum Name="DY.WPF.CommunicationType" Collapsed="true">
     <Position X="4.75" Y="9" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAIABAAAAAAAAAAAAAAAAAAAAA=</HashCode>
-      <FileName>Enum\DyNetCommType.cs</FileName>
+      <FileName>Enum\CommunicationType.cs</FileName>
     </TypeIdentifier>
   </Enum>
-  <Enum Name="DY.WPF.DyNetDevice" Collapsed="true">
+  <Enum Name="DY.WPF.NetDevice" Collapsed="true">
     <Position X="6.5" Y="9" Width="1.5" />
     <TypeIdentifier>
       <HashCode>AAAAAAAAAAAAAAAAAAAEAAAAAAAAAAAAAAAAAAAAAIA=</HashCode>
-      <FileName>Enum\DyNetDevice.cs</FileName>
+      <FileName>Enum\NetDevice.cs</FileName>
     </TypeIdentifier>
   </Enum>
   <Font Name="맑은 고딕" Size="9" />

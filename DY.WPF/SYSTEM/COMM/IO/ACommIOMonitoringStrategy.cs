@@ -23,6 +23,7 @@ namespace DY.WPF.SYSTEM.COMM
         public EventHandler<DeliveryArrivalEventArgs> DeliveryArrived;
         protected List<IProtocol> Protocols { get; set; }
         protected IList<ICommIOData> CommIOData { get; set; }
+
         public bool Activated
         { 
             get 
@@ -46,6 +47,7 @@ namespace DY.WPF.SYSTEM.COMM
                 }
             }
         }
+
         public abstract void ReplaceICommIOData(IList<ICommIOData> io_datas);
         public abstract Task UpdateIOAsync(CancellationTokenSource cts);
         protected abstract void OnInputPropertyChanged(object sender, PropertyChangedEventArgs args);
@@ -77,7 +79,7 @@ namespace DY.WPF.SYSTEM.COMM
             CancellationTokenSource.CreateLinkedTokenSource(DelayToken, UpdateToken);
 
             await UpdateIOAsync(m_UpdateTokenSource);
-            await Task.Delay(CClient.IOUpdateInteval, DelayToken);
+            await Task.Delay(CClient.UpdateInteval, DelayToken);
 
             if (!m_UpdateTokenSource.IsCancellationRequested)
                 m_IOTimer.Start();

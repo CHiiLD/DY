@@ -56,19 +56,19 @@ namespace DY.WPF
             foreach (var i in new_item)
             {
                 var commClient = i as CommClient;
-                LOG.Trace("통신 컨트롤 타워 탭 아이템 추가: " + commClient.Key);
+                LOG.Trace("통신 컨트롤 타워 탭 아이템 추가: " + commClient.UUID);
                 switch (commClient.Target)
                 {
 #if false
                     case DYDevice.DATALOGIC_MATRIX200:
 #endif
-                    case DyNetDevice.HONEYWELL_VUQUEST3310G: //Margin = new Thickness(TABCONTROL_MARGIN) 
+                    case NetDevice.HONEYWELL_VUQUEST3310G: //Margin = new Thickness(TABCONTROL_MARGIN) 
                         var commScan = new CommScanTester(commClient);
                         //commScan.NSignBoard.TitleText = "Vuquest 3310g";
                         //commScan.NSignBoard.SubText = commClient.Summary;
                         towerTabItem = commScan;
                         break;
-                    case DyNetDevice.LSIS_XGT:
+                    case NetDevice.LSIS_XGT:
                         var commIO = new CommIOMonitoring(new CommIOMonitoringXGT(commClient));
                         //commIO.NSignBoard.TitleText = "LSIS XGT Series";
                         //commIO.NSignBoard.SubText = commClient.Summary;
@@ -101,9 +101,9 @@ namespace DY.WPF
                 {
                     TabItem tab_item = s as TabItem;
                     towerTabItem = tab_item.Content as ICommControlTowerTabItem;
-                    if (towerTabItem != null && client.Key == towerTabItem.CClient.Key)
+                    if (towerTabItem != null && client.UUID == towerTabItem.CClient.UUID)
                     {
-                        LOG.Trace("통신 컨트롤 타워 탭 아이템 삭제: " + client.Key);
+                        LOG.Trace("통신 컨트롤 타워 탭 아이템 삭제: " + client.UUID);
                         item_src.Remove(tab_item);
                         ShotDownDirector.GetInstance().RemoveIDisposable(towerTabItem);
                         break;

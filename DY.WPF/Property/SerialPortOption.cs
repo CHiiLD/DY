@@ -23,6 +23,12 @@ namespace DY.WPF
             115200, 
         };
 
+        private static readonly List<int> DATA_BIT = new List<int>
+        {
+            7,
+            8
+        };
+
         public static List<int> BandRate
         {
             get
@@ -30,13 +36,6 @@ namespace DY.WPF
                 return BAND_RATE;
             }
         }
-
-        private static readonly List<int> DATA_BIT = new List<int>
-        {
-            7,
-            8
-        };
-
 
         public static List<int> DataBit
         {

@@ -11,7 +11,7 @@ namespace DY.WPF.SYSTEM.COMM
     /// <summary>
     /// SerialPort 설정 옵션
     /// </summary>
-    public class CommSerialParameter : ISummaryParameter
+    public class CommSerialPortParameter : ISummaryParameter
     {
         public string Com { get; set; }
         public int Bandrate { get; set; }
@@ -27,7 +27,7 @@ namespace DY.WPF.SYSTEM.COMM
             sb.Append('-');
             sb.Append(DataBit.ToString());
             sb.Append('-');
-            sb.Append(Parity.ToString()[0]);
+            sb.Append(Parity.ToString()[0]); 
             sb.Append('-');
             sb.Append(((int)StopBit).ToString());
             return sb.ToString();

@@ -45,9 +45,9 @@ namespace DY.WPF
             NStopBit.SelectedItem = StopBits.One;
         }
 
-        public CommSerialParameter GetCommSerialStruct()
+        public CommSerialPortParameter GetCommSerialStruct()
         {
-            CommSerialParameter scs = new CommSerialParameter();
+            CommSerialPortParameter scs = new CommSerialPortParameter();
             scs.Com = (string)NCom.NComboBox.SelectedItem;
             scs.Bandrate = (int)NBaud.NComboBox.SelectedItem;
             scs.Parity = (Parity)NParity.NComboBox.SelectedItem;

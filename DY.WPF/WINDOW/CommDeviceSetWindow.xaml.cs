@@ -30,16 +30,16 @@ namespace DY.WPF.WINDOW
             ComboBox cb = sender as ComboBox;
             if (cb.SelectedItem == null)
                 return;
-            DyNetCommType type = (DyNetCommType)cb.SelectedItem;
-            DyNetDevice device = (DyNetDevice)NSetBox.NDevice.SelectedItem;
+            CommunicationType type = (CommunicationType)cb.SelectedItem;
+            NetDevice device = (NetDevice)NSetBox.NDevice.SelectedItem;
 
             switch (type)
             {
-                case DyNetCommType.ETHERNET:
+                case CommunicationType.ETHERNET:
                     break;
-                case DyNetCommType.SERIAL:
+                case CommunicationType.SERIAL:
                     //국번 옵션 추가
-                    if(DyNetDevice.LSIS_XGT == device)
+                    if(NetDevice.LSIS_XGT == device)
                     {
                         TextBoxWithBar localbox = new TextBoxWithBar();
                         localbox.UserData = CommClient.EXTRA_XGT_CNET_LOCALPORT;
@@ -66,15 +66,15 @@ namespace DY.WPF.WINDOW
                     await this.ShowMessageAsync("Error", "Please select Communication Device, Type");
                     break;
                 }
-                DyNetDevice comm_device = (DyNetDevice)device_add.NDevice.SelectedItem;
-                DyNetCommType comm_type = (DyNetCommType)device_add.NType.SelectedItem;
+                NetDevice comm_device = (NetDevice)device_add.NDevice.SelectedItem;
+                CommunicationType comm_type = (CommunicationType)device_add.NType.SelectedItem;
                 ISummaryParameter comm_option = null;
                 var comm_config = device_add.NGrid.Children[0];
                 //시리얼
                 if (comm_config is CommSerialConfig)
                 {
                     var comm_serial = comm_config as CommSerialConfig;
-                    CommSerialParameter comm_parameter = comm_serial.GetCommSerialStruct();
+                    CommSerialPortParameter comm_parameter = comm_serial.GetCommSerialStruct();
                     if (String.IsNullOrEmpty(comm_parameter.Com))
                     {
                         await this.ShowMessageAsync("Error", "Please select com port.");
@@ -101,7 +101,7 @@ namespace DY.WPF.WINDOW
                 }
                 //엑스트라 검사
                 Dictionary<string, object> extra_data = device_add.ExtraData;
-                if (comm_device == DyNetDevice.LSIS_XGT && comm_type == DyNetCommType.SERIAL)
+                if (comm_device == NetDevice.LSIS_XGT && comm_type == CommunicationType.SERIAL)
                 {
                     if (extra_data.Count == 0)
                     {

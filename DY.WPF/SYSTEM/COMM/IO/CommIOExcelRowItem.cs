@@ -33,20 +33,5 @@ namespace DY.WPF.SYSTEM.COMM
         public object Input { get { return m_Input; } set { m_Input = value; OnPropertyChanged("Input"); } }
         public object Output { get { return m_Output; } set { m_Output = value; OnPropertyChanged("Output"); } }
         public string Comment { get { return m_Comment; } set { m_Comment = value; OnPropertyChanged("Comment"); } }
-
-        public void SetOutput(object value)
-        {
-            Output = value;
-        }
-
-        public string GetAddress()
-        {
-            return Address;
-        }
-
-        public DataType GetDataType()
-        {
-            return Type;
-        }
     }
 }

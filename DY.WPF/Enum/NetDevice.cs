@@ -3,7 +3,7 @@
     /// <summary>
     /// 통신 가능한 디바이스
     /// </summary>
-    public enum DyNetDevice
+    public enum NetDevice
     {
         LSIS_XGT = 1,
         HONEYWELL_VUQUEST3310G,

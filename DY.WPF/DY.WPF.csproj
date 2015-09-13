@@ -57,8 +57,8 @@
     <Compile Include="Control\Bar\OkCancelButton.xaml.cs">
       <DependentUpon>OkCancelButton.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Bar\Parts\IGetContext.cs" />
-    <Compile Include="Control\Bar\Parts\TextBlockBar.xaml.cs">
+    <Compile Include="Control\Bar\Part\IGetContext.cs" />
+    <Compile Include="Control\Bar\Part\TextBlockBar.xaml.cs">
       <DependentUpon>TextBlockBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Control\Bar\ComboBoxWithBar.xaml.cs">
@@ -67,7 +67,7 @@
     <Compile Include="Control\Bar\TextBoxWithBar.xaml.cs">
       <DependentUpon>TextBoxWithBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Bar\Parts\TitleForBar.xaml.cs">
+    <Compile Include="Control\Bar\Part\TitleForBar.xaml.cs">
       <DependentUpon>TitleForBar.xaml</DependentUpon>
     </Compile>
     <Compile Include="Control\Comm\Connection\CommConnectionManage.xaml.cs">
@@ -94,23 +94,22 @@
     <Compile Include="Control\Comm\Scanner\CommScannerTester.xaml.cs">
       <DependentUpon>CommScannerTester.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\CustomOxy\COxyBottonAxisType.cs" />
-    <Compile Include="Control\CustomOxy\COxyTimeValue.cs" />
+    <Compile Include="Control\CustomOxy\Part\COxyBottonAxisType.cs" />
+    <Compile Include="Control\CustomOxy\Part\COxyTimeValue.cs" />
     <Compile Include="Control\CustomOxy\COxyRectangleGraphType01.xaml.cs">
       <DependentUpon>COxyRectangleGraphType01.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\CustomOxy\ICOxyRectangleRange.cs" />
-    <Compile Include="Control\CustomOxy\ICOxyPlotRange.cs" />
+    <Compile Include="Control\CustomOxy\Part\ICOxyRectangleRange.cs" />
+    <Compile Include="Control\CustomOxy\Part\ICOxyPlotRange.cs" />
     <Compile Include="Control\Theme\AppStyleFlyout.xaml.cs">
       <DependentUpon>AppStyleFlyout.xaml</DependentUpon>
     </Compile>
     <Compile Include="SYSTEM\COMM\Interface\ICommControlTowerTabItem.cs" />
     <Compile Include="SYSTEM\COMM\IO\CommIOExcelRowItem.cs" />
     <Compile Include="SYSTEM\COMM\Interface\ISummaryParameter.cs" />
-    <Compile Include="ConstProperty\Font.cs" />
-    <Compile Include="ConstProperty\WindowSize.cs" />
-    <Compile Include="Enum\DyNetCommType.cs" />
-    <Compile Include="Enum\DyNetDevice.cs" />
+    <Compile Include="Property\WindowSize.cs" />
+    <Compile Include="Enum\CommunicationType.cs" />
+    <Compile Include="Enum\NetDevice.cs" />
     <Compile Include="Properties\AssemblyInfo.cs">
       <SubType>Code</SubType>
     </Compile>
@@ -124,10 +123,10 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
-    <Compile Include="ConstProperty\SerialPortOption.cs" />
+    <Compile Include="Property\SerialPortOption.cs" />
     <Compile Include="SYSTEM\COMM\Creatation\ServiceableDevice.cs" />
     <Compile Include="SYSTEM\COMM\Parameter\CommEthernetParameter.cs" />
-    <Compile Include="SYSTEM\COMM\Parameter\CommSerialParameter.cs" />
+    <Compile Include="SYSTEM\COMM\Parameter\CommSerialPortParameter.cs" />
     <Compile Include="Control\Comm\Connection\Ai\AICommCheck.xaml.cs">
       <DependentUpon>AICommCheck.xaml</DependentUpon>
     </Compile>
@@ -142,6 +141,7 @@
     <Compile Include="SYSTEM\COMM\Client\CommClientDirector.cs" />
     <Compile Include="SYSTEM\COMM\IO\ACommIOMonitoringStrategy.cs" />
     <Compile Include="SYSTEM\COMM\IO\CommIOMonitoringXGT.cs" />
+    <Compile Include="SYSTEM\IJson.cs" />
     <Compile Include="SYSTEM\Json.cs" />
     <Compile Include="SYSTEM\NotifyPropertyChanged.cs" />
     <Compile Include="SYSTEM\ShotDownDirector.cs" />
@@ -174,7 +174,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\Bar\Parts\TextBlockBar.xaml">
+    <Page Include="Control\Bar\Part\TextBlockBar.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -186,7 +186,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Bar\Parts\TitleForBar.xaml">
+    <Page Include="Control\Bar\Part\TitleForBar.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

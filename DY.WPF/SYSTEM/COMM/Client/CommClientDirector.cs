@@ -17,11 +17,12 @@ namespace DY.WPF.SYSTEM.COMM
     /// <summary>
     /// ClientComm, 통신을 전체 통제하는 클래스
     /// </summary>
-    public class CommClientDirector : IDisposable
+    public class CommClientDirector : IDisposable, IJson
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();
         private static CommClientDirector THIS;
 
+        /// 자동 연결 체크 타이머
         private DispatcherTimer m_ConnectionCheckTimer;
 
         /// 통신 설정과 관련된 프로퍼티들
@@ -29,9 +30,7 @@ namespace DY.WPF.SYSTEM.COMM
         public NotifyPropertyChanged<int> ConnectionCheckIntevalProperty { get; private set; }
         public NotifyPropertyChanged<bool> ConnectionCheckableProperty { get; private set; }
 
-        /// <summary>
         /// 클라이언트 소켓 사전 
-        /// </summary>
         public ObservableCollection<CommClient> Clientele
         {
             get;
@@ -61,28 +60,27 @@ namespace DY.WPF.SYSTEM.COMM
             Dispose();
         }
 
-        private void SaveConfig()
-        {
-            
-        }
-
-        private void LoadConfig()
-        {
-            
-        }
-
         /// <summary>
         /// Clientele 객체 메모리 해제
         /// </summary>
         public void Dispose()
         {
-            Json<CommClientDirector>.Write("./client_director_config.json", this);
             m_ConnectionCheckTimer.Stop();
             foreach (var c in Clientele)
                 c.Dispose();
             Clientele = null;
             GC.SuppressFinalize(this);
             LOG.Debug("CommClientDirector 메모리 해제");
+        }
+
+        public void SaveToJson()
+        {
+
+        }
+
+        public void LoadByJson()
+        {
+
         }
 
         /// <summary>
@@ -93,7 +91,6 @@ namespace DY.WPF.SYSTEM.COMM
         {
             if (THIS == null)
             {
-                THIS = Json<CommClientDirector>.Read("./client_director_config.json");
                 if (THIS == null)
                     THIS = new CommClientDirector();
             }
@@ -135,7 +132,7 @@ namespace DY.WPF.SYSTEM.COMM
         {
             bool isConnected = false;
             IConnect iConnect;
-            DyNetCommType commType;
+            CommunicationType commType;
             foreach (var commClient in Clientele)
             {
                 if (commClient.Usable != true)

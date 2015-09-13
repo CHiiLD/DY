@@ -141,11 +141,11 @@ namespace DY.WPF.SYSTEM.COMM
             string error_msg = null;
             switch (CClient.CommType)
             {
-                case DyNetCommType.SERIAL:
+                case CommunicationType.SERIAL:
                     var cnet = response as XGTCnetProtocol;
                     error_msg = cnet.Error == XGTCnetProtocolError.OK ? null : cnet.Error.ToString();
                     break;
-                case DyNetCommType.ETHERNET:
+                case CommunicationType.ETHERNET:
                     var fenet = response as XGTFEnetProtocol;
                     error_msg = fenet.Error == XGTFEnetProtocolError.OK ? null : fenet.Error.ToString();
                     break;
