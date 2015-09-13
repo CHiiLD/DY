@@ -223,6 +223,7 @@ namespace DY.NET
                 {
                     Array.Clear(BaseBuffer, 0, BUFFER_SIZE);
                     AProtocol p = request as AProtocol;
+                    
                     if (!await WritePorotocol(p))
                     {
                         delivery.Error = DeliveryError.WRITE_TIMEOUT;

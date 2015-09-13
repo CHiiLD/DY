@@ -5,23 +5,20 @@ namespace DY.NET
     /// <summary>
     /// 시리얼 빌더 클래스
     /// </summary>
-    public abstract class ASerialPortBuilder
+    public abstract class ASerialPortBuilder : SerialPortElement
     {
-        protected string PortName;
-        protected int BaudRate;
-        protected Parity Parity_ = System.IO.Ports.Parity.None;
-        protected int DataBit = 8;
-        protected StopBits StopBit = System.IO.Ports.StopBits.One;
-
-        protected ASerialPortBuilder(string name, int baud)
+        protected ASerialPortBuilder(string com, int baud)
         {
-            PortName = name;
+            PortName = com;
             BaudRate = baud;
+            ParityBit = System.IO.Ports.Parity.None;
+            DataBit = 8;
+            StopBit = System.IO.Ports.StopBits.One;
         }
 
         public ASerialPortBuilder Parity(Parity parity)
         {
-            Parity_ = parity;
+            ParityBit = parity;
             return this;
         }
 

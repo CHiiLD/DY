@@ -22,7 +22,6 @@ using System.ComponentModel;
 using DY.WPF.SYSTEM;
 
 using DY.WPF.SYSTEM.COMM;
-using DY.WPF.WINDOW;
 using DY.NET;
 
 using OxyPlot;

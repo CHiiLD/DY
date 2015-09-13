@@ -6,6 +6,7 @@ using System.Windows;
 using DY.NET;
 using NLog;
 using System.Windows.Media;
+using DY.WPF.SYSTEM.JSON;
 
 namespace DY.WPF.SYSTEM.COMM
 {
@@ -14,7 +15,7 @@ namespace DY.WPF.SYSTEM.COMM
     /// </summary>
     public class CommClient : IDisposable, INotifyPropertyChanged, IJson
     {
-        public const string EXTRA_XGT_CNET_LOCALPORT = "LOCAL_PORT";
+        //public const string EXTRA_XGT_CNET_LOCALPORT = "LOCAL_PORT";
 
         #region PRIVATE VARIABLE
         private static Logger LOG = LogManager.GetCurrentClassLogger();
@@ -32,6 +33,7 @@ namespace DY.WPF.SYSTEM.COMM
         public IConnect Socket { get; private set; }
         public NetDevice Target { get { return m_Target; } set { m_Target = value; OnPropertyChanged("Target"); } }
         public CommunicationType CommType { get { return m_CommType; } set { m_CommType = value; OnPropertyChanged("CommType"); } }
+        public ISummary CommElement { get; private set; }
         #endregion
 
         #region COMMUNICATION STATE INFO DATA 
@@ -63,11 +65,12 @@ namespace DY.WPF.SYSTEM.COMM
         /// <param name="socket"></param>
         /// <param name="device"></param>
         /// <param name="comm_type"></param>
-        public CommClient(IConnect socket, NetDevice device, CommunicationType comm_type)
+        public CommClient(IConnect socket, NetDevice device, CommunicationType comm_type, ISummary commElement)
         {
             Socket = socket;
             Target = device;
             m_CommType = comm_type;
+            CommElement = commElement;
             Socket.ConnectionStatusChanged += OnChangedConnectionStatus;
             UUID = Guid.NewGuid().ToString();
             UpdateInteval = 200;

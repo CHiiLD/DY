@@ -44,7 +44,9 @@
   <ItemGroup>
     <Compile Include="Common\ConnectionStatusChangedEventArgs.cs" />
     <Compile Include="Common\Delivery\DeliveryArrivalEventArgs.cs" />
+    <Compile Include="Common\Communication\EthernetElement.cs" />
     <Compile Include="Common\Inheritance\IConnect.cs" />
+    <Compile Include="Common\Communication\SerialPortElement.cs" />
     <Compile Include="Common\Inheritance\ITimeout.cs" />
     <Compile Include="Common\NLogConfig.cs" />
     <Compile Include="Common\Delivery\Delivery.cs" />

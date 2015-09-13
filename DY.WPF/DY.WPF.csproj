@@ -70,43 +70,43 @@
     <Compile Include="Control\Bar\Part\TitleForBar.xaml.cs">
       <DependentUpon>TitleForBar.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\Connection\CommConnectionManage.xaml.cs">
+    <Compile Include="UserInterface\CommControlTower\Connection\CommConnectionManage.xaml.cs">
       <DependentUpon>CommConnectionManage.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\Connection\CommConnectionDataGrid.xaml.cs">
+    <Compile Include="UserInterface\CommControlTower\Connection\CommConnectionDataGrid.xaml.cs">
       <DependentUpon>CommConnectionDataGrid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\Option\CommDeviceSelection.xaml.cs">
+    <Compile Include="Control\CommElement\CommDeviceSelection.xaml.cs">
       <DependentUpon>CommDeviceSelection.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\Option\CommEthernetConfig.xaml.cs">
+    <Compile Include="Control\CommElement\CommEthernetConfig.xaml.cs">
       <DependentUpon>CommEthernetConfig.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\Option\CommSerialConfig.xaml.cs">
+    <Compile Include="Control\CommElement\CommSerialConfig.xaml.cs">
       <DependentUpon>CommSerialConfig.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\PLC\CommIOExcelDataGrid.xaml.cs">
+    <Compile Include="UserInterface\CommControlTower\PLC\CommIOExcelDataGrid.xaml.cs">
       <DependentUpon>CommIOExcelDataGrid.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\PLC\CommIOMonitoring.xaml.cs">
+    <Compile Include="UserInterface\CommControlTower\PLC\CommIOMonitoring.xaml.cs">
       <DependentUpon>CommIOMonitoring.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\Scanner\CommScannerTester.xaml.cs">
+    <Compile Include="UserInterface\CommControlTower\Scanner\CommScannerTester.xaml.cs">
       <DependentUpon>CommScannerTester.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\CustomOxy\Part\COxyBottonAxisType.cs" />
-    <Compile Include="Control\CustomOxy\Part\COxyTimeValue.cs" />
-    <Compile Include="Control\CustomOxy\COxyRectangleGraphType01.xaml.cs">
+    <Compile Include="UserInterface\CustomOxy\Part\COxyBottonAxisType.cs" />
+    <Compile Include="UserInterface\CustomOxy\Part\COxyTimeValue.cs" />
+    <Compile Include="UserInterface\CustomOxy\COxyRectangleGraphType01.xaml.cs">
       <DependentUpon>COxyRectangleGraphType01.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\CustomOxy\Part\ICOxyRectangleRange.cs" />
-    <Compile Include="Control\CustomOxy\Part\ICOxyPlotRange.cs" />
-    <Compile Include="Control\Theme\AppStyleFlyout.xaml.cs">
+    <Compile Include="UserInterface\CustomOxy\Part\ICOxyRectangleRange.cs" />
+    <Compile Include="UserInterface\CustomOxy\Part\ICOxyPlotRange.cs" />
+    <Compile Include="UserInterface\AppTheme\AppStyleFlyout.xaml.cs">
       <DependentUpon>AppStyleFlyout.xaml</DependentUpon>
     </Compile>
-    <Compile Include="SYSTEM\COMM\Interface\ICommControlTowerTabItem.cs" />
-    <Compile Include="SYSTEM\COMM\IO\CommIOExcelRowItem.cs" />
-    <Compile Include="SYSTEM\COMM\Interface\ISummaryParameter.cs" />
+    <Compile Include="SYSTEM\COMM\ICommControlTowerTabItem.cs" />
+    <Compile Include="SYSTEM\COMM\Client\IO\CommIOExcelRowItem.cs" />
+    <Compile Include="SYSTEM\COMM\Element\ISummaryParameter.cs" />
     <Compile Include="Property\WindowSize.cs" />
     <Compile Include="Enum\CommunicationType.cs" />
     <Compile Include="Enum\NetDevice.cs" />
@@ -124,31 +124,31 @@
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
     <Compile Include="Property\SerialPortOption.cs" />
-    <Compile Include="SYSTEM\COMM\Creatation\ServiceableDevice.cs" />
-    <Compile Include="SYSTEM\COMM\Parameter\CommEthernetParameter.cs" />
-    <Compile Include="SYSTEM\COMM\Parameter\CommSerialPortParameter.cs" />
-    <Compile Include="Control\Comm\Connection\Ai\AICommCheck.xaml.cs">
+    <Compile Include="SYSTEM\COMM\Client\ServiceableDevice.cs" />
+    <Compile Include="SYSTEM\COMM\Element\CommEthernetElement.cs" />
+    <Compile Include="SYSTEM\COMM\Element\CommSerialPortParameter.cs" />
+    <Compile Include="UserInterface\CommControlTower\Connection\Ai\AICommCheck.xaml.cs">
       <DependentUpon>AICommCheck.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\Connection\Ai\CommStateAi.cs" />
-    <Compile Include="Control\Comm\Connection\Ai\AICommCircle.xaml.cs">
+    <Compile Include="UserInterface\CommControlTower\Connection\Ai\CommStateAi.cs" />
+    <Compile Include="UserInterface\CommControlTower\Connection\Ai\AICommCircle.xaml.cs">
       <DependentUpon>AICommCircle.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\Connection\Ai\AICommCross.xaml.cs">
+    <Compile Include="UserInterface\CommControlTower\Connection\Ai\AICommCross.xaml.cs">
       <DependentUpon>AICommCross.xaml</DependentUpon>
     </Compile>
     <Compile Include="SYSTEM\COMM\Client\CommClient.cs" />
     <Compile Include="SYSTEM\COMM\Client\CommClientDirector.cs" />
-    <Compile Include="SYSTEM\COMM\IO\ACommIOMonitoringStrategy.cs" />
-    <Compile Include="SYSTEM\COMM\IO\CommIOMonitoringXGT.cs" />
-    <Compile Include="SYSTEM\IJson.cs" />
-    <Compile Include="SYSTEM\Json.cs" />
+    <Compile Include="SYSTEM\COMM\Client\IO\ACommIOMonitoringStrategy.cs" />
+    <Compile Include="SYSTEM\COMM\Client\IO\CommIOMonitoringXGT.cs" />
+    <Compile Include="SYSTEM\JSON\IJson.cs" />
+    <Compile Include="SYSTEM\JSON\Json.cs" />
     <Compile Include="SYSTEM\NotifyPropertyChanged.cs" />
     <Compile Include="SYSTEM\ShotDownDirector.cs" />
-    <Compile Include="WINDOW\CommDeviceSetWindow.xaml.cs">
+    <Compile Include="Window\CommDeviceSetWindow.xaml.cs">
       <DependentUpon>CommDeviceSetWindow.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Control\Comm\CommControlTower.xaml.cs">
+    <Compile Include="UserInterface\CommControlTower\CommControlTower.xaml.cs">
       <DependentUpon>CommControlTower.xaml</DependentUpon>
     </Compile>
     <EmbeddedResource Include="Properties\Resources.resx">
@@ -190,55 +190,55 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\Comm\Connection\CommConnectionManage.xaml">
+    <Page Include="UserInterface\CommControlTower\Connection\CommConnectionManage.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\Connection\CommConnectionDataGrid.xaml">
+    <Page Include="UserInterface\CommControlTower\Connection\CommConnectionDataGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\Option\CommDeviceSelection.xaml">
+    <Page Include="Control\CommElement\CommDeviceSelection.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\Option\CommEthernetConfig.xaml">
+    <Page Include="Control\CommElement\CommEthernetConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\Option\CommSerialConfig.xaml">
+    <Page Include="Control\CommElement\CommSerialConfig.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\Connection\Ai\AICommCheck.xaml">
+    <Page Include="UserInterface\CommControlTower\Connection\Ai\AICommCheck.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\Connection\Ai\AICommCircle.xaml">
+    <Page Include="UserInterface\CommControlTower\Connection\Ai\AICommCircle.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\Connection\Ai\AICommCross.xaml">
+    <Page Include="UserInterface\CommControlTower\Connection\Ai\AICommCross.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\PLC\CommIOExcelDataGrid.xaml">
+    <Page Include="UserInterface\CommControlTower\PLC\CommIOExcelDataGrid.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="Control\Comm\PLC\CommIOMonitoring.xaml">
+    <Page Include="UserInterface\CommControlTower\PLC\CommIOMonitoring.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\Comm\Scanner\CommScannerTester.xaml">
+    <Page Include="UserInterface\CommControlTower\Scanner\CommScannerTester.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\CustomOxy\COxyRectangleGraphType01.xaml">
+    <Page Include="UserInterface\CustomOxy\COxyRectangleGraphType01.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\Theme\AppStyleFlyout.xaml">
+    <Page Include="UserInterface\AppTheme\AppStyleFlyout.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -246,11 +246,11 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="WINDOW\CommDeviceSetWindow.xaml">
+    <Page Include="Window\CommDeviceSetWindow.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="Control\Comm\CommControlTower.xaml">
+    <Page Include="UserInterface\CommControlTower\CommControlTower.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

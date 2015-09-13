@@ -11,6 +11,7 @@ using System.Collections.ObjectModel;
 using NLog;
 using System.Windows;
 using System.Windows.Threading;
+using DY.WPF.SYSTEM.JSON;
 
 namespace DY.WPF.SYSTEM.COMM
 {

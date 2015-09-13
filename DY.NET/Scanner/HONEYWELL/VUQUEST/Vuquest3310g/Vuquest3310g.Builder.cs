@@ -13,7 +13,7 @@ namespace DY.NET.HONEYWELL.VUQUEST
 
             public override object Build()
             {
-                var v3310g = new Vuquest3310g(new SerialPort(PortName, BaudRate, Parity_, DataBit, StopBit));
+                var v3310g = new Vuquest3310g(new SerialPort(PortName, BaudRate, ParityBit, DataBit, StopBit));
                 return v3310g;
             }
         }

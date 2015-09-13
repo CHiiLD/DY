@@ -15,6 +15,8 @@ namespace DY.NET.LSIS.XGT
         private static Logger LOG = LogManager.GetCurrentClassLogger();
         private const string ERROR_SERIALPORT_IS_NULL = "SerialPort is null.";
         private SerialPort m_SerialPort;
+        
+        public ushort LocalPort { get; private set; } //국번
 
         /// <summary>
         /// 생성자
@@ -125,7 +127,7 @@ namespace DY.NET.LSIS.XGT
         protected override bool IsArrived(AProtocol request, int idx)
         {
             var cnet = request as XGTCnetProtocol;
-            return BaseBuffer[idx - 1 - (cnet.HasBCC() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte();        
+            return BaseBuffer[idx - 1 - (cnet.HasBCC() ? 1 : 0)] == XGTCnetCCType.ETX.ToByte();
         }
 
         protected override void DiscardInBuffer()

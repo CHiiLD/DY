@@ -13,18 +13,26 @@ namespace DY.NET.LSIS.XGT
     public sealed partial class XGTFEnetSocket : ASocketCover
     {
         private static Logger LOG = LogManager.GetCurrentClassLogger();
-
         private const string ERROR_TCPCLIENT_IS_NULL = "TcpClient instance is null.";
 
         private string m_Host; //IP
         private int m_Port;    //포트
+
         private TcpClient m_TcpClient;
+
+        public int Port { get { return m_Port; } }
+        public string Host { get { return m_Host; } }
 
         /// <summary>
         /// 생성자
         /// </summary>
         public XGTFEnetSocket(string host, XGTFEnetPort port)
         {
+            if (string.IsNullOrEmpty(host))
+                throw new ArgumentNullException("Host arguement is null or empty.");
+            if (port != XGTFEnetPort.TCP && port != XGTFEnetPort.UDP)
+                throw new ArgumentException("Port support 2004 or 2005 only.");
+
             m_Host = host;
             m_Port = (int)port;
             Description = "LSIS XGT FEnet(" + m_Host + ":" + m_Port + ")";
@@ -89,7 +97,7 @@ namespace DY.NET.LSIS.XGT
             {
                 using (Locker.Lock())
                 {
-                    m_TcpClient.Close();
+                    m_TcpClient.Close(); //Close 후 다시 Connect시 에러발생(이미 TcpClient에서는 Dispose를 호출하였다)
                 }
             }
             ConnectionStatusChangedEvent(false);
