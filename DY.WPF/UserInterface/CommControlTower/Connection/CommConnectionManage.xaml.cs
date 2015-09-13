@@ -17,13 +17,13 @@ namespace DY.WPF
             CommClientDirector director = CommClientDirector.GetInstance();
 
             NBT_ConnectionCheckTimerSwtich.SetBinding(ToggleSwitch.IsCheckedProperty,
-                new Binding("Source") { Source = director.ConnectionCheckableProperty, Mode=BindingMode.TwoWay });
+                new Binding("Source") { Source = director.ConnectCheckableProperty, Mode=BindingMode.TwoWay });
 
             NTB_ConnectionCheckInteval.SetBinding(NumericUpDownWithBar.ValueProperty,
-                new Binding("Source") { Source = director.ConnectionCheckIntevalProperty, Mode = BindingMode.TwoWay });
+                new Binding("Source") { Source = director.ConnectCheckIntevalProperty, Mode = BindingMode.TwoWay });
 
             NTB_ConnectionTimeout.SetBinding(NumericUpDownWithBar.ValueProperty,
-                new Binding("Source") { Source = director.ConnectionTimeoutProperty, Mode = BindingMode.TwoWay });
+                new Binding("Source") { Source = director.ConnectTimeoutProperty, Mode = BindingMode.TwoWay });
         }
     }
 }

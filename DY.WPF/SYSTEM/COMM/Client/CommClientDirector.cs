@@ -20,6 +20,10 @@ namespace DY.WPF.SYSTEM.COMM
     /// </summary>
     public class CommClientDirector : IDisposable, IJson
     {
+        private static string KEY_CONNECT_TIMEOUT = "Connection_Timeout";
+        private static string KEY_CONNECT_CHECK_INTEVAL = "Connection_Inteval";
+        private static string KEY_CONNECT_CHECKABLE = "Connection_Checkable";
+
         private static Logger LOG = LogManager.GetCurrentClassLogger();
         private static CommClientDirector THIS;
 
@@ -27,9 +31,9 @@ namespace DY.WPF.SYSTEM.COMM
         private DispatcherTimer m_ConnectionCheckTimer;
 
         /// 통신 설정과 관련된 프로퍼티들
-        public NotifyPropertyChanged<int> ConnectionTimeoutProperty { get; private set; }
-        public NotifyPropertyChanged<int> ConnectionCheckIntevalProperty { get; private set; }
-        public NotifyPropertyChanged<bool> ConnectionCheckableProperty { get; private set; }
+        public NotifyPropertyChanged<int> ConnectTimeoutProperty { get; private set; }
+        public NotifyPropertyChanged<int> ConnectCheckIntevalProperty { get; private set; }
+        public NotifyPropertyChanged<bool> ConnectCheckableProperty { get; private set; }
 
         /// 클라이언트 소켓 사전 
         public ObservableCollection<CommClient> Clientele
@@ -43,17 +47,18 @@ namespace DY.WPF.SYSTEM.COMM
             //collection
             Clientele = new ObservableCollection<CommClient>();
             //notify property initialize
-            ConnectionTimeoutProperty = new NotifyPropertyChanged<int>(200);
-            ConnectionCheckIntevalProperty = new NotifyPropertyChanged<int>(10000);
-            ConnectionCheckIntevalProperty.PropertyChanged += OnConnectionCheckIntevalPropertyChanged;
-            ConnectionCheckableProperty = new NotifyPropertyChanged<bool>(false);
-            ConnectionCheckableProperty.PropertyChanged += OnConnectionCheckablePropertyPropertyChanged;
+            ConnectTimeoutProperty = new NotifyPropertyChanged<int>(200);
+            ConnectCheckIntevalProperty = new NotifyPropertyChanged<int>(10000);
+            ConnectCheckIntevalProperty.PropertyChanged += OnConnectionCheckIntevalPropertyChanged;
+            ConnectCheckableProperty = new NotifyPropertyChanged<bool>(false);
+            ConnectCheckableProperty.PropertyChanged += OnConnectionCheckablePropertyPropertyChanged;
             m_ConnectionCheckTimer = new DispatcherTimer(
-                new TimeSpan(10000 * ConnectionCheckIntevalProperty.Source),
+                new TimeSpan(10000 * ConnectCheckIntevalProperty.Source),
                 DispatcherPriority.Normal,
                 OnConnectionCheckTick,
                 Application.Current.Dispatcher) { IsEnabled = false };
             ShotDownDirector.GetInstance().AddIDisposable(this);
+            LoadByJson();
         }
 
         ~CommClientDirector()
@@ -66,6 +71,7 @@ namespace DY.WPF.SYSTEM.COMM
         /// </summary>
         public void Dispose()
         {
+            SaveToJson();
             m_ConnectionCheckTimer.Stop();
             foreach (var c in Clientele)
                 c.Dispose();
@@ -74,14 +80,28 @@ namespace DY.WPF.SYSTEM.COMM
             LOG.Debug("CommClientDirector 메모리 해제");
         }
 
+
+
         public void SaveToJson()
         {
-
+            Dictionary<string, object> dictionary = new Dictionary<string, object>();
+            dictionary.Add(KEY_CONNECT_TIMEOUT, ConnectTimeoutProperty.Source);
+            dictionary.Add(KEY_CONNECT_CHECK_INTEVAL, ConnectCheckIntevalProperty.Source);
+            dictionary.Add(KEY_CONNECT_CHECKABLE, ConnectCheckableProperty.Source);
+            Json<Dictionary<string, object>>.Write("./comm_client_director.json", dictionary);
         }
 
         public void LoadByJson()
         {
-
+            Dictionary<string, object> dictionary = Json<Dictionary<string, object>>.Read("./comm_client_director.json");
+            if (dictionary == null)
+                return;
+            if (dictionary.ContainsKey(KEY_CONNECT_TIMEOUT))
+                ConnectTimeoutProperty.Source = Convert.ToInt32(dictionary[KEY_CONNECT_TIMEOUT]);
+            if (dictionary.ContainsKey(KEY_CONNECT_CHECK_INTEVAL))
+                ConnectCheckIntevalProperty.Source = Convert.ToInt32(dictionary[KEY_CONNECT_CHECK_INTEVAL]);
+            if (dictionary.ContainsKey(KEY_CONNECT_CHECKABLE))
+                ConnectCheckableProperty.Source = Convert.ToBoolean(dictionary[KEY_CONNECT_CHECKABLE]);
         }
 
         /// <summary>
@@ -105,8 +125,8 @@ namespace DY.WPF.SYSTEM.COMM
         /// <param name="args"></param>
         private void OnConnectionCheckIntevalPropertyChanged(object sender, PropertyChangedEventArgs args)
         {
-            m_ConnectionCheckTimer.Interval = new TimeSpan(ConnectionCheckIntevalProperty.Source * 10000);
-            LOG.Trace("클라이언트 접속 상태 체크 타이머의 설정 시간: " + ConnectionCheckIntevalProperty.Source);
+            m_ConnectionCheckTimer.Interval = new TimeSpan(ConnectCheckIntevalProperty.Source * 10000);
+            LOG.Trace("클라이언트 접속 상태 체크 타이머의 설정 시간: " + ConnectCheckIntevalProperty.Source);
         }
 
         /// <summary>

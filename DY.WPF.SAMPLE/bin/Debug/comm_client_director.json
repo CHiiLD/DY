@@ -1,0 +1,5 @@
+﻿{
+  "Connection_Timeout": 130,
+  "Connection_Inteval": 5120,
+  "Connection_Checkable": false
+}

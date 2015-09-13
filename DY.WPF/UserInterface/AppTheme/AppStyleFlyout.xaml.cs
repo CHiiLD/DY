@@ -66,7 +66,6 @@ namespace DY.WPF
                 return;
             string name = GetColorName(item);
             ThemeManager.ChangeAppTheme(Application.Current, name);
-            SaveToJson();
         }
 
         private void OnAccentSelectChanged(object sender, SelectionChangedEventArgs e)
@@ -78,7 +77,6 @@ namespace DY.WPF
             Accent accent = ThemeManager.GetAccent(name);
             Tuple<AppTheme, Accent> appStyle = ThemeManager.DetectAppStyle(Application.Current);
             ThemeManager.ChangeAppStyle(Application.Current, accent, appStyle.Item1);
-            SaveToJson();
         }
 
         private string GetColorName(ListBoxItem item)
@@ -151,6 +149,11 @@ namespace DY.WPF
                 ListBoxItem item = new ListBoxItem() { Content = panel };
                 NAccentBox.Items.Add(item);
             }
+        }
+
+        private void Flyout_ClosingFinished(object sender, RoutedEventArgs e)
+        {
+            SaveToJson();
         }
     }
 }

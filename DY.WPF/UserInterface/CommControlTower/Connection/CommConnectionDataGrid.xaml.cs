@@ -72,7 +72,7 @@ namespace DY.WPF
                 throw new ArgumentNullException("client");
             if (c.IsConnected())
                 return true;
-            int inteval = CommClientDirector.GetInstance().ConnectionTimeoutProperty.Source;
+            int inteval = CommClientDirector.GetInstance().ConnectTimeoutProperty.Source;
             bool isConnected = false;
             string message = null;
             MetroWindow metro_win = Window.GetWindow(this) as MetroWindow;
