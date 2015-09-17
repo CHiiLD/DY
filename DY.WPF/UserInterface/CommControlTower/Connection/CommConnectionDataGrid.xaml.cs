@@ -46,7 +46,7 @@ namespace DY.WPF
             return client.IsConnected();
         }
 
-        private bool TryConnection(IConnect client)
+        private bool TryConnect(IConnect client)
         {
             bool isSuccess = false;
             try
@@ -81,7 +81,7 @@ namespace DY.WPF
                 "Please wait... until the connection is completed.", false, null);
             await Task.Delay(1000);
             LOG.Trace("통신 접속 시도");
-            Task connect_task = Task.Factory.StartNew(() => { return TryConnection(c); });
+            Task connect_task = Task.Factory.StartNew(() => { return TryConnect(c); });
             if (await Task.WhenAny(connect_task, Task.Delay(inteval)) == connect_task)
             {
                 isConnected = await (Task<bool>)connect_task;

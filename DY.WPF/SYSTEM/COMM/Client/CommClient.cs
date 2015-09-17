@@ -15,8 +15,6 @@ namespace DY.WPF.SYSTEM.COMM
     /// </summary>
     public class CommClient : IDisposable, INotifyPropertyChanged, IJson
     {
-        //public const string EXTRA_XGT_CNET_LOCALPORT = "LOCAL_PORT";
-
         #region PRIVATE VARIABLE
         private static Logger LOG = LogManager.GetCurrentClassLogger();
         private NetDevice m_Target;

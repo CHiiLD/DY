@@ -25,6 +25,14 @@ namespace DY.WPF
     /// </summary>
     public partial class AppStyleFlyout : UserControl, IJson
     {
+        public Flyout Flyout
+        {
+            get
+            {
+                return NFlyout;
+            }
+        }
+
         public AppStyleFlyout()
         {
             InitializeComponent();

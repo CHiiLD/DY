@@ -7,7 +7,7 @@
              xmlns:mah="clr-namespace:MahApps.Metro.Controls;assembly=MahApps.Metro"
              xmlns:local="clr-namespace:DY.WPF">
     <Grid>
-        <mah:Flyout Width="200" Header="Theme" Position="Right" Theme="Adapt" IsOpen="True" ClosingFinished="Flyout_ClosingFinished">
+        <mah:Flyout x:Name="NFlyout" Width="200" Header="Theme" Position="Right" Theme="Adapt" IsOpen="True" ClosingFinished="Flyout_ClosingFinished">
             <StackPanel>
                 <GroupBox Header="Theme Color">
                     <ListBox x:Name="NThemeBox" />

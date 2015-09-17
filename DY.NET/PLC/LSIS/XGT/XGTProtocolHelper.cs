@@ -49,7 +49,7 @@ namespace DY.NET.LSIS.XGT
         /// <param name="data_type"></param>
         /// <param name="glopa_var"></param>
         /// <returns></returns>
-        public static bool IsServiceableDeviceTerritory(DataType data_type, string glopa_var)
+        private static bool IsServiceableDeviceTerritory(DataType data_type, string glopa_var)
         {
             if (!XGTMemoryExpression.MemExpDictionary.ContainsKey(glopa_var[1]))
                 return false;
@@ -119,7 +119,7 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         /// <param name="items">ICommIOData 리스트 데이터</param>
         /// <returns></returns>
-        public static Dictionary<string, DataType> Optimize(IList<ICommIOData> items)
+        private static Dictionary<string, DataType> Optimize(IList<ICommIOData> items)
         {
             if (items == null)
                 throw new ArgumentNullException("items argument is null");
@@ -132,14 +132,14 @@ namespace DY.NET.LSIS.XGT
                 DataType type = i.Type;
                 try
                 {
-                    string glopa_var = type.ToGlopa(i.Address);
-                    if (!IsServiceableDeviceTerritory(type, glopa_var))
-                        throw new ArgumentException("Not supported [" + glopa_var[1] + "] device.");
+                    string glopa_addr_name = type.ToGlopa(i.Address);
+                    if (!IsServiceableDeviceTerritory(type, glopa_addr_name))
+                        throw new ArgumentException("Not supported [" + glopa_addr_name[1] + "] device.");
 
                     if (type == DataType.BOOL || type == DataType.BIT)
-                        glopa_var = glopa_var.Substring(0, glopa_var.Length - 1).Remove(2, 1).Insert(2, "W");
-                    if (!tickets.ContainsKey(glopa_var))
-                        tickets.Add(glopa_var, ((type == DataType.BIT) || (type == DataType.BOOL)) ? DataType.WORD : type);
+                        glopa_addr_name = glopa_addr_name.Substring(0, glopa_addr_name.Length - 1).Remove(2, 1).Insert(2, "W");
+                    if (!tickets.ContainsKey(glopa_addr_name))
+                        tickets.Add(glopa_addr_name, ((type == DataType.BIT) || (type == DataType.BOOL)) ? DataType.WORD : type);
                 }
                 catch (Exception exception)
                 {
@@ -147,6 +147,40 @@ namespace DY.NET.LSIS.XGT
                 }
             }
             return tickets;
+        }
+
+        /// <summary>
+        /// 공장에서 대량의 물건을 생산하듯이 다수의 ICommIOData 콜렉션으로 XGT Protocol 객체를 대량 생산한다.
+        /// 이 때 성능을 위해 Bit 쿼리는 Word 쿼리로 대체한다.
+        /// </summary>
+        /// <param name="items"></param>
+        /// <param name="CreateRssProtocol"></param>
+        /// <returns></returns>
+        public static List<AProtocol> Manufacture(IList<ICommIOData> items, Func<DataType, Dictionary<string, object>, AProtocol> CreateRssProtocol)
+        {
+            List<AProtocol> protocols = new List<AProtocol>();
+            Dictionary<string, DataType> addrs = XGTProtocolHelper.Optimize(items);
+            ILookup<DataType, string> lookCollection = addrs.ToLookup(ad => ad.Value, ad => ad.Key);
+            int cnt = 0;
+            Dictionary<string, object> read_tickets = new Dictionary<string, object>();
+            foreach (IGrouping<DataType, string> group in lookCollection)
+            {
+                foreach (string addr_name in group)
+                {
+                    if (cnt % 16 == 0 && cnt != 0)
+                    {
+                        protocols.Add(CreateRssProtocol(group.Key, read_tickets));
+                        cnt = 0;
+                        read_tickets = new Dictionary<string, object>();
+                    }
+                    read_tickets.Add(addr_name, null);
+                    cnt++;
+                }
+                protocols.Add(CreateRssProtocol(group.Key, read_tickets));
+                cnt = 0;
+                read_tickets = new Dictionary<string, object>();
+            }
+            return protocols;
         }
 
         /// <summary>

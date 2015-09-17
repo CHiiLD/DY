@@ -40,6 +40,8 @@ namespace DY.WPF.SAMPLE
             NLogConfig.Load();
             InitializeComponent();
 
+            NAppStyleFlyout.Flyout.IsOpen = false;
+
             NGraph.BottonAxisType = COxyBottonAxisType.TIMESPAN_AXIS;
 
             NGraph.PlotMinimumX = 0;

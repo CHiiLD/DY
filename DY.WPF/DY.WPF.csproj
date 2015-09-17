@@ -106,7 +106,7 @@
     </Compile>
     <Compile Include="SYSTEM\COMM\ICommControlTowerTabItem.cs" />
     <Compile Include="SYSTEM\COMM\Client\IO\CommIOExcelRowItem.cs" />
-    <Compile Include="SYSTEM\COMM\Element\ISummaryParameter.cs" />
+    <Compile Include="SYSTEM\COMM\Element\ISummary.cs" />
     <Compile Include="Property\WindowSize.cs" />
     <Compile Include="Enum\CommunicationType.cs" />
     <Compile Include="Enum\NetDevice.cs" />
@@ -126,7 +126,7 @@
     <Compile Include="Property\SerialPortOption.cs" />
     <Compile Include="SYSTEM\COMM\Client\ServiceableDevice.cs" />
     <Compile Include="SYSTEM\COMM\Element\CommEthernetElement.cs" />
-    <Compile Include="SYSTEM\COMM\Element\CommSerialPortParameter.cs" />
+    <Compile Include="SYSTEM\COMM\Element\CommSerialPortElement.cs" />
     <Compile Include="UserInterface\CommControlTower\Connection\Ai\AICommCheck.xaml.cs">
       <DependentUpon>AICommCheck.xaml</DependentUpon>
     </Compile>

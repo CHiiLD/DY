@@ -36,28 +36,8 @@ namespace DY.WPF.SYSTEM.COMM
                 io.PropertyChanged -= OnInputPropertyChanged;
                 io.PropertyChanged += OnInputPropertyChanged;
             }
-            Dictionary<string, DataType> addrs = XGTProtocolHelper.Optimize(io_datas);
-            ILookup<DataType, string> lookCollection = addrs.ToLookup(ad => ad.Value, ad => ad.Key);
-            int cnt = 0;
             Protocols.Clear();
-            Dictionary<string, object> read_tickets = new Dictionary<string, object>();
-            foreach (IGrouping<DataType, string> group in lookCollection)
-            {
-                foreach (string str in group)
-                {
-                    if (cnt % 16 == 0 && cnt != 0)
-                    {
-                        Protocols.Add(CreateReadProtocol(group.Key, read_tickets));
-                        cnt = 0;
-                        read_tickets = new Dictionary<string, object>();
-                    }
-                    read_tickets.Add(str, null);
-                    cnt++;
-                }
-                Protocols.Add(CreateReadProtocol(group.Key, read_tickets));
-                cnt = 0;
-                read_tickets = new Dictionary<string, object>();
-            }
+            Protocols.AddRange(XGTProtocolHelper.Manufacture(CommIOData, CreateRssProtocol));
         }
 
         /// <summary>
@@ -89,7 +69,7 @@ namespace DY.WPF.SYSTEM.COMM
         /// <param name="type">데이터 타입</param>
         /// <param name="datas">READ 목록</param>
         /// <returns></returns>
-        private AProtocol CreateReadProtocol(DataType type, Dictionary<string, object> datas)
+        private AProtocol CreateRssProtocol(DataType type, Dictionary<string, object> datas)
         {
             AProtocol protocol = null;
             if (CClient.Socket is XGTCnetSocket)
@@ -172,34 +152,19 @@ namespace DY.WPF.SYSTEM.COMM
             Dictionary<string, object> tickets = new Dictionary<string, object>() { { glopa, value } };
             AProtocol request = null;
             AProtocol response = null;
-            object error = null;
             if (CClient.Socket is XGTCnetSocket)
             {
                 XGTCnetSocket cnet_socket = CClient.Socket as XGTCnetSocket;
                 request = XGTCnetProtocol.NewWSSProtocol(io_data.Type.ToType(), cnet_socket.LocalPort, tickets);
-                XGTCnetProtocol cnet = await Post(CClient.Socket as ASocketCover, request) as XGTCnetProtocol;
-                if (cnet == null)
-                    return;
-                if (cnet.Error != XGTCnetProtocolError.OK)
-                    error = cnet.Error;
-                response = cnet;
+                response = await Post(CClient.Socket as ASocketCover, request) as XGTCnetProtocol;
             }
             else if (CClient.Socket is XGTFEnetSocket)
             {
                 request = XGTFEnetProtocol.NewWSSProtocol(io_data.Type.ToType(), InvokeID, tickets);
-                XGTFEnetProtocol fenet = await Post(CClient.Socket as ASocketCover, request) as XGTFEnetProtocol;
-                if (fenet == null)
-                    return;
-                if (fenet.Error != XGTFEnetProtocolError.OK)
-                    error = fenet.Error;
-                response = fenet;
+                response = await Post(CClient.Socket as ASocketCover, request) as XGTFEnetProtocol;
             }
-            if (error != null)
-            {
-                LOG.Debug(CClient.Socket.Description + "WSS 프로토콜 에러 발생, 프로토콜 정보는 이하와 같음");
-                request.Print();
-                response.Print();
-            }
+            if (HasError(response))
+                return;
             io_data.Input = null;
         }
     }
