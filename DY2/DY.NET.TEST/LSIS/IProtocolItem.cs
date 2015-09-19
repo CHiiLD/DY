@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace DY.NET
 {
-    public interface IProtocolItem
+    public interface IProtocolData : IValue
     {
         string Address { get; set; }
-        object Value { get; set; }
     }
 }

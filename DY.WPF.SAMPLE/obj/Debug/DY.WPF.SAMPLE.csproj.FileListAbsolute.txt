@@ -38,3 +38,6 @@ C:\dev\github\DY\DY.WPF.SAMPLE\obj\Debug\DY.WPF.SAMPLE.Properties.Resources.reso
 C:\dev\github\DY\DY.WPF.SAMPLE\obj\Debug\DY.WPF.SAMPLE.csproj.GenerateResource.Cache
 C:\dev\github\DY\DY.WPF.SAMPLE\obj\Debug\DY.WPF.SAMPLE.exe
 C:\dev\github\DY\DY.WPF.SAMPLE\obj\Debug\DY.WPF.SAMPLE.pdb
+C:\Users\CHILD\GitHub\DY\DY.WPF.SAMPLE\bin\Debug\DY.WPF.SAMPLE.exe.config
+C:\Users\CHILD\GitHub\DY\DY.WPF.SAMPLE\obj\Debug\DY.WPF.SAMPLE.exe
+C:\Users\CHILD\GitHub\DY\DY.WPF.SAMPLE\obj\Debug\DY.WPF.SAMPLE.pdb

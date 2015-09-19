@@ -6,29 +6,50 @@ namespace DY.NET.LSIS.XGT
     /// <summary>
     /// XGT CNET 전용, byte[] 데이터 <-> 정수, 문자열 데이터 ; 변환 클래스
     /// </summary>
-    public static class XGTCnetASCIITranslator
+    public static class XGTCnetTranslator
     {
-        public static byte[] UInt16ToTwoByte(ushort value)
+        public static byte[] LocalPortToInfoData(ushort localport)
         {
-            byte[] ascii = null;
-            string hex_str = string.Format("{0:X2}", value);
-            ascii = new byte[hex_str.Length];
-            for (int i = 0; i < hex_str.Length; i++)
-                ascii[i] = (byte)hex_str[i];
-            return ascii;
-        }
-
-        /// <summary>
-        /// 정수를 표현하는 byte[]를 10진수 ushort로 변환한다.
-        /// 0x32 0x30 -> 20 
-        /// </summary>
-        /// <param name="bytes">반드시 배열의 길이는 2이어야 한다.</param>
-        /// <returns></returns>
-        public static ushort TwoByteToUInt16(byte[] bytes)
-        {
-            if (bytes.Length != 2)
+            const int LOCALPORT_LIMIT = 99;
+            if (localport > LOCALPORT_LIMIT)
                 throw new ArgumentOutOfRangeException();
 
+            byte[] result = null;
+            string localport_str = string.Format("{0}", localport);
+            result = new byte[localport_str.Length];
+            for (int i = 0; i < localport_str.Length; i++)
+                result[i] = (byte)localport_str[i];
+            return result;
+        }
+
+        public static ushort InfoDataToLocalPort(byte[] bytes)
+        {
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in bytes)
+                sb.Append(Convert.ToChar(b));
+            return Convert.ToUInt16(sb.ToString());
+        }
+
+        public static byte[] UInt16ToInfoData(ushort value)
+        {
+            string hex_str = string.Format("{0:X2}", value);
+            byte[] result = new byte[hex_str.Length];
+            for (int i = 0; i < hex_str.Length; i++)
+                result[i] = (byte)hex_str[i];
+            return result;
+        }
+
+        public static byte[] Int32ToInfoData(int value)
+        {
+            string hex_str = string.Format("{0:X2}", value);
+            byte[] result = new byte[hex_str.Length];
+            for (int i = 0; i < hex_str.Length; i++)
+                result[i] = (byte)hex_str[i];
+            return result;
+        }
+
+        public static ushort InfoDataToUInt16(byte[] bytes)
+        {
             StringBuilder sb = new StringBuilder();
             foreach (byte b in bytes)
                 sb.Append(Convert.ToChar(b));
@@ -37,23 +58,37 @@ namespace DY.NET.LSIS.XGT
             return target;
         }
 
-        //public static byte[] UInt32ToFourByte(uint value)
-        //{
-        //    byte[] target = null;
-        //    string hex_str = string.Format("{0:X2}", value);
-        //    target = new byte[hex_str.Length];
-        //    for (int i = 0; i < hex_str.Length; i++)
-        //        target[i] = (byte)hex_str[i];
-        //    return target;
-        //}
-
-        public static byte[] ValueToASCII(object value)
+        public static byte[] AddressDataToASCII(string address)
         {
-            return ValueToASCII(value, value.GetType());
+            var target = new byte[address.Length];
+            for (int i = 0; i < address.Length; i++)
+                target[i] = (byte)address[i];
+            return target;
         }
 
-        public static byte[] ValueToASCII(object value, Type type)
+        public static string ASCIIToAddressData(byte[] bytes)
         {
+            StringBuilder sb = new StringBuilder();
+            foreach (byte b in bytes)
+                sb.Append(Convert.ToChar(b));
+            return sb.ToString();
+        }
+
+        public static ushort ErrorCodeToInteger(byte[] code)
+        {
+            return InfoDataToLocalPort(code);
+        }
+
+        public static byte[] ValueDataToASCII(object value)
+        {
+            return ValueDataToASCII(value, value.GetType());
+        }
+
+        public static byte[] ValueDataToASCII(object value, Type type)
+        {
+            if (value == null)
+                throw new ArgumentNullException();
+            
             byte[] target = null;
             string hex_str = string.Empty;
             if (type == typeof(Boolean))
@@ -66,15 +101,16 @@ namespace DY.NET.LSIS.XGT
                 hex_str = string.Format("{0:X8}", value);
             else if (type == typeof(Int64) || type == typeof(UInt64))
                 hex_str = string.Format("{0:X16}", value);
-            else if (type == typeof(String))
-                hex_str = (string)value;
+            else
+                throw new ArgumentException();
+            
             target = new byte[hex_str.Length];
             for (int i = 0; i < hex_str.Length; i++)
                 target[i] = (byte)hex_str[i];
             return target;
         }
         
-        public static object ASCIIToValue(byte[] bytes, Type type)
+        public static object ASCIIToValueData(byte[] bytes, Type type)
         {
             object target = null;
             const int HEX = 16;
@@ -102,8 +138,8 @@ namespace DY.NET.LSIS.XGT
                 target = Convert.ToUInt32(hex_str, HEX);
             else if (type == typeof(UInt64))
                 target = Convert.ToUInt64(hex_str, HEX);
-            else if (type == typeof(string))
-                target = hex_str;
+            else
+                throw new ArgumentException();
             return target;
         }
     }

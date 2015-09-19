@@ -9,7 +9,23 @@ namespace DY.NET.LSIS.XGT
     public enum XGTCnetCommandType : ushort
     {
         NONE = 0x0000,
-        SS = 0x5353,  
-        SB = 0x5342   
+        SS = 0x5353,
+        SB = 0x5342
+    }
+
+    public static class XGTCnetCommandTypeExtension
+    {
+        public static byte[] ToBytes(this XGTCnetCommandType type)
+        {
+            byte[] result = null;
+            switch (type)
+            {
+                case XGTCnetCommandType.SS:
+                    result = new byte[] { 0x53, 0x53 }; break;
+                case XGTCnetCommandType.SB:
+                    result = new byte[] { 0x53, 0x42 }; break;
+            }
+            return result;
+        }
     }
 }

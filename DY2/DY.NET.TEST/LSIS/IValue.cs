@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace DY.NET
 {
-    public interface IProtocol
+    public interface IValue
     {
-        int GetErrorCode();
-        IList<IProtocolData> Items { get; set; }
-        void Initialize();
+        object Value { get; set; }
     }
 }

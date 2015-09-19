@@ -11,17 +11,26 @@ namespace DY.NET.LSIS.XGT
         public XGTCnetHeader Header { set; get; }
         public ushort LocalPort { set; get; }
         public XGTCnetCommand Command { set; get; }
-        public XGTCnetCommandType CommandType { set; get; }
+        public XGTCnetCommandType CommandType { protected set; get; }
         public XGTCnetHeader Tail { set; get; }
-        public XGTCnetProtocolError Error { get; set; }
+        public XGTCnetError Error { get; set; }
 
-        public IList<IProtocolItem> Items { get; set; }
+        public IList<IProtocolData> Items { get; set; }
 
         public XGTCnetProtocol()
         {
             Initialize();
         }
 
+        public XGTCnetProtocol(ushort localPort, XGTCnetCommand cmd)
+            : this()
+        {
+            LocalPort = localPort;
+            Command = cmd;
+            CommandType = XGTCnetCommandType.SS;
+        }
+
+#if false
         public XGTCnetProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
             : this()
         {
@@ -29,6 +38,7 @@ namespace DY.NET.LSIS.XGT
             Command = cmd;
             CommandType = type;
         }
+#endif
 
         public virtual int GetErrorCode()
         {
@@ -43,7 +53,7 @@ namespace DY.NET.LSIS.XGT
             Command = XGTCnetCommand.NONE;
             CommandType = XGTCnetCommandType.NONE;
             Tail = XGTCnetHeader.NONE;
-            Error = XGTCnetProtocolError.OK;
+            Error = XGTCnetError.OK;
             Items = null;
         }
     }
