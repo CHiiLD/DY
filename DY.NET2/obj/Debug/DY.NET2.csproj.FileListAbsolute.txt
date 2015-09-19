@@ -1,0 +1,5 @@
+C:\dev\github\DY\DY.NET2\obj\Debug\DY.NET2.csprojResolveAssemblyReference.cache
+C:\dev\github\DY\DY.NET2\bin\Debug\DY.NET.dll
+C:\dev\github\DY\DY.NET2\bin\Debug\DY.NET.pdb
+C:\dev\github\DY\DY.NET2\obj\Debug\DY.NET.dll
+C:\dev\github\DY\DY.NET2\obj\Debug\DY.NET.pdb

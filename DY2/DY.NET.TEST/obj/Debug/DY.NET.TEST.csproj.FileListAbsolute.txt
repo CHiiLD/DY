@@ -1,0 +1,7 @@
+C:\Users\아동\Documents\DY\DY.NET.TEST\bin\Debug\DY.NET.TEST.dll
+C:\Users\아동\Documents\DY\DY.NET.TEST\bin\Debug\DY.NET.TEST.pdb
+C:\Users\아동\Documents\DY\DY.NET.TEST\bin\Debug\nunit.framework.dll
+C:\Users\아동\Documents\DY\DY.NET.TEST\bin\Debug\nunit.framework.xml
+C:\Users\아동\Documents\DY\DY.NET.TEST\obj\Debug\DY.NET.TEST.csprojResolveAssemblyReference.cache
+C:\Users\아동\Documents\DY\DY.NET.TEST\obj\Debug\DY.NET.TEST.dll
+C:\Users\아동\Documents\DY\DY.NET.TEST\obj\Debug\DY.NET.TEST.pdb

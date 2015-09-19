@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="12.0" DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{CB6F047D-CE9D-4162-B79F-B53CEAEF3DB8}</ProjectGuid>
+    <OutputType>Library</OutputType>
+    <AppDesignerFolder>Properties</AppDesignerFolder>
+    <RootNamespace>DY.NET</RootNamespace>
+    <AssemblyName>DY.NET</AssemblyName>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="PLC\IProtocolItem.cs" />
+    <Compile Include="IPostOffice.cs" />
+    <Compile Include="PLC\IPoster.cs" />
+    <Compile Include="PLC\LSIS\XGT\Cnet\Frame\XGTCnetCommand.cs" />
+    <Compile Include="PLC\LSIS\XGT\Cnet\Frame\XGTCnetCommandType.cs" />
+    <Compile Include="PLC\LSIS\XGT\Cnet\Frame\XGTCnetControlChar.cs" />
+    <Compile Include="PLC\LSIS\XGT\Cnet\Frame\XGTCnetProtocolError.cs" />
+    <Compile Include="PLC\LSIS\XGT\Cnet\XGTCnetProtocolConverter.cs" />
+    <Compile Include="PLC\LSIS\XGT\Cnet\XGTCnetProtocol.cs" />
+    <Compile Include="PLC\IProtocol.cs" />
+    <Compile Include="PLC\IProtocolConverter.cs" />
+    <Compile Include="PLC\LSIS\XGT\Cnet\XGTCnetPostOffice.cs" />
+    <Compile Include="PLC\LSIS\XGT\FEnet\Frame\XGTFEnetClass.cs" />
+    <Compile Include="PLC\LSIS\XGT\FEnet\Frame\XGTFEnetCommand.cs" />
+    <Compile Include="PLC\LSIS\XGT\FEnet\Frame\XGTFEnetCompanyID.cs" />
+    <Compile Include="PLC\LSIS\XGT\FEnet\Frame\XGTFEnetCpuInfo.cs" />
+    <Compile Include="PLC\LSIS\XGT\FEnet\Frame\XGTFEnetCpuState.cs" />
+    <Compile Include="PLC\LSIS\XGT\FEnet\Frame\XGTFEnetCpuType.cs" />
+    <Compile Include="PLC\LSIS\XGT\FEnet\Frame\XGTFEnetDataType.cs" />
+    <Compile Include="PLC\LSIS\XGT\FEnet\Frame\XGTFEnetPLCSystemState.cs" />
+    <Compile Include="PLC\LSIS\XGT\FEnet\Frame\XGTFEnetPort.cs" />
+    <Compile Include="PLC\LSIS\XGT\FEnet\Frame\XGTFEnetProtocolError.cs" />
+    <Compile Include="PLC\LSIS\XGT\FEnet\Frame\XGTFEnetSourceOfFrame.cs" />
+    <Compile Include="PLC\LSIS\XGT\FEnet\XGTFEnetProtocol.cs" />
+    <Compile Include="PLC\LSIS\XGT\FEnet\XGTFEnetProtocolConverter.cs" />
+    <Compile Include="PLC\LSIS\XGT\FEnet\XGTFEnetPostOffice.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Scanner\HoneyWell\IScannerPost.cs" />
+    <Compile Include="Scanner\HoneyWell\Vuquest\Vuquest3310g.cs" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
+       Other similar extension points exist, see Microsoft.Common.targets.
+  <Target Name="BeforeBuild">
+  </Target>
+  <Target Name="AfterBuild">
+  </Target>
+  -->
+</Project>

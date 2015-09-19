@@ -31,3 +31,12 @@
 [submodule "submodule/AsyncEx"]
 	path = submodule/AsyncEx
 	url = https://github.com/CHiiLD/AsyncEx.git
+[submodule "submodule/moq4"]
+	path = submodule/moq4
+	url = https://github.com/CHiiLD/moq4.git
+[submodule "submodule/nunit"]
+	path = submodule/nunit
+	url = https://github.com/CHiiLD/nunit.git
+[submodule "submodule/nunit3-vs-adapter"]
+	path = submodule/nunit3-vs-adapter
+	url = https://github.com/CHiiLD/nunit3-vs-adapter
