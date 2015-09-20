@@ -67,23 +67,35 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="LSIS\IValue.cs" />
-    <Compile Include="LSIS\ProtocolData.cs" />
-    <Compile Include="LSIS\XGT\Cnet\XGTCnetTranslator.cs" />
-    <Compile Include="LSIS\IProtocol.cs" />
-    <Compile Include="LSIS\IProtocolCompressor.cs" />
-    <Compile Include="LSIS\IProtocolItem.cs" />
-    <Compile Include="LSIS\XGT\Cnet\XGTCnetCompressor.cs" />
+    <Compile Include="NET\LSIS\IProtocolStream.cs" />
+    <Compile Include="NET\IStream.cs" />
+    <Compile Include="NET\IValue.cs" />
+    <Compile Include="NET\LSIS\ProtocolData.cs" />
+    <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetStream.cs" />
+    <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetTranslator.cs" />
+    <Compile Include="NET\LSIS\IProtocol.cs" />
+    <Compile Include="NET\LSIS\IProtocolCompressor.cs" />
+    <Compile Include="NET\LSIS\IProtocolItem.cs" />
+    <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetCompressor.cs" />
+    <Compile Include="XGTCnetCompressorTest.cs" />
     <Compile Include="XGTCnetProtocolTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="LSIS\XGT\Cnet\XGTCnetCommand.cs" />
-    <Compile Include="LSIS\XGT\Cnet\XGTCnetCommandType.cs" />
-    <Compile Include="LSIS\XGT\Cnet\XGTCnetHeader.cs" />
-    <Compile Include="LSIS\XGT\Cnet\XGTCnetProtocol.cs" />
-    <Compile Include="LSIS\XGT\Cnet\XGTCnetError.cs" />
+    <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetCommand.cs" />
+    <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetCommandType.cs" />
+    <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetHeader.cs" />
+    <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetProtocol.cs" />
+    <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetError.cs" />
+    <Compile Include="XGTCnetStreamTest.cs" />
+    <Compile Include="XGTCnetTranslatorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\..\submodule\moq4\Source\Moq.csproj">
+      <Project>{1c91ac30-5977-4be5-ba67-8eb186c03514}</Project>
+      <Name>Moq</Name>
+    </ProjectReference>
   </ItemGroup>
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
