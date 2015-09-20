@@ -93,25 +93,11 @@ namespace DY.NET.TEST
 
         [Test]
         [ExpectedException(typeof(Exception))]
-        public void WhenProtocolDecoded_InvalidAckCodeError1()
+        [TestCase(new byte[] { 0x32, 0x30, 0x52, 0x53, 0x53, 0x30, 0x31, 0x30, 0x32, 0x41, 0x39, 0x46, 0x33, 0x03 })]
+        [TestCase(new byte[] { 0x06, 0x32, 0x30, 0x52, 0x53, 0x53, 0x30, 0x31, 0x30, 0x32, 0x41, 0x39, 0x46, 0x33 })]
+        public void WhenProtocolDecoded_InvalidAckCodeError(byte[] ack_code)
         {
-            //Header 제거
-            byte[] ack_code = new byte[] { 0x32, 0x30, 0x52, 0x53, 0x53, 0x30, 0x31, 0x30, 0x32, 0x41, 0x39, 0x46, 0x33, 0x03 };
-
             XGTCnetCompressor cnet_comp = new XGTCnetCompressor();
-
-            XGTCnetProtocol cnet = cnet_comp.Decode(ack_code) as XGTCnetProtocol;
-        }
-
-        [Test]
-        [ExpectedException(typeof(Exception))]
-        public void WhenProtocolDecoded_InvalidAckCodeError2()
-        {
-            //tail 제거
-            byte[] ack_code = new byte[] { 0x06, 0x32, 0x30, 0x52, 0x53, 0x53, 0x30, 0x31, 0x30, 0x32, 0x41, 0x39, 0x46, 0x33 };
-
-            XGTCnetCompressor cnet_comp = new XGTCnetCompressor();
-
             XGTCnetProtocol cnet = cnet_comp.Decode(ack_code) as XGTCnetProtocol;
         }
     }

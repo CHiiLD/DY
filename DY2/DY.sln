@@ -7,6 +7,13 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DY.NET", "DY.NET\DY.NET.csp
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DY.NET.TEST", "DY.NET.TEST\DY.NET.TEST.csproj", "{8E5462AB-7061-4450-9F0C-7A0BD4B145BA}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = ".nuget", ".nuget", "{D77C4590-F4AD-437B-AE2A-81BB906F1A9C}"
+	ProjectSection(SolutionItems) = preProject
+		.nuget\NuGet.Config = .nuget\NuGet.Config
+		.nuget\NuGet.exe = .nuget\NuGet.exe
+		.nuget\NuGet.targets = .nuget\NuGet.targets
+	EndProjectSection
+EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Moq", "..\submodule\moq4\Source\Moq.csproj", "{1C91AC30-5977-4BE5-BA67-8EB186C03514}"
 EndProject
 Global

@@ -8,14 +8,20 @@ using System.IO.Ports;
 
 namespace DY.NET.LSIS.XGT
 {
-    public class XGTCnetStream : IProtocolStream
+    public class XGTCnetStream : SerialPort, IProtocolStream
     {
-        public Stream Stream { get; set; }
-        public SerialPort SerialPort { get; protected set; }
+        public int ReceiveTimeout { get; set; }
+        public int SendTimeout { get; set; }
 
-        public XGTCnetStream(SerialPort serialPort)
+        public Stream GetStream()
         {
-            SerialPort = serialPort;
+            return null;
+        }
+
+        public XGTCnetStream(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
+            : base(portName, baudRate, parity, dataBits, stopBits)
+        {
+
         }
 
         public async Task<bool> OpenAsync()
@@ -27,12 +33,7 @@ namespace DY.NET.LSIS.XGT
         {
         }
 
-        public async Task<bool> IsConnected()
-        {
-            return false;
-        }
-
-        public async Task<bool> CanCommunicate()
+        public bool IsOpend()
         {
             return false;
         }
@@ -42,9 +43,9 @@ namespace DY.NET.LSIS.XGT
             return null;
         }
 
-        public void Dispose()
+        public new void Dispose()
         {
-
+            base.Dispose();
         }
     }
 }

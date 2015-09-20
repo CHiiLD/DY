@@ -6,8 +6,9 @@ using System.Threading.Tasks;
 
 namespace DY.NET
 {
-    public interface IProtocolStream : IStream, ITimeout
+    public interface ITimeout
     {
-        Task<IProtocol> SendAsync(IProtocol protocol);
+        int ReceiveTimeout { get; set; }
+        int SendTimeout { get; set; }
     }
 }

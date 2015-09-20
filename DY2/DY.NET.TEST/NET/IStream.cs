@@ -9,10 +9,9 @@ namespace DY.NET
 {
     public interface IStream : IDisposable
     {
-        Stream Stream { get; set; }
+        Stream GetStream();
+        bool IsOpend();
         Task<bool> OpenAsync();
         Task CloseAsync();
-        Task<bool> IsConnected();
-        Task<bool> CanCommunicate();
     }
 }

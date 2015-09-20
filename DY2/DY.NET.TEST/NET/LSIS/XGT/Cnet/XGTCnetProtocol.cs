@@ -30,16 +30,6 @@ namespace DY.NET.LSIS.XGT
             CommandType = XGTCnetCommandType.SS;
         }
 
-#if false
-        public XGTCnetProtocol(ushort localPort, XGTCnetCommand cmd, XGTCnetCommandType type)
-            : this()
-        {
-            LocalPort = localPort;
-            Command = cmd;
-            CommandType = type;
-        }
-#endif
-
         public virtual int GetErrorCode()
         {
             //Error 코드를 int로 변환해서 반환
