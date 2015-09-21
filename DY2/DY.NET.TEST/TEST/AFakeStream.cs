@@ -12,8 +12,8 @@ namespace DY.NET.TEST
     {
         protected byte[] Buffer;
         public Type DataType { get; set; }
-        public int ReadDalay { get; set; }
-        public int WriteDalay { get; set; }
+        public int ReadDalayTime { get; set; }
+        public int WriteDalayTime { get; set; }
 
         public override bool CanRead { get { return false; } }
         public override bool CanSeek { get { return false; } }

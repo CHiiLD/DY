@@ -16,7 +16,6 @@ namespace DY.NET.TEST
         public void SetUp()
         {
             m_StreamMock = new Mock<IProtocolStream>();
-            m_StreamMock.Setup(m => m.OpenAsync()).ReturnsAsync(true);
             m_StreamMock.Setup(m => m.IsOpend()).Returns(true);
         }
 
@@ -31,7 +30,7 @@ namespace DY.NET.TEST
         public async void WhenStreamOpend_CanCommunicate()
         {
             var stream = m_StreamMock.Object;
-            Assert.True(await stream.OpenAsync());
+            await stream.OpenAsync();
             Assert.True(stream.IsOpend());
             Assert.DoesNotThrow(async () => { await stream.CloseAsync(); });
         }

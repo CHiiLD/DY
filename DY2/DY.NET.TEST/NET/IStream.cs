@@ -11,7 +11,7 @@ namespace DY.NET
     {
         Stream GetStream();
         bool IsOpend();
-        Task<bool> OpenAsync();
+        Task OpenAsync();
         Task CloseAsync();
     }
 }
