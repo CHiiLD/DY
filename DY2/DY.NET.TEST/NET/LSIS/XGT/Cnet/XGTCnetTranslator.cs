@@ -4,11 +4,14 @@ using System.Text;
 namespace DY.NET.LSIS.XGT
 {
     /// <summary>
-    /// XGT CNET 전용, byte[] 데이터 <-> 정수, 문자열 데이터 ; 변환 클래스
+    /// XGT Cnet Protocol의 ASCII 데이터를 분석, 해석한다.
     /// </summary>
     public static class XGTCnetTranslator
     {
-        public static byte[] LocalPortToInfoData(ushort localport)
+        /// <summary>
+        /// 국번을 ASCII데이터로 변환하여 반환한다.
+        /// </summary>
+        public static byte[] LocalPortToASCII(ushort localport)
         {
             const int LOCALPORT_LIMIT = 99;
             if (localport > LOCALPORT_LIMIT)
@@ -22,7 +25,10 @@ namespace DY.NET.LSIS.XGT
             return result;
         }
 
-        public static ushort InfoDataToLocalPort(byte[] bytes)
+        /// <summary>
+        /// ASCII데이터를 국번으로 해석하여 반환한다.
+        /// </summary>
+        public static ushort ASCIIToLocalPort(byte[] bytes)
         {
             StringBuilder sb = new StringBuilder();
             foreach (byte b in bytes)
@@ -30,7 +36,10 @@ namespace DY.NET.LSIS.XGT
             return Convert.ToUInt16(sb.ToString());
         }
 
-        public static byte[] UInt16ToInfoData(ushort value)
+        /// <summary>
+        /// 블록(개수) 데이터를 ASCII로 변환하여 반환한다.
+        /// </summary>
+        public static byte[] BlockDataToASCII(ushort value)
         {
             string hex_str = string.Format("{0:X2}", value);
             byte[] result = new byte[hex_str.Length];
@@ -39,7 +48,10 @@ namespace DY.NET.LSIS.XGT
             return result;
         }
 
-        public static byte[] Int32ToInfoData(int value)
+        /// <summary>
+        /// 블록(개수) 데이터를 ASCII로 변환하여 반환한다.
+        /// </summary>
+        public static byte[] BlockDataToASCII(int value)
         {
             string hex_str = string.Format("{0:X2}", value);
             byte[] result = new byte[hex_str.Length];
@@ -48,7 +60,10 @@ namespace DY.NET.LSIS.XGT
             return result;
         }
 
-        public static ushort InfoDataToUInt16(byte[] bytes)
+        /// <summary>
+        /// ASCII데이터를 블록 데이터로 해석하여 반환환다.
+        /// </summary>
+        public static ushort ASCIIToBlockData(byte[] bytes)
         {
             StringBuilder sb = new StringBuilder();
             foreach (byte b in bytes)
@@ -58,35 +73,48 @@ namespace DY.NET.LSIS.XGT
             return target;
         }
 
+        /// <summary>
+        /// 메모리의 주소 이름을 ASCII데이터로 변환하여 반환한다.
+        /// </summary>
         public static byte[] AddressDataToASCII(string address)
         {
-            var target = new byte[address.Length];
-            for (int i = 0; i < address.Length; i++)
-                target[i] = (byte)address[i];
-            return target;
+            return Encoding.ASCII.GetBytes(address);
         }
 
+        /// <summary>
+        /// ASCII데이터를 메모리의 주소 이름으로 해석하여 반환한다.
+        /// </summary>
         public static string ASCIIToAddressData(byte[] bytes)
         {
-            StringBuilder sb = new StringBuilder();
-            foreach (byte b in bytes)
-                sb.Append(Convert.ToChar(b));
-            return sb.ToString();
+            return BitConverter.ToString(bytes, 0);
         }
 
+        /// <summary>
+        /// ASCII데이터를 에러코드로 해석하여 반환한다.
+        /// </summary>
+        /// <param name="code"></param>
+        /// <returns></returns>
         public static ushort ErrorCodeToInteger(byte[] code)
         {
-            return InfoDataToLocalPort(code);
+            return ASCIIToLocalPort(code);
         }
 
+        /// <summary>
+        /// 정수 또는 이진 데이터를 ASCII데이터로 변환하여 반환한다.
+        /// </summary>
         public static byte[] ValueDataToASCII(object value)
         {
+            if (value == null)
+                throw new ArgumentNullException();
             return ValueDataToASCII(value, value.GetType());
         }
 
+        /// <summary>
+        /// 정수 또는 이진 데이터를 ASCII데이터로 변환하여 반환한다.
+        /// </summary>
         public static byte[] ValueDataToASCII(object value, Type type)
         {
-            if (value == null)
+            if (value == null || type == null)
                 throw new ArgumentNullException();
             
             byte[] target = null;
@@ -102,7 +130,7 @@ namespace DY.NET.LSIS.XGT
             else if (type == typeof(Int64) || type == typeof(UInt64))
                 hex_str = string.Format("{0:X16}", value);
             else
-                throw new ArgumentException();
+                throw new ArgumentException("Unsupported data types.");
             
             target = new byte[hex_str.Length];
             for (int i = 0; i < hex_str.Length; i++)
@@ -110,8 +138,15 @@ namespace DY.NET.LSIS.XGT
             return target;
         }
         
+        /// <summary>
+        /// ASCII데이터를 정수 또는 이진 값으로 해석하여 반환한다.
+        /// </summary>
+        /// <returns></returns>
         public static object ASCIIToValueData(byte[] bytes, Type type)
         {
+            if (bytes == null || type == null)
+                throw new ArgumentNullException();
+
             object target = null;
             const int HEX = 16;
 
@@ -139,7 +174,7 @@ namespace DY.NET.LSIS.XGT
             else if (type == typeof(UInt64))
                 target = Convert.ToUInt64(hex_str, HEX);
             else
-                throw new ArgumentException();
+                throw new ArgumentException("Unsupported data types.");
             return target;
         }
     }

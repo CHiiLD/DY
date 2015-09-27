@@ -6,6 +6,9 @@ using System.Threading.Tasks;
 
 namespace DY.NET
 {
+    /// <summary>
+    /// 읽기타임아웃 예외 클래스
+    /// </summary>
     public class ReadTimeoutException : TimeoutException
     {
         public ReadTimeoutException(string message)

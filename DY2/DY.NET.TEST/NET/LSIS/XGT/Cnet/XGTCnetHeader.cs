@@ -16,6 +16,9 @@
 
     public static class XGTCnetHeaderExtension
     {
+        /// <summary>
+        /// XGTCnetHeader를 byte로 반환한다.
+        /// </summary>
         public static byte ToByte(this XGTCnetHeader type)
         {
             return (byte)type;

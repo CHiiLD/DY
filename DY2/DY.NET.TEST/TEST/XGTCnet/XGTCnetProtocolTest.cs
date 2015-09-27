@@ -58,37 +58,5 @@ namespace DY.NET.TEST
             Assert.AreEqual(cnet.LocalPort, ushort.MaxValue);
             Assert.AreEqual(cnet.Items, null);
         }
-
-        [Test]
-        [ExpectedException(typeof(Exception))]
-        public void WhenProtocolEncoded_BlockCountOverError()
-        {
-            ushort localport = 20;
-            var cmd = XGTCnetCommand.W;
-            string addr = "%MW100";
-            ushort value = 0x00E2;
-            XGTCnetProtocol cnet = new XGTCnetProtocol(localport, cmd);
-            cnet.Items = new System.Collections.Generic.List<IProtocolData>();
-            for (int i = 0; i < 17; i++)
-                cnet.Items.Add(new ProtocolData(addr, value));
-
-            XGTCnetCompressor cnet_comp = new XGTCnetCompressor();
-            byte[] ascii_code = cnet_comp.Encode(cnet);
-        }
-
-        [Test]
-        [ExpectedException(typeof(Exception))]
-        public void WhenProtocolEncoded_AddressLengthOverError()
-        {
-            ushort localport = 20;
-            var cmd = XGTCnetCommand.W;
-            string addr = "%MW4567890123";
-            ushort value = 0x00E2;
-            XGTCnetProtocol cnet = new XGTCnetProtocol(localport, cmd);
-            cnet.Items = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr, value) };
-
-            XGTCnetCompressor cnet_comp = new XGTCnetCompressor();
-            byte[] ascii_code = cnet_comp.Encode(cnet);
-        }
     }
 }

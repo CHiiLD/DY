@@ -15,6 +15,9 @@ namespace DY.NET.LSIS.XGT
 
     public static class XGTCnetCommandTypeExtension
     {
+        /// <summary>
+        /// XGTCnetCommandType를 byte[2]로 반환한다.
+        /// </summary>
         public static byte[] ToBytes(this XGTCnetCommandType type)
         {
             byte[] result = null;

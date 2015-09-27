@@ -20,10 +20,10 @@ namespace DY.NET.TEST
         }
 
         [TestFixtureTearDown]
-        public async void TearDown()
+        public void TearDown()
         {
             var stream = m_StreamMock.Object;
-            await stream.CloseAsync();
+            stream.Close();
         }
 
         [Test]
@@ -32,7 +32,7 @@ namespace DY.NET.TEST
             var stream = m_StreamMock.Object;
             await stream.OpenAsync();
             Assert.True(stream.IsOpend());
-            Assert.DoesNotThrow(async () => { await stream.CloseAsync(); });
+            Assert.DoesNotThrow(() => {  stream.Close(); });
         }
 
         [Test]

@@ -6,8 +6,17 @@ using System.Threading.Tasks;
 
 namespace DY.NET.LSIS.XGT
 {
+    /// <summary>
+    /// XGTCnetProtocol를 LSIS-XGT PLC에 보낼 Cnet Protocol-ASCII구조로 압축하고
+    /// LSIS-XGT PLC에서 받은 Cnet Protocol-ASCII 데이터를 XGTCnetProtocol로 해석한다.
+    /// </summary>
     public class XGTCnetCompressor : IProtocolCompressor
     {
+        /// <summary>
+        /// XGTCnetProtocol를 LSIS-XGT PLC에 보낼 Cnet Protocol-ASCII구조로 압축하여 반환한다.
+        /// </summary>
+        /// <param name="protocol">XGTCnetProtocol</param>
+        /// <returns>Cnet Protocol-ASCII</returns>
         public virtual byte[] Encode(IProtocol protocol)
         {
             const int ITEM_MAX_COUNT = 16;
@@ -20,10 +29,10 @@ namespace DY.NET.LSIS.XGT
             cnet.Error = XGTCnetError.OK;
 
             buf.Add(cnet.Header.ToByte());
-            buf.AddRange(XGTCnetTranslator.LocalPortToInfoData(cnet.LocalPort));
+            buf.AddRange(XGTCnetTranslator.LocalPortToASCII(cnet.LocalPort));
             buf.Add(cnet.Command.ToByte());
             buf.AddRange(cnet.CommandType.ToBytes());
-            buf.AddRange(XGTCnetTranslator.Int32ToInfoData(cnet.Items.Count));
+            buf.AddRange(XGTCnetTranslator.BlockDataToASCII(cnet.Items.Count));
             if (cnet.Items.Count > ITEM_MAX_COUNT)
                 throw new Exception("블록 수 초과 에러");
 
@@ -31,7 +40,7 @@ namespace DY.NET.LSIS.XGT
             {
                 if (item.Address.Length > ADDRESS_STRING_MAX_LENGTH)
                     throw new Exception("주소 문자열 길이 초과 에러");
-                buf.AddRange(XGTCnetTranslator.Int32ToInfoData(item.Address.Length));
+                buf.AddRange(XGTCnetTranslator.BlockDataToASCII(item.Address.Length));
                 buf.AddRange(XGTCnetTranslator.AddressDataToASCII(item.Address));
                 if (cnet.Command == XGTCnetCommand.W)
                     buf.AddRange(XGTCnetTranslator.ValueDataToASCII(item.Value));
@@ -41,6 +50,11 @@ namespace DY.NET.LSIS.XGT
             return buf.ToArray();
         }
 
+        /// <summary>
+        /// LSIS-XGT PLC에서 받은 Cnet Protocol-ASCII 데이터를 XGTCnetProtocol로 해석하여 반환한다.
+        /// </summary>
+        /// <param name="ascii">Cnet Protocol-ASCII</param>
+        /// <returns>XGTCnetProtocol</returns>
         public virtual IProtocol Decode(byte[] ascii)
         {
             var header = (XGTCnetHeader)ascii.First();
@@ -50,7 +64,7 @@ namespace DY.NET.LSIS.XGT
             if (tail != XGTCnetHeader.ETX)
                 throw new Exception("ASCII Tail 분석 실패 에러");
             XGTCnetCommand cmd = (XGTCnetCommand)ascii[3];
-            ushort localport = XGTCnetTranslator.InfoDataToLocalPort(new byte[] { ascii[1], ascii[2] });
+            ushort localport = XGTCnetTranslator.ASCIIToLocalPort(new byte[] { ascii[1], ascii[2] });
             XGTCnetProtocol cnet = new XGTCnetProtocol(localport, cmd);
             cnet.Header = header;
             cnet.Tail = tail;
@@ -64,12 +78,12 @@ namespace DY.NET.LSIS.XGT
 
             if (cmd == XGTCnetCommand.R)
             {
-                cnet.Items = new List<IProtocolData>();
-                int count = XGTCnetTranslator.InfoDataToUInt16(new byte[] { ascii[6], ascii[7] });
+                if (cnet.Items == null) cnet.Items = new List<IProtocolData>(); else cnet.Items.Clear();
+                int count = XGTCnetTranslator.ASCIIToBlockData(new byte[] { ascii[6], ascii[7] });
                 int idx = 8;
                 for (int i = 0; i < count; i++)
                 {
-                    ushort size = XGTCnetTranslator.InfoDataToUInt16(new byte[] { ascii[idx], ascii[idx + 1] });
+                    ushort size = XGTCnetTranslator.ASCIIToBlockData(new byte[] { ascii[idx], ascii[idx + 1] });
                     idx += 2;
                     byte[] code = new byte[size * 2];
                     Buffer.BlockCopy(ascii, idx, code, 0, code.Length);
@@ -81,6 +95,11 @@ namespace DY.NET.LSIS.XGT
             return cnet;
         }
 
+        /// <summary>
+        /// PLC Address에 해당되는 정수byte[]정보를 사용하여 적절한 자료형의 변수로 해석하여 반환한다.
+        /// </summary>
+        /// <param name="code">정수byte[]정보</param>
+        /// <returns>정수</returns>
         public virtual object ConvertAutomatically(byte[] code)
         {
             object value = null;

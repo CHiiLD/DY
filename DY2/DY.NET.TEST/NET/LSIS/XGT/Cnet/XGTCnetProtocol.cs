@@ -6,15 +6,19 @@ using System.Threading.Tasks;
 
 namespace DY.NET.LSIS.XGT
 {
+    /// <summary>
+    /// XGT Cnet Protocol Structure Information
+    /// </summary>
     public class XGTCnetProtocol : IProtocol
     {
+        //FRAME INFORMATION
         public XGTCnetHeader Header { set; get; }
         public ushort LocalPort { set; get; }
         public XGTCnetCommand Command { set; get; }
         public XGTCnetCommandType CommandType { protected set; get; }
         public XGTCnetHeader Tail { set; get; }
         public XGTCnetError Error { get; set; }
-
+        //DATA INFORMATION
         public IList<IProtocolData> Items { get; set; }
 
         public XGTCnetProtocol()
@@ -30,12 +34,17 @@ namespace DY.NET.LSIS.XGT
             CommandType = XGTCnetCommandType.SS;
         }
 
+        /// 프로토콜 에러코드를 반환한다. 
+        /// </summary>
+        /// <returns>0을 제외한 값은 에러코드</returns>
         public virtual int GetErrorCode()
         {
-            //Error 코드를 int로 변환해서 반환
             return (int)Error;
         }
 
+        /// <summary>
+        /// 프로퍼티 초기화
+        /// </summary>
         public virtual void Initialize()
         {
             Header = XGTCnetHeader.NONE;

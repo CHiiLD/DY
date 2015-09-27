@@ -11,7 +11,7 @@ namespace DY.NET.TEST
     public abstract class AFakeStream : Stream
     {
         protected byte[] Buffer;
-        public Type DataType { get; set; }
+        
         public int ReadDalayTime { get; set; }
         public int WriteDalayTime { get; set; }
 
@@ -26,9 +26,14 @@ namespace DY.NET.TEST
         public override void Flush() { }
         public override int Read(byte[] buffer, int offset, int count) { return -1; }
 
-        public AFakeStream()
-        {
-            DataType = typeof(ushort);
-        }
+        //public AFakeStream()
+        //{
+        //    DataType = typeof(ushort);
+        //}
+
+        //public AFakeStream(Type type)
+        //{
+        //    DataType = type;
+        //}
     }
 }

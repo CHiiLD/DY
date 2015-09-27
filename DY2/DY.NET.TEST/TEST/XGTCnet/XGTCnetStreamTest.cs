@@ -16,9 +16,11 @@ namespace DY.NET.TEST
     {
         private class FakeStraem : AFakeStream
         {
-            public FakeStraem()
-                : base()
+            public Type DataType { get; set; }
+
+            public FakeStraem(Type type)
             {
+                DataType = type;
             }
 
             public override async Task<int> ReadAsync(byte[] buffer, int offset, int count, CancellationToken cancellationToken)
@@ -41,32 +43,32 @@ namespace DY.NET.TEST
                 if (buffer[3] == XGTCnetCommand.R.ToByte())
                 {
                     buf.AddRange(new byte[] { buffer[6], buffer[7] });
-                    var size = XGTCnetTranslator.InfoDataToUInt16(new byte[] { buffer[6], buffer[7] });
+                    var size = XGTCnetTranslator.ASCIIToBlockData(new byte[] { buffer[6], buffer[7] });
                     for (int i = 0; i < size; i++)
                     {
                         if (DataType == typeof(bool))
                         {
-                            buf.AddRange(XGTCnetTranslator.UInt16ToInfoData(1));
+                            buf.AddRange(XGTCnetTranslator.BlockDataToASCII(1));
                             buf.AddRange(new byte[] { 0x30, 0x30 });
                         }
                         else if (DataType == typeof(byte) || DataType == typeof(sbyte))
                         {
-                            buf.AddRange(XGTCnetTranslator.UInt16ToInfoData(1));
+                            buf.AddRange(XGTCnetTranslator.BlockDataToASCII(1));
                             buf.AddRange(new byte[] { 0x30, 0x30 });
                         }
                         else if (DataType == typeof(ushort) || DataType == typeof(short))
                         {
-                            buf.AddRange(XGTCnetTranslator.UInt16ToInfoData(2));
+                            buf.AddRange(XGTCnetTranslator.BlockDataToASCII(2));
                             buf.AddRange(new byte[] { 0x30, 0x30, 0x30, 0x30 });
                         }
                         else if (DataType == typeof(int) || DataType == typeof(uint))
                         {
-                            buf.AddRange(XGTCnetTranslator.UInt16ToInfoData(4));
+                            buf.AddRange(XGTCnetTranslator.BlockDataToASCII(4));
                             buf.AddRange(new byte[] { 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30 });
                         }
                         else if (DataType == typeof(long) || DataType == typeof(ulong))
                         {
-                            buf.AddRange(XGTCnetTranslator.UInt16ToInfoData(8));
+                            buf.AddRange(XGTCnetTranslator.BlockDataToASCII(8));
                             buf.AddRange(new byte[] { 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30 });
                         }
                     }
@@ -76,74 +78,42 @@ namespace DY.NET.TEST
             }
         }
 
-        private class FakeXGTCnetStream : IProtocolStream
+        private class FakeXGTCnetStream : XGTCnetStream
         {
-            protected XGTCnetCompressor m_Compressor = new XGTCnetCompressor();
-            protected byte[] ReadBuffer;
-
-            private int m_ReceiveTimeout;
-            private int m_SendTimeout;
-
-            public int ReceiveTimeout 
-            {
-                get
-                {
-                    return m_ReceiveTimeout;
-                }
-                set
-                {
-                    m_ReceiveTimeout = value >= 0 ? 0 : -1;
-                }
-            }
-            
-            public int SendTimeout 
-            { 
-                get
-                {
-                    return m_SendTimeout;
-                }
-                set
-                {
-                    m_SendTimeout = value >= 0 ? 0 : -1;
-                }
-            }
-
-            private System.IO.Stream m_Stream;
+            private Stream m_Stream;
 
             public FakeXGTCnetStream(System.IO.Stream stream)
             {
-                SendTimeout = -1;
-                ReceiveTimeout = -1;
                 this.m_Stream = stream;
-                ReadBuffer = new byte[1024 * 4];
             }
 
-            public virtual Stream GetStream()
+            public override Stream GetStream()
             {
                 return this.m_Stream;
             }
 
-            public virtual async Task OpenAsync()
+            public override async Task OpenAsync()
+            {
+                await Task.Run(() => { });
+            }
+
+            public override void Close()
             {
             }
 
-            public virtual async Task CloseAsync()
-            {
-            }
-
-            public virtual bool IsOpend()
+            public override bool IsOpend()
             {
                 return true;
             }
 
-            public virtual async Task<IProtocol> SendAsync(IProtocol protocol)
+            public override async Task<IProtocol> SendAsync(IProtocol protocol)
             {
-                byte[] code = m_Compressor.Encode(protocol);
+                byte[] code = Compressor.Encode(protocol);
                 Stream stream = GetStream();
 
                 CancellationTokenSource cts = new CancellationTokenSource();
                 Task write_task = stream.WriteAsync(code, 0, code.Length, cts.Token);
-                if (await Task.WhenAny(write_task, Task.Delay(SendTimeout, cts.Token)) != write_task)
+                if (await Task.WhenAny(write_task, Task.Delay(SendingTimeout, cts.Token)) != write_task)
                 {
                     cts.Cancel();
                     throw new WriteTimeoutException();
@@ -156,7 +126,7 @@ namespace DY.NET.TEST
                 do
                 {
                     Task read_task = stream.ReadAsync(this.ReadBuffer, idx, this.ReadBuffer.Length - idx, cts.Token);
-                    if (await Task.WhenAny(read_task, Task.Delay(ReceiveTimeout, cts.Token)) != read_task)
+                    if (await Task.WhenAny(read_task, Task.Delay(ReceiveingTimeout, cts.Token)) != read_task)
                     {
                         cts.Cancel();
                         throw new ReadTimeoutException();
@@ -166,12 +136,7 @@ namespace DY.NET.TEST
 
                 var buffer = new byte[idx];
                 System.Buffer.BlockCopy(this.ReadBuffer, 0, buffer, 0, buffer.Length);
-                return m_Compressor.Decode(buffer);
-            }
-
-            public void Dispose()
-            {
-
+                return Compressor.Decode(buffer);
             }
         }
 
@@ -182,16 +147,17 @@ namespace DY.NET.TEST
         {
             ushort localport = 20;
             string addr = "%MW100";
+            ushort value = 0;
             XGTCnetProtocol resquest = new XGTCnetProtocol(localport, cmd);
-            resquest.Items = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr, (ushort)0) };
+            resquest.Items = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr, value) };
             XGTCnetProtocol expectedResult = new XGTCnetProtocol(localport, cmd)
             {
                 Header = XGTCnetHeader.ACK,
                 Tail = XGTCnetHeader.ETX,
-                Items = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData((ushort)0) }
+                Items = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(value) }
             };
 
-            var fakeCnetStream = new FakeXGTCnetStream(new FakeStraem());
+            var fakeCnetStream = new FakeXGTCnetStream(new FakeStraem(value.GetType()));
             await fakeCnetStream.OpenAsync();
             XGTCnetProtocol response = await fakeCnetStream.SendAsync(resquest) as XGTCnetProtocol;
 
@@ -210,14 +176,15 @@ namespace DY.NET.TEST
         public async void WhenFakeXGTCNetStreamFloated_ExpectedWriteTimeoutException()
         {
             int writeDelayTime = 50;
-            int writeTimeout = 50;
+            int writeTimeout = 25;
             ushort localport = 20;
             string addr = "%MW100";
+            ushort value = 0;
             var cmd = XGTCnetCommand.R;
             XGTCnetProtocol resquest = new XGTCnetProtocol(localport, cmd);
-            resquest.Items = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr, (ushort)0) };
+            resquest.Items = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr, value) };
 
-            var fakeCnetStream = new FakeXGTCnetStream(new FakeStraem() { WriteDalayTime = writeDelayTime }) { SendTimeout = writeTimeout };
+            var fakeCnetStream = new FakeXGTCnetStream(new FakeStraem(value.GetType()) { WriteDalayTime = writeDelayTime }) { SendingTimeout = writeTimeout };
             await fakeCnetStream.OpenAsync();
             XGTCnetProtocol response = await fakeCnetStream.SendAsync(resquest) as XGTCnetProtocol;
         }
@@ -227,14 +194,15 @@ namespace DY.NET.TEST
         public async void WhenFakeXGTCNetStreamFloated_ExpectedReadTimeoutException()
         {
             int readDelayTime = 50;
-            int readTimeout = 50;
+            int readTimeout = 25;
             ushort localport = 20;
             string addr = "%MW100";
+            ushort value = 0;
             var cmd = XGTCnetCommand.R;
             XGTCnetProtocol resquest = new XGTCnetProtocol(localport, cmd);
-            resquest.Items = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr, (ushort)0) };
+            resquest.Items = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr, value) };
 
-            var fakeCnetStream = new FakeXGTCnetStream(new FakeStraem() { ReadDalayTime = readDelayTime }) { ReceiveTimeout = readTimeout };
+            var fakeCnetStream = new FakeXGTCnetStream(new FakeStraem(value.GetType()) { ReadDalayTime = readDelayTime }) { ReceiveingTimeout = readTimeout };
             await fakeCnetStream.OpenAsync();
             XGTCnetProtocol response = await fakeCnetStream.SendAsync(resquest) as XGTCnetProtocol;
         }

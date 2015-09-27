@@ -70,23 +70,39 @@
   </Choose>
   <ItemGroup>
     <Compile Include="NET\Exception\ReadTimeoutException.cs" />
-    <Compile Include="NET\Exception\WriteException.cs" />
-    <Compile Include="NET\ITimeout.cs" />
-    <Compile Include="NET\LSIS\IProtocolStream.cs" />
-    <Compile Include="NET\IStream.cs" />
-    <Compile Include="NET\IValue.cs" />
-    <Compile Include="NET\LSIS\ProtocolData.cs" />
+    <Compile Include="NET\Exception\WriteTimeoutException.cs" />
+    <Compile Include="NET\Interface\ITimeout.cs" />
+    <Compile Include="NET\Interface\IProtocolStream.cs" />
+    <Compile Include="NET\Interface\IStream.cs" />
+    <Compile Include="NET\Interface\IValue.cs" />
+    <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetStream.cs" />
+    <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetTranslator.cs" />
+    <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetCompressor.cs" />
+    <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetClass.cs" />
+    <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetCommand.cs" />
+    <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetCompanyID.cs" />
+    <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetCpuInfo.cs" />
+    <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetCpuState.cs" />
+    <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetCpuType.cs" />
+    <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetDataType.cs" />
+    <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetPLCSystemState.cs" />
+    <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetPort.cs" />
+    <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetProtocol.cs" />
+    <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetError.cs" />
+    <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetStreamDirection.cs" />
+    <Compile Include="NET\ProtocolData.cs" />
     <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetStream.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetTranslator.cs" />
-    <Compile Include="NET\LSIS\IProtocol.cs" />
-    <Compile Include="NET\LSIS\IProtocolCompressor.cs" />
-    <Compile Include="NET\LSIS\IProtocolItem.cs" />
+    <Compile Include="NET\Interface\IProtocol.cs" />
+    <Compile Include="NET\Interface\IProtocolCompressor.cs" />
+    <Compile Include="NET\Interface\IProtocolItem.cs" />
     <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetCompressor.cs" />
     <Compile Include="TEST\AFakeStream.cs" />
-    <Compile Include="TEST\XGTCnetCompressorTest.cs" />
-    <Compile Include="TEST\XGTCnetProtocolTest.cs" />
+    <Compile Include="TEST\OverridingTest.cs" />
+    <Compile Include="TEST\XGTCnet\XGTCnetCompressorTest.cs" />
+    <Compile Include="TEST\XGTCnet\XGTCnetProtocolTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetCommand.cs" />
     <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetCommandType.cs" />
@@ -94,8 +110,13 @@
     <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetProtocol.cs" />
     <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetError.cs" />
     <Compile Include="TEST\ProtocolStreamMockTest.cs" />
-    <Compile Include="TEST\XGTCnetStreamTest.cs" />
-    <Compile Include="TEST\XGTCnetTranslatorTest.cs" />
+    <Compile Include="TEST\XGTCnet\XGTCnetStreamTest.cs" />
+    <Compile Include="TEST\XGTCnet\XGTCnetTranslatorTest.cs" />
+    <Compile Include="TEST\XGTFEnet\XGTFEnetRealDeviceTest.cs" />
+    <Compile Include="TEST\XGTFEnet\XGTFEnetStreamTest.cs" />
+    <Compile Include="TEST\XGTFEnet\XGTFEnetTranslatorTest.cs" />
+    <Compile Include="TEST\XGTFEnet\XGTFEnetProtocolTest.cs" />
+    <Compile Include="TEST\XGTFEnet\XGTFEnetCompressorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
@@ -106,6 +127,7 @@
       <Name>Moq</Name>
     </ProjectReference>
   </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

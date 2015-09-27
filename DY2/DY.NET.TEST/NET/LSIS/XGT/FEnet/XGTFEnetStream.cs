@@ -3,22 +3,31 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.IO;
-using System.IO.Ports;
 using System.Threading;
+using System.Net.Sockets;
+using System.IO;
 
 namespace DY.NET.LSIS.XGT
 {
-    /// <summary>
-    /// XGT Cnet Protocol Communication
-    /// </summary>
-    public class XGTCnetStream : SerialPort, IProtocolStream
+    public class XGTFEnetStream : TcpClient, IProtocolStream
     {
         private int m_ReceiveTimeout;
         private int m_SendTimeout;
         private int m_ConnectTimeout;
-        protected IProtocolCompressor Compressor = new XGTCnetCompressor();
+        protected IProtocolCompressor Compressor = new XGTFEnetCompressor();
         protected byte[] ReadBuffer;
+
+        public string Hostname
+        {
+            get;
+            set;
+        }
+
+        public int Port
+        {
+            get;
+            set;
+        }
 
         public int ReceiveingTimeout
         {
@@ -56,28 +65,25 @@ namespace DY.NET.LSIS.XGT
             }
         }
 
-        protected XGTCnetStream() 
+        public XGTFEnetStream()
         {
-            ReadBuffer = new byte[base.ReadBufferSize];
+            ReadBuffer = new byte[base.ReceiveBufferSize];
             ReceiveingTimeout = SendingTimeout = ConnectingTimeout = -1;
         }
 
-        public XGTCnetStream(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
+        public XGTFEnetStream(string hostname, int port = (int)XGTFEnetPort.TCP)
             : this()
         {
-            PortName = portName;
-            BaudRate = baudRate;
-            base.Parity = parity;
-            DataBits = dataBits;
-            base.StopBits = stopBits;
+            Hostname = hostname;
+            Port = port;
         }
 
         /// <summary>
         /// SerialPort의 BaseStream을 반환한다.
         /// </summary>
-        public virtual Stream GetStream()
+        public new virtual Stream GetStream()
         {
-            return base.BaseStream;
+            return base.GetStream();
         }
 
         /// <summary>
@@ -85,7 +91,7 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         public virtual async Task OpenAsync()
         {
-            Task connect_task = Task.Run(() => { base.Open(); });
+            Task connect_task = base.ConnectAsync(Hostname, Port);
             if (await Task.WhenAny(connect_task, Task.Delay(ConnectingTimeout)) == connect_task)
                 await connect_task;
             else
@@ -106,7 +112,7 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         public virtual bool IsOpend()
         {
-            return base.IsOpen;
+            return base.Connected;
         }
 
         /// <summary>
@@ -120,7 +126,6 @@ namespace DY.NET.LSIS.XGT
             Stream stream = GetStream();
 
             CancellationTokenSource cts = new CancellationTokenSource();
-            base.DiscardOutBuffer();
             Task write_task = stream.WriteAsync(code, 0, code.Length, cts.Token);
             if (await Task.WhenAny(write_task, Task.Delay(SendingTimeout, cts.Token)) != write_task)
             {
@@ -131,8 +136,9 @@ namespace DY.NET.LSIS.XGT
 
             cts = new CancellationTokenSource();
             int idx = 0;
+            ushort body_sum = 0;
+            ushort target_sum = 0;
             Array.Clear(this.ReadBuffer, 0, this.ReadBuffer.Length);
-            base.DiscardInBuffer();
             do
             {
                 Task read_task = stream.ReadAsync(this.ReadBuffer, idx, this.ReadBuffer.Length - idx, cts.Token);
@@ -142,7 +148,13 @@ namespace DY.NET.LSIS.XGT
                     throw new ReadTimeoutException();
                 }
                 idx += await (Task<int>)read_task;
-            } while (ReadBuffer[idx - 1] != XGTCnetHeader.ETX.ToByte());
+                if (idx >= 18 && target_sum == 0)
+                    target_sum = (ushort)XGTFEnetTranslator.ToValue(new byte[] { ReadBuffer[17], ReadBuffer[16] }, typeof(ushort));
+                else
+                    continue;
+                for (int i = 20; i < idx; i++)
+                    body_sum += ReadBuffer[i];
+            } while (target_sum != body_sum);
 
             var buffer = new byte[idx];
             System.Buffer.BlockCopy(this.ReadBuffer, 0, buffer, 0, buffer.Length);

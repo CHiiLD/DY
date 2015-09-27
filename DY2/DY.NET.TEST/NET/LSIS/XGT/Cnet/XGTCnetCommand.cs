@@ -14,10 +14,8 @@
     public static class XGTCnetCommandExtension
     {
         /// <summary>
-        /// XGTCnetCommand 변수를 byte로 변환한다.
+        /// XGTCnetCommand를 byte로 변환한다.
         /// </summary>
-        /// <param name="cmd"></param>
-        /// <returns></returns>
         public static byte ToByte(this XGTCnetCommand cmd)
         {
             return (byte)cmd;

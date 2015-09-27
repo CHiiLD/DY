@@ -8,7 +8,8 @@ namespace DY.NET
 {
     public interface ITimeout
     {
-        int ReceiveTimeout { get; set; }
-        int SendTimeout { get; set; }
+        int ReceiveingTimeout { get; set; }
+        int SendingTimeout { get; set; }
+        int ConnectingTimeout { get; set; }
     }
 }
