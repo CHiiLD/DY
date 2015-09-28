@@ -49,6 +49,9 @@ namespace DY.NET.LSIS.XGT
         /// <returns>FEnet Protocol-ASCII</returns>
         public virtual byte[] Encode(IProtocol protocol)
         {
+            const int ITEM_MAX_COUNT = 16;
+            const int ADDRESS_STRING_MAX_LENGTH = 16;
+
             XGTFEnetProtocol fenet = protocol as XGTFEnetProtocol;
             if (!(fenet.Command == XGTFEnetCommand.READ_REQT || fenet.Command == XGTFEnetCommand.WRITE_REQT))
                 throw new ArgumentException("Response command not supported.");
@@ -61,8 +64,17 @@ namespace DY.NET.LSIS.XGT
             buf.AddRange(new byte[] { 0x00, 0x00 }); //reserved
             buf.AddRange(XGTFEnetTranslator.ToASCII(fenet.Items.Count, typeof(ushort))); //블록 수
 
+            if (fenet.Items.Count > ITEM_MAX_COUNT)
+                throw new Exception("블록 수 초과 에러");
+
+            if (fenet.DataType == XGTFEnetDataType.BIT)
+                ConvertByteMemAddress(fenet.Items);
+
             foreach (var item in fenet.Items)
             {
+                if (item.Address.Length > ADDRESS_STRING_MAX_LENGTH)
+                    throw new Exception("주소 문자열 길이 초과 에러");
+
                 buf.AddRange(XGTFEnetTranslator.ToASCII(item.Address.Length, typeof(ushort))); //addr str length
                 buf.AddRange(XGTFEnetTranslator.ToASCII(item.Address)); //addr str
                 if (fenet.Command == XGTFEnetCommand.WRITE_REQT)
@@ -141,6 +153,20 @@ namespace DY.NET.LSIS.XGT
                 }
             }
             return fenet;
+        }
+
+        private void ConvertByteMemAddress(IList<IProtocolData> items)
+        {
+            foreach (var item in items)
+            {
+                string dec_str = item.Address.Substring(3, item.Address.Length - 4);
+                string hex_str = item.Address.Last().ToString();
+                int dec_int = Convert.ToInt32(dec_str);
+                int hex_int = Convert.ToInt32(hex_str, 16);
+                int mem_int = (dec_int * 16) + hex_int;
+                string addr = item.Address.Substring(0, 3) + mem_int.ToString();
+                item.Address = addr;
+            }
         }
 
         /// <summary>

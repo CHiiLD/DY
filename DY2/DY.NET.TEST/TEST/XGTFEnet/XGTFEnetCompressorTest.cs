@@ -214,5 +214,34 @@ namespace DY.NET.TEST.TEST.XGTFEnet
             Assert.AreEqual(result.DataType, expectedResult.DataType);
             Assert.AreEqual(result.Error, expectedResult.Error);
         }
+
+        [Test]
+        [ExpectedException(typeof(Exception))]
+        public void WhenProtocolEncoded_BlockCountOverError()
+        {
+            var cmd = XGTFEnetCommand.READ_REQT;
+            string addr = "%MW100";
+            ushort value = 0x00E2;
+            XGTFEnetProtocol fenet = new XGTFEnetProtocol(cmd, value.GetType());
+            fenet.Items = new System.Collections.Generic.List<IProtocolData>();
+            for (int i = 0; i < 17; i++)
+                fenet.Items.Add(new ProtocolData(addr, value));
+
+            XGTFEnetCompressor cnet_comp = new XGTFEnetCompressor();
+            byte[] ascii_code = cnet_comp.Encode(fenet);
+        }
+
+        [Test]
+        [ExpectedException(typeof(Exception))]
+        public void WhenProtocolEncoded_AddressLengthOverError()
+        {
+            var cmd = XGTFEnetCommand.READ_REQT;
+            string addr = "%MW45678901212213";
+            ushort value = 0x00E2;
+            XGTFEnetProtocol fenet = new XGTFEnetProtocol(cmd, value.GetType());
+            fenet.Items = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr, value) };
+            XGTFEnetCompressor cnet_comp = new XGTFEnetCompressor();
+            byte[] ascii_code = cnet_comp.Encode(fenet);
+        }
     }
 }

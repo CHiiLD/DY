@@ -124,7 +124,7 @@ namespace DY.NET.TEST
         {
             ushort localport = 20;
             var cmd = XGTCnetCommand.W;
-            string addr = "%MW4567890123";
+            string addr = "%MW45678921311023";
             ushort value = 0x00E2;
             XGTCnetProtocol cnet = new XGTCnetProtocol(localport, cmd);
             cnet.Items = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr, value) };

@@ -20,7 +20,7 @@ namespace DY.NET.LSIS.XGT
         public virtual byte[] Encode(IProtocol protocol)
         {
             const int ITEM_MAX_COUNT = 16;
-            const int ADDRESS_STRING_MAX_LENGTH = 12;
+            const int ADDRESS_STRING_MAX_LENGTH = 16;
 
             List<byte> buf = new List<byte>();
             var cnet = protocol as XGTCnetProtocol;
@@ -45,7 +45,6 @@ namespace DY.NET.LSIS.XGT
                 if (cnet.Command == XGTCnetCommand.W)
                     buf.AddRange(XGTCnetTranslator.ValueDataToASCII(item.Value));
             }
-
             buf.Add(cnet.Tail.ToByte());
             return buf.ToArray();
         }
