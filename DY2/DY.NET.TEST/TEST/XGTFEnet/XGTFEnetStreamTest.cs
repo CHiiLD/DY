@@ -37,18 +37,19 @@ namespace DY.NET.TEST.TEST.XGTFEnet
                 XGTFEnetCpuInfo.XGK.ToByte(),        //Cpu Info
                 XGTFEnetStreamDirection.PLC2PC.ToByte(),//Stream
                 0x00,0x00,  //InvokeID
-                0xA0,0x00,  //Length
+                0x00,0x00,  //Length
                 0x30,       //Position 0011 0000
                 0x00,       //Reserved 
                 };
 
-                XGTFEnetCommand cmd = (XGTFEnetCommand)XGTFEnetTranslator.ToValue(new byte[] { buffer[21], buffer[20] }, typeof(ushort));
-                XGTFEnetDataType dataType = (XGTFEnetDataType)XGTFEnetTranslator.ToValue(new byte[] { buffer[23], buffer[22] }, typeof(ushort));
-                ushort block_cnt = (ushort)XGTFEnetTranslator.ToValue(new byte[] { buffer[27], buffer[26] }, typeof(ushort));
+                XGTFEnetCommand cmd = (XGTFEnetCommand)XGTFEnetTranslator.ToValue(new byte[] { buffer[20], buffer[21] }, typeof(ushort));
+                XGTFEnetDataType dataType = (XGTFEnetDataType)XGTFEnetTranslator.ToValue(new byte[] { buffer[22], buffer[23] }, typeof(ushort));
+                ushort block_cnt = (ushort)XGTFEnetTranslator.ToValue(new byte[] { buffer[26], buffer[27] }, typeof(ushort));
                 buf.AddRange(cmd == XGTFEnetCommand.READ_REQT ? XGTFEnetCommand.READ_RESP.ToBytes().Reverse() : XGTFEnetCommand.WRITE_RESP.ToBytes().Reverse());
                 buf.AddRange(dataType.ToBytes().Reverse());
                 buf.AddRange(new byte[] { 0x00, 0x00 }); //reserved
-                buf.AddRange(XGTFEnetTranslator.ToASCII(block_cnt, typeof(ushort)).Reverse()); //블록 수
+                buf.AddRange(new byte[] { 0x00, 0x00 }); //err
+                buf.AddRange(XGTFEnetTranslator.ToASCII(block_cnt, typeof(ushort))); //블록 수
 
                 if (cmd == XGTFEnetCommand.READ_REQT)
                 {
@@ -68,7 +69,7 @@ namespace DY.NET.TEST.TEST.XGTFEnet
                             buf.AddRange(new byte[] { 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30, 0x30 });
                     }
                 }
-                byte[] length = XGTFEnetTranslator.ToASCII(buf.Sum(x => x), typeof(ushort)).Reverse().ToArray();
+                byte[] length = XGTFEnetTranslator.ToASCII(buf.Count, typeof(ushort));
                 System.Buffer.BlockCopy(length, 0, header_buf, 16, length.Length);
                 buf.InsertRange(0, header_buf);
                 this.Buffer = buf.ToArray();
@@ -104,6 +105,7 @@ namespace DY.NET.TEST.TEST.XGTFEnet
             }
         }
 
+        [Ignore]
         [Test]
         [ExpectedException(typeof(WriteTimeoutException))]
         public async void WhenFakeXGTFENetStreamFloated_ExpectedWriteTimeoutException()
@@ -117,11 +119,12 @@ namespace DY.NET.TEST.TEST.XGTFEnet
             XGTFEnetProtocol resquest = new XGTFEnetProtocol(cmd, type);
             resquest.Items = new List<IProtocolData>() { new ProtocolData(addr, value) };
 
-            var fakeCnetStream = new FakeXGTFEnetStream(new FakeStraem() { WriteDalayTime = writeDelayTime }) { SendingTimeout = writeTimeout };
+            var fakeCnetStream = new FakeXGTFEnetStream(new FakeStraem() { WriteDalayTime = writeDelayTime }) { SendTimeout = writeTimeout };
             await fakeCnetStream.OpenAsync();
             XGTCnetProtocol response = await fakeCnetStream.SendAsync(resquest) as XGTCnetProtocol;
         }
 
+        [Ignore]
         [Test]
         [ExpectedException(typeof(ReadTimeoutException))]
         public async void WhenFakeXGTFENetStreamFloated_ExpectedReadTimeoutException()
@@ -135,7 +138,7 @@ namespace DY.NET.TEST.TEST.XGTFEnet
             XGTFEnetProtocol resquest = new XGTFEnetProtocol(cmd, type);
             resquest.Items = new List<IProtocolData>() { new ProtocolData(addr, value) };
 
-            var fakeCnetStream = new FakeXGTFEnetStream(new FakeStraem() { ReadDalayTime = readDelayTime }) { ReceiveingTimeout = readTimeout };
+            var fakeCnetStream = new FakeXGTFEnetStream(new FakeStraem() { ReadDalayTime = readDelayTime }) { ReceiveTimeout = readTimeout };
             await fakeCnetStream.OpenAsync();
             XGTCnetProtocol response = await fakeCnetStream.SendAsync(resquest) as XGTCnetProtocol;
         }

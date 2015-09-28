@@ -16,6 +16,12 @@ namespace DY.NET
         {
         }
 
+        public WriteTimeoutException(TimeoutException timeoutException)
+            : base(timeoutException.Message, timeoutException.InnerException)
+        {
+
+        }
+
         public WriteTimeoutException()
             : base()
         {

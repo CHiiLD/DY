@@ -11,9 +11,11 @@ namespace DY.NET.LSIS.XGT
 {
     public class XGTFEnetStream : TcpClient, IProtocolStream
     {
+#if false
         private int m_ReceiveTimeout;
         private int m_SendTimeout;
-        private int m_ConnectTimeout;
+#endif
+        private int m_OpenTimeout;
         protected IProtocolCompressor Compressor = new XGTFEnetCompressor();
         protected byte[] ReadBuffer;
 
@@ -29,7 +31,8 @@ namespace DY.NET.LSIS.XGT
             set;
         }
 
-        public int ReceiveingTimeout
+#if false
+        public int ReceiveTimeout
         {
             get
             {
@@ -41,7 +44,7 @@ namespace DY.NET.LSIS.XGT
             }
         }
 
-        public int SendingTimeout
+        public int SendTimeout
         {
             get
             {
@@ -52,23 +55,24 @@ namespace DY.NET.LSIS.XGT
                 m_SendTimeout = value >= 0 ? value : -1;
             }
         }
+#endif
 
-        public int ConnectingTimeout
+        public int OpenTimeout
         {
             get
             {
-                return m_ConnectTimeout;
+                return m_OpenTimeout;
             }
             set
             {
-                m_ConnectTimeout = value >= 0 ? value : -1;
+                m_OpenTimeout = value >= 0 ? value : -1;
             }
         }
 
         public XGTFEnetStream()
         {
             ReadBuffer = new byte[base.ReceiveBufferSize];
-            ReceiveingTimeout = SendingTimeout = ConnectingTimeout = -1;
+            ReceiveTimeout = SendTimeout = OpenTimeout = -1;
         }
 
         public XGTFEnetStream(string hostname, int port = (int)XGTFEnetPort.TCP)
@@ -92,7 +96,7 @@ namespace DY.NET.LSIS.XGT
         public virtual async Task OpenAsync()
         {
             Task connect_task = base.ConnectAsync(Hostname, Port);
-            if (await Task.WhenAny(connect_task, Task.Delay(ConnectingTimeout)) == connect_task)
+            if (await Task.WhenAny(connect_task, Task.Delay(OpenTimeout)) == connect_task)
                 await connect_task;
             else
                 throw new TimeoutException();
@@ -115,6 +119,18 @@ namespace DY.NET.LSIS.XGT
             return base.Connected;
         }
 
+        private bool Continue(int idx)
+        {
+            ushort bodyLen = 0;
+            ushort targetLen = 0;
+
+            if (idx < XGTFEnetCompressor.HEADER_SIZE)
+                return true;
+            targetLen = (ushort)XGTFEnetTranslator.ToValue(new byte[] { ReadBuffer[XGTFEnetCompressor.HEADER_LENGTH_IDX1], ReadBuffer[XGTFEnetCompressor.HEADER_LENGTH_IDX2] }, typeof(ushort));
+            bodyLen = (ushort)(idx - XGTFEnetCompressor.HEADER_SIZE);
+            return bodyLen != targetLen;
+        }
+
         /// <summary>
         /// XGT와 비동기로 통신을 주고 받는다.
         /// </summary>
@@ -122,41 +138,35 @@ namespace DY.NET.LSIS.XGT
         /// <returns>응답 프로토콜</returns>
         public virtual async Task<IProtocol> SendAsync(IProtocol protocol)
         {
-            byte[] code = Compressor.Encode(protocol);
+            if (!base.Connected)
+                await OpenAsync();
+
             Stream stream = GetStream();
-
-            CancellationTokenSource cts = new CancellationTokenSource();
-            Task write_task = stream.WriteAsync(code, 0, code.Length, cts.Token);
-            if (await Task.WhenAny(write_task, Task.Delay(SendingTimeout, cts.Token)) != write_task)
+            byte[] code = Compressor.Encode(protocol);
+            CancellationTokenSource cts = new CancellationTokenSource(SendTimeout);
+            try
             {
-                cts.Cancel();
-                throw new WriteTimeoutException();
+                await stream.WriteAsync(code, 0, code.Length, cts.Token);
             }
-            await write_task;
-
-            cts = new CancellationTokenSource();
+            catch(TimeoutException exception)
+            {
+                throw new WriteTimeoutException(exception);
+            }
             int idx = 0;
-            ushort body_sum = 0;
-            ushort target_sum = 0;
             Array.Clear(this.ReadBuffer, 0, this.ReadBuffer.Length);
+            cts = new CancellationTokenSource(ReceiveTimeout);
             do
             {
-                Task read_task = stream.ReadAsync(this.ReadBuffer, idx, this.ReadBuffer.Length - idx, cts.Token);
-                if (await Task.WhenAny(read_task, Task.Delay(ReceiveingTimeout, cts.Token)) != read_task)
+                try
                 {
-                    cts.Cancel();
-                    throw new ReadTimeoutException();
+                    idx += await stream.ReadAsync(this.ReadBuffer, idx, this.ReadBuffer.Length - idx, cts.Token);
                 }
-                idx += await (Task<int>)read_task;
-                if (idx >= 18 && target_sum == 0)
-                    target_sum = (ushort)XGTFEnetTranslator.ToValue(new byte[] { ReadBuffer[17], ReadBuffer[16] }, typeof(ushort));
-                else
-                    continue;
-                for (int i = 20; i < idx; i++)
-                    body_sum += ReadBuffer[i];
-            } while (target_sum != body_sum);
-
-            var buffer = new byte[idx];
+                catch (TimeoutException exception)
+                {
+                    throw new ReadTimeoutException(exception);
+                }
+            } while (Continue(idx));
+            byte[] buffer = new byte[idx];
             System.Buffer.BlockCopy(this.ReadBuffer, 0, buffer, 0, buffer.Length);
             return Compressor.Decode(buffer);
         }

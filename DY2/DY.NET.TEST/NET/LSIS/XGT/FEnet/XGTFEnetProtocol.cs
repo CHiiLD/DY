@@ -11,8 +11,7 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public class XGTFEnetProtocol : IProtocol
     {
-        private readonly Random RANDOM = new Random();
-
+        private readonly Random m_Random = new Random();
         //HEADER INFORMATION
         public XGTFEnetCompanyID CompanyID { get; set; }            //PLC 제품
         public XGTFEnetCpuType CpuType { get; set; }                //bit00-05 시피유 타입
@@ -22,9 +21,10 @@ namespace DY.NET.LSIS.XGT
         public XGTFEnetStreamDirection StreamDirection { get; set; }//클라 -> 서버 or 서버 -> 클라
         public XGTFEnetCpuInfo CpuInfo { get; set; }                //XGT시리즈의 시피유 종류
         public ushort InvokeID { get; set; }                        //프레임 간의  순서를 구별하기 위한 ID (응답 프레임에 이 번호를 붙여 보내줌)
-        public ushort ByteSum { get; set; }        //실질 데이터의 바이트 길이
+        public ushort BodyLength { get; set; }                      //실질 데이터의 바이트 개수
         public byte SlotPosition { get; set; }                      // FEnet 모듈의 슬롯 넘버
         public byte BasePosition { get; set; }                      // FEnet 모듈의 베이스 넘버
+        public byte BCC { get; set; }
         //FRAME INFORMATION
         public XGTFEnetError Error { get; set; } //에러코드 2byte
         public XGTFEnetCommand Command { get; set; } // 명령어
@@ -38,9 +38,15 @@ namespace DY.NET.LSIS.XGT
         }
 
         public XGTFEnetProtocol(XGTFEnetCommand cmd, XGTFEnetDataType type)
+            : this()
         {
             Command = cmd;
             DataType = type;
+        }
+
+        public XGTFEnetProtocol(XGTFEnetCommand cmd, Type type)
+            : this(cmd, type.ToXGTFEnetDataType())
+        {
         }
 
         public virtual int GetErrorCode()
@@ -56,11 +62,15 @@ namespace DY.NET.LSIS.XGT
             CpuState = XGTFEnetCpuState.NONE;
             PLCState = XGTFEnetPLCSystemState.NONE;
             StreamDirection = XGTFEnetStreamDirection.NONE;
-            InvokeID = (ushort)RANDOM.Next((int)ushort.MaxValue);
-            ByteSum = ushort.MaxValue;
+            InvokeID = (ushort)m_Random.Next((int)ushort.MaxValue);
+            BCC = 0;
+            BodyLength = 0;
+            SlotPosition = 0;
+            BasePosition = 0;
             Error = XGTFEnetError.OK;
             Command = XGTFEnetCommand.NONE;
             DataType = XGTFEnetDataType.NONE;
+            Items = null;
         }
     }
 }

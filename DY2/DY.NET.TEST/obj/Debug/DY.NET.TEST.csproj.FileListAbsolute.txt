@@ -5,15 +5,3 @@ C:\Users\아동\Documents\DY\DY.NET.TEST\bin\Debug\nunit.framework.xml
 C:\Users\아동\Documents\DY\DY.NET.TEST\obj\Debug\DY.NET.TEST.csprojResolveAssemblyReference.cache
 C:\Users\아동\Documents\DY\DY.NET.TEST\obj\Debug\DY.NET.TEST.dll
 C:\Users\아동\Documents\DY\DY.NET.TEST\obj\Debug\DY.NET.TEST.pdb
-C:\Users\CHILD\GitHub\DY\DY2\DY.NET.TEST\bin\Debug\DY.NET.TEST.dll
-C:\Users\CHILD\GitHub\DY\DY2\DY.NET.TEST\bin\Debug\DY.NET.TEST.pdb
-C:\Users\CHILD\GitHub\DY\DY2\DY.NET.TEST\bin\Debug\Moq.dll
-C:\Users\CHILD\GitHub\DY\DY2\DY.NET.TEST\bin\Debug\nunit.framework.dll
-C:\Users\CHILD\GitHub\DY\DY2\DY.NET.TEST\bin\Debug\Castle.Core.dll
-C:\Users\CHILD\GitHub\DY\DY2\DY.NET.TEST\bin\Debug\Moq.pdb
-C:\Users\CHILD\GitHub\DY\DY2\DY.NET.TEST\bin\Debug\Moq.xml
-C:\Users\CHILD\GitHub\DY\DY2\DY.NET.TEST\bin\Debug\nunit.framework.xml
-C:\Users\CHILD\GitHub\DY\DY2\DY.NET.TEST\bin\Debug\Castle.Core.xml
-C:\Users\CHILD\GitHub\DY\DY2\DY.NET.TEST\obj\Debug\DY.NET.TEST.csprojResolveAssemblyReference.cache
-C:\Users\CHILD\GitHub\DY\DY2\DY.NET.TEST\obj\Debug\DY.NET.TEST.dll
-C:\Users\CHILD\GitHub\DY\DY2\DY.NET.TEST\obj\Debug\DY.NET.TEST.pdb

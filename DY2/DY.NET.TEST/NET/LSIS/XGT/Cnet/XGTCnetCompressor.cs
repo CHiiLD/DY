@@ -57,14 +57,23 @@ namespace DY.NET.LSIS.XGT
         /// <returns>XGTCnetProtocol</returns>
         public virtual IProtocol Decode(byte[] ascii)
         {
-            var header = (XGTCnetHeader)ascii.First();
+            const int HEADER_IDX = 0;
+            const int LOCOL_IDX1 = 1;
+            const int LOCOL_IDX2 = 2;
+            const int COMMAND_IDX = 3;
+            const int CMDTYPE_IDX1 = 4;
+            const int CMDTYPE_IDX2 = 5;
+            const int BLOCK_IDX1 = 6;
+            const int BLOCK_IDX2 = 7;
+
+            var header = (XGTCnetHeader)ascii[HEADER_IDX];
             var tail = (XGTCnetHeader)ascii.Last();
             if (!(header == XGTCnetHeader.ACK || header == XGTCnetHeader.NAK))
                 throw new Exception("ASCII Header 분석 실패 에러");
             if (tail != XGTCnetHeader.ETX)
                 throw new Exception("ASCII Tail 분석 실패 에러");
-            XGTCnetCommand cmd = (XGTCnetCommand)ascii[3];
-            ushort localport = XGTCnetTranslator.ASCIIToLocalPort(new byte[] { ascii[1], ascii[2] });
+            XGTCnetCommand cmd = (XGTCnetCommand)ascii[COMMAND_IDX];
+            ushort localport = XGTCnetTranslator.ASCIIToLocalPort(new byte[] { ascii[LOCOL_IDX1], ascii[LOCOL_IDX2] });
             XGTCnetProtocol cnet = new XGTCnetProtocol(localport, cmd);
             cnet.Header = header;
             cnet.Tail = tail;
@@ -79,7 +88,7 @@ namespace DY.NET.LSIS.XGT
             if (cmd == XGTCnetCommand.R)
             {
                 if (cnet.Items == null) cnet.Items = new List<IProtocolData>(); else cnet.Items.Clear();
-                int count = XGTCnetTranslator.ASCIIToBlockData(new byte[] { ascii[6], ascii[7] });
+                int count = XGTCnetTranslator.ASCIIToBlockData(new byte[] { ascii[BLOCK_IDX1], ascii[BLOCK_IDX2] });
                 int idx = 8;
                 for (int i = 0; i < count; i++)
                 {
@@ -88,7 +97,7 @@ namespace DY.NET.LSIS.XGT
                     byte[] code = new byte[size * 2];
                     Buffer.BlockCopy(ascii, idx, code, 0, code.Length);
                     idx += code.Length;
-                    object value = ConvertAutomatically(code);
+                    object value = ConvertAutomatically(code, size);
                     cnet.Items.Add(new ProtocolData(value));
                 }
             }
@@ -100,10 +109,10 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         /// <param name="code">정수byte[]정보</param>
         /// <returns>정수</returns>
-        public virtual object ConvertAutomatically(byte[] code)
+        public virtual object ConvertAutomatically(byte[] code, int size)
         {
             object value = null;
-            switch (code.Length)
+            switch (size)
             {
                 case 1:
                     value = XGTCnetTranslator.ASCIIToValueData(code, typeof(byte));

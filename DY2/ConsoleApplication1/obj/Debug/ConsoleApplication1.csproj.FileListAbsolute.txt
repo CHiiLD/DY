@@ -1,0 +1,17 @@
+C:\Users\CHILD\GitHub\DY\DY2\ConsoleApplication1\obj\Debug\ConsoleApplication1.csprojResolveAssemblyReference.cache
+C:\Users\CHILD\GitHub\DY\DY2\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe.config
+C:\Users\CHILD\GitHub\DY\DY2\ConsoleApplication1\bin\Debug\ConsoleApplication1.exe
+C:\Users\CHILD\GitHub\DY\DY2\ConsoleApplication1\bin\Debug\ConsoleApplication1.pdb
+C:\Users\CHILD\GitHub\DY\DY2\ConsoleApplication1\bin\Debug\DY.NET.dll
+C:\Users\CHILD\GitHub\DY\DY2\ConsoleApplication1\bin\Debug\DY.NET.TEST.dll
+C:\Users\CHILD\GitHub\DY\DY2\ConsoleApplication1\bin\Debug\Moq.dll
+C:\Users\CHILD\GitHub\DY\DY2\ConsoleApplication1\bin\Debug\nunit.framework.dll
+C:\Users\CHILD\GitHub\DY\DY2\ConsoleApplication1\bin\Debug\Castle.Core.dll
+C:\Users\CHILD\GitHub\DY\DY2\ConsoleApplication1\bin\Debug\DY.NET.TEST.pdb
+C:\Users\CHILD\GitHub\DY\DY2\ConsoleApplication1\bin\Debug\DY.NET.pdb
+C:\Users\CHILD\GitHub\DY\DY2\ConsoleApplication1\bin\Debug\Moq.pdb
+C:\Users\CHILD\GitHub\DY\DY2\ConsoleApplication1\bin\Debug\Moq.xml
+C:\Users\CHILD\GitHub\DY\DY2\ConsoleApplication1\bin\Debug\nunit.framework.xml
+C:\Users\CHILD\GitHub\DY\DY2\ConsoleApplication1\bin\Debug\Castle.Core.xml
+C:\Users\CHILD\GitHub\DY\DY2\ConsoleApplication1\obj\Debug\ConsoleApplication1.exe
+C:\Users\CHILD\GitHub\DY\DY2\ConsoleApplication1\obj\Debug\ConsoleApplication1.pdb

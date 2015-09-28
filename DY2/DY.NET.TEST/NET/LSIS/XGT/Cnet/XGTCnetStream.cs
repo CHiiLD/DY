@@ -20,7 +20,7 @@ namespace DY.NET.LSIS.XGT
         protected IProtocolCompressor Compressor = new XGTCnetCompressor();
         protected byte[] ReadBuffer;
 
-        public int ReceiveingTimeout
+        public int ReceiveTimeout
         {
             get
             {
@@ -32,7 +32,7 @@ namespace DY.NET.LSIS.XGT
             }
         }
 
-        public int SendingTimeout
+        public int SendTimeout
         {
             get
             {
@@ -44,7 +44,7 @@ namespace DY.NET.LSIS.XGT
             }
         }
 
-        public int ConnectingTimeout
+        public int OpenTimeout
         {
             get
             {
@@ -59,7 +59,7 @@ namespace DY.NET.LSIS.XGT
         protected XGTCnetStream() 
         {
             ReadBuffer = new byte[base.ReadBufferSize];
-            ReceiveingTimeout = SendingTimeout = ConnectingTimeout = -1;
+            ReceiveTimeout = SendTimeout = OpenTimeout = -1;
         }
 
         public XGTCnetStream(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
@@ -86,7 +86,7 @@ namespace DY.NET.LSIS.XGT
         public virtual async Task OpenAsync()
         {
             Task connect_task = Task.Run(() => { base.Open(); });
-            if (await Task.WhenAny(connect_task, Task.Delay(ConnectingTimeout)) == connect_task)
+            if (await Task.WhenAny(connect_task, Task.Delay(OpenTimeout)) == connect_task)
                 await connect_task;
             else
                 throw new TimeoutException();
@@ -118,33 +118,35 @@ namespace DY.NET.LSIS.XGT
         {
             byte[] code = Compressor.Encode(protocol);
             Stream stream = GetStream();
-
-            CancellationTokenSource cts = new CancellationTokenSource();
+            
             base.DiscardOutBuffer();
-            Task write_task = stream.WriteAsync(code, 0, code.Length, cts.Token);
-            if (await Task.WhenAny(write_task, Task.Delay(SendingTimeout, cts.Token)) != write_task)
+            CancellationTokenSource cts = new CancellationTokenSource(SendTimeout);
+            try
             {
-                cts.Cancel();
-                throw new WriteTimeoutException();
+                await stream.WriteAsync(code, 0, code.Length, cts.Token);
             }
-            await write_task;
+            catch (TimeoutException exception)
+            {
+                throw new WriteTimeoutException(exception);
+            }
 
-            cts = new CancellationTokenSource();
             int idx = 0;
             Array.Clear(this.ReadBuffer, 0, this.ReadBuffer.Length);
+            cts = new CancellationTokenSource(ReceiveTimeout);
             base.DiscardInBuffer();
             do
             {
-                Task read_task = stream.ReadAsync(this.ReadBuffer, idx, this.ReadBuffer.Length - idx, cts.Token);
-                if (await Task.WhenAny(read_task, Task.Delay(ReceiveingTimeout, cts.Token)) != read_task)
+                try
                 {
-                    cts.Cancel();
-                    throw new ReadTimeoutException();
+                    idx += await stream.ReadAsync(this.ReadBuffer, idx, this.ReadBuffer.Length - idx, cts.Token);
                 }
-                idx += await (Task<int>)read_task;
+                catch (TimeoutException exception)
+                {
+                    throw new ReadTimeoutException(exception);
+                }
             } while (ReadBuffer[idx - 1] != XGTCnetHeader.ETX.ToByte());
 
-            var buffer = new byte[idx];
+            byte[] buffer = new byte[idx];
             System.Buffer.BlockCopy(this.ReadBuffer, 0, buffer, 0, buffer.Length);
             return Compressor.Decode(buffer);
         }

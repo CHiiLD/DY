@@ -23,7 +23,7 @@ namespace DY.NET.LSIS.XGT
             else if (type == typeof(SByte))
                 target = (sbyte)bytes[0];
             else if (type == typeof(Int16))
-                target = BitConverter.ToInt16(bytes, 0);
+                target = BitConverter.ToInt16(bytes.Reverse().ToArray(), 0);
             else if (type == typeof(Int32))
                 target = BitConverter.ToInt32(bytes, 0);
             else if (type == typeof(Int64))
@@ -31,7 +31,7 @@ namespace DY.NET.LSIS.XGT
             else if (type == typeof(Byte))
                 target = (byte)bytes[0];
             else if (type == typeof(UInt16))
-                target = BitConverter.ToUInt16(bytes, 0);
+                target = BitConverter.ToUInt16(bytes.Reverse().ToArray(), 0);
             else if (type == typeof(UInt32))
                 target = BitConverter.ToUInt32(bytes, 0);
             else if (type == typeof(UInt64))
@@ -60,7 +60,7 @@ namespace DY.NET.LSIS.XGT
             else if (type == typeof(SByte))
                 bytes = new byte[] { Convert.ToByte(value) };
             else if (type == typeof(UInt16))
-                bytes = BitConverter.GetBytes(UInt16.Parse(string.Format("{0}", value)));
+                bytes = BitConverter.GetBytes(UInt16.Parse(string.Format("{0}", value))).Reverse().ToArray();
             else if (type == typeof(UInt32))
                 bytes = BitConverter.GetBytes(UInt32.Parse(string.Format("{0}", value)));
             else if (type == typeof(UInt64))
@@ -68,7 +68,7 @@ namespace DY.NET.LSIS.XGT
             else if (type == typeof(Byte))
                 bytes = new byte[] { (byte)value };
             else if (type == typeof(Int16))
-                bytes = BitConverter.GetBytes(Int16.Parse(string.Format("{0}", value)));
+                bytes = BitConverter.GetBytes(Int16.Parse(string.Format("{0}", value))).Reverse().ToArray();
             else if (type == typeof(Int32))
                 bytes = BitConverter.GetBytes(Int32.Parse(string.Format("{0}", value)));
             else if (type == typeof(Int64))

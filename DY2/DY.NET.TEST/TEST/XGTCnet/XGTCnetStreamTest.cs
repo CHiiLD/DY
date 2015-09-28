@@ -113,7 +113,7 @@ namespace DY.NET.TEST
 
                 CancellationTokenSource cts = new CancellationTokenSource();
                 Task write_task = stream.WriteAsync(code, 0, code.Length, cts.Token);
-                if (await Task.WhenAny(write_task, Task.Delay(SendingTimeout, cts.Token)) != write_task)
+                if (await Task.WhenAny(write_task, Task.Delay(SendTimeout, cts.Token)) != write_task)
                 {
                     cts.Cancel();
                     throw new WriteTimeoutException();
@@ -126,7 +126,7 @@ namespace DY.NET.TEST
                 do
                 {
                     Task read_task = stream.ReadAsync(this.ReadBuffer, idx, this.ReadBuffer.Length - idx, cts.Token);
-                    if (await Task.WhenAny(read_task, Task.Delay(ReceiveingTimeout, cts.Token)) != read_task)
+                    if (await Task.WhenAny(read_task, Task.Delay(ReceiveTimeout, cts.Token)) != read_task)
                     {
                         cts.Cancel();
                         throw new ReadTimeoutException();
@@ -171,6 +171,7 @@ namespace DY.NET.TEST
                 Assert.AreEqual(response.Items.Count, expectedResult.Items.Count);
         }
 
+        [Ignore]
         [Test]
         [ExpectedException(typeof(WriteTimeoutException))]
         public async void WhenFakeXGTCNetStreamFloated_ExpectedWriteTimeoutException()
@@ -184,11 +185,12 @@ namespace DY.NET.TEST
             XGTCnetProtocol resquest = new XGTCnetProtocol(localport, cmd);
             resquest.Items = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr, value) };
 
-            var fakeCnetStream = new FakeXGTCnetStream(new FakeStraem(value.GetType()) { WriteDalayTime = writeDelayTime }) { SendingTimeout = writeTimeout };
+            var fakeCnetStream = new FakeXGTCnetStream(new FakeStraem(value.GetType()) { WriteDalayTime = writeDelayTime }) { SendTimeout = writeTimeout };
             await fakeCnetStream.OpenAsync();
             XGTCnetProtocol response = await fakeCnetStream.SendAsync(resquest) as XGTCnetProtocol;
         }
 
+        [Ignore]
         [Test]
         [ExpectedException(typeof(ReadTimeoutException))]
         public async void WhenFakeXGTCNetStreamFloated_ExpectedReadTimeoutException()
@@ -202,7 +204,7 @@ namespace DY.NET.TEST
             XGTCnetProtocol resquest = new XGTCnetProtocol(localport, cmd);
             resquest.Items = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr, value) };
 
-            var fakeCnetStream = new FakeXGTCnetStream(new FakeStraem(value.GetType()) { ReadDalayTime = readDelayTime }) { ReceiveingTimeout = readTimeout };
+            var fakeCnetStream = new FakeXGTCnetStream(new FakeStraem(value.GetType()) { ReadDalayTime = readDelayTime }) { ReceiveTimeout = readTimeout };
             await fakeCnetStream.OpenAsync();
             XGTCnetProtocol response = await fakeCnetStream.SendAsync(resquest) as XGTCnetProtocol;
         }

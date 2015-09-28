@@ -16,6 +16,12 @@ namespace DY.NET
         {
         }
 
+        public ReadTimeoutException(TimeoutException timeoutException)
+            : base(timeoutException.Message, timeoutException.InnerException)
+        {
+
+        }
+
         public ReadTimeoutException()
             : base()
         {

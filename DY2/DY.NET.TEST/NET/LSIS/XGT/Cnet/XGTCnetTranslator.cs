@@ -18,7 +18,7 @@ namespace DY.NET.LSIS.XGT
                 throw new ArgumentOutOfRangeException();
 
             byte[] result = null;
-            string localport_str = string.Format("{0}", localport);
+            string localport_str = string.Format("{0:D2}", localport);
             result = new byte[localport_str.Length];
             for (int i = 0; i < localport_str.Length; i++)
                 result[i] = (byte)localport_str[i];

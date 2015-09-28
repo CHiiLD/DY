@@ -74,9 +74,9 @@ namespace DY.NET.TEST.TEST.XGTFEnet
             0x00,       //Cpu Info
             0x33,       //Stream
             0x00,0x00,  //InvokeID
-            0xB7,0x01,  //Length
+            0x10,0x00,  //Length
             0x00,       //Position
-            0x00,       //Reserved
+            0x9E,       //Reserved
             0x54, 0x00, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00, 0x06, 0x00, 
             0x25, 0x4D, 0x57, 0x31, 0x30, 0x30 };
             XGTFEnetProtocol fenet = new XGTFEnetProtocol(XGTFEnetCommand.READ_REQT, XGTFEnetDataType.WORD);
@@ -101,9 +101,9 @@ namespace DY.NET.TEST.TEST.XGTFEnet
             0x00,       //Cpu Info
             0x33,       //Stream
             0x00,0x00,  //InvokeID
-            0x03,0x02,  //Length
+            0x14,0x00,  //Length
             0x00,       //Position
-            0x00,       //Reserved
+            0xA2,       //Reserved
             0x58, 0x00, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00, 0x06, 0x00, 
             0x25, 0x4D, 0x57, 0x31, 0x30, 0x30,
             0x02, 0x00,
@@ -131,7 +131,7 @@ namespace DY.NET.TEST.TEST.XGTFEnet
                 StreamDirection = XGTFEnetStreamDirection.PLC2PC,
                 CpuInfo = XGTFEnetCpuInfo.XGK,
                 InvokeID = 0,
-                ByteSum = 0x00A0,
+                BodyLength = 0x00A0,
                 SlotPosition = 0,
                 BasePosition = 3,
                 Items = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(0x1234) }
@@ -145,7 +145,7 @@ namespace DY.NET.TEST.TEST.XGTFEnet
             0xA0,0x00,  //Length
             0x30,       //Position 0011 0000
             0x00,       //Reserved
-            0x55, 0x00, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00, 
+            0x55, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00, 
             0x02, 0x00, 
             0x34, 0x12 };
             XGTFEnetCompressor compressor = new XGTFEnetCompressor();
@@ -159,7 +159,7 @@ namespace DY.NET.TEST.TEST.XGTFEnet
             Assert.AreEqual(result.PLCState, expectedResult.PLCState);
             Assert.AreEqual(result.StreamDirection, expectedResult.StreamDirection);
             Assert.AreEqual(result.InvokeID, expectedResult.InvokeID);
-            Assert.AreEqual(result.ByteSum, expectedResult.ByteSum);
+            Assert.AreEqual(result.BodyLength, expectedResult.BodyLength);
             Assert.AreEqual(result.BasePosition, expectedResult.BasePosition);
             Assert.AreEqual(result.SlotPosition, expectedResult.SlotPosition);
             Assert.AreEqual(result.Command, expectedResult.Command);
@@ -181,7 +181,7 @@ namespace DY.NET.TEST.TEST.XGTFEnet
                 StreamDirection = XGTFEnetStreamDirection.PLC2PC,
                 CpuInfo = XGTFEnetCpuInfo.XGK,
                 InvokeID = 0,
-                ByteSum = 0x00A0,
+                BodyLength = 0x00A0,
                 SlotPosition = 0,
                 BasePosition = 3,
                 Items = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData("%MW100", 0x1234) }
@@ -195,7 +195,7 @@ namespace DY.NET.TEST.TEST.XGTFEnet
             0xA0,0x00,  //Length
             0x30,       //Position 0011 0000
             0x00,       //Reserved
-            0x59, 0x00, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00 };
+            0x59, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00 };
             XGTFEnetCompressor compressor = new XGTFEnetCompressor();
 
             XGTFEnetProtocol result = compressor.Decode(recv_ascii) as XGTFEnetProtocol;
@@ -207,7 +207,7 @@ namespace DY.NET.TEST.TEST.XGTFEnet
             Assert.AreEqual(result.PLCState, expectedResult.PLCState);
             Assert.AreEqual(result.StreamDirection, expectedResult.StreamDirection);
             Assert.AreEqual(result.InvokeID, expectedResult.InvokeID);
-            Assert.AreEqual(result.ByteSum, expectedResult.ByteSum);
+            Assert.AreEqual(result.BodyLength, expectedResult.BodyLength);
             Assert.AreEqual(result.BasePosition, expectedResult.BasePosition);
             Assert.AreEqual(result.SlotPosition, expectedResult.SlotPosition);
             Assert.AreEqual(result.Command, expectedResult.Command);

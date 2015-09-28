@@ -110,6 +110,7 @@
     <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetProtocol.cs" />
     <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetError.cs" />
     <Compile Include="TEST\ProtocolStreamMockTest.cs" />
+    <Compile Include="TEST\XGTCnet\XGTCnetRealDeviceTestcs.cs" />
     <Compile Include="TEST\XGTCnet\XGTCnetStreamTest.cs" />
     <Compile Include="TEST\XGTCnet\XGTCnetTranslatorTest.cs" />
     <Compile Include="TEST\XGTFEnet\XGTFEnetRealDeviceTest.cs" />
