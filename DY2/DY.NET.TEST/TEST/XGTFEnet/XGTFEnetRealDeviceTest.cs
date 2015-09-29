@@ -41,7 +41,7 @@ namespace DY.NET.TEST
                     XGTFEnetProtocol r_response = await stream.SendAsync(read_protocol) as XGTFEnetProtocol;
 
                     Assert.AreEqual(r_response.GetErrorCode(), 0);
-                    Assert.AreEqual(r_response.Items[0].Value, (byte)value);
+                    Assert.AreEqual(r_response.Items[0].Value, value);
                 }
             }
         }
@@ -105,7 +105,7 @@ namespace DY.NET.TEST
                     XGTFEnetProtocol r_response = await stream.SendAsync(read_protocol) as XGTFEnetProtocol;
 
                     Assert.AreEqual(r_response.GetErrorCode(), 0);
-                    Assert.AreEqual((byte)r_response.Items[0].Value == 0 ? false : true, value);
+                    Assert.AreEqual(r_response.Items[0].Value, value);
                 }
             }
         }

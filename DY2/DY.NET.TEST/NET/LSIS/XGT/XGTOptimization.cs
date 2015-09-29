@@ -32,19 +32,6 @@ namespace DY.NET.LSIS.XGT
                 object value = data.Value;
                 if (type == typeof(bool))
                     value = SearchBooleanFromUInt16(item.Address, (ushort)value);
-                else if (type != value.GetType())
-                {
-                    if (type == typeof(SByte))
-                        value = unchecked((sbyte)(byte)value);
-                    else if (type == typeof(Int16))
-                        value = unchecked((short)(ushort)value);
-                    else if (type == typeof(Int32))
-                        value = unchecked((short)(uint)value);
-                    else if (type == typeof(Int64))
-                        value = unchecked((short)(ulong)value);
-                    else
-                        value = unchecked(Convert.ChangeType(value, type));
-                }
                 item.Value = value;
             }
         }

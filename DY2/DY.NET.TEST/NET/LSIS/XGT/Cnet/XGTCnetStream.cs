@@ -148,7 +148,7 @@ namespace DY.NET.LSIS.XGT
 
             byte[] buffer = new byte[idx];
             System.Buffer.BlockCopy(this.ReadBuffer, 0, buffer, 0, buffer.Length);
-            return Compressor.Decode(buffer);
+            return Compressor.Decode(buffer, protocol.Type);
         }
     }
 }

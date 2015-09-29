@@ -106,7 +106,7 @@
     <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetCompressor.cs" />
     <Compile Include="TEST\AFakeStream.cs" />
     <Compile Include="TEST\OverridingTest.cs" />
-    <Compile Include="TEST\XGTOptimizationTest.cs" />
+    <Compile Include="TEST\XGTHelper\XGTOptimizationTest.cs" />
     <Compile Include="TEST\XGTCnet\XGTCnetCompressorTest.cs" />
     <Compile Include="TEST\XGTCnet\XGTCnetProtocolTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

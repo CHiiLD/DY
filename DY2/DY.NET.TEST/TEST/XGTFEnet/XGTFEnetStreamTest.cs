@@ -148,7 +148,7 @@ namespace DY.NET.TEST.TEST.XGTFEnet
         [TestCase(XGTFEnetCommand.WRITE_RESP)]
         public async void WhenFakeXGTFEnetStreamFloated_ReceivedSuccessfully(XGTFEnetCommand expected_cmd)
         {
-            object value = 0;
+            ushort value = 0;
             XGTFEnetProtocol expectedResult = new XGTFEnetProtocol(expected_cmd, XGTFEnetDataType.WORD)
             {
                 CompanyID = XGTFEnetCompanyID.LSIS_XGT,
@@ -166,6 +166,7 @@ namespace DY.NET.TEST.TEST.XGTFEnet
             string addr = "%MW100";
             XGTFEnetProtocol request = new XGTFEnetProtocol(
                 expectedResult.Command == XGTFEnetCommand.READ_RESP ? XGTFEnetCommand.READ_REQT : XGTFEnetCommand.WRITE_REQT, expectedResult.DataType) { InvokeID = expectedResult.InvokeID };
+            request.Type = value.GetType();
             request.Items = new List<IProtocolData>() { new ProtocolData(addr, value) };
             FakeXGTFEnetStream stream = new FakeXGTFEnetStream(new FakeStraem());
             await stream.OpenAsync();

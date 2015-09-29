@@ -29,21 +29,19 @@ namespace DY.NET.TEST
                 Random r = new Random();
                 string addr = "%MB100";
                 int cnt = 5;
-                for (int i = 0; i < cnt; i++ )
+                for (int i = 0; i < cnt; i++)
                 {
                     sbyte value = (sbyte)r.Next(sbyte.MinValue, 0);
-                    XGTCnetProtocol write_protocol = new XGTCnetProtocol(0, XGTCnetCommand.W);
-                    write_protocol.Items = new List<IProtocolData>() { new ProtocolData(addr, value) };
+                    XGTCnetProtocol write_protocol = XGTCnetProtocol.CreateRequestWSS(0, new List<IProtocolData>() { new ProtocolData(addr, value) });
                     XGTCnetProtocol w_response = await stream.SendAsync(write_protocol) as XGTCnetProtocol;
 
                     Assert.AreEqual(w_response.GetErrorCode(), 0);
 
-                    XGTCnetProtocol read_protocol = new XGTCnetProtocol(0, XGTCnetCommand.R);
-                    read_protocol.Items = new List<IProtocolData>() { new ProtocolData(addr, value) };
+                    XGTCnetProtocol read_protocol = XGTCnetProtocol.CreateRequestRSS(typeof(sbyte), 0, new List<IProtocolData>() { new ProtocolData(addr, value) });  //new XGTCnetProtocol(0, XGTCnetCommand.R);
                     XGTCnetProtocol r_response = await stream.SendAsync(read_protocol) as XGTCnetProtocol;
 
                     Assert.AreEqual(r_response.GetErrorCode(), 0);
-                    Assert.AreEqual(r_response.Items[0].Value, (byte)value);
+                    Assert.AreEqual(r_response.Items[0].Value, value);
                 }
             }
         }
@@ -65,18 +63,19 @@ namespace DY.NET.TEST
                 };
                 foreach (var item in d)
                 {
-                    XGTCnetProtocol write_protocol = new XGTCnetProtocol(0, XGTCnetCommand.W);
-                    write_protocol.Items = new List<IProtocolData>() { new ProtocolData(item.Key, item.Value) };
+                    string addr = item.Key;
+                    object value = item.Value;
+
+                    XGTCnetProtocol write_protocol = XGTCnetProtocol.CreateRequestWSS(0, new List<IProtocolData>() { new ProtocolData(addr, value) });
                     XGTCnetProtocol w_response = await stream.SendAsync(write_protocol) as XGTCnetProtocol;
 
                     Assert.AreEqual(w_response.GetErrorCode(), 0);
 
-                    XGTCnetProtocol read_protocol = new XGTCnetProtocol(0, XGTCnetCommand.R);
-                    read_protocol.Items = new List<IProtocolData>() { new ProtocolData(item.Key, item.Value) };
+                    XGTCnetProtocol read_protocol = XGTCnetProtocol.CreateRequestRSS(value.GetType(), 0, new List<IProtocolData>() { new ProtocolData(addr, value) });  //new XGTCnetProtocol(0, XGTCnetCommand.R);
                     XGTCnetProtocol r_response = await stream.SendAsync(read_protocol) as XGTCnetProtocol;
 
                     Assert.AreEqual(r_response.GetErrorCode(), 0);
-                    Assert.AreEqual(r_response.Items[0].Value, item.Value);
+                    Assert.AreEqual(r_response.Items[0].Value, value);
                 }
             }
         }

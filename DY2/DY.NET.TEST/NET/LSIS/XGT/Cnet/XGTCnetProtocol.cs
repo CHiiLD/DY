@@ -11,6 +11,7 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public class XGTCnetProtocol : IProtocol
     {
+        public Type Type { get; set; }
         //FRAME INFORMATION
         public XGTCnetHeader Header { set; get; }
         public ushort LocalPort { set; get; }
@@ -32,6 +33,16 @@ namespace DY.NET.LSIS.XGT
             LocalPort = localPort;
             Command = cmd;
             CommandType = XGTCnetCommandType.SS;
+        }
+
+        public static XGTCnetProtocol CreateRequestRSS(Type type, ushort localPort, IList<IProtocolData> items)
+        {
+            return new XGTCnetProtocol(localPort, XGTCnetCommand.R) { Type = type, Items = items };
+        }
+
+        public static XGTCnetProtocol CreateRequestWSS(ushort localPort, IList<IProtocolData> items)
+        {
+            return new XGTCnetProtocol(localPort, XGTCnetCommand.W) { Items = items };
         }
 
         /// 프로토콜 에러코드를 반환한다. 

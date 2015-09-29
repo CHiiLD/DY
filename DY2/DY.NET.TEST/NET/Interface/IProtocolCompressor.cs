@@ -9,6 +9,6 @@ namespace DY.NET
     public interface IProtocolCompressor
     {
         byte[] Encode(IProtocol protocol);
-        IProtocol Decode(byte[] ascii);
+        IProtocol Decode(byte[] ascii, Type type);
     }
 }

@@ -47,7 +47,7 @@ namespace DY.NET.TEST
             ushort localport = 20;
 
             XGTCnetCompressor cnet_comp = new XGTCnetCompressor();
-            XGTCnetProtocol cnet = cnet_comp.Decode(ack_code) as XGTCnetProtocol;
+            XGTCnetProtocol cnet = cnet_comp.Decode(ack_code, null) as XGTCnetProtocol;
 
             Assert.AreEqual(cnet.Header, XGTCnetHeader.ACK);
             Assert.AreEqual(cnet.Tail, XGTCnetHeader.ETX);
@@ -63,7 +63,7 @@ namespace DY.NET.TEST
             ushort localport = 20;
 
             XGTCnetCompressor cnet_comp = new XGTCnetCompressor();
-            XGTCnetProtocol cnet = cnet_comp.Decode(ack_code) as XGTCnetProtocol;
+            XGTCnetProtocol cnet = cnet_comp.Decode(ack_code, typeof(ushort)) as XGTCnetProtocol;
 
             Assert.AreEqual(cnet.Header, XGTCnetHeader.ACK);
             Assert.AreEqual(cnet.Tail, XGTCnetHeader.ETX);
@@ -81,7 +81,7 @@ namespace DY.NET.TEST
             ushort localport = 20;
 
             XGTCnetCompressor cnet_comp = new XGTCnetCompressor();
-            XGTCnetProtocol cnet = cnet_comp.Decode(nak_code) as XGTCnetProtocol;
+            XGTCnetProtocol cnet = cnet_comp.Decode(nak_code, null) as XGTCnetProtocol;
 
             Assert.AreEqual(cnet.Header, XGTCnetHeader.NAK);
             Assert.AreEqual(cnet.Tail, XGTCnetHeader.ETX);
@@ -98,7 +98,7 @@ namespace DY.NET.TEST
         public void WhenProtocolDecoded_InvalidAckCodeError(byte[] ack_code)
         {
             XGTCnetCompressor cnet_comp = new XGTCnetCompressor();
-            XGTCnetProtocol cnet = cnet_comp.Decode(ack_code) as XGTCnetProtocol;
+            XGTCnetProtocol cnet = cnet_comp.Decode(ack_code, null) as XGTCnetProtocol;
         }
 
         [Test]

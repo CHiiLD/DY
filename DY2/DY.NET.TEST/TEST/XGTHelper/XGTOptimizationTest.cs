@@ -82,11 +82,11 @@ namespace DY.NET.TEST
             IList<IProtocolData> recv = new List<IProtocolData>()
             {
                 new ProtocolData("%MW0000", (ushort)0xFFFF),
-                new ProtocolData("%MB41", (byte)0xFF),
+                new ProtocolData("%MB41", (sbyte)-1),
                 new ProtocolData("%MW0145", (ushort)0xFFFF),
-                new ProtocolData("%DW0112", (ushort)0xFFFF),
-                new ProtocolData("%DL6",    (ulong)0xFFFFFFFFFFFFFFFF),
-                new ProtocolData("%MD6",    (uint)0xFFFFFFFF),
+                new ProtocolData("%DW0112", (short)-1),
+                new ProtocolData("%DL6",    (long)-1),
+                new ProtocolData("%MD6",    (int)-1),
             };
             object[] expect = new object[] { true, (sbyte)-1, (ushort)0xFFFF, (short)-1, (long)-1, (int)-1 };
             XGTOptimization opt = new XGTOptimization();

@@ -38,7 +38,7 @@ namespace DY.NET.TEST.TEST.XGTFEnet
             0x54, 0x00, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00 };
             XGTFEnetCompressor compressor = new XGTFEnetCompressor();
 
-            XGTFEnetProtocol result = compressor.Decode(recv_ascii) as XGTFEnetProtocol;
+            XGTFEnetProtocol result = compressor.Decode(recv_ascii, null) as XGTFEnetProtocol;
         }
 
         [Test]
@@ -58,7 +58,7 @@ namespace DY.NET.TEST.TEST.XGTFEnet
             0x02, 0x00 };
             XGTFEnetCompressor compressor = new XGTFEnetCompressor();
 
-            XGTFEnetProtocol result = compressor.Decode(recv_ascii) as XGTFEnetProtocol;
+            XGTFEnetProtocol result = compressor.Decode(recv_ascii, null) as XGTFEnetProtocol;
 
             Assert.AreEqual(result.Error, XGTFEnetError.DATA_TYPE);
         }
@@ -150,7 +150,7 @@ namespace DY.NET.TEST.TEST.XGTFEnet
             0x34, 0x12 };
             XGTFEnetCompressor compressor = new XGTFEnetCompressor();
 
-            XGTFEnetProtocol result = compressor.Decode(recv_ascii) as XGTFEnetProtocol;
+            XGTFEnetProtocol result = compressor.Decode(recv_ascii, typeof(ushort)) as XGTFEnetProtocol;
 
             Assert.AreEqual(result.CompanyID, expectedResult.CompanyID);
             Assert.AreEqual(result.CpuType, expectedResult.CpuType);
@@ -198,7 +198,7 @@ namespace DY.NET.TEST.TEST.XGTFEnet
             0x59, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00 };
             XGTFEnetCompressor compressor = new XGTFEnetCompressor();
 
-            XGTFEnetProtocol result = compressor.Decode(recv_ascii) as XGTFEnetProtocol;
+            XGTFEnetProtocol result = compressor.Decode(recv_ascii, null) as XGTFEnetProtocol;
 
             Assert.AreEqual(result.CompanyID, expectedResult.CompanyID);
             Assert.AreEqual(result.CpuType, expectedResult.CpuType);

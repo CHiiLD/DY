@@ -11,5 +11,6 @@ namespace DY.NET
         int GetErrorCode();
         IList<IProtocolData> Items { get; set; }
         void Initialize();
+        Type Type { get; set; }
     }
 }

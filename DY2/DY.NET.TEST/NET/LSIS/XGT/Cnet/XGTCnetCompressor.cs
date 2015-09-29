@@ -54,7 +54,7 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         /// <param name="ascii">Cnet Protocol-ASCII</param>
         /// <returns>XGTCnetProtocol</returns>
-        public virtual IProtocol Decode(byte[] ascii)
+        public virtual IProtocol Decode(byte[] ascii, Type type)
         {
             const int HEADER_IDX = 0;
             const int LOCOL_IDX1 = 1;
@@ -74,6 +74,7 @@ namespace DY.NET.LSIS.XGT
             XGTCnetCommand cmd = (XGTCnetCommand)ascii[COMMAND_IDX];
             ushort localport = XGTCnetTranslator.ASCIIToLocalPort(new byte[] { ascii[LOCOL_IDX1], ascii[LOCOL_IDX2] });
             XGTCnetProtocol cnet = new XGTCnetProtocol(localport, cmd);
+            cnet.Type = type;
             cnet.Header = header;
             cnet.Tail = tail;
 
@@ -96,7 +97,7 @@ namespace DY.NET.LSIS.XGT
                     byte[] code = new byte[size * 2];
                     Buffer.BlockCopy(ascii, idx, code, 0, code.Length);
                     idx += code.Length;
-                    object value = ConvertAutomatically(code, size);
+                    object value = XGTCnetTranslator.ASCIIToValueData(code, type);
                     cnet.Items.Add(new ProtocolData(value));
                 }
             }

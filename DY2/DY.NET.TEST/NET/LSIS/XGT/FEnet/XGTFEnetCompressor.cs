@@ -105,13 +105,14 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         /// <param name="ascii">FEnet Protocol-ASCII</param>
         /// <returns>XGTCnetProtocol</returns>
-        public virtual IProtocol Decode(byte[] ascii)
+        public virtual IProtocol Decode(byte[] ascii, Type type)
         {
             XGTFEnetCommand command = (XGTFEnetCommand)XGTFEnetTranslator.ToValue(new byte[] { ascii[BODY_COMMAND_IDX1], ascii[BODY_COMMAND_IDX2] }, typeof(ushort));
             if (!(command == XGTFEnetCommand.READ_RESP || command == XGTFEnetCommand.WRITE_RESP))
                 throw new ArgumentException("Request command not supported.");
             XGTFEnetDataType datatype = (XGTFEnetDataType)XGTFEnetTranslator.ToValue(new byte[] { ascii[BODY_DATATYPE_IDX1], ascii[BODY_DATATYPE_IDX2] }, typeof(ushort));
             XGTFEnetProtocol fenet = new XGTFEnetProtocol(command, datatype);
+            fenet.Type = type;
             fenet.CompanyID = XGTFEnetCompanyID.LSIS_XGT.ToBytes().SequenceEqual(
                 new byte[] { ascii[0], ascii[1], ascii[2], ascii[3], ascii[4], ascii[5], ascii[6], ascii[7] }) ?
                 XGTFEnetCompanyID.LSIS_XGT : XGTFEnetCompanyID.NONE;
@@ -148,7 +149,7 @@ namespace DY.NET.LSIS.XGT
                     idx += 2;
                     byte[] code = new byte[size];
                     Buffer.BlockCopy(ascii, idx, code, 0, size);
-                    fenet.Items.Add(new ProtocolData(ConvertAutomatically(code)));
+                    fenet.Items.Add(new ProtocolData(XGTFEnetTranslator.ToValue(code, type)));
                     idx += size;
                 }
             }

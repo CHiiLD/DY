@@ -136,7 +136,7 @@ namespace DY.NET.TEST
 
                 var buffer = new byte[idx];
                 System.Buffer.BlockCopy(this.ReadBuffer, 0, buffer, 0, buffer.Length);
-                return Compressor.Decode(buffer);
+                return Compressor.Decode(buffer, protocol.Type);
             }
         }
 
@@ -149,6 +149,7 @@ namespace DY.NET.TEST
             string addr = "%MW100";
             ushort value = 0;
             XGTCnetProtocol resquest = new XGTCnetProtocol(localport, cmd);
+            resquest.Type = value.GetType();
             resquest.Items = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr, value) };
             XGTCnetProtocol expectedResult = new XGTCnetProtocol(localport, cmd)
             {
