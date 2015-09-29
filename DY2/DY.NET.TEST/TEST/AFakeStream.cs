@@ -25,15 +25,5 @@ namespace DY.NET.TEST
         public override long Seek(long offset, SeekOrigin origin) { return -1; }
         public override void Flush() { }
         public override int Read(byte[] buffer, int offset, int count) { return -1; }
-
-        //public AFakeStream()
-        //{
-        //    DataType = typeof(ushort);
-        //}
-
-        //public AFakeStream(Type type)
-        //{
-        //    DataType = type;
-        //}
     }
 }

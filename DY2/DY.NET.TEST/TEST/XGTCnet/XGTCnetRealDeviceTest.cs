@@ -9,9 +9,9 @@ using DY.NET.LSIS.XGT;
 
 namespace DY.NET.TEST
 {
-    //[Ignore]
+    [Ignore]
     [TestFixture]
-    public class XGTCnetRealDeviceTestcs
+    public class XGTCnetRealDeviceTest
     {
         [Test]
         public async void StreamCommunicationTest()

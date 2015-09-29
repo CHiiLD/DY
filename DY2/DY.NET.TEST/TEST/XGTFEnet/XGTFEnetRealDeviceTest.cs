@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace DY.NET.TEST
 {
-    //[Ignore]
+    [Ignore]
     [TestFixture]
     public class XGTFEnetRealDeviceTest
     {

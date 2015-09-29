@@ -7,6 +7,7 @@ using Moq;
 
 namespace DY.NET.TEST
 {
+    [Ignore]
     [TestFixture]
     public class IProtocolStreamMockTest
     {

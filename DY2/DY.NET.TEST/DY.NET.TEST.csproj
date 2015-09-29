@@ -69,8 +69,10 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="NET\DetailProtocolData.cs" />
     <Compile Include="NET\Exception\ReadTimeoutException.cs" />
     <Compile Include="NET\Exception\WriteTimeoutException.cs" />
+    <Compile Include="NET\Interface\IProtocolDataWithType.cs" />
     <Compile Include="NET\Interface\ITimeout.cs" />
     <Compile Include="NET\Interface\IProtocolStream.cs" />
     <Compile Include="NET\Interface\IStream.cs" />
@@ -90,6 +92,7 @@
     <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetProtocol.cs" />
     <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetError.cs" />
     <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetStreamDirection.cs" />
+    <Compile Include="NET\LSIS\XGT\XGTOptimization.cs" />
     <Compile Include="NET\ProtocolData.cs" />
     <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetStream.cs">
       <SubType>Component</SubType>
@@ -97,10 +100,11 @@
     <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetTranslator.cs" />
     <Compile Include="NET\Interface\IProtocol.cs" />
     <Compile Include="NET\Interface\IProtocolCompressor.cs" />
-    <Compile Include="NET\Interface\IProtocolItem.cs" />
+    <Compile Include="NET\Interface\IProtocolData.cs" />
     <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetCompressor.cs" />
     <Compile Include="TEST\AFakeStream.cs" />
     <Compile Include="TEST\OverridingTest.cs" />
+    <Compile Include="TEST\XGTOptimizationTest.cs" />
     <Compile Include="TEST\XGTCnet\XGTCnetCompressorTest.cs" />
     <Compile Include="TEST\XGTCnet\XGTCnetProtocolTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -110,7 +114,7 @@
     <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetProtocol.cs" />
     <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetError.cs" />
     <Compile Include="TEST\ProtocolStreamMockTest.cs" />
-    <Compile Include="TEST\XGTCnet\XGTCnetRealDeviceTestcs.cs" />
+    <Compile Include="TEST\XGTCnet\XGTCnetRealDeviceTest.cs" />
     <Compile Include="TEST\XGTCnet\XGTCnetStreamTest.cs" />
     <Compile Include="TEST\XGTCnet\XGTCnetTranslatorTest.cs" />
     <Compile Include="TEST\XGTFEnet\XGTFEnetRealDeviceTest.cs" />
