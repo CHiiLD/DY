@@ -92,7 +92,9 @@
     <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetProtocol.cs" />
     <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetError.cs" />
     <Compile Include="NET\LSIS\XGT\FEnet\XGTFEnetStreamDirection.cs" />
+    <Compile Include="NET\LSIS\XGT\XGTMemoryExpression.cs" />
     <Compile Include="NET\LSIS\XGT\XGTOptimization.cs" />
+    <Compile Include="NET\LSIS\XGT\XGTServiceableDevice.cs" />
     <Compile Include="NET\ProtocolData.cs" />
     <Compile Include="NET\LSIS\XGT\Cnet\XGTCnetStream.cs">
       <SubType>Component</SubType>

@@ -11,11 +11,40 @@ using System.Threading;
 
 namespace DY.NET.TEST
 {
-    [Ignore]
+    //[Ignore]
     [TestFixture]
     public class XGTFEnetRealDeviceTest
     {
         private string hostname = "192.168.10.150";
+
+        [Test]
+        public async void NegativeNumberTest()
+        {
+            using (var stream = new XGTFEnetStream(hostname))
+            {
+                await stream.OpenAsync();
+                Assert.True(stream.IsOpend());
+                Random r = new Random();
+                string addr = "%MB100";
+                int cnt = 10;
+                for (int i = 0; i < cnt; i++)
+                {
+                    sbyte value = (sbyte)r.Next(sbyte.MinValue, 0);
+                    var write_protocol = new XGTFEnetProtocol(XGTFEnetCommand.WRITE_REQT, value.GetType());
+                    write_protocol.Items = new List<IProtocolData>() { new ProtocolData(addr, value) };
+                    XGTFEnetProtocol w_response = await stream.SendAsync(write_protocol) as XGTFEnetProtocol;
+
+                    Assert.AreEqual(w_response.GetErrorCode(), 0);
+
+                    var read_protocol = new XGTFEnetProtocol(XGTFEnetCommand.READ_REQT, value.GetType());
+                    read_protocol.Items = new List<IProtocolData>() { new ProtocolData(addr, value) };
+                    XGTFEnetProtocol r_response = await stream.SendAsync(read_protocol) as XGTFEnetProtocol;
+
+                    Assert.AreEqual(r_response.GetErrorCode(), 0);
+                    Assert.AreEqual(r_response.Items[0].Value, (byte)value);
+                }
+            }
+        }
 
         [Test]
         public async void StreamCommunicationTest()

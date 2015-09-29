@@ -9,14 +9,49 @@ using DY.NET.LSIS.XGT;
 
 namespace DY.NET.TEST
 {
-    [Ignore]
+    //[Ignore]
     [TestFixture]
     public class XGTCnetRealDeviceTest
     {
+        private string m_Com = "COM3";
+        private int m_Bandrate = 9600;
+        private System.IO.Ports.Parity m_Parity = System.IO.Ports.Parity.None;
+        private int m_DataBit = 8;
+        private System.IO.Ports.StopBits m_Stopbit = System.IO.Ports.StopBits.One;
+
+        [Test]
+        public async void NegativeNumberTest()
+        {
+            using (var stream = new XGTCnetStream(m_Com, m_Bandrate, m_Parity, m_DataBit, m_Stopbit))
+            {
+                await stream.OpenAsync();
+                Assert.True(stream.IsOpend());
+                Random r = new Random();
+                string addr = "%MB100";
+                int cnt = 5;
+                for (int i = 0; i < cnt; i++ )
+                {
+                    sbyte value = (sbyte)r.Next(sbyte.MinValue, 0);
+                    XGTCnetProtocol write_protocol = new XGTCnetProtocol(0, XGTCnetCommand.W);
+                    write_protocol.Items = new List<IProtocolData>() { new ProtocolData(addr, value) };
+                    XGTCnetProtocol w_response = await stream.SendAsync(write_protocol) as XGTCnetProtocol;
+
+                    Assert.AreEqual(w_response.GetErrorCode(), 0);
+
+                    XGTCnetProtocol read_protocol = new XGTCnetProtocol(0, XGTCnetCommand.R);
+                    read_protocol.Items = new List<IProtocolData>() { new ProtocolData(addr, value) };
+                    XGTCnetProtocol r_response = await stream.SendAsync(read_protocol) as XGTCnetProtocol;
+
+                    Assert.AreEqual(r_response.GetErrorCode(), 0);
+                    Assert.AreEqual(r_response.Items[0].Value, (byte)value);
+                }
+            }
+        }
+
         [Test]
         public async void StreamCommunicationTest()
         {
-            using (var stream = new XGTCnetStream("COM3", 9600, System.IO.Ports.Parity.None, 8, System.IO.Ports.StopBits.One))
+            using (var stream = new XGTCnetStream(m_Com, m_Bandrate, m_Parity, m_DataBit, m_Stopbit))
             {
                 await stream.OpenAsync();
                 Assert.True(stream.IsOpend());

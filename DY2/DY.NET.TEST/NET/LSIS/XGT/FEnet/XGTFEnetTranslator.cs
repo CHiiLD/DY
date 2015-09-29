@@ -58,7 +58,7 @@ namespace DY.NET.LSIS.XGT
             if (type == typeof(Boolean))
                 bytes = BitConverter.GetBytes(Boolean.Parse(string.Format("{0}", value)));
             else if (type == typeof(SByte))
-                bytes = new byte[] { Convert.ToByte(value) };
+                bytes = new byte[] { unchecked((byte)(sbyte)value) };
             else if (type == typeof(UInt16))
                 bytes = BitConverter.GetBytes(UInt16.Parse(string.Format("{0}", value))).Reverse().ToArray();
             else if (type == typeof(UInt32))
