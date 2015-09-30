@@ -108,7 +108,9 @@ namespace DY.NET.LSIS.XGT
         /// <returns></returns>
         public new virtual void Close()
         {
-            base.Close();
+            //base.Close();
+            //base.Client.Disconnect(true);
+            Client.Close();
         }
 
         /// <summary>

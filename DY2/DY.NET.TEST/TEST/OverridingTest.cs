@@ -1,7 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 
-namespace DY.NET.TEST.TEST
+namespace DY.NET.Test
 {
 #if false
     [TestFixture]

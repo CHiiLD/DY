@@ -6,7 +6,7 @@
     <ProjectGuid>{8E5462AB-7061-4450-9F0C-7A0BD4B145BA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DY.NET.TEST</RootNamespace>
+    <RootNamespace>DY.NET.Test</RootNamespace>
     <AssemblyName>DY.NET.TEST</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
@@ -109,26 +109,27 @@
     <Compile Include="NET\Scanner\Honeywell\Vuquest\Vuquest3310g.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="TEST\AFakeStream.cs" />
-    <Compile Include="TEST\OverridingTest.cs" />
-    <Compile Include="TEST\XGT\XGTOptimizationTest.cs" />
-    <Compile Include="TEST\XGT\XGTCnet\XGTCnetCompressorTest.cs" />
-    <Compile Include="TEST\XGT\XGTCnet\XGTCnetProtocolTest.cs" />
+    <Compile Include="Test\AFakeStream.cs" />
+    <Compile Include="Test\OverridingTest.cs" />
+    <Compile Include="Test\Vuquest\Vuqeust3310gTest.cs" />
+    <Compile Include="Test\XGT\XGTOptimizationTest.cs" />
+    <Compile Include="Test\XGT\XGTCnetCompressorTest.cs" />
+    <Compile Include="Test\XGT\XGTCnetProtocolTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetCommand.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetCommandType.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetHeader.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetProtocol.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetError.cs" />
-    <Compile Include="TEST\ProtocolStreamMockTest.cs" />
-    <Compile Include="TEST\XGT\XGTCnet\XGTCnetRealDeviceTest.cs" />
-    <Compile Include="TEST\XGT\XGTCnet\XGTCnetStreamTest.cs" />
-    <Compile Include="TEST\XGT\XGTCnet\XGTCnetTranslatorTest.cs" />
-    <Compile Include="TEST\XGT\XGTFEnet\XGTFEnetRealDeviceTest.cs" />
-    <Compile Include="TEST\XGT\XGTFEnet\XGTFEnetStreamTest.cs" />
-    <Compile Include="TEST\XGT\XGTFEnet\XGTFEnetTranslatorTest.cs" />
-    <Compile Include="TEST\XGT\XGTFEnet\XGTFEnetProtocolTest.cs" />
-    <Compile Include="TEST\XGT\XGTFEnet\XGTFEnetCompressorTest.cs" />
+    <Compile Include="Test\ProtocolStreamMockTest.cs" />
+    <Compile Include="Test\XGT\XGTCnetRealDeviceTest.cs" />
+    <Compile Include="Test\XGT\XGTCnetStreamTest.cs" />
+    <Compile Include="Test\XGT\XGTCnetTranslatorTest.cs" />
+    <Compile Include="Test\XGT\XGTFEnetRealDeviceTest.cs" />
+    <Compile Include="Test\XGT\XGTFEnetStreamTest.cs" />
+    <Compile Include="Test\XGT\XGTFEnetTranslatorTest.cs" />
+    <Compile Include="Test\XGT\XGTFEnetProtocolTest.cs" />
+    <Compile Include="Test\XGT\XGTFEnetCompressorTest.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

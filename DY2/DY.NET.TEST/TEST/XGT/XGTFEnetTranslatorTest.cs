@@ -5,7 +5,7 @@ using NUnit.Framework;
 using DY.NET.LSIS.XGT;
 using System.Collections.Generic;
 
-namespace DY.NET.TEST
+namespace DY.NET.Test
 {
     [TestFixture]
     public class XGTFEnetTranslatorTest

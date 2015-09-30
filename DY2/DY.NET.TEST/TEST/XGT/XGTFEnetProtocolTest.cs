@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using DY.NET.LSIS.XGT;
 
-namespace DY.NET.TEST
+namespace DY.NET.Test
 {
     [TestFixture]
     public class XGTFEnetProtocolTest

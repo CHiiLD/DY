@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 using System.Threading;
 using System.IO;
 
-namespace DY.NET.TEST
+namespace DY.NET.Test
 {
     public abstract class AFakeStream : Stream
     {

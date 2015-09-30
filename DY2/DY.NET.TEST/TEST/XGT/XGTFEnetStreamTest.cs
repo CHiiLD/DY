@@ -7,7 +7,7 @@ using DY.NET.LSIS.XGT;
 using System.IO;
 using System.Linq;
 
-namespace DY.NET.TEST.TEST.XGTFEnet
+namespace DY.NET.Test
 {
     [TestFixture]
     public class XGTFEnetStreamTest

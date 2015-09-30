@@ -19,6 +19,7 @@ namespace DY.NET.LSIS.XGT
         private int m_ConnectTimeout;
         protected IProtocolCompressor Compressor = new XGTCnetCompressor();
         protected byte[] ReadBuffer;
+        public ushort LocalPort { get; set; }
 
         public int ReceiveTimeout
         {
@@ -56,7 +57,7 @@ namespace DY.NET.LSIS.XGT
             }
         }
 
-        protected XGTCnetStream() 
+        protected XGTCnetStream()
         {
             ReadBuffer = new byte[base.ReadBufferSize];
             ReceiveTimeout = SendTimeout = OpenTimeout = -1;

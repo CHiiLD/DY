@@ -2,7 +2,7 @@
 using NUnit.Framework;
 using DY.NET.LSIS.XGT;
 
-namespace DY.NET.TEST.TEST.XGTFEnet
+namespace DY.NET.Test
 {
     [TestFixture]
     public class XGTFEnetCompressorTest

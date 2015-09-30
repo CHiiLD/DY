@@ -11,6 +11,7 @@ namespace DY.NET.Honeywell.Vuquest
 {
     public class Vuquest3310g : SerialPort, IScannerStream
     {
+        private const int SCAN_MAX_TIMEOUT = 30000;
         private int m_ReceiveTimeout;
         private int m_SendTimeout;
         private int m_ConnectTimeout;
@@ -52,10 +53,17 @@ namespace DY.NET.Honeywell.Vuquest
             }
         }
 
-        protected Vuquest3310g() 
+        public int ScanTimeout
+        {
+            get;
+            private set;
+        }
+
+        protected Vuquest3310g()
         {
             ReadBuffer = new byte[base.ReadBufferSize];
             ReceiveTimeout = SendTimeout = OpenTimeout = -1;
+            ScanTimeout = SCAN_MAX_TIMEOUT;
         }
 
         public Vuquest3310g(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
@@ -83,9 +91,15 @@ namespace DY.NET.Honeywell.Vuquest
         {
             Task connect_task = Task.Run(() => { base.Open(); });
             if (await Task.WhenAny(connect_task, Task.Delay(OpenTimeout)) == connect_task)
+            {
                 await connect_task;
+                await SetScanTimeout(ScanTimeout);
+                await Set();
+            }
             else
+            {
                 throw new TimeoutException();
+            }
         }
 
         /// <summary>
@@ -106,6 +120,24 @@ namespace DY.NET.Honeywell.Vuquest
         }
 
         public virtual async Task<IValue> ScanAsync()
+        {
+            return null;
+        }
+
+        public virtual async Task Set()
+        {
+
+        }
+
+        public virtual async Task SetScanTimeout(int time)
+        {
+            if (SendTimeout != time && 0 <= time && time <= SCAN_MAX_TIMEOUT)
+            {
+                SendTimeout = time;
+            }
+        }
+
+        public virtual async Task<string> GetProductSerialNumber()
         {
             return null;
         }

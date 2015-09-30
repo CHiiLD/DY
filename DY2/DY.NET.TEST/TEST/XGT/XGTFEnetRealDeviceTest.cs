@@ -9,14 +9,15 @@ using System.Net.Sockets;
 using System.IO;
 using System.Threading;
 
-namespace DY.NET.TEST
+namespace DY.NET.Test
 {
-    [Ignore]
+    //[Ignore]
     [TestFixture]
     public class XGTFEnetRealDeviceTest
     {
         private string hostname = "192.168.10.150";
 
+        [Ignore]
         [Test]
         public async void OpenCloseOpneCloseTest()
         {

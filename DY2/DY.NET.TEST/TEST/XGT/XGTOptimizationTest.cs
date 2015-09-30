@@ -4,7 +4,7 @@ using NUnit.Framework;
 using DY.NET.LSIS.XGT;
 using System.Linq;
 
-namespace DY.NET.TEST
+namespace DY.NET.Test
 {
     [TestFixture]
     public class XGTOptimizationTest
