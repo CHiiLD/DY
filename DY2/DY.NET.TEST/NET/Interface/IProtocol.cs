@@ -8,9 +8,10 @@ namespace DY.NET
 {
     public interface IProtocol
     {
-        int GetErrorCode();
-        IList<IProtocolData> Items { get; set; }
+        IList<IProtocolItem> Items { get; set; }
+        Type ItemType { get; set; }
+
         void Initialize();
-        Type Type { get; set; }
+        int GetErrorCode();
     }
 }
