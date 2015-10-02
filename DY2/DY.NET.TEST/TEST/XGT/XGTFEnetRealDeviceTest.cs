@@ -11,7 +11,7 @@ using System.Threading;
 
 namespace DY.NET.Test
 {
-    //[Ignore]
+    [Ignore]
     [TestFixture]
     public class XGTFEnetRealDeviceTest
     {
@@ -19,7 +19,7 @@ namespace DY.NET.Test
 
         [Ignore]
         [Test]
-        public async void OpenCloseOpneCloseTest()
+        public async void OpenCloseOpneClose()
         {
             var stream = new XGTFEnetStream(hostname);
             await stream.OpenAsync();
@@ -35,7 +35,7 @@ namespace DY.NET.Test
         }
 
         [Test]
-        public async void NegativeNumberTest()
+        public async void WhenCastSigned2UnSigned_CheckInvalidCasting()
         {
             using (var stream = new XGTFEnetStream(hostname))
             {
@@ -48,23 +48,23 @@ namespace DY.NET.Test
                 {
                     sbyte value = (sbyte)r.Next(sbyte.MinValue, 0);
                     var write_protocol = new XGTFEnetProtocol(value.GetType(), XGTFEnetCommand.WRITE_REQT);
-                    write_protocol.Items = new List<IProtocolItem>() { new ProtocolData(addr, value) };
+                    write_protocol.Data = new List<IProtocolData>() { new ProtocolData(addr, value) };
                     XGTFEnetProtocol w_response = await stream.SendAsync(write_protocol) as XGTFEnetProtocol;
 
                     Assert.AreEqual(w_response.GetErrorCode(), 0);
 
                     var read_protocol = new XGTFEnetProtocol(value.GetType(), XGTFEnetCommand.READ_REQT);
-                    read_protocol.Items = new List<IProtocolItem>() { new ProtocolData(addr, value) };
+                    read_protocol.Data = new List<IProtocolData>() { new ProtocolData(addr, value) };
                     XGTFEnetProtocol r_response = await stream.SendAsync(read_protocol) as XGTFEnetProtocol;
 
                     Assert.AreEqual(r_response.GetErrorCode(), 0);
-                    Assert.AreEqual(r_response.Items[0].Value, value);
+                    Assert.AreEqual(r_response.Data[0].Value, value);
                 }
             }
         }
 
         [Test]
-        public async void StreamCommunicationTest()
+        public async void WriteRead()
         {
             using (var stream = new XGTFEnetStream(hostname))
             {
@@ -82,47 +82,17 @@ namespace DY.NET.Test
                 foreach (var item in testList)
                 {
                     var write_protocol = new XGTFEnetProtocol(item.Value.GetType(), XGTFEnetCommand.WRITE_REQT);
-                    write_protocol.Items = new List<IProtocolItem>() { new ProtocolData(item.Key, item.Value) };
+                    write_protocol.Data = new List<IProtocolData>() { new ProtocolData(item.Key, item.Value) };
                     XGTFEnetProtocol w_response = await stream.SendAsync(write_protocol) as XGTFEnetProtocol;
 
                     Assert.AreEqual(w_response.GetErrorCode(), 0);
 
                     var read_protocol = new XGTFEnetProtocol(item.Value.GetType(), XGTFEnetCommand.READ_REQT);
-                    read_protocol.Items = new List<IProtocolItem>() { new ProtocolData(item.Key, item.Value) };
+                    read_protocol.Data = new List<IProtocolData>() { new ProtocolData(item.Key, item.Value) };
                     XGTFEnetProtocol r_response = await stream.SendAsync(read_protocol) as XGTFEnetProtocol;
 
                     Assert.AreEqual(r_response.GetErrorCode(), 0);
-                    Assert.AreEqual(r_response.Items[0].Value, item.Value);
-                }
-            }
-        }
-
-        [Test]
-        public async void BitTypeWriteRequestTest()
-        {
-            using (var stream = new XGTFEnetStream(hostname))
-            {
-                await stream.OpenAsync();
-                Assert.True(stream.IsOpend());
-                Random r = new Random();
-                int cnt = 20;
-                for (int i = 0; i < cnt; i++)
-                {
-                    string addr = "%MX172C";
-                    bool value = r.Next(0, 2) == 0 ? false : true;
-                    Console.WriteLine(value);
-                    var write_protocol = new XGTFEnetProtocol(value.GetType(), XGTFEnetCommand.WRITE_REQT);
-                    write_protocol.Items = new List<IProtocolItem>() { new ProtocolData(addr, value) };
-                    XGTFEnetProtocol w_response = await stream.SendAsync(write_protocol) as XGTFEnetProtocol;
-
-                    Assert.AreEqual(w_response.GetErrorCode(), 0);
-
-                    var read_protocol = new XGTFEnetProtocol(value.GetType(), XGTFEnetCommand.READ_REQT);
-                    read_protocol.Items = new List<IProtocolItem>() { new ProtocolData(addr, value) };
-                    XGTFEnetProtocol r_response = await stream.SendAsync(read_protocol) as XGTFEnetProtocol;
-
-                    Assert.AreEqual(r_response.GetErrorCode(), 0);
-                    Assert.AreEqual(r_response.Items[0].Value, value);
+                    Assert.AreEqual(r_response.Data[0].Value, item.Value);
                 }
             }
         }

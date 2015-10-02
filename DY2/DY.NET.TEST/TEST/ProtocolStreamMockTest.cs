@@ -28,7 +28,7 @@ namespace DY.NET.Test
         }
 
         [Test]
-        public async void WhenStreamOpend_CanCommunicate()
+        public async void Open()
         {
             var stream = m_StreamMock.Object;
             await stream.OpenAsync();
@@ -37,29 +37,29 @@ namespace DY.NET.Test
         }
 
         [Test]
-        public async void WhenFloatOnStream_SendSuccessfully()
+        public async void Sample_InterfaceMethodMock()
         {
             ushort localport = 20;
             var cmd = XGTCnetCommand.R;
             string addr = "%MW100";
             XGTCnetProtocol resquest = new XGTCnetProtocol(typeof(ushort), localport, cmd);
-            resquest.Items = new System.Collections.Generic.List<IProtocolItem>() { new ProtocolData(addr) };
+            resquest.Data = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr) };
             m_StreamMock.Setup(m => m.SendAsync(resquest)).ReturnsAsync(new XGTCnetProtocol(typeof(ushort), localport, cmd)
             {
-                Header = XGTCnetHeader.ACK,
-                Tail = XGTCnetHeader.ETX,
-                Items = new System.Collections.Generic.List<IProtocolItem>() { new ProtocolData(0) }
+                Header = ControlChar.ACK,
+                Tail = ControlChar.ETX,
+                Data = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(0) }
             });
 
             XGTCnetProtocol response = await m_StreamMock.Object.SendAsync(resquest) as XGTCnetProtocol;
 
             Assert.AreEqual(response.GetErrorCode(), 0);
-            Assert.AreEqual(response.Header, XGTCnetHeader.ACK);
-            Assert.AreEqual(response.Tail, XGTCnetHeader.ETX);
+            Assert.AreEqual(response.Header, ControlChar.ACK);
+            Assert.AreEqual(response.Tail, ControlChar.ETX);
             Assert.AreEqual(response.CommandType, XGTCnetCommandType.SS);
             Assert.AreEqual(response.Command, cmd);
             Assert.AreEqual(response.LocalPort, localport);
-            Assert.AreEqual(response.Items.Count, resquest.Items.Count);
+            Assert.AreEqual(response.Data.Count, resquest.Data.Count);
         }
     }
 }

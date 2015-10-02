@@ -10,23 +10,25 @@ namespace DY.NET.Test
     [TestFixture]
     public class XGTFEnetTranslatorTest
     {
+#if false
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void WhenConvertValueToASCII_ExpectArgumentNullException()
+        public void WhenConvertNull2ASCII_ExpectArgumentNullException()
         {
             XGTFEnetTranslator.ToASCII(null);
         }
+#endif
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void WhenConvertValueToASCII_ExpectArgumentNullException2()
+        public void WhenConvertNullToASCII_ExpectArgumentNullException()
         {
             XGTFEnetTranslator.ToASCII(null, typeof(int));
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
-        public void WhenConvertASCIIToValueData_ExpectArgumentNullException()
+        public void WhenConvertNullToValue_ExpectArgumentNullException()
         {
             XGTFEnetTranslator.ToValue(null, typeof(bool));
         }
@@ -35,7 +37,7 @@ namespace DY.NET.Test
         [ExpectedException(typeof(ArgumentException))]
         [TestCase(typeof(double))]
         [TestCase(typeof(float))]
-        public void WhenConvertASCIIToValueData_ExpectArgumentException(Type type)
+        public void WhenUseUnsupportType_ExpectArgumentException(Type type)
         {
             XGTFEnetTranslator.ToValue(new byte[] { 0x30, 0x31 }, type);
         }
@@ -51,9 +53,9 @@ namespace DY.NET.Test
         [TestCase(0xFEDCBA09, new byte[] { 0xFE, 0xDC, 0xBA, 0x09 })]
         [TestCase(0x1234567890ABCDEFL, new byte[] { 0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF })]
         [TestCase(0xFEDCBA0987654321L, new byte[] { 0xFE, 0xDC, 0xBA, 0x09, 0x87, 0x65, 0x43, 0x21 })]
-        public void WhenConvertValueToASCII_ConvertSuccessfully(object value, byte[] expect)
+        public void Value2ASCII(object value, byte[] expect)
         {
-            Assert.AreEqual(XGTFEnetTranslator.ToASCII(value), expect);
+            Assert.AreEqual(XGTFEnetTranslator.ToASCII(value, value.GetType()), expect);
         }
 
         [Test]
@@ -66,7 +68,7 @@ namespace DY.NET.Test
         [TestCase(0xFEDCBA09, new byte[] { 0xFE, 0xDC, 0xBA, 0x09 })]
         [TestCase(0x1234567890ABCDEFL, new byte[] { 0x12, 0x34, 0x56, 0x78, 0x90, 0xAB, 0xCD, 0xEF })]
         [TestCase(0xFEDCBA0987654321L, new byte[] { 0xFE, 0xDC, 0xBA, 0x09, 0x87, 0x65, 0x43, 0x21 })]
-        public void WhenConvertASCIIToValueData_ConvertSuccessfully(object expect, byte[] value)
+        public void ASCII2Value(object expect, byte[] value)
         {
             Assert.AreEqual(XGTFEnetTranslator.ToValue(value, expect.GetType()), expect);
         }
@@ -77,7 +79,7 @@ namespace DY.NET.Test
         [TestCase(0x00FEU, typeof(short), new byte[] { 0xFE, 0x00 })]
         [TestCase((long)0x00FE, typeof(short), new byte[] { 0xFE, 0x00 })]
         [TestCase((ulong)0x00FE, typeof(short), new byte[] { 0xFE, 0x00 })]
-        public void WhenConvertASCIIToValueData_ConvertSuccessfully2(object expect, Type type, byte[] value)
+        public void ASCII2Value(object expect, Type type, byte[] value)
         {
             object result = XGTFEnetTranslator.ToValue(value, type);
             Assert.AreEqual(result, expect);

@@ -37,7 +37,6 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
     <Reference Include="nunit.core, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\nunit.core.dll</HintPath>
       <Private>False</Private>
@@ -69,46 +68,6 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="NET\Interface\IScannerStream.cs" />
-    <Compile Include="NET\PLC\DetailProtocolData.cs" />
-    <Compile Include="NET\Exception\ReadTimeoutException.cs" />
-    <Compile Include="NET\Exception\WriteTimeoutException.cs" />
-    <Compile Include="NET\Interface\IProtocolItemWithType.cs" />
-    <Compile Include="NET\Interface\ITimeout.cs" />
-    <Compile Include="NET\Interface\IProtocolStream.cs" />
-    <Compile Include="NET\Interface\IStream.cs" />
-    <Compile Include="NET\Interface\IValue.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetStream.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetTranslator.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetCompressor.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetClass.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetCommand.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetCompanyID.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetCpuInfo.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetCpuState.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetCpuType.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetDataType.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetPLCSystemState.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetPort.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetProtocol.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetError.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetStreamDirection.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\XGTHelper.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\XGTMemoryExpression.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\XGTOptimization.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\XGTServiceableDevice.cs" />
-    <Compile Include="NET\PLC\ProtocolData.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetStream.cs">
-      <SubType>Component</SubType>
-    </Compile>
-    <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetTranslator.cs" />
-    <Compile Include="NET\Interface\IProtocol.cs" />
-    <Compile Include="NET\Interface\IProtocolCompressor.cs" />
-    <Compile Include="NET\Interface\IProtocolItem.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetCompressor.cs" />
-    <Compile Include="NET\Scanner\Honeywell\Vuquest\Vuquest3310g.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Test\AFakeStream.cs" />
     <Compile Include="Test\OverridingTest.cs" />
     <Compile Include="Test\Vuquest\Vuqeust3310gTest.cs" />
@@ -116,17 +75,10 @@
     <Compile Include="Test\XGT\XGTCnetCompressorTest.cs" />
     <Compile Include="Test\XGT\XGTCnetProtocolTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetCommand.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetCommandType.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetHeader.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetProtocol.cs" />
-    <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetError.cs" />
     <Compile Include="Test\ProtocolStreamMockTest.cs" />
     <Compile Include="Test\XGT\XGTCnetRealDeviceTest.cs" />
-    <Compile Include="Test\XGT\XGTCnetStreamTest.cs" />
     <Compile Include="Test\XGT\XGTCnetTranslatorTest.cs" />
     <Compile Include="Test\XGT\XGTFEnetRealDeviceTest.cs" />
-    <Compile Include="Test\XGT\XGTFEnetStreamTest.cs" />
     <Compile Include="Test\XGT\XGTFEnetTranslatorTest.cs" />
     <Compile Include="Test\XGT\XGTFEnetProtocolTest.cs" />
     <Compile Include="Test\XGT\XGTFEnetCompressorTest.cs" />
@@ -139,10 +91,12 @@
       <Project>{1c91ac30-5977-4be5-ba67-8eb186c03514}</Project>
       <Name>Moq</Name>
     </ProjectReference>
+    <ProjectReference Include="..\DY.NET\DY.NET.csproj">
+      <Project>{44f4fc6a-f72d-4286-9979-f125aaf0d70a}</Project>
+      <Name>DY.NET</Name>
+    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="NET\PLC\MITSUBISHI\" />
-  </ItemGroup>
+  <ItemGroup />
   <Choose>
     <When Condition="'$(VisualStudioVersion)' == '10.0' And '$(IsCodedUITest)' == 'True'">
       <ItemGroup>

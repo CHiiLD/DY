@@ -9,12 +9,12 @@ namespace DY.NET.Test
     {
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        public void WhenResponseProtocolEncode_ExpectArgumentException()
+        public void WhenEncodeRespProtocol_ExpectArgumentException()
         {
             string addr = "%MW100";
             ushort tag = 0x00;
             XGTFEnetProtocol fenet = new XGTFEnetProtocol(typeof(ushort), XGTFEnetCommand.READ_RESP);
-            fenet.Items = new System.Collections.Generic.List<IProtocolItem>() { new ProtocolData(addr) };
+            fenet.Data = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr) };
             fenet.InvokeID = tag;
             XGTFEnetCompressor compressor = new XGTFEnetCompressor();
 
@@ -23,7 +23,7 @@ namespace DY.NET.Test
 
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        public void WhenWrongASCIIDecode_ExpectedArgumentException()
+        public void WhenInvalidASCIIDecode_ExpectedArgumentException()
         {
             byte[] recv_ascii = new byte[] { 0x4C, 0x53, 0x49, 0x53, 0x2D, 0x58, 0x47, 0x54,
             0x00, 0x00, //Reserved
@@ -42,7 +42,7 @@ namespace DY.NET.Test
         }
 
         [Test]
-        public void WhenReceivedNakProtocol_CatchErrorSuccessfully()
+        public void WhenReceivedErrorProtocol_CatchError()
         {
             byte[] recv_ascii = new byte[] { 0x4C, 0x53, 0x49, 0x53, 0x2D, 0x58, 0x47, 0x54,
             0x00, 0x00, //Reserved
@@ -64,7 +64,7 @@ namespace DY.NET.Test
         }
 
         [Test]
-        public void WhenRSSProtocolCompressorEncode_CompressSuccessfully()
+        public void RSS2ASCII()
         {
             string addr = "%MW100";
             ushort tag = 0x00;
@@ -80,7 +80,7 @@ namespace DY.NET.Test
             0x54, 0x00, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00, 0x06, 0x00, 
             0x25, 0x4D, 0x57, 0x31, 0x30, 0x30 };
             XGTFEnetProtocol fenet = new XGTFEnetProtocol(typeof(ushort), XGTFEnetCommand.READ_REQT);
-            fenet.Items = new System.Collections.Generic.List<IProtocolItem>() { new ProtocolData(addr) };
+            fenet.Data = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr) };
             fenet.InvokeID = tag;
             XGTFEnetCompressor compressor = new XGTFEnetCompressor();
 
@@ -90,7 +90,7 @@ namespace DY.NET.Test
         }
 
         [Test]
-        public void WhenWSSProtocolCompressorEncode_CompressSuccessfully()
+        public void WSS2ASCII()
         {
             string addr = "%MW100";
             ushort value = 0x1234;
@@ -109,7 +109,7 @@ namespace DY.NET.Test
             0x02, 0x00,
             0x34, 0x12 };
             XGTFEnetProtocol fenet = new XGTFEnetProtocol(typeof(ushort), XGTFEnetCommand.WRITE_REQT);
-            fenet.Items = new System.Collections.Generic.List<IProtocolItem>() { new ProtocolData(addr, value) };
+            fenet.Data = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr, value) };
             fenet.InvokeID = tag;
             XGTFEnetCompressor compressor = new XGTFEnetCompressor();
 
@@ -119,7 +119,7 @@ namespace DY.NET.Test
         }
 
         [Test]
-        public void WhenRSSProtocolCompressorDecode_DecompressSuccessfully()
+        public void ASCII2RSS()
         {
             XGTFEnetProtocol expectedResult = new XGTFEnetProtocol(typeof(ushort), XGTFEnetCommand.READ_RESP)
             {
@@ -134,7 +134,7 @@ namespace DY.NET.Test
                 BodyLength = 0x00A0,
                 SlotPosition = 0,
                 BasePosition = 3,
-                Items = new System.Collections.Generic.List<IProtocolItem>() { new ProtocolData(0x1234) }
+                Data = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(0x1234) }
             };
             byte[] recv_ascii = new byte[] { 0x4C, 0x53, 0x49, 0x53, 0x2D, 0x58, 0x47, 0x54,
             0x00, 0x00, //Reserved
@@ -165,11 +165,11 @@ namespace DY.NET.Test
             Assert.AreEqual(result.Command, expectedResult.Command);
             Assert.AreEqual(result.DataType, expectedResult.DataType);
             Assert.AreEqual(result.Error, expectedResult.Error);
-            Assert.AreEqual(result.Items.Count, expectedResult.Items.Count);
+            Assert.AreEqual(result.Data.Count, expectedResult.Data.Count);
         }
 
         [Test]
-        public void WhenWSSProtocolCompressorDecode_DecompressSuccessfully()
+        public void ASCII2WSS()
         {
             XGTFEnetProtocol expectedResult = new XGTFEnetProtocol(typeof(ushort), XGTFEnetCommand.WRITE_RESP)
             {
@@ -184,7 +184,7 @@ namespace DY.NET.Test
                 BodyLength = 0x00A0,
                 SlotPosition = 0,
                 BasePosition = 3,
-                Items = new System.Collections.Generic.List<IProtocolItem>() { new ProtocolData("%MW100", 0x1234) }
+                Data = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData("%MW100", 0x1234) }
             };
             byte[] recv_ascii = new byte[] { 0x4C, 0x53, 0x49, 0x53, 0x2D, 0x58, 0x47, 0x54,
             0x00, 0x00, //Reserved
@@ -217,15 +217,15 @@ namespace DY.NET.Test
 
         [Test]
         [ExpectedException(typeof(Exception))]
-        public void WhenProtocolEncoded_BlockCountOverError()
+        public void WhenProtocolDataAddItemToo_ExpectException()
         {
             var cmd = XGTFEnetCommand.READ_REQT;
             string addr = "%MW100";
             ushort value = 0x00E2;
             XGTFEnetProtocol fenet = new XGTFEnetProtocol(value.GetType(), cmd);
-            fenet.Items = new System.Collections.Generic.List<IProtocolItem>();
+            fenet.Data = new System.Collections.Generic.List<IProtocolData>();
             for (int i = 0; i < 17; i++)
-                fenet.Items.Add(new ProtocolData(addr, value));
+                fenet.Data.Add(new ProtocolData(addr, value));
 
             XGTFEnetCompressor cnet_comp = new XGTFEnetCompressor();
             byte[] ascii_code = cnet_comp.Encode(fenet);
@@ -233,13 +233,13 @@ namespace DY.NET.Test
 
         [Test]
         [ExpectedException(typeof(Exception))]
-        public void WhenProtocolEncoded_AddressLengthOverError()
+        public void WhenAddressLengthLongToo_ExpectException()
         {
             var cmd = XGTFEnetCommand.READ_REQT;
             string addr = "%MW45678901212213";
             ushort value = 0x00E2;
             XGTFEnetProtocol fenet = new XGTFEnetProtocol(value.GetType(), cmd);
-            fenet.Items = new System.Collections.Generic.List<IProtocolItem>() { new ProtocolData(addr, value) };
+            fenet.Data = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr, value) };
             XGTFEnetCompressor cnet_comp = new XGTFEnetCompressor();
             byte[] ascii_code = cnet_comp.Encode(fenet);
         }

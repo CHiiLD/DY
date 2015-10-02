@@ -8,7 +8,7 @@ namespace DY.NET.Test
     public class XGTFEnetProtocolTest
     {
         [Test]
-        public void WhenXGTFEnetProtocolCreated_ConstructorCallInitialize()
+        public void WhenInitialize_ExpectPropertyIsNone()
         {
             XGTFEnetProtocol fenet = new XGTFEnetProtocol(typeof(byte), XGTFEnetCommand.READ_REQT);
             fenet.Initialize();

@@ -8,56 +8,32 @@ namespace DY.NET.Test
     public class XGTCnetProtocolTest
     {
         [Test]
-        public void WhenProtocolInitialized_PropertyIsNone()
+        public void WhenInitialize_ExpectPropertyIsNone()
         {
-            XGTCnetProtocol cnet = new XGTCnetProtocol();
-            cnet.Command = XGTCnetCommand.R;
-
+            XGTCnetProtocol cnet = new XGTCnetProtocol(null, 0, XGTCnetCommand.R);
             cnet.Initialize();
-
-            InitSuccessTest(cnet);
-        }
-
-        [Test]
-        public void WhenProtocolCreated_ConstructorCallInitializeMethod()
-        {
-            XGTCnetProtocol cnet = new XGTCnetProtocol();
-
-            InitSuccessTest(cnet);
-        }
-
-        [Test]
-        public void WhenProtocolInitialized_ErrorCodeReturnZero()
-        {
-            XGTCnetProtocol cnet = new XGTCnetProtocol();
-
-            cnet.Initialize();
-
             Assert.AreEqual(cnet.GetErrorCode(), 0);
-        }
-
-        [Test]
-        public void WhenProtocolCreated_SubstitudeArgsToProperty()
-        {
-            ushort local = 12;
-            XGTCnetCommand cmd = XGTCnetCommand.R;
-
-            XGTCnetProtocol cnet = new XGTCnetProtocol(typeof(ushort), local, cmd);
-
-            Assert.AreEqual(cnet.ItemType, typeof(ushort));
-            Assert.AreEqual(cnet.LocalPort, local);
-            Assert.AreEqual(cnet.Command, cmd);
-        }
-
-        public void InitSuccessTest(XGTCnetProtocol cnet)
-        {
-            Assert.AreEqual(cnet.Header, XGTCnetHeader.NONE);
-            Assert.AreEqual(cnet.Tail, XGTCnetHeader.NONE);
+            Assert.AreEqual(cnet.Header, ControlChar.NONE);
+            Assert.AreEqual(cnet.Tail, ControlChar.NONE);
             Assert.AreEqual(cnet.Command, XGTCnetCommand.NONE);
             Assert.AreEqual(cnet.CommandType, XGTCnetCommandType.NONE);
             Assert.AreEqual(cnet.Error, XGTCnetError.OK);
             Assert.AreEqual(cnet.LocalPort, ushort.MaxValue);
-            Assert.AreEqual(cnet.Items, null);
+            Assert.AreEqual(cnet.Data, null);
+        }
+
+        [Test]
+        public void Constructor()
+        {
+            ushort local = 12;
+            XGTCnetCommand cmd = XGTCnetCommand.R;
+            Type type = typeof(ushort);
+
+            XGTCnetProtocol cnet = new XGTCnetProtocol(type, local, cmd);
+
+            Assert.AreEqual(type, typeof(ushort));
+            Assert.AreEqual(cnet.LocalPort, local);
+            Assert.AreEqual(cnet.Command, cmd);
         }
     }
 }

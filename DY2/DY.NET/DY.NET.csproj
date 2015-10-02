@@ -31,17 +31,64 @@
   </PropertyGroup>
   <ItemGroup>
     <Reference Include="System" />
-    <Reference Include="System.Core" />
-    <Reference Include="System.Xml.Linq" />
-    <Reference Include="System.Data.DataSetExtensions" />
-    <Reference Include="Microsoft.CSharp" />
-    <Reference Include="System.Data" />
-    <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Class1.cs" />
+    <Compile Include="NET\Exception\ReadTimeoutException.cs" />
+    <Compile Include="NET\Exception\WriteTimeoutException.cs" />
+    <Compile Include="NET\Interface\IProtocol.cs" />
+    <Compile Include="NET\Interface\IProtocolCompressor.cs" />
+    <Compile Include="NET\Interface\IProtocolData.cs" />
+    <Compile Include="NET\Interface\IProtocolDataWithType.cs" />
+    <Compile Include="NET\Interface\IProtocolStream.cs" />
+    <Compile Include="NET\Interface\IScannerStream.cs" />
+    <Compile Include="NET\Interface\IStream.cs" />
+    <Compile Include="NET\Interface\ITimeout.cs" />
+    <Compile Include="NET\Interface\IValue.cs" />
+    <Compile Include="NET\PLC\DetailProtocolData.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetCommand.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetCommandType.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetCompressor.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetError.cs" />
+    <Compile Include="NET\Enum\SerialControlChar.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetProtocol.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetStream.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetTranslator.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetClass.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetCommand.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetCompanyID.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetCompressor.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetCpuInfo.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetCpuState.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetCpuType.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetDataType.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetError.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetPLCSystemState.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetPort.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetProtocol.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetStream.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetStreamDirection.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetTranslator.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\XGTHelper.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\XGTMemoryExpression.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\XGTOptimization.cs" />
+    <Compile Include="NET\PLC\LSIS\XGT\XGTServiceableDevice.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC-Q\MCCommand.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC-Q\MCCompressor.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC-Q\MCHeader.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC-Q\MCProtocol.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC-Q\MCSerialModuleStream.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="NET\PLC\ProtocolData.cs" />
+    <Compile Include="NET\Scanner\CodeValue.cs" />
+    <Compile Include="NET\Scanner\Honeywell\Vuquest\Vuquest3310g.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

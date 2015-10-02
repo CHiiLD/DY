@@ -1,0 +1,51 @@
+01:37:28 DY.WPF.CommConnectionDataGrid
+통신 접속 에러: 'COM5' 포트에 대한 액세스가 거부되었습니다.
+
+01:37:34 DY.WPF.CommConnectionDataGrid
+통신 접속 에러: 'COM5' 포트에 대한 액세스가 거부되었습니다.
+
+01:37:42 DY.WPF.CommConnectionDataGrid
+통신 접속 에러: 'COM5' 포트에 대한 액세스가 거부되었습니다.
+
+01:37:51 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 접속
+
+01:48:01 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 접속
+
+01:51:31 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 접속
+
+01:51:49 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5): Barcode read timeout setting error
+
+01:52:12 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 해제
+
+01:52:12 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 접속종료 및 메모리 해제
+
+01:52:12 DY.WPF.SYSTEM.COMM.CommClient
+COM5 115200-8-N-1 CommClient 메모리 해제
+
+01:52:12 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+01:55:10 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 접속
+
+01:55:25 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 해제
+
+01:55:25 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 접속종료 및 메모리 해제
+
+01:55:25 DY.WPF.SYSTEM.COMM.CommClient
+COM5 115200-8-N-1 CommClient 메모리 해제
+
+01:55:25 DY.WPF.SYSTEM.COMM.CommClientDirector
+CommClientDirector 메모리 해제
+
+02:10:32 DY.NET.HONEYWELL.VUQUEST.Vuquest3310g
+Hoenywell Vuquest 3310g(COM5) 시리얼포트 통신 접속
+

@@ -29,3 +29,5 @@ C:\Users\CHILD\GitHub\DY\DY2\DY.NET.TEST\bin\Debug\Castle.Core.xml
 C:\Users\CHILD\GitHub\DY\DY2\DY.NET.TEST\obj\Debug\DY.NET.TEST.csprojResolveAssemblyReference.cache
 C:\Users\CHILD\GitHub\DY\DY2\DY.NET.TEST\obj\Debug\DY.NET.TEST.dll
 C:\Users\CHILD\GitHub\DY\DY2\DY.NET.TEST\obj\Debug\DY.NET.TEST.pdb
+C:\dev\github\DY\DY2\DY.NET.TEST\bin\Debug\DY.NET.dll
+C:\dev\github\DY\DY2\DY.NET.TEST\bin\Debug\DY.NET.pdb

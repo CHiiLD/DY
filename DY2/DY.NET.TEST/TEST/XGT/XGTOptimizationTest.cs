@@ -14,7 +14,7 @@ namespace DY.NET.Test
         [TestCase("M00201", "M0020")]
         [TestCase("M0022A", "M0022")]
         [TestCase("D01234.0", "D01234")]
-        public void ConvertBitAddrToWordAddrTest(string bitAddr, string expect)
+        public void BitAddress2WordAddress(string bitAddr, string expect)
         {
             XGTOptimizationTool opt = new XGTOptimizationTool();
             Assert.AreEqual(opt.ConvertBitAddrToWordAddr(bitAddr), expect);
@@ -30,7 +30,7 @@ namespace DY.NET.Test
         [TestCase("M1020", typeof(int), "%MD510")]
         [TestCase("M1020", typeof(uint), "%MD510")]
         [TestCase("M400", typeof(ulong), "%ML100")]
-        public void ConvertToGlopaVariableNameTest(string norAddr, Type type, string expect)
+        public void NormalAddress2GlopaAddress(string norAddr, Type type, string expect)
         {
             XGTOptimizationTool opt = new XGTOptimizationTool();
             Assert.AreEqual(opt.ToGlopaVariableName(norAddr, type), expect);
@@ -41,63 +41,16 @@ namespace DY.NET.Test
         [TestCase("%MX100B", (ushort)0x1234, false)]
         [TestCase("%MX100C", (ushort)0x1234, true)]
         [TestCase("%MX100D", (ushort)0x1234, false)]
-        public void SearchBooleanFromUInt16Test(string addr, ushort value, bool expect)
+        public void SearchBooleanFromUInt16(string addr, ushort value, bool expect)
         {
             XGTOptimizationTool opt = new XGTOptimizationTool();
             Assert.AreEqual(opt.SearchBooleanFromUInt16(addr, value), expect);
         }
 
         [Test]
-        public void PackageTest()
+        public void XGTHelperClassifyTest()
         {
-            IList<IProtocolItemWithType> list = new List<IProtocolItemWithType>()
-            {
-                new DetailProtocolData("M00000", typeof(bool)),
-                new DetailProtocolData("M00001", typeof(bool)),
-                new DetailProtocolData("M00002", typeof(bool)),
-                new DetailProtocolData("M00003", typeof(bool)),
-                new DetailProtocolData("M00004", typeof(bool))  
-            };
-            string expect_addr = "%MW0000";
-            IList<IProtocolItemWithType>[] ret = XGTHelper.Classify(list);
-
-            Assert.AreEqual(ret.Count(), 1);
-            Assert.AreEqual(ret[0].Count(), 1);
-            Assert.AreEqual(ret[0][0].Address, expect_addr);
-        }
-
-        [Test]
-        public void MatchTest()
-        {
-            IList<IProtocolItemWithType> list = new List<IProtocolItemWithType>()
-            {
-                new DetailProtocolData("M00000", typeof(bool)),
-                new DetailProtocolData("M00208", typeof(sbyte)),
-                new DetailProtocolData("M0145", typeof(ushort)),
-                new DetailProtocolData("D0112", typeof(short)),
-                new DetailProtocolData("D0024", typeof(long)),
-                new DetailProtocolData("M0012", typeof(int)),
-            };
-            IList<IProtocolItem> recv = new List<IProtocolItem>()
-            {
-                new ProtocolData("%MW0000", (ushort)0xFFFF),
-                new ProtocolData("%MB41", (sbyte)-1),
-                new ProtocolData("%MW0145", (ushort)0xFFFF),
-                new ProtocolData("%DW0112", (short)-1),
-                new ProtocolData("%DL6",    (long)-1),
-                new ProtocolData("%MD6",    (int)-1),
-            };
-            object[] expect = new object[] { true, (sbyte)-1, (ushort)0xFFFF, (short)-1, (long)-1, (int)-1 };
-            XGTHelper.Match(list, recv);
-
-            for (int i = 0; i < 5; i++)
-                Assert.AreEqual(list[i].Value, expect[i]);
-        }
-
-        [Test]
-        public void ClassifyTest()
-        {
-            IList<IProtocolItemWithType> list = new List<IProtocolItemWithType>()
+            IList<IProtocolDataWithType> list = new List<IProtocolDataWithType>()
             {
                 new DetailProtocolData("M00000", typeof(bool)),
                 new DetailProtocolData("M00001", typeof(bool)),
@@ -149,7 +102,7 @@ namespace DY.NET.Test
                 "%DL6",
                 "%MD6" };
 
-            IList<IProtocolItemWithType>[] ret = XGTHelper.Classify(list);
+            IList<IProtocolDataWithType>[] ret = XGTHelper.Classify(list);
 
             Assert.AreEqual(ret.Count(), 5);
             Assert.AreEqual(ret[0].Count(), 9);
@@ -158,7 +111,7 @@ namespace DY.NET.Test
             Assert.AreEqual(ret[3].Count(), 1);
             Assert.AreEqual(ret[4].Count(), 1);
 
-            foreach(var item in ret)
+            foreach (var item in ret)
             {
                 foreach (var i in item)
                 {
@@ -166,6 +119,53 @@ namespace DY.NET.Test
                     Assert.AreNotEqual(expect_addr.Find(x => x == addr), null);
                 }
             }
+        }
+
+        [Test]
+        public void Sample_XGTHelper_Classify()
+        {
+            IList<IProtocolDataWithType> list = new List<IProtocolDataWithType>()
+            {
+                new DetailProtocolData("M00000", typeof(bool)),
+                new DetailProtocolData("M00001", typeof(bool)),
+                new DetailProtocolData("M00002", typeof(bool)),
+                new DetailProtocolData("M00003", typeof(bool)),
+                new DetailProtocolData("M00004", typeof(bool))  
+            };
+            string expect_addr = "%MW0000";
+            IList<IProtocolDataWithType>[] ret = XGTHelper.Classify(list);
+
+            Assert.AreEqual(ret.Count(), 1);
+            Assert.AreEqual(ret[0].Count(), 1);
+            Assert.AreEqual(ret[0][0].Address, expect_addr);
+        }
+
+        [Test]
+        public void Sample_XGTHelper_Match()
+        {
+            IList<IProtocolDataWithType> list = new List<IProtocolDataWithType>()
+            {
+                new DetailProtocolData("M00000", typeof(bool)),
+                new DetailProtocolData("M00208", typeof(sbyte)),
+                new DetailProtocolData("M0145", typeof(ushort)),
+                new DetailProtocolData("D0112", typeof(short)),
+                new DetailProtocolData("D0024", typeof(long)),
+                new DetailProtocolData("M0012", typeof(int)),
+            };
+            IList<IProtocolData> recv = new List<IProtocolData>()
+            {
+                new ProtocolData("%MW0000", (ushort)0xFFFF),
+                new ProtocolData("%MB41", (sbyte)-1),
+                new ProtocolData("%MW0145", (ushort)0xFFFF),
+                new ProtocolData("%DW0112", (short)-1),
+                new ProtocolData("%DL6",    (long)-1),
+                new ProtocolData("%MD6",    (int)-1),
+            };
+            object[] expect = new object[] { true, (sbyte)-1, (ushort)0xFFFF, (short)-1, (long)-1, (int)-1 };
+            XGTHelper.Match(list, recv);
+
+            for (int i = 0; i < 5; i++)
+                Assert.AreEqual(list[i].Value, expect[i]);
         }
     }
 }
