@@ -38,7 +38,7 @@ namespace DY.NET.Test
             using (var scanner = new Vuquest3310g(m_Com, m_Bandrate, m_Parity, m_DataBit, m_Stopbit))
             {
                 await scanner.OpenAsync();
-                scanner.ReceiveTimeout = 1;
+                scanner.InputTimeout = 1;
                 byte[] code = null;
                 code = (await scanner.ScanAsync()).Value as byte[];
             }
@@ -50,7 +50,7 @@ namespace DY.NET.Test
             using (var scanner = new Vuquest3310g(m_Com, m_Bandrate, m_Parity, m_DataBit, m_Stopbit))
             {
                 await scanner.OpenAsync();
-                scanner.ReceiveTimeout = 100;
+                scanner.InputTimeout = 100;
                 byte[] code = (await scanner.ScanAsync()).Value as byte[];
                 Assert.AreNotEqual(code, null);
             }

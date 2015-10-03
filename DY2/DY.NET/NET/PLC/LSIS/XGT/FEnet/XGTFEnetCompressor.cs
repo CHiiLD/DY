@@ -80,7 +80,7 @@ namespace DY.NET.LSIS.XGT
                 if (fenet.Command == XGTFEnetCommand.WRITE_REQT)
                 {
                     buf.AddRange(fenet.DataType.ToBytes().Reverse()); //data type
-                    byte[] value = XGTFEnetTranslator.ToASCII(item.Value, protocol.ItemType);
+                    byte[] value = XGTFEnetTranslator.ToASCII(item.Value, protocol.Type);
                     buf.AddRange(value); //value
                 }
             }
@@ -114,7 +114,7 @@ namespace DY.NET.LSIS.XGT
             XGTFEnetProtocol fenet = new XGTFEnetProtocol();
             fenet.Command = command;
             fenet.DataType = datatype;
-            fenet.ItemType = type;
+            fenet.Type = type;
             fenet.CompanyID = XGTFEnetCompanyID.LSIS_XGT.ToBytes().SequenceEqual(
                 new byte[] { ascii[0], ascii[1], ascii[2], ascii[3], ascii[4], ascii[5], ascii[6], ascii[7] }) ?
                 XGTFEnetCompanyID.LSIS_XGT : XGTFEnetCompanyID.NONE;

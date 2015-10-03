@@ -12,7 +12,7 @@ namespace DY.NET.LSIS.XGT
     public class XGTFEnetProtocol : IProtocol
     {
         private readonly Random m_Random = new Random();
-        public Type ItemType { get; set; }
+        public Type Type { get; set; }
         //HEADER INFORMATION
         public XGTFEnetCompanyID CompanyID { get; set; }            //PLC 제품
         public XGTFEnetCpuType CpuType { get; set; }                //bit00-05 시피유 타입
@@ -53,7 +53,7 @@ namespace DY.NET.LSIS.XGT
         {
             Command = cmd;
             DataType = type.ToXGTFEnetDataType();
-            ItemType = type;
+            Type = type;
         }
 
         public static XGTFEnetProtocol CreateRequestWSS(Type type, IList<IProtocolData> data)

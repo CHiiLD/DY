@@ -14,34 +14,34 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public class XGTCnetStream : SerialPort, IProtocolStream
     {
-        private int m_ReceiveTimeout;
-        private int m_SendTimeout;
+        private int m_InputTimeout;
+        private int m_OutputTimeout;
         private int m_ConnectTimeout;
         protected IProtocolCompressor Compressor = new XGTCnetCompressor();
         protected byte[] ReadBuffer;
         public ushort LocalPort { get; set; }
 
-        public int ReceiveTimeout
+        public int InputTimeout
         {
             get
             {
-                return m_ReceiveTimeout;
+                return m_InputTimeout;
             }
             set
             {
-                m_ReceiveTimeout = value >= 0 ? value : -1;
+                m_InputTimeout = value >= 0 ? value : -1;
             }
         }
 
-        public int SendTimeout
+        public int OutputTimeout
         {
             get
             {
-                return m_SendTimeout;
+                return m_OutputTimeout;
             }
             set
             {
-                m_SendTimeout = value >= 0 ? value : -1;
+                m_OutputTimeout = value >= 0 ? value : -1;
             }
         }
 
@@ -60,7 +60,7 @@ namespace DY.NET.LSIS.XGT
         protected XGTCnetStream()
         {
             ReadBuffer = new byte[base.ReadBufferSize];
-            ReceiveTimeout = SendTimeout = OpenTimeout = -1;
+            InputTimeout = OutputTimeout = OpenTimeout = -1;
         }
 
         public XGTCnetStream(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
@@ -86,11 +86,16 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         public virtual async Task OpenAsync()
         {
-            Task connect_task = Task.Run(() => { base.Open(); });
-            if (await Task.WhenAny(connect_task, Task.Delay(OpenTimeout)) == connect_task)
-                await connect_task;
+            Task openTask = Task.Run(() => { base.Open(); });
+            if (await Task.WhenAny(openTask, Task.Delay(OpenTimeout)) == openTask)
+            {
+                await openTask;
+            }
             else
+            {
+                Close();
                 throw new TimeoutException();
+            }
         }
 
         /// <summary>
@@ -110,23 +115,18 @@ namespace DY.NET.LSIS.XGT
             return base.IsOpen;
         }
 
-        public virtual async Task CloseOpenAsync()
-        {
-            Close();
-            await OpenAsync();
-        }
-
         public virtual async Task WriteAsync(byte[] buffer)
         {
             base.DiscardOutBuffer();
             Task writeTask = GetStream().WriteAsync(buffer, 0, buffer.Length);
-            if (await Task.WhenAny(writeTask, Task.Delay(SendTimeout)) == writeTask)
+            if (await Task.WhenAny(writeTask, Task.Delay(OutputTimeout)) == writeTask)
             {
                 await writeTask;
             }
             else
             {
-                await CloseOpenAsync();
+                Close();
+                await OpenAsync();
                 throw new WriteTimeoutException();
             }
         }
@@ -140,13 +140,14 @@ namespace DY.NET.LSIS.XGT
             do
             {
                 Task<int> readTask = stream.ReadAsync(this.ReadBuffer, idx, this.ReadBuffer.Length - idx);
-                if (await Task.WhenAny(readTask, Task.Delay(ReceiveTimeout)) == readTask)
+                if (await Task.WhenAny(readTask, Task.Delay(InputTimeout)) == readTask)
                 {
                     idx += await readTask;
                 }
                 else
                 {
-                    await CloseOpenAsync();
+                    Close();
+                    await OpenAsync();
                     throw new ReadTimeoutException();
                 }
             } while (ReadBuffer[idx - 1] != ControlChar.ETX.ToByte());
@@ -165,7 +166,7 @@ namespace DY.NET.LSIS.XGT
             int size = await ReadAsync();
             byte[] buffer = new byte[size];
             System.Buffer.BlockCopy(this.ReadBuffer, 0, buffer, 0, buffer.Length);
-            return Compressor.Decode(buffer, protocol.ItemType);
+            return Compressor.Decode(buffer, protocol.Type);
         }
     }
 }

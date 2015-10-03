@@ -9,7 +9,7 @@ namespace DY.NET.Mitsubishi.MELSEC
     public class MCProtocol : IProtocol
     {
         public IList<IProtocolData> Data { get; set; }
-        public Type ItemType { get; set; }
+        public Type Type { get; set; }
 
         ControlChar Header { get; set; }
         ushort LocalPort { get; set; }

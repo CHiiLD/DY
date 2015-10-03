@@ -49,7 +49,7 @@
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetCommandType.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetCompressor.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetError.cs" />
-    <Compile Include="NET\Enum\SerialControlChar.cs" />
+    <Compile Include="NET\Enum\ControlChar.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetProtocol.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetStream.cs">
       <SubType>Component</SubType>

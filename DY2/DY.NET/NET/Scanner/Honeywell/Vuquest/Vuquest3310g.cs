@@ -38,7 +38,7 @@ namespace DY.NET.Honeywell.Vuquest
 
         protected byte[] ReadBuffer;
 
-        public int ReceiveTimeout
+        public int InputTimeout
         {
             get
             {
@@ -58,7 +58,7 @@ namespace DY.NET.Honeywell.Vuquest
             }
         }
 
-        public int SendTimeout
+        public int OutputTimeout
         {
             get
             {
@@ -85,8 +85,8 @@ namespace DY.NET.Honeywell.Vuquest
         protected Vuquest3310g()
         {
             ReadBuffer = new byte[base.ReadBufferSize];
-            SendTimeout = OpenTimeout = -1;
-            ReceiveTimeout = 500;
+            OutputTimeout = OpenTimeout = -1;
+            InputTimeout = 500;
         }
 
         public Vuquest3310g(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
@@ -112,14 +112,15 @@ namespace DY.NET.Honeywell.Vuquest
         /// </summary>
         public virtual async Task OpenAsync()
         {
-            Task connect_task = Task.Run(() => { base.Open(); });
-            if (await Task.WhenAny(connect_task, Task.Delay(OpenTimeout)) == connect_task)
+            Task openTask = Task.Run(() => { base.Open(); });
+            if (await Task.WhenAny(openTask, Task.Delay(OpenTimeout)) == openTask)
             {
-                await connect_task;
+                await openTask;
                 await PrepareAsync();
             }
             else
             {
+                Close();
                 throw new TimeoutException();
             }
         }
@@ -141,23 +142,18 @@ namespace DY.NET.Honeywell.Vuquest
             return base.IsOpen;
         }
 
-        public virtual async Task CloseOpenAsync()
-        {
-            Close();
-            await OpenAsync();
-        }
-
         public async Task WriteAsync(byte[] buffer)
         {
             base.DiscardOutBuffer();
             Task writeTask = GetStream().WriteAsync(buffer, 0, buffer.Length);
-            if(await Task.WhenAny(writeTask, Task.Delay(SendTimeout)) == writeTask)
+            if(await Task.WhenAny(writeTask, Task.Delay(OutputTimeout)) == writeTask)
             {
                 await writeTask;
             }
             else
             {
-                await CloseOpenAsync();
+                Close();
+                await OpenAsync();
                 throw new WriteTimeoutException();
             }
         }
@@ -171,13 +167,14 @@ namespace DY.NET.Honeywell.Vuquest
             do
             {
                 Task<int> readTask = stream.ReadAsync(this.ReadBuffer, idx, this.ReadBuffer.Length - idx);
-                if (await Task.WhenAny(readTask, Task.Delay(ReceiveTimeout)) == readTask)
+                if (await Task.WhenAny(readTask, Task.Delay(InputTimeout)) == readTask)
                 {
                     idx += await readTask;
                 }
                 else
                 {
-                    await CloseOpenAsync();
+                    Close();
+                    await OpenAsync();
                     throw new ReadTimeoutException();
                 }
             } while (ReadBuffer[idx - 1] != ETX);
@@ -220,7 +217,7 @@ namespace DY.NET.Honeywell.Vuquest
         {
             if (m_NeedActivateTimeSet)
             {
-                await SetActivateTimeout(ReceiveTimeout);
+                await SetActivateTimeout(InputTimeout);
                 m_NeedActivateTimeSet = false;
             }
         }

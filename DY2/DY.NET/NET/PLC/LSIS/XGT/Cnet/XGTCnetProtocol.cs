@@ -11,7 +11,7 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public class XGTCnetProtocol : IProtocol
     {
-        public Type ItemType { get; set; }
+        public Type Type { get; set; }
         //FRAME INFORMATION
         public ControlChar Header { set; get; }
         public ushort LocalPort { set; get; }
@@ -30,7 +30,7 @@ namespace DY.NET.LSIS.XGT
         public XGTCnetProtocol(Type type, ushort localPort, XGTCnetCommand cmd)
             : this()
         {
-            ItemType = type;
+            Type = type;
             LocalPort = localPort;
             Command = cmd;
             CommandType = XGTCnetCommandType.SS;
@@ -38,7 +38,7 @@ namespace DY.NET.LSIS.XGT
 
         public static XGTCnetProtocol CreateRequestRSS(Type type, ushort localPort, IList<IProtocolData> items)
         {
-            return new XGTCnetProtocol(type, localPort, XGTCnetCommand.R) { ItemType = type, Data = items };
+            return new XGTCnetProtocol(type, localPort, XGTCnetCommand.R) { Type = type, Data = items };
         }
 
         public static XGTCnetProtocol CreateRequestWSS(Type type, ushort localPort, IList<IProtocolData> items)

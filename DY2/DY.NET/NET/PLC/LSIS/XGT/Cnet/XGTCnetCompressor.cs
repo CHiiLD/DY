@@ -43,7 +43,7 @@ namespace DY.NET.LSIS.XGT
                 buf.AddRange(XGTCnetTranslator.BlockDataToASCII(item.Address.Length));
                 buf.AddRange(XGTCnetTranslator.AddressDataToASCII(item.Address));
                 if (cnet.Command == XGTCnetCommand.W)
-                    buf.AddRange(XGTCnetTranslator.ValueDataToASCII(item.Value, protocol.ItemType));
+                    buf.AddRange(XGTCnetTranslator.ValueDataToASCII(item.Value, protocol.Type));
             }
             buf.Add(cnet.Tail.ToByte());
             return buf.ToArray();
@@ -76,7 +76,7 @@ namespace DY.NET.LSIS.XGT
             XGTCnetCommand cmd = (XGTCnetCommand)ascii[COMMAND_IDX];
             ushort localport = XGTCnetTranslator.ASCIIToLocalPort(new byte[] { ascii[LOCOL_IDX1], ascii[LOCOL_IDX2] });
             XGTCnetProtocol cnet = new XGTCnetProtocol(typeof(ushort), localport, cmd);
-            cnet.ItemType = type;
+            cnet.Type = type;
             cnet.Header = header;
             cnet.Tail = tail;
 

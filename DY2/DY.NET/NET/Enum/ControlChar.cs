@@ -7,6 +7,7 @@
     public enum ControlChar : byte
     {
         NONE = 0x00,
+        STX = 0x02, //수신 헤더
         ENQ = 0x05, //요청 시작 코드
         ACK = 0x06, //ACK 응답 프레임 시작 코드
         NAK = 0x15, //NAK 응답 프레임 시작 코드
