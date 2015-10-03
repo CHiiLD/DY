@@ -8,7 +8,6 @@
     /// </summary>
     public enum XGTFEnetCpuState
     {
-        NONE = -1,
         CPU_NOR = 0x00, //정상 0000 0000
         CPU_ERR = 0x01  //에러 0000 0001 
     }

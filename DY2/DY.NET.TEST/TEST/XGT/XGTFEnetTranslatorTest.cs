@@ -10,15 +10,6 @@ namespace DY.NET.Test
     [TestFixture]
     public class XGTFEnetTranslatorTest
     {
-#if false
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void WhenConvertNull2ASCII_ExpectArgumentNullException()
-        {
-            XGTFEnetTranslator.ToASCII(null);
-        }
-#endif
-
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void WhenConvertNullToASCII_ExpectArgumentNullException()

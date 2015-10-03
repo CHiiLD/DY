@@ -102,7 +102,7 @@ namespace DY.NET.Test
                 "%DL6",
                 "%MD6" };
 
-            IList<IProtocolDataWithType>[] ret = XGTHelper.Classify(list);
+            IList<IProtocolData>[] ret = XGTHelper.Classify(list);
 
             Assert.AreEqual(ret.Count(), 5);
             Assert.AreEqual(ret[0].Count(), 9);
@@ -133,7 +133,7 @@ namespace DY.NET.Test
                 new DetailProtocolData("M00004", typeof(bool))  
             };
             string expect_addr = "%MW0000";
-            IList<IProtocolDataWithType>[] ret = XGTHelper.Classify(list);
+            IList<IProtocolData>[] ret = XGTHelper.Classify(list);
 
             Assert.AreEqual(ret.Count(), 1);
             Assert.AreEqual(ret[0].Count(), 1);

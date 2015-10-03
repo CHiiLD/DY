@@ -8,24 +8,25 @@ namespace DY.NET.LSIS.XGT
 {
     public class XGTOptimizationTool
     {
-        public IList<IProtocolDataWithType>[] PackProtocolData(IList<IProtocolDataWithType> newList)
+        public IList<IProtocolData>[] Pack(IList<IProtocolDataWithType> newList)
         {
+            List<List<IProtocolData>> result = new List<List<IProtocolData>>();
             ILookup<Type, IProtocolDataWithType> look = SeparateProtocol(newList);
-            List<List<IProtocolDataWithType>> package = new List<List<IProtocolDataWithType>>();
+            
             foreach (IGrouping<Type, IProtocolDataWithType> groups in look)
             {
-                List<IProtocolDataWithType> pack = new List<IProtocolDataWithType>();
-                package.Add(pack);
+                List<IProtocolData> pack = new List<IProtocolData>();
+                result.Add(pack);
                 int cnt = 0;
                 foreach (IProtocolDataWithType group in groups)
                 {
                     if (cnt % 16 == 0 && cnt != 0)
                     {
-                        pack = new List<IProtocolDataWithType>();
-                        package.Add(pack);
+                        pack = new List<IProtocolData>();
+                        result.Add(pack);
                     }
                     bool alreadyExist = false;
-                    foreach (var item in package)
+                    foreach (var item in result)
                     {
                         if (item.Find(x => x.Address == group.Address) != null)
                         {
@@ -35,13 +36,12 @@ namespace DY.NET.LSIS.XGT
                     }
                     if (!alreadyExist)
                     {
-                        pack.Add(new DetailProtocolData(group.Address, group.Type));
+                        pack.Add(new ProtocolData(group.Address));
                         cnt++;
                     }
                 }
             }
-            List<IProtocolDataWithType>[] result = package.ToArray();
-            return result;
+            return result.ToArray();
         }
 
         public void ConvertGlopaVariableName(IList<IProtocolDataWithType> newList)
@@ -59,10 +59,6 @@ namespace DY.NET.LSIS.XGT
 
         public ILookup<Type, IProtocolDataWithType> SeparateProtocol(IList<IProtocolDataWithType> list)
         {
-            //ILookup<int, IProtocolDataWithType> look = list.ToLookup
-            //    (x => x.Type == typeof(sbyte) || x.Type == typeof(byte) ? 1 :
-            //        x.Type == typeof(ushort) || x.Type == typeof(short) ? 2 :
-            //        x.Type == typeof(uint) || x.Type == typeof(int) ? 4 : 8, x => x);
             ILookup<Type, IProtocolDataWithType> look = list.ToLookup(x => x.Type, x => x);
             return look;
         }

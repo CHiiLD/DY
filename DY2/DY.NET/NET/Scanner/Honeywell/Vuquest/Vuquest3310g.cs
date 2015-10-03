@@ -13,6 +13,7 @@ namespace DY.NET.Honeywell.Vuquest
     public class Vuquest3310g : SerialPort, IScannerStream
     {
         public const int SCAN_MAX_TIMEOUT = 3000 * 10;
+
         private const byte SYN = 0x16;
         private const byte CR = 0x0D;
         private const byte ACK = 0x06;
@@ -222,6 +223,14 @@ namespace DY.NET.Honeywell.Vuquest
             }
         }
 
+        private async Task SetActivateTimeout(int time)
+        {
+            List<byte> message = READ_TIMEOUT_N.ToList();
+            foreach (char i in time.ToString())
+                message.Add((byte)i);
+            await SendCommendMessageAsync(message.ToArray());
+        }
+
         public async Task<byte[]> SendCommendMessageAsync(byte[] message)
         {
             byte[] reqtCode = GetRequestCommandCode(message);
@@ -238,15 +247,6 @@ namespace DY.NET.Honeywell.Vuquest
             Buffer.BlockCopy(ReadBuffer, 0, recvCode, 0, recvCode.Length);
             return recvCode;
         }
-
-        private async Task SetActivateTimeout(int time)
-        {
-            List<byte> message = READ_TIMEOUT_N.ToList();
-            foreach (char i in time.ToString())
-                message.Add((byte)i);
-            await SendCommendMessageAsync(message.ToArray());
-        }
-
         public async Task<string> GetProductSerialNumber()
         {
             /*버그: 명령어를 2번 호출할 때 올바른 응답 코드를 수신할 수 있다.*/

@@ -60,10 +60,8 @@ namespace DY.NET.LSIS.XGT
             const int LOCOL_IDX1 = 1;
             const int LOCOL_IDX2 = 2;
             const int COMMAND_IDX = 3;
-#if false
-            const int CMDTYPE_IDX1 = 4;
-            const int CMDTYPE_IDX2 = 5;
-#endif
+            //const int CMDTYPE_IDX1 = 4;
+            //const int CMDTYPE_IDX2 = 5;
             const int BLOCK_IDX1 = 6;
             const int BLOCK_IDX2 = 7;
 

@@ -31,22 +31,6 @@ namespace DY.NET.Test
             Assert.AreEqual(value, aim);
         }
 
-#if false
-        [Test]
-        [ExpectedException(typeof(ArgumentException))]
-        public void WhenConvertInvalidObject2ASCII_ExpectArguementException()
-        {
-            string addr = "%WM0012";
-            XGTCnetTranslator.ValueDataToASCII(addr);
-        }
-
-        [Test]
-        [ExpectedException(typeof(ArgumentNullException))]
-        public void WhenConvertValueToASCII_ExpectArgumentNullException()
-        {
-            XGTCnetTranslator.ValueDataToASCII(null);
-        }
-#endif
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void WhenConvertNullToASCII_ExpectArgumentNullException()

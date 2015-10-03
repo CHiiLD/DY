@@ -39,7 +39,6 @@ namespace DY.NET.LSIS.XGT
         public const int BODY_BLOCK_IDX1 = 28;
         public const int BODY_BLOCK_IDX2 = 29;
 
-
         private const byte ERROR_VALUE = 0xFF;
 
         /// <summary>

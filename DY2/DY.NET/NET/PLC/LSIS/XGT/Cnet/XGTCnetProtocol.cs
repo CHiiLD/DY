@@ -11,7 +11,6 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public class XGTCnetProtocol : IProtocol
     {
-        public Type Type { get; set; }
         //FRAME INFORMATION
         public ControlChar Header { set; get; }
         public ushort LocalPort { set; get; }
@@ -20,6 +19,7 @@ namespace DY.NET.LSIS.XGT
         public ControlChar Tail { set; get; }
         public XGTCnetError Error { get; set; }
         //DATA INFORMATION
+        public Type Type { get; set; }
         public IList<IProtocolData> Data { get; set; }
 
         internal XGTCnetProtocol()
@@ -65,7 +65,9 @@ namespace DY.NET.LSIS.XGT
             CommandType = XGTCnetCommandType.NONE;
             Tail = ControlChar.NONE;
             Error = XGTCnetError.OK;
+
             Data = null;
+            this.Type = null;
         }
     }
 }

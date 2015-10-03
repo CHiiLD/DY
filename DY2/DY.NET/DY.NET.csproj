@@ -44,7 +44,6 @@
     <Compile Include="NET\Interface\IStream.cs" />
     <Compile Include="NET\Interface\ITimeout.cs" />
     <Compile Include="NET\Interface\IValue.cs" />
-    <Compile Include="NET\PLC\DetailProtocolData.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetCommand.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetCommandType.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetCompressor.cs" />
@@ -74,13 +73,20 @@
     <Compile Include="NET\PLC\LSIS\XGT\XGTMemoryExpression.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\XGTOptimization.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\XGTServiceableDevice.cs" />
-    <Compile Include="NET\PLC\Mitsubishi\MELSEC-Q\MCCommand.cs" />
-    <Compile Include="NET\PLC\Mitsubishi\MELSEC-Q\MCCompressor.cs" />
-    <Compile Include="NET\PLC\Mitsubishi\MELSEC-Q\MCHeader.cs" />
-    <Compile Include="NET\PLC\Mitsubishi\MELSEC-Q\MCProtocol.cs" />
-    <Compile Include="NET\PLC\Mitsubishi\MELSEC-Q\MCSerialModuleStream.cs">
-      <SubType>Component</SubType>
-    </Compile>
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\IMCStream.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\IProtocolCompressorWithFormat.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\EFrame\MCEStream.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\MCFormatASCIITranslator.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\MCFormatBinaryTranslator.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\EFrame\3E\MC3EDataType.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\EFrame\3E\MC3ECommand.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\EFrame\3E\MC3ECompressor.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\EFrame\3E\MC3EDeviceMemoryExtension.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\EFrame\3E\MC3ESubHeader.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\EFrame\3E\MC3EProtocol.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\MCProtocolFormat.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\EFrame\3E\MC3ESpecialFunction.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\EFrame\MCEFrameError.cs" />
     <Compile Include="NET\PLC\ProtocolData.cs" />
     <Compile Include="NET\Scanner\CodeValue.cs" />
     <Compile Include="NET\Scanner\Honeywell\Vuquest\Vuquest3310g.cs">
@@ -88,7 +94,13 @@
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Folder Include="NET\PLC\Mitsubishi\MELSEC\CFrame\1C\" />
+    <Folder Include="NET\PLC\Mitsubishi\MELSEC\CFrame\2C\" />
+    <Folder Include="NET\PLC\Mitsubishi\MELSEC\CFrame\3C\" />
+    <Folder Include="NET\PLC\Mitsubishi\MELSEC\CFrame\4C\" />
+    <Folder Include="NET\PLC\Mitsubishi\MELSEC\EFrame\1E\" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

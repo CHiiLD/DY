@@ -99,18 +99,6 @@ namespace DY.NET.LSIS.XGT
             return ASCIIToLocalPort(code);
         }
 
-#if false
-        /// <summary>
-        /// 정수 또는 이진 데이터를 ASCII데이터로 변환하여 반환한다.
-        /// </summary>
-        public static byte[] ValueDataToASCII(object value)
-        {
-            if (value == null)
-                throw new ArgumentNullException();
-            return ValueDataToASCII(value, value.GetType());
-        }
-#endif
-
         /// <summary>
         /// 정수 또는 이진 데이터를 ASCII데이터로 변환하여 반환한다.
         /// </summary>

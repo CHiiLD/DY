@@ -14,8 +14,8 @@ namespace DY.NET.Test
             fenet.Initialize();
             Assert.AreEqual(fenet.CompanyID, XGTFEnetCompanyID.NONE);
             Assert.AreEqual(fenet.CpuType, XGTFEnetCpuType.NONE);
-            Assert.AreEqual(fenet.Class, XGTFEnetClass.NONE);
-            Assert.AreEqual(fenet.CpuState, XGTFEnetCpuState.NONE);
+            Assert.AreEqual(fenet.Class, XGTFEnetClass.MASTER);
+            Assert.AreEqual(fenet.CpuState, XGTFEnetCpuState.CPU_NOR);
             Assert.AreEqual(fenet.PLCState, XGTFEnetPLCSystemState.NONE);
             Assert.AreEqual(fenet.StreamDirection, XGTFEnetStreamDirection.NONE);
             Assert.AreEqual(fenet.SlotPosition, 0);

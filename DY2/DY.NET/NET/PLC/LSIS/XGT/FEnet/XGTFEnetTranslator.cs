@@ -43,15 +43,6 @@ namespace DY.NET.LSIS.XGT
             return target;
         }
 
-#if false
-        public static byte[] ToASCII(object value)
-        {
-            if (value == null)
-                throw new ArgumentNullException();
-            return ToASCII(value, value.GetType());
-        }
-#endif
-
         public static byte[] ToASCII(object value, Type type)
         {
             if (value == null || type == null)

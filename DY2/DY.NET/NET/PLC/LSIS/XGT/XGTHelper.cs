@@ -10,13 +10,13 @@ namespace DY.NET.LSIS.XGT
     {
         private static readonly XGTOptimizationTool m_Opt = new XGTOptimizationTool();
 
-        public static IList<IProtocolDataWithType>[] Classify(IList<IProtocolDataWithType> list)
+        public static IList<IProtocolData>[] Classify(IList<IProtocolDataWithType> list)
         {
             var newList = new List<IProtocolDataWithType>(list);
             //글로파 변수 문자열로 변환
             m_Opt.ConvertGlopaVariableName(newList);
             //Type에 맞게 한 상자 16개 팩으로 포장
-            IList<IProtocolDataWithType>[] result = m_Opt.PackProtocolData(newList);
+            IList<IProtocolData>[] result = m_Opt.Pack(newList);
             return result;
         }
 

@@ -8,7 +8,6 @@
     /// </summary>
     public enum XGTFEnetClass
     {
-        NONE = -1,
         MASTER = 0x00, // 00000000
         SLAVE = 0x02   // 00000010
     }

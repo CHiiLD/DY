@@ -11,7 +11,7 @@ namespace DY.NET.Test
     /// - 스캐너의 30cm 앞에는 인식 가능한 바코드가 있다.
     /// - 스캐너의 고유 시리얼 넘버는 14351B07771 이다.
     /// </summary>
-    //[Ignore]
+    [Ignore]
     [TestFixture]
     public class Vuqeust3310gTest
     {

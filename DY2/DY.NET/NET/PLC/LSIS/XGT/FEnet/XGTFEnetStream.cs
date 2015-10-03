@@ -14,7 +14,7 @@ namespace DY.NET.LSIS.XGT
         private int m_OpenTimeout;
         private int m_InputTimeout;
         private int m_OutputTimeout;
-        protected IProtocolCompressor Compressor = new XGTFEnetCompressor();
+        protected IProtocolCompressor Compressor;
         protected byte[] ReadBuffer;
 
         public string Hostname
@@ -69,6 +69,7 @@ namespace DY.NET.LSIS.XGT
         {
             ReadBuffer = new byte[base.ReceiveBufferSize];
             ReceiveTimeout = SendTimeout = OpenTimeout = -1;
+            InitializeCompressor();
         }
 
         public XGTFEnetStream(string hostname, int port = (int)XGTFEnetPort.TCP)
@@ -76,6 +77,11 @@ namespace DY.NET.LSIS.XGT
         {
             Hostname = hostname;
             Port = port;
+        }
+
+        protected virtual void InitializeCompressor()
+        {
+            Compressor = new XGTFEnetCompressor();
         }
 
         /// <summary>
@@ -113,7 +119,6 @@ namespace DY.NET.LSIS.XGT
             //base.Client.Disconnect(true);
             Client.Close();
         }
-
         /// <summary>
         /// 포트와 물리적인 연결이 있었는지 질의한다.
         /// </summary>
@@ -122,7 +127,7 @@ namespace DY.NET.LSIS.XGT
             return base.Connected;
         }
 
-        private bool Continue(int idx)
+        protected virtual bool Continue(int idx)
         {
             ushort bodyLen = 0;
             ushort targetLen = 0;

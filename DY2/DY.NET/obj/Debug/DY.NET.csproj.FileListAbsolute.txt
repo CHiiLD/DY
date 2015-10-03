@@ -8,3 +8,8 @@ C:\dev\github\DY\DY2\DY.NET\bin\Debug\DY.NET.pdb
 C:\dev\github\DY\DY2\DY.NET\obj\Debug\DY.NET.csprojResolveAssemblyReference.cache
 C:\dev\github\DY\DY2\DY.NET\obj\Debug\DY.NET.dll
 C:\dev\github\DY\DY2\DY.NET\obj\Debug\DY.NET.pdb
+C:\Users\CHILD\GitHub\DY\DY2\DY.NET\obj\Debug\DY.NET.csprojResolveAssemblyReference.cache
+C:\Users\CHILD\GitHub\DY\DY2\DY.NET\obj\Debug\DY.NET.dll
+C:\Users\CHILD\GitHub\DY\DY2\DY.NET\bin\Debug\DY.NET.dll
+C:\Users\CHILD\GitHub\DY\DY2\DY.NET\bin\Debug\DY.NET.pdb
+C:\Users\CHILD\GitHub\DY\DY2\DY.NET\obj\Debug\DY.NET.pdb

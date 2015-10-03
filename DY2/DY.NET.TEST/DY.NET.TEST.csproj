@@ -71,6 +71,7 @@
     <Compile Include="Test\AFakeStream.cs" />
     <Compile Include="Test\OverridingTest.cs" />
     <Compile Include="Test\Vuquest\Vuqeust3310gTest.cs" />
+    <Compile Include="Test\XGT\DetailProtocolData.cs" />
     <Compile Include="Test\XGT\XGTOptimizationTest.cs" />
     <Compile Include="Test\XGT\XGTCnetCompressorTest.cs" />
     <Compile Include="Test\XGT\XGTCnetProtocolTest.cs" />

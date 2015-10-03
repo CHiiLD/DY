@@ -17,7 +17,7 @@ namespace DY.NET.LSIS.XGT
         private int m_InputTimeout;
         private int m_OutputTimeout;
         private int m_ConnectTimeout;
-        protected IProtocolCompressor Compressor = new XGTCnetCompressor();
+        protected IProtocolCompressor Compressor;
         protected byte[] ReadBuffer;
         public ushort LocalPort { get; set; }
 
@@ -61,6 +61,7 @@ namespace DY.NET.LSIS.XGT
         {
             ReadBuffer = new byte[base.ReadBufferSize];
             InputTimeout = OutputTimeout = OpenTimeout = -1;
+            InitializeCompressor();
         }
 
         public XGTCnetStream(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
@@ -71,6 +72,11 @@ namespace DY.NET.LSIS.XGT
             base.Parity = parity;
             DataBits = dataBits;
             base.StopBits = stopBits;
+        }
+
+        protected virtual void InitializeCompressor()
+        {
+            Compressor = new XGTCnetCompressor();
         }
 
         /// <summary>
