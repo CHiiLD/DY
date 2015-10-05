@@ -6,7 +6,12 @@ using System.Threading.Tasks;
 
 namespace DY.NET.Mitsubishi.MELSEC
 {
-    public static class MCFormatASCIITranslator
+    public enum MCModuleAccess
     {
+        MODE1,
+        MODE2,
+        MODE3,
+        MODE4,
+        MODE5,
     }
 }

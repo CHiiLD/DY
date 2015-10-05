@@ -18,40 +18,40 @@ namespace DY.NET.Mitsubishi.MELSEC
         public MC3ESubHeader SubHeader { get; set; }
         
         /// <summary>
-        /// 네트워크번호
-        ///                                                  | 네트워크번호 |  PLC번호
-        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-        /// Q시리즈E71장착국                                  |    0x00     |   0xFF
-        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+        /// MELSECNET/H, MELSECNET/10 네트워크 시스템의 네트워크 번호
+        ///                                                  | 네트워크번호 |
+        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+        /// Q시리즈E71장착국                                  |    0x00     |
+        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
         /// MELSECNET/H,MELSECNET/10상의 관리국               |             |
         /// (Q시리즈E71장착국을 일반국에 장착시)               |             |
         ///                                                  |             |
-        /// MELSECNET/H상의 리모트 마스터 국                  |     0x01~   |  0x7D:지정 관리국/마스터국
-        /// (Q시리즈E71장착국을 리모트IO/국에 장착시)          |     0xEF    |  0x7E:현재 관리국/마스터국
-        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ|             | ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+        /// MELSECNET/H상의 리모트 마스터 국                  |     0x01~   |
+        /// (Q시리즈E71장착국을 리모트IO/국에 장착시)          |     0xEF    |
+        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ|             |
         /// MELSECNET/H,MELSECNET/10상의                     |             |  
-        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ |  0x01 ~ 0x40
-        /// '엑서스 시의 유효모듈'>설정의 네트워크 모듈 경유국  |    0xFE     | 
-        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ |
+        /// '엑서스 시의 유효모듈'설정의 네트워크 모듈 경유국  |    0xFE     | 
+        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
         /// </summary>
         public byte NetworkNumber { get; set; }
 
         /// <summary>
-        /// PLC번호
-        ///                                                  | 네트워크번호 |  PLC번호
-        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-        /// Q시리즈E71장착국                                  |    0x00     |   0xFF
-        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-        /// MELSECNET/H,MELSECNET/10상의 관리국               |             |
-        /// (Q시리즈E71장착국을 일반국에 장착시)               |             |
-        ///                                                  |             |
-        /// MELSECNET/H상의 리모트 마스터 국                  |     0x01~   |  0x7D:지정 관리국/마스터국
-        /// (Q시리즈E71장착국을 리모트IO/국에 장착시)          |     0xEF    |  0x7E:현재 관리국/마스터국
-        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ|             | ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
-        /// MELSECNET/H,MELSECNET/10상의                     |             |  
-        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ |  0x01 ~ 0x40
-        /// '엑서스 시의 유효모듈'>설정의 네트워크 모듈 경유국  |    0xFE     | 
-        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ
+        /// MELSECNET/H, MELSECNET/10 네트워크 시스템의 국번호
+        ///                                                  |          PLC번호            |
+        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ|
+        /// Q시리즈E71장착국                                  |    0xFF                     |
+        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ|
+        /// MELSECNET/H,MELSECNET/10상의 관리국               |                            |
+        /// (Q시리즈E71장착국을 일반국에 장착시)               |   0x7D:지정 관리국/마스터국 | 
+        ///                                                  |   0x7E:현재 관리국/마스터국  |
+        /// MELSECNET/H상의 리모트 마스터 국                  |                             |
+        /// (Q시리즈E71장착국을 리모트IO/국에 장착시)          |                             |
+        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ|  ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ |
+        /// MELSECNET/H,MELSECNET/10상의                     |                             |
+        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ|  0x01 ~ 0x40                |
+        /// '엑서스 시의 유효모듈'설정의 네트워크 모듈 경유국  |                            |
+        /// ㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡㅡ|
         /// </summary>
         public byte PLCNumber { get; set; }
         
@@ -62,7 +62,7 @@ namespace DY.NET.Mitsubishi.MELSEC
         /// 하고 그외에는 아래와 같이 표기
         /// 요구상대 모듈I/O번호 -> 0x03FF, 요구상대모듈 국번호 -> 0x00
         /// </summary>
-        public ushort TargetModuleIONumber { get; set; } 
+        public ushort ModuleIONumber { get; set; } 
 
         /// <summary>
         /// 요구상대모듈 국번호
@@ -71,7 +71,7 @@ namespace DY.NET.Mitsubishi.MELSEC
         /// 하고 그외에는 아래와 같이 표기
         /// 요구상대 모듈I/O번호 -> 0x03FF, 요구상대모듈 국번호 -> 0x00
         /// </summary>
-        public byte TargetModuleLocalNumber { get; set; }
+        public byte ModuleLocalNumber { get; set; }
         
         /// <summary>
         /// 요구데이터길이
@@ -95,9 +95,6 @@ namespace DY.NET.Mitsubishi.MELSEC
         /// </summary>
         public ushort CPUMonitorTimer { get; set; }
         
-        /* * * * * * * * * * * * * * * * * * * * * * 
-         
-         * * * * * * * * * * * * * * * * * * * * * */
         /// <summary>
         /// 커맨드
         /// 
@@ -140,8 +137,8 @@ namespace DY.NET.Mitsubishi.MELSEC
         public MCEFrameError Error { get; set; }
         public byte ErrorNetworkNumber { get; set; }
         public byte ErrorPLCNumber { get; set; }
-        public ushort ErrorTargetModuleIONumber { get; set; }
-        public byte ErrorTargetModuleLocalNumber { get; set; }
+        public ushort ErrorModuleIONumber { get; set; }
+        public byte ErrorModuleLocalNumber { get; set; }
         public MC3ECommand ErrorCommand { get; set; }
         public MC3EDeviceMemoryExtension ErrorDeviceMemoryExtension { get; set; }
         public MC3ESpecialFunction ErrorSpecialFunction { get; set; }
@@ -151,13 +148,43 @@ namespace DY.NET.Mitsubishi.MELSEC
         public IList<IProtocolData> Data { get; set; }
         public Type Type { get; set; }
 
+        public MC3EProtocol()
+        {
+            Initialize();
+        }
+
+        public MC3EProtocol(MC3EDataType type, MC3ECommand command)
+            : this()
+        {
+            DataType = type;
+            Type = type == MC3EDataType.BIT ? typeof(bool) : typeof(ushort);
+            Command = command;
+        }
+
+        public static MC3EProtocol CreateMode1Protocol(MC3EDataType type, MC3ECommand command, IList<IProtocolData> data)
+        {
+            MC3EProtocol result = new MC3EProtocol(type, command)
+            {
+                Data = data,
+                SubHeader = MC3ESubHeader.REQUEST,
+                NetworkNumber = 0x00,
+                PLCNumber = 0xFF,
+                ModuleIONumber = 0x03FF,
+                ModuleLocalNumber = 0x00,
+                CPUMonitorTimer = 0x00,
+                DeviceMemoryExtension = MC3EDeviceMemoryExtension.OFF,
+                SpecialFunction = MC3ESpecialFunction.OFF
+            };
+            return result;
+        }
+
         public void Initialize()
         {
             SubHeader = MC3ESubHeader.NONE;
             NetworkNumber = byte.MaxValue;
             PLCNumber = byte.MaxValue;
-            TargetModuleIONumber = ushort.MaxValue;
-            TargetModuleLocalNumber = byte.MaxValue;
+            ModuleIONumber = ushort.MaxValue;
+            ModuleLocalNumber = byte.MaxValue;
             DataLength = ushort.MaxValue;
             CPUMonitorTimer = 0;
             Command = MC3ECommand.NONE;
@@ -168,8 +195,8 @@ namespace DY.NET.Mitsubishi.MELSEC
             Error = MCEFrameError.OK;
             ErrorNetworkNumber = 0;
             ErrorPLCNumber = 0;
-            ErrorTargetModuleIONumber = 0;
-            ErrorTargetModuleLocalNumber = 0;
+            ErrorModuleIONumber = 0;
+            ErrorModuleLocalNumber = 0;
 
             ErrorDeviceMemoryExtension = MC3EDeviceMemoryExtension.OFF;
             ErrorSpecialFunction = MC3ESpecialFunction.OFF;

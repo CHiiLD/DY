@@ -65,7 +65,7 @@ namespace DY.NET.Mitsubishi.MELSEC
          * ! 워드단위로 비트단위 디바이스를 읽을 때와 워드단위 디바이스를 읽을 때 차이가 남
          */
 
-        public MC3ECompressor() : base()
+        public MC3ECompressor()
         {
             Format = MCProtocolFormat.ASCII;
         }

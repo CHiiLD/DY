@@ -29,10 +29,10 @@ namespace DY.NET.LSIS.XGT
             cnet.Error = XGTCnetError.OK;
 
             buf.Add(cnet.Header.ToByte());
-            buf.AddRange(XGTCnetTranslator.LocalPortToASCII(cnet.LocalPort));
+            buf.AddRange(ASCIIFormatTranslator.IntegerToDecASCII(cnet.LocalPort.GetType(), cnet.LocalPort));
             buf.Add(cnet.Command.ToByte());
             buf.AddRange(cnet.CommandType.ToBytes());
-            buf.AddRange(XGTCnetTranslator.BlockDataToASCII(cnet.Data.Count));
+            buf.AddRange(ASCIIFormatTranslator.IntegerToHexASCII(typeof(byte), cnet.Data.Count));
             if (cnet.Data.Count > ITEM_MAX_COUNT)
                 throw new Exception("블록 수 초과 에러");
 
@@ -40,10 +40,10 @@ namespace DY.NET.LSIS.XGT
             {
                 if (item.Address.Length > ADDRESS_STRING_MAX_LENGTH)
                     throw new Exception("주소 문자열 길이 초과 에러");
-                buf.AddRange(XGTCnetTranslator.BlockDataToASCII(item.Address.Length));
-                buf.AddRange(XGTCnetTranslator.AddressDataToASCII(item.Address));
+                buf.AddRange(ASCIIFormatTranslator.IntegerToHexASCII(typeof(byte), item.Address.Length));
+                buf.AddRange(StringFormatTranslator.StringToByteArray(item.Address));
                 if (cnet.Command == XGTCnetCommand.W)
-                    buf.AddRange(XGTCnetTranslator.ValueDataToASCII(item.Value, protocol.Type));
+                    buf.AddRange(ASCIIFormatTranslator.IntegerToHexASCII(protocol.Type, item.Value));
             }
             buf.Add(cnet.Tail.ToByte());
             return buf.ToArray();
@@ -71,63 +71,37 @@ namespace DY.NET.LSIS.XGT
                 throw new Exception("ASCII Header 분석 실패 에러");
             if (tail != ControlChar.ETX)
                 throw new Exception("ASCII Tail 분석 실패 에러");
-            XGTCnetCommand cmd = (XGTCnetCommand)ascii[COMMAND_IDX];
-            ushort localport = XGTCnetTranslator.ASCIIToLocalPort(new byte[] { ascii[LOCOL_IDX1], ascii[LOCOL_IDX2] });
-            XGTCnetProtocol cnet = new XGTCnetProtocol(typeof(ushort), localport, cmd);
-            cnet.Type = type;
-            cnet.Header = header;
-            cnet.Tail = tail;
-
+            XGTCnetCommand command = (XGTCnetCommand)ascii[COMMAND_IDX];
+            byte local = (byte)ASCIIFormatTranslator.DecASCIIToInteger(typeof(byte), new byte[] { ascii[LOCOL_IDX1], ascii[LOCOL_IDX2] });
+            XGTCnetProtocol cnet = new XGTCnetProtocol(typeof(ushort), command)
+            {
+                Header = header,
+                Tail = tail,
+                LocalPort = local,
+            };
             if (cnet.Header == ControlChar.NAK)
             {
                 var error_bytes = new byte[] { ascii[6], ascii[7], ascii[8], ascii[9] };
-                cnet.Error = (XGTCnetError)XGTCnetTranslator.ErrorCodeToInteger(error_bytes);
+                cnet.Error = (XGTCnetError)ASCIIFormatTranslator.DecASCIIToInteger(typeof(ushort), error_bytes);
                 return cnet;
             }
-
-            if (cmd == XGTCnetCommand.R)
+            if (command == XGTCnetCommand.R)
             {
                 if (cnet.Data == null) cnet.Data = new List<IProtocolData>(); else cnet.Data.Clear();
-                int count = XGTCnetTranslator.ASCIIToBlockData(new byte[] { ascii[BLOCK_IDX1], ascii[BLOCK_IDX2] });
+                byte count = (byte) ASCIIFormatTranslator.HexASCIIToInteger(typeof(byte), new byte[] { ascii[BLOCK_IDX1], ascii[BLOCK_IDX2] });
                 int idx = 8;
                 for (int i = 0; i < count; i++)
                 {
-                    ushort size = XGTCnetTranslator.ASCIIToBlockData(new byte[] { ascii[idx], ascii[idx + 1] });
+                    byte size = (byte)ASCIIFormatTranslator.HexASCIIToInteger(typeof(byte), new byte[] { ascii[idx], ascii[idx + 1] });
                     idx += 2;
                     byte[] code = new byte[size * 2];
                     Buffer.BlockCopy(ascii, idx, code, 0, code.Length);
                     idx += code.Length;
-                    object value = XGTCnetTranslator.ASCIIToValueData(code, type);
+                    object value = ASCIIFormatTranslator.HexASCIIToInteger(type, code);  //XGTCnetTranslator.ASCIIToValueData(code, type);
                     cnet.Data.Add(new ProtocolData(value));
                 }
             }
             return cnet;
-        }
-
-        /// <summary>
-        /// PLC Address에 해당되는 정수byte[]정보를 사용하여 적절한 자료형의 변수로 해석하여 반환한다.
-        /// </summary>
-        /// <param name="code">정수byte[]정보</param>
-        /// <returns>정수</returns>
-        public virtual object ConvertAutomatically(byte[] code, int size)
-        {
-            object value = null;
-            switch (size)
-            {
-                case 1:
-                    value = XGTCnetTranslator.ASCIIToValueData(code, typeof(byte));
-                    break;
-                case 2:
-                    value = XGTCnetTranslator.ASCIIToValueData(code, typeof(ushort));
-                    break;
-                case 4:
-                    value = XGTCnetTranslator.ASCIIToValueData(code, typeof(uint));
-                    break;
-                case 8:
-                    value = XGTCnetTranslator.ASCIIToValueData(code, typeof(ulong));
-                    break;
-            }
-            return value;
         }
     }
 }

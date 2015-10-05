@@ -14,8 +14,13 @@ namespace DY.NET.LSIS.XGT
         private int m_OpenTimeout;
         private int m_InputTimeout;
         private int m_OutputTimeout;
-        protected IProtocolCompressor Compressor;
         protected byte[] ReadBuffer;
+
+        public virtual IProtocolCompressor Compressor 
+        { 
+            get; 
+            set; 
+        }
 
         public string Hostname
         {
@@ -129,14 +134,14 @@ namespace DY.NET.LSIS.XGT
 
         protected virtual bool Continue(int idx)
         {
-            ushort bodyLen = 0;
-            ushort targetLen = 0;
+            ushort curLen = 0;
+            ushort appLen = 0;
 
             if (idx < XGTFEnetCompressor.HEADER_SIZE)
                 return true;
-            targetLen = (ushort)XGTFEnetTranslator.ToValue(new byte[] { ReadBuffer[XGTFEnetCompressor.HEADER_LENGTH_IDX1], ReadBuffer[XGTFEnetCompressor.HEADER_LENGTH_IDX2] }, typeof(ushort));
-            bodyLen = (ushort)(idx - XGTFEnetCompressor.HEADER_SIZE);
-            return bodyLen != targetLen;
+            appLen = (Compressor as XGTFEnetCompressor).GetApplicationDataLength(ReadBuffer);
+            curLen = (ushort)(idx - XGTFEnetCompressor.HEADER_SIZE);
+            return curLen != appLen;
         }
 
         public virtual async Task WriteAsync(byte[] buffer)

@@ -42,9 +42,9 @@ namespace DY.NET.Test
             ushort localport = 20;
             var cmd = XGTCnetCommand.R;
             string addr = "%MW100";
-            XGTCnetProtocol resquest = new XGTCnetProtocol(typeof(ushort), localport, cmd);
+            XGTCnetProtocol resquest = new XGTCnetProtocol(typeof(ushort), cmd);
             resquest.Data = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr) };
-            m_StreamMock.Setup(m => m.SendAsync(resquest)).ReturnsAsync(new XGTCnetProtocol(typeof(ushort), localport, cmd)
+            m_StreamMock.Setup(m => m.SendAsync(resquest)).ReturnsAsync(new XGTCnetProtocol(typeof(ushort), cmd)
             {
                 Header = ControlChar.ACK,
                 Tail = ControlChar.ETX,

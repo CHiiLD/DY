@@ -44,6 +44,9 @@
     <Compile Include="NET\Interface\IStream.cs" />
     <Compile Include="NET\Interface\ITimeout.cs" />
     <Compile Include="NET\Interface\IValue.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\MCModuleAccess.cs" />
+    <Compile Include="NET\Translator\ASCIIFormatTranslator.cs" />
+    <Compile Include="NET\Translator\BinaryFormatTranslator.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetCommand.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetCommandType.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetCompressor.cs" />
@@ -53,7 +56,6 @@
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetStream.cs">
       <SubType>Component</SubType>
     </Compile>
-    <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetTranslator.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetClass.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetCommand.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\FEnet\XGTFEnetCompanyID.cs" />
@@ -76,8 +78,6 @@
     <Compile Include="NET\PLC\Mitsubishi\MELSEC\IMCStream.cs" />
     <Compile Include="NET\PLC\Mitsubishi\MELSEC\IProtocolCompressorWithFormat.cs" />
     <Compile Include="NET\PLC\Mitsubishi\MELSEC\EFrame\MCEStream.cs" />
-    <Compile Include="NET\PLC\Mitsubishi\MELSEC\MCFormatASCIITranslator.cs" />
-    <Compile Include="NET\PLC\Mitsubishi\MELSEC\MCFormatBinaryTranslator.cs" />
     <Compile Include="NET\PLC\Mitsubishi\MELSEC\EFrame\3E\MC3EDataType.cs" />
     <Compile Include="NET\PLC\Mitsubishi\MELSEC\EFrame\3E\MC3ECommand.cs" />
     <Compile Include="NET\PLC\Mitsubishi\MELSEC\EFrame\3E\MC3ECompressor.cs" />
@@ -88,6 +88,7 @@
     <Compile Include="NET\PLC\Mitsubishi\MELSEC\EFrame\3E\MC3ESpecialFunction.cs" />
     <Compile Include="NET\PLC\Mitsubishi\MELSEC\EFrame\MCEFrameError.cs" />
     <Compile Include="NET\PLC\ProtocolData.cs" />
+    <Compile Include="NET\Translator\StringFormatTranslator.cs" />
     <Compile Include="NET\Scanner\CodeValue.cs" />
     <Compile Include="NET\Scanner\Honeywell\Vuquest\Vuquest3310g.cs">
       <SubType>Component</SubType>

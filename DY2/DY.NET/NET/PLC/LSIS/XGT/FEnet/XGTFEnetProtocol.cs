@@ -14,13 +14,13 @@ namespace DY.NET.LSIS.XGT
         private static readonly Random ms_Random = new Random();
         //HEADER INFORMATION
         public XGTFEnetCompanyID CompanyID { get; set; }            //PLC 제품
-        
+
         public XGTFEnetCpuType CpuType { get; set; }                //bit00-05 시피유 타입
         public XGTFEnetClass Class { get; set; }                    //7bit
         public XGTFEnetCpuState CpuState { get; set; }              //8bit 
 
         public XGTFEnetPLCSystemState PLCState { get; set; }        //bit08-12 시스템 상태
-        
+
         public XGTFEnetStreamDirection StreamDirection { get; set; }//클라 -> 서버 or 서버 -> 클라
         public XGTFEnetCpuInfo CpuInfo { get; set; }                //XGT시리즈의 시피유 종류
         public ushort InvokeID { get; set; }                        //프레임 간의  순서를 구별하기 위한 ID (응답 프레임에 이 번호를 붙여 보내줌)
@@ -36,27 +36,17 @@ namespace DY.NET.LSIS.XGT
         public Type Type { get; set; }
         public IList<IProtocolData> Data { get; set; }
 
-        internal XGTFEnetProtocol()
+        public XGTFEnetProtocol()
         {
             Initialize();
         }
 
-        public XGTFEnetProtocol(Type type, XGTFEnetCommand cmd)
+        public XGTFEnetProtocol(Type type, XGTFEnetCommand command)
             : this()
         {
-            Command = cmd;
+            Command = command;
             DataType = type.ToXGTFEnetDataType();
             Type = type;
-        }
-
-        public static XGTFEnetProtocol CreateRequestWSS(Type type, IList<IProtocolData> data)
-        {
-            return new XGTFEnetProtocol(type, XGTFEnetCommand.WRITE_REQT) { Data = data };
-        }
-
-        public static XGTFEnetProtocol CreateRequestRSS(Type type, IList<IProtocolData> data)
-        {
-            return new XGTFEnetProtocol(type, XGTFEnetCommand.READ_REQT) { Data = data };
         }
 
         public virtual int GetErrorCode()

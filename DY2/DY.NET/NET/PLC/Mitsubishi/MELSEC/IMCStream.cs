@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DY.NET.Mitsubishi.MELSEC
 {
-    public interface IMCStream
+    public interface IMCAdditionProperties
     {
         MCProtocolFormat Format { get; set; }
     }

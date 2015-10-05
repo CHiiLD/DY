@@ -13,7 +13,7 @@ namespace DY.NET.LSIS.XGT
     {
         //FRAME INFORMATION
         public ControlChar Header { set; get; }
-        public ushort LocalPort { set; get; }
+        public byte LocalPort { set; get; }
         public XGTCnetCommand Command { set; get; }
         public XGTCnetCommandType CommandType { protected set; get; }
         public ControlChar Tail { set; get; }
@@ -22,28 +22,17 @@ namespace DY.NET.LSIS.XGT
         public Type Type { get; set; }
         public IList<IProtocolData> Data { get; set; }
 
-        internal XGTCnetProtocol()
+        public XGTCnetProtocol()
         {
             Initialize();
-        }
-
-        public XGTCnetProtocol(Type type, ushort localPort, XGTCnetCommand cmd)
-            : this()
-        {
-            Type = type;
-            LocalPort = localPort;
-            Command = cmd;
             CommandType = XGTCnetCommandType.SS;
         }
 
-        public static XGTCnetProtocol CreateRequestRSS(Type type, ushort localPort, IList<IProtocolData> items)
+        public XGTCnetProtocol(Type type, XGTCnetCommand command)
+            : this()
         {
-            return new XGTCnetProtocol(type, localPort, XGTCnetCommand.R) { Type = type, Data = items };
-        }
-
-        public static XGTCnetProtocol CreateRequestWSS(Type type, ushort localPort, IList<IProtocolData> items)
-        {
-            return new XGTCnetProtocol(type, localPort, XGTCnetCommand.W) { Data = items };
+            Type = type;
+            Command = command;
         }
 
         /// 프로토콜 에러코드를 반환한다. 
@@ -60,7 +49,7 @@ namespace DY.NET.LSIS.XGT
         public virtual void Initialize()
         {
             Header = ControlChar.NONE;
-            LocalPort = ushort.MaxValue;
+            LocalPort = byte.MaxValue;
             Command = XGTCnetCommand.NONE;
             CommandType = XGTCnetCommandType.NONE;
             Tail = ControlChar.NONE;

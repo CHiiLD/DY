@@ -11,11 +11,11 @@ namespace DY.NET.Test
         public void WSS2ASCII()
         {
             byte[] expectResult = new byte[] { 0x05, 0x32, 0x30, 0x57, 0x53, 0x53, 0x30, 0x31, 0x30, 0x36, 0x25, 0x4D, 0x57, 0x31, 0x30, 0x30, 0x30, 0x30, 0x45, 0x32, 0x04 };
-            ushort localport = 20;
+            byte localport = 20;
             var cmd = XGTCnetCommand.W;
             string addr = "%MW100";
             ushort value = 0x00E2;
-            XGTCnetProtocol cnet = new XGTCnetProtocol(value.GetType(), localport, cmd);
+            XGTCnetProtocol cnet = new XGTCnetProtocol(value.GetType(), cmd) { LocalPort = localport };
             cnet.Data = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr, value) };
 
             XGTCnetCompressor cnet_comp = new XGTCnetCompressor();
@@ -27,11 +27,10 @@ namespace DY.NET.Test
         [Test]
         public void RSS2ASCII()
         {
-            byte[] expectResult = new byte[] { 0x05, 0x32, 0x30, 0x52, 0x53, 0x53, 0x30, 0x31, 0x30, 0x36, 0x25, 0x4D, 0x57, 0x31, 0x30, 0x30, 0x04 };
-            ushort localport = 20;
+            byte[] expectResult = new byte[] { 0x05, 0x30, 0x30, 0x52, 0x53, 0x53, 0x30, 0x31, 0x30, 0x36, 0x25, 0x4D, 0x57, 0x31, 0x30, 0x30, 0x04 };
             var cmd = XGTCnetCommand.R;
             string addr = "%MW100";
-            XGTCnetProtocol cnet = new XGTCnetProtocol(typeof(ushort), localport, cmd);
+            XGTCnetProtocol cnet = new XGTCnetProtocol(typeof(ushort), cmd) { LocalPort = 0 };
             cnet.Data = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr) };
 
             XGTCnetCompressor cnet_comp = new XGTCnetCompressor();
@@ -43,8 +42,8 @@ namespace DY.NET.Test
         [Test]
         public void ASCII2WSS()
         {
-            byte[] ack_code = new byte[] { 0x06, 0x32, 0x30, 0x57, 0x53, 0x53, 0x03 };
-            ushort localport = 20;
+            byte[] ack_code = new byte[] { 0x06, 0x30, 0x30, 0x57, 0x53, 0x53, 0x03 };
+            ushort localport = 00;
 
             XGTCnetCompressor cnet_comp = new XGTCnetCompressor();
             XGTCnetProtocol cnet = cnet_comp.Decode(ack_code, null) as XGTCnetProtocol;
@@ -59,8 +58,8 @@ namespace DY.NET.Test
         [Test]
         public void ASCII2RSS()
         {
-            byte[] ack_code = new byte[] { 0x06, 0x32, 0x30, 0x52, 0x53, 0x53, 0x30, 0x31, 0x30, 0x32, 0x41, 0x39, 0x46, 0x33, 0x03 };
-            ushort localport = 20;
+            byte[] ack_code = new byte[] { 0x06, 0x30, 0x30, 0x52, 0x53, 0x53, 0x30, 0x31, 0x30, 0x32, 0x41, 0x39, 0x46, 0x33, 0x03 };
+            ushort localport = 00;
 
             XGTCnetCompressor cnet_comp = new XGTCnetCompressor();
             XGTCnetProtocol cnet = cnet_comp.Decode(ack_code, typeof(ushort)) as XGTCnetProtocol;
@@ -77,10 +76,10 @@ namespace DY.NET.Test
         [Test]
         public void ASCII2Nak()
         {
-            byte[] nak_code = new byte[] { 0x15, 0x32, 0x30, 0x57, 0x53, 0x53, 0x31, 0x31, 0x33, 0x32, 0x03 };
-            ushort localport = 20;
+            byte[] nak_code = new byte[] { 0x15, 0x30, 0x30, 0x57, 0x53, 0x53, 0x31, 0x31, 0x33, 0x32, 0x03 };
+            ushort localport = 00;
 
-            XGTCnetCompressor cnet_comp = new XGTCnetCompressor();
+            XGTCnetCompressor cnet_comp = new XGTCnetCompressor() ;
             XGTCnetProtocol cnet = cnet_comp.Decode(nak_code, null) as XGTCnetProtocol;
 
             Assert.AreEqual(cnet.Header, ControlChar.NAK);
@@ -109,7 +108,7 @@ namespace DY.NET.Test
             var cmd = XGTCnetCommand.W;
             string addr = "%MW100";
             ushort value = 0x00E2;
-            XGTCnetProtocol cnet = new XGTCnetProtocol(value.GetType(), localport, cmd);
+            XGTCnetProtocol cnet = new XGTCnetProtocol(value.GetType(), cmd);
             cnet.Data = new System.Collections.Generic.List<IProtocolData>();
             for (int i = 0; i < 17; i++)
                 cnet.Data.Add(new ProtocolData(addr, value));
@@ -126,7 +125,7 @@ namespace DY.NET.Test
             var cmd = XGTCnetCommand.W;
             string addr = "%MW45678921311023";
             ushort value = 0x00E2;
-            XGTCnetProtocol cnet = new XGTCnetProtocol(value.GetType(), localport, cmd);
+            XGTCnetProtocol cnet = new XGTCnetProtocol(value.GetType(), cmd);
             cnet.Data = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr, value) };
 
             XGTCnetCompressor cnet_comp = new XGTCnetCompressor();

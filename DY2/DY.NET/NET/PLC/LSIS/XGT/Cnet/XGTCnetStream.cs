@@ -17,9 +17,19 @@ namespace DY.NET.LSIS.XGT
         private int m_InputTimeout;
         private int m_OutputTimeout;
         private int m_ConnectTimeout;
-        protected IProtocolCompressor Compressor;
         protected byte[] ReadBuffer;
-        public ushort LocalPort { get; set; }
+        
+        public byte LocalPort 
+        { 
+            get; 
+            set; 
+        }
+
+        public virtual IProtocolCompressor Compressor
+        {
+            get;
+            set;
+        }
 
         public int InputTimeout
         {
@@ -64,7 +74,7 @@ namespace DY.NET.LSIS.XGT
             InitializeCompressor();
         }
 
-        public XGTCnetStream(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
+        protected XGTCnetStream(string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
             : this()
         {
             PortName = portName;
@@ -72,6 +82,12 @@ namespace DY.NET.LSIS.XGT
             base.Parity = parity;
             DataBits = dataBits;
             base.StopBits = stopBits;
+        }
+
+        public XGTCnetStream(byte localport, string portName, int baudRate, Parity parity, int dataBits, StopBits stopBits)
+            : this(portName, baudRate, parity, dataBits, stopBits)
+        {
+            LocalPort = localport;
         }
 
         protected virtual void InitializeCompressor()
@@ -167,12 +183,14 @@ namespace DY.NET.LSIS.XGT
         /// <returns>응답 프로토콜</returns>
         public virtual async Task<IProtocol> SendAsync(IProtocol protocol)
         {
-            byte[] code = Compressor.Encode(protocol);
+            XGTCnetProtocol cnetProtocol = protocol as XGTCnetProtocol;
+            cnetProtocol.LocalPort = LocalPort;
+            byte[] code = Compressor.Encode(cnetProtocol);
             await WriteAsync(code);
             int size = await ReadAsync();
             byte[] buffer = new byte[size];
             System.Buffer.BlockCopy(this.ReadBuffer, 0, buffer, 0, buffer.Length);
-            return Compressor.Decode(buffer, protocol.Type);
+            return Compressor.Decode(buffer, cnetProtocol.Type);
         }
     }
 }

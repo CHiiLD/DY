@@ -124,7 +124,7 @@ namespace DY.NET.LSIS.XGT
             fenet.CpuInfo = (XGTFEnetCpuInfo)ascii[HEADER_CPU_INFO_IDX];
             fenet.StreamDirection = (XGTFEnetStreamDirection)ascii[HEADER_DIRECTION_IDX];
             fenet.InvokeID = (ushort)XGTFEnetTranslator.ToValue(new byte[] { ascii[HEADER_INVOKE_IDX1], ascii[HEADER_INVOKE_IDX2] }, typeof(ushort));
-            fenet.BodyLength = (ushort)XGTFEnetTranslator.ToValue(new byte[] { ascii[HEADER_LENGTH_IDX1], ascii[HEADER_LENGTH_IDX2] }, typeof(ushort));
+            fenet.BodyLength = GetApplicationDataLength(ascii);
             fenet.BasePosition = (byte)(ascii[HEADER_POSITION_IDX] >> 4);
             fenet.SlotPosition = (byte)((byte)0x0F & ascii[HEADER_POSITION_IDX]);
 
@@ -157,6 +157,11 @@ namespace DY.NET.LSIS.XGT
             return fenet;
         }
 
+        public ushort GetApplicationDataLength(byte[] ascii)
+        {
+            return (ushort)XGTFEnetTranslator.ToValue(new byte[] { ascii[HEADER_LENGTH_IDX1], ascii[HEADER_LENGTH_IDX2] }, typeof(ushort));
+        }
+
         private void ConvertByteMemAddress(IList<IProtocolData> items)
         {
             foreach (var item in items)
@@ -169,32 +174,6 @@ namespace DY.NET.LSIS.XGT
                 string addr = item.Address.Substring(0, 3) + mem_int.ToString();
                 item.Address = addr;
             }
-        }
-
-        /// <summary>
-        /// PLC Address에 해당되는 정수byte[]정보를 사용하여 적절한 자료형의 변수로 해석하여 반환한다.
-        /// </summary>
-        /// <param name="code">정수byte[]정보</param>
-        /// <returns>정수</returns>
-        public virtual object ConvertAutomatically(byte[] code)
-        {
-            object value = null;
-            switch (code.Length)
-            {
-                case 1:
-                    value = XGTFEnetTranslator.ToValue(code, typeof(byte));
-                    break;
-                case 2:
-                    value = XGTFEnetTranslator.ToValue(code, typeof(ushort));
-                    break;
-                case 4:
-                    value = XGTFEnetTranslator.ToValue(code, typeof(uint));
-                    break;
-                case 8:
-                    value = XGTFEnetTranslator.ToValue(code, typeof(ulong));
-                    break;
-            }
-            return value;
         }
     }
 }

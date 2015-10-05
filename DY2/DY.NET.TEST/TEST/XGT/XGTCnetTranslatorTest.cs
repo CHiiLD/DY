@@ -6,6 +6,7 @@ using System.Collections.Generic;
 
 namespace DY.NET.Test
 {
+#if false
     [TestFixture]
     public class XGTCnetTranslatorTest
     {
@@ -109,4 +110,5 @@ namespace DY.NET.Test
             Assert.AreEqual(result.GetType(), type);
         }
     }
+#endif
 }

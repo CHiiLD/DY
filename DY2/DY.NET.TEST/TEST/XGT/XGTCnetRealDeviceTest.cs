@@ -13,6 +13,7 @@ namespace DY.NET.Test
     [TestFixture]
     public class XGTCnetRealDeviceTest
     {
+        private byte m_localport = 00;
         private string m_Com = "COM3";
         private int m_Bandrate = 9600;
         private System.IO.Ports.Parity m_Parity = System.IO.Ports.Parity.None;
@@ -22,7 +23,7 @@ namespace DY.NET.Test
         [Test]
         public async void OpenCloseOpneClose()
         {
-            var stream = new XGTCnetStream(m_Com, m_Bandrate, m_Parity, m_DataBit, m_Stopbit);
+            var stream = new XGTCnetStream(m_localport, m_Com, m_Bandrate, m_Parity, m_DataBit, m_Stopbit);
             await stream.OpenAsync();
             stream.Close();
             await stream.OpenAsync();
@@ -38,7 +39,7 @@ namespace DY.NET.Test
         [Test]
         public async void WhenCastSigned2UnSigned_CheckInvalidCasting()
         {
-            using (var stream = new XGTCnetStream(m_Com, m_Bandrate, m_Parity, m_DataBit, m_Stopbit))
+            using (var stream = new XGTCnetStream(m_localport, m_Com, m_Bandrate, m_Parity, m_DataBit, m_Stopbit))
             {
                 await stream.OpenAsync();
                 Assert.True(stream.IsOpend());
@@ -48,14 +49,20 @@ namespace DY.NET.Test
                 for (int i = 0; i < cnt; i++)
                 {
                     sbyte value = (sbyte)r.Next(sbyte.MinValue, 0);
-                    XGTCnetProtocol write_protocol = XGTCnetProtocol.CreateRequestWSS(typeof(sbyte), 0, new List<IProtocolData>() { new ProtocolData(addr, value) });
+                    XGTCnetProtocol write_protocol = new XGTCnetProtocol(typeof(sbyte), XGTCnetCommand.W)
+                    { 
+                        Data = new List<IProtocolData>() { new ProtocolData(addr, value) }
+                    };
                     XGTCnetProtocol w_response = await stream.SendAsync(write_protocol) as XGTCnetProtocol;
 
                     Assert.AreEqual(w_response.GetErrorCode(), 0);
 
-                    XGTCnetProtocol read_protocol = XGTCnetProtocol.CreateRequestRSS(typeof(sbyte), 0, new List<IProtocolData>() { new ProtocolData(addr, value) });  //new XGTCnetProtocol(0, XGTCnetCommand.R);
+                    XGTCnetProtocol read_protocol = new XGTCnetProtocol(typeof(sbyte), XGTCnetCommand.R)
+                    {
+                        Data = new List<IProtocolData>() { new ProtocolData(addr, value) }
+                    };
                     XGTCnetProtocol r_response = await stream.SendAsync(read_protocol) as XGTCnetProtocol;
-
+                    
                     Assert.AreEqual(r_response.GetErrorCode(), 0);
                     Assert.AreEqual(r_response.Data[0].Value, value);
                 }
@@ -65,7 +72,7 @@ namespace DY.NET.Test
         [Test]
         public async void WriteRead()
         {
-            using (var stream = new XGTCnetStream(m_Com, m_Bandrate, m_Parity, m_DataBit, m_Stopbit))
+            using (var stream = new XGTCnetStream(m_localport, m_Com, m_Bandrate, m_Parity, m_DataBit, m_Stopbit))
             {
                 await stream.OpenAsync();
                 Assert.True(stream.IsOpend());
@@ -82,12 +89,18 @@ namespace DY.NET.Test
                     string addr = item.Key;
                     object value = item.Value;
 
-                    XGTCnetProtocol write_protocol = XGTCnetProtocol.CreateRequestWSS(value.GetType(), 0, new List<IProtocolData>() { new ProtocolData(addr, value) });
+                    XGTCnetProtocol write_protocol = new XGTCnetProtocol(value.GetType(), XGTCnetCommand.W)
+                    {
+                        Data = new List<IProtocolData>() { new ProtocolData(addr, value) }
+                    };
                     XGTCnetProtocol w_response = await stream.SendAsync(write_protocol) as XGTCnetProtocol;
 
                     Assert.AreEqual(w_response.GetErrorCode(), 0);
 
-                    XGTCnetProtocol read_protocol = XGTCnetProtocol.CreateRequestRSS(value.GetType(), 0, new List<IProtocolData>() { new ProtocolData(addr, value) });  //new XGTCnetProtocol(0, XGTCnetCommand.R);
+                    XGTCnetProtocol read_protocol = new XGTCnetProtocol(value.GetType(), XGTCnetCommand.R)
+                    {
+                        Data = new List<IProtocolData>() { new ProtocolData(addr, value) }
+                    };
                     XGTCnetProtocol r_response = await stream.SendAsync(read_protocol) as XGTCnetProtocol;
 
                     Assert.AreEqual(r_response.GetErrorCode(), 0);

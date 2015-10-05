@@ -8,17 +8,18 @@ using DY.NET.LSIS.XGT;
 
 namespace DY.NET.Mitsubishi.MELSEC
 {
-    public class MCEStream : XGTFEnetStream, IMCStream
+    public class MCEStream : XGTFEnetStream, IMCAdditionProperties
     {
-        public MCEStream(string hostname, int port)
-            : base(hostname, port)
-        {
-        }
-
         public MCEStream(string hostname, int port, IProtocolCompressorWithFormat compressor)
             : base(hostname, port)
         {
             Compressor = compressor;
+        }
+
+        public new IProtocolCompressorWithFormat Compressor
+        {
+            get;
+            set;
         }
 
         public MCProtocolFormat Format
@@ -37,7 +38,7 @@ namespace DY.NET.Mitsubishi.MELSEC
 
         protected override void InitializeCompressor()
         {
-            Compressor = new MC3ECompressor();
+
         }
 
         protected override bool Continue(int idx)
