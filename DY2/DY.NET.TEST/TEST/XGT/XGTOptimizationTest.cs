@@ -17,7 +17,7 @@ namespace DY.NET.Test
         public void BitAddress2WordAddress(string bitAddr, string expect)
         {
             XGTOptimizationTool opt = new XGTOptimizationTool();
-            Assert.AreEqual(opt.ConvertBitAddrToWordAddr(bitAddr), expect);
+            Assert.AreEqual(opt.GetWordNonGlopaFormBitNonGlopa(bitAddr), expect);
         }
 
         [Test]
@@ -33,7 +33,7 @@ namespace DY.NET.Test
         public void NormalAddress2GlopaAddress(string norAddr, Type type, string expect)
         {
             XGTOptimizationTool opt = new XGTOptimizationTool();
-            Assert.AreEqual(opt.ToGlopaVariableName(norAddr, type), expect);
+            Assert.AreEqual(opt.ToGlopaAddress(norAddr, type), expect);
         }
 
         [Test]
@@ -44,13 +44,13 @@ namespace DY.NET.Test
         public void SearchBooleanFromUInt16(string addr, ushort value, bool expect)
         {
             XGTOptimizationTool opt = new XGTOptimizationTool();
-            Assert.AreEqual(opt.SearchBooleanFromUInt16(addr, value), expect);
+            Assert.AreEqual(opt.GetBooleanFormWordTypeValue(addr, value), expect);
         }
 
         [Test]
         public void XGTHelperClassifyTest()
         {
-            IList<IProtocolDataWithType> list = new List<IProtocolDataWithType>()
+            IList<INotifyProtocolDataChanged> list = new List<INotifyProtocolDataChanged>()
             {
                 new DetailProtocolData("M00000", typeof(bool)),
                 new DetailProtocolData("M00001", typeof(bool)),
@@ -124,7 +124,7 @@ namespace DY.NET.Test
         [Test]
         public void Sample_XGTHelper_Classify()
         {
-            IList<IProtocolDataWithType> list = new List<IProtocolDataWithType>()
+            IList<INotifyProtocolDataChanged> list = new List<INotifyProtocolDataChanged>()
             {
                 new DetailProtocolData("M00000", typeof(bool)),
                 new DetailProtocolData("M00001", typeof(bool)),
@@ -143,7 +143,7 @@ namespace DY.NET.Test
         [Test]
         public void Sample_XGTHelper_Match()
         {
-            IList<IProtocolDataWithType> list = new List<IProtocolDataWithType>()
+            IList<INotifyProtocolDataChanged> list = new List<INotifyProtocolDataChanged>()
             {
                 new DetailProtocolData("M00000", typeof(bool)),
                 new DetailProtocolData("M00208", typeof(sbyte)),

@@ -8,9 +8,9 @@ using DY.NET.LSIS.XGT;
 
 namespace DY.NET.Mitsubishi.MELSEC
 {
-    public class MCEStream : XGTFEnetStream, IMCAdditionProperties
+    public class MCEthernetStream : XGTFEnetStream, IMCStreamProperties
     {
-        public MCEStream(string hostname, int port, IProtocolCompressorWithFormat compressor)
+        public MCEthernetStream(string hostname, int port, IProtocolCompressorWithFormat compressor)
             : base(hostname, port)
         {
             Compressor = compressor;
@@ -44,6 +44,23 @@ namespace DY.NET.Mitsubishi.MELSEC
         protected override bool Continue(int idx)
         {
             return false;
+        }
+
+        /// <summary>
+        /// XGT와 비동기로 통신을 주고 받는다.
+        /// </summary>
+        /// <param name="protocol">요청 프로토콜</param>
+        /// <returns>응답 프로토콜</returns>
+        public override async Task<IProtocol> SendAsync(IProtocol protocol)
+        {
+            if (!base.Connected)
+                await OpenAsync();
+            byte[] code = Compressor.Encode(protocol);
+            await WriteAsync(code);
+            int size = await ReadAsync();
+            byte[] buffer = new byte[size];
+            System.Buffer.BlockCopy(this.ReadBuffer, 0, buffer, 0, buffer.Length);
+            return Compressor.Decode(buffer, protocol.Type);
         }
     }
 }

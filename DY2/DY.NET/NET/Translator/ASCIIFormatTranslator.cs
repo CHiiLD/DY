@@ -8,6 +8,26 @@ namespace DY.NET
 {
     public static class ASCIIFormatTranslator
     {
+        public static byte[] IntegerToHexASCII<T>(object integer)
+        {
+            return IntegerToHexASCII(typeof(T), integer);
+        }
+
+        public static TOutput HexASCIIToInteger<TOutput>(byte[] code)
+        {
+            return (TOutput)HexASCIIToInteger(typeof(TOutput), code);
+        }
+
+        public static byte[] IntegerToDecASCII<T>(object integer)
+        {
+            return IntegerToDecASCII(typeof(T), integer);
+        }
+
+        public static TOutput DecASCIIToInteger<TOutput>(byte[] code)
+        {
+            return (TOutput)DecASCIIToInteger(typeof(TOutput), code);
+        }
+
         /// <summary>
         /// 정수를 16진수로 변환한 뒤 각 자리수를 ASCII 문자로 치환하여 반환
         /// 256(10) => 0xFF(16) => { 0x45, 0x45 }

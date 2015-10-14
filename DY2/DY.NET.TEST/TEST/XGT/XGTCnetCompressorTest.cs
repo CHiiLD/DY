@@ -59,7 +59,7 @@ namespace DY.NET.Test
         public void ASCII2RSS()
         {
             byte[] ack_code = new byte[] { 0x06, 0x30, 0x30, 0x52, 0x53, 0x53, 0x30, 0x31, 0x30, 0x32, 0x41, 0x39, 0x46, 0x33, 0x03 };
-            ushort localport = 00;
+            byte localport = 00;
 
             XGTCnetCompressor cnet_comp = new XGTCnetCompressor();
             XGTCnetProtocol cnet = cnet_comp.Decode(ack_code, typeof(ushort)) as XGTCnetProtocol;

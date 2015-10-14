@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DY.NET.Mitsubishi.MELSEC
 {
-    public enum MC3EDeviceMemoryExtension : ushort
+    public enum MC3EDeviceMemoryExtension
     {
         OFF = 0x0000,
         ON = 0x0080

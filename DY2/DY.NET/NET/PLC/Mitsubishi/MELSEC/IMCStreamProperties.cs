@@ -6,10 +6,8 @@ using System.Threading.Tasks;
 
 namespace DY.NET.Mitsubishi.MELSEC
 {
-    public enum MC3ESubHeader : ushort
+    public interface IMCStreamProperties
     {
-        NONE = 0x0000,
-        REQUEST = 0x5000,
-        RESPONSE = 0xD000
+        MCProtocolFormat Format { get; set; }
     }
 }

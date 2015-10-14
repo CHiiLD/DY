@@ -8,17 +8,17 @@ namespace DY.NET.LSIS.XGT
 {
     public class XGTOptimizationTool
     {
-        public IList<IProtocolData>[] Pack(IList<IProtocolDataWithType> newList)
+        public IList<IProtocolData>[] Pack(IList<INotifyProtocolDataChanged> newList)
         {
             List<List<IProtocolData>> result = new List<List<IProtocolData>>();
-            ILookup<Type, IProtocolDataWithType> look = SeparateProtocol(newList);
+            ILookup<Type, INotifyProtocolDataChanged> look = newList.ToLookup(x => x.Type, x => x);
             
-            foreach (IGrouping<Type, IProtocolDataWithType> groups in look)
+            foreach (IGrouping<Type, INotifyProtocolDataChanged> groups in look)
             {
                 List<IProtocolData> pack = new List<IProtocolData>();
                 result.Add(pack);
                 int cnt = 0;
-                foreach (IProtocolDataWithType group in groups)
+                foreach (INotifyProtocolDataChanged group in groups)
                 {
                     if (cnt % 16 == 0 && cnt != 0)
                     {
@@ -44,44 +44,45 @@ namespace DY.NET.LSIS.XGT
             return result.ToArray();
         }
 
-        public void ConvertGlopaVariableName(IList<IProtocolDataWithType> newList)
+        public void ChangeNonGlopa2Glopa(IList<INotifyProtocolDataChanged> newList)
         {
             foreach (var item in newList)
             {
                 if (item.Type == typeof(bool))
                 {
-                    item.Address = ConvertBitAddrToWordAddr(item.Address); //M0000F -> M0000
+                    item.Address = GetWordNonGlopaFormBitNonGlopa(item.Address); //M0000F -> M0000
                     item.Type = typeof(ushort);
                 }
-                item.Address = ToGlopaVariableName(item.Address, item.Type); // M0000-> %MW0000
+                item.Address = ToGlopaAddress(item.Address, item.Type); // M0000-> %MW0000
             }
         }
 
-        public ILookup<Type, IProtocolDataWithType> SeparateProtocol(IList<IProtocolDataWithType> list)
+        public string GetWordNonGlopaFormBitNonGlopa(string nonBitTypeGlopa)
         {
-            ILookup<Type, IProtocolDataWithType> look = list.ToLookup(x => x.Type, x => x);
-            return look;
+            string nonWordTypeGlopa = nonBitTypeGlopa.Replace(".", "");
+            nonWordTypeGlopa = nonWordTypeGlopa.Substring(0, nonWordTypeGlopa.Length - 1);
+            return nonWordTypeGlopa;
         }
 
-        public string ConvertBitAddrToWordAddr(string bitAddr)
+        public bool GetBooleanFormWordTypeValue(string bitTypeGlopa, ushort word)
         {
-            string wordAddr = bitAddr.Replace(".", "");
-            wordAddr = wordAddr.Substring(0, wordAddr.Length - 1);
-            return wordAddr;
-        }
-
-        public bool SearchBooleanFromUInt16(string addr, ushort value)
-        {
-            int idx = Convert.ToInt32(addr.Last().ToString(), 16);
-            int boolean = value & ((UInt16)1 << idx);
+            int idx = Convert.ToInt32(bitTypeGlopa.Last().ToString(), 16);
+            int boolean = word & ((UInt16)1 << idx);
             return boolean == 0 ? false : true;
         }
 
-        public string ToGlopaVariableName(string normalAddr, Type type)
+        public bool GetBooleanFormWordTypeValue(string bitTypeGlopa, short word)
+        {
+            int idx = Convert.ToInt32(bitTypeGlopa.Last().ToString(), 16);
+            int boolean = word & ((UInt16)1 << idx);
+            return boolean == 0 ? false : true;
+        }
+
+        public string ToGlopaAddress(string nonGlopa, Type type)
         {
             string result = null;
             string type_char = null;
-            string addr = normalAddr.ToUpper().Replace(".", "");
+            string addr = nonGlopa.ToUpper().Replace(".", "");
             int demical_int;
             bool has_hex = !(type == typeof(bool) || type == typeof(byte) || type == typeof(sbyte));
             int mem_size = XGTServiceableDevice.MemoryTerritorySize[addr[0]];

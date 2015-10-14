@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DY.NET.Mitsubishi.MELSEC
 {
-    public enum MCEFrameError : ushort
+    public enum MCEthernetError : ushort
     {
         /* 축약어
          * GXDeveloper -> GXD 

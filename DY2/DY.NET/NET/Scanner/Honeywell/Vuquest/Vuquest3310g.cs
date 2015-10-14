@@ -16,7 +16,7 @@ namespace DY.NET.Honeywell.Vuquest
 
         private const byte SYN = 0x16;
         private const byte CR = 0x0D;
-        private const byte ACK = 0x06;
+        private const byte ACK = ControlChar.ACK.ToByte();
         private const byte DOT = (byte)'.';
 
         private static readonly byte[] PREFIX = { 

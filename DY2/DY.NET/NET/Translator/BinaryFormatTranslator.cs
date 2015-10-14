@@ -8,6 +8,11 @@ namespace DY.NET
 {
     public static class BinaryFormatTranslator
     {
+        public static byte[] IntegerToBinary<T>(object integer)
+        {
+            return IntegerToBinary(typeof(T), integer);
+        }
+
         public static byte[] IntegerToBinary(Type type, object integer)
         {
             if (integer == null || type == null)
@@ -39,6 +44,11 @@ namespace DY.NET
                 Array.Reverse(result);
 
             return result;
+        }
+
+        public static TOutput BinaryToInteger<TOutput>(byte[] code)
+        {
+            return (TOutput)BinaryToInteger(typeof(TOutput), code);
         }
 
         public static object BinaryToInteger(Type type, byte[] code)
