@@ -195,7 +195,7 @@ namespace DY.NET.LSIS.XGT
             int size = await ReadAsync();
             byte[] buffer = new byte[size];
             System.Buffer.BlockCopy(this.ReadBuffer, 0, buffer, 0, buffer.Length);
-            return Compressor.Decode(buffer, protocol.Type);
+            return Compressor.Decode(buffer, protocol);
         }
     }
 }

@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DY.NET.LSIS.XGT
+namespace DY.NET
 {
     public class ProtocolData : IProtocolData
     {

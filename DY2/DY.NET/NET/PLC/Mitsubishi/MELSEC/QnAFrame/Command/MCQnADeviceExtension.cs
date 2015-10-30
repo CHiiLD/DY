@@ -6,12 +6,9 @@ using System.Threading.Tasks;
 
 namespace DY.NET.Mitsubishi.MELSEC
 {
-    public enum MCModuleAccess
+    public enum MCQnADeviceExtension : ushort
     {
-        MODE1,
-        MODE2,
-        MODE3,
-        MODE4,
-        MODE5,
+        OFF = 0x0000,
+        ON = 0x0080
     }
 }

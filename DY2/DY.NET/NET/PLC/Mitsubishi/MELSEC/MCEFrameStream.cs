@@ -8,15 +8,15 @@ using DY.NET.LSIS.XGT;
 
 namespace DY.NET.Mitsubishi.MELSEC
 {
-    public class MCEthernetStream : XGTFEnetStream, IMCStreamProperties
+    public class MCEFrameStream : XGTFEnetStream, IMCStreamProperties
     {
-        public MCEthernetStream(string hostname, int port, IProtocolCompressorWithFormat compressor)
+        public MCEFrameStream(string hostname, int port, IMCProtocolCompressor compressor)
             : base(hostname, port)
         {
             Compressor = compressor;
         }
 
-        public new IProtocolCompressorWithFormat Compressor
+        public new IMCProtocolCompressor Compressor
         {
             get;
             set;
@@ -26,13 +26,11 @@ namespace DY.NET.Mitsubishi.MELSEC
         {
             get
             {
-                IProtocolCompressorWithFormat comFmt = Compressor as IProtocolCompressorWithFormat;
-                return comFmt.Format;
+                return Compressor.Format;
             }
             set
             {
-                IProtocolCompressorWithFormat comFmt = Compressor as IProtocolCompressorWithFormat;
-                comFmt.Format = value;
+                Compressor.Format = value;
             }
         }
 
@@ -60,7 +58,7 @@ namespace DY.NET.Mitsubishi.MELSEC
             int size = await ReadAsync();
             byte[] buffer = new byte[size];
             System.Buffer.BlockCopy(this.ReadBuffer, 0, buffer, 0, buffer.Length);
-            return Compressor.Decode(buffer, protocol.Type);
+            return Compressor.Decode(buffer, protocol);
         }
     }
 }

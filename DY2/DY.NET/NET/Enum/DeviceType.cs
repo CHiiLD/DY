@@ -4,11 +4,12 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace DY.NET.Mitsubishi.MELSEC
+namespace DY.NET
 {
-    public enum MC3EDeviceMemoryExtension
+    [Flags]
+    public enum DeviceType
     {
-        OFF = 0x0000,
-        ON = 0x0080
+        BIT = 1 << 0, 
+        WORD = 1 << 1
     }
 }

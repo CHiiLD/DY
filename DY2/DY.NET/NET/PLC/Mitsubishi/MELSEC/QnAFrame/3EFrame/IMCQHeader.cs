@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DY.NET.Mitsubishi.MELSEC
 {
-    public interface IQHeader
+    public interface IMCQHeader
     {
         /// <summary>
         /// MELSECNET/H, MELSECNET/10 네트워크 시스템의 네트워크 번호
@@ -93,6 +93,6 @@ namespace DY.NET.Mitsubishi.MELSEC
         /// 정상종료 시에는 0이 산출되며 이상종료 시에는 에러코드가 산출된다. 사용자 매뉴얼(기본편) 11장 참조
         /// 에러정보부에선 에러응답을 한 네트워크, PLC번호와 에러발생시의 커맨드, 서브커맨드 등이 산출된다.
         /// </summary>
-        MCEthernetError Error { get; set; }
+        MCEFrameError Error { get; set; }
     }
 }

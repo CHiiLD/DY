@@ -13,7 +13,12 @@ namespace DY.NET
             return Encoding.ASCII.GetBytes(str);
         }
 
-        public static string ByteArrayToString(byte[] code)
+        //public static string ByteArrayToString(byte[] code)
+        //{
+        //    return BitConverter.ToString(code);
+        //}
+
+        public static string ByteArrayToString(params byte[] code)
         {
             return BitConverter.ToString(code);
         }

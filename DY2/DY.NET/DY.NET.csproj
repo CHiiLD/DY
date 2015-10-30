@@ -33,6 +33,8 @@
     <Reference Include="System" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="NET\Enum\DeviceSystem.cs" />
+    <Compile Include="NET\Enum\DeviceType.cs" />
     <Compile Include="NET\Exception\ReadTimeoutException.cs" />
     <Compile Include="NET\Exception\WriteTimeoutException.cs" />
     <Compile Include="NET\Interface\IProtocol.cs" />
@@ -44,9 +46,16 @@
     <Compile Include="NET\Interface\IStream.cs" />
     <Compile Include="NET\Interface\ITimeout.cs" />
     <Compile Include="NET\Interface\IValue.cs" />
-    <Compile Include="NET\Loop\Workspace.cs" />
-    <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\3EFrame\IQHeader.cs" />
-    <Compile Include="NET\PLC\Mitsubishi\MELSEC\MCModuleAccess.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\Device\MCDevice.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\Device\MCDeviceCodeExtension.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\Device\MCDeviceSystemExtension.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\Device\MCDeviceTypeExtension.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\MCAccessLevel.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\3EFrame\IMCQHeader.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\Command\IMCCommandSection.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\Command\MCQnASubCommandExtension.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\IMCQnARequestDataSection.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\MCQnARequestDataSectionExtension.cs" />
     <Compile Include="NET\Translator\ASCIIFormatTranslator.cs" />
     <Compile Include="NET\Translator\BinaryFormatTranslator.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetCommand.cs" />
@@ -78,17 +87,17 @@
     <Compile Include="NET\PLC\LSIS\XGT\XGTOptimization.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\XGTServiceableDevice.cs" />
     <Compile Include="NET\PLC\Mitsubishi\MELSEC\IMCStreamProperties.cs" />
-    <Compile Include="NET\PLC\Mitsubishi\MELSEC\IProtocolCompressorWithFormat.cs" />
-    <Compile Include="NET\PLC\Mitsubishi\MELSEC\MCEthernetStream.cs" />
-    <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\3EFrame\MC3EDataType.cs" />
-    <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\3EFrame\MC3ECommand.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\IMCProtocolCompressor.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\MCEFrameStream.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\Command\MCQnADataType.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\Command\MCQnACommand.cs" />
     <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\3EFrame\MC3ECompressor.cs" />
-    <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\3EFrame\MC3EDeviceMemoryExtension.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\Command\MCQnADeviceExtension.cs" />
     <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\3EFrame\MC3EHeader.cs" />
     <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\3EFrame\MC3EProtocol.cs" />
     <Compile Include="NET\PLC\Mitsubishi\MELSEC\MCProtocolFormat.cs" />
-    <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\3EFrame\MC3ESpecialFunction.cs" />
-    <Compile Include="NET\PLC\Mitsubishi\MELSEC\MCEthernetError.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\Command\MCQnASpecialFunction.cs" />
+    <Compile Include="NET\PLC\Mitsubishi\MELSEC\MCEFrameError.cs" />
     <Compile Include="NET\PLC\ProtocolData.cs" />
     <Compile Include="NET\Translator\StringFormatTranslator.cs" />
     <Compile Include="NET\Scanner\CodeValue.cs" />

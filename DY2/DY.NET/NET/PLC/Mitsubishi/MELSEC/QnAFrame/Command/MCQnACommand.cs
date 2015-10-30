@@ -6,21 +6,21 @@ using System.Threading.Tasks;
 
 namespace DY.NET.Mitsubishi.MELSEC
 {
-    public enum MC3ECommand : ushort
+    public enum MCQnACommand : ushort
     {
         NONE = 0x0000,
-        R = 0x0401,
-        W = 0x1401
+        READ = 0x0401,
+        WRITE = 0x1401
     }
 
-    public static class MC3ECommandExtension
+    public static class MCQnACommandExtension
     {
-        public static byte[] ToASCII()
+        public static byte[] ToASCII(this MCQnACommand command)
         {
             return null;
         }
 
-        public static byte[] ToBinary()
+        public static byte[] ToBinary(this MCQnACommand command)
         {
             return null;
         }

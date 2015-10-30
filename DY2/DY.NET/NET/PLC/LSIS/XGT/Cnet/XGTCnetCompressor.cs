@@ -42,7 +42,7 @@ namespace DY.NET.LSIS.XGT
                     throw new Exception("주소 문자열 길이 초과 에러");
                 buf.AddRange(ASCIIFormatTranslator.IntegerToHexASCII<byte>(item.Address.Length));
                 buf.AddRange(StringFormatTranslator.StringToByteArray(item.Address));
-                if (cnet.Command == XGTCnetCommand.W)
+                if (cnet.Command == XGTCnetCommand.WRITE)
                     buf.AddRange(ASCIIFormatTranslator.IntegerToHexASCII(protocol.Type, item.Value));
             }
             buf.Add(cnet.Tail.ToByte());
@@ -54,7 +54,7 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         /// <param name="ascii">Cnet Protocol-ASCII</param>
         /// <returns>XGTCnetProtocol</returns>
-        public virtual IProtocol Decode(byte[] ascii, Type type)
+        public virtual IProtocol Decode(byte[] ascii, IProtocol request)
         {
             const int HEADER_IDX = 0;
             const int LOCOL_IDX1 = 1;
@@ -65,6 +65,7 @@ namespace DY.NET.LSIS.XGT
             const int BLOCK_IDX1 = 6;
             const int BLOCK_IDX2 = 7;
 
+            Type type = request.Type;
             var header = (ControlChar)ascii[HEADER_IDX];
             var tail = (ControlChar)ascii.Last();
             if (!(header == ControlChar.ACK || header == ControlChar.NAK))
@@ -72,32 +73,37 @@ namespace DY.NET.LSIS.XGT
             if (tail != ControlChar.ETX)
                 throw new Exception("ASCII Tail 분석 실패 에러");
             XGTCnetCommand command = (XGTCnetCommand)ascii[COMMAND_IDX];
-            XGTCnetProtocol cnet = new XGTCnetProtocol(typeof(ushort), command)
+            XGTCnetProtocol cnet = new XGTCnetProtocol(type, command)
             {
                 Header = header,
                 Tail = tail,
-                LocalPort = ASCIIFormatTranslator.DecASCIIToInteger<byte>(new byte[] { ascii[LOCOL_IDX1], ascii[LOCOL_IDX2] })
+                LocalPort = ASCIIFormatTranslator.DecASCIIToInteger<byte>(ascii[LOCOL_IDX1], ascii[LOCOL_IDX2])
             };
             if (cnet.Header == ControlChar.NAK)
             {
-                var error_bytes = new byte[] { ascii[6], ascii[7], ascii[8], ascii[9] };
-                cnet.Error = (XGTCnetError)ASCIIFormatTranslator.DecASCIIToInteger<ushort>(error_bytes);
+                cnet.Error = (XGTCnetError)ASCIIFormatTranslator.DecASCIIToInteger<ushort>(ascii[6], ascii[7], ascii[8], ascii[9]);
                 return cnet;
             }
-            if (command == XGTCnetCommand.R)
+            if (command == XGTCnetCommand.READ)
             {
-                cnet.Data = new List<IProtocolData>();
-                byte count = ASCIIFormatTranslator.HexASCIIToInteger<byte>(new byte[] { ascii[BLOCK_IDX1], ascii[BLOCK_IDX2] });
+                IList<IProtocolData> reqtData = request.Data;
+                byte count = ASCIIFormatTranslator.HexASCIIToInteger<byte>(ascii[BLOCK_IDX1], ascii[BLOCK_IDX2]);
+                if (cnet.Data == null) 
+                    cnet.Data = new List<IProtocolData>(); 
+                else 
+                    cnet.Data.Clear();
+                if (reqtData.Count != count)
+                    throw new Exception("읽기 프로토콜의 요청 데이터 개수와 응답 데이터의 개수가 불일치");
                 int idx = 8;
                 for (int i = 0; i < count; i++)
                 {
-                    byte size = (byte)ASCIIFormatTranslator.HexASCIIToInteger<byte>(new byte[] { ascii[idx], ascii[idx + 1] });
+                    byte size = (byte)ASCIIFormatTranslator.HexASCIIToInteger<byte>(ascii[idx], ascii[idx + 1]);
                     idx += 2;
                     byte[] code = new byte[size * 2];
                     Buffer.BlockCopy(ascii, idx, code, 0, code.Length);
                     idx += code.Length;
                     object value = ASCIIFormatTranslator.HexASCIIToInteger(type, code);
-                    cnet.Data.Add(new ProtocolData(value));
+                    cnet.Data.Add(new ProtocolData(reqtData[i].Address, value));
                 }
             }
             return cnet;

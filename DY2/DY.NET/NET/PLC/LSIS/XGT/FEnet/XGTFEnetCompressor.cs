@@ -61,7 +61,7 @@ namespace DY.NET.LSIS.XGT
             buf.AddRange(fenet.Command.ToBytes().Reverse());
             buf.AddRange(fenet.DataType.ToBytes().Reverse());
             buf.AddRange(new byte[] { 0x00, 0x00 }); //reserved
-            buf.AddRange(XGTFEnetTranslator.ToASCII(fenet.Data.Count, typeof(ushort))); //블록 수
+            buf.AddRange(XGTFEnetTranslator.ToASCII<ushort>(fenet.Data.Count)); //블록 수
 
             if (fenet.Data.Count > ITEM_MAX_COUNT)
                 throw new Exception("블록 수 초과 에러");
@@ -74,12 +74,12 @@ namespace DY.NET.LSIS.XGT
                 if (item.Address.Length > ADDRESS_STRING_MAX_LENGTH)
                     throw new Exception("주소 문자열 길이 초과 에러");
 
-                buf.AddRange(XGTFEnetTranslator.ToASCII(item.Address.Length, typeof(ushort))); //addr str length
-                buf.AddRange(XGTFEnetTranslator.ToASCII(item.Address, item.Address.GetType())); //addr str
+                buf.AddRange(XGTFEnetTranslator.ToASCII<ushort>(item.Address.Length)); //addr str length
+                buf.AddRange(XGTFEnetTranslator.ToASCII<string>(item.Address)); //addr str
                 if (fenet.Command == XGTFEnetCommand.WRITE_REQT)
                 {
                     buf.AddRange(fenet.DataType.ToBytes().Reverse()); //data type
-                    byte[] value = XGTFEnetTranslator.ToASCII(item.Value, protocol.Type);
+                    byte[] value = XGTFEnetTranslator.ToCode(protocol.Type, item.Value);
                     buf.AddRange(value); //value
                 }
             }
@@ -87,8 +87,8 @@ namespace DY.NET.LSIS.XGT
             byte[] header_buf = new byte[HEADER_SIZE];
             byte[] company_name = fenet.CompanyID.ToBytes();
             byte direction = fenet.StreamDirection.ToByte();
-            byte[] invoke = XGTFEnetTranslator.ToASCII(fenet.InvokeID, typeof(ushort));
-            byte[] body_len = XGTFEnetTranslator.ToASCII(buf.Count, typeof(ushort));
+            byte[] invoke = XGTFEnetTranslator.ToASCII<ushort>(fenet.InvokeID);
+            byte[] body_len = XGTFEnetTranslator.ToASCII<ushort>(buf.Count);
             Buffer.BlockCopy(company_name, 0, header_buf, 0, company_name.Length);
             Buffer.SetByte(header_buf, HEADER_DIRECTION_IDX, direction);
             Buffer.BlockCopy(invoke, 0, header_buf, HEADER_INVOKE_IDX1, invoke.Length);
@@ -104,12 +104,13 @@ namespace DY.NET.LSIS.XGT
         /// </summary>
         /// <param name="ascii">FEnet Protocol-ASCII</param>
         /// <returns>XGTCnetProtocol</returns>
-        public virtual IProtocol Decode(byte[] ascii, Type type)
+        public virtual IProtocol Decode(byte[] ascii, IProtocol request)
         {
-            XGTFEnetCommand command = (XGTFEnetCommand)XGTFEnetTranslator.ToValue(new byte[] { ascii[BODY_COMMAND_IDX1], ascii[BODY_COMMAND_IDX2] }, typeof(ushort));
+            Type type = request.Type;
+            XGTFEnetCommand command = (XGTFEnetCommand)XGTFEnetTranslator.ToValue<ushort>(ascii[BODY_COMMAND_IDX1], ascii[BODY_COMMAND_IDX2]);
             if (!(command == XGTFEnetCommand.READ_RESP || command == XGTFEnetCommand.WRITE_RESP))
                 throw new ArgumentException("Request command not supported.");
-            XGTFEnetDataType datatype = (XGTFEnetDataType)XGTFEnetTranslator.ToValue(new byte[] { ascii[BODY_DATATYPE_IDX1], ascii[BODY_DATATYPE_IDX2] }, typeof(ushort));
+            XGTFEnetDataType datatype = (XGTFEnetDataType)XGTFEnetTranslator.ToValue<ushort>(ascii[BODY_DATATYPE_IDX1], ascii[BODY_DATATYPE_IDX2]);
             XGTFEnetProtocol fenet = new XGTFEnetProtocol();
             fenet.Command = command;
             fenet.DataType = datatype;
@@ -123,7 +124,7 @@ namespace DY.NET.LSIS.XGT
             fenet.PLCState = (XGTFEnetPLCSystemState)(0x1F & ascii[HEADER_SYS_STATE_IDX]);
             fenet.CpuInfo = (XGTFEnetCpuInfo)ascii[HEADER_CPU_INFO_IDX];
             fenet.StreamDirection = (XGTFEnetStreamDirection)ascii[HEADER_DIRECTION_IDX];
-            fenet.InvokeID = (ushort)XGTFEnetTranslator.ToValue(new byte[] { ascii[HEADER_INVOKE_IDX1], ascii[HEADER_INVOKE_IDX2] }, typeof(ushort));
+            fenet.InvokeID = XGTFEnetTranslator.ToValue<ushort>(ascii[HEADER_INVOKE_IDX1], ascii[HEADER_INVOKE_IDX2]);
             fenet.BodyLength = GetApplicationDataLength(ascii);
             fenet.BasePosition = (byte)(ascii[HEADER_POSITION_IDX] >> 4);
             fenet.SlotPosition = (byte)((byte)0x0F & ascii[HEADER_POSITION_IDX]);
@@ -132,7 +133,7 @@ namespace DY.NET.LSIS.XGT
             for (int i = 0; i < HEADER_SIZE; i++)
                 temp_bcc += ascii[i];
             fenet.BCC = (byte)temp_bcc;
-            object er_bl = XGTFEnetTranslator.ToValue(new byte[] { ascii[BODY_BLOCK_IDX1], ascii[BODY_BLOCK_IDX2] }, typeof(ushort));
+            ushort er_bl = XGTFEnetTranslator.ToValue<ushort>(ascii[BODY_BLOCK_IDX1], ascii[BODY_BLOCK_IDX2]);
             if (ascii[BODY_ERROR_IDX1] == ERROR_VALUE || ascii[BODY_ERROR_IDX2] == ERROR_VALUE)
             {
                 fenet.Error = (XGTFEnetError)er_bl;
@@ -141,16 +142,22 @@ namespace DY.NET.LSIS.XGT
 
             if (fenet.Command == XGTFEnetCommand.READ_RESP)
             {
-                if (fenet.Data == null) fenet.Data = new List<IProtocolData>(); else fenet.Data.Clear();
-                ushort count = (ushort)er_bl;
+                IList<IProtocolData> reqtData = request.Data;
+                ushort count = er_bl;
+                if (fenet.Data == null) 
+                    fenet.Data = new List<IProtocolData>(); 
+                else 
+                    fenet.Data.Clear();
+                if (reqtData.Count != count)
+                    throw new Exception("읽기 프로토콜의 요청 데이터 개수와 응답 데이터의 개수가 불일치");
                 int idx = READ_RESPONSE_DATA_IDX;
                 for (int i = 0; i < count; i++)
                 {
-                    ushort size = (ushort)XGTFEnetTranslator.ToValue(new byte[] { ascii[idx], ascii[idx + 1] }, typeof(ushort));
+                    ushort size = XGTFEnetTranslator.ToValue<ushort>(ascii[idx], ascii[idx + 1]);
                     idx += 2;
                     byte[] code = new byte[size];
                     Buffer.BlockCopy(ascii, idx, code, 0, size);
-                    fenet.Data.Add(new ProtocolData(XGTFEnetTranslator.ToValue(code, type)));
+                    fenet.Data.Add(new ProtocolData(reqtData[i].Address, XGTFEnetTranslator.ToValue(type, code)));
                     idx += size;
                 }
             }
@@ -159,7 +166,7 @@ namespace DY.NET.LSIS.XGT
 
         public ushort GetApplicationDataLength(byte[] ascii)
         {
-            return (ushort)XGTFEnetTranslator.ToValue(new byte[] { ascii[HEADER_LENGTH_IDX1], ascii[HEADER_LENGTH_IDX2] }, typeof(ushort));
+            return XGTFEnetTranslator.ToValue<ushort>(ascii[HEADER_LENGTH_IDX1], ascii[HEADER_LENGTH_IDX2]);
         }
 
         private void ConvertByteMemAddress(IList<IProtocolData> items)

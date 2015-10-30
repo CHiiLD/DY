@@ -7,8 +7,8 @@
     public enum XGTCnetCommand : byte
     {
         NONE = 0x00,
-        R = 0x52,
-        W = 0x57,
+        READ = 0x52,
+        WRITE = 0x57,
     }
 
     public static class XGTCnetCommandExtension

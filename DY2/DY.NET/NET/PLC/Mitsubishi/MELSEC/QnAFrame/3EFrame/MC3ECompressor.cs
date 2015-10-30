@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace DY.NET.Mitsubishi.MELSEC
 {
-    public class MC3ECompressor : IProtocolCompressorWithFormat
+    public class MC3ECompressor : IMCProtocolCompressor
     {
         public MCProtocolFormat Format { get; set; }
 
@@ -75,12 +75,12 @@ namespace DY.NET.Mitsubishi.MELSEC
             return null;
         }
 
-        public virtual IProtocol Decode(byte[] ascii, Type type)
+        public virtual IProtocol Decode(byte[] ascii, IProtocol request)
         {
             return null;
         }
 
-        private object ToValue(Type type, byte[] bytes)
+        private object ToValue(Type type, params byte[] bytes)
         {
             object result = null;
             if (type == typeof(String))
@@ -98,6 +98,11 @@ namespace DY.NET.Mitsubishi.MELSEC
                 result = ASCIIFormatTranslator.HexASCIIToInteger(type, bytes);
             }
             return result;
+        }
+
+        private TOutput ToValue<TOutput>(params byte[] bytes)
+        {
+            return (TOutput)ToValue(typeof(TOutput), bytes);
         }
 
         private byte[] ToCode(Type type, object value)
@@ -120,9 +125,14 @@ namespace DY.NET.Mitsubishi.MELSEC
             return result;
         }
 
+        private byte[] ToCode<TOutput>(object value)
+        {
+            return ToCode(typeof(TOutput), value);
+        }
+
         private delegate byte[] ToByteArray(Type type, object value);
 
-        public byte[] EncodeQHeader(IQHeader qHeader)
+        public byte[] EncodeQHeader(IMCQHeader qHeader)
         {
             List<byte> buf = new List<byte>();
             buf.AddRange(ToCode(qHeader.NetworkNumber.GetType(), qHeader.NetworkNumber));
@@ -134,27 +144,40 @@ namespace DY.NET.Mitsubishi.MELSEC
             return buf.ToArray();
         }
 
-        public void DecodeQHeaderByBinary(byte[] d, IQHeader qHeader)
+        public void DecodeQHeader(byte[] d, IMCQHeader qHeader)
         {
-            const int NET_IDX = 5;
-            const int PLC_IDX = 6;
-            const int IO_IDX1 = 7;
-            const int IO_IDX2 = 8;
-            const int LO_IDX = 9;
-            const int LEN_IDX1 = 10;
-            const int LEN_IDX2 = 11;
-            const int END_IDX1 = 12;
-            const int END_IDX2 = 13;
-
-            qHeader.NetworkNumber = (byte)ToValue(typeof(byte), new byte[] { d[NET_IDX] });
-            qHeader.PLCNumber = (byte)ToValue(typeof(byte), new byte[] { d[PLC_IDX] });
-            qHeader.ModuleIONumber = (ushort)ToValue(typeof(ushort), new byte[] { d[IO_IDX1], d[IO_IDX2] });
-            qHeader.ModuleLocalNumber = (byte)ToValue(typeof(byte), new byte[] { d[LO_IDX] });
-            qHeader.DataLength = (ushort)ToValue(typeof(ushort), new byte[] { d[LEN_IDX1], d[LEN_IDX2] });
-            qHeader.Error = (MCEthernetError)ToValue(typeof(ushort), new byte[] { d[END_IDX1], d[END_IDX2] });
+            switch (Format)
+            {
+                case MCProtocolFormat.ASCII:
+                    DecodeQHeaderByASCII(d, qHeader);
+                    break;
+                case MCProtocolFormat.BINARY:
+                    DecodeQHeaderByBinary(d, qHeader);
+                    break;
+            }
         }
 
-        public void DecodeQHeaderByASCII(byte[] d, IQHeader qHeader)
+        private void DecodeQHeaderByBinary(byte[] d, IMCQHeader qHeader)
+        {
+            const int NET_IDX = 2;
+            const int PLC_IDX = 3;
+            const int IO_IDX1 = 4;
+            const int IO_IDX2 = 5;
+            const int LO_IDX = 6;
+            const int LEN_IDX1 = 7;
+            const int LEN_IDX2 = 8;
+            const int END_IDX1 = 9;
+            const int END_IDX2 = 10;
+
+            qHeader.NetworkNumber = ToValue<byte>(d[NET_IDX]);
+            qHeader.PLCNumber = ToValue<byte>(d[PLC_IDX]);
+            qHeader.ModuleIONumber = ToValue<ushort>(d[IO_IDX1], d[IO_IDX2]);
+            qHeader.ModuleLocalNumber = ToValue<byte>(d[LO_IDX]);
+            qHeader.DataLength = ToValue<ushort>(d[LEN_IDX1], d[LEN_IDX2]);
+            qHeader.Error = (MCEFrameError)ToValue<ushort>(d[END_IDX1], d[END_IDX2]);
+        }
+
+        private void DecodeQHeaderByASCII(byte[] d, IMCQHeader qHeader)
         {
             const int NET_IDX1 = 4;
             const int NET_IDX2 = 5;
@@ -175,15 +198,15 @@ namespace DY.NET.Mitsubishi.MELSEC
             const int END_IDX3 = 20;
             const int END_IDX4 = 21;
 
-            qHeader.NetworkNumber = (byte)ToValue(typeof(byte), new byte[] { d[NET_IDX1], d[NET_IDX2] });
-            qHeader.PLCNumber = (byte)ToValue(typeof(byte), new byte[] { d[PLC_IDX1], d[PLC_IDX2] });
-            qHeader.ModuleIONumber = (ushort)ToValue(typeof(ushort), new byte[] { d[IO_IDX1], d[IO_IDX2], d[IO_IDX3], d[IO_IDX4] });
-            qHeader.ModuleLocalNumber = (byte)ToValue(typeof(byte), new byte[] { d[LO_IDX1], d[LO_IDX2] });
-            qHeader.DataLength = (ushort)ToValue(typeof(ushort), new byte[] { d[LEN_IDX1], d[LEN_IDX2], d[LEN_IDX3], d[LEN_IDX4] });
-            qHeader.Error = (MCEthernetError)ToValue(typeof(ushort), new byte[] { d[END_IDX1], d[END_IDX2], d[END_IDX3], d[END_IDX4] });
+            qHeader.NetworkNumber = ToValue<byte>(d[NET_IDX1], d[NET_IDX2]);
+            qHeader.PLCNumber = ToValue<byte>(d[PLC_IDX1], d[PLC_IDX2]);
+            qHeader.ModuleIONumber = ToValue<ushort>(d[IO_IDX1], d[IO_IDX2], d[IO_IDX3], d[IO_IDX4]);
+            qHeader.ModuleLocalNumber = ToValue<byte>(d[LO_IDX1], d[LO_IDX2]);
+            qHeader.DataLength = ToValue<ushort>(d[LEN_IDX1], d[LEN_IDX2], d[LEN_IDX3], d[LEN_IDX4]);
+            qHeader.Error = (MCEFrameError)ToValue<ushort>(d[END_IDX1], d[END_IDX2], d[END_IDX3], d[END_IDX4]);
         }
 
-        public void DecodeErrorInfoPartByBinary(byte[] d, MC3EProtocol mc3e)
+        private void DecodeErrorInfoPartByBinary(byte[] d, MC3EProtocol mc3e)
         {
             const int NET_IDX = 22;
             const int PLC_IDX = 23;
@@ -195,24 +218,15 @@ namespace DY.NET.Mitsubishi.MELSEC
             const int SCMD_IDX1 = 29;
             const int SCMD_IDX2 = 30;
 
-            mc3e.ErrorNetworkNumber = (byte)ToValue(typeof(byte), new byte[] { d[NET_IDX] });
-            mc3e.ErrorPLCNumber = (byte)ToValue(typeof(byte), new byte[] { d[PLC_IDX] });
-            mc3e.ErrorModuleIONumber = (ushort)ToValue(typeof(ushort), new byte[] { d[IO_IDX1], d[IO_IDX2] });
-            mc3e.ErrorModuleLocalNumber = (byte)ToValue(typeof(byte), new byte[] { d[LO_IDX] });
-
-            mc3e.ErrorCommand = (MC3ECommand)ToValue(typeof(ushort), new byte[] { d[CMD_IDX1], d[CMD_IDX2] });
-
-            ushort subcmd = (ushort)ToValue(typeof(ushort), new byte[] { d[SCMD_IDX1], d[SCMD_IDX2] });
-            MC3EDeviceMemoryExtension dme;
-            MC3ESpecialFunction sfn;
-            MC3EDataType dt;
-            DecodeSubCommand(subcmd, out dme, out sfn, out dt);
-            mc3e.ErrorDeviceMemoryExtension = dme;
-            mc3e.ErrorSpecialFunction = sfn;
-            mc3e.DataType = dt;
+            mc3e.ErrorNetworkNumber = ToValue<byte>(d[NET_IDX]);
+            mc3e.ErrorPLCNumber = ToValue<byte>(d[PLC_IDX]);
+            mc3e.ErrorModuleIONumber = ToValue<ushort>(d[IO_IDX1], d[IO_IDX2]);
+            mc3e.ErrorModuleLocalNumber = ToValue<byte>(d[LO_IDX]);
+            mc3e.ErrorCommand = (MCQnACommand)ToValue<ushort>(d[CMD_IDX1], d[CMD_IDX2]);
+            mc3e.AnalysisSubCommand(ToValue<ushort>(d[SCMD_IDX1], d[SCMD_IDX2]));
         }
 
-        public void DecodeErrorInfoPartByASCII(byte[] d, MC3EProtocol mc3e)
+        private void DecodeErrorInfoPartByASCII(byte[] d, MC3EProtocol mc3e)
         {
             const int NET_IDX1 = 22;
             const int NET_IDX2 = 23;
@@ -233,26 +247,12 @@ namespace DY.NET.Mitsubishi.MELSEC
             const int SCMD_IDX3 = 38;
             const int SCMD_IDX4 = 39;
 
-            mc3e.ErrorNetworkNumber = (byte)ToValue(typeof(byte), new byte[] { d[NET_IDX1], d[NET_IDX2] });
-            mc3e.ErrorPLCNumber = (byte)ToValue(typeof(byte), new byte[] { d[PLC_IDX1], d[PLC_IDX2] });
-            mc3e.ErrorModuleIONumber = (ushort)ToValue(typeof(ushort), new byte[] { d[IO_IDX1], d[IO_IDX2], d[IO_IDX3], d[IO_IDX4] });
-            mc3e.ErrorModuleLocalNumber = (byte)ToValue(typeof(byte), new byte[] { d[LO_IDX1], d[LO_IDX2] });
-            mc3e.ErrorCommand = (MC3ECommand)ToValue(typeof(ushort), new byte[] { d[CMD_IDX1], d[CMD_IDX2], d[CMD_IDX3], d[CMD_IDX4] });
-            ushort subcmd = (ushort)ToValue(typeof(ushort), new byte[] { d[SCMD_IDX1], d[SCMD_IDX2], d[SCMD_IDX3], d[SCMD_IDX4] });
-            MC3EDeviceMemoryExtension dme;
-            MC3ESpecialFunction sfn; 
-            MC3EDataType dt;
-            DecodeSubCommand(subcmd, out dme, out sfn, out dt);
-            mc3e.ErrorDeviceMemoryExtension = dme;
-            mc3e.ErrorSpecialFunction = sfn;
-            mc3e.DataType = dt;
-        }
-
-        public void DecodeSubCommand(ushort subcmd, out MC3EDeviceMemoryExtension mem, out MC3ESpecialFunction fn, out MC3EDataType type)
-        {
-            mem = (MC3EDeviceMemoryExtension)(subcmd & (ushort)MC3EDeviceMemoryExtension.ON);
-            fn = (MC3ESpecialFunction)(subcmd & (ushort)MC3ESpecialFunction.ON);
-            type = (MC3EDataType)(subcmd & (ushort)MC3EDataType.BIT);
+            mc3e.ErrorNetworkNumber = ToValue<byte>(d[NET_IDX1], d[NET_IDX2]);
+            mc3e.ErrorPLCNumber = ToValue<byte>(d[PLC_IDX1], d[PLC_IDX2]);
+            mc3e.ErrorModuleIONumber = ToValue<ushort>(d[IO_IDX1], d[IO_IDX2], d[IO_IDX3], d[IO_IDX4]);
+            mc3e.ErrorModuleLocalNumber = ToValue<byte>(d[LO_IDX1], d[LO_IDX2]);
+            mc3e.ErrorCommand = (MCQnACommand)ToValue<ushort>(d[CMD_IDX1], d[CMD_IDX2], d[CMD_IDX3], d[CMD_IDX4]);
+            mc3e.AnalysisSubCommand(ToValue<ushort>(d[SCMD_IDX1], d[SCMD_IDX2], d[SCMD_IDX3], d[SCMD_IDX4]));
         }
     }
 }

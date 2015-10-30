@@ -46,12 +46,12 @@ namespace DY.NET
             return result;
         }
 
-        public static TOutput BinaryToInteger<TOutput>(byte[] code)
+        public static TOutput BinaryToInteger<TOutput>(params byte[] code)
         {
             return (TOutput)BinaryToInteger(typeof(TOutput), code);
         }
 
-        public static object BinaryToInteger(Type type, byte[] code)
+        public static object BinaryToInteger(Type type, params byte[] code)
         {
             if (code == null || type == null)
                 throw new ArgumentNullException();

@@ -1,5 +1,4 @@
-﻿
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -7,9 +6,9 @@ using System.Threading.Tasks;
 
 namespace DY.NET.Mitsubishi.MELSEC
 {
-    public enum MC3EDataType : ushort
+    public enum MCQnASpecialFunction : ushort
     {
-        WORD = 0x0000,
-        BIT = 0x0001
+        OFF = 0x0000,
+        ON = 0x0040
     }
 }

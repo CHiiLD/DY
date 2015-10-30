@@ -69,10 +69,9 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
-    <Compile Include="Filter\ProtocolStreamFilter.cs" />
     <Compile Include="Test\AFakeStream.cs" />
-    <Compile Include="Filter\CompressorFilter.cs" />
-    <Compile Include="Test\MELSEC\MC1ECompressorTest.cs" />
+    <Compile Include="Test\MELSEC\MC3ECompressorTest.cs" />
+    <Compile Include="Test\MELSEC\MCQnARequestDataSectionExtensionTest.cs" />
     <Compile Include="Test\OverridingTest.cs" />
     <Compile Include="Test\Vuquest\Vuqeust3310gTest.cs" />
     <Compile Include="Test\XGT\DetailProtocolData.cs" />
@@ -100,9 +99,6 @@
       <Project>{44f4fc6a-f72d-4286-9979-f125aaf0d70a}</Project>
       <Name>DY.NET</Name>
     </ProjectReference>
-  </ItemGroup>
-  <ItemGroup>
-    <Content Include="TextFile1.txt" />
   </ItemGroup>
   <ItemGroup />
   <Choose>

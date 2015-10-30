@@ -11,7 +11,7 @@ namespace DY.NET.LSIS.XGT
     /// </summary>
     public static class XGTFEnetTranslator
     {
-        public static object ToValue(byte[] bytes, Type type)
+        public static object ToValue(Type type, params byte[] bytes)
         {
             if (type == typeof(Int16) || type == typeof(UInt16))
                 Array.Reverse(bytes);
@@ -23,7 +23,12 @@ namespace DY.NET.LSIS.XGT
             return target;
         }
 
-        public static byte[] ToASCII(object value, Type type)
+        public static TOutput ToValue<TOutput>(params byte[] bytes)
+        {
+            return (TOutput)ToValue(typeof(TOutput), bytes);
+        }
+
+        public static byte[] ToCode(Type type, object value)        
         {
             byte[] bytes = null;
             if (type != typeof(String))
@@ -33,6 +38,11 @@ namespace DY.NET.LSIS.XGT
             if (type == typeof(Int16) || type == typeof(UInt16))
                 Array.Reverse(bytes);
             return bytes;
+        }
+
+        public static byte[] ToASCII<TOutput>(object value)
+        {
+            return ToCode(typeof(TOutput), value);
         }
     }
 }

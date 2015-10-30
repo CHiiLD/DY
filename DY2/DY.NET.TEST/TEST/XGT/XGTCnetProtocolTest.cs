@@ -10,7 +10,7 @@ namespace DY.NET.Test
         [Test]
         public void WhenInitialize_ExpectPropertyIsNone()
         {
-            XGTCnetProtocol cnet = new XGTCnetProtocol(null, XGTCnetCommand.R);
+            XGTCnetProtocol cnet = new XGTCnetProtocol(null, XGTCnetCommand.READ);
             cnet.Initialize();
             Assert.AreEqual(cnet.GetErrorCode(), 0);
             Assert.AreEqual(cnet.Header, ControlChar.NONE);
@@ -25,7 +25,7 @@ namespace DY.NET.Test
         [Test]
         public void Constructor()
         {
-            XGTCnetCommand cmd = XGTCnetCommand.R;
+            XGTCnetCommand cmd = XGTCnetCommand.READ;
             Type type = typeof(ushort);
 
             XGTCnetProtocol cnet = new XGTCnetProtocol(type, cmd);

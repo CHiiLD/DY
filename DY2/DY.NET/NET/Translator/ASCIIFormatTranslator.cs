@@ -13,7 +13,7 @@ namespace DY.NET
             return IntegerToHexASCII(typeof(T), integer);
         }
 
-        public static TOutput HexASCIIToInteger<TOutput>(byte[] code)
+        public static TOutput HexASCIIToInteger<TOutput>(params byte[] code)
         {
             return (TOutput)HexASCIIToInteger(typeof(TOutput), code);
         }
@@ -23,7 +23,7 @@ namespace DY.NET
             return IntegerToDecASCII(typeof(T), integer);
         }
 
-        public static TOutput DecASCIIToInteger<TOutput>(byte[] code)
+        public static TOutput DecASCIIToInteger<TOutput>(params byte[] code)
         {
             return (TOutput)DecASCIIToInteger(typeof(TOutput), code);
         }
@@ -68,7 +68,7 @@ namespace DY.NET
         /// <param name="type">변환할 정수 타입</param>
         /// <param name="code">ASCII데이터</param>
         /// <returns>정수</returns>
-        public static object HexASCIIToInteger(Type type, byte[] code)
+        public static object HexASCIIToInteger(Type type, params byte[] code)
         {
             const int BASE = 16;
             if (code == null || type == null)
@@ -132,7 +132,7 @@ namespace DY.NET
             return result;
         }
 
-        public static object DecASCIIToInteger(Type type, byte[] code)
+        public static object DecASCIIToInteger(Type type, params byte[] code)
         {
             const int BASE = 10;
             if (code == null || type == null)

@@ -6,9 +6,8 @@ using System.Threading.Tasks;
 
 namespace DY.NET.Mitsubishi.MELSEC
 {
-    public enum MC3ESpecialFunction : ushort
+    public interface IMCProtocolCompressor : IProtocolCompressor
     {
-        OFF = 0x0000,
-        ON = 0x0040
+        MCProtocolFormat Format { get; set; }
     }
 }

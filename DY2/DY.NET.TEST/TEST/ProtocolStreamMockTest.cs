@@ -40,7 +40,7 @@ namespace DY.NET.Test
         public async void Sample_InterfaceMethodMock()
         {
             ushort localport = 20;
-            var cmd = XGTCnetCommand.R;
+            var cmd = XGTCnetCommand.READ;
             string addr = "%MW100";
             XGTCnetProtocol resquest = new XGTCnetProtocol(typeof(ushort), cmd);
             resquest.Data = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr) };

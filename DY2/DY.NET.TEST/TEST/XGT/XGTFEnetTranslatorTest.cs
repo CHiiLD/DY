@@ -14,14 +14,14 @@ namespace DY.NET.Test
         [ExpectedException(typeof(ArgumentNullException))]
         public void WhenConvertNullToASCII_ExpectArgumentNullException()
         {
-            XGTFEnetTranslator.ToASCII(null, typeof(int));
+            XGTFEnetTranslator.ToCode(typeof(int), null);
         }
 
         [Test]
         [ExpectedException(typeof(ArgumentNullException))]
         public void WhenConvertNullToValue_ExpectArgumentNullException()
         {
-            XGTFEnetTranslator.ToValue(null, typeof(bool));
+            XGTFEnetTranslator.ToValue(typeof(bool), null);
         }
 
         [Test]
@@ -30,7 +30,7 @@ namespace DY.NET.Test
         [TestCase(typeof(float))]
         public void WhenUseUnsupportType_ExpectArgumentException(Type type)
         {
-            XGTFEnetTranslator.ToValue(new byte[] { 0x30, 0x31 }, type);
+            XGTFEnetTranslator.ToValue(type, new byte[] { 0x30, 0x31 });
         }
 
         //버그인 듯?
@@ -46,7 +46,7 @@ namespace DY.NET.Test
         [TestCase(0xFEDCBA0987654321L, new byte[] { 0xFE, 0xDC, 0xBA, 0x09, 0x87, 0x65, 0x43, 0x21 })]
         public void Value2ASCII(object value, byte[] expect)
         {
-            Assert.AreEqual(XGTFEnetTranslator.ToASCII(value, value.GetType()), expect);
+            Assert.AreEqual(XGTFEnetTranslator.ToCode(value.GetType(), value), expect);
         }
 
         [Test]
@@ -61,7 +61,7 @@ namespace DY.NET.Test
         [TestCase(0xFEDCBA0987654321L, new byte[] { 0xFE, 0xDC, 0xBA, 0x09, 0x87, 0x65, 0x43, 0x21 })]
         public void ASCII2Value(object expect, byte[] value)
         {
-            Assert.AreEqual(XGTFEnetTranslator.ToValue(value, expect.GetType()), expect);
+            Assert.AreEqual(XGTFEnetTranslator.ToValue(expect.GetType(), value), expect);
         }
 
         [Test]
@@ -72,7 +72,7 @@ namespace DY.NET.Test
         [TestCase((ulong)0x00FE, typeof(short), new byte[] { 0xFE, 0x00 })]
         public void ASCII2Value(object expect, Type type, byte[] value)
         {
-            object result = XGTFEnetTranslator.ToValue(value, type);
+            object result = XGTFEnetTranslator.ToValue(type, value);
             Assert.AreEqual(result, expect);
             Assert.AreEqual(result.GetType(), type);
         }

@@ -49,7 +49,7 @@ namespace DY.NET.Test
                 for (int i = 0; i < cnt; i++)
                 {
                     sbyte value = (sbyte)r.Next(sbyte.MinValue, 0);
-                    XGTCnetProtocol write_protocol = new XGTCnetProtocol(typeof(sbyte), XGTCnetCommand.W)
+                    XGTCnetProtocol write_protocol = new XGTCnetProtocol(typeof(sbyte), XGTCnetCommand.WRITE)
                     { 
                         Data = new List<IProtocolData>() { new ProtocolData(addr, value) }
                     };
@@ -57,7 +57,7 @@ namespace DY.NET.Test
 
                     Assert.AreEqual(w_response.GetErrorCode(), 0);
 
-                    XGTCnetProtocol read_protocol = new XGTCnetProtocol(typeof(sbyte), XGTCnetCommand.R)
+                    XGTCnetProtocol read_protocol = new XGTCnetProtocol(typeof(sbyte), XGTCnetCommand.READ)
                     {
                         Data = new List<IProtocolData>() { new ProtocolData(addr, value) }
                     };
@@ -89,7 +89,7 @@ namespace DY.NET.Test
                     string addr = item.Key;
                     object value = item.Value;
 
-                    XGTCnetProtocol write_protocol = new XGTCnetProtocol(value.GetType(), XGTCnetCommand.W)
+                    XGTCnetProtocol write_protocol = new XGTCnetProtocol(value.GetType(), XGTCnetCommand.WRITE)
                     {
                         Data = new List<IProtocolData>() { new ProtocolData(addr, value) }
                     };
@@ -97,7 +97,7 @@ namespace DY.NET.Test
 
                     Assert.AreEqual(w_response.GetErrorCode(), 0);
 
-                    XGTCnetProtocol read_protocol = new XGTCnetProtocol(value.GetType(), XGTCnetCommand.R)
+                    XGTCnetProtocol read_protocol = new XGTCnetProtocol(value.GetType(), XGTCnetCommand.READ)
                     {
                         Data = new List<IProtocolData>() { new ProtocolData(addr, value) }
                     };

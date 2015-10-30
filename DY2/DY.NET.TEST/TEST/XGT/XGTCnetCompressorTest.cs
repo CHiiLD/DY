@@ -1,6 +1,7 @@
 ﻿using System;
 using NUnit.Framework;
 using DY.NET.LSIS.XGT;
+using System.Collections.Generic;
 
 namespace DY.NET.Test
 {
@@ -12,7 +13,7 @@ namespace DY.NET.Test
         {
             byte[] expectResult = new byte[] { 0x05, 0x32, 0x30, 0x57, 0x53, 0x53, 0x30, 0x31, 0x30, 0x36, 0x25, 0x4D, 0x57, 0x31, 0x30, 0x30, 0x30, 0x30, 0x45, 0x32, 0x04 };
             byte localport = 20;
-            var cmd = XGTCnetCommand.W;
+            var cmd = XGTCnetCommand.WRITE;
             string addr = "%MW100";
             ushort value = 0x00E2;
             XGTCnetProtocol cnet = new XGTCnetProtocol(value.GetType(), cmd) { LocalPort = localport };
@@ -28,7 +29,7 @@ namespace DY.NET.Test
         public void RSS2ASCII()
         {
             byte[] expectResult = new byte[] { 0x05, 0x30, 0x30, 0x52, 0x53, 0x53, 0x30, 0x31, 0x30, 0x36, 0x25, 0x4D, 0x57, 0x31, 0x30, 0x30, 0x04 };
-            var cmd = XGTCnetCommand.R;
+            var cmd = XGTCnetCommand.READ;
             string addr = "%MW100";
             XGTCnetProtocol cnet = new XGTCnetProtocol(typeof(ushort), cmd) { LocalPort = 0 };
             cnet.Data = new System.Collections.Generic.List<IProtocolData>() { new ProtocolData(addr) };
@@ -44,14 +45,15 @@ namespace DY.NET.Test
         {
             byte[] ack_code = new byte[] { 0x06, 0x30, 0x30, 0x57, 0x53, 0x53, 0x03 };
             ushort localport = 00;
-
             XGTCnetCompressor cnet_comp = new XGTCnetCompressor();
-            XGTCnetProtocol cnet = cnet_comp.Decode(ack_code, null) as XGTCnetProtocol;
+            XGTCnetProtocol request = new XGTCnetProtocol(typeof(ushort), XGTCnetCommand.READ) { Data = new List<IProtocolData>() { new ProtocolData("%WM100") } };
+
+            XGTCnetProtocol cnet = cnet_comp.Decode(ack_code, request) as XGTCnetProtocol;
 
             Assert.AreEqual(cnet.Header, ControlChar.ACK);
             Assert.AreEqual(cnet.Tail, ControlChar.ETX);
             Assert.AreEqual(cnet.LocalPort, localport);
-            Assert.AreEqual(cnet.Command, XGTCnetCommand.W);
+            Assert.AreEqual(cnet.Command, XGTCnetCommand.WRITE);
             Assert.AreEqual(cnet.CommandType, XGTCnetCommandType.SS);
         }
 
@@ -60,14 +62,15 @@ namespace DY.NET.Test
         {
             byte[] ack_code = new byte[] { 0x06, 0x30, 0x30, 0x52, 0x53, 0x53, 0x30, 0x31, 0x30, 0x32, 0x41, 0x39, 0x46, 0x33, 0x03 };
             byte localport = 00;
-
             XGTCnetCompressor cnet_comp = new XGTCnetCompressor();
-            XGTCnetProtocol cnet = cnet_comp.Decode(ack_code, typeof(ushort)) as XGTCnetProtocol;
+            XGTCnetProtocol request = new XGTCnetProtocol(typeof(ushort), XGTCnetCommand.READ) { Data = new List<IProtocolData>() { new ProtocolData("%WM100") }};
+
+            XGTCnetProtocol cnet = cnet_comp.Decode(ack_code, request) as XGTCnetProtocol;
 
             Assert.AreEqual(cnet.Header, ControlChar.ACK);
             Assert.AreEqual(cnet.Tail, ControlChar.ETX);
             Assert.AreEqual(cnet.LocalPort, localport);
-            Assert.AreEqual(cnet.Command, XGTCnetCommand.R);
+            Assert.AreEqual(cnet.Command, XGTCnetCommand.READ);
             Assert.AreEqual(cnet.CommandType, XGTCnetCommandType.SS);
             Assert.AreEqual(cnet.Data.Count, 1);
             Assert.AreEqual(cnet.Data[0].Value, 0xA9F3);
@@ -80,12 +83,12 @@ namespace DY.NET.Test
             ushort localport = 00;
 
             XGTCnetCompressor cnet_comp = new XGTCnetCompressor() ;
-            XGTCnetProtocol cnet = cnet_comp.Decode(nak_code, null) as XGTCnetProtocol;
+            XGTCnetProtocol cnet = cnet_comp.Decode(nak_code, new XGTCnetProtocol(null, XGTCnetCommand.WRITE)) as XGTCnetProtocol;
 
             Assert.AreEqual(cnet.Header, ControlChar.NAK);
             Assert.AreEqual(cnet.Tail, ControlChar.ETX);
             Assert.AreEqual(cnet.LocalPort, localport);
-            Assert.AreEqual(cnet.Command, XGTCnetCommand.W);
+            Assert.AreEqual(cnet.Command, XGTCnetCommand.WRITE);
             Assert.AreEqual(cnet.CommandType, XGTCnetCommandType.SS);
             Assert.AreEqual(cnet.Error, XGTCnetError.DEVICE_MEMORY);
         }
@@ -97,15 +100,16 @@ namespace DY.NET.Test
         public void WhenDecodeInvalidASCII_ExpectException(byte[] ack_code)
         {
             XGTCnetCompressor cnet_comp = new XGTCnetCompressor();
-            XGTCnetProtocol cnet = cnet_comp.Decode(ack_code, null) as XGTCnetProtocol;
+            XGTCnetProtocol request = new XGTCnetProtocol(typeof(ushort), XGTCnetCommand.READ) { Data = new List<IProtocolData>() { new ProtocolData("%WM100") } };
+
+            XGTCnetProtocol cnet = cnet_comp.Decode(ack_code, request) as XGTCnetProtocol;
         }
 
         [Test]
         [ExpectedException(typeof(Exception))]
         public void WhenProtocolDataAddItemToo_ExpectException()
         {
-            ushort localport = 20;
-            var cmd = XGTCnetCommand.W;
+            var cmd = XGTCnetCommand.WRITE;
             string addr = "%MW100";
             ushort value = 0x00E2;
             XGTCnetProtocol cnet = new XGTCnetProtocol(value.GetType(), cmd);
@@ -121,8 +125,7 @@ namespace DY.NET.Test
         [ExpectedException(typeof(Exception))]
         public void WhenAddressLengthLongToo_ExpectException()
         {
-            ushort localport = 20;
-            var cmd = XGTCnetCommand.W;
+            var cmd = XGTCnetCommand.WRITE;
             string addr = "%MW45678921311023";
             ushort value = 0x00E2;
             XGTCnetProtocol cnet = new XGTCnetProtocol(value.GetType(), cmd);

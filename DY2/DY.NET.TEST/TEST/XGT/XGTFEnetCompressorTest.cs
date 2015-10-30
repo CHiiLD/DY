@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
 using DY.NET.LSIS.XGT;
 
@@ -23,7 +24,7 @@ namespace DY.NET.Test
 
         [Test]
         [ExpectedException(typeof(ArgumentException))]
-        public void WhenInvalidASCIIDecode_ExpectedArgumentException()
+        public void WhenInvalidASCIIDecode_ExpectArgumentException()
         {
             byte[] recv_ascii = new byte[] { 0x4C, 0x53, 0x49, 0x53, 0x2D, 0x58, 0x47, 0x54,
             0x00, 0x00, //Reserved
@@ -37,8 +38,8 @@ namespace DY.NET.Test
             0x00,       //Reserved
             0x54, 0x00, 0x02, 0x00, 0x00, 0x00, 0x01, 0x00 };
             XGTFEnetCompressor compressor = new XGTFEnetCompressor();
-
-            XGTFEnetProtocol result = compressor.Decode(recv_ascii, null) as XGTFEnetProtocol;
+            XGTFEnetProtocol request = new XGTFEnetProtocol(typeof(ushort), XGTFEnetCommand.READ_REQT) { Data = new List<IProtocolData>() { new ProtocolData("%WM100") } };
+            XGTFEnetProtocol result = compressor.Decode(recv_ascii, request) as XGTFEnetProtocol;
         }
 
         [Test]
@@ -57,8 +58,9 @@ namespace DY.NET.Test
             0x55, 0x00, 0x02, 0x00, 0x00, 0x00, 0xFF, 0xFF, 
             0x02, 0x00 };
             XGTFEnetCompressor compressor = new XGTFEnetCompressor();
+            XGTFEnetProtocol request = new XGTFEnetProtocol(typeof(ushort), XGTFEnetCommand.READ_REQT) { Data = new List<IProtocolData>() { new ProtocolData("%WM100") } };
 
-            XGTFEnetProtocol result = compressor.Decode(recv_ascii, null) as XGTFEnetProtocol;
+            XGTFEnetProtocol result = compressor.Decode(recv_ascii, request) as XGTFEnetProtocol;
 
             Assert.AreEqual(result.Error, XGTFEnetError.DATA_TYPE);
         }
@@ -149,8 +151,8 @@ namespace DY.NET.Test
             0x02, 0x00, 
             0x34, 0x12 };
             XGTFEnetCompressor compressor = new XGTFEnetCompressor();
-
-            XGTFEnetProtocol result = compressor.Decode(recv_ascii, typeof(ushort)) as XGTFEnetProtocol;
+            XGTFEnetProtocol request = new XGTFEnetProtocol(typeof(ushort), XGTFEnetCommand.READ_REQT) { Data = new List<IProtocolData>() { new ProtocolData("%WM100") } };
+            XGTFEnetProtocol result = compressor.Decode(recv_ascii, request) as XGTFEnetProtocol;
 
             Assert.AreEqual(result.CompanyID, expectedResult.CompanyID);
             Assert.AreEqual(result.CpuType, expectedResult.CpuType);
@@ -197,8 +199,8 @@ namespace DY.NET.Test
             0x00,       //Reserved
             0x59, 0x00, 0x02, 0x00, 0x00, 0x00, 0x00, 0x00, 0x01, 0x00 };
             XGTFEnetCompressor compressor = new XGTFEnetCompressor();
-
-            XGTFEnetProtocol result = compressor.Decode(recv_ascii, null) as XGTFEnetProtocol;
+            XGTCnetProtocol request = new XGTCnetProtocol(typeof(ushort), XGTCnetCommand.READ) { Data = new List<IProtocolData>() { new ProtocolData("%WM100") } };
+            XGTFEnetProtocol result = compressor.Decode(recv_ascii, request) as XGTFEnetProtocol;
 
             Assert.AreEqual(result.CompanyID, expectedResult.CompanyID);
             Assert.AreEqual(result.CpuType, expectedResult.CpuType);
