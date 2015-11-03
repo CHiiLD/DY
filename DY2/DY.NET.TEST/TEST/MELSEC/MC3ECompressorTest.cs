@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using DY.NET.Mitsubishi.MELSEC;
 
-namespace DY.NET.Test
+namespace DY.NET.TEST
 {
     [TestFixture]
     public class MC3ECompressorTest

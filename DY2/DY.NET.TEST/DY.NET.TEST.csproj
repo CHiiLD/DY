@@ -6,7 +6,7 @@
     <ProjectGuid>{8E5462AB-7061-4450-9F0C-7A0BD4B145BA}</ProjectGuid>
     <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
-    <RootNamespace>DY.NET.Test</RootNamespace>
+    <RootNamespace>DY.NET.TEST</RootNamespace>
     <AssemblyName>DY.NET.TEST</AssemblyName>
     <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

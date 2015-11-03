@@ -5,7 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Collections.Specialized;
 
-namespace DY.NET.Test
+namespace DY.NET.TEST
 {
     public class DetailProtocolData : INotifyProtocolDataChanged
     {

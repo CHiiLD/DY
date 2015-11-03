@@ -5,7 +5,7 @@ using NUnit.Framework;
 using DY.NET.LSIS.XGT;
 using Moq;
 
-namespace DY.NET.Test
+namespace DY.NET.TEST
 {
     [Ignore]
     [TestFixture]

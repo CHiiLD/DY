@@ -3,7 +3,7 @@ using NUnit.Framework;
 using DY.NET.LSIS.XGT;
 using System.Collections.Generic;
 
-namespace DY.NET.Test
+namespace DY.NET.TEST
 {
     [TestFixture]
     public class XGTCnetCompressorTest

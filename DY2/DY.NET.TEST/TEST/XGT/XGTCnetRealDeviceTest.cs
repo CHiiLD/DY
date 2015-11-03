@@ -7,7 +7,7 @@ using System.Threading.Tasks;
 using NUnit.Framework;
 using DY.NET.LSIS.XGT;
 
-namespace DY.NET.Test
+namespace DY.NET.TEST
 {
     [Ignore]
     [TestFixture]

@@ -3,7 +3,7 @@ using NUnit.Framework;
 using DY.NET.Honeywell.Vuquest;
 using System.Threading.Tasks;
 
-namespace DY.NET.Test
+namespace DY.NET.TEST
 {
     /// <summary>
     /// 테스트 가정
