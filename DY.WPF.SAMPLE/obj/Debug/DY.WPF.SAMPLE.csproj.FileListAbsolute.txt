@@ -1,3 +1,4 @@
 C:\dev\github\DY\DY.WPF.SAMPLE\bin\Debug\NLog.pdb
 C:\Users\CHILD\GitHub\DY\DY.WPF.SAMPLE\bin\Debug\DY.WPF.SAMPLE.exe.config
 C:\dev\github\DY\DY.WPF.SAMPLE\bin\Debug\DY.WPF.SAMPLE.exe.config
+Y:\Github\DY\DY.WPF.SAMPLE\bin\Debug\DY.WPF.SAMPLE.exe.config

@@ -33,3 +33,6 @@ C:\dev\github\DY\DY2\DY.NET.TEST\bin\Debug\DY.NET.dll
 C:\dev\github\DY\DY2\DY.NET.TEST\bin\Debug\DY.NET.pdb
 C:\Users\CHILD\GitHub\DY\DY2\DY.NET.TEST\bin\Debug\DY.NET.dll
 C:\Users\CHILD\GitHub\DY\DY2\DY.NET.TEST\bin\Debug\DY.NET.pdb
+Y:\Github\DY\DY2\DY.NET.TEST\obj\Debug\DY.NET.TEST.csprojResolveAssemblyReference.cache
+Y:\Github\DY\DY2\DY.NET.TEST\obj\Debug\DY.NET.TEST.dll
+Y:\Github\DY\DY2\DY.NET.TEST\obj\Debug\DY.NET.TEST.pdb

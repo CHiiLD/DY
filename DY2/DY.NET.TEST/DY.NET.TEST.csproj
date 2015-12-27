@@ -69,6 +69,7 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="Test\TaskWorkerDirectorTest.cs" />
     <Compile Include="Test\AFakeStream.cs" />
     <Compile Include="Test\MELSEC\MC3ECompressorTest.cs" />
     <Compile Include="Test\MELSEC\MCQnARequestDataSectionExtensionTest.cs" />

@@ -56,6 +56,10 @@
     <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\Command\MCQnASubCommandExtension.cs" />
     <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\IMCQnARequestDataSection.cs" />
     <Compile Include="NET\PLC\Mitsubishi\MELSEC\QnAFrame\MCQnARequestDataSectionExtension.cs" />
+    <Compile Include="NET\TaskWorker\IAsyncCommand.cs" />
+    <Compile Include="NET\TaskWorker\ITaskWorker.cs" />
+    <Compile Include="NET\TaskWorker\TaskCompany.cs" />
+    <Compile Include="NET\TaskWorker\TaskWorker.cs" />
     <Compile Include="NET\Translator\ASCIIFormatTranslator.cs" />
     <Compile Include="NET\Translator\BinaryFormatTranslator.cs" />
     <Compile Include="NET\PLC\LSIS\XGT\Cnet\XGTCnetCommand.cs" />
