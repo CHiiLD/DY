@@ -37,7 +37,9 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.VisualStudio.QualityTools.UnitTestFramework, Version=10.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a, processorArchitecture=MSIL">
+      <Private>False</Private>
+    </Reference>
     <Reference Include="nunit.core, Version=2.6.4.14350, Culture=neutral, PublicKeyToken=96d09a1eb7f44a77, processorArchitecture=MSIL">
       <HintPath>..\packages\NUnitTestAdapter.2.0.0\lib\nunit.core.dll</HintPath>
       <Private>False</Private>
@@ -69,6 +71,14 @@
     <Otherwise />
   </Choose>
   <ItemGroup>
+    <Compile Include="PLCAsyncTest.cs" />
+    <Compile Include="Talk\IClientAsync.cs" />
+    <Compile Include="Talk\IPLCAsync.cs" />
+    <Compile Include="Talk\IProtocolBase.cs" />
+    <Compile Include="Talk\IProtocolInfo.cs" />
+    <Compile Include="Talk\IScannerAsync.cs" />
+    <Compile Include="Talk\ITimeoutProperty.cs" />
+    <Compile Include="Talk\ProtocolType.cs" />
     <Compile Include="Test\TaskWorkerDirectorTest.cs" />
     <Compile Include="Test\AFakeStream.cs" />
     <Compile Include="Test\MELSEC\MC3ECompressorTest.cs" />
