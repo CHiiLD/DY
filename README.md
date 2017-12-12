@@ -1,5 +1,5 @@
 ﻿#Company
-DongYang FA
+D-------- FA
  
 #Library Function
 1.LSIS PLC Communication Library(Cnet, FEnet)
@@ -13,7 +13,6 @@ DongYang FA
 4.Create your c# project and add reference DY.NET proj.
 
 #Support
-if you want to help about DY library, plz send e-mail by riansins@icloud.com
+if you want to help about DY library, plz send e-mail by --------@icloud.com
 
 #Developer
-Ahdong Kim
